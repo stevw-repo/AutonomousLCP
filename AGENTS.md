@@ -1,0 +1,173 @@
+# AskLegal Legal Database Pipeline — Agent Instructions
+
+## Purpose
+
+This repository is the greenfield modular monorepo for Ask.Legal's autonomous
+legal-database pipeline. It owns the complete pipeline code while preserving
+strict capability, credential, approval, evidence, and deployment boundaries
+inside the repository.
+
+The repository is currently design-only. Documentation does not authorize
+implementation, external calls, corpus publication, Pinecone mutation, or any
+other production action.
+
+## Start every non-trivial task here
+
+Before planning, editing, or running project commands:
+
+1. Read this file completely.
+2. Read `docs/agent/CONTEXT.md`, `docs/agent/DECISIONS.md`, and
+   `docs/agent/WORKING_STATE.md` completely.
+3. Read the relevant portions of
+   `docs/design/INITIAL_OVERALL_PIPELINE_DESIGN.md` and applicable ADRs under
+   `docs/adr/`.
+4. Inspect repository status and existing files. Preserve unrelated work.
+5. Classify the request as design, implementation, diagnosis, or operation.
+   Authorization for one class does not imply authorization for another.
+6. State assumptions and distinguish settled decisions, recommendations,
+   verified facts, and open questions.
+
+Do not create duplicate planning or context documents when an existing file
+already serves the purpose.
+
+## Canonical documentation
+
+- `docs/design/INITIAL_OVERALL_PIPELINE_DESIGN.md` is the canonical initial
+  design of the complete intended system. It is comprehensive but not a final
+  specification.
+- `docs/adr/` records accepted, hard-to-reverse architecture decisions.
+- `docs/agent/CONTEXT.md` defines the project's stable domain language.
+- `docs/agent/DECISIONS.md` records settled product and policy decisions.
+- `docs/agent/WORKING_STATE.md` records the current objective, blockers,
+  validation, changed files, and exact next steps.
+
+Keep these files handoff-ready. Conversation history is temporary and must not
+be the only place an important fact or decision exists.
+
+## Greenfield and legacy boundary
+
+The existing local repositories named `Ask.Legal Distillation`,
+`Ask.Legal Releases`, and `Ask.Legal Pinecone`, together with the earlier
+contents of this repository, are reference material only. They do not define
+the target repository layout, contracts, data model, or implementation.
+
+Do not introduce a production dependency on legacy code or artifacts merely
+because they already exist. Reuse requires an explicit decision, a current
+contract, focused tests, and evidence that the component fits the greenfield
+design.
+
+## Modular monorepo boundary
+
+The planned repository contains several separately runnable and separately
+permissioned applications:
+
+- **control plane** — scheduling, workflow state, source registry, coordination,
+  coverage status, and reports;
+- **review application** — human inspection, approval, rejection, and
+  revocation;
+- **acquisition worker** — source watchers, scrapers, and immutable evidence
+  capture;
+- **legal-processing worker** — parsing, jurisdiction-and-material rules,
+  distillation, and evidence-bound AI work; and
+- **promotion worker** — embeddings, backups, replacement serving targets,
+  verification, cutover, and exact approved retirement.
+
+Shared packages hold domain objects, versioned contracts, management-register
+and evidence-vault interfaces, source connectors, legal desks, corpus
+construction, promotion rules, reporting, observability, and test utilities.
+
+One Git repository does not mean one process, database role, credential set, or
+deployment. Security boundaries are enforced through separate applications,
+identities, secrets, networks, deployment jobs, and authorization checks.
+
+## Dependency rules
+
+- Applications may depend on packages; packages must not depend on applications.
+- Domain and contract packages must not depend on infrastructure adapters.
+- Source connectors capture source facts; they do not decide legal status.
+- Legal desks interpret preserved evidence; they do not approve or deploy.
+- Processing creates candidate records; it does not publish or promote them.
+- Corpus construction creates immutable releases and desired-state inventories;
+  it does not authorize production.
+- The promotion worker consumes only an exact valid approval bound to one
+  frozen promotion manifest.
+- Only the promotion worker may receive production embedding, backup, Pinecone,
+  or Ask.Legal routing credentials.
+- Forbidden imports and dependency directions must be enforced by automated
+  architecture tests.
+
+## Data and artifact rules
+
+Git contains code, schemas, prompts, small test fixtures, evaluation
+definitions, infrastructure configuration, and documentation only.
+
+Do not place full legal corpora, source snapshots, immutable releases,
+embedding caches, reports containing operational data, backups, credentials,
+or production runtime state in Git. Local development may use an ignored
+`var/` tree that imitates external stores.
+
+Pinecone is a replaceable serving copy. The management register records what
+the system believes and is doing; the evidence vault preserves what proves and
+reproduces it.
+
+## Authorization boundaries
+
+- Documentation and design work does not authorize implementation.
+- Implementation work does not authorize external source access, AI or
+  embedding-provider calls, release publication, backup mutation, Pinecone
+  access, pruning, deletion, deployment, or Ask.Legal routing changes.
+- A successful capability does not authorize the next capability.
+- One complete human approval covers the exact frozen promotion package.
+- Any material change to evidence, records, settings, targets, recovery
+  readiness, or fingerprints invalidates approval.
+- Broad or inferred deletion is forbidden.
+- Do not commit, push, open a pull request, publish, deploy, or send an external
+  message unless the user requests that exact action.
+
+Read-only inspection and local validation are allowed when relevant.
+
+## Design rules
+
+- Design the intended complete pipeline as a whole.
+- Do not place pilot scope, staged product versions, rollout plans, estimates,
+  temporary operating arrangements, or migration sequencing in the overall
+  design.
+- Use simple language first and define unavoidable specialist terms.
+- Preserve the distinction between case-derived propositions and
+  Halsbury/reference-book principles.
+- Keep uncommenced legislation outside ordinary current-law search.
+- Never describe uncertain legal status as automatically resolved.
+- Make destructive behavior exact, owned, evidence-backed, reversible, and
+  independently verifiable.
+- Prefer diagrams and tables when they materially clarify ownership, state,
+  sequence, or trust boundaries.
+- Record unresolved choices explicitly rather than inventing a decision.
+
+## Implementation rules
+
+No technical stack is currently selected. When implementation is explicitly
+authorized:
+
+- begin from domain objects, state transitions, and versioned contracts;
+- keep legal-status rules jurisdiction- and material-specific;
+- make jobs retryable, idempotent, fingerprint-bound, and auditable;
+- validate complete inputs before any external call;
+- quarantine uncertainty and incomplete work instead of guessing or silently
+  skipping it;
+- isolate source text from tools, code execution, secrets, and approval state;
+- apply least privilege to every application;
+- test failure, restart, stale approval, overlap, recovery, and malicious input;
+  and
+- preserve exact evidence before any production mutation.
+
+## Reporting
+
+At the end of a task, report:
+
+- files inspected and changed;
+- decisions made and questions left open;
+- validation performed;
+- authorization gates reached;
+- external or remote actions performed, or explicitly state that none occurred;
+  and
+- continuity files updated.

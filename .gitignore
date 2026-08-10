@@ -1,0 +1,48 @@
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+build/
+dist/
+*.egg-info/
+
+# JavaScript and TypeScript
+node_modules/
+.npm/
+.pnpm-store/
+.turbo/
+coverage/
+playwright-report/
+
+# Local tooling and editors
+.DS_Store
+.idea/
+.vscode/
+
+# Runtime and generated data
+var/
+.scratch/
+tmp/
+logs/
+artifacts/
+backups/
+evidence/
+releases/
+embedding-cache/
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
