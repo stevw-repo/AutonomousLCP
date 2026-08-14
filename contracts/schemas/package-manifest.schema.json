@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/package-manifest.schema.json",
+  "title": "Exact immutable package manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "package_id", "package_version", "created_at", "canonicalization", "fingerprint_algorithm", "manifest_exclusion", "files"],
+  "properties": {
+    "schema_id": {"const": "asklegal.cross-cutting-package-manifest"},
+    "schema_version": {"const": "1.0.0"},
+    "package_id": {"type": "string", "pattern": "^pkg_[0-9a-f]{48}$"},
+    "package_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+    "canonicalization": {"const": "RFC8785-JCS"},
+    "fingerprint_algorithm": {"const": "SHA-256"},
+    "manifest_exclusion": {"const": "package-manifest.json"},
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "common.schema.json#/$defs/artifact_inventory_entry"}
+    }
+  }
+}

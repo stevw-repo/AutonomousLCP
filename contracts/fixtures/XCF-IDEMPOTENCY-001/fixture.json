@@ -1,0 +1,8 @@
+{
+  "fixture_id": "XCF-IDEMPOTENCY-001",
+  "category": "IDEMPOTENCY",
+  "operation": "IDEMPOTENCY_CHECK",
+  "synthetic": true,
+  "input_path": "fixtures/XCF-IDEMPOTENCY-001/input.json",
+  "expected_path": "fixtures/XCF-IDEMPOTENCY-001/expected.json"
+}

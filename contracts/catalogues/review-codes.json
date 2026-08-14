@@ -1,0 +1,12 @@
+{
+  "catalogue_id": "asklegal.review-codes",
+  "catalogue_version": "1.0.0",
+  "catalogue_kind": "REVIEW_CODE",
+  "entries": [
+    {"code": "REVIEW_NOT_REQUIRED", "meaning": "This exact result requires no separate review under its bound rule"},
+    {"code": "REVIEW_OPEN", "meaning": "A required bounded review exists and is unresolved"},
+    {"code": "REVIEW_REQUIRED", "meaning": "The bound rule requires review; this code does not decide who, when, or the outcome"},
+    {"code": "REVIEW_RESOLVED", "meaning": "The bounded review has an immutable resolution decision"},
+    {"code": "REVIEW_UNDECIDED_POLICY", "meaning": "The applicable human-review policy remains explicitly unsettled"}
+  ]
+}

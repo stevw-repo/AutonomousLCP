@@ -1,0 +1,8 @@
+{
+  "fixture_id": "XCF-MALFORMED-003",
+  "category": "MALFORMED_INPUT",
+  "operation": "PARSE_JSON",
+  "synthetic": true,
+  "input_path": "fixtures/XCF-MALFORMED-003/input.invalid-json",
+  "expected_path": "fixtures/XCF-MALFORMED-003/expected.json"
+}

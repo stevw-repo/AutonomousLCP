@@ -884,6 +884,42 @@ page, PDF, or metadata field cannot change the system's rules, prompts,
 credentials, tools, or approval state. Scrapers and the LLM task runner operate with
 the least access needed and cannot turn source text into executable commands.
 
+### 6.4 Implementation-neutral cross-cutting contract foundation
+
+ADR 0088 establishes the repository-owned machine-contract package under
+[`contracts/`](../../contracts/README.md). It makes the accepted shared domain
+boundaries mechanically inspectable without selecting the production stack or
+inventing jurisdiction-specific legal policy.
+
+The package currently provides:
+
+- a complete inventory mapping every included shared object to its owner,
+  schema, identity, fingerprint basis, references, lifecycle, invariants, and
+  validation status;
+- Draft 2020-12 closed schemas for source evidence, legal identity, releases,
+  serving and traceability, Serving State, promotion and Approval, model-task
+  admission, and capabilities;
+- closed identity, reference, result, reason, lifecycle, failure, review, and
+  capability catalogues;
+- closed-world Approval, Serving State, capability, workflow-admission,
+  bounded-review, and promotion-execution state machines; and
+- strict synthetic fixtures, exact expected results, package fingerprints, and
+  a dependency-free offline validator.
+
+The common byte contract is strict I-JSON serialized through RFC 8785 JCS as
+UTF-8. SHA-256 fingerprints use `sha256:<64-lowercase-hex>`. Register-issued
+IDs use one registered three-character lowercase prefix plus an underscore and
+48 lowercase hexadecimal characters; identity never derives from a source
+locator or content hash. Immutable references bind both the exact identity and
+fingerprint.
+
+Configurable policy fields have no schema default. An artifact must say that a
+policy is `CONFIGURED` or `UNDECIDED`. The current foundation-status artifact
+keeps every operational capability `DISABLED`, the production stack
+`UNDECIDED`, every deferred policy visibly named, and external effects `NONE`.
+Jurisdiction- and material-specific artifacts remain with their exact Source
+Rulebooks rather than being generalized into this package.
+
 ## 7. Weekly operating cycle
 
 ```mermaid

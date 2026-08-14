@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/corpus-domain.schema.json",
+  "title": "Cross-cutting coverage, release, and desired-state objects",
+  "$defs": {
+    "release_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "release_scope_id", "scope_contract_version", "created_at", "jurisdiction", "material_family", "partition_key", "legal_desk_ref", "coverage_contract_ref", "overlap_proof_ref", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.release-scope"},
+        "schema_version": {"const": "1.0.0"},
+        "release_scope_id": {"type": "string", "pattern": "^rsc_[0-9a-f]{48}$"},
+        "scope_contract_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "jurisdiction": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "material_family": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "partition_key": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "legal_desk_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "coverage_contract_ref": {"$ref": "common.schema.json#/$defs/contract_reference"},
+        "overlap_proof_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "immutable": {"const": true}
+      }
+    },
+    "release_scope_registry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "release_scope_registry_id", "registry_version", "created_at", "scope_refs", "complete_non_overlap_proof_ref", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.release-scope-registry"},
+        "schema_version": {"const": "1.0.0"},
+        "release_scope_registry_id": {"type": "string", "pattern": "^rsr_[0-9a-f]{48}$"},
+        "registry_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "scope_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "complete_non_overlap_proof_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "immutable": {"const": true}
+      }
+    },
+    "release_record_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["search_record_id", "serving_payload_fingerprint", "serving_record_profile_ref", "serving_record_artifact_ref"],
+      "properties": {
+        "search_record_id": {"$ref": "common.schema.json#/$defs/search_record_id"},
+        "serving_payload_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "serving_record_profile_ref": {"$ref": "common.schema.json#/$defs/contract_reference"},
+        "serving_record_artifact_ref": {"$ref": "common.schema.json#/$defs/reference"}
+      }
+    },
+    "corpus_release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "corpus_release_id", "created_at", "release_kind", "release_scope_ref", "scope_contract_version", "observation_cutoff", "predecessor_release_refs", "source_coverage_evidence_refs", "records", "withholding_entries", "zero_record_justification_refs", "validation_refs", "record_count", "records_fingerprint", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.corpus-release"},
+        "schema_version": {"const": "1.0.0"},
+        "corpus_release_id": {"type": "string", "pattern": "^rel_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "release_kind": {"type": "string", "enum": ["STANDARD", "WITHHOLDING"]},
+        "release_scope_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "scope_contract_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+        "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "predecessor_release_refs": {"type": "array", "maxItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "source_coverage_evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "records": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/release_record_entry"}},
+        "withholding_entries": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/withholding_entry"}},
+        "zero_record_justification_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "validation_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "record_count": {"$ref": "common.schema.json#/$defs/safe_integer"},
+        "records_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "immutable": {"const": true}
+      }
+    },
+    "withholding_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject_refs", "prior_record_refs", "reason_codes", "evidence_refs", "decision_ref"],
+      "properties": {
+        "subject_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "prior_record_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "reason_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reason_code"}},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "decision_ref": {"$ref": "common.schema.json#/$defs/reference"}
+      }
+    },
+    "carry_forward_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "carry_forward_selection_id", "created_at", "release_scope_ref", "selected_release_ref", "observation_cutoff", "last_verified_at", "failed_or_quarantined_observation_refs", "coverage_gap_ref", "authority_note_contract_ref", "review_policy_state", "decision_ref", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.carry-forward-selection"},
+        "schema_version": {"const": "1.0.0"},
+        "carry_forward_selection_id": {"type": "string", "pattern": "^cfs_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "release_scope_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "selected_release_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "last_verified_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "failed_or_quarantined_observation_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "coverage_gap_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "authority_note_contract_ref": {"$ref": "common.schema.json#/$defs/contract_reference"},
+        "review_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
+        "decision_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "immutable": {"const": true}
+      }
+    },
+    "desired_state_inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "desired_state_inventory_id", "created_at", "target_key", "observation_cutoff", "release_scope_registry_ref", "scope_selections", "flattened_records", "flattened_record_count", "flattened_records_fingerprint", "validation_refs", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.desired-state-inventory"},
+        "schema_version": {"const": "1.0.0"},
+        "desired_state_inventory_id": {"type": "string", "pattern": "^dsi_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "target_key": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "release_scope_registry_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "scope_selections": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/scope_selection"}},
+        "flattened_records": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/flattened_record"}},
+        "flattened_record_count": {"$ref": "common.schema.json#/$defs/safe_integer"},
+        "flattened_records_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "validation_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "immutable": {"const": true}
+      }
+    },
+    "scope_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["release_scope_ref", "corpus_release_ref", "selection_mode", "carry_forward_ref"],
+      "properties": {
+        "release_scope_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "corpus_release_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "selection_mode": {"type": "string", "enum": ["CARRY_FORWARD", "CURRENT", "WITHHOLDING"]},
+        "carry_forward_ref": {"type": "array", "maxItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}}
+      }
+    },
+    "flattened_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["search_record_id", "content_fingerprint", "release_scope_id", "corpus_release_id"],
+      "properties": {
+        "search_record_id": {"$ref": "common.schema.json#/$defs/search_record_id"},
+        "content_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "release_scope_id": {"type": "string", "pattern": "^rsc_[0-9a-f]{48}$"},
+        "corpus_release_id": {"type": "string", "pattern": "^rel_[0-9a-f]{48}$"}
+      }
+    },
+    "coverage_gap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "coverage_gap_id", "created_at", "release_scope_ref", "observation_cutoff", "gap_kind", "affected_subject_refs", "evidence_refs", "reason_codes", "state", "resolution_refs", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.coverage-gap"},
+        "schema_version": {"const": "1.0.0"},
+        "coverage_gap_id": {"type": "string", "pattern": "^cgp_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "release_scope_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "gap_kind": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "affected_subject_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "reason_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reason_code"}},
+        "state": {"type": "string", "enum": ["REVIEW_OPEN", "REVIEW_RESOLVED"]},
+        "resolution_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "immutable": {"const": true}
+      }
+    },
+    "quarantine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "quarantine_id", "created_at", "subject_refs", "observation_cutoff", "reason_codes", "failure_codes", "evidence_refs", "state", "review_code", "resolution_refs", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.quarantine"},
+        "schema_version": {"const": "1.0.0"},
+        "quarantine_id": {"type": "string", "pattern": "^qua_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "subject_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "reason_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reason_code"}},
+        "failure_codes": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/failure_code"}},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "state": {"type": "string", "enum": ["REVIEW_OPEN", "REVIEW_RESOLVED"]},
+        "review_code": {"$ref": "common.schema.json#/$defs/review_code"},
+        "resolution_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "immutable": {"const": true}
+      }
+    },
+    "coverage_status_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "coverage_status_manifest_id", "created_at", "observation_cutoff", "serving_state_id", "coverage_gap_refs", "quarantine_refs", "source_failure_refs", "scope_statuses", "signature_policy_state", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.coverage-status-manifest"},
+        "schema_version": {"const": "1.0.0"},
+        "coverage_status_manifest_id": {"type": "string", "pattern": "^csm_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "serving_state_id": {"type": "string", "pattern": "^srv_[0-9a-f]{48}$"},
+        "coverage_gap_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "quarantine_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "source_failure_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "scope_statuses": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/scope_status"}},
+        "signature_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
+        "immutable": {"const": true}
+      }
+    },
+    "scope_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["release_scope_ref", "status", "coverage_gap_refs"],
+      "properties": {
+        "release_scope_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "status": {"type": "string", "enum": ["CURRENT", "KNOWN_GAP", "NOT_READY", "WITHHELD"]},
+        "coverage_gap_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}}
+      }
+    }
+  }
+}

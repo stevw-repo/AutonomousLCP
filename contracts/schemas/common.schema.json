@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/common.schema.json",
+  "title": "AskLegal cross-cutting primitives",
+  "$defs": {
+    "non_empty_string": {
+      "type": "string",
+      "minLength": 1
+    },
+    "safe_integer": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+    },
+    "utc_timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]{1,9})?Z$",
+      "format": "date-time"
+    },
+    "fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "issued_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]{2}_[0-9a-f]{48}$"
+    },
+    "search_record_id": {
+      "type": "string",
+      "pattern": "^rec_[0-9a-f]{48}$"
+    },
+    "package_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$"
+    },
+    "result_code": {
+      "type": "string",
+      "enum": ["APPROVED", "BLOCK", "DISABLED", "FAILED", "NO_CHANGE", "PASS", "QUARANTINE", "REJECTED", "SUCCEEDED", "UNDECIDED"]
+    },
+    "reason_code": {
+      "type": "string",
+      "enum": ["APPROVAL_EXACTLY_BOUND", "CAPABILITY_NOT_ACTIVE", "EXACT_REPLAY", "EXTERNAL_EFFECT_NOT_AUTHORIZED", "FINGERPRINT_VERIFIED", "INVENTORY_COMPLETE", "POLICY_UNDECIDED", "REFERENCE_VERIFIED", "RETRY_INPUT_UNCHANGED", "SCHEMA_VALID", "TRANSITION_ALLOWED", "TRANSITION_UNLISTED", "VALIDATION_COMPLETE"]
+    },
+    "failure_code": {
+      "type": "string",
+      "enum": ["FAILURE_CAPABILITY_DISABLED", "FAILURE_DUPLICATE_ID", "FAILURE_EXTERNAL_EFFECT", "FAILURE_FINGERPRINT_MISMATCH", "FAILURE_FORBIDDEN_TRANSITION", "FAILURE_ID_COLLISION", "FAILURE_INVENTORY_MISMATCH", "FAILURE_LINEAGE_CYCLE", "FAILURE_MALFORMED_JSON", "FAILURE_NON_CANONICAL", "FAILURE_PATH_ESCAPE", "FAILURE_POLICY_UNDECIDED", "FAILURE_REFERENCE_MISSING", "FAILURE_REPRODUCIBILITY", "FAILURE_RETRY_INPUT_CHANGED", "FAILURE_SCHEMA_INVALID", "FAILURE_UNKNOWN_CODE"]
+    },
+    "review_code": {
+      "type": "string",
+      "enum": ["REVIEW_NOT_REQUIRED", "REVIEW_OPEN", "REVIEW_REQUIRED", "REVIEW_RESOLVED", "REVIEW_UNDECIDED_POLICY"]
+    },
+    "lifecycle_code": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref_type", "ref_id", "fingerprint"],
+      "properties": {
+        "ref_type": {
+          "type": "string",
+          "enum": ["ACTOR", "APPROVAL", "ARTIFACT", "ATTESTATION", "BUILD", "CAPABILITY_PROFILE", "CARRY_FORWARD_SELECTION", "CONTRACT", "CORPUS_RELEASE", "COVERAGE_GAP", "DECISION", "DESIRED_STATE_INVENTORY", "EVIDENCE", "EXECUTION_EVENT", "LEGAL_ITEM", "LEGAL_LOCATION", "LEGAL_STATUS_EVENT", "OBSERVATION", "OFFICIAL_VERSION", "PINECONE_INDEX_GENERATION", "PROMOTION_MANIFEST", "QUARANTINE", "QUERY_CONTRACT", "RECORD_TRACEABILITY_LOOKUP", "RELEASE_SCOPE", "RELEASE_SCOPE_REGISTRY", "ROUTING_CONFIGURATION", "RULEBOOK", "SEARCH_RECORD", "SERVING_STATE", "SOURCE", "SOURCE_ENDPOINT", "SOURCE_SNAPSHOT", "VALIDATION", "WORKFLOW_PROFILE"]
+        },
+        "ref_id": {"$ref": "#/$defs/issued_id"},
+        "fingerprint": {"$ref": "#/$defs/fingerprint"}
+      }
+    },
+    "contract_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_id", "version", "fingerprint"],
+      "properties": {
+        "contract_id": {"$ref": "#/$defs/non_empty_string"},
+        "version": {"$ref": "#/$defs/schema_version"},
+        "fingerprint": {"$ref": "#/$defs/fingerprint"}
+      }
+    },
+    "artifact_inventory_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "role", "media_type", "byte_size", "fingerprint"],
+      "properties": {
+        "path": {"$ref": "#/$defs/package_path"},
+        "role": {"$ref": "#/$defs/non_empty_string"},
+        "media_type": {"$ref": "#/$defs/non_empty_string"},
+        "byte_size": {"$ref": "#/$defs/safe_integer"},
+        "fingerprint": {"$ref": "#/$defs/fingerprint"}
+      }
+    },
+    "rule_trace_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rulebook_ref", "rule_id", "decision_ref"],
+      "properties": {
+        "rulebook_ref": {"$ref": "#/$defs/reference"},
+        "rule_id": {"$ref": "#/$defs/non_empty_string"},
+        "decision_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "idempotency_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["idempotency_key", "input_fingerprint"],
+      "properties": {
+        "idempotency_key": {"$ref": "#/$defs/non_empty_string"},
+        "input_fingerprint": {"$ref": "#/$defs/fingerprint"}
+      }
+    },
+    "immutable_header": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "object_id", "created_at", "immutable"],
+      "properties": {
+        "schema_id": {"$ref": "#/$defs/non_empty_string"},
+        "schema_version": {"$ref": "#/$defs/schema_version"},
+        "object_id": {"$ref": "#/$defs/issued_id"},
+        "created_at": {"$ref": "#/$defs/utc_timestamp"},
+        "immutable": {"const": true}
+      }
+    }
+  }
+}

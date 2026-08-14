@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/capability-domain.schema.json",
+  "title": "Pipeline task, workflow admission, and capability objects",
+  "$defs": {
+    "pipeline_llm_task_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "pipeline_llm_task_contract_id", "created_at", "task_name", "legal_desk_ref", "allocation_state", "permitted_evidence_contract_refs", "forbidden_input_classes", "proposal_schema_ref", "forbidden_decisions", "precondition_refs", "postvalidation_refs", "evaluation_refs", "review_policy_state", "capability_state", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.pipeline-llm-task-contract"},
+        "schema_version": {"const": "1.0.0"},
+        "pipeline_llm_task_contract_id": {"type": "string", "pattern": "^tsk_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "task_name": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "legal_desk_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "allocation_state": {"type": "string", "enum": ["ALLOCATED", "DISABLED", "UNDECIDED"]},
+        "permitted_evidence_contract_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "forbidden_input_classes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
+        "proposal_schema_ref": {"$ref": "common.schema.json#/$defs/contract_reference"},
+        "forbidden_decisions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
+        "precondition_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "postvalidation_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "evaluation_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "review_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
+        "capability_state": {"type": "string", "enum": ["DISABLED", "EVALUATION_ONLY", "OPERATIONAL"]},
+        "immutable": {"const": true}
+      }
+    },
+    "workflow_admission_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "workflow_admission_profile_id", "created_at", "task_contract_refs", "workflow_component_refs", "permitted_scope_contract_refs", "evaluation_suite_refs", "threshold_policy_state", "provider_policy_state", "security_policy_state", "retention_policy_state", "result_affecting_fingerprint_refs", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.workflow-admission-profile"},
+        "schema_version": {"const": "1.0.0"},
+        "workflow_admission_profile_id": {"type": "string", "pattern": "^wap_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "task_contract_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "workflow_component_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "permitted_scope_contract_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "evaluation_suite_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "threshold_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
+        "provider_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
+        "security_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
+        "retention_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
+        "result_affecting_fingerprint_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "immutable": {"const": true}
+      }
+    },
+    "workflow_admission_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "workflow_admission_event_id", "event_time", "workflow_profile_ref", "from_state", "to_state", "event_type", "evidence_refs", "responsible_identity_refs", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.workflow-admission-event"},
+        "schema_version": {"const": "1.0.0"},
+        "workflow_admission_event_id": {"type": "string", "pattern": "^wae_[0-9a-f]{48}$"},
+        "event_time": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "workflow_profile_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "from_state": {"type": "string", "enum": ["WORKFLOW_ADMITTED", "WORKFLOW_CANDIDATE", "WORKFLOW_EVALUATING", "WORKFLOW_REVOKED", "WORKFLOW_SUPERSEDED", "WORKFLOW_SUSPENDED"]},
+        "to_state": {"type": "string", "enum": ["WORKFLOW_ADMITTED", "WORKFLOW_CANDIDATE", "WORKFLOW_EVALUATING", "WORKFLOW_REVOKED", "WORKFLOW_SUPERSEDED", "WORKFLOW_SUSPENDED"]},
+        "event_type": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "responsible_identity_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "immutable": {"const": true}
+      }
+    },
+    "capability_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "capability_profile_id", "created_at", "capability_codes", "allowed_scope_contract_refs", "application_identity_refs", "build_refs", "contract_refs", "conformance_suite_refs", "security_boundary_refs", "deferred_policy_codes", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.capability-profile"},
+        "schema_version": {"const": "1.0.0"},
+        "capability_profile_id": {"type": "string", "pattern": "^cap_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "capability_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "enum": ["ACTIVATE_ROUTING", "APPROVE_MANIFEST", "CALL_EMBEDDING_PROVIDER", "CALL_GENERATIVE_LLM", "CAPTURE_SOURCE", "CREATE_CANDIDATE_RECORD", "EXECUTE_PROMOTION", "MANAGE_BACKUP", "MUTATE_PINECONE", "PUBLISH_RELEASE", "READ_EVIDENCE", "READ_REGISTER", "WRITE_EVIDENCE", "WRITE_REGISTER"]}},
+        "allowed_scope_contract_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "application_identity_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "build_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "contract_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "conformance_suite_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "security_boundary_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "deferred_policy_codes": {"type": "array", "uniqueItems": true, "items": {"const": "POLICY_UNDECIDED"}},
+        "immutable": {"const": true}
+      }
+    },
+    "capability_attestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "capability_attestation_id", "created_at", "capability_profile_ref", "suite_result_refs", "architecture_test_refs", "reproducibility_result_refs", "attester_refs", "result_code", "failure_codes", "limitations", "external_effects", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.capability-attestation"},
+        "schema_version": {"const": "1.0.0"},
+        "capability_attestation_id": {"type": "string", "pattern": "^att_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "capability_profile_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "suite_result_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "architecture_test_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "reproducibility_result_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "attester_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "result_code": {"$ref": "common.schema.json#/$defs/result_code"},
+        "failure_codes": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/failure_code"}},
+        "limitations": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
+        "external_effects": {"const": "NONE"},
+        "immutable": {"const": true}
+      }
+    },
+    "capability_lifecycle_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "capability_lifecycle_event_id", "event_time", "capability_profile_ref", "attestation_refs", "from_state", "to_state", "event_type", "responsible_identity_refs", "evidence_refs", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.capability-lifecycle-event"},
+        "schema_version": {"const": "1.0.0"},
+        "capability_lifecycle_event_id": {"type": "string", "pattern": "^cae_[0-9a-f]{48}$"},
+        "event_time": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "capability_profile_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "attestation_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "from_state": {"type": "string", "enum": ["CAPABILITY_ACTIVE", "CAPABILITY_ATTESTED_INACTIVE", "CAPABILITY_DESIGN_ONLY", "CAPABILITY_IMPLEMENTED_UNATTESTED", "CAPABILITY_REVOKED", "CAPABILITY_SUSPENDED"]},
+        "to_state": {"type": "string", "enum": ["CAPABILITY_ACTIVE", "CAPABILITY_ATTESTED_INACTIVE", "CAPABILITY_DESIGN_ONLY", "CAPABILITY_IMPLEMENTED_UNATTESTED", "CAPABILITY_REVOKED", "CAPABILITY_SUSPENDED"]},
+        "event_type": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "responsible_identity_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "immutable": {"const": true}
+      }
+    }
+  }
+}

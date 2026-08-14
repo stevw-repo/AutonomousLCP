@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/foundation-status.schema.json",
+  "title": "Current cross-cutting foundation authorization status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "status_id", "recorded_at", "contract_foundation_state", "production_stack_state", "capabilities", "deferred_decisions", "external_effects", "immutable"],
+  "properties": {
+    "schema_id": {"const": "asklegal.cross-cutting-foundation-status"},
+    "schema_version": {"const": "1.0.0"},
+    "status_id": {"type": "string", "pattern": "^pkg_[0-9a-f]{48}$"},
+    "recorded_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+    "contract_foundation_state": {"const": "VALIDATED"},
+    "production_stack_state": {"const": "UNDECIDED"},
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["capability_code", "state", "reason_code"],
+        "properties": {
+          "capability_code": {"type": "string", "enum": ["ACTIVATE_ROUTING", "APPROVE_MANIFEST", "CALL_EMBEDDING_PROVIDER", "CALL_GENERATIVE_LLM", "CAPTURE_SOURCE", "CREATE_CANDIDATE_RECORD", "EXECUTE_PROMOTION", "MANAGE_BACKUP", "MUTATE_PINECONE", "PUBLISH_RELEASE", "READ_EVIDENCE", "READ_REGISTER", "WRITE_EVIDENCE", "WRITE_REGISTER"]},
+          "state": {"const": "DISABLED"},
+          "reason_code": {"const": "CAPABILITY_NOT_ACTIVE"}
+        }
+      }
+    },
+    "deferred_decisions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}
+    },
+    "external_effects": {"const": "NONE"},
+    "immutable": {"const": true}
+  }
+}

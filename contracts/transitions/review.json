@@ -1,0 +1,16 @@
+{
+  "machine_id": "asklegal.bounded-review-lifecycle",
+  "machine_version": "1.0.0",
+  "entity_type": "Bounded Review or Resolution Record",
+  "closed_world": true,
+  "initial_states": ["REVIEW_OPEN"],
+  "terminal_states": ["REVIEW_RESOLVED"],
+  "states": ["REVIEW_OPEN", "REVIEW_RESOLVED"],
+  "allowed_transitions": [
+    {"from": "REVIEW_OPEN", "to": "REVIEW_RESOLVED", "event": "RESOLVE", "preconditions": ["An immutable resolution decision exists", "All affected subjects and evidence remain referenced"]}
+  ],
+  "explicit_high_risk_forbidden_transitions": [
+    {"from": "REVIEW_RESOLVED", "to": "REVIEW_OPEN", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"}
+  ],
+  "unlisted_transition_result": {"result_code": "BLOCK", "failure_code": "FAILURE_FORBIDDEN_TRANSITION", "reason_code": "TRANSITION_UNLISTED"}
+}

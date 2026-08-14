@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/fixture.schema.json",
+  "title": "Cross-cutting synthetic fixture declaration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["fixture_id", "category", "operation", "synthetic", "input_path", "expected_path"],
+  "properties": {
+    "fixture_id": {"type": "string", "pattern": "^XCF-[A-Z]+-[0-9]{3}$"},
+    "category": {"type": "string", "enum": ["BOUNDARY", "IDEMPOTENCY", "MALFORMED_INPUT", "NEGATIVE", "POSITIVE", "REPRODUCIBILITY", "RETRY"]},
+    "operation": {"type": "string", "enum": ["CANONICALIZE", "IDEMPOTENCY_CHECK", "PARSE_JSON", "RETRY_CHECK", "SCHEMA_VALIDATE", "TRANSITION_CHECK"]},
+    "synthetic": {"const": true},
+    "input_path": {"$ref": "common.schema.json#/$defs/package_path"},
+    "expected_path": {"$ref": "common.schema.json#/$defs/package_path"},
+    "schema_ref": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+    "state_machine_ref": {"$ref": "common.schema.json#/$defs/package_path"}
+  }
+}

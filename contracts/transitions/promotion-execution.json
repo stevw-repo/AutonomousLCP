@@ -1,0 +1,26 @@
+{
+  "machine_id": "asklegal.promotion-execution-lifecycle",
+  "machine_version": "1.0.0",
+  "entity_type": "Promotion Execution Lineage",
+  "closed_world": true,
+  "initial_states": ["EXECUTION_PLANNED"],
+  "terminal_states": ["EXECUTION_FAILED", "EXECUTION_ROLLED_BACK", "EXECUTION_SUCCEEDED"],
+  "states": ["EXECUTION_AUTHORIZED", "EXECUTION_FAILED", "EXECUTION_PLANNED", "EXECUTION_ROLLBACK_REQUIRED", "EXECUTION_ROLLED_BACK", "EXECUTION_RUNNING", "EXECUTION_SUCCEEDED"],
+  "allowed_transitions": [
+    {"from": "EXECUTION_AUTHORIZED", "to": "EXECUTION_RUNNING", "event": "BEGIN", "preconditions": ["Approval is consumed into this one lineage", "All immediate pre-execution checks still pass"]},
+    {"from": "EXECUTION_PLANNED", "to": "EXECUTION_AUTHORIZED", "event": "AUTHORIZE", "preconditions": ["One exact valid Approval binds the manifest", "Every objective authorization precondition passes"]},
+    {"from": "EXECUTION_ROLLBACK_REQUIRED", "to": "EXECUTION_FAILED", "event": "ROLLBACK_FAILED", "preconditions": ["Approved rollback failed", "Failure and observed state are preserved"]},
+    {"from": "EXECUTION_ROLLBACK_REQUIRED", "to": "EXECUTION_ROLLED_BACK", "event": "ROLLBACK_COMPLETE", "preconditions": ["Only the approved rollback actions ran", "Recovered state passed required verification"]},
+    {"from": "EXECUTION_RUNNING", "to": "EXECUTION_FAILED", "event": "FAIL", "preconditions": ["Failure evidence and last completed checkpoint are preserved"]},
+    {"from": "EXECUTION_RUNNING", "to": "EXECUTION_ROLLBACK_REQUIRED", "event": "REQUIRE_ROLLBACK", "preconditions": ["A manifest stop condition requiring rollback fired", "Only the exact approved rollback is eligible"]},
+    {"from": "EXECUTION_RUNNING", "to": "EXECUTION_RUNNING", "event": "RETRY_SAME_LINEAGE", "preconditions": ["Inputs and fingerprints are identical", "Manifest permits retry from the recorded checkpoint", "Approval validity still passes"]},
+    {"from": "EXECUTION_RUNNING", "to": "EXECUTION_SUCCEEDED", "event": "COMPLETE", "preconditions": ["Every ordered action and final verification passed", "Actual inventory equals the approved plan"]}
+  ],
+  "explicit_high_risk_forbidden_transitions": [
+    {"from": "EXECUTION_FAILED", "to": "EXECUTION_RUNNING", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "EXECUTION_PLANNED", "to": "EXECUTION_RUNNING", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "EXECUTION_ROLLED_BACK", "to": "EXECUTION_RUNNING", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "EXECUTION_SUCCEEDED", "to": "EXECUTION_RUNNING", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"}
+  ],
+  "unlisted_transition_result": {"result_code": "BLOCK", "failure_code": "FAILURE_FORBIDDEN_TRANSITION", "reason_code": "TRANSITION_UNLISTED"}
+}

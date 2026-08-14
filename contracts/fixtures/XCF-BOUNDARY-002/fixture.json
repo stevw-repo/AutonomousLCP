@@ -1,0 +1,9 @@
+{
+  "fixture_id": "XCF-BOUNDARY-002",
+  "category": "BOUNDARY",
+  "operation": "SCHEMA_VALIDATE",
+  "synthetic": true,
+  "input_path": "fixtures/XCF-BOUNDARY-002/input.json",
+  "expected_path": "fixtures/XCF-BOUNDARY-002/expected.json",
+  "schema_ref": "schemas/common.schema.json#/$defs/utc_timestamp"
+}

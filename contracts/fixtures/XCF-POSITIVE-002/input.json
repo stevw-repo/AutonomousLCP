@@ -1,0 +1,4 @@
+{
+  "from": "APPROVAL_APPROVED",
+  "to": "APPROVAL_CONSUMED"
+}

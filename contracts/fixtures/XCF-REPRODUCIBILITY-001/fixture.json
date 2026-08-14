@@ -1,0 +1,8 @@
+{
+  "fixture_id": "XCF-REPRODUCIBILITY-001",
+  "category": "REPRODUCIBILITY",
+  "operation": "CANONICALIZE",
+  "synthetic": true,
+  "input_path": "fixtures/XCF-REPRODUCIBILITY-001/input.json",
+  "expected_path": "fixtures/XCF-REPRODUCIBILITY-001/expected.json"
+}

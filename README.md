@@ -11,10 +11,13 @@ legal corpus aligned with that approval.
 
 ## Current status
 
-**Design only. No application code or technical stack has been selected.**
+**Design plus an implementation-neutral machine-contract foundation. No
+application code or production technical stack has been selected.**
 
 The repository currently contains the initial overall design and durable
-briefing files. Documentation does not authorize source access, AI or embedding
+briefing files, together with locally validated shared schemas, closed
+catalogues, lifecycle definitions, and synthetic conformance fixtures under
+[`contracts/`](contracts/README.md). These artifacts do not authorize source access, AI or embedding
 calls, corpus publication, Pinecone access, pruning, backup mutation,
 deployment, routing changes, or any other remote action.
 
@@ -293,25 +296,29 @@ deployment, routing changes, or any other remote action.
 90. [`docs/adr/0087-require-attested-reconstruction-capability-before-processing-or-promotion.md`](docs/adr/0087-require-attested-reconstruction-capability-before-processing-or-promotion.md)
     — separates design, implementation, attestation, candidate-processing
     activation, and exact promotion authorization for reconstruction.
-91. [`docs/design/HONG_KONG_RECONSTRUCTION_CONFORMANCE_CATALOGUE.md`](docs/design/HONG_KONG_RECONSTRUCTION_CONFORMANCE_CATALOGUE.md)
+91. [`docs/adr/0088-establish-the-cross-cutting-contract-foundation.md`](docs/adr/0088-establish-the-cross-cutting-contract-foundation.md)
+    — establishes the implementation-neutral shared schemas, closed
+    catalogues, lifecycle machines, fixtures, exact manifest, and offline
+    conformance boundary.
+92. [`docs/design/HONG_KONG_RECONSTRUCTION_CONFORMANCE_CATALOGUE.md`](docs/design/HONG_KONG_RECONSTRUCTION_CONFORMANCE_CATALOGUE.md)
     — contains the exact accepted conceptual reconstruction case, cell, and
     controlled-pair catalogue.
-92. [`docs/design/HONG_KONG_REGULATORY_CONFORMANCE_CATALOGUE.md`](docs/design/HONG_KONG_REGULATORY_CONFORMANCE_CATALOGUE.md)
+93. [`docs/design/HONG_KONG_REGULATORY_CONFORMANCE_CATALOGUE.md`](docs/design/HONG_KONG_REGULATORY_CONFORMANCE_CATALOGUE.md)
     — contains the accepted exact 284-case HKEX Regulatory decision and
     deterministic coverage-cell catalogue and its 57 high-risk pairs.
-93. [`docs/design/HONG_KONG_CASE_PROPOSITION_EXTRACTION_CONFORMANCE_CATALOGUE.md`](docs/design/HONG_KONG_CASE_PROPOSITION_EXTRACTION_CONFORMANCE_CATALOGUE.md)
+94. [`docs/design/HONG_KONG_CASE_PROPOSITION_EXTRACTION_CONFORMANCE_CATALOGUE.md`](docs/design/HONG_KONG_CASE_PROPOSITION_EXTRACTION_CONFORMANCE_CATALOGUE.md)
     — contains the accepted exact synthetic semantic and deterministic Case
     Proposition extraction coverage-cell and case table.
-94. [`docs/design/HONG_KONG_CASE_TREATMENT_CONFORMANCE_CATALOGUE.md`](docs/design/HONG_KONG_CASE_TREATMENT_CONFORMANCE_CATALOGUE.md)
+95. [`docs/design/HONG_KONG_CASE_TREATMENT_CONFORMANCE_CATALOGUE.md`](docs/design/HONG_KONG_CASE_TREATMENT_CONFORMANCE_CATALOGUE.md)
     — contains the accepted exact initial synthetic semantic and deterministic
     Hong Kong treatment coverage-cell and case table.
-95. [`docs/design/HONG_KONG_CASE_TREATMENT_DESIGN_AUDIT.md`](docs/design/HONG_KONG_CASE_TREATMENT_DESIGN_AUDIT.md)
+96. [`docs/design/HONG_KONG_CASE_TREATMENT_DESIGN_AUDIT.md`](docs/design/HONG_KONG_CASE_TREATMENT_DESIGN_AUDIT.md)
     — records the final design-level treatment consistency audit, corrections,
     readiness boundary, and remaining decisions.
-96. [`docs/design/HONG_KONG_LEGISLATION_DESIGN_AUDIT.md`](docs/design/HONG_KONG_LEGISLATION_DESIGN_AUDIT.md)
+97. [`docs/design/HONG_KONG_LEGISLATION_DESIGN_AUDIT.md`](docs/design/HONG_KONG_LEGISLATION_DESIGN_AUDIT.md)
     — classifies the audited Hong Kong Legislation design as settled policy,
     implementation work, deferred decision, or cross-cutting dependency.
-97. [`docs/design/INITIAL_OVERALL_PIPELINE_DESIGN.md`](docs/design/INITIAL_OVERALL_PIPELINE_DESIGN.md)
+98. [`docs/design/INITIAL_OVERALL_PIPELINE_DESIGN.md`](docs/design/INITIAL_OVERALL_PIPELINE_DESIGN.md)
    — comprehensive initial design of the intended system.
 
 ## System shape
@@ -334,6 +341,7 @@ flowchart LR
 
 ```text
 AskLegal-LegalDBPipeline/
+├── contracts/           # stack-neutral normative machine contracts
 ├── apps/
 │   ├── control-plane/
 │   ├── review-web/
@@ -365,8 +373,12 @@ AskLegal-LegalDBPipeline/
 └── var/                 # ignored local runtime data only
 ```
 
-The directories above describe the accepted target structure. They will be
-created only when implementation is explicitly authorized.
+The tree above describes the accepted target structure. The root `contracts/`
+directory now exists as the stack-neutral normative source accepted by ADR
+0088. The remaining implementation directories will be created only under
+separate implementation authorization. A future `packages/contracts/`
+implementation may provide runtime adapters without becoming a second source
+of contract authority.
 
 ## One repository, several security boundaries
 

@@ -1,0 +1,28 @@
+{
+  "machine_id": "asklegal.serving-state-lifecycle",
+  "machine_version": "1.0.0",
+  "entity_type": "Serving State",
+  "closed_world": true,
+  "initial_states": ["SERVING_DEFINED"],
+  "terminal_states": ["SERVING_BUILD_FAILED", "SERVING_RETIRED", "SERVING_VERIFICATION_FAILED"],
+  "states": ["SERVING_ACTIVE", "SERVING_BUILD_FAILED", "SERVING_BUILT", "SERVING_DEFINED", "SERVING_INACTIVE_PROTECTED", "SERVING_RETIRED", "SERVING_VERIFICATION_FAILED", "SERVING_VERIFIED"],
+  "allowed_transitions": [
+    {"from": "SERVING_ACTIVE", "to": "SERVING_INACTIVE_PROTECTED", "event": "SUCCESSOR_ACTIVATED", "preconditions": ["One verified successor became active", "This state remains protected for recovery"]},
+    {"from": "SERVING_BUILT", "to": "SERVING_VERIFICATION_FAILED", "event": "VERIFICATION_FAILED", "preconditions": ["Complete verification produced a preserved failure"]},
+    {"from": "SERVING_BUILT", "to": "SERVING_VERIFIED", "event": "VERIFY", "preconditions": ["All target and query-path verification gates pass", "Real targets match the immutable definition"]},
+    {"from": "SERVING_DEFINED", "to": "SERVING_BUILD_FAILED", "event": "BUILD_FAILED", "preconditions": ["Manifest-authorized build produced a preserved failure", "No activation occurred"]},
+    {"from": "SERVING_DEFINED", "to": "SERVING_BUILT", "event": "BUILD_COMPLETE", "preconditions": ["Manifest-authorized target build completed", "Build evidence is immutable"]},
+    {"from": "SERVING_INACTIVE_PROTECTED", "to": "SERVING_ACTIVE", "event": "ROLLBACK_ACTIVATE", "preconditions": ["Exact approved rollback names this retained state", "Atomic base-state comparison succeeds"]},
+    {"from": "SERVING_INACTIVE_PROTECTED", "to": "SERVING_RETIRED", "event": "RETIRE_EXACT", "preconditions": ["Exact approved retirement names this state", "No retained routing or recovery obligation references it"]},
+    {"from": "SERVING_VERIFIED", "to": "SERVING_ACTIVE", "event": "ACTIVATE", "preconditions": ["Exact Approval remains valid", "Atomic expected-base comparison succeeds", "Complete routing generation activates"]}
+  ],
+  "explicit_high_risk_forbidden_transitions": [
+    {"from": "SERVING_ACTIVE", "to": "SERVING_RETIRED", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "SERVING_BUILD_FAILED", "to": "SERVING_ACTIVE", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "SERVING_BUILT", "to": "SERVING_ACTIVE", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "SERVING_DEFINED", "to": "SERVING_ACTIVE", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "SERVING_RETIRED", "to": "SERVING_ACTIVE", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "SERVING_VERIFICATION_FAILED", "to": "SERVING_ACTIVE", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"}
+  ],
+  "unlisted_transition_result": {"result_code": "BLOCK", "failure_code": "FAILURE_FORBIDDEN_TRANSITION", "reason_code": "TRANSITION_UNLISTED"}
+}

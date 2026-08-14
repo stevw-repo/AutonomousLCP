@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/code-catalogue.schema.json",
+  "title": "Closed code catalogue",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["catalogue_id", "catalogue_version", "catalogue_kind", "entries"],
+  "properties": {
+    "catalogue_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+    "catalogue_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "catalogue_kind": {
+      "type": "string",
+      "enum": ["CAPABILITY_CODE", "FAILURE_CODE", "IDENTITY_PREFIX", "LIFECYCLE_CODE", "REASON_CODE", "REFERENCE_TYPE", "RESULT_CODE", "REVIEW_CODE"]
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "meaning"],
+        "properties": {
+          "code": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$|^[a-z][a-z0-9]{2}$"},
+          "meaning": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+          "class": {"type": "string", "enum": ["EVENT", "STATE"]},
+          "owner": {"$ref": "common.schema.json#/$defs/non_empty_string"}
+        }
+      }
+    }
+  }
+}

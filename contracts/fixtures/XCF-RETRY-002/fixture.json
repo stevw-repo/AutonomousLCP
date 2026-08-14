@@ -1,0 +1,8 @@
+{
+  "fixture_id": "XCF-RETRY-002",
+  "category": "RETRY",
+  "operation": "RETRY_CHECK",
+  "synthetic": true,
+  "input_path": "fixtures/XCF-RETRY-002/input.json",
+  "expected_path": "fixtures/XCF-RETRY-002/expected.json"
+}

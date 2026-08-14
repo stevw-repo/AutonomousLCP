@@ -3,6 +3,28 @@
 Only settled decisions belong here. Recommendations and unresolved choices stay
 in the design brief and `WORKING_STATE.md` until the user decides them.
 
+## 2026-08-14 — Establish the implementation-neutral cross-cutting contract foundation
+
+ADR 0088 accepts the repository-owned `contracts/` package. It inventories 54
+shared objects, provides closed Draft 2020-12 schemas and eight code
+catalogues, fixes six closed-world lifecycle machines, and binds fifteen
+synthetic exact-result fixtures and every package file through one exact
+manifest.
+
+Shared JSON uses strict I-JSON, RFC 8785 JCS UTF-8, and lowercase
+`sha256:<64-hex>` fingerprints. Shared register-issued IDs use a closed
+three-character lowercase prefix plus 48 lowercase hexadecimal characters;
+identity never derives from a hash or source coordinate. Immutable references
+bind both ID and fingerprint.
+
+Schemas require an explicit configured-or-undecided policy state and supply no
+policy defaults. The current foundation status keeps the production stack
+undecided, every operational capability disabled, and external effects at
+`NONE`. The local dependency-free Node validator is conformance tooling only,
+not a production-stack choice. Jurisdiction-specific legal contracts and all
+runtime, source, model, release, Pinecone, Azure, deployment, and other remote
+actions remain separately gated.
+
 ## 2026-08-14 — Require attested reconstruction capability before processing or promotion
 
 ADR 0087 separates six reconstruction capability states from `DESIGN_ONLY`

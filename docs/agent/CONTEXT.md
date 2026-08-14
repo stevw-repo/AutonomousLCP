@@ -6,7 +6,7 @@ pipeline. Architecture and policy decisions belong in `DECISIONS.md` and
 
 ## Collaboration and decision-escalation preference
 
-For the remaining Hong Kong Regulatory Materials design, do not ask the user
+For remaining design and contract work, do not ask the user
 to approve choices whose answer is already dictated by accepted ADRs, exact
 evidence boundaries, internal consistency, safety, or an obviously dominant
 technical approach. Make those choices, validate them, and keep the canonical
@@ -28,6 +28,49 @@ only for `AskLegal-LegalDBPipeline`. No instruction, decision, approval,
 priority, status, or next step from a legacy Ask.Legal workspace applies here
 unless the user explicitly restates it for this repository. Availability of
 another workspace root creates no shared memory or authorization.
+
+## Cross-cutting machine-contract foundation
+
+**Cross-Cutting Contract Package**: The implementation-neutral immutable
+package under `contracts/` that defines shared schemas, identity and reference
+primitives, closed code catalogues, lifecycle state machines, contract
+inventory, synthetic fixtures, exact expected results, and its complete file
+manifest. It does not contain jurisdiction-specific legal rules or select the
+production stack.
+_Avoid_: Application implementation, universal legal rulebook, production authorization
+
+**Foundation Status**: The immutable `contracts/foundation-status.json` fact
+record stating which policy decisions are configured or undecided and which
+operational capabilities are active or disabled. The current status keeps the
+production stack undecided, every operational capability disabled, and
+external effects at `NONE`.
+_Avoid_: Deployment status, implied implementation authority
+
+**Immutable Reference**: A closed object containing one registered reference
+type, opaque register-issued object ID, and exact `sha256:` fingerprint. A URL,
+filename, title, citation, source locator, or floating version cannot replace
+it.
+_Avoid_: Mutable pointer, latest alias
+
+**Exact Package Inventory**: The sorted complete list of every package member's
+contained relative path, role, media type, byte size, and SHA-256 fingerprint.
+The root manifest excludes itself; its external JCS fingerprint transitively
+binds the package without a cycle.
+_Avoid_: Directory discovery, glob, self-referential manifest hash
+
+Shared JSON is strict I-JSON. Canonical bytes use RFC 8785 JCS UTF-8 and
+fingerprints use `sha256:<64-lowercase-hex>`. Shared register-issued IDs use a
+closed three-character lowercase prefix, underscore, and 48 lowercase
+hexadecimal characters. The ID remains identity rather than a digest.
+
+The exact offline validation command is:
+
+```sh
+node tools/validate-contracts.mjs
+```
+
+The tool makes no network or production call and does not select the future
+production runtime.
 
 ## Source and evidence
 

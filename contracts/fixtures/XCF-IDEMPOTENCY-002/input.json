@@ -1,0 +1,6 @@
+{
+  "registrations": [
+    {"object_id": "lit_fedcba9876543210fedcba9876543210fedcba9876543210", "input_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"},
+    {"object_id": "lit_fedcba9876543210fedcba9876543210fedcba9876543210", "input_fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}
+  ]
+}

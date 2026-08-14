@@ -1,0 +1,5 @@
+{
+  "result_code": "BLOCK",
+  "failure_codes": ["FAILURE_ID_COLLISION"],
+  "reason_codes": []
+}

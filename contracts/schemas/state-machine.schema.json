@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/state-machine.schema.json",
+  "title": "Closed-world lifecycle state machine",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["machine_id", "machine_version", "entity_type", "closed_world", "initial_states", "terminal_states", "states", "allowed_transitions", "explicit_high_risk_forbidden_transitions", "unlisted_transition_result"],
+  "properties": {
+    "machine_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+    "machine_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "entity_type": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+    "closed_world": {"const": true},
+    "initial_states": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "common.schema.json#/$defs/lifecycle_code"}
+    },
+    "terminal_states": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "common.schema.json#/$defs/lifecycle_code"}
+    },
+    "states": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "common.schema.json#/$defs/lifecycle_code"}
+    },
+    "allowed_transitions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/transition"}
+    },
+    "explicit_high_risk_forbidden_transitions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/forbidden_transition"}
+    },
+    "unlisted_transition_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["result_code", "failure_code", "reason_code"],
+      "properties": {
+        "result_code": {"const": "BLOCK"},
+        "failure_code": {"const": "FAILURE_FORBIDDEN_TRANSITION"},
+        "reason_code": {"const": "TRANSITION_UNLISTED"}
+      }
+    }
+  },
+  "$defs": {
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to", "event", "preconditions"],
+      "properties": {
+        "from": {"$ref": "common.schema.json#/$defs/lifecycle_code"},
+        "to": {"$ref": "common.schema.json#/$defs/lifecycle_code"},
+        "event": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "preconditions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}
+        }
+      }
+    },
+    "forbidden_transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to", "failure_code"],
+      "properties": {
+        "from": {"$ref": "common.schema.json#/$defs/lifecycle_code"},
+        "to": {"$ref": "common.schema.json#/$defs/lifecycle_code"},
+        "failure_code": {"const": "FAILURE_FORBIDDEN_TRANSITION"}
+      }
+    }
+  }
+}

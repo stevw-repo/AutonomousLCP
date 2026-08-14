@@ -1,0 +1,25 @@
+{
+  "machine_id": "asklegal.workflow-admission-lifecycle",
+  "machine_version": "1.0.0",
+  "entity_type": "Workflow Admission Profile",
+  "closed_world": true,
+  "initial_states": ["WORKFLOW_CANDIDATE"],
+  "terminal_states": ["WORKFLOW_REVOKED", "WORKFLOW_SUPERSEDED"],
+  "states": ["WORKFLOW_ADMITTED", "WORKFLOW_CANDIDATE", "WORKFLOW_EVALUATING", "WORKFLOW_REVOKED", "WORKFLOW_SUPERSEDED", "WORKFLOW_SUSPENDED"],
+  "allowed_transitions": [
+    {"from": "WORKFLOW_ADMITTED", "to": "WORKFLOW_REVOKED", "event": "REVOKE", "preconditions": ["Immutable revocation evidence exists", "New calls stop"]},
+    {"from": "WORKFLOW_ADMITTED", "to": "WORKFLOW_SUPERSEDED", "event": "SUPERSEDE", "preconditions": ["A later exact workflow is admitted", "Historical results remain reproducible"]},
+    {"from": "WORKFLOW_ADMITTED", "to": "WORKFLOW_SUSPENDED", "event": "SUSPEND", "preconditions": ["A bound monitoring or integrity trigger fired", "New calls stop"]},
+    {"from": "WORKFLOW_CANDIDATE", "to": "WORKFLOW_EVALUATING", "event": "BEGIN_EVALUATION", "preconditions": ["Evaluation-only authorization exists", "The exact complete workflow is frozen"]},
+    {"from": "WORKFLOW_EVALUATING", "to": "WORKFLOW_ADMITTED", "event": "ADMIT", "preconditions": ["Every exact admission gate passes", "Required attestations are immutable"]},
+    {"from": "WORKFLOW_EVALUATING", "to": "WORKFLOW_CANDIDATE", "event": "EVALUATION_FAILED", "preconditions": ["Failure evidence is preserved", "No ordinary work was processed"]},
+    {"from": "WORKFLOW_SUSPENDED", "to": "WORKFLOW_ADMITTED", "event": "READMIT_EXACT", "preconditions": ["Cause and impact are resolved", "Every required revalidation passes", "A new admission event is recorded"]},
+    {"from": "WORKFLOW_SUSPENDED", "to": "WORKFLOW_REVOKED", "event": "REVOKE", "preconditions": ["Immutable revocation evidence exists"]}
+  ],
+  "explicit_high_risk_forbidden_transitions": [
+    {"from": "WORKFLOW_CANDIDATE", "to": "WORKFLOW_ADMITTED", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "WORKFLOW_REVOKED", "to": "WORKFLOW_ADMITTED", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "WORKFLOW_SUPERSEDED", "to": "WORKFLOW_ADMITTED", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"}
+  ],
+  "unlisted_transition_result": {"result_code": "BLOCK", "failure_code": "FAILURE_FORBIDDEN_TRANSITION", "reason_code": "TRANSITION_UNLISTED"}
+}

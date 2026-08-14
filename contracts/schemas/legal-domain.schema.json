@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/legal-domain.schema.json",
+  "title": "Cross-cutting legal identity and decision objects",
+  "$defs": {
+    "legal_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "legal_item_id", "created_at", "jurisdiction", "material_family", "legal_desk_ref", "aliases", "evidence_refs", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.legal-item"},
+        "schema_version": {"const": "1.0.0"},
+        "legal_item_id": {"type": "string", "pattern": "^lit_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "jurisdiction": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "material_family": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "legal_desk_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "aliases": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "immutable": {"const": true}
+      }
+    },
+    "official_version": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "official_version_id", "created_at", "legal_item_ref", "publication_evidence_refs", "version_date", "predecessor_refs", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.official-version"},
+        "schema_version": {"const": "1.0.0"},
+        "official_version_id": {"type": "string", "pattern": "^ofv_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "legal_item_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "publication_evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "version_date": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])$"},
+        "predecessor_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "immutable": {"const": true}
+      }
+    },
+    "legal_status_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "legal_status_event_id", "created_at", "legal_item_ref", "affected_location_refs", "event_type", "effective_expression", "observation_cutoff", "evidence_refs", "decision_ref", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.legal-status-event"},
+        "schema_version": {"const": "1.0.0"},
+        "legal_status_event_id": {"type": "string", "pattern": "^lse_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "legal_item_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "affected_location_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "event_type": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "effective_expression": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "decision_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "immutable": {"const": true}
+      }
+    },
+    "legal_location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "legal_location_id", "created_at", "legal_item_ref", "parent_location_refs", "location_kind", "aliases", "evidence_refs", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.legal-location"},
+        "schema_version": {"const": "1.0.0"},
+        "legal_location_id": {"type": "string", "pattern": "^loc_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "legal_item_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "parent_location_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "location_kind": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "aliases": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "immutable": {"const": true}
+      }
+    },
+    "identity_alias": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "identity_alias_id", "created_at", "owner_ref", "alias_type", "alias_value", "valid_from", "evidence_refs", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.identity-alias"},
+        "schema_version": {"const": "1.0.0"},
+        "identity_alias_id": {"type": "string", "pattern": "^als_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "owner_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "alias_type": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "alias_value": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "valid_from": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "immutable": {"const": true}
+      }
+    },
+    "lineage_relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "lineage_relationship_id", "created_at", "relationship_type", "predecessor_refs", "successor_refs", "effective_expression", "observation_cutoff", "evidence_refs", "decision_ref", "acyclicity_proof_ref", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.lineage-relationship"},
+        "schema_version": {"const": "1.0.0"},
+        "lineage_relationship_id": {"type": "string", "pattern": "^lin_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "relationship_type": {"type": "string", "enum": ["CORRECTION", "MERGE", "MOVE", "PROCESSING_CORRECTION", "REINSTATEMENT", "RENUMBER", "REPLACEMENT", "SPLIT", "SUBSTITUTION"]},
+        "predecessor_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "successor_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "effective_expression": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "decision_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "acyclicity_proof_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "immutable": {"const": true}
+      }
+    },
+    "search_record_selection_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "selection_event_id", "created_at", "release_scope_ref", "observation_cutoff", "selection_action", "previous_record_refs", "selected_record_refs", "evidence_refs", "decision_ref", "rule_trace", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.search-record-selection-event"},
+        "schema_version": {"const": "1.0.0"},
+        "selection_event_id": {"type": "string", "pattern": "^sel_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "release_scope_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "selection_action": {"type": "string", "enum": ["DESELECT", "RESELECT", "REUSE", "SELECT_SUCCESSOR", "WITHHOLD"]},
+        "previous_record_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "selected_record_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "decision_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "rule_trace": {"type": "array", "minItems": 1, "items": {"$ref": "common.schema.json#/$defs/rule_trace_entry"}},
+        "immutable": {"const": true}
+      }
+    },
+    "legal_desk_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "legal_desk_decision_id", "created_at", "observation_cutoff", "legal_desk_ref", "rulebook_ref", "evidence_refs", "facts_established", "unresolved_facts", "result_code", "reason_codes", "rule_trace", "review_code", "effect_refs", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.legal-desk-decision"},
+        "schema_version": {"const": "1.0.0"},
+        "legal_desk_decision_id": {"type": "string", "pattern": "^ldd_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "legal_desk_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "rulebook_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "facts_established": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
+        "unresolved_facts": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
+        "result_code": {"$ref": "common.schema.json#/$defs/result_code"},
+        "reason_codes": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reason_code"}},
+        "rule_trace": {"type": "array", "minItems": 1, "items": {"$ref": "common.schema.json#/$defs/rule_trace_entry"}},
+        "review_code": {"$ref": "common.schema.json#/$defs/review_code"},
+        "effect_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "immutable": {"const": true}
+      }
+    }
+  }
+}

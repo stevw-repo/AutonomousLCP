@@ -1,0 +1,21 @@
+{
+  "catalogue_id": "asklegal.capability-codes",
+  "catalogue_version": "1.0.0",
+  "catalogue_kind": "CAPABILITY_CODE",
+  "entries": [
+    {"code": "ACTIVATE_ROUTING", "meaning": "Activate one exact complete routing generation", "owner": "promotion-worker"},
+    {"code": "APPROVE_MANIFEST", "meaning": "Issue one authenticated human decision for one exact manifest", "owner": "review-application"},
+    {"code": "CALL_EMBEDDING_PROVIDER", "meaning": "Embed validated selected metadata.text under an approved manifest", "owner": "promotion-worker"},
+    {"code": "CALL_GENERATIVE_LLM", "meaning": "Call a provider for one exact admitted proposal task", "owner": "legal-processing-worker/llm-task-runner"},
+    {"code": "CAPTURE_SOURCE", "meaning": "Retrieve and preserve source evidence under a registered source capability", "owner": "acquisition-worker"},
+    {"code": "CREATE_CANDIDATE_RECORD", "meaning": "Create an immutable candidate Search Record", "owner": "legal-processing-worker"},
+    {"code": "EXECUTE_PROMOTION", "meaning": "Execute only one exact valid approved Promotion Manifest", "owner": "promotion-worker"},
+    {"code": "MANAGE_BACKUP", "meaning": "Create or verify exact promotion-bound recovery artifacts", "owner": "promotion-worker"},
+    {"code": "MUTATE_PINECONE", "meaning": "Build, verify, or exactly retire declared Pinecone targets", "owner": "promotion-worker"},
+    {"code": "PUBLISH_RELEASE", "meaning": "Publish one complete frozen Corpus Release", "owner": "promotion-worker"},
+    {"code": "READ_EVIDENCE", "meaning": "Read exact preserved evidence within a declared scope", "owner": "declared-application"},
+    {"code": "READ_REGISTER", "meaning": "Read exact Management Register objects within a declared scope", "owner": "declared-application"},
+    {"code": "WRITE_EVIDENCE", "meaning": "Append immutable evidence within a declared scope", "owner": "declared-application"},
+    {"code": "WRITE_REGISTER", "meaning": "Append immutable Management Register objects within a declared scope", "owner": "declared-application"}
+  ]
+}

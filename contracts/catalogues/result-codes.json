@@ -1,0 +1,17 @@
+{
+  "catalogue_id": "asklegal.result-codes",
+  "catalogue_version": "1.0.0",
+  "catalogue_kind": "RESULT_CODE",
+  "entries": [
+    {"code": "APPROVED", "meaning": "The exact immutable decision approves its bound object; it grants no later capability by itself"},
+    {"code": "BLOCK", "meaning": "Processing cannot safely continue at this boundary"},
+    {"code": "DISABLED", "meaning": "The capability or branch is explicitly disabled"},
+    {"code": "FAILED", "meaning": "The attempted bounded operation did not succeed"},
+    {"code": "NO_CHANGE", "meaning": "Complete admitted checks proved no supported change"},
+    {"code": "PASS", "meaning": "The declared validation boundary passed"},
+    {"code": "QUARANTINE", "meaning": "Evidence is preserved but the uncertain item cannot safely proceed"},
+    {"code": "REJECTED", "meaning": "The exact immutable decision rejects its bound object"},
+    {"code": "SUCCEEDED", "meaning": "The bounded operation completed with its declared result"},
+    {"code": "UNDECIDED", "meaning": "A consequential policy value remains explicitly unsettled"}
+  ]
+}

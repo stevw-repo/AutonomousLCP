@@ -1,0 +1,4 @@
+{
+  "from": "APPROVAL_REJECTED",
+  "to": "APPROVAL_APPROVED"
+}

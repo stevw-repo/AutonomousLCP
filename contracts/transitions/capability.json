@@ -1,0 +1,27 @@
+{
+  "machine_id": "asklegal.capability-lifecycle",
+  "machine_version": "1.0.0",
+  "entity_type": "Capability Profile",
+  "closed_world": true,
+  "initial_states": ["CAPABILITY_DESIGN_ONLY"],
+  "terminal_states": ["CAPABILITY_REVOKED"],
+  "states": ["CAPABILITY_ACTIVE", "CAPABILITY_ATTESTED_INACTIVE", "CAPABILITY_DESIGN_ONLY", "CAPABILITY_IMPLEMENTED_UNATTESTED", "CAPABILITY_REVOKED", "CAPABILITY_SUSPENDED"],
+  "allowed_transitions": [
+    {"from": "CAPABILITY_ACTIVE", "to": "CAPABILITY_REVOKED", "event": "REVOKE", "preconditions": ["Authenticated revocation is preserved", "New affected use stops"]},
+    {"from": "CAPABILITY_ACTIVE", "to": "CAPABILITY_SUSPENDED", "event": "SUSPEND", "preconditions": ["A bound failure or invalidation trigger is preserved", "New affected use stops"]},
+    {"from": "CAPABILITY_ATTESTED_INACTIVE", "to": "CAPABILITY_ACTIVE", "event": "ACTIVATE", "preconditions": ["Exact attestation remains valid", "Exact declared runtime identity and grants match", "No suspension or revocation applies"]},
+    {"from": "CAPABILITY_ATTESTED_INACTIVE", "to": "CAPABILITY_REVOKED", "event": "REVOKE", "preconditions": ["Authenticated revocation is preserved"]},
+    {"from": "CAPABILITY_DESIGN_ONLY", "to": "CAPABILITY_IMPLEMENTED_UNATTESTED", "event": "IMPLEMENT", "preconditions": ["Exact implementation and contract identities are registered", "No real-use authority is inferred"]},
+    {"from": "CAPABILITY_IMPLEMENTED_UNATTESTED", "to": "CAPABILITY_ATTESTED_INACTIVE", "event": "ATTEST", "preconditions": ["Every required conformance gate passes", "Independent immutable attestation is registered"]},
+    {"from": "CAPABILITY_IMPLEMENTED_UNATTESTED", "to": "CAPABILITY_REVOKED", "event": "REVOKE", "preconditions": ["Authenticated revocation is preserved"]},
+    {"from": "CAPABILITY_SUSPENDED", "to": "CAPABILITY_ATTESTED_INACTIVE", "event": "RESOLVE_AND_REATTEST", "preconditions": ["Cause and impact are resolved", "Required revalidation passes", "A current attestation is registered"]},
+    {"from": "CAPABILITY_SUSPENDED", "to": "CAPABILITY_REVOKED", "event": "REVOKE", "preconditions": ["Authenticated revocation is preserved"]}
+  ],
+  "explicit_high_risk_forbidden_transitions": [
+    {"from": "CAPABILITY_DESIGN_ONLY", "to": "CAPABILITY_ACTIVE", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "CAPABILITY_IMPLEMENTED_UNATTESTED", "to": "CAPABILITY_ACTIVE", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "CAPABILITY_REVOKED", "to": "CAPABILITY_ACTIVE", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "CAPABILITY_SUSPENDED", "to": "CAPABILITY_ACTIVE", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"}
+  ],
+  "unlisted_transition_result": {"result_code": "BLOCK", "failure_code": "FAILURE_FORBIDDEN_TRANSITION", "reason_code": "TRANSITION_UNLISTED"}
+}

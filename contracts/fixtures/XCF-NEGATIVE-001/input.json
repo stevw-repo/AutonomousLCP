@@ -1,0 +1,12 @@
+{
+  "id": "rec_0123456789abcdef0123456789abcdef0123456789abcdef",
+  "metadata": {
+    "text": "Synthetic content with a forbidden seventh metadata field.",
+    "country": "Synthetic Country",
+    "jurisdiction": "SYN",
+    "type": "synthetic",
+    "source": "Synthetic Fixture",
+    "authority_note": "None",
+    "warning": "forbidden"
+  }
+}

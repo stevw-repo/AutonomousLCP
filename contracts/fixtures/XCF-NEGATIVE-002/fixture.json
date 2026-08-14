@@ -1,0 +1,9 @@
+{
+  "fixture_id": "XCF-NEGATIVE-002",
+  "category": "NEGATIVE",
+  "operation": "TRANSITION_CHECK",
+  "synthetic": true,
+  "input_path": "fixtures/XCF-NEGATIVE-002/input.json",
+  "expected_path": "fixtures/XCF-NEGATIVE-002/expected.json",
+  "state_machine_ref": "transitions/approval.json"
+}

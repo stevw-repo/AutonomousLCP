@@ -1,0 +1,7 @@
+{
+  "result_code": "PASS",
+  "failure_codes": [],
+  "reason_codes": ["VALIDATION_COMPLETE"],
+  "canonical_json": "{\"\\r\":\"Carriage Return\",\"1\":\"One\",\"\":\"Control\",\"ö\":\"Latin Small Letter O With Diaeresis\",\"€\":\"Euro Sign\",\"😀\":\"Emoji: Grinning Face\",\"דּ\":\"Hebrew Letter Dalet With Dagesh\"}",
+  "fingerprint": "sha256:5e321556d22018a9656991a9e94f77ec175fa193e52a2429d312f8419ec8b08c"
+}

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/contract-inventory.schema.json",
+  "title": "Cross-cutting contract inventory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "inventory_id", "inventory_version", "cutoff", "scope_rule", "objects", "excluded_categories", "validation_status"],
+  "properties": {
+    "schema_id": {"const": "asklegal.cross-cutting-contract-inventory"},
+    "schema_version": {"const": "1.0.0"},
+    "inventory_id": {"type": "string", "pattern": "^pkg_[0-9a-f]{48}$"},
+    "inventory_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+    "scope_rule": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+    "objects": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/object_entry"}
+    },
+    "excluded_categories": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/excluded_category"}
+    },
+    "validation_status": {"const": "VALIDATED"}
+  },
+  "$defs": {
+    "object_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["object_type", "owner", "schema_ref", "identity_type", "fingerprint_basis", "reference_fields", "lifecycle_machine", "invariants", "validation_status"],
+      "properties": {
+        "object_type": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "owner": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "schema_ref": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "identity_type": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "fingerprint_basis": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "reference_fields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}
+        },
+        "lifecycle_machine": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "invariants": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}
+        },
+        "validation_status": {"type": "string", "enum": ["SCHEMA_AND_SEMANTIC_VALIDATED", "SCHEMA_VALIDATED"]}
+      }
+    },
+    "excluded_category": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "examples", "reason", "contract_owner"],
+      "properties": {
+        "category": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "examples": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}
+        },
+        "reason": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "contract_owner": {"$ref": "common.schema.json#/$defs/non_empty_string"}
+      }
+    }
+  }
+}

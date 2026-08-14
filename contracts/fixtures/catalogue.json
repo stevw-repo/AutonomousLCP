@@ -1,0 +1,22 @@
+{
+  "schema_id": "asklegal.cross-cutting-fixture-catalogue",
+  "schema_version": "1.0.0",
+  "fixture_schema_ref": "schemas/fixture.schema.json",
+  "fixtures": [
+    {"fixture_id": "XCF-BOUNDARY-001", "path": "fixtures/XCF-BOUNDARY-001/fixture.json"},
+    {"fixture_id": "XCF-BOUNDARY-002", "path": "fixtures/XCF-BOUNDARY-002/fixture.json"},
+    {"fixture_id": "XCF-IDEMPOTENCY-001", "path": "fixtures/XCF-IDEMPOTENCY-001/fixture.json"},
+    {"fixture_id": "XCF-IDEMPOTENCY-002", "path": "fixtures/XCF-IDEMPOTENCY-002/fixture.json"},
+    {"fixture_id": "XCF-MALFORMED-001", "path": "fixtures/XCF-MALFORMED-001/fixture.json"},
+    {"fixture_id": "XCF-MALFORMED-002", "path": "fixtures/XCF-MALFORMED-002/fixture.json"},
+    {"fixture_id": "XCF-MALFORMED-003", "path": "fixtures/XCF-MALFORMED-003/fixture.json"},
+    {"fixture_id": "XCF-NEGATIVE-001", "path": "fixtures/XCF-NEGATIVE-001/fixture.json"},
+    {"fixture_id": "XCF-NEGATIVE-002", "path": "fixtures/XCF-NEGATIVE-002/fixture.json"},
+    {"fixture_id": "XCF-POSITIVE-001", "path": "fixtures/XCF-POSITIVE-001/fixture.json"},
+    {"fixture_id": "XCF-POSITIVE-002", "path": "fixtures/XCF-POSITIVE-002/fixture.json"},
+    {"fixture_id": "XCF-REPRODUCIBILITY-001", "path": "fixtures/XCF-REPRODUCIBILITY-001/fixture.json"},
+    {"fixture_id": "XCF-REPRODUCIBILITY-002", "path": "fixtures/XCF-REPRODUCIBILITY-002/fixture.json"},
+    {"fixture_id": "XCF-RETRY-001", "path": "fixtures/XCF-RETRY-001/fixture.json"},
+    {"fixture_id": "XCF-RETRY-002", "path": "fixtures/XCF-RETRY-002/fixture.json"}
+  ]
+}

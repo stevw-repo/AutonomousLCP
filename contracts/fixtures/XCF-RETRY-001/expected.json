@@ -1,0 +1,5 @@
+{
+  "result_code": "PASS",
+  "failure_codes": [],
+  "reason_codes": ["EXACT_REPLAY", "RETRY_INPUT_UNCHANGED"]
+}

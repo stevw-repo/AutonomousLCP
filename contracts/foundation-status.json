@@ -1,0 +1,37 @@
+{
+  "schema_id": "asklegal.cross-cutting-foundation-status",
+  "schema_version": "1.0.0",
+  "status_id": "pkg_000000000000000000000000000000000000000000000002",
+  "recorded_at": "2026-08-14T00:00:00Z",
+  "contract_foundation_state": "VALIDATED",
+  "production_stack_state": "UNDECIDED",
+  "capabilities": [
+    {"capability_code": "ACTIVATE_ROUTING", "state": "DISABLED", "reason_code": "CAPABILITY_NOT_ACTIVE"},
+    {"capability_code": "APPROVE_MANIFEST", "state": "DISABLED", "reason_code": "CAPABILITY_NOT_ACTIVE"},
+    {"capability_code": "CALL_EMBEDDING_PROVIDER", "state": "DISABLED", "reason_code": "CAPABILITY_NOT_ACTIVE"},
+    {"capability_code": "CALL_GENERATIVE_LLM", "state": "DISABLED", "reason_code": "CAPABILITY_NOT_ACTIVE"},
+    {"capability_code": "CAPTURE_SOURCE", "state": "DISABLED", "reason_code": "CAPABILITY_NOT_ACTIVE"},
+    {"capability_code": "CREATE_CANDIDATE_RECORD", "state": "DISABLED", "reason_code": "CAPABILITY_NOT_ACTIVE"},
+    {"capability_code": "EXECUTE_PROMOTION", "state": "DISABLED", "reason_code": "CAPABILITY_NOT_ACTIVE"},
+    {"capability_code": "MANAGE_BACKUP", "state": "DISABLED", "reason_code": "CAPABILITY_NOT_ACTIVE"},
+    {"capability_code": "MUTATE_PINECONE", "state": "DISABLED", "reason_code": "CAPABILITY_NOT_ACTIVE"},
+    {"capability_code": "PUBLISH_RELEASE", "state": "DISABLED", "reason_code": "CAPABILITY_NOT_ACTIVE"},
+    {"capability_code": "READ_EVIDENCE", "state": "DISABLED", "reason_code": "CAPABILITY_NOT_ACTIVE"},
+    {"capability_code": "READ_REGISTER", "state": "DISABLED", "reason_code": "CAPABILITY_NOT_ACTIVE"},
+    {"capability_code": "WRITE_EVIDENCE", "state": "DISABLED", "reason_code": "CAPABILITY_NOT_ACTIVE"},
+    {"capability_code": "WRITE_REGISTER", "state": "DISABLED", "reason_code": "CAPABILITY_NOT_ACTIVE"}
+  ],
+  "deferred_decisions": [
+    "Approval and human-review policy",
+    "Azure production activation",
+    "Capacity, cost, and anomaly thresholds",
+    "Legal coverage and source authority",
+    "LLM-versus-deterministic allocation outside accepted task-specific ADRs",
+    "Pinecone index naming contract",
+    "Production technical stack",
+    "Recovery, retention, security, and service-level policy",
+    "User-facing coverage and authority-note behavior"
+  ],
+  "external_effects": "NONE",
+  "immutable": true
+}

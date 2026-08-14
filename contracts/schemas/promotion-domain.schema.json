@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/promotion-domain.schema.json",
+  "title": "Promotion, Approval, and execution objects",
+  "$defs": {
+    "promotion_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "promotion_manifest_id", "created_at", "observation_cutoff", "valid_from", "valid_until", "base_serving_state_ref", "base_routing_configuration_ref", "candidate_serving_state_ref", "desired_state_inventory_refs", "corpus_release_refs", "target_generation_refs", "contract_refs", "change_inventory", "evidence_refs", "recovery_refs", "validation_refs", "cost_policy_state", "action_plan", "invalidation_predicates", "capability_state", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.promotion-manifest"},
+        "schema_version": {"const": "1.0.0"},
+        "promotion_manifest_id": {"type": "string", "pattern": "^pmn_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "valid_from": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "valid_until": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "base_serving_state_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "base_routing_configuration_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "candidate_serving_state_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "desired_state_inventory_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "corpus_release_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "target_generation_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "contract_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "change_inventory": {"$ref": "#/$defs/change_inventory"},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "recovery_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "validation_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "cost_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
+        "action_plan": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/action"}},
+        "invalidation_predicates": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/invalidation_predicate"}},
+        "capability_state": {"type": "string", "enum": ["DISABLED", "ENABLED"]},
+        "immutable": {"const": true}
+      }
+    },
+    "change_inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["additions", "replacements", "carried_forward", "withholdings", "retirements", "unchanged"],
+      "properties": {
+        "additions": {"$ref": "#/$defs/change_set"},
+        "replacements": {"$ref": "#/$defs/change_set"},
+        "carried_forward": {"$ref": "#/$defs/change_set"},
+        "withholdings": {"$ref": "#/$defs/change_set"},
+        "retirements": {"$ref": "#/$defs/change_set"},
+        "unchanged": {"$ref": "#/$defs/change_set"}
+      }
+    },
+    "change_set": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_ids", "count", "fingerprint"],
+      "properties": {
+        "record_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/search_record_id"}},
+        "count": {"$ref": "common.schema.json#/$defs/safe_integer"},
+        "fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"}
+      }
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence", "action_id", "capability_code", "target_refs", "preconditions", "verification_refs", "stop_conditions", "retry_policy_state", "rollback_action_refs"],
+      "properties": {
+        "sequence": {"$ref": "common.schema.json#/$defs/safe_integer"},
+        "action_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "capability_code": {"type": "string", "enum": ["ACTIVATE_ROUTING", "CALL_EMBEDDING_PROVIDER", "EXECUTE_PROMOTION", "MANAGE_BACKUP", "MUTATE_PINECONE", "PUBLISH_RELEASE"]},
+        "target_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "preconditions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "verification_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "stop_conditions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "retry_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
+        "rollback_action_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}}
+      }
+    },
+    "invalidation_predicate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["predicate_id", "contract_ref", "expected_fingerprint"],
+      "properties": {
+        "predicate_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "contract_ref": {"$ref": "common.schema.json#/$defs/contract_reference"},
+        "expected_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"}
+      }
+    },
+    "approval_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "approval_id", "decision_time", "promotion_manifest_ref", "decision", "reviewer_identity_ref", "authority_evidence_ref", "reason", "valid_from", "valid_until", "expected_base_serving_state_ref", "validity_condition_refs", "governance_policy_state", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.approval-decision"},
+        "schema_version": {"const": "1.0.0"},
+        "approval_id": {"type": "string", "pattern": "^apr_[0-9a-f]{48}$"},
+        "decision_time": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "promotion_manifest_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "decision": {"type": "string", "enum": ["APPROVED", "REJECTED"]},
+        "reviewer_identity_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "authority_evidence_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "reason": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "valid_from": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "valid_until": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "expected_base_serving_state_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "validity_condition_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "governance_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
+        "immutable": {"const": true}
+      }
+    },
+    "approval_lifecycle_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "approval_lifecycle_event_id", "event_time", "approval_ref", "from_state", "to_state", "event_type", "responsible_identity_ref", "evidence_refs", "execution_lineage_refs", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.approval-lifecycle-event"},
+        "schema_version": {"const": "1.0.0"},
+        "approval_lifecycle_event_id": {"type": "string", "pattern": "^ape_[0-9a-f]{48}$"},
+        "event_time": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "approval_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "from_state": {"type": "string", "enum": ["APPROVAL_APPROVED", "APPROVAL_CONSUMED", "APPROVAL_EXPIRED", "APPROVAL_INVALIDATED", "APPROVAL_REJECTED", "APPROVAL_REVOKED"]},
+        "to_state": {"type": "string", "enum": ["APPROVAL_APPROVED", "APPROVAL_CONSUMED", "APPROVAL_EXPIRED", "APPROVAL_INVALIDATED", "APPROVAL_REJECTED", "APPROVAL_REVOKED"]},
+        "event_type": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "responsible_identity_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "execution_lineage_refs": {"type": "array", "maxItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "immutable": {"const": true}
+      }
+    },
+    "promotion_execution_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "promotion_execution_event_id", "event_time", "promotion_manifest_ref", "approval_ref", "execution_lineage_id", "from_state", "to_state", "action_id", "attempt_number", "idempotency", "result_code", "failure_codes", "reason_codes", "receipt_refs", "external_effects", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.promotion-execution-event"},
+        "schema_version": {"const": "1.0.0"},
+        "promotion_execution_event_id": {"type": "string", "pattern": "^pex_[0-9a-f]{48}$"},
+        "event_time": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "promotion_manifest_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "approval_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "execution_lineage_id": {"$ref": "common.schema.json#/$defs/issued_id"},
+        "from_state": {"type": "string", "enum": ["EXECUTION_AUTHORIZED", "EXECUTION_FAILED", "EXECUTION_PLANNED", "EXECUTION_ROLLED_BACK", "EXECUTION_ROLLBACK_REQUIRED", "EXECUTION_RUNNING", "EXECUTION_SUCCEEDED"]},
+        "to_state": {"type": "string", "enum": ["EXECUTION_AUTHORIZED", "EXECUTION_FAILED", "EXECUTION_PLANNED", "EXECUTION_ROLLED_BACK", "EXECUTION_ROLLBACK_REQUIRED", "EXECUTION_RUNNING", "EXECUTION_SUCCEEDED"]},
+        "action_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "attempt_number": {"$ref": "common.schema.json#/$defs/safe_integer"},
+        "idempotency": {"$ref": "common.schema.json#/$defs/idempotency_binding"},
+        "result_code": {"$ref": "common.schema.json#/$defs/result_code"},
+        "failure_codes": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/failure_code"}},
+        "reason_codes": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reason_code"}},
+        "receipt_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "external_effects": {"type": "string", "enum": ["DECLARED_MANIFEST_ACTION", "NONE"]},
+        "immutable": {"const": true}
+      }
+    }
+  }
+}

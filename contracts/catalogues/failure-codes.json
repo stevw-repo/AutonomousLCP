@@ -1,0 +1,24 @@
+{
+  "catalogue_id": "asklegal.failure-codes",
+  "catalogue_version": "1.0.0",
+  "catalogue_kind": "FAILURE_CODE",
+  "entries": [
+    {"code": "FAILURE_CAPABILITY_DISABLED", "meaning": "A required capability is not active for the declared use"},
+    {"code": "FAILURE_DUPLICATE_ID", "meaning": "One identity appears more than once where uniqueness is required"},
+    {"code": "FAILURE_EXTERNAL_EFFECT", "meaning": "A forbidden external effect was attempted or declared"},
+    {"code": "FAILURE_FINGERPRINT_MISMATCH", "meaning": "Declared and computed fingerprints differ"},
+    {"code": "FAILURE_FORBIDDEN_TRANSITION", "meaning": "The lifecycle transition is not in the closed allowed set"},
+    {"code": "FAILURE_ID_COLLISION", "meaning": "One issued identity is associated with different canonical content"},
+    {"code": "FAILURE_INVENTORY_MISMATCH", "meaning": "Declared and actual package inventories differ"},
+    {"code": "FAILURE_LINEAGE_CYCLE", "meaning": "A lineage edge would create a cycle"},
+    {"code": "FAILURE_MALFORMED_JSON", "meaning": "Input is not strict I-JSON or contains duplicate keys"},
+    {"code": "FAILURE_NON_CANONICAL", "meaning": "Registered canonical bytes are not RFC 8785 JCS bytes"},
+    {"code": "FAILURE_PATH_ESCAPE", "meaning": "A package path is absolute, traverses upward, or escapes its package"},
+    {"code": "FAILURE_POLICY_UNDECIDED", "meaning": "An operation requires a policy value that remains undecided"},
+    {"code": "FAILURE_REFERENCE_MISSING", "meaning": "An exact immutable reference does not resolve"},
+    {"code": "FAILURE_REPRODUCIBILITY", "meaning": "Identical clean inputs produced different normative bytes"},
+    {"code": "FAILURE_RETRY_INPUT_CHANGED", "meaning": "A retry changed an immutable input while reusing an idempotency identity"},
+    {"code": "FAILURE_SCHEMA_INVALID", "meaning": "An instance does not satisfy its exact registered schema"},
+    {"code": "FAILURE_UNKNOWN_CODE", "meaning": "A value is absent from its closed catalogue"}
+  ]
+}

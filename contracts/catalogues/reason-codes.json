@@ -1,0 +1,20 @@
+{
+  "catalogue_id": "asklegal.reason-codes",
+  "catalogue_version": "1.0.0",
+  "catalogue_kind": "REASON_CODE",
+  "entries": [
+    {"code": "APPROVAL_EXACTLY_BOUND", "meaning": "Approval identity and fingerprint match the one declared manifest"},
+    {"code": "CAPABILITY_NOT_ACTIVE", "meaning": "The required exact capability is absent, disabled, stale, suspended, or revoked"},
+    {"code": "EXACT_REPLAY", "meaning": "The same immutable input and idempotency identity were seen again"},
+    {"code": "EXTERNAL_EFFECT_NOT_AUTHORIZED", "meaning": "The requested external effect is outside the current authority boundary"},
+    {"code": "FINGERPRINT_VERIFIED", "meaning": "Canonical or exact artifact bytes match the declared SHA-256 fingerprint"},
+    {"code": "INVENTORY_COMPLETE", "meaning": "Every required and declared package member is accounted for exactly once"},
+    {"code": "POLICY_UNDECIDED", "meaning": "A required product or governance policy has not been settled"},
+    {"code": "REFERENCE_VERIFIED", "meaning": "The immutable reference resolves and its identity and fingerprint agree"},
+    {"code": "RETRY_INPUT_UNCHANGED", "meaning": "A retry remains bound to the original immutable inputs"},
+    {"code": "SCHEMA_VALID", "meaning": "The instance satisfies its exact registered schema"},
+    {"code": "TRANSITION_ALLOWED", "meaning": "The lifecycle event is an allowed transition in the exact state machine"},
+    {"code": "TRANSITION_UNLISTED", "meaning": "The transition is forbidden because the state machine is closed and does not list it"},
+    {"code": "VALIDATION_COMPLETE", "meaning": "All declared local validation gates completed"}
+  ]
+}

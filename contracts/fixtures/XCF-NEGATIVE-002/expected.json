@@ -1,0 +1,5 @@
+{
+  "result_code": "BLOCK",
+  "failure_codes": ["FAILURE_FORBIDDEN_TRANSITION"],
+  "reason_codes": ["TRANSITION_UNLISTED"]
+}

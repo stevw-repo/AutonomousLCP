@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/serving-domain.schema.json",
+  "title": "Serving, traceability, routing, and Serving State objects",
+  "$defs": {
+    "serving_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "metadata"],
+      "properties": {
+        "id": {"$ref": "common.schema.json#/$defs/search_record_id"},
+        "metadata": {"$ref": "#/$defs/serving_metadata"}
+      }
+    },
+    "serving_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "country", "jurisdiction", "type", "source", "authority_note"],
+      "properties": {
+        "text": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "country": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "jurisdiction": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "type": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "source": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "authority_note": {"$ref": "common.schema.json#/$defs/non_empty_string"}
+      }
+    },
+    "traceability_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["search_record_id", "serving_payload_fingerprint", "serving_record_profile_id", "legal_item_id", "official_version_ids", "legal_location_ids", "release_scope_id", "corpus_release_id", "evidence_refs", "authority_note_evidence", "grouping_ids", "display_citation_ids"],
+      "properties": {
+        "search_record_id": {"$ref": "common.schema.json#/$defs/search_record_id"},
+        "serving_payload_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "serving_record_profile_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "legal_item_id": {"type": "string", "pattern": "^lit_[0-9a-f]{48}$"},
+        "official_version_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^ofv_[0-9a-f]{48}$"}},
+        "legal_location_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^loc_[0-9a-f]{48}$"}},
+        "release_scope_id": {"type": "string", "pattern": "^rsc_[0-9a-f]{48}$"},
+        "corpus_release_id": {"type": "string", "pattern": "^rel_[0-9a-f]{48}$"},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "authority_note_evidence": {"$ref": "#/$defs/authority_note_evidence"},
+        "grouping_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/issued_id"}},
+        "display_citation_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/issued_id"}}
+      }
+    },
+    "authority_note_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rendered_value_fingerprint", "decision_ref", "supporting_evidence_refs"],
+      "properties": {
+        "rendered_value_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "decision_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "supporting_evidence_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}}
+      }
+    },
+    "serving_record_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["serving_record_profile_id", "schema_version", "schema_fingerprint"],
+      "properties": {
+        "serving_record_profile_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+        "schema_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"}
+      }
+    },
+    "traceability_shard_descriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["release_scope_id", "corpus_release_id", "lookup_shard_id", "path", "media_type", "entry_count", "artifact_fingerprint"],
+      "properties": {
+        "release_scope_id": {"type": "string", "pattern": "^rsc_[0-9a-f]{48}$"},
+        "corpus_release_id": {"type": "string", "pattern": "^rel_[0-9a-f]{48}$"},
+        "lookup_shard_id": {"type": "string", "pattern": "^rts_[0-9a-f]{48}$"},
+        "path": {"type": "string", "pattern": "^entries/rts_[0-9a-f]{48}\\.ndjson$"},
+        "media_type": {"const": "application/x-ndjson"},
+        "entry_count": {"$ref": "common.schema.json#/$defs/safe_integer"},
+        "artifact_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"}
+      }
+    },
+    "traceability_lookup_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "manifest_schema_fingerprint", "lookup_revision_id", "entry_schema_id", "entry_schema_version", "entry_schema_fingerprint", "total_entry_count", "serving_record_profiles", "shards"],
+      "properties": {
+        "schema_id": {"const": "asklegal.record-traceability-lookup-manifest"},
+        "schema_version": {"const": "1.0.0"},
+        "manifest_schema_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "lookup_revision_id": {"type": "string", "pattern": "^rtl_[0-9a-f]{48}$"},
+        "entry_schema_id": {"const": "asklegal.record-traceability-entry"},
+        "entry_schema_version": {"const": "1.0.0"},
+        "entry_schema_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "total_entry_count": {"$ref": "common.schema.json#/$defs/safe_integer"},
+        "serving_record_profiles": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/serving_record_profile"}},
+        "shards": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/traceability_shard_descriptor"}}
+      }
+    },
+    "query_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "query_contract_id", "created_at", "serving_record_schema_ref", "profile_schema_refs", "embedding_input_fields", "downstream_required_fields", "traceability_runtime_join", "compatibility_test_refs", "user_facing_policy_state", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.query-contract"},
+        "schema_version": {"const": "1.0.0"},
+        "query_contract_id": {"type": "string", "pattern": "^qry_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "serving_record_schema_ref": {"$ref": "common.schema.json#/$defs/contract_reference"},
+        "profile_schema_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "embedding_input_fields": {"type": "array", "prefixItems": [{"const": "metadata.text"}], "minItems": 1, "maxItems": 1},
+        "downstream_required_fields": {"type": "array", "prefixItems": [{"const": "metadata.text"}, {"const": "metadata.authority_note"}], "minItems": 2, "maxItems": 2},
+        "traceability_runtime_join": {"const": false},
+        "compatibility_test_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "user_facing_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
+        "immutable": {"const": true}
+      }
+    },
+    "pinecone_index_generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "pinecone_index_generation_id", "created_at", "environment", "jurisdiction", "provider_target_identity", "name_policy_state", "index_configuration_ref", "desired_state_inventory_ref", "build_evidence_refs", "verification_evidence_refs", "state", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.pinecone-index-generation"},
+        "schema_version": {"const": "1.0.0"},
+        "pinecone_index_generation_id": {"type": "string", "pattern": "^idx_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "environment": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "jurisdiction": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "provider_target_identity": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "name_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
+        "index_configuration_ref": {"$ref": "common.schema.json#/$defs/contract_reference"},
+        "desired_state_inventory_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "build_evidence_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "verification_evidence_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "state": {"type": "string", "enum": ["SERVING_BUILD_FAILED", "SERVING_BUILT", "SERVING_DEFINED", "SERVING_VERIFICATION_FAILED", "SERVING_VERIFIED"]},
+        "immutable": {"const": true}
+      }
+    },
+    "routing_configuration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "routing_configuration_id", "created_at", "environment", "serving_state_id", "generation_number", "jurisdiction_targets", "activation_mechanism_state", "request_pinning_required", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.routing-configuration"},
+        "schema_version": {"const": "1.0.0"},
+        "routing_configuration_id": {"type": "string", "pattern": "^rtc_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "environment": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "serving_state_id": {"type": "string", "pattern": "^srv_[0-9a-f]{48}$"},
+        "generation_number": {"$ref": "common.schema.json#/$defs/safe_integer"},
+        "jurisdiction_targets": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/jurisdiction_target"}},
+        "activation_mechanism_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
+        "request_pinning_required": {"const": true},
+        "immutable": {"const": true}
+      }
+    },
+    "jurisdiction_target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jurisdiction", "index_generation_ref", "desired_state_inventory_ref"],
+      "properties": {
+        "jurisdiction": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "index_generation_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "desired_state_inventory_ref": {"$ref": "common.schema.json#/$defs/reference"}
+      }
+    },
+    "serving_state_definition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "serving_state_id", "created_at", "environment", "predecessor_state_refs", "rollback_state_refs", "routing_configuration_ref", "jurisdiction_target_refs", "serving_record_profile_refs", "record_traceability_lookup_ref", "query_contract_ref", "coverage_status_manifest_ref", "verification_definition_refs", "recovery_refs", "result_affecting_setting_refs", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.serving-state-definition"},
+        "schema_version": {"const": "1.0.0"},
+        "serving_state_id": {"type": "string", "pattern": "^srv_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "environment": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "predecessor_state_refs": {"type": "array", "maxItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "rollback_state_refs": {"type": "array", "maxItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "routing_configuration_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "jurisdiction_target_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "serving_record_profile_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "record_traceability_lookup_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "query_contract_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "coverage_status_manifest_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "verification_definition_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "recovery_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "result_affecting_setting_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "immutable": {"const": true}
+      }
+    },
+    "serving_state_lifecycle_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "serving_state_lifecycle_event_id", "event_time", "environment", "serving_state_ref", "from_state", "to_state", "event_type", "responsible_identity_ref", "promotion_manifest_refs", "approval_refs", "execution_lineage_refs", "predecessor_event_refs", "evidence_refs", "expected_active_state_refs", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.serving-state-lifecycle-event"},
+        "schema_version": {"const": "1.0.0"},
+        "serving_state_lifecycle_event_id": {"type": "string", "pattern": "^sle_[0-9a-f]{48}$"},
+        "event_time": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "environment": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "serving_state_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "from_state": {"type": "string", "enum": ["SERVING_ACTIVE", "SERVING_BUILD_FAILED", "SERVING_BUILT", "SERVING_DEFINED", "SERVING_INACTIVE_PROTECTED", "SERVING_RETIRED", "SERVING_VERIFICATION_FAILED", "SERVING_VERIFIED"]},
+        "to_state": {"type": "string", "enum": ["SERVING_ACTIVE", "SERVING_BUILD_FAILED", "SERVING_BUILT", "SERVING_DEFINED", "SERVING_INACTIVE_PROTECTED", "SERVING_RETIRED", "SERVING_VERIFICATION_FAILED", "SERVING_VERIFIED"]},
+        "event_type": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "responsible_identity_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "promotion_manifest_refs": {"type": "array", "maxItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "approval_refs": {"type": "array", "maxItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "execution_lineage_refs": {"type": "array", "maxItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "predecessor_event_refs": {"type": "array", "maxItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "expected_active_state_refs": {"type": "array", "maxItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "immutable": {"const": true}
+      }
+    }
+  }
+}
