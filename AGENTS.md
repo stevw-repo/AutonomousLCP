@@ -11,6 +11,31 @@ The repository is currently design-only. Documentation does not authorize
 implementation, external calls, corpus publication, Pinecone mutation, or any
 other production action.
 
+## Strict repository and memory isolation
+
+This repository has its own project memory. Instructions, decisions,
+approvals, priorities, working state, and conversation context from
+`Ask.Legal Dataprep`, `Ask.Legal Distillation`, `Ask.Legal Releases`,
+`Ask.Legal Pinecone`, or any other workspace do not apply here.
+
+- Read and update only this repository's continuity files for an ordinary
+  greenfield task.
+- The presence of another workspace root does not authorize reading it,
+  importing its context, changing it, or treating its work as a prerequisite.
+- Do not copy a legacy requirement, schema, task priority, approval, status, or
+  next step into this repository.
+- Do not update a legacy repository or its memory as a side effect of work
+  here.
+- Inspect legacy material only when the user explicitly requests a named
+  cross-repository comparison or reference check. Treat the result as
+  non-authoritative evidence until the user makes a greenfield decision.
+- Even for an explicitly cross-repository task, keep each project's decisions,
+  working state, authorization, and handoff files separate. Never create an
+  implied approval or shared task queue.
+
+If repository scope is ambiguous, stay within this repository and ask before
+crossing the boundary.
+
 ## Start every non-trivial task here
 
 Before planning, editing, or running project commands:
@@ -133,8 +158,11 @@ Read-only inspection and local validation are allowed when relevant.
   temporary operating arrangements, or migration sequencing in the overall
   design.
 - Use simple language first and define unavoidable specialist terms.
-- Preserve the distinction between case-derived propositions and
-  Halsbury/reference-book principles.
+- Preserve the distinction between case-derived propositions and each
+  jurisdiction's publisher-derived Principles.
+- Preserve approved Regulatory Materials as a separate family; do not relabel
+  non-statutory regulatory rules as legislation or mix unincorporated guidance
+  into rule records.
 - Keep uncommenced legislation outside ordinary current-law search.
 - Never describe uncertain legal status as automatically resolved.
 - Make destructive behavior exact, owned, evidence-backed, reversible, and
