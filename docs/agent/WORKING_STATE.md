@@ -79,7 +79,7 @@ runtime or minimum Node version has been selected.
 
 ## Ubuntu 24.04 resume checklist
 
-Clone `https://github.com/DocLegalAI/AskLegal-LegalDBPipeline.git`, enter the
+Clone `https://github.com/stevw-repo/AskLegal-LegalDBPipeline.git`, enter the
 repository, and read these files in order before planning or editing:
 
 1. `AGENTS.md`
