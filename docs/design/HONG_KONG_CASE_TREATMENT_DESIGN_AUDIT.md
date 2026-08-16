@@ -246,19 +246,19 @@ The following work remains necessary before implementation or provider use:
 
 These are not authorized by this audit.
 
-## User decisions still open
+## Admission evidence and explicitly excluded future option
 
-No immediate Hong Kong treatment-catalogue decision remains. Later user
-decisions remain deliberately separate:
+No immediate Hong Kong treatment or cross-cutting engineering design decision
+remains. The following are implementation/admission evidence under the closed
+M5/M6 protocols:
 
-- the exact task contracts and admission values for ADR 0065's accepted Case
-  Proposition extraction allocation;
-- the exact treatment model, prompt, thresholds, cost limits, and operating
-  policy after representative evaluation evidence exists; and
-- whether Ask.Legal should ever gain an exact citator-style graph lookup.
+- exact task contracts and admission values for ADR 0065's accepted Case
+  Proposition extraction allocation; and
+- exact treatment model profile, prompt, thresholds, cost limits, and
+  operating evidence after representative evaluation exists.
 
-The last option is not required by the accepted Pinecone design and remains
-closed unless the user deliberately reopens it.
+An exact citator-style graph lookup is outside the accepted product design. It
+remains excluded unless the user deliberately opens a new product decision.
 
 ## Authorization
 

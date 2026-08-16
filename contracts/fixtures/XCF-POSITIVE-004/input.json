@@ -1,0 +1,21 @@
+{
+  "schema_id": "asklegal.coverage-status-manifest",
+  "schema_version": "1.1.0",
+  "coverage_status_manifest_id": "csm_111111111111111111111111111111111111111111111111",
+  "created_at": "2026-08-16T01:00:00Z",
+  "observation_cutoff": "2026-08-16T00:00:00Z",
+  "serving_state_id": "srv_222222222222222222222222222222222222222222222222",
+  "coverage_gap_refs": [{"ref_type": "COVERAGE_GAP", "ref_id": "cgp_333333333333333333333333333333333333333333333333", "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"}],
+  "quarantine_refs": [],
+  "source_failure_refs": [],
+  "scope_statuses": [{
+    "release_scope_ref": {"ref_type": "RELEASE_SCOPE", "ref_id": "rsc_444444444444444444444444444444444444444444444444", "fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444"},
+    "status": "KNOWN_GAP",
+    "last_verified_at": "2026-08-16T01:00:00Z",
+    "coverage_gap_refs": [{"ref_type": "COVERAGE_GAP", "ref_id": "cgp_333333333333333333333333333333333333333333333333", "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"}],
+    "quarantine_refs": [],
+    "source_failure_refs": [],
+    "warning_code": "COVERAGE_KNOWN_GAP"
+  }],
+  "immutable": true
+}

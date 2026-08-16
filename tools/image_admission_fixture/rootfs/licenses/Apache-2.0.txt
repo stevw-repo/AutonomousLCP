@@ -1,0 +1,2 @@
+Synthetic fixture notice: asklegal-image-fixture is classified as Apache-2.0.
+This file is test evidence and is not a substitute for a production notice.

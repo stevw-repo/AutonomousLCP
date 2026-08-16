@@ -1,0 +1,2 @@
+Synthetic fixture notice: BusyBox is classified as GPL-2.0-only.
+This file is test evidence and is not a substitute for the complete licence.

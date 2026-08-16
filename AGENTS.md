@@ -7,9 +7,18 @@ legal-database pipeline. It owns the complete pipeline code while preserving
 strict capability, credential, approval, evidence, and deployment boundaries
 inside the repository.
 
-The repository is currently design-only. Documentation does not authorize
-implementation, external calls, corpus publication, Pinecone mutation, or any
-other production action.
+The repository is design-first. Its architecture and implementation-facing
+design baseline is accepted through ADR 0099, including the six M2–M7 protocol
+documents under `docs/design/`. Implemented work remains limited to the explicitly
+authorized local Python contract, type-boundary, Management Register,
+durability, package, synthetic image-admission, and architecture spikes plus
+the accepted first framework-free M2 lifecycle-kernel checkpoint and its
+contract-authority correction, plus the accepted contract-package 1.1.0
+Approval and Coverage Status reconciliation. The
+architecture checkpoint contains declarative application/package skeletons,
+not runnable application behavior. Documentation does not authorize any
+further implementation, external calls, corpus publication, Pinecone
+mutation, or other production action.
 
 ## Strict repository and memory isolation
 
@@ -41,8 +50,8 @@ crossing the boundary.
 Before planning, editing, or running project commands:
 
 1. Read this file completely.
-2. Read `docs/agent/CONTEXT.md`, `docs/agent/DECISIONS.md`, and
-   `docs/agent/WORKING_STATE.md` completely.
+2. Read `docs/agent/CONTEXT.md`, `docs/agent/DECISIONS.md`,
+   `docs/agent/ROADMAP.md`, and `docs/agent/WORKING_STATE.md` completely.
 3. Read the relevant portions of
    `docs/design/INITIAL_OVERALL_PIPELINE_DESIGN.md` and applicable ADRs under
    `docs/adr/`.
@@ -63,6 +72,8 @@ already serves the purpose.
 - `docs/adr/` records accepted, hard-to-reverse architecture decisions.
 - `docs/agent/CONTEXT.md` defines the project's stable domain language.
 - `docs/agent/DECISIONS.md` records settled product and policy decisions.
+- `docs/agent/ROADMAP.md` tracks overall delivery progress, proof dependencies,
+  milestone exit gates, and the durable work queue.
 - `docs/agent/WORKING_STATE.md` records the current objective, blockers,
   validation, changed files, and exact next steps.
 
@@ -173,8 +184,49 @@ Read-only inspection and local validation are allowed when relevant.
 
 ## Implementation rules
 
-No technical stack is currently selected. When implementation is explicitly
-authorized:
+The currently selected production baseline is Python 3.14, the FastAPI and
+strict Python boundary toolchain, Azure SQL for the Management Register,
+Azure Container Apps with one workload-profiles environment per application,
+the standalone Python Durable Task SDK with managed Scheduler, and separately
+administered Azure Blob primary and recovery vaults with Azure Confidential
+Ledger for database digests, and one private Premium Azure Container Registry
+with ABAC repositories and attested image admission, plus one Application
+Gateway WAF_v2 with a public Review listener, a private control listener, and
+separate Entra API authorization boundaries, plus repository-owned Bicep and
+Azure Pipelines with workload-federated identities, fresh Microsoft-hosted
+control-plane agents, and separate stateless Managed DevOps Pools for private
+ACR and Azure SQL work, plus Azure Monitor and immutable operational-audit
+archives; see accepted ADRs 0089 through 0098. Decision 1 of the ADR 0099
+review selects stateless Azure OpenAI models sold by Azure through Microsoft
+Foundry for admitted generative semantic tasks and embeddings, matching Ask.Legal
+Backend's provider family. Decision 4 selects a separate restricted Ask.Legal
+App Service candidate slot for validated manual production swap and reverse-
+swap rollback; the development slot remains development-only. ADR 0099
+includes the decision-5 environment/jurisdiction/date/state Pinecone
+naming contract. Decision 6 selects one complete immutable, fingerprint-bound
+Coverage Status Manifest with protected retrieval, per-routing-generation
+verified caching, activation blocking, and fail-visible unavailability; it
+deliberately adds no coverage-signing identity or key lifecycle. Decision 7
+selects LLM-assisted Gazette-event analysis/challenge and Reconstruction Plan
+decision/challenge, while deterministic checks and human-adjudicated reference
+truth govern evaluation and every other unallocated task defaults to
+deterministic handling for now.
+The completed local foundation spikes
+pin Python 3.14.7 and its exact development locks, enforce repository-wide
+strict Pyright plus the repository-owned boundary checker, prove the selected
+SQL and durability adapters locally, and prove locked offline package
+installation and reproducible package/container inputs.
+The local image-admission proof additionally pins its Linux amd64 toolchain and
+fresh Grype database, proves reproducible synthetic OCI and evidence graphs,
+closed vulnerability/licence rules, test-only signing, exact recovery, and a
+locked-down runtime without granting production signing or registry authority.
+The local architecture proof governs all five application skeletons and the
+canonical shared packages with a closed dependency, import, cycle, declaration,
+and capability-ownership policy; it grants no runtime capability.
+Exact deployed model versions and measured values outside those spikes,
+capacity, security assignments, retention, recovery, and operational settings
+remain admission profiles/evidence and have no implicit defaults. When
+implementation is explicitly authorized:
 
 - begin from domain objects, state transitions, and versioned contracts;
 - keep legal-status rules jurisdiction- and material-specific;

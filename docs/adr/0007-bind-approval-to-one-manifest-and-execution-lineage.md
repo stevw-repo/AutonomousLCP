@@ -3,9 +3,16 @@ status: accepted
 date: 2026-08-10
 refined_by:
   - "0087"
+  - "0096"
+  - "0099"
 ---
 
 # Bind Approval to one manifest and execution lineage
+
+Decision 2 of the ADR 0099 closure review removes the independent Approval TTL,
+separate human roles, action-specific step-up, and absence-cover construct from
+this earlier design. The immutable manifest binding, revocation, current named-
+human permission, predicate invalidation, and one-lineage consumption remain.
 
 Approval is a separate immutable authenticated human decision bound to exactly
 one Promotion Manifest identity and fingerprint and, once execution begins, one
@@ -19,7 +26,7 @@ The decision record contains:
 - the authenticated reviewer identity and evidence that the reviewer currently
   holds the required authority;
 - decision time and reason or comment;
-- valid-from and expiry times;
+- valid-from time, with no independent Approval expiry;
 - the expected base Serving State; and
 - the objective conditions that must remain true before execution.
 
@@ -29,11 +36,11 @@ Rejection is terminal for that manifest. Any correction creates a new manifest
 and decision rather than changing the rejection or partly approving the
 package.
 
-Revocation, expiry, automatic invalidation, and consumption are separate
+Revocation, automatic invalidation, and consumption are separate
 append-only lifecycle events. They preserve rather than rewrite the original
 decision. Approval may be revoked before production execution begins. Once
-execution starts, an emergency operator may stop or recover the run but cannot
-broaden or replace the Approval.
+execution starts, a named `PipelineAdministrator` may stop or recover the run
+but cannot broaden or replace the Approval.
 
 Execution consumes the Approval for one recorded lineage. A retry may resume
 only in that lineage, from a manifest-permitted checkpoint, with identical
@@ -44,7 +51,7 @@ Immediately before the first production action, the promotion worker verifies:
 
 - the manifest identity and fingerprint;
 - current reviewer authority;
-- the validity window and absence of rejection or revocation;
+- current `PipelineAdministrator` permission and absence of rejection or revocation;
 - the base Serving State and current target inventory;
 - the Routing Configuration and non-secret settings;
 - recovery readiness; and
@@ -67,8 +74,8 @@ new Promotion Manifest and Approval.
 
 ## Consequences
 
-The system needs authenticated reviewer identities, an authorization policy,
-canonical decision records, append-only lifecycle events, one-lineage
-consumption, and an objective pre-execution validity evaluator. The identity
-provider, authorized reviewer list, exact validity duration, and absence-cover
-policy remain governance decisions to settle later.
+The system needs authenticated named-human identities, the single
+`PipelineAdministrator` role, canonical decision records, append-only lifecycle
+events, one-lineage consumption, and an objective pre-execution validity
+evaluator. Multiple named people may receive the same role. There is no
+independent Approval validity duration or absence-cover mechanism.

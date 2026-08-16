@@ -66,16 +66,18 @@ does not by itself prove this new capability.
 
 ## Corrections made by the audit
 
-### 1. Final LLM allocation is deferred everywhere
+### 1. Final LLM allocation now uses a bounded hybrid boundary
 
 Some documents treated two case-law model tasks as finally enabled and Hong
 Kong Legislation as permanently non-generative. The user's later direction was
 to decide the exact deterministic-versus-LLM split later, including Gazette
 and Legal Desk support.
 
-ADR 0043 now makes those task names candidates, not implementation authority.
-The sole model gateway, proposal-only role, deterministic safety checks, Legal
-Desk authority, and task-admission requirements remain settled.
+ADR 0043 originally made those task names candidates rather than
+implementation authority. Decision 7 now admits Gazette-event and
+Reconstruction Plan semantic decision/challenge stages while retaining the
+sole model gateway, deterministic checks, human handling of unresolved cases,
+and complete task-admission requirements. No provider capability is enabled.
 
 ### 2. Result types are no longer mixed together
 
@@ -164,33 +166,35 @@ choices:
 Producing these artifacts requires explicit implementation authorization. The
 current design-only authorization does not permit it.
 
-## Deliberately deferred user decisions
+## Closed exclusions and admission gates
 
-These remain visible and must not be silently guessed:
+These items no longer leave the current engineering design open:
 
-| Deferred decision | Current safe state |
+| Item | Closed current behavior |
 |---|---|
-| Full HKeL Instruments & Others review and row-level Instrument Disposition Registry | Constitutional-and-other-instruments scope stays `NOT_READY`; Ordinances and subsidiary scopes remain separately assessable |
-| Exact deterministic, generative-LLM, Legal Desk, and human allocation | Candidate tasks remain disabled for implementation; ADR 0043 safety boundaries apply |
-| Query-facing dates and recency search | No new serving date field or temporal ranking behavior |
-| Formal HKLII registration | Deferred to the future Hong Kong Cases rulebook; it is not a controlling Hong Kong Legislation source |
-| Production Azure routing and final index-name contract | Remains a cross-cutting serving decision, not a Hong Kong legal-rulebook choice |
-| Source-specific legal-compliance controls | Deferred to the legal team under the user's stated legal-compliance assumption |
+| Full HKeL Instruments & Others review and row-level Instrument Disposition Registry | Constitutional-and-other-instruments stays disabled and `NOT_READY`; enabling it requires a later package decision and complete registry |
+| Unallocated generative tasks | Proposed default is `NO_GENERATIVE_LLM`; user decision remains required before this is closed |
+| Query-facing dates and recency search | Excluded from the current product design; no serving date field or temporal ranking behavior |
+| HKLII registration | ADR 0045 registers it as non-controlling Hong Kong Cases discovery evidence; it is not controlling Hong Kong Legislation evidence |
+| Production Azure routing and final index-name contract | Decision 4 selects separate candidate-slot routing and decision 5 fixes the index-name format; neither is a Hong Kong legal-rulebook choice |
+| Source-specific legal-compliance controls | Required package admission evidence owned by the legal team; missing evidence keeps the source disabled |
 
-## Cross-cutting dependencies, not Hong Kong design defects
+## Cross-cutting admission dependencies, not Hong Kong design defects
 
-Hong Kong candidates can be specified and tested without deciding all of the
-items below, but production cannot be called ready until the relevant global
-contracts are settled:
+Hong Kong candidates can be specified and tested against the proposed ADR 0099
+protocols, but those protocols require user acceptance and production cannot
+be called ready until the relevant profiles
+and evidence below are populated and proved:
 
-- how Ask.Legal receives and displays signed coverage status;
-- the exact production Serving Record and traceability encodings;
-- human Approval validity, roles, revocation, and emergency authority;
-- Quarantine ownership, review deadlines, and re-entry rules;
+- Ask.Legal's implemented and proved fingerprint-bound coverage consumption;
+- implemented production Serving Record and traceability encodings;
+- named assignments and end-to-end proof for the single human
+  `PipelineAdministrator` role;
+- named Quarantine assignments and the optional-due-time/re-entry policy;
 - backup isolation, key recovery, retention, restore targets, and drills;
 - anomaly, cost, capacity, security, service-level, and deletion policies; and
-- Azure production-candidate activation, complete routing-generation behavior,
-  and final date-led unique Pinecone index naming.
+- measured Azure production-candidate activation and complete routing-
+  generation proof under an accepted ADR 0099 mechanism.
 
 ## Readiness verdict by Release Scope
 

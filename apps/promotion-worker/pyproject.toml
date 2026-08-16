@@ -1,0 +1,36 @@
+[project]
+name = "asklegal-promotion-worker"
+version = "0.1.0"
+description = "Declarative promotion-worker application boundary"
+requires-python = "==3.14.7"
+dependencies = [
+  "asklegal-contracts",
+  "asklegal-corpus",
+  "asklegal-domain",
+  "asklegal-durable-task-adapter",
+  "asklegal-evidence-vault",
+  "asklegal-management-register",
+  "asklegal-management-register-adapter",
+  "asklegal-observability",
+  "asklegal-promotion",
+  "asklegal-reporting",
+]
+
+[build-system]
+requires = ["uv-build==0.12.5"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "asklegal_promotion_worker"
+
+[tool.uv.sources]
+asklegal-contracts = { workspace = true }
+asklegal-corpus = { workspace = true }
+asklegal-domain = { workspace = true }
+asklegal-durable-task-adapter = { workspace = true }
+asklegal-evidence-vault = { workspace = true }
+asklegal-management-register = { workspace = true }
+asklegal-management-register-adapter = { workspace = true }
+asklegal-observability = { workspace = true }
+asklegal-promotion = { workspace = true }
+asklegal-reporting = { workspace = true }

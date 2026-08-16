@@ -1,0 +1,13 @@
+[project]
+name = "asklegal-domain"
+version = "0.1.0"
+description = "Framework-free domain boundary for the AskLegal pipeline"
+requires-python = "==3.14.7"
+dependencies = []
+
+[build-system]
+requires = ["uv-build==0.12.5"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "asklegal_domain"

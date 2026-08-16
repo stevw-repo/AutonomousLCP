@@ -1,0 +1,186 @@
+[project]
+name = "asklegal-legal-db-pipeline-workspace"
+version = "0.0.0"
+requires-python = "==3.14.7"
+dependencies = []
+
+[dependency-groups]
+dev = [
+  "hypothesis>=6.0,<7",
+  "pytest>=9.0,<10",
+  "ruff>=0.12,<1",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = [
+  "apps/acquisition-worker",
+  "apps/control-plane",
+  "apps/legal-processing-worker",
+  "apps/promotion-worker",
+  "apps/review-api",
+  "packages/contracts",
+  "packages/corpus",
+  "packages/domain",
+  "packages/durable-task-adapter",
+  "packages/evidence-vault",
+  "packages/legal-desks",
+  "packages/management-register",
+  "packages/management-register-adapter",
+  "packages/observability",
+  "packages/processing",
+  "packages/promotion",
+  "packages/reporting",
+  "packages/source-connectors",
+]
+
+[tool.pytest.ini_options]
+addopts = "--strict-config --strict-markers"
+testpaths = [
+  "apps",
+  "packages",
+  "tools/tests",
+]
+markers = [
+  "durable_emulator: requires the disposable digest-pinned local Durable Task Scheduler emulator",
+  "image_admission: requires exact pinned OCI tools, the pinned Grype database, and local Docker",
+  "package_spike: requires exact cached artifacts and performs clean network-disabled package proofs",
+  "sql_server: requires the disposable digest-pinned local SQL Server container",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "COM812",
+  "CPY001",
+  "D203",
+  "D213",
+  "N818",
+  "S105",
+  "TC001",
+  "TC003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"packages/contracts/tests/**" = [
+  "C901",
+  "PLR0911",
+  "PLR2004",
+  "PT017",
+  "S101",
+  "S603",
+  "S607",
+]
+"packages/durable-task-adapter/tests/**" = [
+  "EM101",
+  "INP001",
+  "PLR2004",
+  "S101",
+]
+"packages/domain/tests/**" = [
+  "D103",
+  "INP001",
+  "PLR2004",
+  "S101",
+]
+"packages/management-register-adapter/tests/**" = [
+  "BLE001",
+  "INP001",
+  "PLR0915",
+  "PLR2004",
+  "PT018",
+  "S101",
+]
+"packages/management-register-adapter/src/asklegal_management_register/migration.py" = [
+  "C901",
+  "EM101",
+  "EM102",
+  "PLR0912",
+  "PLR2004",
+  "TRY003",
+  "TRY301",
+]
+"packages/management-register-adapter/src/asklegal_management_register/store.py" = [
+  "BLE001",
+  "EM101",
+  "PLR0913",
+  "S110",
+  "SIM105",
+  "TRY003",
+  "TRY301",
+]
+"tools/tests/**" = [
+  "PLR2004",
+  "S101",
+]
+"tools/python_boundary_check.py" = ["T201"]
+"tools/package_spike.py" = [
+  "C901",
+  "EM101",
+  "EM102",
+  "PLR2004",
+  "S603",
+  "T201",
+  "TRY003",
+]
+"tools/dev_test.py" = ["EM101", "EM102", "S603"]
+"tools/image_admission_spike.py" = [
+  "C901",
+  "EM101",
+  "EM102",
+  "PLR0912",
+  "PLR0913",
+  "PLR0915",
+  "PLR0917",
+  "S603",
+  "T201",
+  "TRY003",
+]
+"tools/architecture_spike.py" = [
+  "C901",
+  "EM101",
+  "EM102",
+  "PERF401",
+  "PLR0913",
+  "PLR0917",
+  "T201",
+  "TRY003",
+]
+
+[tool.pyright]
+include = [
+  ".",
+]
+exclude = [".venv", "node_modules"]
+pythonVersion = "3.14"
+typeCheckingMode = "strict"
+venvPath = "."
+venv = ".venv"
+extraPaths = [
+  "apps/acquisition-worker/src",
+  "apps/control-plane/src",
+  "apps/legal-processing-worker/src",
+  "apps/promotion-worker/src",
+  "apps/review-api/src",
+  "packages/contracts/src",
+  "packages/corpus/src",
+  "packages/domain/src",
+  "packages/durable-task-adapter/src",
+  "packages/evidence-vault/src",
+  "packages/legal-desks/src",
+  "packages/management-register/src",
+  "packages/management-register-adapter/src",
+  "packages/observability/src",
+  "packages/processing/src",
+  "packages/promotion/src",
+  "packages/reporting/src",
+  "packages/source-connectors/src",
+]
+reportMissingTypeStubs = "error"
+reportUnnecessaryTypeIgnoreComment = "error"

@@ -1,0 +1,24 @@
+[project]
+name = "asklegal-processing"
+version = "0.1.0"
+description = "Candidate processing and gated model-task boundary"
+requires-python = "==3.14.7"
+dependencies = [
+  "asklegal-contracts",
+  "asklegal-domain",
+  "asklegal-evidence-vault",
+  "asklegal-legal-desks",
+]
+
+[build-system]
+requires = ["uv-build==0.12.5"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "asklegal_processing"
+
+[tool.uv.sources]
+asklegal-contracts = { workspace = true }
+asklegal-domain = { workspace = true }
+asklegal-evidence-vault = { workspace = true }
+asklegal-legal-desks = { workspace = true }

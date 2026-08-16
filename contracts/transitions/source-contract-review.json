@@ -1,0 +1,22 @@
+{
+  "machine_id": "asklegal.source-contract-review-lifecycle.v1",
+  "machine_version": "1.0.0",
+  "entity_type": "Source Contract Review",
+  "closed_world": true,
+  "initial_states": ["OPEN"],
+  "terminal_states": ["RESOLVED_CHANGED", "RESOLVED_SUPPORTED", "RESOLVED_UNSUPPORTED", "SUPERSEDED"],
+  "states": ["OPEN", "RESOLVED_CHANGED", "RESOLVED_SUPPORTED", "RESOLVED_UNSUPPORTED", "SUPERSEDED"],
+  "allowed_transitions": [
+    {"from": "OPEN", "to": "RESOLVED_SUPPORTED", "event": "RESOLVE_SUPPORTED", "preconditions": ["The exact source-contract version is supported", "Resolution evidence and consequences are immutable"]},
+    {"from": "OPEN", "to": "RESOLVED_CHANGED", "event": "RESOLVE_CHANGED", "preconditions": ["A changed source contract is identified exactly", "Impact and required consequence are immutable"]},
+    {"from": "OPEN", "to": "RESOLVED_UNSUPPORTED", "event": "RESOLVE_UNSUPPORTED", "preconditions": ["The source contract is proved unsupported", "Affected work remains blocked or accounted for"]},
+    {"from": "OPEN", "to": "SUPERSEDED", "event": "SUPERSEDE", "preconditions": ["The reviewed source-contract version, subject, or scope materially changed", "One new linked OPEN review identifies the replacement", "The predecessor link and supersession reason are immutable"]}
+  ],
+  "explicit_high_risk_forbidden_transitions": [
+    {"from": "RESOLVED_CHANGED", "to": "OPEN", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "RESOLVED_SUPPORTED", "to": "OPEN", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "RESOLVED_UNSUPPORTED", "to": "OPEN", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "SUPERSEDED", "to": "OPEN", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"}
+  ],
+  "unlisted_transition_result": {"result_code": "BLOCK", "failure_code": "FAILURE_FORBIDDEN_TRANSITION", "reason_code": "TRANSITION_UNLISTED"}
+}

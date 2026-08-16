@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "source_date_epoch": 315532800,
+  "application": "review-api",
+  "candidate_repository": "candidate/review-api",
+  "release_repository": "release/review-api",
+  "platform": "linux/amd64",
+  "image": {
+    "busybox_path": "/bin/busybox",
+    "busybox_package": "busybox-static",
+    "busybox_version": "1:1.36.1-6ubuntu3.1",
+    "busybox_sha256": "dbac288c29ba568459550a2da9e7ae0ded6b1fc728ee9fad3044c44e62d6ac14",
+    "expected_entrypoint": [
+      "/bin/busybox",
+      "sh",
+      "-c",
+      "printf 'asklegal-image-admission-fixture\\n'"
+    ],
+    "expected_python_package": "asklegal-image-fixture",
+    "expected_python_version": "1.0.0",
+    "expected_user": "10001:10001",
+    "expected_working_directory": "/app"
+  },
+  "tools": {
+    "buildx": {
+      "version": "0.36.1",
+      "release_url": "https://github.com/docker/buildx/releases/tag/v0.36.1",
+      "asset_url": "https://github.com/docker/buildx/releases/download/v0.36.1/buildx-v0.36.1.linux-amd64",
+      "binary_sha256": "48af8a397ebd60178778bf63611dbcebe5f5e7a9be90eb9147b24b9587455778",
+      "release_asset_sha256": "48af8a397ebd60178778bf63611dbcebe5f5e7a9be90eb9147b24b9587455778"
+    },
+    "grype": {
+      "version": "0.117.0",
+      "release_url": "https://github.com/anchore/grype/releases/tag/v0.117.0",
+      "asset_url": "https://github.com/anchore/grype/releases/download/v0.117.0/grype_0.117.0_linux_amd64.tar.gz",
+      "binary_sha256": "b0b47eded8a2a69eeea216c9f6b227d4c4969e2da9fae19eecfe8746979f5ea3",
+      "release_asset_sha256": "38525dab1e06f162ebaa02f94d82d1f807076b011a44180cf2777edf1a7b9c26"
+    },
+    "notation": {
+      "version": "1.3.2",
+      "release_url": "https://github.com/notaryproject/notation/releases/tag/v1.3.2",
+      "asset_url": "https://github.com/notaryproject/notation/releases/download/v1.3.2/notation_1.3.2_linux_amd64.tar.gz",
+      "binary_sha256": "489dc2cd1fe181ea39d78b4f85560857dcd1d814fdb29b22938bcefc33862dae",
+      "release_asset_sha256": "e1a0f060308086bf8020b2d31defb7c5348f133ca0dba6a1a7820ef3cbb6dfe5"
+    },
+    "oras": {
+      "version": "1.3.3",
+      "release_url": "https://github.com/oras-project/oras/releases/tag/v1.3.3",
+      "asset_url": "https://github.com/oras-project/oras/releases/download/v1.3.3/oras_1.3.3_linux_amd64.tar.gz",
+      "binary_sha256": "a9c7694677a72251c89c176331d41b2198d8e85cbaece038bcbc8da0679e1139",
+      "release_asset_sha256": "9ce999f8d2de03fc03968b29d743077a58783e545e5eaa53917ca177352d0e59"
+    },
+    "syft": {
+      "version": "1.51.0",
+      "release_url": "https://github.com/anchore/syft/releases/tag/v1.51.0",
+      "asset_url": "https://github.com/anchore/syft/releases/download/v1.51.0/syft_1.51.0_linux_amd64.tar.gz",
+      "binary_sha256": "5a8b71e94f4607973145f02e27e01d50b9f7c7bc41e38d40b39606ad138b43b5",
+      "release_asset_sha256": "2a2e837a2c8d59ec9af5472ee22d3b04ee463c4e44476ecf993fd1e5ab6ebc7f"
+    }
+  },
+  "runtime": {
+    "buildkit_version": "v0.26.2",
+    "docker_engine_version": "29.1.3",
+    "openssl_version_prefix": "OpenSSL 3.0.13"
+  },
+  "vulnerability_database": {
+    "built": "2026-08-15T06:13:48Z",
+    "database_sha256": "406f6fcf524b339b964ac99e34c1d1f8d9682263f2c7e3385f5afa75d02f90f5",
+    "max_age_seconds": 86400,
+    "schema_version": "v6.1.9",
+    "source_archive_sha256": "5f8172952b86c8af2726ab5f17c323c16fde7cf99e76b87768f93fba68705a85"
+  },
+  "test_licence_catalogue": {
+    "allowed": [
+      "Apache-2.0",
+      "GPL-2.0-only"
+    ],
+    "denied": [
+      "AGPL-3.0-only"
+    ],
+    "review_required": [
+      "LicenseRef-Review-Required"
+    ],
+    "obligations": {
+      "Apache-2.0": [
+        "/licenses/Apache-2.0.txt"
+      ],
+      "GPL-2.0-only": [
+        "/licenses/GPL-2.0-only.txt",
+        "/licenses/SOURCE_OFFER.txt"
+      ]
+    }
+  },
+  "required_referrer_types": [
+    "application/spdx+json",
+    "application/vnd.asklegal.licence-report.v1+json",
+    "application/vnd.asklegal.provenance.v1+json",
+    "application/vnd.asklegal.vulnerability-report.v1+json"
+  ],
+  "risk_acceptances": [],
+  "test_signing": {
+    "common_name": "AskLegal-Image-Admission-Test-Root",
+    "signature_artifact_type": "application/vnd.asklegal.test-signature.v1+json",
+    "trust_capability": "LOCAL_TEST_ONLY",
+    "production_trust_forbidden": true
+  },
+  "identity_policy": {
+    "copy_actions": [
+      "candidate/read",
+      "release/write"
+    ],
+    "deploy_actions": [
+      "release/read",
+      "review-api/deploy"
+    ],
+    "forbidden_actions": [
+      "catalog/list",
+      "repository/*",
+      "role/assign",
+      "registry/admin"
+    ]
+  }
+}

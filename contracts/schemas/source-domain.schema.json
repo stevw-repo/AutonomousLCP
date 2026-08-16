@@ -87,7 +87,7 @@
         "opened_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
         "source_ref": {"$ref": "common.schema.json#/$defs/reference"},
         "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
-        "state": {"type": "string", "enum": ["REVIEW_OPEN", "REVIEW_RESOLVED"]},
+        "state": {"type": "string", "enum": ["OPEN", "RESOLVED_CHANGED", "RESOLVED_SUPPORTED", "RESOLVED_UNSUPPORTED", "SUPERSEDED"]},
         "review_code": {"$ref": "common.schema.json#/$defs/review_code"},
         "unresolved_questions": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
         "resolution_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},

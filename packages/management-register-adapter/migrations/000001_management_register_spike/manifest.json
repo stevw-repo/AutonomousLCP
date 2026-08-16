@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "migration_id": "000001",
+  "operation": "expand",
+  "compatible_contract_range": ">=0.1.0,<0.2.0",
+  "batches": [
+    {
+      "path": "001_schema.sql",
+      "byte_length": 3895,
+      "sha256": "e1722c90780d194303c467627a9cff300cb625490ad136593e47f2a042d52596"
+    },
+    {
+      "path": "002_resolve_command.sql",
+      "byte_length": 580,
+      "sha256": "43e9cf9939e3921b796c7e5d9048f756ec7bf308a2da967a9ce3559639ee7730"
+    },
+    {
+      "path": "003_consume_approval.sql",
+      "byte_length": 3307,
+      "sha256": "35f4c0564a63f5dbff704745acc724599a3ffc20629e83c8e52690482624a7a5"
+    },
+    {
+      "path": "004_activate_serving.sql",
+      "byte_length": 3012,
+      "sha256": "b4595f0be9a803bf1780c637a1e50620bd68213830dad19a4e161015f4b643a6"
+    },
+    {
+      "path": "005_permissions.sql",
+      "byte_length": 611,
+      "sha256": "d35c184399a9e708593e6a11daa23fe48362821a8a6b76255788d27852ab8d05"
+    }
+  ],
+  "package_fingerprint": "59e606d268bc3910670424dbc8acad823691e358581748f838bd6b9f46256cd0"
+}

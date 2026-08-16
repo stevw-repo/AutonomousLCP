@@ -1,0 +1,19 @@
+[project]
+name = "asklegal-contracts"
+version = "0.1.0"
+description = "Strict local boundary adapters for AskLegal's normative contracts"
+readme = "README.md"
+requires-python = "==3.14.7"
+dependencies = [
+  "jsonschema[format-nongpl]>=4.0,<5",
+  "pydantic>=2.0,<3",
+  "referencing>=0.30,<1",
+  "rfc8785>=0.1,<1",
+]
+
+[build-system]
+requires = ["uv-build==0.12.5"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "asklegal_contracts"

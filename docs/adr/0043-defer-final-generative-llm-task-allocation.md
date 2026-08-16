@@ -114,13 +114,15 @@ allocation of Hong Kong Case Proposition extraction is later settled by ADR
 0065 as two-pass staged hybrid analysis. ADR 0076 later settles the Hong Kong
 Regulatory Materials high-level allocation through change-gated update-
 analysis, update-challenge, record-analysis, and record-challenge proposal
-tasks. Gazette-event extraction and all other unallocated candidate tasks
-remain deferred by this ADR.
+tasks. Decision 7 of proposed ADR 0099 later selects Gazette-event and
+Reconstruction Plan decision/challenge tasks and makes all other unallocated
+tasks deterministic.
 
 ## Consequences
 
-ADR 0039 remains authoritative for the sole LLM gateway, proposal-only role,
-forbidden decisions, and task-admission requirements. Its two-task allocation
+ADR 0039 remains authoritative for the sole LLM gateway, forbidden decisions,
+and task-admission requirements. Decision 7 of proposed ADR 0099 supersedes its
+proposal-only wording with bounded semantic-decision authority. Its two-task allocation
 and its statement that Hong Kong Legislation has no generative task are amended
 from final decisions to provisional candidates. ADR 0031's change gate remains
 mandatory but authorizes no task by itself.

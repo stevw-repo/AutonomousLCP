@@ -162,7 +162,7 @@
         "affected_subject_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
         "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
         "reason_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reason_code"}},
-        "state": {"type": "string", "enum": ["REVIEW_OPEN", "REVIEW_RESOLVED"]},
+        "state": {"type": "string", "enum": ["MITIGATED_CARRY_FORWARD", "MITIGATED_WITHHOLDING", "OPEN", "RESOLVED_COMPLETE", "SUPERSEDED"]},
         "resolution_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
         "immutable": {"const": true}
       }
@@ -181,7 +181,7 @@
         "reason_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reason_code"}},
         "failure_codes": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/failure_code"}},
         "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
-        "state": {"type": "string", "enum": ["REVIEW_OPEN", "REVIEW_RESOLVED"]},
+        "state": {"type": "string", "enum": ["OPEN", "PERMANENTLY_EXCLUDED", "RELEASED_TO_REPROCESSING", "SUPERSEDED"]},
         "review_code": {"$ref": "common.schema.json#/$defs/review_code"},
         "resolution_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
         "immutable": {"const": true}
@@ -190,10 +190,10 @@
     "coverage_status_manifest": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["schema_id", "schema_version", "coverage_status_manifest_id", "created_at", "observation_cutoff", "serving_state_id", "coverage_gap_refs", "quarantine_refs", "source_failure_refs", "scope_statuses", "signature_policy_state", "immutable"],
+      "required": ["schema_id", "schema_version", "coverage_status_manifest_id", "created_at", "observation_cutoff", "serving_state_id", "coverage_gap_refs", "quarantine_refs", "source_failure_refs", "scope_statuses", "immutable"],
       "properties": {
         "schema_id": {"const": "asklegal.coverage-status-manifest"},
-        "schema_version": {"const": "1.0.0"},
+        "schema_version": {"const": "1.1.0"},
         "coverage_status_manifest_id": {"type": "string", "pattern": "^csm_[0-9a-f]{48}$"},
         "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
         "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
@@ -202,19 +202,57 @@
         "quarantine_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
         "source_failure_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
         "scope_statuses": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/scope_status"}},
-        "signature_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
         "immutable": {"const": true}
       }
     },
     "scope_status": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["release_scope_ref", "status", "coverage_gap_refs"],
+      "required": ["release_scope_ref", "status", "last_verified_at", "coverage_gap_refs", "quarantine_refs", "source_failure_refs", "warning_code"],
       "properties": {
         "release_scope_ref": {"$ref": "common.schema.json#/$defs/reference"},
         "status": {"type": "string", "enum": ["CURRENT", "KNOWN_GAP", "NOT_READY", "WITHHELD"]},
-        "coverage_gap_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}}
-      }
+        "last_verified_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "coverage_gap_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "quarantine_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "source_failure_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "warning_code": {"type": "string", "enum": ["COVERAGE_KNOWN_GAP", "COVERAGE_NOT_READY", "COVERAGE_WITHHELD", "NO_COVERAGE_WARNING"]}
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "status": {"const": "CURRENT"},
+            "coverage_gap_refs": {"maxItems": 0},
+            "quarantine_refs": {"maxItems": 0},
+            "source_failure_refs": {"maxItems": 0},
+            "warning_code": {"const": "NO_COVERAGE_WARNING"}
+          }
+        },
+        {
+          "properties": {"status": {"const": "KNOWN_GAP"}, "warning_code": {"const": "COVERAGE_KNOWN_GAP"}},
+          "anyOf": [
+            {"properties": {"coverage_gap_refs": {"minItems": 1}}},
+            {"properties": {"quarantine_refs": {"minItems": 1}}},
+            {"properties": {"source_failure_refs": {"minItems": 1}}}
+          ]
+        },
+        {
+          "properties": {"status": {"const": "NOT_READY"}, "warning_code": {"const": "COVERAGE_NOT_READY"}},
+          "anyOf": [
+            {"properties": {"coverage_gap_refs": {"minItems": 1}}},
+            {"properties": {"quarantine_refs": {"minItems": 1}}},
+            {"properties": {"source_failure_refs": {"minItems": 1}}}
+          ]
+        },
+        {
+          "properties": {"status": {"const": "WITHHELD"}, "warning_code": {"const": "COVERAGE_WITHHELD"}},
+          "anyOf": [
+            {"properties": {"coverage_gap_refs": {"minItems": 1}}},
+            {"properties": {"quarantine_refs": {"minItems": 1}}},
+            {"properties": {"source_failure_refs": {"minItems": 1}}}
+          ]
+        }
+      ]
     }
   }
 }

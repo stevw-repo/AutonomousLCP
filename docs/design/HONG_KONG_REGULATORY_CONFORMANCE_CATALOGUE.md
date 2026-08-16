@@ -314,7 +314,8 @@ not invent a new current-state decision. Separate deterministic consequence
 cases must cover ADR 0005's exact alternatives:
 
 - carry forward the last approved release with its last-verified date,
-  Coverage Gap, controlled warning, review deadline, and Legal Desk support;
+  Coverage Gap, controlled warning, optional administrator-set review due time,
+  and Legal Desk support;
 - withhold affected records when continued serving would be materially
   misleading; and
 - build no new jurisdiction target when neither course is supported.
@@ -939,7 +940,7 @@ Coverage namespace: `HKREG-COV-DSTA-NNN`
 | 044 |  | Overlap creates an unresolved collision, gap, or precedence conflict | Affected branch `UNKNOWN` and quarantined |
 | 045 | P024 - | Rule disappears from a page, locator, filename, or contents without ending evidence | Do not infer supersession or withdrawal; preserve prior facts and expose the gap |
 | 046 |  | Similar wording, reused number, or higher update number is offered as continuity evidence | Do not infer identity, successor coverage, or retirement |
-| 047 |  | Technical outage supports explicit last-approved carry-forward | Preserve last-approved status, last-verified date, Coverage Gap, warning, deadline, and support; do not call it fresh |
+| 047 |  | Technical outage supports explicit last-approved carry-forward | Preserve last-approved status, last-verified date, Coverage Gap, warning, optional due time, and support; do not call it fresh |
 | 048 |  | Available evidence makes continued serving materially misleading | Withhold the affected records under ADR 0005 |
 | 049 |  | Neither carry-forward nor withholding supports a safe rebuilt target | Build no new jurisdiction target |
 | 050 |  | Branch state is `CURRENT` but another required gate fails | Do not create or promote a Search Record; state alone is not serving approval |

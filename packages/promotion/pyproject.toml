@@ -1,0 +1,24 @@
+[project]
+name = "asklegal-promotion"
+version = "0.1.0"
+description = "Approval-bound serving promotion rules"
+requires-python = "==3.14.7"
+dependencies = [
+  "asklegal-contracts",
+  "asklegal-corpus",
+  "asklegal-domain",
+  "asklegal-evidence-vault",
+]
+
+[build-system]
+requires = ["uv-build==0.12.5"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "asklegal_promotion"
+
+[tool.uv.sources]
+asklegal-contracts = { workspace = true }
+asklegal-corpus = { workspace = true }
+asklegal-domain = { workspace = true }
+asklegal-evidence-vault = { workspace = true }

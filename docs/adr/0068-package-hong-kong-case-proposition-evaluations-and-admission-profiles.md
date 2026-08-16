@@ -263,11 +263,11 @@ remain reproducible.
 
 ## Evaluator package and scoring
 
-The evaluator is a fingerprinted component of the suite, not an uncontrolled
-model allowed to invent truth. It may use deterministic comparison and
-versioned human adjudication support. Any model-assisted evaluator component
-must be separately declared, evidence-bound, evaluated, and barred from
-changing the Reference Proposition Map or final gate by itself.
+The evaluator is a fingerprinted deterministic component of the suite. It uses
+versioned human-adjudicated reference truth and cannot invent or change that
+truth. Decision 7 of proposed ADR 0099 excludes model assistance from the
+acceptance path: deterministic checks and scoring apply the frozen map, and a
+blinded human adjudication resolves any disputed equivalent meaning.
 
 The evaluator applies these layers in order:
 

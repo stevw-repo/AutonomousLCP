@@ -1,0 +1,18 @@
+"""Typed SQL Server Management Register boundary."""
+
+from asklegal_management_register.store import (
+    AmbiguousCommit,
+    CommandFingerprintMismatch,
+    CommandResult,
+    ManagementRegisterStore,
+)
+
+PACKAGE_ROLE: str = "management-register-adapter"
+
+__all__ = [
+    "PACKAGE_ROLE",
+    "AmbiguousCommit",
+    "CommandFingerprintMismatch",
+    "CommandResult",
+    "ManagementRegisterStore",
+]

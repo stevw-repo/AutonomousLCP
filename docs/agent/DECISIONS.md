@@ -3,6 +3,989 @@
 Only settled decisions belong here. Recommendations and unresolved choices stay
 in the design brief and `WORKING_STATE.md` until the user decides them.
 
+## 2026-08-16 — Complete and publish the bounded design reconciliation
+
+The user explicitly authorized completing the bounded accepted-design cleanup,
+then committing and pushing the reviewed accumulated repository checkpoint.
+The cleanup keeps the accepted architecture unchanged and reconciles M2
+lifecycle prose, M3's human authority table, M6 review timing, ADR 0099 status
+wording, and the canonical design.
+
+The version 1.1.0 contract amendment removes `approval_decision.valid_until`
+and the obsolete `APPROVAL_EXPIRED` state; invalid manifest evidence or a
+failed bound predicate instead creates `APPROVAL_INVALIDATED`. Coverage Status
+Manifest version 1.1.0 removes `signature_policy_state` and requires per-scope
+verification time, exact gap/Quarantine/source-failure references, and a closed
+warning code matching the scope status. Positive and negative fixtures bind
+both amendments. This supersedes only the implementation-pending clauses in
+the earlier Decision 2 and Decision 6 records; their product decisions remain
+unchanged.
+
+Commit and push authority covers this reviewed repository checkpoint only. It
+does not authorize a pull request, deployment, Azure operation, source access,
+model/provider call, Pinecone operation, publication, or production effect.
+
+## 2026-08-16 — Count retries only after processing starts
+
+For the final ordered lifecycle-correction ambiguity, decision 6, the user
+approved the simple rule that a retry counts only after processing actually
+starts. Before start, delivery retries keep the item `WORK_DISPATCHED`, reuse
+the stable dispatch identity, and consume no work-attempt allowance. After a
+`WORK_RUNNING` attempt reports a retryable failure, the item may enter
+`WORK_RETRY_WAIT`. A permanent delivery problem becomes `WORK_BLOCKED` or
+`WORK_FAILED_FINAL` under the already approved classification.
+
+## 2026-08-16 — Use one recurrence and supersession rule
+
+For ordered lifecycle-correction decision 5, the user approved one common rule
+for Source Contract Reviews, Coverage Gaps, and Quarantines. Terminal records
+never reopen or change. A non-terminal record becomes `SUPERSEDED` only when its
+subject, scope, or underlying definition materially changes and one new linked
+`OPEN` record identifies the replacement. A recurrence after terminal closure
+creates a new linked `OPEN` record without mutating the predecessor. Mitigated
+Coverage Gaps remain non-terminal and may therefore be superseded under this
+rule.
+
+## 2026-08-16 — Allow an unresolved Coverage Gap to change mitigation
+
+For ordered lifecycle-correction decision 4, the user approved direct guarded
+transitions between `MITIGATED_CARRY_FORWARD` and `MITIGATED_WITHHOLDING` when
+the underlying gap identity and affected scope are unchanged. Each switch
+requires a new authenticated administrator decision and exact evidence while
+the gap remains visible and unresolved. `SUPERSEDED` is reserved for a changed
+scope or underlying cause requiring a new linked gap. Only
+`RESOLVED_COMPLETE` closes the gap.
+
+## 2026-08-16 — Use four operator-facing Work Item classifications
+
+For ordered lifecycle-correction decision 3, the user approved a simplified
+operator-facing classification while retaining the detailed machine states for
+automation and audit: Completed is `WORK_SUCCEEDED` or `WORK_NO_CHANGE`; Needs
+follow-up is `WORK_BLOCKED` or `WORK_QUARANTINED`; Stopped is `WORK_CANCELLED`
+or `WORK_FAILED_FINAL`; and Retrying is the non-terminal `WORK_RETRY_WAIT`.
+
+Every terminal Work Item remains closed and later continuation creates a new
+linked work item. Only `WORK_RETRY_WAIT` retains the same work identity and
+immutable inputs for another attempt. Cancellation must derive from an
+authorized parent-run cancellation or exact system stop command before an
+irreversible checkpoint. Quarantine is reserved for evidence, legal, or
+semantic uncertainty with a linked Quarantine record.
+
+## 2026-08-16 — Classify pre-promotion Pipeline Run terminal outcomes
+
+For ordered lifecycle-correction decision 2, the user approved retaining
+`RUN_BLOCKED`, `RUN_CANCELLED`, and `RUN_FAILED` as possible terminal outcomes
+from every applicable pre-promotion state. `RUN_BLOCKED` means a potentially
+correctable condition prevents safe continuation, but the current run is
+terminal and any continuation uses a new linked or rebased run. `RUN_CANCELLED`
+requires authenticated action by a named `PipelineAdministrator` before any
+irreversible effect checkpoint. `RUN_FAILED` requires a proved non-retryable
+failure or exhaustion of permitted attempts. `RUN_REJECTED` is reserved only
+for an authenticated human rejection of the frozen proposal.
+
+## 2026-08-16 — Authorize the ordered lifecycle correctness correction
+
+The user explicitly authorized the five corrective steps in this exact order:
+add five normative versioned machine contracts; present ambiguous transition
+and guard decisions one at a time; enforce runtime-exact primitive types; prove
+Python-to-contract equivalence; and restore one reproducible ordinary developer
+test command.
+
+This authorization covers local contract, domain, test, development-bootstrap,
+and continuity changes needed for those five steps. It does not authorize the
+later Command/Result or Effect Intent/Receipt feature slice, application
+runtime, external calls, Azure, deployment, production action, or a commit.
+
+## 2026-08-16 — Keep reconciliation inside `RUN_PROMOTING`
+
+For ordered lifecycle-correction decision 1, the user approved removing
+`RUN_PROMOTING → RUN_BLOCKED`. Once promotion starts, ordinary cancellation and
+terminal blocking are forbidden. An unknown or unresolved effect outcome keeps
+the run in `RUN_PROMOTING`, with dependent work fenced while exact
+reconciliation occurs. The run may then become `RUN_SUCCEEDED` after verified
+success, `RUN_ROLLED_BACK` after verified approved recovery, or `RUN_FAILED`
+only after a terminal failure is proved and no approved rollback or
+reconciliation action remains.
+
+## 2026-08-16 — Authorize the first bounded M2 domain-kernel checkpoint
+
+The user separately authorized implementation of the first bounded M2
+checkpoint after accepting ADR 0099. Its scope is the framework-free immutable
+lifecycle kernel for Pipeline Runs, Work Items, Source Contract Reviews,
+Coverage Gaps, and Quarantines, including closed transition catalogues,
+optimistic-version rejection, recurrence identities, and exhaustive pure tests.
+
+This authorization excludes Management Register ports or migrations, command
+and effect contracts, application runtime, external sources, models,
+embeddings, Azure, Pinecone, deployment, and production operations. Completion
+of this checkpoint does not authorize the next M2 slice.
+
+## 2026-08-16 — Accept ADR 0099 and the complete M2–M7 closure package
+
+After deciding all seven material choices individually, the user explicitly
+accepted reconciled ADR 0099 and its six implementation-facing protocols:
+Domain/Register, Application Interfaces, Acquisition/Evidence, executable
+Legal Desk Packages, Review/Promotion, and End-to-End Conformance.
+
+The architecture and implementation-facing design baseline is therefore
+accepted through ADR 0099. This closes the design prerequisite for M2–M7 but
+does not authorize implementation, external source access, model or embedding
+calls, Azure changes, publication, Pinecone mutation, deployment, routing, or
+production operations. Each remains separately authorized and admitted.
+
+## 2026-08-16 — Give admitted LLMs bounded semantic-decision responsibility
+
+The user superseded decision 7's proposal-only characterization. For admitted
+tasks where variable legal language is not handled well by deterministic code,
+the LLM is to decide bounded semantic fields and ordinary results rather than
+provide advice that a deterministic rule must independently recreate.
+
+Deterministic code retains source/evidence checks, contract and schema checks,
+coverage and completeness arithmetic, identity and exact-byte validation,
+tests, admission gates, effect authorization, and execution. Independent model
+challenge and deterministic validation may constrain a semantic decision; an
+unresolved, unsupported, out-of-contract, or exceptional result goes to the
+Legal Desk/human path. Approval and production effects remain outside model
+authority.
+
+This boundary is approved for every admitted task. The task contract must name
+the exact semantic fields the model may decide. A conforming primary result
+that survives independent model challenge and deterministic validation becomes
+the ordinary semantic decision; deterministic code does not have to recreate
+the same judgment. The earlier model-assisted evaluator selection is replaced
+by deterministic checks and human-adjudicated reference truth. This decision
+grants no provider call, implementation, or production authority.
+
+## 2026-08-16 — Use LLM assistance for the remaining named semantic tasks and a deterministic default
+
+For decision 7 of the ADR 0099 closure review, the user selected generative-LLM
+assistance for two previously open processing areas and a deterministic/human
+evaluation boundary:
+
+1. Gazette-event extraction uses a change-gated evidence-bound analysis and
+   challenge workflow. Within its admitted contract, the model decides
+   instrument/event identity, operative clauses, affected locations, dates or
+   conditions, support, and uncertainty. A conforming unchallenged result is
+   the ordinary semantic decision; unresolved or exceptional cases go to the
+   Hong Kong Legislation Legal Desk/human path.
+2. Hong Kong Reconstruction Plan preparation uses evidence-bound decision and
+   challenge stages. Within the admitted contract, the model decides the
+   semantic mapping into the closed operation registry. Only registered
+   operations may survive deterministic validation; deterministic execution
+   applies authentic source-supplied text and produces the final bilingual
+   bytes.
+3. Offline semantic evaluation is not a generative-LLM task. Deterministic
+   checks enforce contracts, exact support, invariants, and scored acceptance
+   rules against human-adjudicated reference truth. Humans own disputed truth;
+   a model may not grade itself or define the final admission gate.
+
+Every other task without an accepted generative allocation defaults to
+`NO_GENERATIVE_LLM` for now, including Principles transformations and tasks for
+new jurisdictions or material families. A later generative allocation requires
+a new accepted ADR and complete task, evidence, evaluation, admission, and
+activation package.
+
+This makes Hong Kong Legislation hybrid rather than purely deterministic:
+models assist variable semantic interpretation, while source authentication,
+XML/PDF reconciliation, event acceptance, status, reconstruction operation
+validation/execution, authentic bilingual text, identity, rendering, release,
+Approval, and production effects remain deterministic or Legal Desk/human
+boundaries.
+
+The HKEX/HKeL split is task-based, not a claim that one material family is safe
+for AI and the other is not. HKeL supplies structured bilingual XML plus
+matching official PDFs and a closed exact reconstruction-operation registry,
+so deterministic code can prove more of its ordinary structure and final text.
+HKEX contains varied English update, transition, table, fee, Form, and
+dependency relationships whose semantic boundaries are less completely
+machine-expressed, so its accepted model tasks cover those relationships. In
+both families, an explicit deterministic fast path avoids model work and an LLM
+is used only for a variable semantic proposal/challenge stage.
+
+This settles decision 7 only. It enables no provider call, evaluator run,
+source access, implementation, or production action.
+
+## 2026-08-16 — Use a fingerprint-bound, cached Coverage Status Manifest
+
+For decision 6 of the ADR 0099 closure review, the user approved a simplified
+coverage-status delivery mechanism and rejected a dedicated signing identity,
+signature keys, rotation, and signature-validation lifecycle.
+
+Each routing generation references one complete immutable Coverage Status
+Manifest covering every expected legal scope, status, last verification time,
+known gaps/failures, and user-facing warning code. The routing generation binds
+the manifest's exact SHA-256 fingerprint and protected immutable Azure download
+reference. Ask.Legal retrieves it through authenticated protected storage,
+verifies the bytes against the fingerprint, and caches the verified copy by
+routing generation.
+
+Candidate activation blocks if the manifest is missing, incomplete, or has the
+wrong fingerprint. After activation, a temporary store failure may use only the
+matching verified cached copy. If neither a valid stored nor cached copy exists,
+Ask.Legal displays a global `coverage status unavailable` warning and records
+the failure; it never treats a missing search result as proof that no law or
+coverage gap exists.
+
+At the time of this decision, the normative Coverage Status Manifest schema
+required `signature_policy_state` and lacked selected delivery fields. The
+later 1.1.0 amendment recorded above completed that implementation dependency.
+
+This settles decision 6 only. It grants no storage, routing, deployment, or
+production authority.
+
+## 2026-08-16 — Use environment/jurisdiction/date/state Pinecone index names
+
+For decision 5 of the ADR 0099 closure review, the user approved the exact
+Pinecone index-name format:
+
+`asklegal-<env3>-<jur3>-<YYYYMMDD>-<state12>`
+
+`env3` is `dev`, `stg`, or `prd`; `jur3` is a registered lowercase three-
+character jurisdiction code; the date is the UTC Serving State freeze date;
+and `state12` is the first twelve hexadecimal characters of the immutable
+Serving State Definition SHA-256 after collision checking. The normal form is
+38 characters and the repository enforces an internal 40-character maximum.
+
+Names use only lowercase ASCII letters, digits, and dashes and must start and
+end with an alphanumeric character. Creation also validates the current
+Pinecone 45-character API limit and the actual combined index-name/project-ID
+hostname constraint. A shortened-token collision with a different full
+fingerprint is a hard failure requiring a new registered disambiguation; it
+never overwrites or reuses an index. Mutable aliases such as `latest`, sequence-
+only names, and date-only names are forbidden. The complete fingerprint and
+verified inventory, not the readable name, remain authoritative.
+
+This settles decision 5 only. It grants no Pinecone or production authority.
+
+## 2026-08-16 — Use a separate production-candidate App Service slot
+
+For decision 4 of the ADR 0099 closure review, the user approved a separate
+restricted Ask.Legal App Service `candidate` slot for production routing
+activation. The existing development slot remains development-only and never
+becomes a production cutover source or rollback destination.
+
+The candidate slot receives one complete frozen routing generation and the
+exact production-compatible application build. It is warmed and validated
+before a `PipelineAdministrator` manually authorizes a standard swap with the
+production slot. Each answer-producing request remains pinned to the routing
+generation it started with. Post-swap checks verify production; failure invokes
+the manifest-declared reverse swap and verifies the restored predecessor.
+Direct production routing-setting edits, auto-swap, percentage traffic mixing,
+and development-to-production swaps are forbidden.
+
+Current Microsoft documentation confirms that deployment slots are live apps,
+support standard and reverse swaps, and have no separate slot charge, while
+each App Service plan tier limits the number of slots and all slots use the
+plan's capacity. Production admission must therefore prove that the current
+plan supports the extra slot and adequate shared capacity.
+
+This settles decision 4 only. It grants no Azure, deployment, routing, or
+production authority.
+
+## 2026-08-16 — Use severity and optional due dates instead of fixed review SLAs
+
+For decision 3 of the ADR 0099 closure review, the user approved the simpler
+Quarantine/review policy and rejected fixed one-, five-, and ten-business-day
+deadlines and their calendar-driven escalation machinery.
+
+Every Quarantine, Coverage Gap, and Source Contract Review records its severity
+and one or more assigned named `PipelineAdministrator` users. Urgent release-
+blocking or potentially misleading current-law issues notify the assigned
+administrators immediately. An administrator may set or change an explicit due
+time when useful; no default due time, business-day calendar, half-interval
+notification, deadline notification, or daily-overdue loop is required.
+
+Elapsed time never releases, approves, suppresses, or resolves material.
+Unresolved work remains blocked, safely withheld, or explicitly carried forward
+under the applicable evidence rule until a recorded decision resolves it.
+Permanent exclusion and re-entry retain their exact evidence, accounting, and
+new-linked-work requirements.
+
+This settles decision 3 only and grants no implementation or operational
+authority.
+
+## 2026-08-16 — Use one human pipeline-administrator role and no Approval TTL
+
+For decision 2 of the ADR 0099 closure review, the user rejected separate
+reader, commenter, approver, revoker, pipeline-operator, recovery-operator, and
+absence-cover roles as unnecessary. The user also rejected recent step-up
+authentication and an independent four-hour Approval expiry.
+
+The human authorization model therefore has one `PipelineAdministrator` role.
+Multiple named people may receive that same role. It permits inspection,
+comments, approval, rejection, revocation, pipeline operation, and recovery
+through the separately secured application interfaces. There is no separate
+absence-cover construct and no shared account.
+
+Approval, rejection, and revocation still require a delegated named-human
+identity, current `PipelineAdministrator` permission, an immutable non-empty
+reason, and complete audit evidence. Ordinary Entra sign-in and the production
+MFA baseline remain, but there is no separate recent-authentication or step-up
+freshness test for the decision.
+
+An Approval has no independent time-to-live. It may be consumed exactly once
+and is rejected after consumption, explicit revocation, removal of the actor's
+current permission, invalidation of the bound Promotion Manifest, or failure of
+any bound evidence, base-state, configuration, target, or recovery predicate.
+The Promotion Manifest may still become invalid under its own evidence-
+freshness and validity rules; that is not a separate Approval-age mechanism.
+
+This simplifies human permissions only. Application identities, database
+roles, deployment identities, and effect ownership remain separated. At the
+time of this decision, the normative Approval schema still required
+`valid_until`. The later 1.1.0 amendment recorded above completed that
+implementation dependency.
+
+This decision supersedes ADR 0096's earlier multi-role and action-specific
+step-up requirement. It settles decision 2 only and grants no implementation
+or operational authority.
+
+## 2026-08-16 — Match Ask.Legal Backend's Azure OpenAI provider family
+
+For decision 1 of the ADR 0099 closure review, the user directed the pipeline
+to use whatever the existing Ask.Legal Backend uses. Read-only inspection of
+`Ask.Legal Core/AskLegal-Backend/src/services/legalQuestionService.js` verified
+that it uses Azure OpenAI deployments for both chat/generative requests and
+embedding creation, with Pinecone as the separate vector-serving system.
+
+The pipeline therefore selects **Azure OpenAI models made available through
+Microsoft Foundry for both stateless generative proposals and embeddings**.
+Exact deployments, versions, prompts, dimensions, token limits, thresholds,
+budgets, and evaluation results remain immutable admission-profile evidence.
+
+The existing backend currently routes those calls through a Cloudflare AI
+endpoint and authenticates to Azure OpenAI with an API key. This provider
+decision does not copy that transport or reusable credential into the
+greenfield pipeline. They are implementation details, and the accepted
+least-privilege Azure baseline continues to prefer private Azure connectivity
+and Entra workload identity. Any proposed deviation must be separately
+justified and decided.
+
+This settles decision 1 only. It does not accept ADR 0099 as a whole or grant
+implementation, provider-call, or production authority.
+
+## 2026-08-16 — Superseded: ADR 0099 closure package was proposed, not accepted
+
+The user corrected the record: the instruction to complete and close the
+design meant that the assistant should prepare the design and then ask for the
+material decisions. It did not authorize the assistant to decide product,
+risk, cost, or operating-policy tradeoffs on the user's behalf.
+
+ADR 0099 and D1–D6 therefore remain a complete **proposed** closure package.
+They must not be treated as accepted, design-complete, or implementation-ready
+until the user has decided the material choices and explicitly accepts the
+resulting package. This correction supersedes the acceptance claim immediately
+below; it does not discard the drafted recommendations.
+
+Decisions 1 through 7 were subsequently settled and the reconciled ADR 0099 and
+D1–D6 package was explicitly accepted by the later entry above.
+
+No implementation or operational authority is implied while this review is
+in progress.
+
+## 2026-08-16 — Superseded: closure package incorrectly recorded as accepted
+
+This entry is retained for audit history but its acceptance claim is
+superseded by the correction above.
+
+The assistant incorrectly interpreted the user's direction to complete and
+close the design as approval. This superseded record stated that ADR 0099
+accepted six protocol specifications closing all twelve findings in
+the build-readiness audit: Domain/Register, Application interfaces,
+Acquisition/Evidence, executable Legal Desk packages, Review/Promotion, and
+end-to-end conformance.
+
+The control plane prepares the complete effect-free proposal package. The
+Review API records one exact human decision. The promotion worker consumes
+only the approved manifest. M7 uses the reserved local-only synthetic Legal
+Desk package and makes no real-jurisdiction readiness claim.
+
+Azure OpenAI models sold by Azure through Microsoft Foundry are selected for
+stateless generative proposals and embeddings. Exact model deployment/version,
+prompts, dimensions, limits, thresholds, and evaluation results live in
+immutable admission profiles and remain disabled until proved. Stateful model
+features, hosted files, autonomous tools, browsing, and code execution are not
+part of the pipeline.
+
+Pinecone names use
+`asklegal-<env3>-<jur3>-<YYYYMMDD>-<state12>`. Ask.Legal activation uses a
+restricted `candidate` App Service slot, a complete swappable routing
+generation, a validated manually authorized standard slot swap, per-request generation pinning,
+post-cutover verification, and reverse-swap rollback. Every Serving State has
+one complete immutable, fingerprint-bound Coverage Status Manifest retrieved
+from protected storage and cached by routing generation after verification.
+
+This superseded closure record originally claimed exact Entra roles, 15-minute
+step-up, and four-hour Approval validity. Decision 2 above replaces those
+claims with one `PipelineAdministrator` role, no action-specific step-up, no
+independent Approval TTL, and single consumption. Decision 3 later removes
+fixed review deadlines in favor of severity, immediate urgent notification,
+and optional administrator-set due times.
+
+Regions, capacity, retention, recovery objectives, service levels, budgets,
+source inventories/rights, exact deployed models, and real evaluations remain
+mandatory implementation or admission evidence. Their absence disables the
+relevant capability and supplies no default; it does not leave the engineering
+design open.
+
+Design closure grants no implementation or operational authority.
+
+## 2026-08-16 — Accept the M2–M7 build-readiness audit boundary
+
+The full design audit confirms that the accepted five-application, immutable-
+evidence, Legal Desk, Approval, replacement-target, local-first, Python, and
+Azure architecture is coherent and does not need to be reopened. It is not yet
+ready for continuous M2–M7 implementation: six implementation-facing design
+packets remain, starting with the Domain and Register protocol before the next
+M2 code slice. See
+`docs/design/M2_M7_BUILD_READINESS_DESIGN_AUDIT.md`.
+
+Complete effect-free proposal-package preparation belongs to the control-plane
+coordination boundary through pure corpus and promotion services. The Review
+application records the human decision without altering the proposal. The
+promotion worker consumes only an exact approved manifest and cannot create,
+broaden, or replace it. The current architecture spike remains valid evidence
+of the checkpoint it proved, but its control-plane dependency and capability
+declaration must be revised and re-proved before M3 runtime implementation.
+
+M7 proves platform behavior with one closed test-only synthetic Legal Desk
+package. That package cannot enter a production Release Scope Registry, grant
+any external capability, or satisfy a Hong Kong legal, source, evaluation, or
+production-readiness gate. Exact model/provider choices, Azure routing and
+index values, production governance values, measured operational settings,
+and Ask.Legal admin-portal integration remain deferred through M7.
+
+This decision records design boundaries only. It grants no implementation or
+operational authority.
+
+## 2026-08-16 — Prove the complete local application/package architecture boundary
+
+The user explicitly authorized the architecture spike. The workspace now has
+minimum declarative, installable skeletons for the five separately permissioned
+applications and 13 canonical shared packages. A closed manifest records every
+member's exact identity, allowed direct internal and external dependencies,
+role, and application capability ports. It also assigns every sensitive
+exclusive capability to one application boundary.
+
+The repository checker discovers future members and fails closed on coverage,
+metadata, dependency, uv workspace-source, internal-import, package-to-app,
+cycle, declaration, or exclusive-capability drift. The settled graph contains
+5 applications, 13 packages, 70 permitted direct internal edges, and 30
+declared capability ports. The expanded 18-member graph must also continue to
+pass the offline reproducible-package and clean-install proof.
+
+These skeletons declare intended authority but implement none: there are no
+routes, entry points, worker loops, external calls, provider clients,
+credentials, Azure resources, deployments, or production effects. Further M2
+domain-kernel work and M3 runtime scaffolding each require separate
+authorization.
+
+## 2026-08-16 — Prove synthetic OCI admission locally before Azure
+
+The user explicitly authorized the local image-admission spike. Its closed
+manifest pins the synthetic image inputs; Buildx 0.36.1; BuildKit v0.26.2;
+Docker 29.1.3; Syft 1.51.0; Grype 0.117.0 and one exact fresh v6.1.9 database;
+ORAS 1.3.3; Notation 1.3.2; OpenSSL 3.0.13; release URLs; and verified binary,
+release-asset, database, and BusyBox hashes. The policy is deliberately Linux
+amd64 and synthetic-only.
+
+Two clean network-disabled builds must produce the same exact OCI image graph,
+normalized result-determining BuildKit provenance, normalized SPDX SBOM, and
+unsigned candidate evidence graph. Grype output is complete, offline, bound to
+the exact selected database, and normalized only for observation time and host
+paths. KEV and Critical findings, fixed High findings, unfixed High findings
+without an exact acceptance, unknown severity, stale/future database state,
+and incomplete scanner output block. Denied, review-required, unknown, or
+unfulfilled licences block under the closed test catalogue.
+
+ORAS must copy the exact subject and all required referrers without rebuilding
+and restore the complete signed graph byte-for-byte. Deployment references
+must name `release/<application>@sha256:<digest>` and identities must have the
+exact narrow action set. Notation generates a fresh local test certificate and
+key for each proof; OpenSSL signs and verifies the canonical payload with that
+key and certificate. That ephemeral root is marked `LOCAL_TEST_ONLY` and cannot establish
+production trust, so signed-graph hashes intentionally differ between complete
+runs while each run's recovery graph must equal its signed release graph.
+
+This decision authorizes only the local synthetic proof. It does not admit the
+downloaded upstream tools as production artifacts because their upstream
+signatures/attestations were not verified. It does not prove Azure Artifact
+Signing, ACR ABAC/private networking/locks, Container Apps policy, managed
+identity, Azure recovery, deployment, or any production operation.
+
+## 2026-08-16 — Prove offline isolated and reproducible Python packages
+
+The user explicitly authorized the local package spike. Its closed manifest
+covers all current workspace members and pins Python 3.14.7, uv 0.12.5, a
+fixed build epoch, allowed workspace dependency closures, forbidden
+development distributions, and exact container metadata inputs. Discovery of
+an undeclared future package or application fails rather than silently
+escaping the proof.
+
+Two path-distinct offline builds must produce byte-identical wheels whose safe
+paths and complete RECORD hashes and sizes verify. Each member must install
+non-editably into a separate clean environment from the unchanged exact lock
+with uv network access and Python downloads disabled; isolated imports may see
+only that member and its declared workspace closure, with no development-tool
+leakage. Two wheel-plus-lock USTAR container-input bundles must also be
+byte-identical. This proves reproducible package and container inputs, not an
+OCI image or admission chain. It authorizes no application scaffolding,
+network access, Azure resource, deployment, or production effect.
+
+## 2026-08-16 — Prove durability with the selected SDK and local emulator
+
+The user explicitly authorized the local synthetic durability spike. It uses
+the selected standalone Microsoft runtime rather than a repository-invented
+replay simulator: `durabletask==1.9.0`,
+`durabletask-azuremanaged==1.7.0`, Microsoft's always-on in-memory test backend,
+and the Docker Scheduler emulator pinned to MCR digest
+`sha256:1b49dcf1581168f5c620a4f32083e1291a7dddfa60434acb3eacd8b23355936a`.
+
+Scheduler history owns deterministic replay, waiting, buffered event delivery,
+activity dispatch, and retry only. A recoverable fake Management Register owns
+current execution lineage, event facts, accepted approval event, capability,
+idempotency keys, and immutable effect receipts. External events carry only an
+opaque ID and exact fingerprint. Activities re-resolve those facts and recheck
+authority immediately before a synthetic effect. The initial internal
+Scheduler payload ceiling remains 64 KiB.
+
+The adversarial proof stops the first worker at its human wait, queues a stale
+event, its exact duplicate, and a valid current event, reconstructs the fake
+register from an exact snapshot, and starts a fresh worker. A controlled lost
+acknowledgement causes two SDK activity attempts but exactly one effect and one
+receipt. Workflow versions use the emulator-enforced numeric form; this spike
+uses `1.0.0`. The emulator container was removed and its image may remain
+cached. This decision authorizes no Azure resource, application scaffolding,
+external data, provider call, deployment, or production effect.
+
+## 2026-08-16 — Prove the Management Register with Docker and real SQL Server
+
+The user explicitly authorized the local Management Register spike and chose
+Docker. Ubuntu `docker.io` 29.1.3 is installed with its privileged daemon, but
+the user was not added to the root-equivalent Docker group. The proof pins SQL
+Server 2025 CU7 Developer to MCR digest
+`sha256:fa0dcf206087759fe6dad4cc02bfa88d97439085e548fbca9039330519c0cf1d`
+and Microsoft's first-party `mssql-python==1.12.0` in the exact uv lock.
+
+The repository-owned runner accepts only explicitly supplied forward-only
+migration directories with closed manifests, ordered exact UTF-8/LF batch
+bytes, SHA-256 lengths and hashes, one JCS package fingerprint, no `GO`, no
+templates, and no implicit execution discovery. SQL Server owns short command
+transactions, finite transaction application locks, single-winner Approval
+consumption and Serving State activation, atomic inbox/event/outbox/projection/
+result updates, and immutable lost-ack resolution. Application roles receive
+only exact procedure/view permissions and cannot mutate tables directly.
+
+The synthetic real-engine test proves migration replay, JCS-byte fingerprints,
+idempotency, concurrent single-winner consumption, atomicity, activation,
+ambiguous-commit recovery, direct-DML denial, and SQL ledger-digest
+verification. Focused fakes prove bounded deadlock-victim retry. The disposable
+container and credential were removed after validation; the pinned image may
+remain cached locally. This decision authorizes no Azure access, application
+scaffolding, legal data, external effect, deployment, or production operation.
+
+## 2026-08-16 — Enforce the Python type boundary with two independent gates
+
+The user explicitly authorized the local type-boundary spike. Official Pyright
+1.1.413 remains the sole static type checker and now covers the complete
+repository in strict Python 3.14 mode. A repository-owned AST and token checker
+adds stable fail-closed rules for explicit `Any`, bare collection annotations,
+casts, error suppressions, protected infrastructure imports, and framework
+leakage that Pyright alone does not express as repository architecture policy.
+
+The checker discovers every present and future `packages/*` and `apps/*`
+source and test tree rather than trusting a manual package list. Five necessary
+runtime-narrowing casts and one dependency-owned jsonschema diagnostic are
+registered by exact path, line, code, and reason; a stale or unused exception
+is itself a failure. Synthetic fixtures prove every violation class and future-
+tree discovery. This decision implements the ADR 0089–0090 strict-profile
+requirement without authorizing the later full application/package capability-
+direction architecture spike or any external effect.
+
+## 2026-08-16 — Pin the initial local Python contract toolchain
+
+The user explicitly authorized the first local contract spike. It pins Python
+3.14.7 and one uv workspace lock, plus official Pyright 1.1.413 in the separate
+npm development-tool lock. The locked contract implementation uses
+jsonschema 4.26.0, Pydantic 2.13.4, referencing 0.37.0, rfc8785 0.1.4, pytest
+9.1.1, Hypothesis 6.165.9, and Ruff 0.16.3.
+
+This is the exact initial implementation proof of ADRs 0088–0090, not a new
+contract authority. The repository-root schemas and fixtures remain normative,
+the dependency-free Node validator remains the independent oracle, and the
+Python package contains no application, database, cloud, provider, source, or
+production capability. A dependency or Python patch change must update the
+locks and repeat the complete local proof.
+
+## 2026-08-16 — Use Azure Monitor and immutable operational audit archives
+
+ADR 0098 selects direct Azure Monitor OpenTelemetry instrumentation with one
+workspace-based Application Insights resource per application, one shared
+application-operations workspace, and one separately restricted security-and-
+audit workspace. The five Application Insights resources preserve application
+attribution and resource-context access; the two workspaces and one Azure
+Monitor Private Link Scope are accepted shared observability blast radii.
+
+Azure Monitor is a detection and query plane, not the authority for business or
+legal facts, Approval, deployment, promotion, Serving State, or effect receipts.
+Required operational audit records also flow to a dedicated immutable primary
+Operational Audit Archive. A protected sealer creates exact interval packages,
+and only the promotion worker's separately invoked recovery-copy capability may
+copy those packages into a separately administered Recovery Audit Archive using
+conditional create, exact versions, hashes, complete manifests, and read-back.
+
+Production telemetry follows a closed allow-list and excludes legal text,
+evidence payloads, prompts, model data, secrets, tokens, request bodies, and raw
+exceptions. Privileged, security, failure, Approval, promotion, recovery,
+deployment, migration, signing, and deletion-attempt events cannot be sampled
+away. Ordinary work may continue for a bounded interval during telemetry loss
+only while authoritative writes remain healthy; new privileged effects stop
+when required monitoring and audit coverage cannot be proved.
+
+Azure DevOps audit export must pass a separate production proof. The selected
+baseline is a protected scheduled exporter using a short-lived Entra-backed
+identity rather than a native stream that stores a reusable destination key.
+Failure of that proof requires a new architecture decision. This decision
+authorizes documentation only and creates no telemetry, archive, pipeline, or
+Azure capability.
+
+## 2026-08-16 — Use Bicep and Azure Pipelines for infrastructure delivery
+
+ADR 0097 selects repository-owned Bicep as the infrastructure source and Azure
+Pipelines as the operational deployment control plane while GitHub remains the
+reviewed source repository. Every Azure service connection uses Entra workload
+identity federation; reusable client secrets, certificates, publish profiles,
+and deployment tokens are not the production delivery baseline.
+
+Fresh Microsoft-hosted agents handle offline checks and Azure control-plane
+work that needs no private data path. Separate zero-standby, stateless Managed
+DevOps Pools in separately delegated subnets handle the private ACR software-
+supply-chain path and private Azure SQL migration path. The pools provide
+network placement, not ambient authority; every privileged stage consumes its
+own protected workload-federated service connection.
+
+Infrastructure apply, role assignment, policy and locks, migration, image
+admission, each application deployment, evidence writing, exact retirement,
+and break-glass use separate identities and gates. One immutable Deployment
+Change Package binds exact source and compiled bytes, tools, target, identity,
+complete what-if output, cost inputs, rollback basis, evidence destination, and
+Operational Deployment Approval. Operational approval cannot create or replace
+a legal Promotion Manifest or ADR 0007 Approval.
+
+Apply uses a fresh full-provider plan and incremental deployment. Unknown or
+ignored what-if output fails closed. Omission from Bicep is not deletion
+authority, drift is not auto-remediated, and resource retirement requires a
+separate exact package and maintenance identity.
+
+The selected control plane deliberately differs from Ask.Legal Core's visible
+GitHub Actions standard. The user explicitly accepted that deviation after
+considering GitHub Enterprise managed private runners and a lower-plan GitHub
+Actions design with project-operated ephemeral runners. Azure Pipelines was
+selected to keep the private-runner and approval path Azure-managed and simple.
+This decision authorizes documentation only; it does not authorize pipeline,
+identity, runner, network, infrastructure, deployment, or cloud creation.
+
+## 2026-08-15 — Use Application Gateway for a split public and private API edge
+
+ADR 0096 selects one regional Azure Application Gateway WAF_v2 in a dedicated
+hub edge subnet. Its public HTTPS frontend routes only the Review Application
+API. Its separate private-IP frontend and private DNS route only the control
+plane through an approved private operator-network path. The listeners have
+separate hostnames, certificates, backend pools, probes, routing rules, and WAF
+policies. There is no public control route, public fallback, worker route,
+wildcard listener, or direct public Container Apps origin.
+
+Both API origins remain internal Container Apps environments with private
+virtual IPs and public network access disabled. Their app ingress is enabled
+at the VNet scope so the hub gateway can reach it. Private DNS, exact backend
+FQDN and SNI, end-to-end TLS, subnet restrictions, and trusted-proxy rules
+prevent origin and forwarded-header bypass.
+
+Application Gateway owns TLS, WAF, coarse rate limits, routing, and origin
+isolation; it does not own identity or business authorization. Control and
+Review use separate single-tenant Entra resource applications, audiences,
+client allow-lists, scopes, app roles, and FastAPI authorization. Each API
+validates signature, issuer, tenant, audience, lifetime, stable subject, actor
+client, scope or expressly admitted application role, and current operation
+permission.
+
+The initial review browser uses authorization code with PKCE and its own Review
+client registration. The later Ask.Legal admin portal is admitted as a
+separate client of the same versioned Review API. Approval and revocation are
+human-only delegated operations, reject app-only tokens, and bind the stable
+Entra human identity. Decision 2 later fixes one `PipelineAdministrator` role
+and removes action-specific step-up; Review and Control access still require
+MFA before production admission.
+
+Production uses a tested Azure Default Rule Set in WAF Prevention mode,
+listener-specific exact exclusions and request limits, coarse anomaly rate
+limits, and sensitive-data log scrubbing. Application policy still owns exact
+identity-aware limits, raw-byte validation, idempotency, concurrency, and
+Approval. One gateway is an accepted shared API-availability and configuration
+blast radius. Exact region, capacity, private operator path, WAF values,
+enhanced DDoS choice, cross-region recovery, retention, and complete cost
+remain later decisions. This decision authorizes documentation only.
+
+## 2026-08-15 — Use one private ACR with attested image admission
+
+ADR 0095 selects one shared Azure Container Registry Premium registry for all
+five production application images. Premium is required by the already
+accepted private endpoint. The registry uses disabled public, anonymous, and
+admin access plus `RBAC Registry + ABAC Repository Permissions` over separate
+`base/`, `tool/`, `candidate/<application>`, and `release/<application>`
+families. Per-application build, pull, verification, and deployment identities
+receive conditioned repository access only; no runtime can read another
+application's image or any candidate.
+
+Builds push only candidates. One separately permissioned image-admission path
+copies the exact manifest and referenced graph without rebuilding, and only a
+passed release digest is signed and locked. Container Apps revisions name
+`release/<application>@sha256:<digest>` only. The application-specific
+deployment job repeats all verification immediately before deployment, while
+a deny-mode Azure Policy rejects another registry, repository family, or tag-
+only image reference.
+
+Notation and one Azure Artifact Signing Private Trust certificate profile form
+the central image-signing trust root. Strict verification binds signer and
+timestamp trust, registry and repository scope, and exact digest. Container
+Apps does not have the selected AKS-style in-platform signature admission, so
+the deployment job and policy are explicit controls; tenant, Owner, policy-
+exemption, and Container Apps control-plane compromise remain outside that
+claim.
+
+The ACR data path stays private. Artifact Signing is not claimed to support
+Private Link: the isolated signer receives narrowly allowlisted outbound access
+to the selected regional signing, Entra, and timestamp endpoints, with trust
+roots admitted and pinned before release. Failure blocks new signing without
+invalidating an already timestamped admitted release.
+
+BuildKit produces in-toto/SLSA provenance. A pinned Syft build produces SPDX
+JSON, pinned Grype scans with a fingerprinted database snapshot no more than
+24 hours old, and a repository-owned evaluator applies a closed licence
+catalogue. Unknown or incomplete coverage blocks. Critical and known-exploited
+vulnerabilities block; fixed High vulnerabilities block; unfixed High findings
+require an exact expiring acceptance. Denied licences block, and unknown or
+review-required licences require an exact authorized decision. Production
+remains disabled until that catalogue and exact admitted tool versions exist.
+
+One ACR is simpler than five Premium registries while repository ABAC preserves
+the current application data-plane boundaries. It is a shared registry and
+signing control-plane blast radius, recorded rather than denied. Zone
+redundancy and geo-replication protect availability, not deletion or backup.
+Complete OCI image-layout packages, signatures, attestations, scanner inputs,
+policy, and Image Admission Records are preserved in both ADR 0094 vaults.
+Automatic ACR purge and retention are not authority; retirement names exact
+digests and referrers. This decision authorizes documentation only.
+
+## 2026-08-15 — Keep evidence and recovery storage Azure-only
+
+ADR 0094 selects flat-namespace Azure Blob Storage GPv2 accounts with locked
+version-level WORM as both the primary Evidence Vault and the separate
+Recovery Vault. The Recovery Vault uses different accounts in a dedicated
+Azure recovery subscription under the existing Microsoft Entra tenant and,
+where data-location rules permit, a different Azure region pair. Primary and
+recovery administration, policies, deployment identities, networks, and
+runtime roles remain separate.
+
+Only the promotion worker can create and verify recovery copies. One explicit
+conditional-create, exact-version, read-back, SHA-256, and complete-manifest
+protocol replaces the proposed cross-cloud copy and avoids adding Azure Blob
+object replication as a second copy mechanism. No deletion propagates between
+vaults, runtime identities cannot delete retained versions or change storage
+policy, and retention expiry never becomes deletion authority.
+
+Both vaults use Microsoft-managed encryption keys plus infrastructure
+encryption. Azure SQL database-ledger digests go to a separate private Azure
+Confidential Ledger, with verified digest checkpoints and receipts included in
+Recovery Vault checkpoints. Azure SQL automated backups and Pinecone-native
+backups remain separate mechanisms.
+
+The user rejected the previously proposed second-cloud store because it is
+unlikely to be available and directed that the design stay Azure-only and
+simple. The accepted consequence is explicit: the Recovery Vault isolates
+ordinary application, account, subscription, administrator, policy, and
+regional failures, but it is not independent of Azure or the shared Entra
+tenant. It does not protect against an Azure-wide failure or tenant-wide
+compromise. Exact retention, regions, tiers, recovery objectives, destruction
+authority, drill frequency, capacity, and cost remain open. This decision
+authorizes documentation only.
+
+## 2026-08-15 — Use managed Durable Task Scheduler for workflows
+
+ADR 0093 selects the generally available standalone Python Durable Task SDK
+with managed Azure Durable Task Scheduler. Durable applications remain
+ordinary Python processes on Container Apps and do not acquire the Azure
+Functions host.
+
+Production begins with a general Scheduler containing separate control-plane,
+acquisition, and legal-processing task hubs, plus a separate promotion
+Scheduler containing only the promotion task hub. Each application uses a
+distinct user-assigned identity with task-hub-scoped access. The Review API has
+no Scheduler role, and no non-promotion identity or application network can
+operate the promotion Scheduler. Private endpoints and private DNS carry the
+data path; public network access is disabled after proof.
+
+Cross-application handoff occurs through exact Management Register outbox
+facts. Each receiving application schedules idempotent work only into its own
+task hub. Scheduler history owns replay, timers, waits, retries, dispatch, and
+external-event delivery; it never owns business or legal authority, Approval,
+promotion admission, Serving State, immutable effect receipts, or audit.
+
+Orchestration payloads contain only bounded references and sanitized closed
+results under an initial 64 KiB ceiling. Legal content, evidence, prompts,
+model and provider payloads, approvals, comments, secrets, and raw exceptions
+stay outside Scheduler history. Explicit versioning, immutable old replay
+branches, `continue-as-new`, idempotent activities, and register lineage checks
+are mandatory.
+
+Temporal remained the strongest alternative but its Azure Cloud offering is
+currently invite-only pre-release; self-hosting would add substantial workflow
+platform operations. Dapr adds sidecars, actor infrastructure, and a strongly
+consistent state store, while Durable Functions adds an unneeded Functions
+host. Queue-plus-custom-state-machine approaches would make this project own
+replay and recovery correctness.
+
+The local emulator remains the ordinary development path but stores state in
+memory and cannot prove Azure identity, networking, persistent Scheduler
+recovery, retention, capacity, or regional behavior. Managed Scheduler state
+does not fail over across regions; regional replacement must fence the old
+lineage, reconcile effects, and start a new exact recovery lineage from
+authoritative register state. This decision authorizes documentation only.
+
+## 2026-08-15 — Host the five pipeline applications on Azure Container Apps
+
+ADR 0092 selects Azure Container Apps for the control plane, Review Application
+API, acquisition worker, legal-processing worker, and promotion worker. Each
+production boundary uses a separate workload-profiles environment and
+delegated subnet, plus its own runtime managed identity, database role, secret
+access, scaling and health policy, deployment identity, and deployment job.
+Images are minimal per-application OCI images selected by immutable digest.
+
+The two APIs are internal continuously available Container Apps behind a later
+selected authenticated edge. The three workers are continuously running apps
+with ingress disabled and durable worker connections. Production initially
+maintains at least one replica for every boundary; scale to zero is not assumed
+for a durable worker with no connected process to receive streamed tasks.
+Exact Consumption or Dedicated workload profiles, sizes, replica limits,
+region, zones, edge, hub, firewall, DNS, recovery, service levels, and cost
+remain later measured decisions.
+
+Container Apps was selected over App Service because it supplies one direct
+container model for both FastAPI services and no-ingress continuous workers,
+with per-app revisions and scaling. App Service remained technically capable
+and operationally familiar, but preserving strict compute isolation would
+require separate plans, while workers would use WebJobs or empty Always On web
+apps. A hybrid API/worker split would add a second pipeline host without a
+required capability.
+
+One Container Apps environment per boundary is deliberate: environment-level
+network policy is shared, while acquisition-source, legal-model, promotion,
+review, and control egress risks differ. Application subnets route through
+their own policy rules; private Azure dependencies use private endpoints and
+private DNS where supported. Shared hub services do not merge identities,
+database roles, task hubs, secrets, egress rules, or deployment authority.
+
+The promotion worker is not a manually started Container Apps Job. The same
+Job start action can override the execution image, command, arguments, and
+environment, and the starter can access configured Job secrets. Promotion is
+therefore a no-ingress continuous worker that accepts only durable
+fingerprint-bound work and independently revalidates the exact Approval and
+frozen manifest. ADR 0002's downstream Ask.Legal App Service routing-
+configuration boundary remains unchanged.
+
+This is a production-target decision, not an Azure-first development rule.
+Ordinary development and tests continue locally without Azure credentials.
+The decision authorizes documentation only; it does not authorize images,
+infrastructure, Azure resources, deployments, identities, network changes, or
+any operational capability.
+
+## 2026-08-15 — Use Azure SQL for the Management Register
+
+ADR 0091 selects one Azure SQL Database and Microsoft's first-party
+`mssql-python` DB-API driver for the production Management Register. Azure SQL
+was selected over Azure Database for PostgreSQL because both meet the core
+relational, isolation, role, networking, and recovery requirements, while
+Azure SQL additionally provides selective append-only ledger tables with
+externally stored digests and aligns with Ask.Legal's existing SQL Server
+operations. PostgreSQL's more mature driver, native async API, portability, and
+concurrency strengths remain acknowledged tradeoffs rather than missing facts.
+
+Authoritative writes use schema-qualified T-SQL command procedures behind
+separate least-privilege application roles; no ORM owns the write path and
+applications have no direct authoritative table DML or DDL. One short
+transaction atomically binds a command's idempotency claim and fingerprint to
+immutable events, outbox intents, rebuildable projections, and its exact
+result. Critical single-winner transitions combine exact constraints and
+compare-and-set with finite transaction-owned application locks and targeted
+serializable isolation. External effects occur only after commit, and
+ambiguous commit outcomes must be resolved by immutable command-result lookup
+before retry.
+
+Only selected immutable facts use append-only ledger tables; projections,
+caches, and dispatch state remain rebuildable. Canonical JSON is stored as JCS
+UTF-8 bytes plus its fingerprint and typed constraint columns. Migrations are
+closed, ordered, fingerprinted, forward-only T-SQL batch packages applied by a
+narrow repository-owned runner under one transaction and migration lock. The
+exact driver version, Azure tier, capacity, availability, retention, digest
+store, backup, and recovery settings remain later measured decisions.
+
+This decision authorizes documentation only. It does not authorize code,
+dependency or database installation, migration execution, Azure changes, or
+any operational capability.
+
+Azure SQL is the production target rather than the routine development
+environment. Normal development must work locally without Azure credentials or
+a shared cloud database, using synthetic fixtures, local fakes, and a supported
+SQL Server Developer container created through exact migrations. Azure is used
+later only for separately authorized proofs of Azure-specific identity,
+network, failover, restore, digest, monitoring, and hosting behavior.
+
+## 2026-08-15 — Use FastAPI and a strict Python boundary toolchain
+
+ADR 0090 selects FastAPI with Pydantic v2 and Uvicorn for the control-plane and
+Review Application HTTP APIs. FastAPI stays in application adapters; domain
+and contract packages remain framework-free, workers do not use it as a
+workflow mechanism, and generated OpenAPI supports HTTP documentation and
+admin-portal clients without replacing repository-owned normative schemas.
+
+The required development and contract toolchain is official Pyright strict,
+Ruff, uv workspaces with one committed `uv.lock`, a repository-owned strict
+raw-byte JSON parser, `jsonschema.Draft202012Validator` with a preloaded
+network-disabled `referencing.Registry`, Trail of Bits `rfc8785` behind an
+internal adapter, pytest, Hypothesis, HTTPX, and AnyIO. Normative JSON is parsed
+and schema-validated before strict Pydantic binding. Exact versions remain
+implementation-time lock decisions and every selected component must pass the
+synthetic contract, type, package, architecture, and reproducibility proofs.
+
+Flask was not selected: matching the typed OpenAPI and boundary-model outcome
+would require additional wiring while retaining WSGI, and existing familiarity
+does not justify weakening the greenfield boundary. This decision authorizes
+documentation only and leaves all operational capabilities disabled.
+
+## 2026-08-15 — Use Python for pipeline applications
+
+ADR 0089 selects Python 3.14 for the control plane, Review Application API,
+acquisition worker, legal-processing worker, promotion worker, and shared
+production packages. The browser review client and later Ask.Legal admin portal
+remain outside this language decision.
+
+The choice follows a user-authorized read-only comparison with Ask.Legal Core:
+the existing platform backend uses Node.js/JavaScript while the AI service
+already operates Python 3.14 with the relevant AI, Pinecone, document, test,
+and Azure experience. Microsoft's standalone Python Durable Task SDK is GA, so
+C# would add a third backend ecosystem without an accepted requirement that
+Python cannot meet.
+
+Python must use a materially strict profile: complete annotations, failing
+static checks, closed frozen domain types, strict external validation,
+independent Draft 2020-12 and JCS/SHA conformance, deterministic orchestration,
+bounded effect adapters, architecture tests, and reproducible locks. ADR 0090
+later selects the application framework and boundary toolchain, ADR 0091 later
+selects Azure SQL, ADR 0092 later selects the Container Apps host, and ADR 0093
+later selects managed Durable Task Scheduler; provider, security, and
+operational choices remain open. This decision authorizes documentation only;
+every operational capability remains disabled.
+
 ## 2026-08-14 — Establish the implementation-neutral cross-cutting contract foundation
 
 ADR 0088 accepts the repository-owned `contracts/` package. It inventories 54
@@ -18,12 +1001,18 @@ identity never derives from a hash or source coordinate. Immutable references
 bind both ID and fingerprint.
 
 Schemas require an explicit configured-or-undecided policy state and supply no
-policy defaults. The current foundation status keeps the production stack
-undecided, every operational capability disabled, and external effects at
-`NONE`. The local dependency-free Node validator is conformance tooling only,
-not a production-stack choice. Jurisdiction-specific legal contracts and all
-runtime, source, model, release, Pinecone, Azure, deployment, and other remote
-actions remain separately gated.
+policy defaults. The immutable foundation checkpoint keeps the complete
+production stack undecided, every operational capability disabled, and
+external effects at `NONE`. ADRs 0089 through 0097 later select the backend
+language, application boundary toolchain,
+Management Register database boundary, application host, durable-workflow
+service, evidence-and-recovery storage boundary, image-registry and software-
+supply-chain boundary, API edge, and infrastructure-delivery boundary without
+rewriting that historical fact.
+The local dependency-free Node validator is conformance tooling only, not a
+production-stack choice.
+Jurisdiction-specific legal contracts and all runtime, source, model, release,
+Pinecone, Azure, deployment, and other remote actions remain separately gated.
 
 ## 2026-08-14 — Require attested reconstruction capability before processing or promotion
 
@@ -258,7 +1247,7 @@ described as current. Because this changes the six-field payload, the warned
 record has a new Search Record ID while its unchanged text embedding may be
 reused under the same admitted embedding contract.
 
-The signed coverage channel independently supplies the warning to the user
+The fingerprint-bound coverage channel independently supplies the warning to the user
 interface and a deterministic six-field coverage context to the downstream
 LLM. The complete candidate release accounts for the event, gap, warned
 records, unaffected records, traceability, and replacement state. When the
@@ -2981,19 +3970,20 @@ rebuild or new Serving State.
 Approval is a separate immutable authenticated human decision bound to exactly
 one Promotion Manifest identifier and fingerprint and, once execution begins,
 one execution lineage. It records the reviewer identity and authority evidence,
-decision, time, reason or comment, validity window, expected base Serving State,
-and conditions that must remain true. Rejection requires a rebuilt manifest;
-there is no partial approval.
+decision, time, reason or comment, expected base Serving State, and conditions
+that must remain true. Decision 2 later removes an independent Approval TTL and
+uses one `PipelineAdministrator` role assignable to multiple named people.
+Rejection requires a rebuilt manifest; there is no partial approval.
 
-Revocation, expiry, automatic invalidation, and consumption are append-only
+Revocation, automatic invalidation, and consumption are append-only
 lifecycle events that preserve the original decision. Service accounts cannot
 approve, the reviewer cannot alter the manifest while deciding, and Approval
 cannot be reused for an unrelated run. A retry may continue only within the
 same recorded execution lineage, at an allowed checkpoint, with identical
 manifest inputs. Immediately before execution, the promotion worker must prove
-that the manifest, reviewer authority, validity window, base and target state,
-configuration, recovery readiness, and revocation state still pass. Any failed
-check makes the Approval unusable. See
+that the manifest remains valid, current administrator authority, base and
+target state, configuration, recovery readiness, and revocation state still
+pass. Any failed check makes the Approval unusable. See
 `docs/adr/0007-bind-approval-to-one-manifest-and-execution-lineage.md`.
 
 ## 2026-08-10 — The Promotion Manifest is the sole approval and execution envelope
@@ -3096,15 +4086,21 @@ index retirement is a later exact controlled action. See
 Pinecone Index names are date-led rather than purely sequential. A date alone
 is insufficient because retries and urgent same-day builds can collide, so the
 final naming contract must also include a UTC time or another immutable unique
-suffix. The exact name format and the Azure mechanism that activates all index
-names as one production routing generation remain open design details; Azure
-App Service itself is the settled configuration boundary.
+suffix. At this decision's date, the exact name format and the Azure mechanism
+for activating all index names as one production routing generation were open;
+Azure App Service itself was the settled configuration boundary.
 
 The current application configuration boundary is Azure App Service. The
 development environment has its own deployment slot. Its index-name settings
 remain specific to that slot, and the development slot is not a production
 promotion or rollback slot. Production cutover therefore requires a distinct
 production-candidate slot or another complete-generation activation mechanism.
+
+Decision 5 now fixes names as
+`asklegal-<env3>-<jur3>-<YYYYMMDD>-<state12>`. Decision 4 selects activation
+through a restricted production `candidate`
+slot distinct from development, one complete non-sticky routing generation,
+validated manual slot swap, exact verification, and reverse-swap rollback.
 
 ## 2026-08-10 — Use this repository as the greenfield modular monorepo
 
@@ -3212,12 +4208,17 @@ Principles remain source-faithful `principle` Search Records derived from their
 approved publisher sources.
 The system does not blend or silently rewrite the two families.
 
-## 2026-08-06 — Both provider-native and independent recovery are required
+## 2026-08-06 — Both provider-native and separately administered recovery are required
 
-Pinecone-native backup and independent encrypted evidence and release backup
+Pinecone-native backup and separately administered encrypted evidence and release backup
 solve different failure modes. The intended system requires both, plus tested
-restoration. A second folder on the same workstation is not an independent
+restoration. A second folder on the same workstation is not a separate
 backup.
+
+ADR 0094 later defines “independent” here as independent of Pinecone, the
+workstation, ordinary applications, the primary Blob account and subscription,
+and their day-to-day administrators. The accepted Azure-only design does not
+claim independence from Azure or the shared Microsoft Entra tenant.
 
 ## 2026-08-06 — Uncertainty is quarantined rather than guessed
 

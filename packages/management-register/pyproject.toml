@@ -1,0 +1,20 @@
+[project]
+name = "asklegal-management-register"
+version = "0.1.0"
+description = "Infrastructure-free Management Register ports"
+requires-python = "==3.14.7"
+dependencies = [
+  "asklegal-contracts",
+  "asklegal-domain",
+]
+
+[build-system]
+requires = ["uv-build==0.12.5"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "asklegal_management_register_ports"
+
+[tool.uv.sources]
+asklegal-contracts = { workspace = true }
+asklegal-domain = { workspace = true }

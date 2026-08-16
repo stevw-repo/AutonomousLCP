@@ -1,0 +1,34 @@
+[project]
+name = "asklegal-acquisition-worker"
+version = "0.1.0"
+description = "Declarative acquisition-worker application boundary"
+requires-python = "==3.14.7"
+dependencies = [
+  "asklegal-contracts",
+  "asklegal-domain",
+  "asklegal-durable-task-adapter",
+  "asklegal-evidence-vault",
+  "asklegal-management-register",
+  "asklegal-management-register-adapter",
+  "asklegal-observability",
+  "asklegal-reporting",
+  "asklegal-source-connectors",
+]
+
+[build-system]
+requires = ["uv-build==0.12.5"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "asklegal_acquisition_worker"
+
+[tool.uv.sources]
+asklegal-contracts = { workspace = true }
+asklegal-domain = { workspace = true }
+asklegal-durable-task-adapter = { workspace = true }
+asklegal-evidence-vault = { workspace = true }
+asklegal-management-register = { workspace = true }
+asklegal-management-register-adapter = { workspace = true }
+asklegal-observability = { workspace = true }
+asklegal-reporting = { workspace = true }
+asklegal-source-connectors = { workspace = true }

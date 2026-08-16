@@ -1,0 +1,8 @@
+*
+!Dockerfile
+!_generated/
+!_generated/rootfs/
+!_generated/rootfs/bin/
+!_generated/rootfs/bin/busybox
+!rootfs/
+!rootfs/**

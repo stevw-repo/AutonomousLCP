@@ -1,0 +1,22 @@
+[project]
+name = "asklegal-management-register-adapter"
+version = "0.1.0"
+description = "Narrow SQL Server adapter and migration runner for the AskLegal Management Register"
+readme = "README.md"
+requires-python = "==3.14.7"
+dependencies = [
+  "asklegal-contracts",
+  "asklegal-management-register",
+  "mssql-python==1.12.0",
+]
+
+[build-system]
+requires = ["uv-build==0.12.5"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "asklegal_management_register"
+
+[tool.uv.sources]
+asklegal-contracts = { workspace = true }
+asklegal-management-register = { workspace = true }

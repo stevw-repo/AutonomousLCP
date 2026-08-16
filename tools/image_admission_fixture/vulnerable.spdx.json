@@ -1,0 +1,40 @@
+{
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "creationInfo": {
+    "created": "1980-01-01T00:00:00Z",
+    "creators": [
+      "Tool: asklegal-image-admission-fixture"
+    ]
+  },
+  "dataLicense": "CC0-1.0",
+  "documentNamespace": "https://ask.legal/fixtures/image-admission/vulnerable-log4j/1",
+  "name": "asklegal-vulnerable-log4j-fixture",
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-Package-log4j-core",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:maven/org.apache.logging.log4j/log4j-core@2.14.1",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "name": "log4j-core",
+      "supplier": "Organization: Apache Software Foundation",
+      "versionInfo": "2.14.1"
+    }
+  ],
+  "relationships": [
+    {
+      "relatedSpdxElement": "SPDXRef-Package-log4j-core",
+      "relationshipType": "DESCRIBES",
+      "spdxElementId": "SPDXRef-DOCUMENT"
+    }
+  ],
+  "spdxVersion": "SPDX-2.3"
+}

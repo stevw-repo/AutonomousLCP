@@ -1,0 +1,3 @@
+Synthetic fixture only. A production release must bind the complete applicable
+source and source-offer evidence; this file proves only that an obligation can
+be made mandatory by the local admission policy.

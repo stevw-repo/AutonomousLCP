@@ -150,19 +150,21 @@ implementation, source access, LLM or embedding-provider calls, release
 publication, Pinecone mutation, promotion, or deployment.
 
 ADR 0043 later deferred the final deterministic-versus-LLM allocation. The sole
-gateway, proposal-only role, forbidden decisions, and task-admission contract
-above remain accepted. It made the two named case tasks and the absence of a
-Hong Kong Legislation task provisional rather than an implementation-ready
-final inventory.
+gateway, forbidden decisions, and task-admission contract above remain
+accepted. Decision 7 of proposed ADR 0099 supersedes the proposal-only wording:
+an admitted model result may own only its exact bounded semantic fields after
+independent challenge and deterministic validation. Source truth, exact bytes,
+identity, completeness, Approval, and effects remain outside model authority.
 
 ADR 0053 later accepts the staged hybrid allocation for Hong Kong Cases later-
 treatment screening. ADR 0065 later accepts separate proposition-analysis and
 proposition-challenge model stages within the staged Hong Kong Case Proposition
-extraction workflow. All model stages remain proposal-only and disabled until
-their complete runtime task contracts pass the admission requirements above.
-Gazette-event extraction and every other unallocated candidate remain deferred.
+extraction workflow. All model stages remain disabled until their complete
+runtime task contracts pass the admission requirements above. Decision 7 of
+proposed ADR 0099 later allocates Gazette-event and Reconstruction Plan
+decision/challenge tasks and makes all other unallocated tasks deterministic.
 
 ADR 0076 later settles Hong Kong Regulatory Materials as four change-gated
-two-pass proposal tasks: update analysis and challenge, and record analysis and
+two-pass semantic tasks: update analysis and challenge, and record analysis and
 challenge. Exact source, validation, Legal Desk authority, rendering, coverage,
 identity, release, and operational controls remain deterministic.

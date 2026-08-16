@@ -2,8 +2,8 @@
   "schema_id": "asklegal.cross-cutting-contract-inventory",
   "schema_version": "1.0.0",
   "inventory_id": "pkg_111111111111111111111111111111111111111111111111",
-  "inventory_version": "1.0.0",
-  "cutoff": "2026-08-14T00:00:00Z",
+  "inventory_version": "1.1.0",
+  "cutoff": "2026-08-16T00:00:00Z",
   "scope_rule": "Includes immutable value objects and accepted artifacts used by more than one jurisdiction or material family. Jurisdiction-specific legal semantics, runtime components, stores, and derived views remain with their existing owners and are not generalized here.",
   "objects": [
     {
@@ -112,7 +112,7 @@
       "identity_type": "scr_ plus 48 lowercase hexadecimal characters",
       "fingerprint_basis": "SHA-256 over RFC8785 JCS object bytes, stored externally",
       "reference_fields": ["evidence_refs", "resolution_refs", "source_ref"],
-      "lifecycle_machine": "transitions/review.json",
+      "lifecycle_machine": "transitions/source-contract-review.json",
       "invariants": ["Unknown source meaning is not guessed", "Resolution is a new immutable reference", "Review policy remains separately configured"],
       "validation_status": "SCHEMA_VALIDATED"
     },
@@ -310,7 +310,7 @@
       "identity_type": "cgp_ plus 48 lowercase hexadecimal characters",
       "fingerprint_basis": "SHA-256 over RFC8785 JCS gap bytes, stored externally",
       "reference_fields": ["affected_subject_refs", "evidence_refs", "release_scope_ref", "resolution_refs"],
-      "lifecycle_machine": "transitions/review.json",
+      "lifecycle_machine": "transitions/coverage-gap.json",
       "invariants": ["Known gap is visible and evidence-backed", "Open gap is not no relevant law", "Resolution appends a new exact reference"],
       "validation_status": "SCHEMA_VALIDATED"
     },
@@ -321,7 +321,7 @@
       "identity_type": "qua_ plus 48 lowercase hexadecimal characters",
       "fingerprint_basis": "SHA-256 over RFC8785 JCS quarantine bytes, stored externally",
       "reference_fields": ["evidence_refs", "resolution_refs", "subject_refs"],
-      "lifecycle_machine": "transitions/review.json",
+      "lifecycle_machine": "transitions/quarantine.json",
       "invariants": ["Uncertainty is preserved rather than guessed", "Quarantine is not retirement", "Review policy remains separately bound"],
       "validation_status": "SCHEMA_VALIDATED"
     },
@@ -333,8 +333,8 @@
       "fingerprint_basis": "SHA-256 over canonical complete status manifest bytes",
       "reference_fields": ["coverage_gap_refs", "quarantine_refs", "scope_statuses", "source_failure_refs"],
       "lifecycle_machine": "immutable-per-serving-state",
-      "invariants": ["Every required scope has one status", "Gaps, quarantines, and source failures remain distinguishable", "Signature policy is explicitly UNDECIDED until settled"],
-      "validation_status": "SCHEMA_VALIDATED"
+      "invariants": ["Every required scope has one status and last-verification time", "Gaps, quarantines, and source failures remain distinguishable", "The warning code exactly matches the scope status", "No coverage-signing policy or credential is part of the manifest"],
+      "validation_status": "SCHEMA_AND_SEMANTIC_VALIDATED"
     },
     {
       "object_type": "Search Record / Serving Record",
@@ -448,13 +448,13 @@
     },
     {
       "object_type": "Promotion Manifest",
-      "owner": "promotion-worker/preparation-boundary",
+      "owner": "control-plane/proposal-preparation",
       "schema_ref": "schemas/promotion-domain.schema.json#/$defs/promotion_manifest",
       "identity_type": "pmn_ plus 48 lowercase hexadecimal characters",
       "fingerprint_basis": "SHA-256 over RFC8785 JCS manifest bytes and all exact bound references",
       "reference_fields": ["base_routing_configuration_ref", "base_serving_state_ref", "candidate_serving_state_ref", "contract_refs", "corpus_release_refs", "desired_state_inventory_refs", "evidence_refs", "recovery_refs", "target_generation_refs", "validation_refs"],
       "lifecycle_machine": "transitions/promotion-execution.json",
-      "invariants": ["Manifest is the sole execution envelope", "Full corpus payloads and secrets are absent", "Cost policy is UNDECIDED and execution capability is DISABLED in this foundation", "Any material change requires a new manifest"],
+      "invariants": ["The control plane prepares the complete effect-free manifest", "The promotion worker consumes only an exact approved manifest", "Manifest is the sole execution envelope", "Full corpus payloads and secrets are absent", "Any material change requires a new manifest"],
       "validation_status": "SCHEMA_VALIDATED"
     },
     {
@@ -465,8 +465,8 @@
       "fingerprint_basis": "SHA-256 over RFC8785 JCS decision bytes, stored externally",
       "reference_fields": ["authority_evidence_ref", "expected_base_serving_state_ref", "promotion_manifest_ref", "reviewer_identity_ref", "validity_condition_refs"],
       "lifecycle_machine": "transitions/approval.json",
-      "invariants": ["One decision binds one exact manifest identity and fingerprint", "Rejection is terminal", "Approval is all-or-nothing", "Governance policy remains explicitly UNDECIDED"],
-      "validation_status": "SCHEMA_VALIDATED"
+      "invariants": ["One decision binds one exact manifest identity and fingerprint", "Rejection is terminal", "Approval is all-or-nothing and has no independent expiry", "Usable Approval requires configured governance and every manifest validity predicate to remain true"],
+      "validation_status": "SCHEMA_AND_SEMANTIC_VALIDATED"
     },
     {
       "object_type": "Approval Lifecycle Event",
@@ -476,7 +476,7 @@
       "fingerprint_basis": "SHA-256 over RFC8785 JCS event bytes, stored externally",
       "reference_fields": ["approval_ref", "evidence_refs", "execution_lineage_refs", "responsible_identity_ref"],
       "lifecycle_machine": "transitions/approval.json",
-      "invariants": ["Revocation, expiry, invalidation, and consumption append", "Decision is never rewritten", "Consumption binds one execution lineage"],
+      "invariants": ["Revocation, invalidation, and consumption append", "Decision is never rewritten", "Consumption binds one execution lineage", "A failed manifest validity predicate invalidates rather than independently expires Approval"],
       "validation_status": "SCHEMA_VALIDATED"
     },
     {

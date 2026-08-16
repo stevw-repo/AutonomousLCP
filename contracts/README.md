@@ -15,10 +15,11 @@ The package contains:
 - synthetic positive and failure fixtures with exact expected results; and
 - an exact file inventory in `package-manifest.json`.
 
-`foundation-status.json` records the current boundary: the contract foundation
-is locally validated, the production stack and listed product policies remain
-undecided, every operational capability is disabled, and external effects are
-`NONE`.
+`foundation-status.json` preserves the historical ADR 0088 foundation
+boundary: at that checkpoint the production stack and listed product policies
+were undecided, every operational capability was disabled, and external
+effects were `NONE`. Later accepted ADRs and versioned contract amendments do
+not rewrite that historical artifact.
 
 All normative JSON is I-JSON. Canonical JSON uses RFC 8785 JCS and UTF-8.
 Fingerprints are lowercase `sha256:<64-hex>`. Domain identity is always

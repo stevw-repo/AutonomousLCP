@@ -134,7 +134,7 @@ affected status separately.
 
 ## Coverage-status and downstream behavior
 
-Every active known-stale selection appears in the signed coverage-status
+Every active known-stale selection appears in the fingerprint-bound coverage-status
 channel. The application displays a warning independently of the downstream
 LLM and passes a deterministic coverage context through the approved six-field
 metadata context. That context may state only accepted event facts such as the
@@ -182,8 +182,8 @@ gate:
 - record exact forward lineage and selection events without mutation.
 
 No arbitrary age limit removes a known-stale analytical record while the gap
-remains unresolved. The signed coverage status, reports, monitoring, and review
-deadline remain active until official current text is available or another
+remains unresolved. The fingerprint-bound coverage status, reports, monitoring,
+and assigned review state remain active until official current text is available or another
 explicit evidence-backed user policy supersedes this rule.
 
 ## Hong Kong rule and fixture amendments
@@ -220,7 +220,7 @@ text, or ordinary historical material. ADR 0080 separately controls
 reconstructed law.
 
 This decision trades current-only purity for continued analytical usefulness.
-The mandatory warning, signed coverage status, separate event facts, unchanged
+The mandatory warning, fingerprint-bound coverage status, separate event facts, unchanged
 source text, new payload identity, and strict separation from ADR 0080
 reconstruction are the controls that make that fallback explicit.
 

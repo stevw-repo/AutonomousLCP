@@ -1,0 +1,7 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: BusyBox
+License: GPL-2.0-only
+
+Files: *
+Copyright: BusyBox contributors
+License: GPL-2.0-only

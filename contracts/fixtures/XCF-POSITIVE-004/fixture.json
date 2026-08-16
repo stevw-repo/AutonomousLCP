@@ -1,0 +1,9 @@
+{
+  "fixture_id": "XCF-POSITIVE-004",
+  "category": "POSITIVE",
+  "operation": "SCHEMA_VALIDATE",
+  "synthetic": true,
+  "input_path": "fixtures/XCF-POSITIVE-004/input.json",
+  "expected_path": "fixtures/XCF-POSITIVE-004/expected.json",
+  "schema_ref": "schemas/corpus-domain.schema.json#/$defs/coverage_status_manifest"
+}

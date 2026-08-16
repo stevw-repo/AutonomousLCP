@@ -1,0 +1,21 @@
+[project]
+name = "asklegal-durable-task-adapter"
+version = "0.1.0"
+description = "Deterministic Durable Task orchestration adapter for AskLegal"
+readme = "README.md"
+requires-python = "==3.14.7"
+dependencies = [
+  "asklegal-contracts",
+  "durabletask==1.9.0",
+  "durabletask-azuremanaged==1.7.0",
+]
+
+[build-system]
+requires = ["uv-build==0.12.5"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "asklegal_durable_task"
+
+[tool.uv.sources]
+asklegal-contracts = { workspace = true }

@@ -1,0 +1,20 @@
+[project]
+name = "asklegal-evidence-vault"
+version = "0.1.0"
+description = "Immutable evidence-vault port boundary"
+requires-python = "==3.14.7"
+dependencies = [
+  "asklegal-contracts",
+  "asklegal-domain",
+]
+
+[build-system]
+requires = ["uv-build==0.12.5"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "asklegal_evidence_vault"
+
+[tool.uv.sources]
+asklegal-contracts = { workspace = true }
+asklegal-domain = { workspace = true }

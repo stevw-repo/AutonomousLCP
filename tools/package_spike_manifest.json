@@ -1,0 +1,233 @@
+{
+  "schema_version": 1,
+  "python_version": "3.14.7",
+  "uv_version": "0.12.5",
+  "source_date_epoch": 315532800,
+  "container_metadata_inputs": [
+    ".python-version",
+    "pyproject.toml",
+    "uv.lock"
+  ],
+  "forbidden_dev_distributions": [
+    "hypothesis",
+    "pytest",
+    "ruff"
+  ],
+  "members": [
+    {
+      "distribution": "asklegal-acquisition-worker",
+      "module": "asklegal_acquisition_worker",
+      "path": "apps/acquisition-worker",
+      "allowed_workspace_distributions": [
+        "asklegal-acquisition-worker",
+        "asklegal-contracts",
+        "asklegal-domain",
+        "asklegal-durable-task-adapter",
+        "asklegal-evidence-vault",
+        "asklegal-management-register",
+        "asklegal-management-register-adapter",
+        "asklegal-observability",
+        "asklegal-reporting",
+        "asklegal-source-connectors"
+      ]
+    },
+    {
+      "distribution": "asklegal-contracts",
+      "module": "asklegal_contracts",
+      "path": "packages/contracts",
+      "allowed_workspace_distributions": [
+        "asklegal-contracts"
+      ]
+    },
+    {
+      "distribution": "asklegal-control-plane",
+      "module": "asklegal_control_plane",
+      "path": "apps/control-plane",
+      "allowed_workspace_distributions": [
+        "asklegal-contracts",
+        "asklegal-control-plane",
+        "asklegal-domain",
+        "asklegal-durable-task-adapter",
+        "asklegal-management-register",
+        "asklegal-management-register-adapter",
+        "asklegal-observability",
+        "asklegal-reporting"
+      ]
+    },
+    {
+      "distribution": "asklegal-corpus",
+      "module": "asklegal_corpus",
+      "path": "packages/corpus",
+      "allowed_workspace_distributions": [
+        "asklegal-contracts",
+        "asklegal-corpus",
+        "asklegal-domain"
+      ]
+    },
+    {
+      "distribution": "asklegal-domain",
+      "module": "asklegal_domain",
+      "path": "packages/domain",
+      "allowed_workspace_distributions": [
+        "asklegal-domain"
+      ]
+    },
+    {
+      "distribution": "asklegal-durable-task-adapter",
+      "module": "asklegal_durable_task",
+      "path": "packages/durable-task-adapter",
+      "allowed_workspace_distributions": [
+        "asklegal-contracts",
+        "asklegal-durable-task-adapter"
+      ]
+    },
+    {
+      "distribution": "asklegal-evidence-vault",
+      "module": "asklegal_evidence_vault",
+      "path": "packages/evidence-vault",
+      "allowed_workspace_distributions": [
+        "asklegal-contracts",
+        "asklegal-domain",
+        "asklegal-evidence-vault"
+      ]
+    },
+    {
+      "distribution": "asklegal-legal-desks",
+      "module": "asklegal_legal_desks",
+      "path": "packages/legal-desks",
+      "allowed_workspace_distributions": [
+        "asklegal-contracts",
+        "asklegal-domain",
+        "asklegal-evidence-vault",
+        "asklegal-legal-desks"
+      ]
+    },
+    {
+      "distribution": "asklegal-legal-processing-worker",
+      "module": "asklegal_legal_processing_worker",
+      "path": "apps/legal-processing-worker",
+      "allowed_workspace_distributions": [
+        "asklegal-contracts",
+        "asklegal-corpus",
+        "asklegal-domain",
+        "asklegal-durable-task-adapter",
+        "asklegal-evidence-vault",
+        "asklegal-legal-desks",
+        "asklegal-legal-processing-worker",
+        "asklegal-management-register",
+        "asklegal-management-register-adapter",
+        "asklegal-observability",
+        "asklegal-processing",
+        "asklegal-reporting"
+      ]
+    },
+    {
+      "distribution": "asklegal-management-register",
+      "module": "asklegal_management_register_ports",
+      "path": "packages/management-register",
+      "allowed_workspace_distributions": [
+        "asklegal-contracts",
+        "asklegal-domain",
+        "asklegal-management-register"
+      ]
+    },
+    {
+      "distribution": "asklegal-management-register-adapter",
+      "module": "asklegal_management_register",
+      "path": "packages/management-register-adapter",
+      "allowed_workspace_distributions": [
+        "asklegal-contracts",
+        "asklegal-domain",
+        "asklegal-management-register",
+        "asklegal-management-register-adapter"
+      ]
+    },
+    {
+      "distribution": "asklegal-observability",
+      "module": "asklegal_observability",
+      "path": "packages/observability",
+      "allowed_workspace_distributions": [
+        "asklegal-domain",
+        "asklegal-observability"
+      ]
+    },
+    {
+      "distribution": "asklegal-processing",
+      "module": "asklegal_processing",
+      "path": "packages/processing",
+      "allowed_workspace_distributions": [
+        "asklegal-contracts",
+        "asklegal-domain",
+        "asklegal-evidence-vault",
+        "asklegal-legal-desks",
+        "asklegal-processing"
+      ]
+    },
+    {
+      "distribution": "asklegal-promotion",
+      "module": "asklegal_promotion",
+      "path": "packages/promotion",
+      "allowed_workspace_distributions": [
+        "asklegal-contracts",
+        "asklegal-corpus",
+        "asklegal-domain",
+        "asklegal-evidence-vault",
+        "asklegal-promotion"
+      ]
+    },
+    {
+      "distribution": "asklegal-promotion-worker",
+      "module": "asklegal_promotion_worker",
+      "path": "apps/promotion-worker",
+      "allowed_workspace_distributions": [
+        "asklegal-contracts",
+        "asklegal-corpus",
+        "asklegal-domain",
+        "asklegal-durable-task-adapter",
+        "asklegal-evidence-vault",
+        "asklegal-management-register",
+        "asklegal-management-register-adapter",
+        "asklegal-observability",
+        "asklegal-promotion",
+        "asklegal-promotion-worker",
+        "asklegal-reporting"
+      ]
+    },
+    {
+      "distribution": "asklegal-reporting",
+      "module": "asklegal_reporting",
+      "path": "packages/reporting",
+      "allowed_workspace_distributions": [
+        "asklegal-contracts",
+        "asklegal-domain",
+        "asklegal-reporting"
+      ]
+    },
+    {
+      "distribution": "asklegal-review-api",
+      "module": "asklegal_review_api",
+      "path": "apps/review-api",
+      "allowed_workspace_distributions": [
+        "asklegal-contracts",
+        "asklegal-domain",
+        "asklegal-evidence-vault",
+        "asklegal-management-register",
+        "asklegal-management-register-adapter",
+        "asklegal-observability",
+        "asklegal-reporting",
+        "asklegal-review-api"
+      ]
+    },
+    {
+      "distribution": "asklegal-source-connectors",
+      "module": "asklegal_source_connectors",
+      "path": "packages/source-connectors",
+      "allowed_workspace_distributions": [
+        "asklegal-contracts",
+        "asklegal-domain",
+        "asklegal-evidence-vault",
+        "asklegal-source-connectors"
+      ]
+    }
+  ]
+}

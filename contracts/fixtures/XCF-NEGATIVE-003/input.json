@@ -1,0 +1,17 @@
+{
+  "schema_id": "asklegal.approval-decision",
+  "schema_version": "1.0.0",
+  "approval_id": "apr_111111111111111111111111111111111111111111111111",
+  "decision_time": "2026-08-16T01:00:00Z",
+  "promotion_manifest_ref": {"ref_type": "PROMOTION_MANIFEST", "ref_id": "pmn_222222222222222222222222222222222222222222222222", "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"},
+  "decision": "APPROVED",
+  "reviewer_identity_ref": {"ref_type": "ACTOR", "ref_id": "act_333333333333333333333333333333333333333333333333", "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"},
+  "authority_evidence_ref": {"ref_type": "EVIDENCE", "ref_id": "evi_444444444444444444444444444444444444444444444444", "fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444"},
+  "reason": "Legacy approval expiry is forbidden",
+  "valid_from": "2026-08-16T01:00:00Z",
+  "valid_until": "2026-08-16T05:00:00Z",
+  "expected_base_serving_state_ref": {"ref_type": "SERVING_STATE", "ref_id": "srv_555555555555555555555555555555555555555555555555", "fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555"},
+  "validity_condition_refs": [{"contract_id": "synthetic-policy", "version": "1.0.0", "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"}],
+  "governance_policy_state": "CONFIGURED",
+  "immutable": true
+}

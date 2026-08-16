@@ -1,20 +1,18 @@
 {
   "machine_id": "asklegal.approval-lifecycle",
-  "machine_version": "1.0.0",
+  "machine_version": "1.1.0",
   "entity_type": "Approval",
   "closed_world": true,
   "initial_states": ["APPROVAL_APPROVED", "APPROVAL_REJECTED"],
-  "terminal_states": ["APPROVAL_CONSUMED", "APPROVAL_EXPIRED", "APPROVAL_INVALIDATED", "APPROVAL_REJECTED", "APPROVAL_REVOKED"],
-  "states": ["APPROVAL_APPROVED", "APPROVAL_CONSUMED", "APPROVAL_EXPIRED", "APPROVAL_INVALIDATED", "APPROVAL_REJECTED", "APPROVAL_REVOKED"],
+  "terminal_states": ["APPROVAL_CONSUMED", "APPROVAL_INVALIDATED", "APPROVAL_REJECTED", "APPROVAL_REVOKED"],
+  "states": ["APPROVAL_APPROVED", "APPROVAL_CONSUMED", "APPROVAL_INVALIDATED", "APPROVAL_REJECTED", "APPROVAL_REVOKED"],
   "allowed_transitions": [
     {"from": "APPROVAL_APPROVED", "to": "APPROVAL_CONSUMED", "event": "CONSUME_FOR_ONE_EXECUTION_LINEAGE", "preconditions": ["Exact manifest and fingerprint still match", "All validity predicates pass", "One execution lineage is recorded"]},
-    {"from": "APPROVAL_APPROVED", "to": "APPROVAL_EXPIRED", "event": "EXPIRE", "preconditions": ["Declared validity window ended", "Execution has not begun"]},
-    {"from": "APPROVAL_APPROVED", "to": "APPROVAL_INVALIDATED", "event": "INVALIDATE", "preconditions": ["One objective bound condition changed", "Execution has not begun"]},
+    {"from": "APPROVAL_APPROVED", "to": "APPROVAL_INVALIDATED", "event": "INVALIDATE", "preconditions": ["One objective bound condition changed or the bound Promotion Manifest is no longer valid", "Execution has not begun"]},
     {"from": "APPROVAL_APPROVED", "to": "APPROVAL_REVOKED", "event": "REVOKE", "preconditions": ["Authenticated authorized revocation exists", "Execution has not begun"]}
   ],
   "explicit_high_risk_forbidden_transitions": [
     {"from": "APPROVAL_CONSUMED", "to": "APPROVAL_APPROVED", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
-    {"from": "APPROVAL_EXPIRED", "to": "APPROVAL_CONSUMED", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
     {"from": "APPROVAL_INVALIDATED", "to": "APPROVAL_CONSUMED", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
     {"from": "APPROVAL_REJECTED", "to": "APPROVAL_APPROVED", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
     {"from": "APPROVAL_REVOKED", "to": "APPROVAL_CONSUMED", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"}

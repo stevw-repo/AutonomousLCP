@@ -1,0 +1,38 @@
+{
+  "machine_id": "asklegal.work-item-lifecycle.v1",
+  "machine_version": "1.0.0",
+  "entity_type": "Work Item",
+  "closed_world": true,
+  "initial_states": ["WORK_PLANNED"],
+  "terminal_states": ["WORK_BLOCKED", "WORK_CANCELLED", "WORK_FAILED_FINAL", "WORK_NO_CHANGE", "WORK_QUARANTINED", "WORK_SUCCEEDED"],
+  "states": ["WORK_BLOCKED", "WORK_CANCELLED", "WORK_DISPATCHED", "WORK_FAILED_FINAL", "WORK_NO_CHANGE", "WORK_PLANNED", "WORK_QUARANTINED", "WORK_RETRY_WAIT", "WORK_RUNNING", "WORK_SUCCEEDED"],
+  "allowed_transitions": [
+    {"from": "WORK_PLANNED", "to": "WORK_DISPATCHED", "event": "DISPATCH", "preconditions": ["Immutable inputs and exact execution definitions are bound", "One current fenced dispatch claim exists"]},
+    {"from": "WORK_PLANNED", "to": "WORK_BLOCKED", "event": "BLOCK_BEFORE_DISPATCH", "preconditions": ["A preserved potentially correctable blocker prevents safe dispatch", "This work item terminates and any continuation uses a new linked work item"]},
+    {"from": "WORK_PLANNED", "to": "WORK_CANCELLED", "event": "CANCEL_BEFORE_DISPATCH", "preconditions": ["An authorized parent-run cancellation or exact system stop command exists", "No irreversible effect checkpoint was crossed"]},
+    {"from": "WORK_PLANNED", "to": "WORK_FAILED_FINAL", "event": "FAIL_PLANNED_WORK", "preconditions": ["A terminal planning failure and exact evidence are preserved"]},
+    {"from": "WORK_DISPATCHED", "to": "WORK_RUNNING", "event": "START_ATTEMPT", "preconditions": ["The exact dispatch identity and current fencing token match", "Immutable inputs remain unchanged"]},
+    {"from": "WORK_DISPATCHED", "to": "WORK_BLOCKED", "event": "BLOCK_DISPATCHED_WORK", "preconditions": ["A preserved potentially correctable blocker prevents safe execution", "This work item terminates and any continuation uses a new linked work item"]},
+    {"from": "WORK_DISPATCHED", "to": "WORK_CANCELLED", "event": "CANCEL_BEFORE_ATTEMPT", "preconditions": ["An authorized parent-run cancellation or exact system stop command exists", "No irreversible effect checkpoint was crossed"]},
+    {"from": "WORK_DISPATCHED", "to": "WORK_FAILED_FINAL", "event": "FAIL_DISPATCHED_WORK", "preconditions": ["A terminal dispatch failure and exact evidence are preserved"]},
+    {"from": "WORK_RUNNING", "to": "WORK_SUCCEEDED", "event": "COMPLETE", "preconditions": ["All required work and deterministic validations passed", "Exact outputs and receipts are preserved"]},
+    {"from": "WORK_RUNNING", "to": "WORK_NO_CHANGE", "event": "COMPLETE_NO_CHANGE", "preconditions": ["Complete execution proves no output change is required", "Absence of work is not used as no-change evidence"]},
+    {"from": "WORK_RUNNING", "to": "WORK_BLOCKED", "event": "BLOCK_RUNNING_WORK", "preconditions": ["A preserved potentially correctable blocker prevents safe continuation", "This work item terminates and any continuation uses a new linked work item"]},
+    {"from": "WORK_RUNNING", "to": "WORK_QUARANTINED", "event": "QUARANTINE", "preconditions": ["Exact evidence, legal, or semantic uncertainty requires a linked Quarantine record", "No unreviewed output is released"]},
+    {"from": "WORK_RUNNING", "to": "WORK_CANCELLED", "event": "CANCEL_RUNNING_WORK", "preconditions": ["An authorized parent-run cancellation or exact system stop command exists", "No irreversible effect checkpoint was crossed"]},
+    {"from": "WORK_RUNNING", "to": "WORK_FAILED_FINAL", "event": "FAIL_FINAL", "preconditions": ["The failure is not retryable or the exact attempt ceiling is exhausted", "Failure evidence is preserved"]},
+    {"from": "WORK_RUNNING", "to": "WORK_RETRY_WAIT", "event": "WAIT_TO_RETRY", "preconditions": ["The failure class permits retry", "Immutable inputs and work identity remain unchanged"]},
+    {"from": "WORK_RETRY_WAIT", "to": "WORK_DISPATCHED", "event": "REDISPATCH", "preconditions": ["The retry condition and deadline are satisfied", "The same work identity and immutable inputs remain bound"]},
+    {"from": "WORK_RETRY_WAIT", "to": "WORK_BLOCKED", "event": "BLOCK_RETRY", "preconditions": ["A preserved potentially correctable blocker prevents safe redispatch", "This work item terminates and any continuation uses a new linked work item"]},
+    {"from": "WORK_RETRY_WAIT", "to": "WORK_CANCELLED", "event": "CANCEL_RETRY", "preconditions": ["An authorized parent-run cancellation or exact system stop command exists", "No irreversible effect checkpoint was crossed"]},
+    {"from": "WORK_RETRY_WAIT", "to": "WORK_FAILED_FINAL", "event": "EXHAUST_RETRY", "preconditions": ["The exact attempt ceiling or retry deadline is exhausted", "Final failure evidence is preserved"]}
+  ],
+  "explicit_high_risk_forbidden_transitions": [
+    {"from": "WORK_CANCELLED", "to": "WORK_RUNNING", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "WORK_DISPATCHED", "to": "WORK_RETRY_WAIT", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "WORK_FAILED_FINAL", "to": "WORK_RETRY_WAIT", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "WORK_QUARANTINED", "to": "WORK_RUNNING", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "WORK_SUCCEEDED", "to": "WORK_RUNNING", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"}
+  ],
+  "unlisted_transition_result": {"result_code": "BLOCK", "failure_code": "FAILURE_FORBIDDEN_TRANSITION", "reason_code": "TRANSITION_UNLISTED"}
+}

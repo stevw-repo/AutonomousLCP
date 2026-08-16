@@ -1,0 +1,18 @@
+[project]
+name = "asklegal-observability"
+version = "0.1.0"
+description = "Health, audit-signal, alert, and incident boundary"
+requires-python = "==3.14.7"
+dependencies = [
+  "asklegal-domain",
+]
+
+[build-system]
+requires = ["uv-build==0.12.5"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "asklegal_observability"
+
+[tool.uv.sources]
+asklegal-domain = { workspace = true }

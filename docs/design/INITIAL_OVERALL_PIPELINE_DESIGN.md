@@ -1,8 +1,9 @@
 # Ask.Legal Autonomous Legal Database Pipeline — Initial Overall Design
 
-Updated: 2026-08-14
+Updated: 2026-08-16
 
-Status: greenfield modular-monorepo design in progress
+Status: accepted architecture and implementation-facing design baseline
+through ADR 0099, including the six M2–M7 protocols
 Authorization: design and documentation only; this document does not authorize
 implementation, release publication, embedding-provider calls, Pinecone access,
 or any remote change.
@@ -345,8 +346,9 @@ Desk makes one explicit evidence-backed serving decision:
 1. **Carry forward:** if there is no affirmative evidence that the existing
    records changed and the desk supports continued serving, the Desired-State
    Inventory may select the last approved release. The selection records the
-   failed or quarantined observation, last-verified date, Coverage Gap, authority note,
-   and review deadline. It is never labeled verified current at the new cutoff.
+   failed or quarantined observation, last-verified date, Coverage Gap,
+   authority note, and any administrator-set due time. It is never labeled
+   verified current at the new cutoff.
 2. **Reconstruct or use known-stale fallback:** if official evidence proves
    that legislation changed but updated official consolidated text is not yet
    available, ADR 0080 selects an exact warned reconstruction when every proof
@@ -560,6 +562,288 @@ flowchart TB
 | **Legal-processing worker** | Deterministic controls, Legal Desk authority, candidate records and validation, plus the sole gated LLM task runner; Hong Kong later treatment and Case Proposition extraction have accepted hybrid allocations while other task allocation may remain deferred | Approval or production mutation authority; direct model calls outside the task runner |
 | **Promotion worker** | Embeddings, recovery checks, replacement targets, final verification, cutover, and exact approved retirement | Authority to change the approved manifest or legal conclusions; generative-LLM credentials |
 
+ADR 0089 selects Python 3.14 as the application-language baseline for all five
+backend application boundaries and their shared production packages. It does
+not merge their identities, credentials, networks, processes, or deployment
+jobs. The initial review browser client and later Ask.Legal admin portal may
+remain React/TypeScript clients of the separately permissioned Review
+Application API. ADR 0090 selects FastAPI, Pydantic v2, Uvicorn, Pyright
+strict, Ruff, uv workspaces, the strict raw-JSON and Draft 2020-12 path, the
+JCS adapter, and the core Python test tools. ADR 0091 selects one Azure SQL
+Database and Microsoft's `mssql-python` driver for the Management Register,
+with stored-procedure write capabilities, selected append-only ledger tables,
+transactional inbox/outbox, rebuildable projections, and fingerprinted
+forward-only T-SQL migrations. ADR 0092 selects Azure Container Apps for the
+five production runtime boundaries, with one workload-profiles environment,
+delegated subnet, runtime identity, database role, scaling policy, deployment
+identity, and deployment job per application. ADR 0093 selects the standalone
+Python Durable Task SDK with managed Durable Task Scheduler, separate task hubs
+per durable application, and an isolated promotion scheduler. ADR 0094 selects
+the Azure-only primary and recovery vaults. ADR 0095 selects one private
+Premium Azure Container Registry, repository ABAC, exact image admission,
+Notation and Artifact Signing, SBOM and provenance, vulnerability and licence
+gates, locked release graphs, and OCI recovery packages. ADR 0096 selects one
+regional Application Gateway WAF_v2 with a public Review listener, a private
+control listener, private Container Apps origins, and separate Entra resource
+and application-authorization boundaries. ADR 0097 selects repository-owned
+Bicep, Azure Pipelines with workload federation, fresh public agents for
+offline and ARM control-plane work, and separate stateless private Managed
+DevOps Pools for the ACR supply chain and Azure SQL migrations. The checked-in
+Ask.Legal Core delivery standard is GitHub Actions with stored Azure deployment
+credentials, so Azure Pipelines is a deliberate platform deviation while
+workload federation is a deliberate security improvement. The user explicitly
+accepted that deviation on 2026-08-16 to keep the private-runner and approval
+path Azure-managed and simple. The accepted choice does not preserve reusable
+deployment secrets or reopen public ACR or SQL access.
+
+ADR 0098 selects direct Azure Monitor OpenTelemetry instrumentation, five
+workspace-based Application Insights resources, separate application-
+operations and restricted security-and-audit workspaces, a closed scrubbed
+telemetry contract, and dedicated immutable primary and recovery operational-
+audit archives. Azure Monitor remains a detection and query plane rather than
+the authority for business facts, Approval, deployment, or effects. Other
+service tiers, exact retention, capacity, recovery objectives, and remaining
+provider choices stay separate decisions.
+
+The production-target choice does not make Azure the ordinary development
+environment. Local development uses synthetic fixtures, local fakes, ignored
+`var/` adapters, and a supported SQL Server Developer container initialized by
+the exact migrations. Separately authorized Azure proofs are reserved for
+managed identity, private networking, platform failover and limits, backup
+restore, external ledger digests, monitoring, and hosting behavior that cannot
+be established locally.
+
+The control plane and Review Application API run as internal continuously
+available Container Apps behind the ADR 0096 Application Gateway edge. Only
+the Review listener is public. The control listener is bound to a private
+frontend and private DNS and has no public host or route. Acquisition, legal
+processing, and promotion run as continuously connected durable workers with
+application ingress disabled. Production does not assume scale to zero: the
+workers need a live Durable Task Scheduler connection and the APIs initially
+maintain availability. A manually started Container Apps Job is forbidden for
+promotion because its start action can override the execution image and
+command while gaining access to configured Job secrets. The no-ingress
+promotion worker instead consumes only durable fingerprint-bound work and
+independently revalidates the exact Approval and frozen manifest.
+
+Each environment uses its own application subnet and outbound policy. Private
+Azure dependencies use private endpoints and private DNS where supported, and
+external egress is permitted only for the exact source, model, embedding,
+backup, Pinecone, or routing destinations owned by that application. A shared
+hub may host DNS, firewall, and private-endpoint infrastructure, but it does
+not merge application identities, database roles, task hubs, secrets, egress
+rules, or deployment authority. ADR 0002's downstream Ask.Legal App Service
+routing-configuration boundary remains unchanged.
+
+### Authenticated API edge
+
+One Application Gateway WAF_v2 in a dedicated hub edge subnet provides two
+independent HTTPS paths:
+
+```mermaid
+flowchart LR
+    RV["Reviewer browser or<br/>Ask.Legal admin portal"]
+    OP["Authorized operator on an<br/>approved private network"]
+    PW["Public Review listener<br/>Review WAF policy"]
+    PC["Private Control listener<br/>Control WAF policy"]
+    AG["Application Gateway WAF_v2"]
+    RA["Internal Review API environment"]
+    CA["Internal Control API environment"]
+    EN["Microsoft Entra ID"]
+
+    RV --> EN
+    OP --> EN
+    RV --> PW --> AG --> RA
+    OP --> PC --> AG --> CA
+    RA -. "validate Review audience and role" .-> EN
+    CA -. "validate Control audience and role" .-> EN
+```
+
+The public frontend has no control-plane listener or route. The private
+frontend has a separate hostname, listener certificate, backend pool, probe,
+routing rule, and WAF policy and is reachable only through a later proved
+private operator-network path. There is no public fallback when that path is
+unavailable. The three workers have no gateway route.
+
+Both APIs remain in internal Container Apps environments with private virtual
+IPs and disabled public network access. Each API enables app ingress at the
+environment or VNet scope so the hub gateway can reach it; in Container Apps
+terminology this is `external` app ingress inside an *internal environment*.
+App-level `internal` ingress would allow only callers in the same Container
+Apps environment. Private DNS, exact backend FQDN and SNI, HTTPS certificate
+validation, subnet restrictions, and trusted-proxy rules prevent a direct
+origin or forwarded-header bypass.
+
+Application Gateway supplies TLS, WAF, coarse request limits, routing, and
+origin isolation. It does not supply business authorization. Review and
+Control are separate single-tenant Entra resource applications with different
+audiences, client allow-lists, scopes, roles, and API policy. Each FastAPI
+resource server validates signature, issuer, tenant, audience, lifetime,
+stable subject, actor client, delegated scope or expressly admitted application
+role, and the exact current application permission. A valid tenant token,
+network location, mutable name, or passed WAF rule proves no authority.
+
+The replaceable standalone review browser uses authorization code with PKCE
+and a dedicated Review client registration. The later Ask.Legal admin portal
+is admitted as a separate client of the same versioned Review API. It receives
+no control audience, direct register access, manifest-mutation capability, or
+promotion credential. CORS and OAuth redirect origins are exact rather than
+wildcard.
+
+Approval and revocation remain human-only delegated operations. App-only
+tokens are rejected. The Review API checks the exact role and current
+governance authorization, records the stable Entra tenant and object identity,
+and applies ADR 0007. Human Review and Control permissions use one
+`PipelineAdministrator` role assignable to multiple named people. Production
+admission requires Entra Conditional Access with multi-factor authentication
+for Review and Control, but Approval and revocation require no separate step-up
+or recent-authentication check. The exact authentication strength, device and
+session conditions, role assignments, and tenant licensing remain admission
+values; no password-only or disabled-policy default exists.
+
+The two listeners have separate WAF policies. A tested current Azure Default
+Rule Set runs in Prevention mode in production; Detection mode is tuning only.
+Exact exclusions, body and upload limits, coarse rate limits, and sensitive-
+data log scrubbing are evidence-derived. The APIs still enforce bounded raw
+input, exact per-user and per-operation policy, idempotency, and single-winner
+decisions. Gateway probes use a minimal origin-only readiness path that public
+and private listeners do not route to clients.
+
+The v2 gateway uses autoscaling and zone redundancy where supported. One
+gateway is an accepted shared API-availability and configuration blast radius,
+not a shared authorization boundary. It is regional and stateless; no
+automatic cross-region failover is claimed. Exact capacity, region, DDoS
+Network Protection, private operator connectivity, secondary-region design,
+recovery objectives, logging retention, and complete cost remain later
+measured decisions.
+
+Front Door Premium is deferred because its global public edge and Container
+Apps Private Link path do not replace the private control listener and no
+multi-region public requirement exists yet. API Management is deferred because
+it would add a second proxy and policy system behind a WAF for only two
+first-party APIs. Direct public Container Apps ingress is forbidden because it
+would bypass the selected edge. Private-only Review access is rejected because
+it would force the initial browser and later portal through a VPN or new proxy.
+
+### Durable workflow topology
+
+Managed Durable Task Scheduler owns operational workflow history, replay,
+timers, waits, retries, dispatch, and external-event delivery. It does not own
+business state, legal decisions, evidence bindings, capability, Approval,
+promotion admission, Serving State, or immutable effect receipts; those remain
+authoritative in the Management Register and evidence stores.
+
+Production begins with two Scheduler resources. One general Scheduler has
+separate task hubs for control, acquisition, and legal processing. One isolated
+Scheduler has only the promotion task hub and no data path or data-plane role
+for the other applications. The Review API has no task hub. Each durable
+application uses its own user-assigned managed identity with access scoped to
+its task hub. Private endpoints and private DNS carry Scheduler traffic, and
+public network access is disabled after the private path is proved.
+
+An end-to-end pipeline is therefore not one shared privileged orchestration.
+Cross-application handoff is an exact Management Register outbox fact. The
+receiving application's dispatcher claims that fact and starts an idempotent,
+fingerprint-bound instance in its own task hub. This preserves application and
+credential boundaries while still allowing durable work to proceed across the
+complete pipeline.
+
+Orchestrators contain deterministic coordination only; activities perform
+effects and revalidate the current register execution lineage, capability,
+expected state, and any required Approval immediately before the effect. The
+initial serialized payload ceiling is 64 KiB. History contains opaque IDs,
+fingerprints, closed codes, counters, and sanitized status rather than legal
+content, evidence, prompts, model or provider responses, approvals, comments,
+secrets, or raw exceptions.
+
+Every instance binds an explicit workflow version and exact build,
+configuration, contract, and input fingerprints. Old deterministic branches
+remain runnable until their instances finish, and long-running loops continue
+as new before their histories grow excessively. Terminal Scheduler history is
+purgeable operational state, not the audit or disaster-recovery record.
+
+The local in-memory emulator is the ordinary development backend. Separately
+authorized Azure tests must prove managed identity, negative access, private
+networking and DNS, persistence, retention, capacity, worker termination and
+revision behavior, and complete cost. The managed service does not fail
+in-flight state over across regions. Regional recovery fences the old lineage,
+reconciles every possible effect from receipts, and creates a new recovery
+lineage from one exact safe register checkpoint.
+
+### Container image admission topology
+
+One Premium Azure Container Registry is a deliberately shared platform service
+for the five applications. It is private and geo-replicated to the regions
+from which admitted applications may start. Entra ABAC conditions preserve
+repository boundaries inside it:
+
+```mermaid
+flowchart LR
+    UP["Admitted upstream base and tool digests"]
+    BI["Application-specific build identity"]
+    CA["candidate/application"]
+    EV["SBOM, provenance, vulnerability, licence and reproducibility gates"]
+    CP["Exact graph copy identity"]
+    RE["release/application"]
+    SG["Notation and Azure Artifact Signing"]
+    VR["Independent verification and Image Admission Record"]
+    DJ["Application-specific deployment identity"]
+    ACA["Digest-pinned Container App revision"]
+    VA["Evidence Vault and Recovery Vault OCI package"]
+
+    UP --> BI --> CA --> EV --> CP --> RE --> SG --> VR --> DJ --> ACA
+    VR --> VA
+```
+
+The repository families are `base/`, `tool/`,
+`candidate/<application>`, and `release/<application>`. A build identity reads
+admitted base and tool inputs and writes only its candidate repository. It
+cannot sign or deploy. A narrow image-admission identity copies the exact
+candidate graph into the matching release repository without rebuilding it.
+The signing identity can sign only a passed release digest, and a separate
+verifier creates the immutable Image Admission Record. Each runtime pull
+identity reads only its own release repository; each deployment identity can
+update only its own Container App.
+
+Every release and revision is named by `@sha256:` digest. Tags are single-use
+labels and have no authority. A deny-mode Azure Policy rejects image references
+outside the one ACR release family or without a digest. Because Container Apps
+does not provide the selected AKS-style in-platform Notation admission, the
+deployment job repeats strict signature, signer, timestamp, repository,
+digest, SBOM, provenance, vulnerability, licence, exception, and policy checks
+immediately before every deployment or rollback.
+
+The ACR data path is private. Artifact Signing is not claimed to have Private
+Link; the isolated signing runner receives a narrow outbound allowlist for the
+selected regional signing, Entra, and timestamp endpoints. Trust roots are
+admitted and pinned before release, and the Private Trust chain, timestamp,
+revocation, expiry, and long-term offline verification behavior must pass an
+Azure proof.
+
+BuildKit produces in-toto/SLSA provenance. The initial deterministic inspection
+boundary uses pinned Syft for SPDX JSON, pinned Grype with an exact database
+snapshot no more than 24 hours old, and a repository-owned licence-policy
+evaluator. Exact versions, checksums, attestations, outputs, package coverage,
+known-vulnerability fixtures, and offline behavior must pass before the tools
+are admitted. Critical and known-exploited vulnerabilities block. Fixed High
+findings block; unfixed High findings require an exact expiring acceptance.
+Denied licences block, and unknown or review-required licences need an exact
+authorized decision. Incomplete or unknown coverage never passes.
+
+After signing and independent verification, the release manifest, signatures,
+SBOM, provenance, and required referrers are locked against writes and deletes.
+Geo-replication improves image-pull availability but propagates writes and
+deletes and is not a backup. A complete OCI image-layout package and all trust
+and admission evidence are therefore preserved in both ADR 0094 vaults.
+Automatic untagged purge, soft delete, and age or prefix selection cannot
+authorize retirement; an exact retirement manifest must prove no active,
+rollback, recovery, incident, or audit reference remains.
+
+Ordinary local development uses the same image definitions with a local image
+store or registry, synthetic inputs, and a test-only trust root that production
+cannot trust. Azure registry, signing, ABAC, private-network, policy, geo-
+replication, and recovery claims require separately authorized Azure proofs.
+
 Shared packages contain reusable logic rather than independent authority:
 
 ```text
@@ -606,8 +890,8 @@ different credentials alone do not require another repository.
 
 The design uses four settled operational labels:
 
-- **GENERATIVE LLM** — a task makes a provider call that proposes structured
-  language or legal analysis;
+- **GENERATIVE LLM** — a task makes a provider call that decides the bounded
+  semantic fields named by its admitted contract;
 - **NO GENERATIVE LLM** — the component uses deterministic code, written
   rules, stored evidence, or human decisions;
 - **MODEL, NOT GENERATIVE LLM** — the promotion worker uses an embedding model
@@ -616,48 +900,73 @@ The design uses four settled operational labels:
 - **EXTERNAL TO THIS PIPELINE** — Ask.Legal's downstream answer LLM consumes
   retrieved metadata but is not a module in this repository.
 
-Any legal-analysis task whose allocation is not accepted uses the temporary
-fifth label **ALLOCATION DEFERRED**. That label
-authorizes neither a model call nor an assumption that the task must be
-deterministic.
+Decision 7 removes the temporary `ALLOCATION DEFERRED` state from the closed
+target design. A named accepted generative task uses **GENERATIVE LLM**; every
+other task uses **NO GENERATIVE LLM** until a later accepted ADR changes it.
+
+These labels describe the accepted target design, not current runtime. The
+repository currently has no runnable legal-processing workflow or admitted
+model profile, and the cross-cutting foundation records
+`CALL_GENERATIVE_LLM` and `CALL_EMBEDDING_PROVIDER` as disabled. Therefore no
+pipeline LLM or embedding call runs today.
 
 No application is generally “AI-powered”. The exact pipeline map is:
 
 | Application or logical module | Label | Exact role |
 |---|---|---|
 | Control plane | **NO GENERATIVE LLM** | Scheduling, source registry, workflow, completeness, coverage status, and reports |
-| Review application | **NO GENERATIVE LLM** | Presents exact evidence and proposals to the authorized human; it does not generate Approval |
+| Review application | **NO GENERATIVE LLM** | Presents exact evidence, semantic decisions, and unresolved exceptions to the authorized human; it does not generate Approval |
 | Acquisition worker and source connectors | **NO GENERATIVE LLM** | Watch, scrape, hash, inventory, and preserve source artifacts |
 | Legal-processing worker — deterministic ingress | **NO GENERATIVE LLM** | Schema checks, parsing, normalization, source reconciliation, status mapping, bilingual alignment, and known-rule checks |
 | Legal-processing worker — Hong Kong Case Proposition deterministic stages | **NO GENERATIVE LLM** | Source admission and complete structure, proposal validation, objection reconciliation, Coverage Ledger arithmetic, identities, rendering, and finalization under ADR 0065 |
-| Legal-processing worker — Hong Kong Case Proposition analysis and challenge stages | **GENERATIVE LLM** | Separate evidence-bound semantic proposal and independent challenge tasks under ADRs 0065 and 0066; neither has acceptance, current-authority, release, or serving authority, and both remain disabled until an exact complete workflow passes ADR 0067 admission through ADR 0068's package contract |
-| Legal-processing worker — Hong Kong later-treatment model stages | **GENERATIVE LLM** | Whole-judgment discovery and candidate-level treatment analysis produce evidence-bound proposals under ADR 0053; they have no legal or serving authority and remain disabled until exact task contracts pass admission |
-| Legal-processing worker — candidate `gazette-event-extraction` | **ALLOCATION DEFERRED** | Candidate bounded proposal task over preserved Gazette evidence; it could never establish the legal event or release result itself |
-| Legal-processing worker — Legal Desk rules | **NO GENERATIVE LLM** | Applies jurisdiction-and-material rules and records the responsible decision; it may consume but cannot delegate authority to an LLM proposal |
+| Legal-processing worker — Hong Kong Case Proposition analysis and challenge stages | **GENERATIVE LLM** | Separate evidence-bound semantic decision and independent challenge tasks under ADRs 0065 and 0066; a conforming unchallenged result owns only the admitted semantic fields and both stages remain disabled until an exact complete workflow passes ADR 0067 admission through ADR 0068's package contract |
+| Legal-processing worker — Hong Kong later-treatment model stages | **GENERATIVE LLM** | Whole-judgment discovery and candidate-level treatment analysis make evidence-bound decisions within their admitted fields under ADR 0053; they have no source, identity, release, Approval, or serving-effect authority and remain disabled until exact task contracts pass admission |
+| Legal-processing worker — HKEX Regulatory deterministic stages | **NO GENERATIVE LLM** | Source admission, supported no-change paths, exact parsing and facts, state evaluation, validation, Legal Desk rule execution, rendering, identity, coverage, and release finalization |
+| Legal-processing worker — HKEX Regulatory update analysis and challenge | **GENERATIVE LLM** | `hk-regulatory-update-analysis` proposes evidence-bound update/component/transition relationships and `hk-regulatory-update-challenge` tests omissions and overreach under ADR 0076; both remain disabled until exact task and admission packages pass |
+| Legal-processing worker — HKEX Regulatory record analysis and challenge | **GENERATIVE LLM** | `hk-regulatory-record-analysis` proposes source-unit, dependency, table, fee, Form, and record boundaries and `hk-regulatory-record-challenge` tests them under ADR 0076; neither writes or summarizes source text, and both remain disabled pending admission |
+| Legal-processing worker — Gazette-event analysis and challenge | **GENERATIVE LLM** | Change-gated evidence-bound stages decide and challenge event identity, operative clauses, affected locations, dates or conditions, exact support, and unresolved facts; a conforming unchallenged result owns those admitted semantic fields, while deterministic validation and exception handling remain mandatory |
+| Legal-processing worker — reconstruction-plan decision and challenge | **GENERATIVE LLM** | Evidence-bound stages decide and challenge mappings from exact amendment evidence into the closed Reconstruction Operation Registry; deterministic validation, execution, authentic-language bytes, and exceptional-case Legal Desk review remain mandatory |
+| Legal-processing worker — ordinary Hong Kong Legislation | **NO GENERATIVE LLM** | HKeL XML/PDF reconciliation, legal-event and status rules, bilingual alignment, partitioning, rendering, identity, coverage, and final reconstruction execution are deterministic or Legal Desk decisions; no model writes final legislative text |
+| Legal-processing worker — Principles | **NO GENERATIVE LLM** | Publisher paragraphs remain source-faithful and are parsed, versioned, compared, and validated without a generative transformation; any later transformation would require its own accepted task |
+| Legal-processing worker — Legal Desk rules | **NO GENERATIVE LLM** | Applies jurisdiction-and-material rules and handles unresolved or exceptional semantic results; an admitted model decision is authoritative only for its exact bounded fields |
 | Legal-processing worker — renderers, identity, authority-note and candidate validation | **NO GENERATIVE LLM** | Produces and verifies exact candidate Search Records from accepted facts |
 | Corpus construction | **NO GENERATIVE LLM** | Builds complete releases, desired-state inventories, coverage accounting, and lineage artifacts |
+| Offline semantic evaluation | **NO GENERATIVE LLM** | Deterministic checks and acceptance calculations compare results with human-adjudicated reference truth; humans resolve disputed truth and a model never grades itself or controls admission |
 | Promotion worker — embedding adapter | **MODEL, NOT GENERATIVE LLM** | Embeds only validated selected `metadata.text` under a pinned embedding contract |
 | Promotion worker — all other parts | **NO GENERATIVE LLM** | Checks recovery, builds and verifies replacement targets, and performs only exact approved cutover or retirement actions |
 | Reporting and observability | **NO GENERATIVE LLM** | Reports and monitors preserved facts without generating legal conclusions |
 | Ask.Legal downstream answer model | **EXTERNAL TO THIS PIPELINE** | Receives the six Pinecone metadata fields and produces the user-facing analysis after retrieval |
 
-The final task inventory remains unsettled except for the staged hybrid Hong
-Kong later-treatment allocation accepted by ADR 0053 and the two-pass hybrid
-Hong Kong Case Proposition extraction allocation accepted by ADR 0065.
-Gazette-event extraction and other unallocated work remain candidates only.
+The selected target-design generative inventory contains twelve logical
+stages, all currently disabled: Case Proposition analysis and challenge; later-
+treatment discovery and candidate analysis; HKEX Regulatory update analysis,
+update challenge, record analysis, and record challenge; Gazette-event analysis
+and challenge; and Reconstruction Plan decision and challenge. One logical
+pass may require more than one provider call for a long source, so twelve
+logical stages does not mean twelve calls
+per run.
+
+Principles transformations, tasks for another jurisdiction/material family,
+and every other otherwise-unallocated task default to **NO GENERATIVE LLM** for
+now. Every later addition requires its own evidence, authority, contract,
+evaluation, admission, and accepted design decision.
+
 HKeL XML/PDF reconciliation, Status Coverage Maps, Bilingual Alignment Groups,
 legal status, record eligibility, authority-note selection, and release
 accounting remain governed by exact evidence, deterministic contract checks,
-and responsible Legal Desk decisions even if a later-approved task supplies a
-bounded proposal. Publisher-derived Principles remain source-faithful unless a
+and responsible Legal Desk decisions even if an admitted task supplies a
+bounded semantic decision. Publisher-derived Principles remain source-faithful unless a
 future accepted task contract expressly preserves that rule.
 
-The LLM task runner is an infrastructure gateway, not a decision-maker. It
+The LLM task runner is a narrow deterministic orchestration gateway, not a
+general autonomous agent. It
 receives only the exact preserved evidence and versioned task contract required
 for one enabled task. Each result records the model, prompt, schema, settings,
-source fingerprints, and output fingerprint. The result is a proposal and must
-point to exact source passages. It cannot decide source authenticity, legal
-status, identity, authority note, retirement, release, approval, or production action.
+source fingerprints, and output fingerprint. The result must point to exact
+source passages. Once it survives the independent challenge and deterministic
+validators, it is the ordinary decision for only the semantic fields named by
+the task contract. It cannot decide source authenticity, exact bytes, identity,
+coverage arithmetic, retirement, release, Approval, or production action.
 
 A generic evidence-bound-AI hook does not authorize a new task. A future task
 remains disabled until an accepted ADR or Source Rulebook names its stable task
@@ -890,6 +1199,15 @@ ADR 0088 establishes the repository-owned machine-contract package under
 [`contracts/`](../../contracts/README.md). It makes the accepted shared domain
 boundaries mechanically inspectable without selecting the production stack or
 inventing jurisdiction-specific legal policy.
+
+That statement describes the historical foundation checkpoint. ADRs 0089
+through 0098 later select the Python application baseline, strict boundary
+toolchain, Management Register, Container Apps topology, Durable Task service,
+evidence and recovery vaults, private registry and image admission, API edge,
+infrastructure-delivery path, and operational-observability boundary without
+changing the immutable historical foundation-status artifact. The exact
+generative-model and embedding-provider choices, evidence-dependent
+production settings, and named governance values remain undecided.
 
 The package currently provides:
 
@@ -4906,7 +5224,7 @@ field on the Promotion Manifest. It records:
 - approve or reject;
 - authenticated reviewer identity and evidence of current authority;
 - decision time and reason or comment;
-- valid-from and expiry times;
+- valid-from time, with no independent Approval expiry;
 - the expected base Serving State; and
 - the objective conditions that must remain true before execution.
 
@@ -4916,16 +5234,19 @@ Rejection is terminal for that manifest; any correction produces a new manifest
 and decision rather than converting the rejection or partly approving it.
 
 The immutable decision is followed by separate append-only lifecycle events for
-revocation, expiry, automatic invalidation, and consumption. These events never
+revocation, automatic invalidation, and consumption. These events never
 erase or rewrite the original decision. Approval may be revoked before
-production execution begins. After execution begins, an emergency operator may
-stop or recover the run but cannot broaden or replace the Approval.
+production execution begins. After execution begins, a named
+`PipelineAdministrator` may stop or recover the run but cannot broaden or
+replace the Approval.
 
-Approval expires when its stated validity period ends or when any material
-assumption changes, including source evidence, source freshness, target
-inventory, configuration, model or prompt identity, recovery readiness, or the
-set of included releases. The executor checks these conditions immediately
-before acting; possessing an old approval token is not enough.
+Approval has no independent time-to-live. It becomes unusable when consumed,
+revoked, the administrator loses current permission, the bound Promotion
+Manifest becomes invalid, or any material assumption changes, including source
+evidence, source freshness, target inventory, configuration, model or prompt
+identity, recovery readiness, or the set of included releases. The executor
+checks these conditions immediately before acting; possessing an old approval
+token is not enough.
 
 When execution begins, the Approval is consumed by one recorded execution
 lineage. It cannot authorize an unrelated run. A retry may resume only in that
@@ -4935,7 +5256,7 @@ input, target, setting, step, or rollback state requires a new manifest and
 Approval.
 
 Immediately before the first production action, the promotion worker proves
-that the manifest fingerprint, reviewer authority, validity window, base
+that the manifest fingerprint, current administrator authority, manifest validity, base
 Serving State, current target inventory, routing configuration, recovery
 readiness, non-secret settings, and absence of revocation still match. Any
 failed check makes the Approval unusable and records the reason.
@@ -4973,18 +5294,19 @@ an index named `latest`.
 
 Pinecone Index names are date-led rather than purely sequential. A date alone
 can collide when a build is retried or an urgent correction occurs on the same
-day, so every name also contains a UTC time or another immutable unique suffix
-bound to the frozen package. A representative logical form is
-`<jurisdiction>-<YYYYMMDD>-<unique-suffix>`; the exact provider-valid format is
-still to be specified. Names are labels, not authority: the manifest
-fingerprint and verified inventory identify the approved content.
+day, so every name also contains an immutable unique suffix bound to the frozen
+Serving State. Decision 5 fixes the provider-valid format below. Names are
+labels, not authority: the manifest fingerprint and verified inventory identify
+the approved content.
 
 Current Pinecone rules permit only lowercase Latin letters, numbers, and
-dashes, require the name to start and end with a letter or number, and impose a
-45-character API limit. The working recommendation is
-`asklegal-<env>-<jurisdiction>-<YYYYMMDD>-<package8>`, with a stricter project
-limit of 40 characters, a stable short jurisdiction code, the UTC package-freeze
-date, and an eight-character token from the immutable package identifier.
+dashes, require the name to start and end with a letter or number, impose a
+45-character API limit, and additionally constrain the combined index-name and
+project-ID hostname label. Decision 5 selects
+`asklegal-<env3>-<jur3>-<YYYYMMDD>-<state12>`, with an internal 40-character
+limit, stable three-character environment and jurisdiction codes, the UTC
+Serving State freeze date, and twelve hexadecimal characters from the immutable
+Serving State Definition fingerprint after collision checking.
 
 Ask.Legal obtains the active Pinecone Index names through Azure App Service
 application settings. That configuration is treated as one complete versioned
@@ -5017,9 +5339,13 @@ rollback by restoring the previous complete routing generation.
 Old indexes are not deleted during cutover. They remain protected for the
 recovery window and may be retired only through a later exact, approved action
 after no retained routing configuration or recovery obligation references
-them. The exact production mechanism used to activate all index names as one
-routing generation remains unresolved; independently updating several
-environment variables would not by itself satisfy the all-at-once guarantee.
+them. ADR 0099 selects the production activation mechanism: one complete
+non-sticky routing-generation setting moves through a restricted production
+candidate App Service slot using a validated manually authorized standard
+swap, exact configuration preflight and platform warm-up,
+verification, post-cutover generation checks, and reverse-swap rollback.
+Independently updating several production variables, direct production edits,
+auto-swap, and traffic mixing are forbidden.
 
 Azure App Service injects application settings at application startup, and a
 setting change restarts the application. Settings marked as deployment-slot
@@ -5101,6 +5427,8 @@ incident reconstruction without changing corpus identity.
 | A change is detected but the complete updated content cannot be scraped | Preserve the failed attempt, report the acquisition gap, and do not prepare replacement records. |
 | A scrape is incomplete or mixes source versions | Reject it and rerun from a clean source snapshot. |
 | A commenced amendment lacks an official consolidation | Report a temporary Coverage Gap; select an exact warned ADR 0080 reconstruction, otherwise ADRs 0079 and 0081 warned latest applicable official HKeL text, otherwise no record. |
+| An application image lacks an exact passed SBOM, provenance, current vulnerability and licence result, reproducibility proof, or strict valid signature | Leave the current Container App revision active; do not sign or deploy the candidate. |
+| A deployed or rollback image acquires a newly disallowed finding | Open an incident and block another deployment of that digest until it is rebuilt or has an exact expiring acceptance; do not automatically terminate healthy replicas. |
 | Validation fails before approval | Leave production unchanged. |
 | An LLM proposal lacks exact support or fails the evaluation rules | Quarantine it; do not improvise another model-generated repair. |
 | The production target contains unowned records or no complete ownership inventory exists | Block retirement and reconcile ownership. |
@@ -5112,16 +5440,19 @@ incident reconstruction without changing corpus identity.
 
 ## 14. Backup and recovery
 
-Pinecone’s own backup and an independent evidence/release backup solve
-different problems. The overall pipeline needs both. Pinecone-native backup makes
-routine database restoration convenient; independent storage still survives a
-Pinecone account problem, mistaken provider-side deletion, workstation loss,
-or a need to rebuild without trusting the live service.
+Pinecone's own backup and the separately administered Azure Recovery Vault
+solve different problems. The overall pipeline needs both. Pinecone-native
+backup makes routine database restoration convenient; the Recovery Vault
+survives a Pinecone account problem, primary Blob account or subscription
+problem, mistaken primary-side deletion attempt, workstation loss, or a need
+to rebuild without trusting the live service. ADR 0094 deliberately keeps both
+Blob copies in Azure under one Entra tenant, so it does not claim protection
+from an Azure-wide or tenant-wide failure.
 
 ```mermaid
 flowchart LR
     OLD["Previous approved state"]
-    IR["Independent release, evidence<br/>and search-cache backup"]
+    IR["Azure Recovery Vault:<br/>release, evidence and search cache"]
     PB["Pinecone-native backup"]
     UP["Approved update"]
     VE{"Final verification passes?"}
@@ -5158,8 +5489,8 @@ flowchart LR
    application cutover, and complete record and search verification succeed.
 
 The executor must refuse a production mutation unless the previous immutable
-release and reusable search data are verified in independent storage and the
-pre-change Pinecone backup is ready.
+release and reusable search data are verified in the Azure Recovery Vault and
+the pre-change Pinecone backup is ready.
 
 Recovery normally rebuilds or restores a previously approved immutable release
 and then verifies the full record inventory. Retired records must remain
@@ -5167,10 +5498,10 @@ reconstructible without depending on the continued existence of the production
 index.
 
 The recovery policy must name the acceptable amount of lost work, maximum
-restoration time, retention periods, independent storage location, responsible
-operator, and tested procedure for each component. Recovery drills record
-actual times and discrepancies rather than merely checking that backup files
-exist.
+restoration time, retention periods, Recovery Vault region and subscription,
+responsible operator, and tested procedure for each component. Recovery drills
+record actual times and discrepancies rather than merely checking that backup
+files exist.
 
 ## 15. Reports and audit trail
 
@@ -5296,20 +5627,27 @@ following explicit:
 - a verified replacement-target cutover model;
 - internal record traceability and end-to-end search-quality gates;
 - a coverage-status channel for known gaps outside Pinecone;
-- the sole generative-LLM gateway, proposal-only authority boundary,
+- the sole generative-LLM gateway, bounded semantic-decision authority,
   task-admission contract, evidence-bound evaluation, and hostile-source-text
-  controls, with Hong Kong later treatment allocated to a staged hybrid flow
-  while all other candidate allocation remains deferred;
+  controls, with Hong Kong later treatment, Case Proposition extraction, HKEX
+  Regulatory analysis, Gazette-event extraction, and Reconstruction Plan
+  preparation allocated to governed hybrid flows, with semantic evaluation
+  remaining deterministic against human-adjudicated truth;
+  Decision 7 makes every otherwise-unallocated task `NO_GENERATIVE_LLM` unless
+  a later ADR and complete task/evaluation/admission package explicitly adds it;
 - recovery of the management layer as well as legal records and vectors; and
 - access control, monitoring, incident response, the source-authorization
   assumption, and retention.
 
-These additions close omissions in the framework. Replacement Pinecone
+These additions identify and address omissions in the proposed framework. Replacement Pinecone
 Indexes, complete Azure-held routing generations, per-request generation
-pinning, and the requirement for date-led unique index names are settled. The
-exact production activation mechanism and final name format remain deferred as
-shown below. The finished design is not fully specified until the choices
-below are settled.
+pinning, the exact date-and-state-token index-name format, production
+candidate-slot activation, fingerprint-bound coverage delivery, and review
+governance are addressed by accepted ADR 0099. Decisions 1 through 6 settle
+the provider, human governance, review timing, separate candidate-slot routing
+mechanism, Pinecone naming contract, and coverage-delivery mechanism. Decision
+7 settles the remaining model allocation. The reconciled closure package is
+accepted.
 
 ### Hong Kong Legislation audit result — 2026-08-12
 
@@ -5382,43 +5720,67 @@ and monitoring policy. ADR 0068 now settles the evaluation-suite, protected-
 evidence, real-judgment selection, evaluator-result, and admission-profile
 package architecture; the remaining work cannot silently change them.
 
-### Critical architecture decisions still open
+### M2–M7 build-readiness audit result — 2026-08-16
 
-| Area | Decision required | Why it matters | Recommended direction |
-|---|---|---|---|
-| Azure production routing activation | Whether a distinct production-candidate App Service slot already exists or must be created, which routing settings swap or stay slot-specific, and how activation, observation, rollback, and request pinning work | The development slot is an isolated environment and cannot safely double as the production candidate; direct app-setting edits restart the application | Use a separate restricted production-candidate slot with explicit warm-up and controlled swap, unless another complete-generation mechanism proves the same guarantees |
-| Index naming contract | Confirm the proposed `asklegal-<env>-<jurisdiction>-<YYYYMMDD>-<package8>` contract, stable jurisdiction codes, package-token derivation, and collision handling | Date-only names can collide and names must remain deterministic, provider-valid, and auditable | Use lowercase letters, numbers, and dashes; cap names at 40 characters; use the UTC package-freeze date and an eight-character immutable package token; do not use `latest` |
-| Coverage interface | How Ask.Legal consumes and displays known source failures, quarantine, and consolidation gaps | A clean index can otherwise make a known gap look like “no relevant law” | Publish a signed coverage-status manifest alongside each serving state |
+The full implementation-facing design audit and its candidate closure package are recorded in
+[`M2_M7_BUILD_READINESS_DESIGN_AUDIT.md`](M2_M7_BUILD_READINESS_DESIGN_AUDIT.md).
+It found the overall architecture coherent and identified twelve gaps between
+the cross-cutting foundation and continuous M2–M7 implementation.
 
-### Legal and source decisions still open
+The audit establishes two boundary corrections:
 
-| Area | Decision required | Why it matters |
-|---|---|---|
-| Source register | Complete list of jurisdictions, material classes, controlling official or publisher sources, mirrors, and checking frequency | “Everything was checked” is meaningless until the intended universe is defined |
-| Hong Kong Regulatory executable artifacts | Populate exact endpoint and Main Board/GEM inventory rows; implement Source Rulebook rules and codes, schemas, the frozen 284-case suite, four task contracts and sealed real-source admission, and multilingual query, relevance, model, limit and threshold profiles | ADRs 0054 and 0069–0077 settle the high-level family, source, state, language, record, conformance, exact-catalogue, task-allocation, and retrieval/answer architecture; only executable evidence-derived artifacts remain, and none is authorized by design alone |
-| Concrete source rulebooks | Populate equivalent rules for every other jurisdiction-and-material pair and produce the Hong Kong executable artifacts | The Hong Kong policy-architecture audit is complete; the deferred Instruments & Others review and actual executable artifacts remain explicit readiness gates rather than open package architecture |
-| Remaining legislation scope | Hong Kong coverage and the Instrument Disposition Registry rules are settled in ADRs 0019 and 0030; define the equivalent boundary for every other jurisdiction and populate Hong Kong's complete reviewed Instruments & Others registry | “Legislation” is broader than Acts, and one jurisdiction's accepted boundary cannot prove another complete |
-| Case coverage | Define equivalent boundaries for every other jurisdiction and populate Hong Kong's exact Source Register, historical inventory boundary, court-authority and finality matrix, consequence codes, and executable conformance artifacts | ADRs 0045 through 0068 settle Hong Kong's current design-level court, source-role, acquisition, treatment, update, proposition, coverage-ledger, evaluation, conformance-catalogue, allocation, semantic task-contract, workflow-admission, evaluation-package, monitoring, and serving boundaries, but implementation still needs exact rulebook and profile values and other jurisdictions remain undecided |
-| Principles | Separate Australian Principles, Singapore Principles, and other jurisdiction rulebooks; publisher update feed, stable paragraph identifiers, currency evidence, and withdrawal signals for each Principles Title | ADRs 0015 and 0017 settle the shared identity and licence-expiry behavior, but every jurisdiction owns distinct sources, coverage, evidence, and releases |
+- the control plane coordinates and prepares the complete effect-free frozen
+  proposal through pure corpus/promotion services; the Review application
+  records the human decision; and the promotion worker only consumes the exact
+  approved manifest; and
+- M7 proves the platform with one test-only synthetic Legal Desk package. It
+  does not satisfy or weaken any Hong Kong Source Rulebook, source, evaluation,
+  or production-readiness gate.
 
-Source-specific rights, contracts, and legal-compliance controls are explicitly
-deferred to the legal team. This technical design assumes the registered uses
-are legally compliant; the deferred legal review is not treated as an open
-identity-continuity decision.
+Accepted ADR 0099 and the six accepted protocol documents close those gaps:
 
-### Quality, governance, and operational decisions still open
+- [`M2_DOMAIN_AND_REGISTER_PROTOCOL.md`](M2_DOMAIN_AND_REGISTER_PROTOCOL.md);
+- [`M3_APPLICATION_INTERFACE_PROTOCOL.md`](M3_APPLICATION_INTERFACE_PROTOCOL.md);
+- [`M4_ACQUISITION_AND_EVIDENCE_PROTOCOL.md`](M4_ACQUISITION_AND_EVIDENCE_PROTOCOL.md);
+- [`M5_EXECUTABLE_LEGAL_DESK_PACKAGE_PROTOCOL.md`](M5_EXECUTABLE_LEGAL_DESK_PACKAGE_PROTOCOL.md);
+- [`M6_REVIEW_AND_PROMOTION_PROTOCOL.md`](M6_REVIEW_AND_PROMOTION_PROTOCOL.md);
+  and
+- [`M7_END_TO_END_CONFORMANCE_PLAN.md`](M7_END_TO_END_CONFORMANCE_PLAN.md).
 
-| Area | Decision required | Why it matters |
-|---|---|---|
-| Remaining generative-LLM allocations and executable task-profile contents | Decide every remaining candidate task's deterministic, model-assisted, and human boundary; instantiate ADR 0068 for Hong Kong Case Propositions with exact schemas, selected and adjudicated evidence, prompts, evaluator, provider and model candidates, and evidence-derived numerical values | ADRs 0053 and 0065 settle the high-level Hong Kong later-treatment and Case Proposition splits, ADR 0066 settles the Case Proposition task contracts, ADR 0067 settles admission and monitoring policy, and ADR 0068 settles the evaluation and profile package architecture; Gazette-event extraction and other allocations remain deferred under ADR 0043, and no Case Proposition workflow is provider-ready until one exact package and profile are implemented, evaluated, and admitted |
-| Approval policy | Authorized reviewers, approval lifetime, required comments, revocation, absence cover, and emergency authority | The executor needs an objective test for whether approval remains valid |
-| Quarantine | Owners, reason codes, review deadlines, escalation, and rules for re-entry or permanent exclusion | Otherwise uncertain material can disappear into an indefinite holding area |
-| Recovery | Independent storage provider, encryption-key recovery, retention, acceptable data loss, restoration-time target, and drill frequency | “Backed up” is not a usable recovery promise without measurable targets |
-| Anomaly controls | Stop thresholds for source-count changes, retirements, model behavior, costs, and target drift | Structurally valid but implausible changes can still be destructive |
-| Capacity and cost | Expected corpus growth, Pinecone and model quotas, budget limits, and behavior when limits are reached | Autonomous runs must fail safely rather than truncate work or overspend |
-| Security | Role assignments, credential storage and rotation, network access, audit-log retention, and provider data locations | The architecture defines trust boundaries but still needs enforceable policy values |
-| Service levels | Expected update delay, response to missed weekly runs, urgent correction handling, and maximum tolerated source staleness | Operators and users need to know when the corpus is no longer acceptably current |
-| Retention and deletion | How long evidence, old releases, vectors, reports, and backups remain; operational holds and approved destruction | Early deletion harms reversibility, while unlimited retention creates unbounded storage and recovery obligations |
+### Accepted design closure and remaining admission evidence
+
+The architecture and implementation-facing baseline through ADR 0099 is
+accepted. Decision 1 selects
+Azure OpenAI models sold by Azure through Microsoft Foundry as the stateless
+generative and embedding service boundary, matching Ask.Legal Backend's
+provider family. Decision 4 selects a separate App Service candidate slot with
+validated manual swap and reverse-swap rollback, while decisions 2 and 3 settle
+the simplified governance model. Decision 5 fixes the Pinecone index-name
+contract. Decision 6 fixes complete immutable, fingerprint-bound coverage-
+status delivery with protected authenticated retrieval, verified caching,
+activation blocking, and fail-visible unavailability without a signing-key
+lifecycle. Decision 7 selects the remaining named LLM-assisted tasks and the
+deterministic default. ADR 0099 and its six protocols are accepted; exact
+implementation and operational capabilities remain separately gated.
+
+With those choices and the complete package accepted, the following
+remain exact implementation artifacts, organization-owned configuration
+profiles, or measured admission evidence. A missing value keeps its capability
+disabled and never receives an implicit default:
+
+| Admission area | Required before the relevant capability can activate |
+|---|---|
+| Real legal packages | Complete source registers, rights/contract review, endpoint inventories, executable rules, fixture bytes, adjudicated evaluations, owner attestations, and per-scope activation |
+| Models and embeddings | Exact deployed model/version, prompt/task contracts, dimensions, tokenizer, limits, data geography, evaluation results, thresholds, expiry, and suspension rules |
+| Azure platform | Exact regions, capacity, redundancy exceptions, private-network proofs, WAF values, identity assignments, retention, recovery objectives, drill results, and measured cost |
+| Operations | Named people assigned to `PipelineAdministrator`, optional review due times, budgets, anomaly thresholds, service levels, incident contacts, legal holds, and destruction authority |
+| Ask.Legal integration | Query compatibility, candidate-slot availability, exact swappable/sticky setting proof, fingerprint-bound coverage consumption and fail-visible cache behavior, request generation pinning, and rollback proof |
+| Additional jurisdictions/materials | Their own Source Rulebook packages and readiness evidence under the fixed M5 package protocol |
+
+Source-specific legal compliance remains the legal team's admission evidence,
+not a technical assumption that can be manufactured by this design. The later
+Ask.Legal admin-portal UI remains an integration milestone because the stable
+Review API boundary is fully designed without depending on that UI.
 
 This document deliberately does not prescribe implementation sequence, delivery
 estimates, temporary operating arrangements, or migration steps. Those are not

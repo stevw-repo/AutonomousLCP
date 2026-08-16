@@ -2,8 +2,8 @@
   "schema_id": "asklegal.cross-cutting-package-manifest",
   "schema_version": "1.0.0",
   "package_id": "pkg_000000000000000000000000000000000000000000000001",
-  "package_version": "1.0.0",
-  "created_at": "2026-08-14T00:00:00Z",
+  "package_version": "1.1.0",
+  "created_at": "2026-08-16T00:00:00Z",
   "canonicalization": "RFC8785-JCS",
   "fingerprint_algorithm": "SHA-256",
   "manifest_exclusion": "package-manifest.json",
@@ -33,8 +33,8 @@
       "path": "catalogues/lifecycle-codes.json",
       "role": "CLOSED_CODE_CATALOGUE",
       "media_type": "application/json",
-      "byte_size": 4096,
-      "fingerprint": "sha256:7c54e74b9c8936b26e8edae00e0cfe20d6a65a14a75de6c1c12db41f257c7299"
+      "byte_size": 8178,
+      "fingerprint": "sha256:9a868fc4fd03c09b4a03ab9745c1e48b6ef8c712ef573918c31a8d3abad8efe0"
     },
     {
       "path": "catalogues/reason-codes.json",
@@ -68,8 +68,8 @@
       "path": "fixtures/catalogue.json",
       "role": "FIXTURE_CATALOGUE",
       "media_type": "application/json",
-      "byte_size": 1550,
-      "fingerprint": "sha256:3202a28533f2990ab1740a3ddd7a5ca5d09db059d36297a9b951da960607fde9"
+      "byte_size": 1910,
+      "fingerprint": "sha256:9100af465daa8d5cf643826bb10fb5b6d7a89d3908d1bf342c1beaf6a9117db0"
     },
     {
       "path": "fixtures/XCF-BOUNDARY-001/expected.json",
@@ -261,6 +261,48 @@
       "fingerprint": "sha256:d289d4ad092fcb0fa4fbf07bfa9b4ca4c8029c0871522b8d4cf047b152d919cb"
     },
     {
+      "path": "fixtures/XCF-NEGATIVE-003/expected.json",
+      "role": "EXPECTED_ARTIFACT",
+      "media_type": "application/json",
+      "byte_size": 98,
+      "fingerprint": "sha256:db247cf741be3280702ec23db72e350531d1c12a6ad737850b50c19b123bae91"
+    },
+    {
+      "path": "fixtures/XCF-NEGATIVE-003/fixture.json",
+      "role": "FIXTURE_DECLARATION",
+      "media_type": "application/json",
+      "byte_size": 319,
+      "fingerprint": "sha256:a3622e468c3a59bae08b36ef360bd713398dd01fce84d392f72949efe9a1b835"
+    },
+    {
+      "path": "fixtures/XCF-NEGATIVE-003/input.json",
+      "role": "SYNTHETIC_INPUT",
+      "media_type": "application/json",
+      "byte_size": 1453,
+      "fingerprint": "sha256:8258bbe0b2e89176efc417636e6b8239437bc11c6bc73968c0d099a591b1fd68"
+    },
+    {
+      "path": "fixtures/XCF-NEGATIVE-004/expected.json",
+      "role": "EXPECTED_ARTIFACT",
+      "media_type": "application/json",
+      "byte_size": 98,
+      "fingerprint": "sha256:db247cf741be3280702ec23db72e350531d1c12a6ad737850b50c19b123bae91"
+    },
+    {
+      "path": "fixtures/XCF-NEGATIVE-004/fixture.json",
+      "role": "FIXTURE_DECLARATION",
+      "media_type": "application/json",
+      "byte_size": 323,
+      "fingerprint": "sha256:87e570b561f7a7c161b0f0bd9f0a4fcd1ab21558aa7769c05712a923b940a46d"
+    },
+    {
+      "path": "fixtures/XCF-NEGATIVE-004/input.json",
+      "role": "SYNTHETIC_INPUT",
+      "media_type": "application/json",
+      "byte_size": 1254,
+      "fingerprint": "sha256:31f266c471efff81ac91ca10fdc3df965d66b74ba71d214a1e29f8b5995d357e"
+    },
+    {
       "path": "fixtures/XCF-POSITIVE-001/expected.json",
       "role": "EXPECTED_ARTIFACT",
       "media_type": "application/json",
@@ -301,6 +343,48 @@
       "media_type": "application/json",
       "byte_size": 63,
       "fingerprint": "sha256:068288959e13170633f4a7da60cc03ebb79ae67671105ee0fb7bd2a162c0d0bf"
+    },
+    {
+      "path": "fixtures/XCF-POSITIVE-003/expected.json",
+      "role": "EXPECTED_ARTIFACT",
+      "media_type": "application/json",
+      "byte_size": 110,
+      "fingerprint": "sha256:3a6a34d1b7a1f02c1ddee839646bc72a516c2bb797d8ca6456a85105d8b234cc"
+    },
+    {
+      "path": "fixtures/XCF-POSITIVE-003/fixture.json",
+      "role": "FIXTURE_DECLARATION",
+      "media_type": "application/json",
+      "byte_size": 319,
+      "fingerprint": "sha256:a13a31ffc3b9e785ebb9c713c848e2a31960a0fa3562bae8a4f876d4c6a0f50f"
+    },
+    {
+      "path": "fixtures/XCF-POSITIVE-003/input.json",
+      "role": "SYNTHETIC_INPUT",
+      "media_type": "application/json",
+      "byte_size": 1412,
+      "fingerprint": "sha256:63b624ee86ddba616473f97491fbef22b595c9dd9f49b776893c67092b171aef"
+    },
+    {
+      "path": "fixtures/XCF-POSITIVE-004/expected.json",
+      "role": "EXPECTED_ARTIFACT",
+      "media_type": "application/json",
+      "byte_size": 110,
+      "fingerprint": "sha256:3a6a34d1b7a1f02c1ddee839646bc72a516c2bb797d8ca6456a85105d8b234cc"
+    },
+    {
+      "path": "fixtures/XCF-POSITIVE-004/fixture.json",
+      "role": "FIXTURE_DECLARATION",
+      "media_type": "application/json",
+      "byte_size": 323,
+      "fingerprint": "sha256:529b8bfba8195aab6ac5f6ccaa9815fb92ced6d127c0471fb037d4799e2c89c0"
+    },
+    {
+      "path": "fixtures/XCF-POSITIVE-004/input.json",
+      "role": "SYNTHETIC_INPUT",
+      "media_type": "application/json",
+      "byte_size": 1253,
+      "fingerprint": "sha256:f5684e92d8a632afeb01afd330e413bedf643e078aab14c4a123a9f6e5b8a4c2"
     },
     {
       "path": "fixtures/XCF-REPRODUCIBILITY-001/expected.json",
@@ -397,15 +481,15 @@
       "path": "inventory/cross-cutting-contract-inventory.json",
       "role": "CONTRACT_INVENTORY",
       "media_type": "application/json",
-      "byte_size": 41858,
-      "fingerprint": "sha256:1345be1b9a0e895904ed5568f4083cbfd7c0785f837a65e26792a74b57088627"
+      "byte_size": 42212,
+      "fingerprint": "sha256:314963503b3c83b61a5288ba167bfd5425584348e76b89e44546657c4a7bbdae"
     },
     {
       "path": "README.md",
       "role": "PACKAGE_DOCUMENTATION",
       "media_type": "text/markdown",
-      "byte_size": 1497,
-      "fingerprint": "sha256:ac60586de73a61169d6229b87a7104df71a24c528d8082be8375b969842e11ea"
+      "byte_size": 1590,
+      "fingerprint": "sha256:3266a964d6fccab812aca02955ca8caac3619461910fc778af699db34bf7b4de"
     },
     {
       "path": "schemas/capability-domain.schema.json",
@@ -439,8 +523,8 @@
       "path": "schemas/corpus-domain.schema.json",
       "role": "JSON_SCHEMA",
       "media_type": "application/json",
-      "byte_size": 15288,
-      "fingerprint": "sha256:a45207f4aae58169de8e3b7ff9cfaf75a8cd788a76596e3cd2c535531888856c"
+      "byte_size": 17262,
+      "fingerprint": "sha256:4251f8ab249472bcbc2617598e2caa7bf6820c8407c4c5bf19f29dd4384d493b"
     },
     {
       "path": "schemas/fixture.schema.json",
@@ -474,8 +558,8 @@
       "path": "schemas/promotion-domain.schema.json",
       "role": "JSON_SCHEMA",
       "media_type": "application/json",
-      "byte_size": 11427,
-      "fingerprint": "sha256:05233454d022a566cbe21e8ba812fb3650f4554d62c5c174c715ec45f36c87ef"
+      "byte_size": 11296,
+      "fingerprint": "sha256:b921ff2a308662af57cb572e4572119c6a940437111f90fd4927f77a17d7f2b1"
     },
     {
       "path": "schemas/serving-domain.schema.json",
@@ -488,8 +572,8 @@
       "path": "schemas/source-domain.schema.json",
       "role": "JSON_SCHEMA",
       "media_type": "application/json",
-      "byte_size": 9983,
-      "fingerprint": "sha256:c6d725421bb6d9884718ab88dd5c2bae821272c66346daa72196124ccd2bdaa8"
+      "byte_size": 10037,
+      "fingerprint": "sha256:4c58c4b624b5447f1416e0572474c5aee1d6245be11f8b4aea85636686c2c0cf"
     },
     {
       "path": "schemas/state-machine.schema.json",
@@ -502,8 +586,8 @@
       "path": "transitions/approval.json",
       "role": "STATE_MACHINE",
       "media_type": "application/json",
-      "byte_size": 1994,
-      "fingerprint": "sha256:5672e153b969d01676ca4b5e0021e470fde595d0f49c65479cdde6fe9858bc11"
+      "byte_size": 1736,
+      "fingerprint": "sha256:31199d995e684d5c69e87f9314028c63668feb6a1e629220379a70e39c73ad0e"
     },
     {
       "path": "transitions/capability.json",
@@ -513,11 +597,32 @@
       "fingerprint": "sha256:573c0cbf90b8949cc8aa531b7131a78d46cbf2669021424b948d7a132bed2019"
     },
     {
+      "path": "transitions/coverage-gap.json",
+      "role": "STATE_MACHINE",
+      "media_type": "application/json",
+      "byte_size": 3514,
+      "fingerprint": "sha256:9e4a6a5e6b44d87a4501d965614ed85a829bcd76550cf2bf4d9d4cea0947bccd"
+    },
+    {
+      "path": "transitions/pipeline-run.json",
+      "role": "STATE_MACHINE",
+      "media_type": "application/json",
+      "byte_size": 6941,
+      "fingerprint": "sha256:84efe018638861f0a8553f974c863a419cdf440fedeaf5cab8685c916213fa3c"
+    },
+    {
       "path": "transitions/promotion-execution.json",
       "role": "STATE_MACHINE",
       "media_type": "application/json",
       "byte_size": 2784,
       "fingerprint": "sha256:108fbf368d85bd14376040d19e730d0a955bec73fca6ea2b851b239d1708aeca"
+    },
+    {
+      "path": "transitions/quarantine.json",
+      "role": "STATE_MACHINE",
+      "media_type": "application/json",
+      "byte_size": 1706,
+      "fingerprint": "sha256:152aec0fb3730f9af5546128ab476ae0bd10a20635c8602f79dacd67ca5f8d4f"
     },
     {
       "path": "transitions/review.json",
@@ -532,6 +637,20 @@
       "media_type": "application/json",
       "byte_size": 2932,
       "fingerprint": "sha256:85ad41ae182768c9dc5eeeb2a3eb62914dd9adf3f14ebe7892e0efc3d848ac95"
+    },
+    {
+      "path": "transitions/source-contract-review.json",
+      "role": "STATE_MACHINE",
+      "media_type": "application/json",
+      "byte_size": 1886,
+      "fingerprint": "sha256:c831221a6ad3008e785ddca3d8f2d9a134460083eb5e252d35ed2751b606bc3d"
+    },
+    {
+      "path": "transitions/work-item.json",
+      "role": "STATE_MACHINE",
+      "media_type": "application/json",
+      "byte_size": 5382,
+      "fingerprint": "sha256:e6ee661dccc2e46e65a3c7e83255ffcfeee5fdeca64dc03da5e83eff894cce2a"
     },
     {
       "path": "transitions/workflow-admission.json",

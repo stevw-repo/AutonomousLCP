@@ -21,6 +21,830 @@ cross-reference repair, validation, and documentation consistency do not need
 separate user approval. This preference authorizes design work only and does
 not expand any implementation or operational authorization boundary.
 
+## Review-surface integration direction
+
+The initial review interface may run as a small standalone interface while the
+pipeline and Approval workflow are proved. The intended later user experience
+is review inside the existing Ask.Legal admin portal. Portal integration is
+deliberately deferred until the pipeline works.
+
+The durable boundary is the separately permissioned Review Application API and
+its exact evidence, review, rejection, revocation, and Approval contracts—not
+the first browser shell. The later admin portal should call that API and may
+replace or absorb the initial browser interface without gaining direct write
+access to the Management Register, altering frozen packages, or receiving
+promotion credentials. Do not couple pipeline correctness to the portal's UI
+framework, session store, database, or release cadence before that integration
+is designed.
+
+## Production application language
+
+ADR 0089 selects Python 3.14 as the application-language baseline for the
+control plane, Review Application API, acquisition worker, legal-processing
+worker, promotion worker, and shared production packages. The exact supported
+3.14 patch is pinned to **3.14.7** by the explicitly authorized local contract
+spike. Any patch change must update the exact locks and repeat the proof.
+
+Python use is governed by a strict profile: complete annotations, CI-failing
+static type checks, closed frozen domain types, strict runtime boundary models,
+raw-byte I-JSON rejection, independent Draft 2020-12 validation, RFC 8785 JCS
+and SHA conformance, deterministic orchestrators, bounded effect adapters,
+architecture tests, and reproducible dependency locks. Static types or
+Pydantic models never replace the repository-owned normative schemas.
+
+ADR 0089 alone did not select a framework. ADR 0090 subsequently selects the
+FastAPI and strict Python boundary toolchain described below, and ADR 0091
+selects Azure SQL Database with `mssql-python` for the Management Register.
+ADR 0092 selects Azure Container Apps with one workload-profiles environment
+and delegated subnet per production application boundary. ADR 0093 selects the
+standalone Python Durable Task SDK with managed Durable Task Scheduler.
+ADR 0094 selects flat-namespace Azure Blob Storage for separately administered
+primary and recovery vaults and Azure Confidential Ledger for Azure SQL
+database digests. ADR 0095 selects one private Premium Azure Container
+Registry with Entra repository ABAC, separate candidate and release families,
+digest-pinned images, Notation and Artifact Signing, SBOM and provenance,
+vulnerability and licence admission, locked release graphs, and exact OCI
+recovery packages. ADR 0096 selects one Application Gateway WAF_v2 with a
+public Review listener, a private control listener, internal Container Apps
+origins, and separate Entra resource and application-authorization boundaries.
+Exact capacity, remaining security components, retention, recovery objectives,
+and operational policies remain separate decisions. The initial review browser
+client and later Ask.Legal admin portal may remain React/TypeScript clients of
+the separately permissioned Review Application API. Existing Ask.Legal Python
+code is reference evidence rather than a code, schema, deployment, or
+authorization dependency.
+
+## Python application and contract toolchain
+
+### Temporary build-tool rule
+
+Never run a temporary uv or other tool installer in a mode that edits
+`~/.profile`, `~/.bashrc`, `~/.zshrc`, or another shell-startup file. A
+temporary directory can disappear while the durable startup reference remains,
+breaking later login sessions. Use an exact pinned executable by direct path,
+keep its cache explicitly task-local, and remove task-created temporary
+artifacts after the proof. A project-local durable tool path requires an
+explicit repository decision; `/tmp` is never a durable PATH or startup-file
+target.
+
+ADR 0090 selects FastAPI with Pydantic v2 boundary models and Uvicorn for the
+control-plane and Review Application HTTP APIs. FastAPI and Pydantic are adapter
+tools, not domain or contract authorities: domain and contract packages remain
+framework-free, and workers do not use FastAPI as a workflow mechanism.
+
+All normative JSON enters as explicitly bounded raw bytes. A repository-owned
+strict parser rejects byte-order marks, duplicate keys, invalid Unicode,
+invalid or non-finite numbers, negative zero, and unsafe integers before
+`jsonschema.Draft202012Validator` validates against a network-disabled,
+preloaded `referencing.Registry`. Only then may a strict, closed, frozen
+Pydantic model bind the already parsed value. Trail of Bits `rfc8785` runs
+behind a repository adapter and must reproduce the RFC vectors, all repository
+fixtures, and the independent Node oracle exactly. Generated OpenAPI describes
+HTTP operations and supports admin-portal clients; repository-owned Draft
+2020-12 schemas remain normative.
+
+The development baseline is the official Pyright CLI in strict mode, Ruff for
+lint and format, uv workspaces with one committed `uv.lock`, pytest,
+Hypothesis, HTTPX, and AnyIO's pytest integration. The completed checkpoints
+pin their used tools and dependencies exactly. The durability checkpoint adds
+the standalone Durable Task SDK and local test backends. The package checkpoint
+proves exact uv 0.12.5 offline installation, member isolation, and reproducible
+wheel and container inputs. The image-admission checkpoint separately pins its
+Linux amd64 OCI toolchain and proves a reproducible synthetic image and
+candidate evidence graph without Azure. FastAPI, Uvicorn, and tools for later application
+capabilities remain outside the implemented boundary. Exact Container Apps
+profiles and replicas, storage, deployment workflow, provider, service-tier,
+retention, and operational values remain open.
+
+## Local Python contract checkpoint
+
+The first implementation authorization is limited to the local synthetic
+contract spike under `packages/contracts/`. It pins Python 3.14.7 in
+`.python-version` and `uv.lock`, official Pyright 1.1.413 in
+`package-lock.json`, and the complete Python dependency graph in `uv.lock`.
+The package implements strict size-bounded raw-byte parsing, a preloaded
+network-disabled Draft 2020-12 registry, an RFC 8785 adapter, SHA-256, one
+strict closed frozen serving-record boundary, and the ordered raw bytes →
+schema → typed binding path.
+
+The tests reproduce all 15 existing synthetic fixture results, every exact
+manifested artifact size and hash, the independent Node package fingerprint,
+and two fresh-process snapshots. Adversarial tests cover BOM, duplicate keys,
+invalid UTF-8, unpaired surrogates, non-finite numbers, negative zero, unsafe
+integers, trailing input, size limits, external and unknown schemas, a seventh
+serving metadata field, coercion, and mutation. This checkpoint authorizes no
+application scaffolding, database, Azure, source, model, embedding, Pinecone,
+backup, deployment, or other external effect.
+
+## Local Python type-boundary checkpoint
+
+The second explicit implementation authorization completes the local type-
+boundary spike. Official Pyright 1.1.413 now checks the repository root in
+strict Python 3.14 mode, so current and future `apps/`, `packages/`, tests, and
+repository Python tools cannot be excluded by a manually maintained member
+list. Missing stubs and unnecessary type-ignore comments remain errors.
+
+The repository-owned `tools/python_boundary_check.py` independently discovers
+Python below every `packages/*` and `apps/*` source and test tree. Stable
+finding codes reject explicit `Any`, bare collection annotations, unapproved
+casts, unapproved type or lint suppressions, infrastructure imports in
+protected packages and applications, boundary libraries in domain packages,
+and FastAPI/Starlette/Uvicorn/Flask/Django leakage into contract or domain
+packages. Future adapter or infrastructure packages may own external libraries;
+the separately gated architecture spike must later prove their exact consumers
+and capability direction.
+
+Five runtime-narrowing casts, one jsonschema Pyright suppression, and two
+`mssql-python` execute-signature suppressions are the only current exceptions.
+Each is bound to one exact path, line, finding code, and durable reason;
+duplicate, short-reason, unused, moved, or stale entries fail closed. Fifteen
+synthetic tests prove the violation families, automatic future-tree discovery,
+closed parameterized annotations, strict Pyright configuration, and complete
+consumption of the exception register. This checkpoint adds no
+domain kernel, application, database, cloud, source, model, embedding,
+Pinecone, deployment, or other external capability.
+
+## Local durability checkpoint
+
+The fourth explicit implementation authorization completes the local
+synthetic durability spike under `packages/durable-task-adapter/`. The exact
+workspace lock contains Microsoft's standalone `durabletask==1.9.0` and
+`durabletask-azuremanaged==1.7.0`. The real-emulator target is pinned to
+`mcr.microsoft.com/dts/dts-emulator@sha256:1b49dcf1581168f5c620a4f32083e1291a7dddfa60434acb3eacd8b23355936a`.
+
+The orchestration accepts only an explicit numeric workflow version and opaque
+execution, command, build, configuration, contract, and input fingerprints.
+Scheduler history is constrained to IDs, fingerprints, closed codes, bounded
+counters, and sanitized status under the 64 KiB internal ceiling. The
+orchestrator performs no effect; activities resolve external event references
+and revalidate current fake-register lineage, capability, approval event,
+command ID, and fingerprint immediately before the synthetic effect.
+
+The always-on Microsoft in-memory backend and the separately invoked Docker
+emulator both prove that a new worker replays and resumes a waiting instance.
+While the first worker is stopped, the proof buffers a stale review event, its
+exact duplicate, and a current event. A fresh worker uses a fake Management
+Register reconstructed from an immutable snapshot, records the closed
+`STALE_FINGERPRINT`, `DUPLICATE_EVENT`, and `ACCEPTED` results, then survives a
+simulated lost activity acknowledgement: two effect-activity attempts resolve
+to one synthetic effect and one immutable receipt. The emulator additionally
+proved that workflow versions must match its numeric
+`Major[.Minor[.Patch]]` form; the spike branch is `1.0.0`.
+
+The emulator is memory-only. Stopping it is not a persistence or disaster-
+recovery proof. The disposable container was removed after validation; the
+digest-pinned image may remain cached. This checkpoint authorizes no Azure
+resource, application scaffolding, source or legal data, provider call,
+deployment, or production effect.
+
+## Local package checkpoint
+
+The fifth explicit implementation authorization completes the local package
+spike. `tools/package_spike_manifest.json` is the closed proof policy for
+Python 3.14.7, uv 0.12.5, all 18 current workspace members, each member's allowed
+workspace dependency closure, the fixed build epoch, forbidden development
+distributions, and the metadata inputs carried toward container construction.
+Repository discovery fails if a present or future `packages/*` or `apps/*`
+member is absent from that policy.
+
+`tools/package_spike.py` copies only declared build inputs into two
+path-distinct, fixed-metadata workspaces and runs `uv build --offline` with
+Python downloads disabled. It requires equal wheel names and bytes, safe
+archive paths, complete valid wheel RECORD hashes and sizes, and no generated
+bytecode. Each member is then synced separately from the unchanged exact lock
+into a clean non-editable environment with uv offline mode enforced. An
+isolated import probe proves that only the member and its declared workspace
+dependency closure are installed and importable, that imports resolve inside
+the clean environment, and that pytest, Hypothesis, and Ruff do not leak into
+runtime installations.
+
+The proof also creates two deterministic USTAR bundles containing the exact
+wheels, `.python-version`, root `pyproject.toml`, `uv.lock`, and a hashed entry
+manifest. The bundles are byte-identical and therefore prove reproducible
+container *inputs*, not an OCI image, image graph, base image, SBOM,
+provenance, signing, vulnerability status, or image admission. Those are
+proved separately by the local image-admission checkpoint. After the
+architecture spike expanded the workspace, the complete proof passed again
+with 18 reproducible wheels and 18 isolated clean installs. The current lock
+SHA-256 is
+`8acc9a0215fbd26e2903e2d905710e4b1ad5bd38c4429bcc752ce49f89ffb7a9` and
+the deterministic container-input bundle SHA-256 is
+`4acad3d6f49a419b32946e711ca8d805f864ef37524f0b4f8b4c94ca96adc455`.
+This package checkpoint adds no Azure resource, network access, external data,
+deployment, or production capability.
+
+## First M2 domain-lifecycle checkpoint
+
+The first separately authorized M2 implementation checkpoint adds a
+framework-free immutable lifecycle kernel under `packages/domain/`. It defines
+37 closed states and 61 exact transitions across Pipeline Runs, Work Items,
+Source Contract Reviews, Coverage Gaps, and Quarantines. Generic frozen
+snapshots, events, results, and state machines enforce version-one creation,
+exact one-step version increments, stale-version rejection, terminal-state
+closure, reachability, and new linked identities for recurrence/re-entry.
+
+Every declared transition and every unlisted state pair is tested. The pure
+kernel imports no contract, framework, infrastructure, persistence, or provider
+library and performs no I/O or effect. Command/effect contracts, Management
+Register ports and persistence, application runtime, and all external
+capabilities remain outside this checkpoint.
+
+A 2026-08-16 correctness audit found and the ordered correction closed the
+machine-authority, guard, runtime-type, independent-oracle, and developer-test
+gaps. Five versioned closed-world machine files, 33 unique lifecycle codes, and
+entity-specific schema/inventory links now govern 37 per-machine states and 61
+transitions. Runtime-exact validation, independent structural equivalence, and
+the exact uv 0.12.5/Node.js 24.19.0/Python 3.14.7 developer command pass. JSON
+event names and guard preconditions remain normative for future command
+handlers; the pure Python kernel implements state/version behavior only.
+
+Lifecycle-correction decision 1 forbids `RUN_PROMOTING → RUN_BLOCKED` and
+`RUN_PROMOTING → RUN_CANCELLED`. An unknown promotion effect outcome remains
+`RUN_PROMOTING` while dependent work is fenced and reconciliation runs. Only
+verified success, verified approved rollback, or proved final failure may end
+that state.
+
+Lifecycle-correction decision 2 classifies every pre-promotion terminal edge.
+`RUN_BLOCKED` is potentially correctable but terminal and requires a new linked
+or rebased run; `RUN_CANCELLED` requires a named `PipelineAdministrator` before
+an irreversible checkpoint; `RUN_FAILED` requires a non-retryable failure or
+exhausted permitted attempts; and `RUN_REJECTED` is human-rejection-only.
+
+Lifecycle-correction decision 3 keeps detailed Work Item states but exposes
+four operator categories: Completed, Needs follow-up, Stopped, and Retrying.
+Every terminal work item stays closed and later continuation is a new linked
+item; only `WORK_RETRY_WAIT` preserves the same identity and immutable inputs.
+
+Lifecycle-correction decision 4 permits direct switching between
+`MITIGATED_CARRY_FORWARD` and `MITIGATED_WITHHOLDING` for the same unresolved
+Coverage Gap when its identity and scope are unchanged. Each switch requires a
+new authenticated administrator decision and exact evidence. Only
+`RESOLVED_COMPLETE` closes the gap.
+
+Lifecycle-correction decision 5 uses one recurrence/supersession rule for
+Source Contract Reviews, Coverage Gaps, and Quarantines. Terminal records never
+reopen. A material subject, scope, or definition change supersedes only a
+non-terminal record and creates one linked `OPEN` replacement. Recurrence after
+terminal closure creates a new linked `OPEN` record without changing the old
+record.
+
+Lifecycle-correction decision 6 counts a retry only after processing starts.
+Transport redispatch leaves the work item `WORK_DISPATCHED`, reuses the stable
+dispatch identity, and consumes no processing attempt. Only a retryable failure
+from `WORK_RUNNING` may enter `WORK_RETRY_WAIT`; direct dispatch-to-retry-wait
+is forbidden.
+
+## Accepted contract amendment 1.1.0
+
+The 2026-08-16 bounded design reconciliation advances the cross-cutting
+contract package to 1.1.0 without reopening the architecture. Approval
+Decision 1.1.0 has no independent `valid_until`; Approval Lifecycle 1.1.0 has
+no `APPROVAL_EXPIRED` state, and a failed Promotion Manifest validity predicate
+invalidates the Approval. Coverage Status Manifest 1.1.0 has no coverage-
+signing policy field and requires each scope's last verification time, exact
+gap/Quarantine/source-failure references, and one closed warning code matching
+its status. Independent positive and negative fixtures enforce both changes.
+The resulting contract package-manifest fingerprint is
+`sha256:ff8a84ed971b62bb1b27451a61b0d43620c51ec55700ca492b562b4f901df594`.
+
+## Local image-admission checkpoint
+
+The sixth explicit implementation authorization completes the local synthetic
+image-admission spike. `tools/image_admission_spike_manifest.json` is its closed
+Linux amd64 policy and source ledger. It pins Buildx 0.36.1, BuildKit v0.26.2,
+Docker 29.1.3, Syft 1.51.0, Grype 0.117.0, ORAS 1.3.3, Notation 1.3.2,
+OpenSSL 3.0.13, BusyBox `1:1.36.1-6ubuntu3.1`, and the Grype v6.1.9 database
+built at `2026-08-15T06:13:48Z`. Checked-in hashes cover each executable,
+release asset, BusyBox, the database archive, and the 1.9 GB extracted
+database; checked-in URLs identify the official release assets.
+
+`tools/image_admission_spike.py` creates two metadata-normalized contexts and
+uses network-disabled, no-cache BuildKit builds. The exact image digest is
+`sha256:ea30aba1368ae4eeb33a685971fe8689943c18f493a7e3aaea68a2fa3b91af74`.
+Two complete proof executions reproduced image graph
+`8f37dbddc81151d7aa546a7460365979197f29add68d2e1420d0b82ca96c5265`,
+normalized SPDX
+`79d260a664cc650612ffbc38e70f1ece860b906c02bcd8a07b1c64ace5bb697b`,
+normalized provenance
+`fc9520b58f941b680b911f71ed0e4622ed78445ee8405818383445cba398e93f`,
+normalized vulnerability result
+`19341f3282438d73963b56c44e2d4447d5a31c5534aa9d9d334fd13a1d0e9f44`,
+licence result
+`83af83789a2931a2f85f48cca48617d0e421b7d1026c4e645630d14f2269b92b`,
+and unsigned candidate graph
+`b2ce8b33ea32f5466e0992ad13edab53139084995356283f6af81f407db11ba3`.
+
+Syft inventories exact synthetic Python and dpkg packages. Grype scans offline,
+is bound to the selected fresh database, and rejects its checked-in Log4Shell
+fixture. The repository policy blocks stale, future, incomplete, KEV,
+Critical, fixed High, unaccepted unfixed High, and unknown-severity states.
+The synthetic licence catalogue blocks denied, review-required, unknown, or
+unfulfilled obligations. ORAS copies and restores the exact OCI subject and
+referrer closure. Runtime validation uses no network, read-only root,
+non-root user, no capabilities, no new privileges, bounded resources, and an
+exact command.
+
+Notation creates a fresh ephemeral `LOCAL_TEST_ONLY` certificate and key for
+each proof, and OpenSSL signs and verifies the canonical payload. Its
+trust root is deliberately incapable of production authority, so the signed
+graph changes between complete executions; within each execution the recovery
+graph exactly equals the signed release graph. The spike proves no production
+upstream-tool admission, ACR, Azure Artifact Signing, ABAC, private networking,
+image locking, Container Apps policy, managed identity, deployment, or Azure
+recovery. Those require separate Azure proofs and authorization.
+
+## Local architecture checkpoint
+
+The seventh explicit implementation authorization completes M1 with minimum
+declarative and installable skeletons for the control plane, Review API,
+acquisition worker, legal-processing worker, and promotion worker, plus the 13
+canonical package roles. They contain boundary declarations only: no FastAPI
+route, entry point, worker loop, configuration loader, credential, external
+call, or effect implementation exists.
+
+`tools/architecture_spike_manifest.json` is the closed policy for all 18
+members, 70 permitted direct internal dependency edges, 30 application
+capability ports, permitted external distributions, and exclusive effect
+owners. `tools/architecture_spike.py` independently discovers every current
+and future `apps/*` and `packages/*` member; checks exact project and module
+identity, dependencies and uv workspace sources; parses internal imports;
+rejects package-to-application dependencies and cycles; verifies literal role
+and capability declarations; and enforces exclusive ownership of approval,
+revocation, source access, generative and embedding providers, Pinecone,
+backup, routing, and recovery effects.
+
+The policy fingerprint is
+`sha256:b4ec8fd3dc09983460657823664ad6046eca8f573e6dcdcd30dcaf91d93d9475`.
+Synthetic tests prove undeclared-member, forbidden-import,
+package-to-application, cycle, and capability-drift failures. Ordinary
+repository validation requires no external service. This checkpoint proves
+static architecture boundaries only and grants none of the declared runtime
+capabilities.
+
+## M2–M7 build-readiness audit
+
+The 2026-08-16 full design audit found the architecture coherent and twelve
+implementation-facing gaps. Accepted ADR 0099 closes them through six accepted
+protocols:
+
+1. Domain and Register protocol;
+2. Application interfaces;
+3. Acquisition and Evidence protocol;
+4. executable Legal Desk package;
+5. Review and Promotion protocol; and
+6. end-to-end conformance plan.
+
+The durable audit is
+`docs/design/M2_M7_BUILD_READINESS_DESIGN_AUDIT.md`; the protocol files are
+named `M2_DOMAIN_AND_REGISTER_PROTOCOL.md` through
+`M7_END_TO_END_CONFORMANCE_PLAN.md` under `docs/design/`. Their material choices
+and final package are accepted, so the design prerequisite is complete.
+Machine schemas, code, local proof, real-source packages, cloud proof, and
+production admission remain separately authorized work.
+
+The audit also clarifies that effect-free proposal-package preparation belongs
+to the control-plane coordination boundary through pure corpus/promotion
+services. The promotion worker only reads and executes an exact approved
+manifest. M7 uses one test-only synthetic Legal Desk package to prove platform
+behavior; it makes no Hong Kong or production legal-readiness claim.
+
+Azure OpenAI models sold by Azure through Microsoft Foundry are the selected
+stateless generative and embedding service boundary. Exact model deployments,
+versions, prompts, dimensions, thresholds, and limits are immutable admission
+profiles, never floating architecture defaults. This matches the provider
+family verified in Ask.Legal Backend. Its Cloudflare AI endpoint and API-key
+authentication are not inherited; private Azure connectivity and Entra
+workload identity remain the pipeline security direction.
+
+Decision 2 selects one human `PipelineAdministrator` role, assignable to
+multiple named people, for all Review and Control actions. There is no separate
+step-up freshness rule, Approval TTL, or absence-cover role; Approval remains
+single-use and predicate-bound. Application and workload identities stay
+separate.
+
+Decision 3 removes fixed Quarantine/review SLAs. Every item has severity and
+named administrator assignment; urgent release-blocking or potentially
+misleading current-law issues notify immediately. Due times are optional and
+administrator-set. Elapsed time never releases or resolves material.
+
+Decision 4 selects a restricted Ask.Legal App Service `candidate` slot,
+distinct from the existing development slot, for validated manual production
+swap and reverse-swap rollback. The development slot remains development-only.
+Each request pins one routing generation. Production admission must prove the
+plan's additional-slot limit and shared capacity.
+
+Decision 5 fixes Pinecone index names as
+`asklegal-<env3>-<jur3>-<YYYYMMDD>-<state12>`, normally 38 characters with an
+internal 40-character limit. Creation validates allowed characters, the live
+45-character API limit, the actual project-ID hostname constraint, and the
+full Serving State fingerprint; a shortened-token collision hard-fails.
+
+Decision 6 selects one complete immutable Coverage Status Manifest per routing
+generation. The routing generation binds its exact SHA-256 fingerprint and
+protected immutable Azure download reference. Ask.Legal retrieves it through
+authenticated protected storage, verifies and caches it by routing generation,
+blocks activation when it is missing, incomplete, or mismatched, and fails
+visibly when neither stored nor verified cached bytes are available. There is
+no dedicated coverage-signing identity, signing key, rotation, or signature-
+validation lifecycle.
+
+Measured/organization-owned values such as regions, capacity, retention,
+recovery objectives, named role assignees, source rights, real endpoint
+inventories, and evaluation evidence are admission data. Missing data disables
+the capability and does not reopen the general design.
+
+## Management Register technical boundary
+
+ADR 0091 selects one Azure SQL Database as the production Management Register
+and Microsoft's first-party `mssql-python` DB-API driver behind a typed
+`ManagementRegisterStore`. Exact versions and Azure capacity settings remain
+implementation and operations decisions.
+
+Applications cannot mutate authoritative tables directly and no general-
+purpose ORM owns the write path. Separate contained Microsoft Entra users and
+custom database roles receive only `EXECUTE` on their schema-qualified command
+procedures and `SELECT` on owned views. A separate migration identity owns DDL.
+The synchronous driver stays inside a bounded adapter; async FastAPI paths run
+one complete database operation in a dedicated bounded AnyIO worker thread and
+never share a connection across a thread or `await`.
+
+One command is one short transaction. It atomically records the fingerprint-
+bound inbox claim, immutable object and lifecycle events, outbox intents,
+rebuildable projection changes, and exact result. No external effect occurs
+inside that transaction. Critical single-winner transitions combine database
+constraints and compare-and-set with finite transaction-owned application
+locks and targeted serializable isolation. Ambiguous commit outcomes are
+resolved by querying the immutable command result before any retry.
+
+Selected immutable authoritative facts use explicitly declared append-only
+ledger tables and externally stored database digests. Ledger is not a database-
+wide default and does not replace the Evidence Vault, identity separation,
+backups, restore drills, or digest verification. Large artifacts stay outside
+the register. Canonical JSON is stored as validated RFC 8785 UTF-8 bytes with
+its exact fingerprint and typed constraint columns; SQL Server JSON behavior
+is not normative.
+
+Schema changes use closed forward-only migration packages: an exact manifest
+lists ordered T-SQL batch bytes and fingerprints, the narrow repository-owned
+runner applies the complete package in one transaction under a migration lock,
+and the applied package fingerprint is appended to the migration ledger. No
+template substitution, implicit file discovery, ORM autogeneration, `GO`
+parsing, or automated destructive down migration is permitted.
+
+## Local Management Register checkpoint
+
+The third explicit implementation authorization completes the synthetic local
+Management Register spike. It pins `mssql-python==1.12.0` and its complete
+transitive graph in `uv.lock`. The real-engine target is SQL Server 2025 CU7
+Developer on Ubuntu 22.04 at immutable MCR digest
+`sha256:fa0dcf206087759fe6dad4cc02bfa88d97439085e548fbca9039330519c0cf1d`.
+SQLite is not used.
+
+`packages/management-register-adapter/` owns the runtime-checked driver wrapper,
+typed store, and repository migration runner. Its first migration contains five
+explicit T-SQL batches and JCS package fingerprint
+`59e606d268bc3910670424dbc8acad823691e358581748f838bd6b9f46256cd0`.
+The runner rejects changed or undeclared bytes, `GO`, invalid ordering, stale
+package fingerprints, and applied-ID fingerprint drift before execution. It
+uses the driver's transaction boundary plus a finite transaction-owned
+application lock; an explicit nested `BEGIN TRANSACTION` is forbidden because
+`mssql-python` already owns the outer transaction when autocommit is disabled.
+
+The synthetic schema proves append-only ledger facts, ordinary rebuildable
+projections, successful execution under exact Review and Promotion users,
+direct-DML denial, canonical bytes and hashes, idempotent replay,
+concurrent single-winner Approval consumption,
+Serving State activation, atomic inbox/event/outbox/result changes, bounded
+deadlock-victim retry, and lost-ack resolution through the immutable command
+result. Ledger verification locally requires both read-committed snapshot and
+snapshot isolation and runs outside a user transaction. External digest
+storage remains an Azure-only future proof.
+
+Ubuntu Docker 29.1.3 is installed on the development host and its services are
+enabled. The user is deliberately not a member of the Docker group; use
+`sudo docker`. The validated container and temporary credential were removed,
+while the digest-pinned image may remain cached. This checkpoint authorizes no
+Azure resource, external data, legal record, application, deployment, or
+production capability.
+
+## Production hosting and network boundary
+
+ADR 0092 selects Azure Container Apps for the control plane, Review Application
+API, acquisition worker, legal-processing worker, and promotion worker. Each
+uses a separate workload-profiles environment and delegated subnet because a
+Container Apps environment is the platform network secure boundary and the
+five applications have different ingress, egress, credential, and blast-radius
+requirements.
+
+The two APIs are internal continuously available origins behind the ADR 0096
+Application Gateway edge. Only the Review listener is public. The control
+listener is private and has no public host or route. The three workers are
+continuously running apps with ingress disabled and Durable Task Scheduler
+connections. Production initially keeps at least one replica per app; scale to
+zero is not assumed for a durable worker with no connected process to receive
+streamed work. Exact profiles, replica sizes and limits, region, zones,
+firewall, DNS, recovery, service levels, and cost remain measured decisions.
+
+Every app has its own runtime managed identity, database role, secret access,
+scaling and health policy, deployment identity, and deployment job. Each
+subnet follows an application-specific outbound policy. Private Azure
+dependencies use private endpoints and private DNS where supported, and public
+network access is disabled after the private path is proved. A shared network
+hub may provide private endpoints, DNS, firewall, registry, and observability
+without merging application capabilities.
+
+The promotion worker is a no-ingress continuous app, not a manually started
+Container Apps Job. The Job start operation permits an execution-template
+override, including image and command, and exposes configured Job secrets to
+the starter. Promotion instead consumes a small durable command and
+independently revalidates the exact Approval, frozen manifest, evidence,
+recovery state, fingerprints, target, and expected base state. Correctness
+never relies on replica count or deployment overlap.
+
+ADR 0002's downstream Ask.Legal App Service configuration boundary remains
+settled and separate. Container Apps hosts the pipeline; it does not move
+Ask.Legal itself, alter the App Service slot question, or couple the future
+admin portal to the Review API's host.
+
+## Authenticated API edge boundary
+
+ADR 0096 selects one regional Azure Application Gateway WAF_v2 in a dedicated
+hub edge subnet. A public HTTPS listener and WAF policy route only to the
+Review API. A separate private-IP listener, private DNS name, certificate,
+backend pool, probe, routing rule, and WAF policy route only to the control API
+through an approved private operator-network path. The public frontend has no
+control route, the private listener has no public DNS or fallback, and the
+gateway has no route to any worker.
+
+Both API origins remain internal Container Apps environments with private
+virtual IPs and public network access disabled. Their app ingress is enabled
+at the environment or VNet scope so the hub gateway can reach it; Container
+Apps calls this `external` app ingress inside an *internal environment*.
+Private DNS, exact backend FQDN and SNI, end-to-end TLS, subnet restrictions,
+and trusted-proxy rules prevent direct-origin and forwarded-header bypass.
+
+Application Gateway owns TLS, WAF, coarse rate limits, routing, and origin
+isolation, not authentication or business authority. Control and Review use
+separate single-tenant Entra resource registrations, audiences, client
+allow-lists, scopes, app roles, and API authorization. Each API validates the
+token signature, issuer, tenant, audience, lifetime, stable subject, actor
+client, delegated scope or expressly admitted application role, and current
+operation permission. A passed WAF rule, private network, valid tenant token,
+mutable name, or raw group claim is insufficient.
+
+The standalone review browser uses authorization code with PKCE and its own
+Review client registration. The later admin portal is admitted as another
+client of the same versioned Review API. Approval and revocation reject
+app-only tokens and bind the stable human Entra identity. Review and Control
+access require the single `PipelineAdministrator` role and MFA before
+production admission, with no separate action-specific step-up. Exact
+authentication strength, device and session conditions, private operator path,
+WAF values, enhanced DDoS choice, capacity, region, recovery, and cost remain
+explicit later values with no implied default.
+
+Production WAF policies use a tested current Azure Default Rule Set in
+Prevention mode, exact exclusions and size limits, coarse anomaly rate limits,
+and sensitive-data log scrubbing. Application policies still enforce exact
+identity-aware limits, raw-byte and schema validation, idempotency, concurrency,
+and single-winner decisions. One gateway is an accepted shared API-availability
+and configuration blast radius, not a shared authorization boundary. No
+automatic cross-region edge failover or direct public-origin break-glass path
+is claimed.
+
+## Infrastructure-delivery boundary
+
+ADR 0097 is **accepted**. It selects repository-owned Bicep
+with GitHub retained as the reviewed source repository and Azure Pipelines as
+the operational deployment control plane. Entra workload identity federation
+replaces stored Azure credentials. Fresh Microsoft-hosted agents handle
+offline and ARM control-plane work; separate stateless Managed DevOps Pools in
+delegated subnets handle private ACR supply-chain work and
+private Azure SQL migrations.
+
+A **Deployment Change Package** is the immutable operational package
+binding exact source and compiled template bytes, tools, target, identity,
+what-if output, cost inputs, rollback basis, evidence destination, and one
+Operational Deployment Approval. It is not a legal Promotion Manifest or ADR
+0007 Approval. Infrastructure apply, role assignment, policy and locks,
+migration, image admission, each application's deployment, retirement, and
+break-glass remain separate identities and gates. Incremental apply cannot
+infer deletion from a resource missing in Bicep.
+
+The decision accepts an additional Azure DevOps control plane to avoid either
+operating private GitHub runners or depending on GitHub Enterprise Cloud for
+the managed private-network and protected-environment path. The user explicitly
+accepted that cost, governance, and visible Ask.Legal-standard deviation on
+2026-08-16, prioritizing Azure-only simplicity.
+
+An explicitly authorized 2026-08-15 read-only comparison found that the local
+Ask.Legal Core Admin, frontend, Backend, and AI-Service repositories all use
+GitHub Actions for checked-in Azure delivery. Static Web Apps workflows consume
+stored deployment tokens and App Service workflows consume stored publish
+profiles. None of the inspected repositories contains Azure Pipelines YAML,
+Bicep, Terraform, `azure/login`, `id-token: write`, or another checked-in
+workload-federation path. This comparison is non-authoritative reference
+evidence, not imported legacy policy: workload federation is a recommended
+security improvement, but Azure Pipelines is a deviation from the visible
+delivery standard. Repository files do not prove the GitHub organization plan
+or external control-plane configuration.
+
+GitHub Actions and Entra OIDC do not themselves require Enterprise Cloud. On a
+lower plan, the project could preserve GitHub Actions by operating fresh
+ephemeral self-hosted runners inside the permitted Azure networks for private
+ACR and Azure SQL work and by supplying an independent production-approval
+control. That is not the existing approach unchanged: standard public GitHub-
+hosted runners cannot reach services exposed only through Azure private
+endpoints, and required-reviewer environment protection for private
+repositories is unavailable below Enterprise Cloud. Public service exceptions,
+reusable deployment secrets, persistent runners, or approval by unprotected
+workflow convention are not acceptable substitutes.
+
+A focused 2026-08-16 check found only standard `ubuntu-latest` GitHub-hosted
+runners and no checked-in larger-runner labels, runner groups, Azure private-
+network runner configuration, or other positive Enterprise Cloud signal. The
+code-only working inference is therefore “probably Team or lower, or Enterprise
+capabilities are unused,” with low confidence. The actual plan remains an
+organization billing-and-licensing fact that must be checked by an authorized
+owner or billing manager for cost comparison, but it does not reopen the
+accepted Azure Pipelines selection.
+
+## Observability and operational-audit boundary
+
+ADR 0098 is **accepted**. It selects direct Azure Monitor
+OpenTelemetry instrumentation authenticated by each application's managed
+identity, five separate workspace-based Application Insights resources, one
+shared application-operations workspace, and one separately restricted
+security-and-audit workspace. The five Application Insights resources preserve
+application attribution and resource-context access; the two workspaces are
+explicit shared availability and configuration blast radii.
+
+Azure Monitor is the detection and query plane, not the authority for legal or
+business facts, Approval, deployment, promotion, Serving State, or effect
+receipts. Required operational audit records also go to a dedicated WORM
+Operational Audit Archive. A protected audit-sealing job produces exact
+interval packages, and the promotion worker's already accepted recovery-copy
+capability copies only those packages into a separately administered Recovery
+Audit Archive using conditional create, exact-version read-back, hashes, and a
+complete manifest. This preserves ADR 0094's single recovery-writer boundary.
+
+The decision includes a closed telemetry allow-list, legal-text and secret
+scrubbing, W3C trace correlation, protected no-sampling classes, bounded
+exporter retry, explicit degraded-observability gates, closed diagnostic-
+category coverage, and separately owned alerts. Azure DevOps audit export is a
+mandatory proof because the native stream currently requires a stored
+destination key and the audit service has limited retention and preview
+surfaces. The decision authorizes documentation only; no telemetry or archive
+resources are authorized.
+
+## Durable workflow technical boundary
+
+ADR 0093 selects Microsoft's generally available standalone Python Durable
+Task SDK with managed Azure Durable Task Scheduler. Durable applications stay
+ordinary Python Container Apps rather than running in an Azure Functions host.
+
+Production begins with two scheduler resources. A general scheduler contains
+separate task hubs for the control plane, acquisition worker, and legal-
+processing worker. A separate scheduler contains only the promotion task hub
+and is reachable only from the promotion application network. The Review API
+has no task hub or Scheduler role. Each durable application uses its own user-
+assigned managed identity with `Durable Task Data Contributor` scoped only to
+its own task hub; no runtime identity receives Scheduler-wide access.
+
+Cross-application durable handoff occurs through the Management Register's
+transactional outbox. The receiving application's dispatcher claims its owned
+fact and schedules an idempotent instance into only its own task hub. Task hubs
+do not call activities or child orchestrations across application boundaries.
+The Scheduler's private endpoints and private DNS supply the network path;
+public network access is disabled after proof, and reachability never replaces
+RBAC.
+
+The Scheduler owns operational execution history, deterministic replay,
+timers, waits, retries, activity dispatch, and external-event delivery. The
+Management Register remains authoritative for business and legal state,
+capabilities, work admission, evidence bindings, Approval, promotion
+admission, Serving State, command results, and effect receipts. There is no
+distributed transaction between them.
+
+Orchestrators are deterministic and effect-free. Activities are idempotent,
+fingerprint-bound, and revalidate the current register execution lineage and
+capability before every effect. Scheduler history contains only opaque IDs,
+fingerprints, closed codes, counters, and sanitized status under an initial 64
+KiB per-payload ceiling. Legal text, evidence, prompts, model or provider
+payloads, approvals, comments, secrets, and raw exceptions stay outside
+history.
+
+Every instance has an explicit immutable workflow version and build,
+configuration, contract, and input fingerprints in the register. Old replay
+branches remain available while work is in flight. Terminal Scheduler history
+is purgeable operational data, not the audit, backup, or recovery authority.
+The local emulator is in-memory and proves workflow behavior only; managed
+identity, private networking, persistence across Scheduler restart, retention,
+capacity, and regional recovery require separately authorized Azure proof.
+
+Managed Durable Task Scheduler does not fail in-flight state over to another
+region. Safe regional replacement fences the old execution lineage, reconciles
+external receipts, selects one exact register checkpoint, and starts a new
+recovery lineage. A resumed old orchestration must fail its register capability
+and lineage checks. No seamless regional workflow failover is claimed.
+
+## Evidence and recovery technical boundary
+
+ADR 0094 keeps production artifact storage Azure-only. Dedicated flat-
+namespace GPv2 Blob accounts form the primary Evidence Vault; separate Blob
+accounts in a dedicated recovery subscription under the same Microsoft Entra
+tenant form the Recovery Vault. Where data-location rules permit, recovery
+uses a different Azure region pair. Both sides use block blobs, versioning,
+change feed, soft delete, locked default version-level WORM retention,
+exact-version legal holds, infrastructure encryption, private endpoints,
+managed-identity RBAC, and public and Shared Key denial.
+
+Only the promotion worker can create and verify recovery copies. It uses one
+explicit exact-version, `If-None-Match: *`, read-back, SHA-256, and complete-
+manifest protocol; Azure Blob object replication is not an additional baseline
+mechanism and no deletion propagates between vaults. Runtime identities cannot
+delete versions, weaken retention or holds, or administer storage. Retention
+expiry is never deletion authority.
+
+The Recovery Vault isolates ordinary application, account, subscription,
+administrator, policy, and regional failures. It is not provider- or tenant-
+independent: an Azure-wide failure or compromise of the shared Entra tenant
+can affect both copies. The user accepted that limitation to keep one cloud and
+one identity and operating model. A later different-tenant or different-
+provider copy can reuse the immutable artifact and recovery-manifest contracts.
+
+Microsoft-managed keys plus infrastructure encryption are the baseline on both
+copies so one customer key cannot become a shared irreversible loss switch.
+Azure SQL ledger digests go to a separately administered private Azure
+Confidential Ledger, with verified digest and receipt checkpoints included in
+the Recovery Vault. Azure SQL backups and Pinecone-native backups remain
+separate recovery mechanisms.
+
+## Container image and software-supply-chain boundary
+
+ADR 0095 selects one shared Premium Azure Container Registry as a platform
+service for the five applications. Premium is required for the accepted
+private endpoint. The registry uses `RBAC Registry + ABAC Repository
+Permissions`, disabled public, anonymous, and admin access, and conditioned
+roles over `base/`, `tool/`, `candidate/<application>`, and
+`release/<application>` repository families. A role without an ABAC repository
+condition is registry-wide and is forbidden for application data-plane use.
+
+Every application has a separate build, pull, verification, and deployment
+identity. A build may write only its candidate repository; a runtime may read
+only its release repository; the image-admission identity copies without
+rebuilding; and the application deployment identity can update only that
+Container App after a fresh admission check. Neither candidates nor tags are
+deployment authority. Container Apps revisions name only
+`release/<application>@sha256:<digest>` references, and a deny-mode policy
+rejects other registries, repository families, and tag-only references.
+
+Production images use Notation signatures backed by one centrally administered
+Azure Artifact Signing Private Trust profile. The one profile is a shared
+software-release trust root rather than a shared runtime capability. Strict
+verification binds its expected subject, timestamp trust, registry scope,
+release repository, and exact digest. Container Apps does not supply the
+selected AKS-style in-platform signature admission, so the separately
+permissioned deployment job verifies the signature and immutable Image
+Admission Record immediately before every deployment or rollback.
+
+The ACR path is private. Artifact Signing is not claimed to have a private
+endpoint: the isolated signing runner has a narrow outbound allowlist for the
+selected regional signing, Entra, and timestamp endpoints. Trust roots are
+admitted and pinned before a release rather than downloaded during it. The
+Private Trust chain, timestamp, revocation, expiry, and long-term offline
+verification remain mandatory Azure proofs.
+
+BuildKit provenance, a pinned Syft SPDX JSON SBOM, pinned Grype with an exact
+database snapshot, and a repository-owned licence-policy evaluator form the
+initial deterministic admission tool boundary. Exact versions are not floated;
+they remain disabled until local conformance fixtures prove their provenance,
+coverage, output, known-vulnerability, licence, and offline behavior. Unknown
+or incomplete scan or licence results block. Exceptions are exact, expiring,
+owned records rather than global ignore files.
+
+The ACR release graph is locked but remains a replaceable deployment copy.
+Geo-replication protects availability and propagates deletes; it is not a
+backup. Complete OCI image-layout packages, signatures, SBOMs, provenance,
+trust material, scanner inputs, and Image Admission Records are preserved in
+both ADR 0094 vaults. Automatic ACR purge, untagged retention, and soft delete
+are not the deletion authority; exact retirement manifests are required.
+
+## Local-first development
+
+Azure SQL is the production target, not the ordinary development environment.
+Normal development and automated validation must run without Azure credentials
+or a shared cloud database: local Python processes or containers use synthetic
+fixtures, local provider fakes, the ignored `var/` storage adapters, and a
+supported local SQL Server Developer container created from exact migrations.
+
+Local SQL Server proves the T-SQL dialect, procedures, constraints,
+transactions, locks, concurrency, migrations, and ledger behavior that SQLite
+or mocked SQL cannot reproduce. Separately authorized non-production Azure
+proofs are still required before production for managed identity, private
+networking and DNS, Azure limits and failover, backup restoration, external
+immutable ledger digests, monitoring, and the selected hosting topology. Cloud
+proof supplements the local-first loop; it does not replace it.
+
 ## Repository memory boundary
 
 This glossary and the adjacent greenfield continuity files are authoritative
@@ -41,9 +865,14 @@ _Avoid_: Application implementation, universal legal rulebook, production author
 
 **Foundation Status**: The immutable `contracts/foundation-status.json` fact
 record stating which policy decisions are configured or undecided and which
-operational capabilities are active or disabled. The current status keeps the
-production stack undecided, every operational capability disabled, and
-external effects at `NONE`.
+operational capabilities are active or disabled. That historical foundation
+checkpoint keeps the complete production stack undecided, every operational
+capability disabled, and external effects at `NONE`. ADRs 0089 through 0097
+later select the backend language, application boundary toolchain, Management
+Register database boundary, application host, durable-workflow service,
+evidence-and-recovery storage boundary, image-registry and software-supply-
+chain boundary, authenticated API edge, and infrastructure-delivery boundary
+without rewriting the checkpoint.
 _Avoid_: Deployment status, implied implementation authority
 
 **Immutable Reference**: A closed object containing one registered reference
@@ -70,7 +899,8 @@ node tools/validate-contracts.mjs
 ```
 
 The tool makes no network or production call and does not select the future
-production runtime.
+production runtime. ADRs 0089 through 0097 do
+not turn it into a production dependency.
 
 ## Source and evidence
 
@@ -199,8 +1029,17 @@ default serving-language record under ADR 0047.
 _Avoid_: Court-authored original, language duplicate, machine translation
 
 **Evidence Vault**: The durable store of Source Snapshots, official-status
-evidence, releases, approvals, reports, and recovery material.
+evidence, releases, approvals, reports, and recovery material. ADR 0094 places
+the production vault in separately partitioned flat-namespace Azure Blob
+accounts with version-level WORM.
 _Avoid_: Pinecone, management register
+
+**Recovery Vault**: The separately administered Azure Blob copy of exact
+Evidence Vault and Management Register recovery artifacts, kept in a dedicated
+Azure subscription and, where permitted, a different Azure region pair. It is
+independent of ordinary application and primary-storage administration, but
+not independent of Azure or the shared Microsoft Entra tenant.
+_Avoid_: Provider-independent backup, tenant-independent backup, deletion-propagating mirror
 
 ## Legal material
 
@@ -893,39 +1732,45 @@ _Avoid_: Prompt folder, unregistered real judgment, self-discovered test
 **Generative-LLM Task Runner**: The sole legal-processing-worker gateway that
 may hold generative-LLM provider credentials and make generative-LLM calls. It
 accepts only a stable explicitly enabled task contract and returns a structured
-evidence-bound proposal; it has no approval, retirement, release, or serving
-authority.
+evidence-bound semantic result. After independent challenge and deterministic
+validation, that result owns only the exact semantic fields named by the task
+contract; the runner has no source, identity, approval, retirement, release, or
+serving-effect authority.
 _Avoid_: AI worker, general model access, autonomous Legal Desk
 
 **Pipeline LLM Task**: One stable schema-bound use of the Generative-LLM Task
 Runner with pinned evidence inputs, prompt, model configuration, output schema,
-and evaluation rules. ADR 0053 allocates Hong Kong later-treatment analysis and
-ADR 0065 allocates Hong Kong Case Proposition extraction. The latter's ADR 0066
+and evaluation rules. ADR 0053 allocates Hong Kong later-treatment analysis,
+ADR 0065 allocates Hong Kong Case Proposition extraction, and ADR 0076 allocates
+four change-gated HKEX Regulatory semantic tasks: update analysis, update
+challenge, record analysis, and record challenge. The Case Proposition ADR 0066
 task contracts may run only as part of an `ADMITTED` exact workflow under ADR
 0067, instantiated through ADR 0068's suite, protected-evidence, run-set, and
 pre-frozen profile contract; they remain disabled until actual executable
 packages and a profile pass. Hong Kong later treatment remains disabled pending
 its own exact runtime task contracts and admission.
-ADR 0043 continues to defer Gazette-event extraction and other unallocated
-candidate tasks.
+Decision 7 selects Gazette-event analysis/challenge and Reconstruction Plan
+decision/challenge, makes every other unallocated task deterministic for now,
+and keeps evaluation deterministic against human-adjudicated reference truth.
 _Avoid_: Unnamed AI step, assumed enabled task, legislation status decision
 
 **Case Proposition Analysis Task**: The first bounded semantic LLM pass under
 ADRs 0065 and 0066, with stable identity
 `hk-case-proposition-analysis/v1`. It receives only admitted, source-mapped
-judgment evidence and proposes material legal answers, unit uses, exact supporting ranges,
+judgment evidence and decides material legal answers, unit uses, exact supporting ranges,
 qualifications, context, applications, boundaries, attribution, handoffs, and
-uncertainty. It cannot prove complete coverage, accept its proposal, determine
-current authority, or create a serving record.
+uncertainty within its admitted schema. A conforming unchallenged result owns
+those semantic fields; it cannot prove complete coverage, determine current
+authority, or create a serving record.
 _Avoid_: One-shot judgment distillation, Legal Desk decision, record publisher
 
 **Case Proposition Challenge Task**: The separate semantic LLM pass under ADR
 0065, fixed as `hk-case-proposition-challenge/v1` by ADR 0066, that actively
-tests an already validated proposition proposal for
+tests an already validated proposition result for
 omissions, unsupported breadth, missing qualifications, wrong attribution,
 wrong boundaries, incomplete dependencies, and an unsafe zero or complete
-result. It emits exact evidence-linked objections and cannot edit, accept, or
-reject the proposal.
+result. It emits exact evidence-linked objections and cannot edit the primary
+result or acquire authority beyond its challenge contract.
 _Avoid_: Majority vote, duplicate analysis, automatic correction
 
 **Semantic Task Pass**: One complete semantic workflow over one exact judgment,
@@ -949,19 +1794,21 @@ complete judgment, packet, judgment-level integration or result challenge, and
 bounded re-analysis or final challenge.
 _Avoid_: Free-form mode, new task authority, implementation retry
 
-For Hong Kong later treatment, the LLM is the primary semantic proposal
+For Hong Kong later treatment, the LLM is the primary semantic decision
 mechanism because judgment language varies. Deterministic processing validates
 evidence, structure, identities, authority facts, schemas, coverage, and
 permitted claims; it does not infer substantive treatment from keywords or the
-absence of keywords. The Legal Desk retains decision authority.
+absence of keywords. A conforming unchallenged model result owns the admitted
+semantic fields; the Legal Desk/human path handles unresolved or exceptional
+cases.
 
 For Hong Kong Case Proposition extraction, deterministic processing owns
 source admission, complete structure, exact evidence, ledger arithmetic,
-proposal validation, identity, rendering, and finalization. The **Case
-Proposition Analysis Task** proposes legal meaning and the independent **Case
+semantic-result validation, identity, rendering, and finalization. The **Case
+Proposition Analysis Task** decides legal meaning and the independent **Case
 Proposition Challenge Task** searches for semantic mistakes or omissions.
-Deterministic reconciliation resolves every objection, and the Legal Desk
-accepts only a fully accounted result. Human review is reserved for exact
+Deterministic reconciliation applies only contractible objections and
+invariants; it does not recreate the semantic judgment. Human/Legal Desk review is reserved for exact
 unresolved ambiguity or an accepted Source Rulebook trigger.
 
 **Embedding Adapter**: The promotion-worker component that sends only
@@ -1292,9 +2139,13 @@ _Avoid_: Withholding, retirement, deletion, verified-current refresh
   while separately recording evidence relationships and authority-note consequences.
   Unknown or unaccounted entries cannot enter current search.
 - A Hong Kong **Legal Status Event** and its exact affected-location mapping
-  may exist before a new official consolidation. The pipeline does not use
-  them to materialize a **Reconstructed Consolidation** under the current
-  design.
+  may exist before a new official consolidation. Under ADRs 0080 through 0087,
+  it may contribute to a warned **Reconstructed Consolidation** only when the
+  authentic bilingual amendment chain, closed operation registry, exact Plan
+  and Execution Report, derivation and coverage proofs, later-HKeL
+  reconciliation, and active capability attestation all pass. Otherwise no
+  reconstructed result exists and the exact fallback, gap, block, or
+  Quarantine path applies.
 - **Hong Kong Gazette Event Evidence** may support that event, while the
   matching **HKeL Dual-Representation Evidence Bundle** separately supports
   the searchable consolidated text.
@@ -1335,16 +2186,26 @@ _Avoid_: Withholding, retirement, deletion, verified-current refresh
   case-specific metadata field, or whole-case treatment vector. Exact citator-
   style enumeration would require a separately approved graph query path.
 - Only the **Generative-LLM Task Runner** may execute a **Pipeline LLM Task**.
-  The applicable Legal Desk and deterministic validators retain decision
-  authority. ADR 0053 accepts whole-judgment discovery and candidate-level
-  proposal stages for Hong Kong later treatment. ADR 0065 accepts separate
+  An admitted task owns only its named semantic fields after independent
+  challenge and deterministic validation. Legal Desk/human review owns
+  unresolved and exceptional cases; deterministic code retains source,
+  contract, identity, exact-byte, completeness, Approval, and effect authority.
+  ADR 0053 accepts whole-judgment discovery and candidate-level
+  semantic stages for Hong Kong later treatment. ADR 0065 accepts separate
   proposition-analysis and proposition-challenge stages for Hong Kong Case
   Proposition extraction, and ADR 0067 permits those stages only inside an
   exact `ADMITTED` workflow whose immutable **Case Proposition Workflow
   Admission Profile** passes all gates through ADR 0068's exact Evaluation
-  Suite Package and Evaluation Run Set. No such executable package or profile
-  has been created or admitted. Their outputs remain non-authoritative. ADR
-  0043 still defers Gazette-event extraction and every other unallocated task.
+  Suite Package and Evaluation Run Set. ADR 0076 accepts four HKEX Regulatory
+  semantic stages: update analysis/challenge and record analysis/challenge. No
+  executable task package or admitted profile exists for any of these accepted
+  allocations. Decision 7 additionally selects Gazette-event
+  analysis/challenge and Reconstruction Plan decision/challenge. Offline
+  evaluation is deterministic against human-adjudicated reference truth. Every other unallocated task
+  defaults to `NO_GENERATIVE_LLM` for now. No executable task package or
+  admitted profile exists, so `CALL_GENERATIVE_LLM` remains disabled and no
+  pipeline LLM call runs today. A later generative allocation requires a new
+  ADR and complete task/evaluation/admission package.
 - The **Embedding Adapter** is a separate promotion capability, and the
   **Ask.Legal Answer LLM** is a separate downstream application capability.
 - Every **Search Record** carries one **Authority Note** string. Changing it,

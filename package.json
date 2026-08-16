@@ -1,0 +1,11 @@
+{
+  "name": "asklegal-legal-db-pipeline-tools",
+  "private": true,
+  "scripts": {
+    "test": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/pytest -q",
+    "typecheck": "pyright && .venv/bin/python tools/python_boundary_check.py"
+  },
+  "devDependencies": {
+    "pyright": "1.1.413"
+  }
+}
