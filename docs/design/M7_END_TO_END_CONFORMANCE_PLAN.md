@@ -32,7 +32,7 @@ resolved path; it never targets the repository or home directory.
 
 Every scenario binds:
 
-- Python/tool/dependency locks and all 18 workspace member builds;
+- Python/tool/dependency locks and all 19 current workspace member builds;
 - contract set, six protocol versions, synthetic rulebook, configuration,
   governance, embedding, target, and clock profiles;
 - initial register recovery package and primary/recovery fake-vault state;
@@ -101,7 +101,7 @@ active Serving State at each point, and complete record-to-evidence traceability
 | `E2E-025` | Cost/quota limit reached | Stop at declared checkpoint; no truncation or broadened retry |
 | `E2E-026` | Recovery copy/backup/read-back failure | No first production effect or cutover |
 | `E2E-027` | Base Serving State/routing drift | Approval invalidated; competing state remains active |
-| `E2E-028` | Coverage manifest missing/bad signature | Activation blocked; cached-current runtime fallback proved |
+| `E2E-028` | Coverage manifest missing or fingerprint-invalid | Activation blocked; cached-current runtime fallback proved |
 | `E2E-029` | Post-cutover query regression | Exact reverse-swap rollback and incident report |
 | `E2E-030` | Management Register recovery | Digest verified, projections rebuilt, effects reconciled, new fenced lineage |
 | `E2E-031` | Attempted wildcard/broad deletion | Port/schema rejection before effect intent |

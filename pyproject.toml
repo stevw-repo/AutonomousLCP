@@ -6,6 +6,7 @@ dependencies = []
 
 [dependency-groups]
 dev = [
+  "httpx>=0.28,<1",
   "hypothesis>=6.0,<7",
   "pytest>=9.0,<10",
   "ruff>=0.12,<1",
@@ -22,6 +23,7 @@ members = [
   "apps/promotion-worker",
   "apps/review-api",
   "packages/contracts",
+  "packages/application-runtime",
   "packages/corpus",
   "packages/domain",
   "packages/durable-task-adapter",
@@ -68,6 +70,12 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
+"apps/control-plane/src/asklegal_control_plane/local_cli.py" = ["S603"]
+"packages/application-runtime/src/asklegal_application_runtime/local.py" = [
+  "EM101",
+  "TC002",
+  "TRY003",
+]
 "packages/contracts/tests/**" = [
   "C901",
   "PLR0911",
@@ -87,6 +95,24 @@ ignore = [
   "D103",
   "INP001",
   "PLR2004",
+  "S101",
+]
+"packages/reporting/src/asklegal_reporting/local_conformance.py" = [
+  "EM101",
+  "TRY003",
+]
+"packages/reporting/tests/**" = [
+  "D103",
+  "INP001",
+  "PLR2004",
+  "S101",
+]
+"packages/management-register/tests/**" = [
+  "D103",
+  "INP001",
+  "PLR0913",
+  "PLR2004",
+  "PT011",
   "S101",
 ]
 "packages/management-register-adapter/tests/**" = [
@@ -115,11 +141,47 @@ ignore = [
   "TRY003",
   "TRY301",
 ]
+"packages/management-register/src/asklegal_management_register_ports/fake.py" = [
+  "C901",
+  "EM101",
+  "EM102",
+  "PLR0912",
+  "PLR0913",
+  "PLR0915",
+  "PLR2004",
+  "TRY003",
+]
+"packages/management-register/src/asklegal_management_register_ports/model.py" = [
+  "EM101",
+  "EM102",
+  "PLR2004",
+  "TRY003",
+]
+"packages/management-register/src/asklegal_management_register_ports/legal_processing.py" = [
+  "EM101",
+  "TRY003",
+]
 "tools/tests/**" = [
   "PLR2004",
   "S101",
 ]
 "tools/python_boundary_check.py" = ["T201"]
+"tools/local_conformance.py" = [
+  "B003",
+  "C901",
+  "EM101",
+  "EM102",
+  "FBT003",
+  "PLR0911",
+  "PLR0912",
+  "PLR0913",
+  "PLR0915",
+  "PLR2004",
+  "T201",
+  "TC002",
+  "TRY003",
+  "TRY301",
+]
 "tools/package_spike.py" = [
   "C901",
   "EM101",
@@ -152,6 +214,99 @@ ignore = [
   "T201",
   "TRY003",
 ]
+"apps/*/src/*/__init__.py" = ["E402"]
+"apps/control-plane/src/asklegal_control_plane/api.py" = ["C901", "PLR0913", "TC002"]
+"apps/legal-processing-worker/src/asklegal_legal_processing_worker/service.py" = [
+  "PLR0913",
+]
+"apps/review-api/src/asklegal_review_api/api.py" = [
+  "C901",
+  "PLR0913",
+  "PLR0917",
+  "TC002",
+]
+"packages/application-runtime/src/asklegal_application_runtime/config.py" = ["TC002"]
+"packages/evidence-vault/src/asklegal_evidence_vault/**" = [
+  "D105",
+  "EM101",
+  "EM102",
+  "PLR0913",
+  "TRY003",
+]
+"packages/evidence-vault/tests/**" = ["D103", "INP001", "S101"]
+"packages/legal-desks/src/asklegal_legal_desks/loader.py" = ["C901"]
+"packages/legal-desks/tests/**" = [
+  "ANN001",
+  "ANN202",
+  "D103",
+  "INP001",
+  "PLR2004",
+  "S101",
+  "TC002",
+]
+"packages/processing/tests/**" = [
+  "ANN202",
+  "D103",
+  "INP001",
+  "PLR2004",
+  "S101",
+]
+"packages/corpus/tests/**" = ["D103", "INP001", "PLR2004", "S101"]
+"packages/source-connectors/src/asklegal_source_connectors/**" = [
+  "C901",
+  "D105",
+  "EM101",
+  "EM102",
+  "PLR0911",
+  "PLR0912",
+  "PLR2004",
+  "TRY003",
+]
+"packages/source-connectors/tests/**" = [
+  "D103",
+  "FBT003",
+  "INP001",
+  "PLR0913",
+  "PLR2004",
+  "S101",
+]
+"packages/management-register/src/asklegal_management_register_ports/acquisition.py" = [
+  "C901",
+  "D105",
+  "EM101",
+  "EM102",
+  "PLR0912",
+  "TRY003",
+]
+"apps/acquisition-worker/src/asklegal_acquisition_worker/service.py" = [
+  "C901",
+  "EM101",
+  "EM102",
+  "PLR0911",
+  "TRY003",
+]
+"apps/acquisition-worker/tests/test_m4_acquisition.py" = [
+  "D103",
+  "FBT003",
+  "PLR0913",
+]
+"apps/legal-processing-worker/tests/test_m5_processing.py" = [
+  "ANN001",
+  "ANN202",
+  "D103",
+  "FBT003",
+]
+"apps/*/tests/**" = [
+  "D102",
+  "D105",
+  "D107",
+  "INP001",
+  "PLR2004",
+  "PYI034",
+  "S101",
+  "TC002",
+]
+"packages/application-runtime/tests/**" = ["INP001", "PLR2004", "S101", "TC002"]
 
 [tool.pyright]
 include = [
@@ -169,6 +324,7 @@ extraPaths = [
   "apps/promotion-worker/src",
   "apps/review-api/src",
   "packages/contracts/src",
+  "packages/application-runtime/src",
   "packages/corpus/src",
   "packages/domain/src",
   "packages/durable-task-adapter/src",

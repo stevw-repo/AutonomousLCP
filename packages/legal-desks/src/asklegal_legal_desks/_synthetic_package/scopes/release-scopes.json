@@ -1,0 +1,14 @@
+{
+  "complete_non_overlap": true,
+  "scopes": [
+    {
+      "scope_id": "rsc_333333333333333333333333333333333333333333333333",
+      "ownership_keys": ["ZZZ:TEST_LEGAL_MATERIAL:INVENTED_PRIMARY"],
+      "required_source_ids": ["src_111111111111111111111111111111111111111111111111"],
+      "zero_record_rule": "Zero records is valid only when the frozen invented inventory declares zero",
+      "withholding_rule": "Any unresolved or unsupported invented item is withheld and visibly accounted",
+      "readiness": "ATTESTED_INACTIVE",
+      "blocker_codes": []
+    }
+  ]
+}

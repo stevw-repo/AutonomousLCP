@@ -3,6 +3,211 @@
 Only settled decisions belong here. Recommendations and unresolved choices stay
 in the design brief and `WORKING_STATE.md` until the user decides them.
 
+## 2026-08-16 — Authorize and complete the local/synthetic M7 milestone
+
+The user's instruction "M7" authorizes the complete offline end-to-end
+milestone defined by `docs/design/M7_END_TO_END_CONFORMANCE_PLAN.md`. It
+authorizes repository tooling that composes the already authorized M3–M6 local
+boundaries, the stable `asklegal-local` CLI, all 32 named deterministic
+scenarios, ignored synthetic state, conformance tests, and continuity updates.
+It does not authorize a real source/model/embedding/Pinecone/backup/routing
+call, Azure or infrastructure work, deployment, corpus publication, production
+effect, commit, or push.
+
+The local conformance composition remains tooling exposed by an additional
+control-plane console entry point; it is not a sixth deployable application.
+The five applications still do not import one another, production capability
+ownership and the 5-application/14-package architecture policy remain
+unchanged, and every external boundary uses an in-process or filesystem fake.
+
+Completion requires the accepted stable commands, exact marked-root reset,
+`E2E-001` through `E2E-032`, an independently declared result/fact/effect
+catalogue, network denial, and two clean path-distinct executions with a byte-
+identical report. The report says only `local synthetic platform proved`.
+The protocol's stale pre-M3 count of 18 workspace builds is reconciled to the
+current closed 19-member workspace; no member or architecture boundary is
+added by that correction.
+This proves that the complete local pipeline works; it does not admit a real
+jurisdiction package, provider, Azure platform, Pinecone target, Ask.Legal
+route, deployment, or production operation. M8 remains separately gated and
+admin-portal integration remains deferred.
+
+## 2026-08-16 — Authorize and complete the local/synthetic M6 milestone
+
+The user's instruction "M6" authorizes the complete locally provable Review,
+Approval, corpus, and promotion milestone defined by
+`docs/design/M6_REVIEW_AND_PROMOTION_PROTOCOL.md`. It authorizes immutable
+local artifacts, real in-memory governance behavior, provider-neutral ports,
+no-network deterministic fakes, the promotion orchestrator, conformance tests,
+and continuity updates. It does not authorize a real embedding/model call,
+Pinecone, provider-native backup, Ask.Legal routing or slot swap, Azure,
+deployment, corpus publication, production effects, commit, or push.
+
+Contract package 1.5.0 adds the frozen Proposal Package Manifest and exact
+Embedding Profile, Request, and Receipt objects. The local profile is issued
+only for the reserved `LOCAL_FAKE` provider with an exact `UTF8_BYTES`
+token-count contract; this is test behavior and does not replace the accepted
+Azure OpenAI/Foundry production boundary or choose a deployed model.
+
+Review HTTP commands now reach the authoritative Approval behavior: one named
+delegated `PipelineAdministrator` may comment, approve, reject, or revoke with
+a reason. Consumption remains single-use. An exact retry of the same execution
+lineage returns the consumed result, while a different lineage is rejected;
+current role, manifest fingerprint, base state, validity window, and every
+bound predicate are rechecked.
+
+Replacement promotion verifies the exact target definition, IDs, serving
+fingerprints, metadata text, vectors, deterministic retrieval, backup, routing
+compare-and-set, and post-cutover generation before success. A lost
+acknowledgement is reconciled against enumerated actual state. Provider-native
+backup and the separately administered recovery copy return distinct verified
+receipts. Rollback uses
+only the exact retained predecessor. Retirement represents only one exact
+manifest-declared inactive target name; no wildcard, prefix, metadata, or
+delete-all operation exists.
+
+## 2026-08-16 — Authorize and complete the local/synthetic M5 milestone
+
+The user's instruction "M5" authorizes the complete locally provable Legal
+Processing and executable Source Rulebook Package milestone defined by
+`docs/design/M5_EXECUTABLE_LEGAL_DESK_PACKAGE_PROTOCOL.md`. The implementable
+exit boundary is the cross-cutting engine plus one reserved test-only package;
+the accepted protocol explicitly forbids fabricating real source rights,
+inventories, bytes, named owners, adjudicated truth, or model admission to make
+a Hong Kong package appear ready.
+
+Contract package 1.4.0 therefore governs the executable package root, exact
+scope activation, Rule Execution Result, bounded Semantic Task Request/Decision,
+and candidate artifact. The implementation uses one canonical-layout
+`ZZZ`/`LOCAL_SYNTHETIC`/`TEST_LEGAL_MATERIAL` package, a register-bound local
+activation, closed deterministic rule execution, an always-disabled default
+semantic runner, one exact no-network deterministic fake for primary/challenge
+proof, and evidence-bound idempotent candidate/result recording.
+
+The M5 runtime catalogue mirrors all twelve semantic stages already allocated
+by accepted design: two Case Proposition stages, two later-treatment stages,
+four HKEX Regulatory stages, two Gazette-event stages, and two Reconstruction
+Plan stages. They form six exact primary/secondary pairs. A pair must use
+distinct task profiles and prompt fingerprints while binding the same package,
+subject, preserved evidence, and input. This closes a reconciliation defect in
+which the first synthetic implementation reused one Gazette task/profile for
+both passes; no new generative allocation was invented.
+
+M5 completion means the local platform and its only enabled synthetic scope
+pass. It does not mean Hong Kong Legislation, Cases, HKEX Regulatory Materials,
+or Principles is ready. Those packages remain `NOT_READY` until their separate
+real-source, owner, legal, fixture, evaluation, model, and attestation evidence
+passes. No real source, Azure OpenAI/model, embedding, Pinecone, backup,
+routing, deployment, corpus publication, production effect, commit, or push is
+authorized by this instruction.
+
+## 2026-08-16 — Authorize and complete the entire local M4 milestone
+
+The user's instruction "M4" authorizes the complete local Evidence and
+Acquisition milestone defined by
+`docs/design/M4_ACQUISITION_AND_EVIDENCE_PROTOCOL.md`. It authorizes
+deterministic synthetic connectors, local filesystem-backed primary/recovery
+vault fakes, exact evidence/acquisition contracts, acquisition-worker
+orchestration, Management Register acquisition outcomes, conformance tests,
+and continuity updates. It does not authorize real source access, Azure Blob
+or other remote storage, source credentials, M5–M7 implementation, model or
+embedding calls, Pinecone, backup/routing mutation, deployment, production
+effects, a commit, or a push.
+
+Contract package 1.3.0 adds Connector Request, Watcher Result, Scraper Result,
+Vault Object Receipt, Evidence Object, Evidence Package, and Acquisition
+Outcome. Watchers and Scrapers have closed outcomes; source-contract drift,
+unavailability/incompleteness, and hostile input enter Source Contract Review,
+Coverage Gap, and Quarantine respectively. Only one exact stable complete
+capture with a manifest-last package and verified primary/recovery receipts is
+legal-processing eligible. Every other outcome grants no downstream work.
+
+The acquisition worker retains only primary-vault authority. Recovery-copy
+ownership remains exclusive to the promotion-worker boundary under ADR 0094
+and the architecture policy. M4 therefore uses a two-phase protocol: the
+acquisition worker commits the primary package, an independently invoked local
+recovery copier produces exact verified receipts, and the acquisition worker
+records `PRESERVED` only after validating that receipt against its pending
+manifest. This implements M4 without silently widening acquisition
+credentials. The local filesystem adapter proves behavior only; it makes no
+Azure WORM, RBAC, network, regional, retention, or recovery claim.
+
+## 2026-08-16 — Authorize and complete the entire local M3 milestone
+
+The user's instruction "Do M3" authorizes the complete local implementation
+and proof defined by `docs/design/M3_APPLICATION_INTERFACE_PROTOCOL.md`. It
+does not authorize M4–M7 capability implementation, external source/model/
+embedding/Pinecone/backup/routing/recovery calls, Azure changes, deployment,
+production effects, a commit, or a push.
+
+M3 uses exact locked FastAPI 0.141.1, Starlette 1.6.0, Pydantic 2.13.4,
+Uvicorn 0.52.3, HTTPX 0.28.1, and AnyIO 4.14.2. FastAPI and Uvicorn remain
+direct dependencies of only the control-plane and Review applications. A new
+framework-free `asklegal-application-runtime` package prevents security-
+boundary logic from being duplicated while keeping the workers free of HTTP
+frameworks; it owns exact configuration, local identity/register/pagination/
+projection/task adapters, leases, fencing, shutdown, and fail-closed effect
+ports, but no application authority.
+
+The control plane exclusively owns `proposal_package_prepare` and gains only
+the accepted read-only corpus, promotion, and evidence dependencies. The
+Review API retains Approval, rejection, and revocation. Production mutations
+remain exclusive to the promotion worker. All five application boundaries
+start independently with synthetic local configuration and adapters; every
+source, vault, model, embedding, target, backup, routing, recovery, Azure, and
+production effect remains disabled. The evolved architecture policy covers 5
+applications, 14 packages, 80 internal edges, and 31 capability ports, and the
+offline package proof covers 19 reproducible wheels.
+
+## 2026-08-16 — Authorize and complete the entire local M2 milestone
+
+The user replaced the earlier slice-by-slice M2 authorization with the direct
+instruction to "just complete M2." This authorizes the remaining local M2
+domain, typed Management Register port, deterministic fake, forward-only SQL
+migration/procedure, conformance-test, real local SQL Server proof, and
+continuity work. It does not authorize M3 runtime implementation, external
+source/model/embedding/Pinecone calls, Azure changes, deployment, production
+effects, a commit, or a push.
+
+M2 is complete against `M2_DOMAIN_AND_REGISTER_PROTOCOL.md`. The accepted
+command/result/effect objects and five lifecycle machines are joined by an
+explicit quarantine-to-new-Work-Item re-entry rule; the typed store and fake
+prove replay, collisions, durable rejections, monotonic versions, concurrent
+winners, atomic failure, effect ownership, renewable leases, fencing,
+attempts, cancel-before-effect, one terminal receipt, projections, explicit
+policy state, and digest-verified recovery. Migration `000002` is a
+fingerprinted nine-batch expand package over the retained `000001` proof and
+adds the common SQL register substrate and procedure-only identities for all
+five applications. A fresh digest-pinned SQL Server proved the complete exact
+migration prefix, replay/stale behavior, event/intent atomicity, effect
+claims/receipts, projections, recovery rows, ledger verification, and direct
+DML denial. Production settings and operational admission remain later gates.
+
+## 2026-08-16 — Implement the bounded M2 command and effect contracts
+
+The user explicitly authorized the next bounded M2 implementation slice:
+normative Command Envelope, Command Result, Effect Intent, and Effect Receipt
+contracts plus pure immutable Python domain objects, conformance/failure tests,
+and continuity updates. It authorizes no Management Register expansion,
+application runtime, effect adapter, external call, Azure operation,
+deployment, production action, commit, or push.
+
+Contract package 1.2.0 now contains those four objects, eight independent
+positive/negative fixtures, exact reference and identity additions, and the
+closed effect-type catalogue. Command payloads bind one exact command-specific
+contract and immutable payload-object reference. Effect type, exclusive owner,
+capability, and sanitized destination class are one closed binding; destination
+coordinates and secrets are never contract fields.
+
+The implementation resolves one objective representational contradiction in
+the accepted protocol without changing product behavior. `EXACT_REPLAY` cannot
+be a newly persisted result while also returning the original result
+byte-for-byte, and `INDETERMINATE` is a transport state rather than a business
+fact. Durable `CommandResult` therefore contains only `APPLIED` or a closed
+rejection. Submission resolution separately reports `RESULT_RECORDED`,
+`EXACT_REPLAY`, `COMMAND_ID_CONFLICT`, or `INDETERMINATE`; conflict and
+indeterminate resolution create no second business result.
+
 ## 2026-08-16 — Complete and publish the bounded design reconciliation
 
 The user explicitly authorized completing the bounded accepted-design cleanup,

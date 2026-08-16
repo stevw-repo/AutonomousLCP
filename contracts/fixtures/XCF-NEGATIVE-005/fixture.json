@@ -1,0 +1,9 @@
+{
+  "fixture_id": "XCF-NEGATIVE-005",
+  "category": "NEGATIVE",
+  "operation": "SCHEMA_VALIDATE",
+  "synthetic": true,
+  "input_path": "fixtures/XCF-NEGATIVE-005/input.json",
+  "expected_path": "fixtures/XCF-NEGATIVE-005/expected.json",
+  "schema_ref": "schemas/operation-domain.schema.json#/$defs/command_envelope"
+}

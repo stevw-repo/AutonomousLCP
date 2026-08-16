@@ -1,0 +1,24 @@
+{
+  "machine_id": "asklegal.rulebook-release-scope-lifecycle",
+  "machine_version": "1.0.0",
+  "entity_type": "Executable Source Rulebook Package Release Scope",
+  "closed_world": true,
+  "states": ["RULEBOOK_ACTIVE", "RULEBOOK_ATTESTED_INACTIVE", "RULEBOOK_DECISION_READY", "RULEBOOK_NOT_READY", "RULEBOOK_SUPERSEDED", "RULEBOOK_SUSPENDED"],
+  "initial_states": ["RULEBOOK_NOT_READY"],
+  "terminal_states": ["RULEBOOK_SUPERSEDED"],
+  "allowed_transitions": [
+    {"from": "RULEBOOK_NOT_READY", "to": "RULEBOOK_DECISION_READY", "event": "COMPLETE_PACKAGE", "preconditions": ["All named policy, source, fixture, evaluation, and owner evidence is complete"]},
+    {"from": "RULEBOOK_DECISION_READY", "to": "RULEBOOK_ATTESTED_INACTIVE", "event": "ATTEST", "preconditions": ["Exact deterministic and required semantic conformance attestations pass"]},
+    {"from": "RULEBOOK_ATTESTED_INACTIVE", "to": "RULEBOOK_ACTIVE", "event": "ACTIVATE", "preconditions": ["One exact Management Register activation event binds all required inputs"]},
+    {"from": "RULEBOOK_ACTIVE", "to": "RULEBOOK_SUSPENDED", "event": "SUSPEND", "preconditions": ["An exact suspension predicate applies to this scope"]},
+    {"from": "RULEBOOK_ACTIVE", "to": "RULEBOOK_SUPERSEDED", "event": "SUPERSEDE", "preconditions": ["A valid successor is active for new work"]},
+    {"from": "RULEBOOK_SUSPENDED", "to": "RULEBOOK_ACTIVE", "event": "READMIT_EXACT", "preconditions": ["The exact concern is resolved and reactivation evidence passes"]},
+    {"from": "RULEBOOK_SUSPENDED", "to": "RULEBOOK_SUPERSEDED", "event": "SUPERSEDE", "preconditions": ["A valid successor is active for new work"]}
+  ],
+  "explicit_high_risk_forbidden_transitions": [
+    {"from": "RULEBOOK_NOT_READY", "to": "RULEBOOK_ACTIVE", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "RULEBOOK_DECISION_READY", "to": "RULEBOOK_ACTIVE", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"},
+    {"from": "RULEBOOK_SUPERSEDED", "to": "RULEBOOK_ACTIVE", "failure_code": "FAILURE_FORBIDDEN_TRANSITION"}
+  ],
+  "unlisted_transition_result": {"result_code": "BLOCK", "failure_code": "FAILURE_FORBIDDEN_TRANSITION", "reason_code": "TRANSITION_UNLISTED"}
+}

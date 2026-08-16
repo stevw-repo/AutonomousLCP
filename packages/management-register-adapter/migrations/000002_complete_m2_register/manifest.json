@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "migration_id": "000002",
+  "operation": "expand",
+  "compatible_contract_range": ">=1.2.0,<2.0.0",
+  "batches": [
+    {"path": "001_complete_schema.sql", "byte_length": 7450, "sha256": "982766c2b3f37cee9f6c0a87b7aae54a547fbce59fb18957a44a50198178bb98"},
+    {"path": "002_command_protocol.sql", "byte_length": 8597, "sha256": "0b25828a313c5ad3f45a9019c49ac533988c97a995391757e1fce6a1d4c11bff"},
+    {"path": "003_resolve_command.sql", "byte_length": 732, "sha256": "1005089b00c918d165b3ffa5c8615318f10890a446b79b9b655da36c76b1d7f6"},
+    {"path": "004_claim_effect.sql", "byte_length": 3547, "sha256": "a2fb017286bc140e911b3a4635483d4bffd67074371d27dc1ac33392c144530d"},
+    {"path": "005_renew_effect_claim.sql", "byte_length": 869, "sha256": "8319cf87124edd8922bdec24cf148267a57fef1bf4a2a763e3adf527dfbdbeef"},
+    {"path": "006_append_effect_attempt.sql", "byte_length": 1303, "sha256": "e754da236bde1c098fc2a27f49e3a48945dc3a2dc494d7fc3f11924f6feb7d40"},
+    {"path": "007_record_effect_receipt.sql", "byte_length": 2897, "sha256": "7c64af3eca1eb1cdebf57eded741fd1c56cbeaac94dff2756a70c7e7d1009e0f"},
+    {"path": "008_rebuild_projection.sql", "byte_length": 858, "sha256": "e8eabc3672a59d7e44e7572befa09d0b12af6df47736fe352af9dda47fc798e8"},
+    {"path": "009_views_and_permissions.sql", "byte_length": 5004, "sha256": "453926471fa6e8e82af29219aafd82fb1f86a118f2e27224c89505155f7847d1"}
+  ],
+  "package_fingerprint": "f509c4af34e29087e3c71859d473eee0ed9c607b7aa9b6e85eaeee29b5b36b25"
+}

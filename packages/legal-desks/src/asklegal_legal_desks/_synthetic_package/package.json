@@ -1,0 +1,110 @@
+{
+  "schema_id": "asklegal.executable-source-rulebook-package",
+  "schema_version": "1.0.0",
+  "package_id": "rbp_777777777777777777777777777777777777777777777777",
+  "package_version": "1.0.0",
+  "package_fingerprint": "sha256:51dc8f224361a67ef6c67ea9cf63126069e664221372b9742ab4995fea879f74",
+  "jurisdiction": "ZZZ",
+  "environment": "LOCAL_SYNTHETIC",
+  "material_family": "TEST_LEGAL_MATERIAL",
+  "legal_desk_owner": "TEST_FIXTURE_OWNER",
+  "effective_cutoff": "2026-08-16T00:00:00Z",
+  "predecessor": null,
+  "contract_locks": [
+    "sha256:7bd2858bd0099271bc5be1e8d5c380521d81fb15bee8a4110de8fe6629d3094e"
+  ],
+  "code_locks": [
+    "asklegal-legal-desks==0.1.0",
+    "asklegal-processing==0.1.0"
+  ],
+  "source_universe_fingerprint": "sha256:4ce441dbc45b61c8bd58952b013475bef9d1d61eb5fc08d531483909f3a18b9f",
+  "scope_readiness": [
+    {
+      "scope_id": "rsc_333333333333333333333333333333333333333333333333",
+      "state": "ATTESTED_INACTIVE"
+    }
+  ],
+  "unresolved_policy_codes": [],
+  "impact_declaration": "TEST_ONLY_INITIAL_PACKAGE_NO_REAL_SCOPE_IMPACT",
+  "minimum_engine_version": "1.0.0",
+  "files": [
+    {
+      "byte_size": 380,
+      "fingerprint": "sha256:ffdd940034252909ac7b7aef485572a7d4a0ed83584efd9f24cb9e11f69a0584",
+      "path": "attestations/local-conformance.json",
+      "role": "ATTESTATION"
+    },
+    {
+      "byte_size": 251,
+      "fingerprint": "sha256:3e1ef176a19e84265a4ee719516a8d5fdf556d55080826f0da62f27776a9e922",
+      "path": "catalogues/codes.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 142,
+      "fingerprint": "sha256:3f2b39c2927d68df4f52fc3d7d3316e1a095111de96a29c40212d4898f93006d",
+      "path": "contracts/engine-contract.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 537,
+      "fingerprint": "sha256:4f57249d70a00d617077af56e94d8d36c75bf6b397f918e0a228fffefa8f0aea",
+      "path": "evaluations/gazette-event-evaluation.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 143,
+      "fingerprint": "sha256:64cdb3d32b533f17b70225999ffa49b2fead40a5f9088fc025f7e32ca3cfe1a7",
+      "path": "expected/candidate.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 261,
+      "fingerprint": "sha256:59c5113f10f73f07fdbd35fdb3f37a91cdc35d40bd6d5f287a4bce0294c48e5a",
+      "path": "fixtures/deterministic/create.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 288,
+      "fingerprint": "sha256:b5151d1afbb02771cbcfc5245cd116f7f12e07d673d7d354d6d43b8ecd23eee1",
+      "path": "fixtures/deterministic/uncertain.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 263,
+      "fingerprint": "sha256:e2ae2d60f1fbb08b05c4a89f6f5bda1215b34a00f4914f3ab04f92d6e13bbae4",
+      "path": "fixtures/semantic/gazette-event.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2320,
+      "fingerprint": "sha256:e3c9393d013fdda177013b5852037341094cf1c16cdbdda0693a61ba8a742350",
+      "path": "profiles/semantic-profiles.json",
+      "role": "PROFILE"
+    },
+    {
+      "byte_size": 464,
+      "fingerprint": "sha256:3bf3fc15af7eb7bc1f89875570e22a00609fcc3fa21ee8e4b8df004051659da1",
+      "path": "renderers/candidate-renderer.json",
+      "role": "RENDERER"
+    },
+    {
+      "byte_size": 1965,
+      "fingerprint": "sha256:d3d508643d7e71774e26d9f6240e2935727f086ab7b168da1b48f89ff1b6daca",
+      "path": "rules/terminal-rules.json",
+      "role": "RULES"
+    },
+    {
+      "byte_size": 575,
+      "fingerprint": "sha256:312116ed7370b20b901de3780ac1b1164336732b950d345f0ddbfc8128e3ad87",
+      "path": "scopes/release-scopes.json",
+      "role": "SCOPE_REGISTRY"
+    },
+    {
+      "byte_size": 816,
+      "fingerprint": "sha256:4ce441dbc45b61c8bd58952b013475bef9d1d61eb5fc08d531483909f3a18b9f",
+      "path": "sources/source-universe.json",
+      "role": "SOURCE_UNIVERSE"
+    }
+  ]
+}

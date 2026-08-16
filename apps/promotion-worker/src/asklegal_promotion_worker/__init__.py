@@ -1,4 +1,4 @@
-"""Declarative promotion-worker boundary; no production effects."""
+"""No-ingress promotion-worker process boundary."""
 
 APPLICATION_NAME: str = "promotion-worker"
 CAPABILITY_PORTS: tuple[str, ...] = (
@@ -12,4 +12,18 @@ CAPABILITY_PORTS: tuple[str, ...] = (
     "serving_state_write",
 )
 
-__all__ = ["APPLICATION_NAME", "CAPABILITY_PORTS"]
+from asklegal_promotion_worker.runtime import create_runtime
+from asklegal_promotion_worker.service import (
+    PromotionDependencies,
+    PromotionExecutionContext,
+    PromotionService,
+)
+
+__all__ = [
+    "APPLICATION_NAME",
+    "CAPABILITY_PORTS",
+    "PromotionDependencies",
+    "PromotionExecutionContext",
+    "PromotionService",
+    "create_runtime",
+]

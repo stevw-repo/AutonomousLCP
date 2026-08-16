@@ -1,0 +1,13 @@
+{
+  "schema_id": "asklegal.command-result",
+  "schema_version": "1.0.0",
+  "command_result_id": "cmr_111111111111111111111111111111111111111111111111",
+  "command_ref": {"ref_type": "COMMAND", "ref_id": "cmd_222222222222222222222222222222222222222222222222", "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"},
+  "recorded_at": "2026-08-16T01:01:00Z",
+  "result_code": "REJECTED_INVALID_STATE",
+  "authoritative_version": 4,
+  "event_refs": [{"ref_type": "EXECUTION_EVENT", "ref_id": "pex_333333333333333333333333333333333333333333333333", "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"}],
+  "effect_intent_refs": [],
+  "evidence_refs": [],
+  "immutable": true
+}

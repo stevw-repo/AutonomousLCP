@@ -42,7 +42,7 @@ Required fields:
 | `policy_profile_refs` | Exact configured policy profiles; no floating default |
 | `configuration_ref`, `contract_set_ref`, `build_ref` | Exact non-secret execution definitions |
 | `submitted_at` and `expires_at` | UTC times; expiry is mandatory for authority-bearing commands |
-| `payload` | Closed command-specific object; never legal/evidence bytes when a reference suffices |
+| `payload` | Closed descriptor binding one exact command-specific contract and immutable payload object; never inline legal/evidence bytes |
 
 The canonical command fingerprint excludes transport metadata and includes all
 fields above. The same `command_id` with the same fingerprint is an exact
@@ -51,21 +51,25 @@ execute.
 
 ### Command Result
 
-Every accepted submission produces one durable result retrievable by
+Every command transaction produces one durable result retrievable by
 `command_id`:
 
 - `APPLIED` — one transaction appended the declared facts;
-- `EXACT_REPLAY` — the original result is returned byte-for-byte;
 - `REJECTED_STALE_VERSION` — expected aggregate version did not match;
 - `REJECTED_INVALID_STATE` — the closed lifecycle forbids the command;
 - `REJECTED_INVALID_INPUT` — schema, reference, fingerprint, or invariant failed;
 - `REJECTED_UNAUTHORIZED` — current exact authority did not permit it;
 - `REJECTED_EXPIRED` — command or bound authority expired;
 - `REJECTED_CONFLICT` — another single-winner fact already exists;
-- `REJECTED_CAPABILITY` — required capability was absent, suspended, or revoked; or
-- `INDETERMINATE` — returned only by an adapter that could not yet resolve a
-  transport failure; callers must query the register and must not resubmit a
-  different command.
+- `REJECTED_CAPABILITY` — required capability was absent, suspended, or revoked.
+
+Submission resolution is separate from the durable business result:
+`RESULT_RECORDED` returns the new authoritative result, `EXACT_REPLAY` returns
+the original result byte-for-byte, `COMMAND_ID_CONFLICT` rejects the reused ID
+with different canonical bytes without creating a second result, and
+`INDETERMINATE` means an adapter cannot yet resolve a transport failure. An
+indeterminate caller must query the register and must not submit a different
+command.
 
 Applied and rejected business results are immutable. Transient transport
 errors are not business results.

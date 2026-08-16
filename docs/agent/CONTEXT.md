@@ -21,6 +21,73 @@ cross-reference repair, validation, and documentation consistency do not need
 separate user approval. This preference authorizes design work only and does
 not expand any implementation or operational authorization boundary.
 
+## Completed local M2 boundary
+
+M2 is complete locally against
+`docs/design/M2_DOMAIN_AND_REGISTER_PROTOCOL.md`. The framework-free boundary
+now includes the five exhaustive lifecycle machines, immutable Command
+Envelope/Result and Effect Intent/Receipt objects, and a quarantine-release
+re-entry rule that creates a new linked version-one Work Item rather than
+reopening an old candidate or Work Item.
+
+`asklegal_management_register_ports.ManagementRegisterStore` is the typed
+application boundary. `InMemoryManagementRegister` is the deterministic,
+thread-safe behavioral reference. It owns exact command identity and byte
+fingerprints, original-result replay, optimistic aggregate versions,
+single-winner keys, atomic event and effect-intent append, explicit
+configured-or-undecided policy state, renewable leases, monotonic fencing,
+attempt facts, one terminal receipt, disposable projection rebuild, and
+complete snapshot recovery bound by an external digest. It performs no
+external effect.
+
+The SQL prefix is exactly migrations `000001` and `000002`. Migration `000002`
+has nine explicit batches and package fingerprint
+`f509c4af34e29087e3c71859d473eee0ed9c607b7aa9b6e85eaeee29b5b36b25`.
+It adds application-owned command results and aggregate versions, append-only
+ledger events/intents/attempts/receipts/policy facts, mutable claim and
+projection state, exact resolution, command/effect procedures, recovery
+views, and procedure-only roles/users for all five applications. The runner
+requires the complete prefix from `000001`, rejects any applied-prefix or
+fingerprint drift, and remains forward-only.
+
+The real-engine M2 proof uses the already selected digest-pinned SQL Server
+2025 CU7 Developer image on loopback. It passed from a fresh database and the
+task-created container and credential file were removed. This is local proof,
+not Azure or production admission.
+
+## M2 command and effect contract checkpoint
+
+The second separately authorized M2 checkpoint introduced contract package
+1.2.0 and framework-free immutable Python objects for Command Envelope,
+Command Result, Effect Intent, and Effect Receipt. M4 advanced the package to
+1.3.0, M5 to 1.4.0, and M6 to 1.5.0; the current package root is
+`sha256:7bd2858bd0099271bc5be1e8d5c380521d81fb15bee8a4110de8fe6629d3094e`.
+
+A Command Envelope binds a register-issued idempotency identity, closed
+command type and contract version, exact aggregate version or `ABSENT`, actor
+and authority evidence, causation/correlation/lineage, sorted immutable inputs
+and policy profiles, exact configuration/contract-set/build definitions, a
+bounded expiry, and a command-specific contract plus immutable payload-object
+reference. The domain object is immutable and rejects coercion, malformed
+timestamps, floating references, wrong reference types, unsorted/duplicate
+inputs, and invalid expiry ordering.
+
+A durable Command Result is the one authoritative applied or rejected business
+result. `EXACT_REPLAY`, `COMMAND_ID_CONFLICT`, and `INDETERMINATE` are closed
+submission-resolution states, not replacement business results: exact replay
+returns the original bytes, conflict creates nothing, and indeterminate callers
+query the register using the same command identity.
+
+An Effect Intent records authority before an effect and binds its exclusive
+application owner, capability, lineage/checkpoint, immutable inputs,
+idempotency key, retry/deadline/stop rules, precondition, postcondition, and
+predeclared compensation or `NO_COMPENSATION`. Its closed effect type fixes the
+permitted owner/capability/destination class. It contains no destination
+coordinates or secrets and performs no effect. Exactly one terminal Effect
+Receipt has matching success, final-failure, cancel-before-effect, or
+outcome-unknown detail. Unknown outcomes require reconciliation and block
+dependent work.
+
 ## Review-surface integration direction
 
 The initial review interface may run as a small standalone interface while the
@@ -111,8 +178,10 @@ the standalone Durable Task SDK and local test backends. The package checkpoint
 proves exact uv 0.12.5 offline installation, member isolation, and reproducible
 wheel and container inputs. The image-admission checkpoint separately pins its
 Linux amd64 OCI toolchain and proves a reproducible synthetic image and
-candidate evidence graph without Azure. FastAPI, Uvicorn, and tools for later application
-capabilities remain outside the implemented boundary. Exact Container Apps
+candidate evidence graph without Azure. M3 pins and implements FastAPI,
+Pydantic, Uvicorn, HTTPX, and their exact locked dependencies for the two HTTP
+applications while keeping workers and the shared application-runtime package
+free of HTTP frameworks. Exact Container Apps
 profiles and replicas, storage, deployment workflow, provider, service-tier,
 retention, and operational values remain open.
 
@@ -201,7 +270,7 @@ deployment, or production effect.
 
 The fifth explicit implementation authorization completes the local package
 spike. `tools/package_spike_manifest.json` is the closed proof policy for
-Python 3.14.7, uv 0.12.5, all 18 current workspace members, each member's allowed
+Python 3.14.7, uv 0.12.5, all 19 current workspace members, each member's allowed
 workspace dependency closure, the fixed build epoch, forbidden development
 distributions, and the metadata inputs carried toward container construction.
 Repository discovery fails if a present or future `packages/*` or `apps/*`
@@ -355,15 +424,13 @@ recovery. Those require separate Azure proofs and authorization.
 
 ## Local architecture checkpoint
 
-The seventh explicit implementation authorization completes M1 with minimum
-declarative and installable skeletons for the control plane, Review API,
-acquisition worker, legal-processing worker, and promotion worker, plus the 13
-canonical package roles. They contain boundary declarations only: no FastAPI
-route, entry point, worker loop, configuration loader, credential, external
-call, or effect implementation exists.
+The seventh explicit implementation authorization completed M1 with minimum
+declarative and installable skeletons. M3 evolves that same closed policy to
+the runnable local control plane, Review API, acquisition worker, legal-
+processing worker, and promotion worker, plus 14 package roles.
 
-`tools/architecture_spike_manifest.json` is the closed policy for all 18
-members, 70 permitted direct internal dependency edges, 30 application
+`tools/architecture_spike_manifest.json` is the closed policy for all 19
+members, 80 permitted direct internal dependency edges, 31 application
 capability ports, permitted external distributions, and exclusive effect
 owners. `tools/architecture_spike.py` independently discovers every current
 and future `apps/*` and `packages/*` member; checks exact project and module
@@ -373,13 +440,206 @@ and capability declarations; and enforces exclusive ownership of approval,
 revocation, source access, generative and embedding providers, Pinecone,
 backup, routing, and recovery effects.
 
-The policy fingerprint is
-`sha256:b4ec8fd3dc09983460657823664ad6046eca8f573e6dcdcd30dcaf91d93d9475`.
+The current policy fingerprint is
+`sha256:5253bae3e841072f8f823a1298344404bbec569f7fa3fd7b87db8f18d5ca168c`.
 Synthetic tests prove undeclared-member, forbidden-import,
 package-to-application, cycle, and capability-drift failures. Ordinary
 repository validation requires no external service. This checkpoint proves
-static architecture boundaries only and grants none of the declared runtime
-capabilities.
+static architecture and ownership boundaries; runnable local composition does
+not grant an external effect.
+
+## M3 local application-boundary milestone
+
+M3 is complete against `docs/design/M3_APPLICATION_INTERFACE_PROTOCOL.md`.
+The private control-plane and public Review APIs are independent FastAPI/ASGI
+applications with distinct audiences, clients, origins, OpenAPI fingerprints,
+strict bounded raw JSON, closed frozen Pydantic models, safe errors,
+idempotency, optimistic versions, ETags, health checks, and drift-failing
+readiness. Control owns proposal-package preparation and read-only corpus,
+promotion, and evidence dependencies; it owns no Approval or production
+mutation. Review binds comments and decisions to one exact manifest, rejects
+app-only decisions, streams synthetic evidence through an audited boundary,
+and provides opaque snapshot/filter/sort/caller/expiry-bound pagination.
+
+The replaceable Review browser shell uses PKCE primitives, only the Review
+audience, and module-memory bearer-token storage. It exposes no control or
+production operation. The three workers import no HTTP framework and start
+with separate application configuration, task-hub names, secret-reference
+namespaces, generation-fenced leases, cooperative shutdown, and individually
+named disabled source/vault/model/embedding/target/backup/routing/recovery
+ports. The shared `asklegal-application-runtime` package is framework-free and
+contains only boundary values and local fakes.
+
+The exact M3 OpenAPI fingerprints are
+`sha256:511e404a13a7f4af67f3624c1f874130da945183fd529bb548cfb913585ca711`
+for control and
+`sha256:0e4adbaf3873c2a14e0ab7ba94337d1d12db919ce1681a2a9662d8dd6155ebe7`
+for Review. These are local API drift gates, not normative artifact-schema
+fingerprints. M3 performs no external source, model, embedding, vault,
+Pinecone, backup, routing, recovery, Azure, deployment, or production effect.
+
+## M4 local evidence-and-acquisition milestone
+
+M4 is complete against
+`docs/design/M4_ACQUISITION_AND_EVIDENCE_PROTOCOL.md`. Contract package 1.3.0
+defines the exact Connector Request, Watcher Result, Scraper Result, Vault
+Object Receipt, Evidence Object, Evidence Package, and Acquisition Outcome.
+Python closed enums are checked against those independent JSON enums.
+
+`asklegal_source_connectors` now owns immutable Registered Source and Source
+Endpoint versions, bounded request/retry profiles, deterministic no-network
+Watcher and Scraper behavior, complete pagination and inventory proof,
+source-contract drift, hostile-response classification, and complete
+Registered Source coverage accounting. No-change is admitted only when the
+exact endpoint contract says the complete check proves it. Host, path,
+redirect, media, authentication, instability, duplicate/missing member,
+truncation, length, size, active-content, archive traversal, recursive archive,
+and decompression-ratio failures are explicit and never become empty success.
+
+`asklegal_evidence_vault` now owns content-addressed keys, exact immutable
+versions, conditional single assignment, verified exact-version reads,
+sanitized acquisition context, manifest-last package visibility, retention and
+hold facts, independently verified recovery copies, corruption incidents, and
+restart/lost-ack behavior. Its filesystem-backed adapters operate only under
+explicit local roots and do not claim Azure WORM, identity, networking,
+regional separation, or production retention.
+
+`asklegal_acquisition_worker.AcquisitionService` stages every admitted or
+isolated attempt into a complete primary package. It cannot record an
+observation until an exact recovery receipt binds that same manifest. Only a
+stable complete `SNAPSHOT_PRESERVED` result is
+`LEGAL_PROCESSING_ELIGIBLE`; no-change, Coverage Gap, Source Contract Review,
+and Quarantine outcomes all carry `NONE`. The Management Register fake selects
+one immutable outcome per observation and rejects identity reuse with changed
+input. Recovery-copy capability remains exclusive to the promotion-worker
+boundary rather than being granted to acquisition.
+
+The current locked package proof still covers all 19 wheels. M4's reproducible
+container-input bundle is
+`sha256:e34d04924daf5daf223957d268e897ae714eccd742366b06aa91b2733d5bbfb6`;
+the unchanged uv lock is
+`sha256:cf0e9eb5f7c6aa14a7ee79dd55d1468a5a56cb95c5f1daf05a06b807e682ce92`.
+
+## M5 local executable-package and legal-processing milestone
+
+M5 is complete for the platform and reserved local-synthetic package against
+`docs/design/M5_EXECUTABLE_LEGAL_DESK_PACKAGE_PROTOCOL.md`. Contract package
+1.4.0 added executable package, Rulebook Activation, Rule Execution Result,
+bounded Semantic Task Request/Decision, and candidate-artifact contracts. Its
+independent root was superseded by M6 contract package 1.5.0.
+
+`asklegal_legal_desks` owns the canonical-layout loader, exact member and
+fingerprint validation, complete source/scope accounting, closed predicate and
+disposition catalogues, profile/leakage/environment checks, scope activation,
+suspension, and deterministic rule execution. Exactly one terminal rule must
+match; zero and multiple matches block as `RULEBOOK_NON_TOTAL` and
+`RULEBOOK_AMBIGUOUS`. Passing package tests does not activate it.
+
+The included package is exactly jurisdiction `ZZZ`, environment
+`LOCAL_SYNTHETIC`, material `TEST_LEGAL_MATERIAL`, fingerprint
+`sha256:51dc8f224361a67ef6c67ea9cf63126069e664221372b9742ab4995fea879f74`
+after rebinding its exact contract-package lock to 1.5.0. Its legal/rule bytes
+and test-only authority are unchanged.
+It contains a complete invented source universe, one non-overlapping scope,
+four terminal rules, deterministic/semantic fixtures, protected evaluation
+references, exact renderer/profile/attestation inputs, and no real source or
+credential. The loader rejects it outside `LOCAL_SYNTHETIC`.
+
+`asklegal_processing` owns the sole provider-neutral stateless semantic gate,
+an always-disabled default runner, one deterministic no-network local fake,
+exact primary/challenge reconciliation, and deterministic candidate rendering.
+The contract and runtime share one closed twelve-stage catalogue and six exact
+primary/secondary pairings covering the accepted Case Proposition, later-
+treatment, HKEX Regulatory, Gazette-event, and Reconstruction Plan allocations.
+Each pass uses its own task, profile, and prompt fingerprint. The fake exercises
+`GAZETTE_EVENT_ANALYSIS` with `GAZETTE_EVENT_CHALLENGE`; it does not claim Azure
+OpenAI or Hong Kong semantic admission. `LegalProcessingService` consumes only an M4
+`SNAPSHOT_PRESERVED`/`LEGAL_PROCESSING_ELIGIBLE` record whose exact two-vault
+receipt and preserved artifact references agree, then writes one immutable
+idempotent Management Register result.
+
+All Hong Kong Legislation, Cases, HKEX Regulatory, and Principles packages
+remain `NOT_READY`. Real source rights/inventories/bytes, named owners,
+adjudicated evaluation truth, exact Azure OpenAI deployments, and attestations
+cannot be fabricated from platform code and remain exact M9/package-admission
+evidence.
+
+## M6 local Review, Approval, corpus, and promotion milestone
+
+M6 is complete locally against
+`docs/design/M6_REVIEW_AND_PROMOTION_PROTOCOL.md`. Contract package 1.5.0 has
+74 cross-cutting objects and adds frozen Proposal Package Manifest plus exact
+Embedding Profile, Request, and Receipt contracts. Its independently reproduced
+root is
+`sha256:7bd2858bd0099271bc5be1e8d5c380521d81fb15bee8a4110de8fe6629d3094e`.
+
+`asklegal_corpus` deterministically freezes complete per-scope Corpus Releases,
+one-release-per-scope Desired-State Inventories, fail-visible Coverage Status
+Manifests, and the eleven exact proposal members before committing the root
+manifest last. The control-plane preparation service validates the root against
+the closed schema registry and proves exact read-back. Serving fingerprints
+cover exactly `text`, `country`, `jurisdiction`, `type`, `source`, and
+`authority_note` while identity and traceability remain outside that payload.
+
+The Review API's local command path now appends real fingerprint-bound comment,
+Approval, rejection, and revocation facts to the M6 register rather than only
+returning generic command receipts. The sole human permission remains
+`PipelineAdministrator`; the register requires a delegated named human and
+reason, rechecks current assignment at consumption, invalidates drift, and
+allows one execution lineage only. An exact restart of that same lineage reads
+the already-consumed projection rather than consuming again.
+
+`asklegal_promotion` defines exact embedding and replacement-target ports plus
+no-network local fakes. The promotion worker validates the immutable manifest,
+complete embedding-profile fingerprint, environment, expiry, cost, base state,
+validity predicates, coverage fingerprint, target definition, every vector and
+metadata record, retrieval gate, provider-native backup, independently verified
+recovery copy, routing compare-and-set, and post-cutover generation. Lost
+acknowledgements are reconciled by enumerating actual state. Post-cutover
+failure reverse-swaps only to the retained
+predecessor. Retirement accepts only one manifest-declared exact inactive name;
+broad selectors have no port representation.
+
+All M6 effects are synthetic and local. No Azure OpenAI, Pinecone, native
+backup, Ask.Legal App Service slot, protected Azure coverage store, Azure
+resource, deployment, corpus publication, or production route was accessed or
+changed.
+
+## M7 complete local synthetic pipeline milestone
+
+M7 is complete locally against
+`docs/design/M7_END_TO_END_CONFORMANCE_PLAN.md`. Repository tooling in
+`tools/local_conformance.py`, exposed as the second control-plane console entry
+point `asklegal-local`, is the only composition layer allowed to import all five
+local application boundaries. It is not a sixth deployed application and does
+not change the closed architecture graph.
+
+The stable CLI implements exact marked-root reset, one named scenario, and all-
+scenario proof semantics. `prove --all` executes the closed `E2E-001` through
+`E2E-032` catalogue twice in clean path-distinct directories with DNS/socket
+access denied. The frozen profile binds Python, uv/dependency lock, all 19
+workspace builds through the package policy, contracts, six protocols,
+architecture/image/package policies, deterministic clocks/IDs/jitter, and each
+scenario's expected result/fact/effect counts.
+
+The golden flow schedules through the versioned Control API and uses the actual
+local acquisition service, primary/recovery vault fakes, ZZZ package lifecycle
+and rule engine, candidate renderer, Corpus
+Release/DSI/coverage/promotion construction, frozen proposal package, Review
+HTTP API and loaded minimal browser client, named-human Approval register, embedding,
+replacement target, backup, routing, reverse-swap, and exact same-lineage
+recovery. The remaining scenarios prove no-change, false-positive capture,
+replay/conflict, restart, lost acknowledgement, stale version/fencing,
+overlap, both cancellation boundaries, source failure/hostility/drift,
+non-total rules, carry-forward/withholding, quarantine re-entry/recurrence,
+stale or unauthorized review, revoked/consumed Approval, vector/inventory/cost/
+backup/base/coverage failures, rollback, digest-verified register recovery,
+broad-deletion denial, and ZZZ environment containment.
+
+The authoritative report statement is exactly `local synthetic platform
+proved`. M7 makes no real-source, Hong Kong legal-readiness, Azure OpenAI,
+embedding-quality, Azure, Pinecone, Ask.Legal routing, deployment, or production
+claim. M8 remains separately gated.
 
 ## M2–M7 build-readiness audit
 
@@ -2198,13 +2458,14 @@ _Avoid_: Withholding, retirement, deletion, verified-current refresh
   Admission Profile** passes all gates through ADR 0068's exact Evaluation
   Suite Package and Evaluation Run Set. ADR 0076 accepts four HKEX Regulatory
   semantic stages: update analysis/challenge and record analysis/challenge. No
-  executable task package or admitted profile exists for any of these accepted
-  allocations. Decision 7 additionally selects Gazette-event
+  real executable task package or production-admitted profile exists for any
+  of these accepted allocations. Decision 7 additionally selects Gazette-event
   analysis/challenge and Reconstruction Plan decision/challenge. Offline
-  evaluation is deterministic against human-adjudicated reference truth. Every other unallocated task
-  defaults to `NO_GENERATIVE_LLM` for now. No executable task package or
-  admitted profile exists, so `CALL_GENERATIVE_LLM` remains disabled and no
-  pipeline LLM call runs today. A later generative allocation requires a new
+  evaluation is deterministic against human-adjudicated reference truth. Every
+  other unallocated task defaults to `NO_GENERATIVE_LLM` for now. M5 includes
+  one test-only local-fake Gazette task/profile solely for synthetic contract
+  proof. `CALL_GENERATIVE_LLM` remains disabled for every real workflow and no
+  provider/model call runs today. A later generative allocation requires a new
   ADR and complete task/evaluation/admission package.
 - The **Embedding Adapter** is a separate promotion capability, and the
   **Ask.Legal Answer LLM** is a separate downstream application capability.

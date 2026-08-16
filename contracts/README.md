@@ -9,11 +9,32 @@ The package contains:
 
 - strict JSON Schema Draft 2020-12 contracts;
 - closed identity, reference, result, reason, lifecycle, failure, review, and
-  capability catalogues;
+  capability and effect-type catalogues;
 - closed-world state-transition definitions;
 - a complete inventory of the accepted cross-cutting domain objects;
 - synthetic positive and failure fixtures with exact expected results; and
 - an exact file inventory in `package-manifest.json`.
+
+Package version 1.2.0 adds the normative Command Envelope, Command Result,
+Effect Intent, and Effect Receipt contracts. Replay and transport resolution
+remain separate from immutable business results.
+
+Package version 1.3.0 adds the normative M4 Connector Request, Watcher Result,
+Scraper Result, Vault Object Receipt, Evidence Object, Evidence Package, and
+Acquisition Outcome contracts. Only an exact complete primary-and-recovery
+manifest can make a Source Snapshot eligible for legal processing.
+
+Package version 1.4.0 adds the normative M5 executable Source Rulebook Package,
+scope activation, Rule Execution Result, bounded Semantic Task Request and
+Decision, and candidate-artifact contracts. Package conformance never activates
+a scope, unknown or ambiguous rules fail closed, and model output remains
+bounded evidence-derived judgment rather than source evidence or final text.
+
+Package version 1.5.0 adds the normative M6 frozen Proposal Package Manifest
+and exact Embedding Profile, Request, and Receipt. Proposal bytes are
+manifest-last and immutable; embedding requests bind only `metadata.text` and
+the complete exact profile; successful receipts expose hashes and accounting,
+not raw vectors or provider authority.
 
 `foundation-status.json` preserves the historical ADR 0088 foundation
 boundary: at that checkpoint the production stack and listed product policies

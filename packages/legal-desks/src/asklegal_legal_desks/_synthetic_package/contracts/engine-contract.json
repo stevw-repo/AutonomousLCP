@@ -1,0 +1,6 @@
+{
+  "contract_id": "asklegal.m5-rulebook-engine",
+  "contract_version": "1.0.0",
+  "closed_world": true,
+  "terminal_result_required": true
+}

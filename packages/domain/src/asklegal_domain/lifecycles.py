@@ -193,6 +193,44 @@ class TransitionResult[StateT: StrEnum]:
 
 
 @dataclass(frozen=True, slots=True)
+class ReprocessingAdmission:
+    """A released quarantine authorizes one new linked Work Item identity."""
+
+    quarantine_id: str
+    work_item: LifecycleSnapshot[WorkItemState]
+
+    def __post_init__(self) -> None:
+        """Require a new planned work item linked to its predecessor."""
+        _validate_exact_text(self.quarantine_id, "quarantine_id")
+        if type(self.work_item.state) is not WorkItemState:
+            _raise_type("work_item must belong to the Work Item lifecycle")
+        if self.work_item.state is not WorkItemState.WORK_PLANNED or self.work_item.version != 1:
+            _raise_invariant("re-entry must create a new planned version-one Work Item")
+        if self.work_item.predecessor_ref is None:
+            _raise_invariant("re-entry Work Item must name its predecessor")
+
+
+def admit_quarantine_reentry(
+    quarantine: LifecycleSnapshot[QuarantineState],
+    *,
+    new_work_item_id: str,
+    predecessor_work_item_ref: str,
+) -> ReprocessingAdmission:
+    """Create a linked work item only after an exact release-to-reprocessing fact."""
+    if type(quarantine.state) is not QuarantineState:
+        _raise_type("quarantine must belong to the Quarantine lifecycle")
+    if quarantine.state is not QuarantineState.RELEASED_TO_REPROCESSING:
+        _raise_invariant("quarantine must be released before re-entry")
+    return ReprocessingAdmission(
+        quarantine.entity_id,
+        WORK_ITEM_MACHINE.start(
+            new_work_item_id,
+            predecessor_ref=predecessor_work_item_ref,
+        ),
+    )
+
+
+@dataclass(frozen=True, slots=True)
 class StateMachine[StateT: StrEnum]:
     """A closed, reachable, forward-only lifecycle definition."""
 
@@ -492,9 +530,11 @@ __all__ = [
     "LifecycleSnapshot",
     "PipelineRunState",
     "QuarantineState",
+    "ReprocessingAdmission",
     "SourceContractReviewState",
     "StateMachine",
     "TransitionResult",
     "TransitionResultCode",
     "WorkItemState",
+    "admit_quarantine_reentry",
 ]

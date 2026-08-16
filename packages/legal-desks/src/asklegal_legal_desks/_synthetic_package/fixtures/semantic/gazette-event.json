@@ -1,0 +1,7 @@
+{
+  "fixture_id": "ZZZ-SEM-GAZETTE-001",
+  "input_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+  "task": "GAZETTE_EVENT_ANALYSIS",
+  "expected_decision_code": "AMENDMENT",
+  "reference_truth_access": "EVALUATOR_ONLY"
+}

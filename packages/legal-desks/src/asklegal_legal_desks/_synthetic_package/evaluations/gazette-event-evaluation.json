@@ -1,0 +1,11 @@
+{
+  "evaluation_id": "ZZZ-EVAL-GAZETTE-001",
+  "task": "GAZETTE_EVENT_ANALYSIS",
+  "protected_reference_fingerprints": ["sha256:4444444444444444444444444444444444444444444444444444444444444444"],
+  "selection_policy": "SEALED_HUMAN_ADJUDICATED_SYNTHETIC_TRUTH",
+  "leakage_policy": "RUNNER_CANNOT_READ_REFERENCE_TRUTH",
+  "evaluator_contract": "DETERMINISTIC_EXACT_MATCH_V1",
+  "run_set": "PRIMARY_AND_SEALED_CANARY",
+  "threshold_basis_points": 10000,
+  "suspension_predicates": ["ANY_WRONG_DECISION", "ANY_UNSUPPORTED_EVIDENCE_REF"]
+}

@@ -1,0 +1,305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/operation-domain.schema.json",
+  "title": "Command and external-effect operation contracts",
+  "$defs": {
+    "expected_version": {
+      "oneOf": [
+        {"$ref": "common.schema.json#/$defs/safe_integer"},
+        {"const": "ABSENT"}
+      ]
+    },
+    "optional_execution_lineage": {
+      "oneOf": [
+        {"$ref": "#/$defs/execution_lineage_reference"},
+        {"const": "NONE"}
+      ]
+    },
+    "actor_reference": {
+      "allOf": [
+        {"$ref": "common.schema.json#/$defs/reference"},
+        {"properties": {"ref_type": {"const": "ACTOR"}, "ref_id": {"type": "string", "pattern": "^act_[0-9a-f]{48}$"}}}
+      ]
+    },
+    "authority_reference": {
+      "allOf": [
+        {"$ref": "common.schema.json#/$defs/reference"},
+        {"properties": {"ref_type": {"const": "EVIDENCE"}, "ref_id": {"type": "string", "pattern": "^evi_[0-9a-f]{48}$"}}}
+      ]
+    },
+    "build_reference": {
+      "allOf": [
+        {"$ref": "common.schema.json#/$defs/reference"},
+        {"properties": {"ref_type": {"const": "BUILD"}, "ref_id": {"type": "string", "pattern": "^bld_[0-9a-f]{48}$"}}}
+      ]
+    },
+    "capability_profile_reference": {
+      "allOf": [
+        {"$ref": "common.schema.json#/$defs/reference"},
+        {"properties": {"ref_type": {"const": "CAPABILITY_PROFILE"}, "ref_id": {"type": "string", "pattern": "^cap_[0-9a-f]{48}$"}}}
+      ]
+    },
+    "command_reference": {
+      "allOf": [
+        {"$ref": "common.schema.json#/$defs/reference"},
+        {"properties": {"ref_type": {"const": "COMMAND"}, "ref_id": {"type": "string", "pattern": "^cmd_[0-9a-f]{48}$"}}}
+      ]
+    },
+    "configuration_reference": {
+      "allOf": [
+        {"$ref": "common.schema.json#/$defs/reference"},
+        {"properties": {"ref_type": {"const": "CONFIGURATION"}, "ref_id": {"type": "string", "pattern": "^cfg_[0-9a-f]{48}$"}}}
+      ]
+    },
+    "contract_set_reference": {
+      "allOf": [
+        {"$ref": "common.schema.json#/$defs/reference"},
+        {"properties": {"ref_type": {"const": "CONTRACT_SET"}, "ref_id": {"type": "string", "pattern": "^cst_[0-9a-f]{48}$"}}}
+      ]
+    },
+    "effect_intent_reference": {
+      "allOf": [
+        {"$ref": "common.schema.json#/$defs/reference"},
+        {"properties": {"ref_type": {"const": "EFFECT_INTENT"}, "ref_id": {"type": "string", "pattern": "^efi_[0-9a-f]{48}$"}}}
+      ]
+    },
+    "execution_lineage_reference": {
+      "allOf": [
+        {"$ref": "common.schema.json#/$defs/reference"},
+        {"properties": {"ref_type": {"const": "EXECUTION_LINEAGE"}, "ref_id": {"type": "string", "pattern": "^exe_[0-9a-f]{48}$"}}}
+      ]
+    },
+    "policy_profile_reference": {
+      "allOf": [
+        {"$ref": "common.schema.json#/$defs/reference"},
+        {"oneOf": [
+          {"properties": {"ref_type": {"const": "CAPABILITY_PROFILE"}, "ref_id": {"type": "string", "pattern": "^cap_[0-9a-f]{48}$"}}},
+          {"properties": {"ref_type": {"const": "POLICY_PROFILE"}, "ref_id": {"type": "string", "pattern": "^pol_[0-9a-f]{48}$"}}},
+          {"properties": {"ref_type": {"const": "WORKFLOW_PROFILE"}, "ref_id": {"type": "string", "pattern": "^wap_[0-9a-f]{48}$"}}}
+        ]}
+      ]
+    },
+    "command_payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["payload_contract_ref", "payload_object_ref"],
+      "properties": {
+        "payload_contract_ref": {"$ref": "common.schema.json#/$defs/contract_reference"},
+        "payload_object_ref": {"$ref": "common.schema.json#/$defs/reference"}
+      }
+    },
+    "command_envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "command_id", "command_type", "contract_version", "target_ref", "expected_version", "actor_ref", "authority_ref", "causation_ref", "correlation_id", "execution_lineage_ref", "input_refs", "policy_profile_refs", "configuration_ref", "contract_set_ref", "build_ref", "submitted_at", "expires_at", "payload", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.command-envelope"},
+        "schema_version": {"const": "1.0.0"},
+        "command_id": {"type": "string", "pattern": "^cmd_[0-9a-f]{48}$"},
+        "command_type": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
+        "contract_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+        "target_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "expected_version": {"$ref": "#/$defs/expected_version"},
+        "actor_ref": {"$ref": "#/$defs/actor_reference"},
+        "authority_ref": {"$ref": "#/$defs/authority_reference"},
+        "causation_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "correlation_id": {"type": "string", "pattern": "^run_[0-9a-f]{48}$"},
+        "execution_lineage_ref": {"$ref": "#/$defs/optional_execution_lineage"},
+        "input_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "policy_profile_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/policy_profile_reference"}},
+        "configuration_ref": {"$ref": "#/$defs/configuration_reference"},
+        "contract_set_ref": {"$ref": "#/$defs/contract_set_reference"},
+        "build_ref": {"$ref": "#/$defs/build_reference"},
+        "submitted_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "expires_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "payload": {"$ref": "#/$defs/command_payload"},
+        "immutable": {"const": true}
+      }
+    },
+    "command_result_code": {
+      "type": "string",
+      "enum": ["APPLIED", "REJECTED_CAPABILITY", "REJECTED_CONFLICT", "REJECTED_EXPIRED", "REJECTED_INVALID_INPUT", "REJECTED_INVALID_STATE", "REJECTED_STALE_VERSION", "REJECTED_UNAUTHORIZED"]
+    },
+    "command_submission_resolution_code": {
+      "type": "string",
+      "enum": ["COMMAND_ID_CONFLICT", "EXACT_REPLAY", "INDETERMINATE", "RESULT_RECORDED"]
+    },
+    "command_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "command_result_id", "command_ref", "recorded_at", "result_code", "authoritative_version", "event_refs", "effect_intent_refs", "evidence_refs", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.command-result"},
+        "schema_version": {"const": "1.0.0"},
+        "command_result_id": {"type": "string", "pattern": "^cmr_[0-9a-f]{48}$"},
+        "command_ref": {"$ref": "#/$defs/command_reference"},
+        "recorded_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "result_code": {"$ref": "#/$defs/command_result_code"},
+        "authoritative_version": {"$ref": "#/$defs/expected_version"},
+        "event_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "effect_intent_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/effect_intent_reference"}},
+        "evidence_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "immutable": {"const": true}
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "result_code": {"const": "APPLIED"},
+            "authoritative_version": {"type": "integer", "minimum": 1},
+            "event_refs": {"type": "array", "minItems": 1}
+          }
+        },
+        {
+          "properties": {
+            "result_code": {"enum": ["REJECTED_CAPABILITY", "REJECTED_CONFLICT", "REJECTED_EXPIRED", "REJECTED_INVALID_INPUT", "REJECTED_INVALID_STATE", "REJECTED_STALE_VERSION", "REJECTED_UNAUTHORIZED"]},
+            "event_refs": {"type": "array", "maxItems": 0},
+            "effect_intent_refs": {"type": "array", "maxItems": 0}
+          }
+        }
+      ]
+    },
+    "no_compensation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "properties": {
+        "mode": {"const": "NO_COMPENSATION"}
+      }
+    },
+    "declared_compensation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "contract_ref"],
+      "properties": {
+        "mode": {"const": "DECLARED_COMPENSATION"},
+        "contract_ref": {"$ref": "common.schema.json#/$defs/contract_reference"}
+      }
+    },
+    "compensation": {
+      "oneOf": [
+        {"$ref": "#/$defs/no_compensation"},
+        {"$ref": "#/$defs/declared_compensation"}
+      ]
+    },
+    "effect_type": {
+      "type": "string",
+      "enum": ["BACKUP_MUTATION", "EMBEDDING_PROVIDER_CALL", "EVIDENCE_WRITE", "GENERATIVE_LLM_CALL", "PINECONE_MUTATION", "RELEASE_PUBLICATION", "ROUTING_ACTIVATION", "SOURCE_CAPTURE"]
+    },
+    "effect_intent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "effect_intent_id", "created_at", "effect_type", "owning_application", "aggregate_ref", "command_ref", "execution_lineage_ref", "permitted_checkpoint", "input_refs", "effect_command_fingerprint", "required_capability", "capability_profile_ref", "destination_class", "stable_idempotency_key", "retry_class", "attempt_ceiling", "deadline", "stop_conditions", "expected_remote_precondition_ref", "success_postcondition_ref", "compensation", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.effect-intent"},
+        "schema_version": {"const": "1.0.0"},
+        "effect_intent_id": {"type": "string", "pattern": "^efi_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "effect_type": {"$ref": "#/$defs/effect_type"},
+        "owning_application": {"type": "string", "enum": ["ACQUISITION_WORKER", "CONTROL_PLANE", "LEGAL_PROCESSING_WORKER", "PROMOTION_WORKER", "REVIEW_APPLICATION"]},
+        "aggregate_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "command_ref": {"$ref": "#/$defs/command_reference"},
+        "execution_lineage_ref": {"$ref": "#/$defs/execution_lineage_reference"},
+        "permitted_checkpoint": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
+        "input_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "effect_command_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "required_capability": {"type": "string", "enum": ["ACTIVATE_ROUTING", "CALL_EMBEDDING_PROVIDER", "CALL_GENERATIVE_LLM", "CAPTURE_SOURCE", "MANAGE_BACKUP", "MUTATE_PINECONE", "PUBLISH_RELEASE", "WRITE_EVIDENCE"]},
+        "capability_profile_ref": {"$ref": "#/$defs/capability_profile_reference"},
+        "destination_class": {"type": "string", "enum": ["BACKUP_STORE", "EMBEDDING_PROVIDER", "EVIDENCE_VAULT", "MODEL_PROVIDER", "RELEASE_STORE", "ROUTING_TARGET", "SERVING_TARGET", "SOURCE_SYSTEM"]},
+        "stable_idempotency_key": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "retry_class": {"type": "string", "enum": ["NEVER", "RECONCILE_BEFORE_RETRY", "SAFE_SAME_INTENT"]},
+        "attempt_ceiling": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+        "deadline": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "stop_conditions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "enum": ["ATTEMPT_CEILING", "AUTHORITY_INVALID", "CANCELLATION_BEFORE_EFFECT", "CAPABILITY_INACTIVE", "DEADLINE", "POSTCONDITION_MET", "PRECONDITION_CHANGED"]}},
+        "expected_remote_precondition_ref": {"$ref": "common.schema.json#/$defs/contract_reference"},
+        "success_postcondition_ref": {"$ref": "common.schema.json#/$defs/contract_reference"},
+        "compensation": {"$ref": "#/$defs/compensation"},
+        "immutable": {"const": true}
+      },
+      "oneOf": [
+        {"properties": {"effect_type": {"const": "BACKUP_MUTATION"}, "owning_application": {"const": "PROMOTION_WORKER"}, "required_capability": {"const": "MANAGE_BACKUP"}, "destination_class": {"const": "BACKUP_STORE"}}},
+        {"properties": {"effect_type": {"const": "EMBEDDING_PROVIDER_CALL"}, "owning_application": {"const": "PROMOTION_WORKER"}, "required_capability": {"const": "CALL_EMBEDDING_PROVIDER"}, "destination_class": {"const": "EMBEDDING_PROVIDER"}}},
+        {"properties": {"effect_type": {"const": "EVIDENCE_WRITE"}, "required_capability": {"const": "WRITE_EVIDENCE"}, "destination_class": {"const": "EVIDENCE_VAULT"}}},
+        {"properties": {"effect_type": {"const": "GENERATIVE_LLM_CALL"}, "owning_application": {"const": "LEGAL_PROCESSING_WORKER"}, "required_capability": {"const": "CALL_GENERATIVE_LLM"}, "destination_class": {"const": "MODEL_PROVIDER"}}},
+        {"properties": {"effect_type": {"const": "PINECONE_MUTATION"}, "owning_application": {"const": "PROMOTION_WORKER"}, "required_capability": {"const": "MUTATE_PINECONE"}, "destination_class": {"const": "SERVING_TARGET"}}},
+        {"properties": {"effect_type": {"const": "RELEASE_PUBLICATION"}, "owning_application": {"const": "PROMOTION_WORKER"}, "required_capability": {"const": "PUBLISH_RELEASE"}, "destination_class": {"const": "RELEASE_STORE"}}},
+        {"properties": {"effect_type": {"const": "ROUTING_ACTIVATION"}, "owning_application": {"const": "PROMOTION_WORKER"}, "required_capability": {"const": "ACTIVATE_ROUTING"}, "destination_class": {"const": "ROUTING_TARGET"}}},
+        {"properties": {"effect_type": {"const": "SOURCE_CAPTURE"}, "owning_application": {"const": "ACQUISITION_WORKER"}, "required_capability": {"const": "CAPTURE_SOURCE"}, "destination_class": {"const": "SOURCE_SYSTEM"}}}
+      ]
+    },
+    "effect_success_detail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["detail_type", "remote_identity", "remote_version", "provider_request_id", "response_fingerprint", "postcondition_evidence_refs"],
+      "properties": {
+        "detail_type": {"const": "SUCCEEDED"},
+        "remote_identity": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "remote_version": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "provider_request_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "response_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "postcondition_evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}}
+      }
+    },
+    "effect_final_failure_detail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["detail_type", "failure_code", "failure_evidence_refs"],
+      "properties": {
+        "detail_type": {"const": "FAILED_FINAL"},
+        "failure_code": {"$ref": "common.schema.json#/$defs/failure_code"},
+        "failure_evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}}
+      }
+    },
+    "effect_cancelled_detail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["detail_type", "cancellation_evidence_refs"],
+      "properties": {
+        "detail_type": {"const": "CANCELLED_BEFORE_EFFECT"},
+        "cancellation_evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}}
+      }
+    },
+    "effect_unknown_detail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["detail_type", "failure_code", "reconciliation_evidence_refs", "reconciliation_required"],
+      "properties": {
+        "detail_type": {"const": "OUTCOME_UNKNOWN"},
+        "failure_code": {"$ref": "common.schema.json#/$defs/failure_code"},
+        "reconciliation_evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "reconciliation_required": {"const": true}
+      }
+    },
+    "effect_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "effect_receipt_id", "effect_intent_ref", "command_ref", "execution_lineage_ref", "terminal_status", "attempt_count", "observed_at", "evidence_refs", "detail", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.effect-receipt"},
+        "schema_version": {"const": "1.0.0"},
+        "effect_receipt_id": {"type": "string", "pattern": "^efr_[0-9a-f]{48}$"},
+        "effect_intent_ref": {"$ref": "#/$defs/effect_intent_reference"},
+        "command_ref": {"$ref": "#/$defs/command_reference"},
+        "execution_lineage_ref": {"$ref": "#/$defs/execution_lineage_reference"},
+        "terminal_status": {"type": "string", "enum": ["CANCELLED_BEFORE_EFFECT", "FAILED_FINAL", "OUTCOME_UNKNOWN", "SUCCEEDED"]},
+        "attempt_count": {"$ref": "common.schema.json#/$defs/safe_integer"},
+        "observed_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "detail": {
+          "oneOf": [
+            {"$ref": "#/$defs/effect_success_detail"},
+            {"$ref": "#/$defs/effect_final_failure_detail"},
+            {"$ref": "#/$defs/effect_cancelled_detail"},
+            {"$ref": "#/$defs/effect_unknown_detail"}
+          ]
+        },
+        "immutable": {"const": true}
+      },
+      "oneOf": [
+        {"properties": {"terminal_status": {"const": "SUCCEEDED"}, "attempt_count": {"type": "integer", "minimum": 1}, "detail": {"$ref": "#/$defs/effect_success_detail"}}},
+        {"properties": {"terminal_status": {"const": "FAILED_FINAL"}, "attempt_count": {"type": "integer", "minimum": 1}, "detail": {"$ref": "#/$defs/effect_final_failure_detail"}}},
+        {"properties": {"terminal_status": {"const": "CANCELLED_BEFORE_EFFECT"}, "attempt_count": {"const": 0}, "detail": {"$ref": "#/$defs/effect_cancelled_detail"}}},
+        {"properties": {"terminal_status": {"const": "OUTCOME_UNKNOWN"}, "attempt_count": {"type": "integer", "minimum": 1}, "detail": {"$ref": "#/$defs/effect_unknown_detail"}}}
+      ]
+    }
+  }
+}

@@ -59,6 +59,7 @@ def test_manifest_covers_and_validates_every_current_workspace_member() -> None:
         "apps/legal-processing-worker",
         "apps/promotion-worker",
         "apps/review-api",
+        "packages/application-runtime",
         "packages/contracts",
         "packages/corpus",
         "packages/domain",
@@ -139,6 +140,6 @@ def test_complete_network_disabled_package_spike(tmp_path: Path) -> None:
     if uv_value is None:
         pytest.fail("ASKLEGAL_UV must name the exact checked-in uv version")
     report = run_spike(REPOSITORY_ROOT, Path(uv_value), tmp_path)
-    assert len(report.wheel_artifacts) == 18
-    assert len(report.import_proofs) == 18
+    assert len(report.wheel_artifacts) == 19
+    assert len(report.import_proofs) == 19
     assert all(proof.importable_workspace_modules for proof in report.import_proofs)

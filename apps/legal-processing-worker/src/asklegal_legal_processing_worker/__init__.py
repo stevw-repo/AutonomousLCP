@@ -1,4 +1,4 @@
-"""Declarative legal-processing-worker boundary; no model access."""
+"""No-ingress legal-processing-worker process boundary."""
 
 APPLICATION_NAME: str = "legal-processing-worker"
 CAPABILITY_PORTS: tuple[str, ...] = (
@@ -11,4 +11,7 @@ CAPABILITY_PORTS: tuple[str, ...] = (
     "processing_evidence_write",
 )
 
-__all__ = ["APPLICATION_NAME", "CAPABILITY_PORTS"]
+from asklegal_legal_processing_worker.runtime import create_runtime
+from asklegal_legal_processing_worker.service import LegalProcessingService
+
+__all__ = ["APPLICATION_NAME", "CAPABILITY_PORTS", "LegalProcessingService", "create_runtime"]

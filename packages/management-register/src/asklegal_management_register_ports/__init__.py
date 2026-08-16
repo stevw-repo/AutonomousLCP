@@ -1,5 +1,94 @@
-"""Infrastructure-free Management Register port boundary."""
+"""Infrastructure-free Management Register port, model, and deterministic fake."""
+
+from .acquisition import (
+    AcquisitionObservationRecord,
+    AcquisitionRecordConflict,
+    AcquisitionRegisterStore,
+    InMemoryAcquisitionRegister,
+)
+from .approval import (
+    ApprovalConsumption,
+    ApprovalDecision,
+    ApprovalError,
+    ApprovalErrorCode,
+    ApprovalLifecycleEvent,
+    ApprovalProjection,
+    ApprovalRegisterStore,
+    ApprovalState,
+    ApprovalTransition,
+    InMemoryApprovalRegister,
+    ManifestSnapshot,
+    ReviewComment,
+    ReviewerPrincipal,
+)
+from .fake import InMemoryManagementRegister
+from .legal_processing import (
+    InMemoryLegalProcessingRegister,
+    LegalProcessingRecord,
+    LegalProcessingRecordConflict,
+    LegalProcessingRegisterStore,
+)
+from .model import (
+    CommandGuardDecision,
+    CommandIdentityConflict,
+    CommandSubmission,
+    CommandTransaction,
+    EffectAttemptEvent,
+    EffectClaim,
+    EffectClaimConflict,
+    PolicyDecisionState,
+    PolicyState,
+    ProjectionRow,
+    RecoveryDigestMismatch,
+    RecoveryPackage,
+    RegisterEvent,
+    RegisterInvariantError,
+    RegisterSnapshot,
+    StaleFencingToken,
+)
+from .ports import ManagementRegisterStore
 
 PACKAGE_ROLE: str = "management-register"
 
-__all__ = ["PACKAGE_ROLE"]
+__all__ = [
+    "PACKAGE_ROLE",
+    "AcquisitionObservationRecord",
+    "AcquisitionRecordConflict",
+    "AcquisitionRegisterStore",
+    "ApprovalConsumption",
+    "ApprovalDecision",
+    "ApprovalError",
+    "ApprovalErrorCode",
+    "ApprovalLifecycleEvent",
+    "ApprovalProjection",
+    "ApprovalRegisterStore",
+    "ApprovalState",
+    "ApprovalTransition",
+    "CommandGuardDecision",
+    "CommandIdentityConflict",
+    "CommandSubmission",
+    "CommandTransaction",
+    "EffectAttemptEvent",
+    "EffectClaim",
+    "EffectClaimConflict",
+    "InMemoryAcquisitionRegister",
+    "InMemoryApprovalRegister",
+    "InMemoryLegalProcessingRegister",
+    "InMemoryManagementRegister",
+    "LegalProcessingRecord",
+    "LegalProcessingRecordConflict",
+    "LegalProcessingRegisterStore",
+    "ManagementRegisterStore",
+    "ManifestSnapshot",
+    "PolicyDecisionState",
+    "PolicyState",
+    "ProjectionRow",
+    "RecoveryDigestMismatch",
+    "RecoveryPackage",
+    "RegisterEvent",
+    "RegisterInvariantError",
+    "RegisterSnapshot",
+    "ReviewComment",
+    "ReviewerPrincipal",
+    "StaleFencingToken",
+]

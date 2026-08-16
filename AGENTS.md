@@ -9,16 +9,17 @@ inside the repository.
 
 The repository is design-first. Its architecture and implementation-facing
 design baseline is accepted through ADR 0099, including the six M2–M7 protocol
-documents under `docs/design/`. Implemented work remains limited to the explicitly
-authorized local Python contract, type-boundary, Management Register,
-durability, package, synthetic image-admission, and architecture spikes plus
-the accepted first framework-free M2 lifecycle-kernel checkpoint and its
-contract-authority correction, plus the accepted contract-package 1.1.0
-Approval and Coverage Status reconciliation. The
-architecture checkpoint contains declarative application/package skeletons,
-not runnable application behavior. Documentation does not authorize any
-further implementation, external calls, corpus publication, Pinecone
-mutation, or other production action.
+documents under `docs/design/`. M1 through the complete local/synthetic M7
+milestone are implemented and proved. M4 uses deterministic synthetic sources
+and filesystem-backed local primary/recovery vault fakes. M5 adds the exact
+executable-package/lifecycle/rule engine and one reserved `ZZZ` package. M6
+adds immutable corpus/proposal construction, named-human Approval governance,
+exact embedding/target/backup/routing boundaries, and a local promotion worker
+with deterministic fakes. No real source, cloud storage, model, embedding,
+Pinecone, backup, or routing system was accessed. All real external, Azure,
+deployment, and production effects remain disabled. M7 completion proves only
+the reserved offline synthetic platform and does not authorize M8, external
+calls, corpus publication, Pinecone mutation, deployment, or production action.
 
 ## Strict repository and memory isolation
 
@@ -220,10 +221,25 @@ The local image-admission proof additionally pins its Linux amd64 toolchain and
 fresh Grype database, proves reproducible synthetic OCI and evidence graphs,
 closed vulnerability/licence rules, test-only signing, exact recovery, and a
 locked-down runtime without granting production signing or registry authority.
-The local architecture proof governs all five application skeletons and the
-canonical shared packages with a closed dependency, import, cycle, declaration,
-and capability-ownership policy; it grants no runtime capability.
-Exact deployed model versions and measured values outside those spikes,
+The evolved local architecture proof governs all five runnable local
+application boundaries and 14 shared packages with a closed dependency,
+import, cycle, declaration, and capability-ownership policy. M3 adds only local
+interfaces and fail-closed adapters; it grants no external runtime capability.
+M2 supplies the complete framework-free lifecycle and operation domain,
+quarantine re-entry, a typed Management Register port and deterministic fake,
+and two exact forward-only SQL migrations with real SQL Server proof for
+command/replay/version/concurrency, event and intent atomicity, effect leases,
+fencing, receipts, projections, recovery rows, ledger verification, and five
+procedure-only application roles. Replay and transport resolution remain
+separate from durable Command Results; Effect Intents bind a closed type,
+exclusive owner, capability, and sanitized destination before any effect.
+M2 performs no external effect. M7 adds the stable repository-owned
+`asklegal-local` reset/prove interface, a closed 32-scenario expected-result
+catalogue, network denial, two path-distinct executions, and one deterministic
+report that says only `local synthetic platform proved`. It composes the real
+local M3–M6 boundaries without adding a sixth deployable application or any
+remote capability. Exact deployed model versions and measured
+values outside those spikes,
 capacity, security assignments, retention, recovery, and operational settings
 remain admission profiles/evidence and have no implicit defaults. When
 implementation is explicitly authorized:

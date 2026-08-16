@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Declarative promotion-worker application boundary"
 requires-python = "==3.14.7"
 dependencies = [
+  "asklegal-application-runtime",
   "asklegal-contracts",
   "asklegal-corpus",
   "asklegal-domain",
@@ -16,6 +17,9 @@ dependencies = [
   "asklegal-reporting",
 ]
 
+[project.scripts]
+asklegal-promotion-worker = "asklegal_promotion_worker.main:main"
+
 [build-system]
 requires = ["uv-build==0.12.5"]
 build-backend = "uv_build"
@@ -24,6 +28,7 @@ build-backend = "uv_build"
 module-name = "asklegal_promotion_worker"
 
 [tool.uv.sources]
+asklegal-application-runtime = { workspace = true }
 asklegal-contracts = { workspace = true }
 asklegal-corpus = { workspace = true }
 asklegal-domain = { workspace = true }

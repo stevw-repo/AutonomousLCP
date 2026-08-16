@@ -1,0 +1,15 @@
+{
+  "catalogue_id": "asklegal.effect-types",
+  "catalogue_version": "1.0.0",
+  "catalogue_kind": "EFFECT_TYPE",
+  "entries": [
+    {"code": "BACKUP_MUTATION", "meaning": "Create or verify an exact recovery artifact"},
+    {"code": "EMBEDDING_PROVIDER_CALL", "meaning": "Call the admitted embedding provider with exact validated input"},
+    {"code": "EVIDENCE_WRITE", "meaning": "Append one immutable evidence object"},
+    {"code": "GENERATIVE_LLM_CALL", "meaning": "Call the admitted generative provider for one exact task"},
+    {"code": "PINECONE_MUTATION", "meaning": "Create, populate, verify, or exactly retire a declared serving target"},
+    {"code": "RELEASE_PUBLICATION", "meaning": "Publish one complete frozen Corpus Release"},
+    {"code": "ROUTING_ACTIVATION", "meaning": "Activate one exact verified routing generation"},
+    {"code": "SOURCE_CAPTURE", "meaning": "Retrieve and preserve one registered source observation"}
+  ]
+}

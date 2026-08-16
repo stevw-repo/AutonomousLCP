@@ -20,6 +20,7 @@
       "path": "apps/acquisition-worker",
       "allowed_workspace_distributions": [
         "asklegal-acquisition-worker",
+        "asklegal-application-runtime",
         "asklegal-contracts",
         "asklegal-domain",
         "asklegal-durable-task-adapter",
@@ -29,6 +30,16 @@
         "asklegal-observability",
         "asklegal-reporting",
         "asklegal-source-connectors"
+      ]
+    },
+    {
+      "distribution": "asklegal-application-runtime",
+      "module": "asklegal_application_runtime",
+      "path": "packages/application-runtime",
+      "allowed_workspace_distributions": [
+        "asklegal-application-runtime",
+        "asklegal-contracts",
+        "asklegal-domain"
       ]
     },
     {
@@ -44,13 +55,17 @@
       "module": "asklegal_control_plane",
       "path": "apps/control-plane",
       "allowed_workspace_distributions": [
+        "asklegal-application-runtime",
         "asklegal-contracts",
         "asklegal-control-plane",
+        "asklegal-corpus",
         "asklegal-domain",
         "asklegal-durable-task-adapter",
+        "asklegal-evidence-vault",
         "asklegal-management-register",
         "asklegal-management-register-adapter",
         "asklegal-observability",
+        "asklegal-promotion",
         "asklegal-reporting"
       ]
     },
@@ -107,6 +122,7 @@
       "module": "asklegal_legal_processing_worker",
       "path": "apps/legal-processing-worker",
       "allowed_workspace_distributions": [
+        "asklegal-application-runtime",
         "asklegal-contracts",
         "asklegal-corpus",
         "asklegal-domain",
@@ -180,6 +196,7 @@
       "module": "asklegal_promotion_worker",
       "path": "apps/promotion-worker",
       "allowed_workspace_distributions": [
+        "asklegal-application-runtime",
         "asklegal-contracts",
         "asklegal-corpus",
         "asklegal-domain",
@@ -208,6 +225,7 @@
       "module": "asklegal_review_api",
       "path": "apps/review-api",
       "allowed_workspace_distributions": [
+        "asklegal-application-runtime",
         "asklegal-contracts",
         "asklegal-domain",
         "asklegal-evidence-vault",

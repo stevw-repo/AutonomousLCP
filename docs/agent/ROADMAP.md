@@ -15,29 +15,42 @@ cloud proof, and production action remains separately gated.
 
 ## Honest progress summary
 
-The project is **advanced in design but early in implementation**. The
-architecture and Hong Kong legal-policy model are extensive. The normative
+The project is **advanced in design with the local synthetic platform complete,
+but external/platform implementation not started**. The architecture and Hong
+Kong legal-policy model are extensive. The normative
 cross-cutting contract package plus the Python contract, type, durability,
 package, synthetic image-admission, and architecture boundaries are locally
-proved, and the narrow Management Register
-behavior is proved on real local SQL Server. There is no complete application,
-domain kernel, persistent
-Management Register, local end-to-end pipeline, Azure environment, real-source run, model call, embedding run,
-Pinecone promotion, or production activation yet.
+proved. M2 is complete: its domain kernel, typed Management Register boundary,
+deterministic fake, and complete common SQL substrate are proved, including on
+a fresh real local SQL Server. M3 is complete with five independently runnable
+local boundaries and fail-closed local adapters. M4 is complete with exact
+evidence/acquisition contracts, synthetic connectors, two local vault fakes,
+and explicit observation outcomes. M5 is complete for the executable package
+engine, local lifecycle, bounded semantic boundary, processing worker, and one
+reserved synthetic package; every real Hong Kong package remains `NOT_READY`.
+M6 is complete with local corpus/proposal construction, Review-backed Approval,
+and a fully checked fake replacement-target promotion and rollback. M7 is
+complete: all 32 accepted offline scenarios connect the real local boundaries
+through one stable CLI and produce a byte-identical report in two path-distinct
+runs. There is no Azure environment, real-source run, real model call,
+embedding-provider run, Pinecone promotion, or production activation yet.
 
 | Area | Current state | Evidence or remaining gap |
 |---|---|---|
 | Overall design and architecture | **DESIGN ACCEPTED** | Architecture and implementation-facing design are accepted through ADR 0099, including all six M2–M7 protocols |
-| Hong Kong legal-policy design | Advanced at design level | Legislation, case proposition/treatment, reconstruction, and HKEX Regulatory designs and conceptual catalogues exist; executable rulebooks, schemas, fixtures, source registers, evaluations, and attestations remain |
-| Normative machine contracts | Foundation complete | Repository-owned Draft 2020-12 package 1.1.0 covers 54 shared objects, closed catalogues, lifecycle machines, and synthetic fixtures; Approval and Coverage Status match the accepted governance decisions |
+| Hong Kong legal-policy design | Advanced at design level; real packages `NOT_READY` | Legislation, case proposition/treatment, reconstruction, and HKEX Regulatory designs and conceptual catalogues exist; real source inventories/rights, bytes, owner attestations, and adjudicated evaluations remain |
+| Normative machine contracts | Foundation through M6 contracts complete | Repository-owned Draft 2020-12 package 1.5.0 covers 74 shared objects and 27 cross-cutting fixtures, adding proposal-package and exact embedding profile/request/receipt contracts |
 | Python and Management Register foundations | All seven M1 checkpoints complete | Python 3.14.7 contract/type/package/architecture gates, synthetic image admission, the independent Node oracle, and separate real SQL Server and Durable Task emulator proofs pass |
-| Remaining engineering proofs | M1 complete; first M2 lifecycle checkpoint complete | Separately authorize or decline the next bounded M2 command/effect-contract slice |
-| Five applications and shared runtime packages | Boundary checkpoint complete; runtime not started | Five installable declarative application skeletons and 13 package roles exist; no service, worker, route, entry point, or runtime effect exists |
-| Local end-to-end pipeline | Not started | No synthetic complete flow from acquisition through verified promotion exists |
+| Domain kernel and Management Register | **M2 COMPLETE** | Five lifecycle machines, operation objects, re-entry, typed store/fake, exact SQL prefix, procedures, ledger, recovery, and conformance proofs pass |
+| Five applications and shared runtime packages | **M3 COMPLETE** | Two strict independent FastAPI APIs, one replaceable Review client, three no-ingress workers, and one framework-free application-runtime package pass local boundary proofs; all external effects remain disabled |
+| Evidence and acquisition | **M4 COMPLETE** | Deterministic Registered Source/endpoint, Watcher, Scraper, hostile-input, coverage-accounting, manifest-last primary/recovery vault, exact receipt, corruption, retention, restart, and acquisition-outcome proofs pass using synthetic bytes only |
+| Legal processing and executable packages | **M5 COMPLETE (LOCAL/SYNTHETIC)** | Closed package loader, activation lifecycle, total rule execution, leakage/profile/environment gates, bounded challenged local semantic fake, deterministic candidates, exact replay, and reserved `ZZZ` package pass; no real jurisdiction or model is admitted |
+| Review, Approval, corpus, and promotion | **M6 COMPLETE (LOCAL/SYNTHETIC)** | Exact releases/desired state/coverage/proposals, real local Review governance, single-use Approval, replacement target, embedding, backup, routing, rollback, coverage cache, and retirement-denial proofs pass; all remote adapters remain disabled |
+| Local end-to-end pipeline | **M7 COMPLETE (LOCAL/SYNTHETIC)** | Stable reset/named/all CLI; 32 expected-result scenarios; golden acquisition-to-recovery flow; failure/retry/restart/hostility/Approval/promotion/recovery/deletion proofs; network denial; and path-distinct reproducibility pass |
 | Azure infrastructure and delivery | Design selected; not implemented | Azure SQL, Container Apps, Scheduler, Blob, ACR, Application Gateway, Azure Pipelines, and Azure Monitor are selected but no Bicep, pipelines, or cloud resources exist |
 | Real-source, model, embedding, and Pinecone operation | Not started | Azure OpenAI/Foundry is selected for both model families to match Ask.Legal Backend; exact deployments and every external proof remain disabled/uncreated |
 | Production admission and activation | Not started | Security, recovery, quality, operational, and human-approval proofs remain |
-| Ask.Legal admin-portal integration | Intentionally deferred | Integrate only after the standalone Review API and complete pipeline work |
+| Ask.Legal admin-portal integration | Intentionally deferred | M7 now satisfies the complete-pipeline prerequisite, but integration remains deferred by explicit direction |
 
 Numerical percentage is deliberately omitted: counting accepted documents and
 implemented production capabilities as equivalent units would overstate
@@ -63,12 +76,12 @@ progress.
 flowchart TD
     M0["M0 — Overall design baseline<br/>DESIGN ACCEPTED"]
     M1["M1 — Engineering foundation<br/>COMPLETE"]
-    M2["M2 — Domain kernel and Management Register<br/>IN PROGRESS"]
-    M3["M3 — Five local application boundaries<br/>IN PROGRESS"]
-    M4["M4 — Evidence and acquisition<br/>NOT STARTED"]
-    M5["M5 — Legal processing and executable rulebooks<br/>NOT STARTED"]
-    M6["M6 — Review, Approval, corpus, and promotion<br/>NOT STARTED"]
-    M7["M7 — Complete local synthetic pipeline<br/>NOT STARTED"]
+    M2["M2 — Domain kernel and Management Register<br/>COMPLETE"]
+    M3["M3 — Five local application boundaries<br/>COMPLETE"]
+    M4["M4 — Evidence and acquisition<br/>COMPLETE"]
+    M5["M5 — Legal processing and executable rulebooks<br/>COMPLETE — LOCAL/SYNTHETIC"]
+    M6["M6 — Review, Approval, corpus, and promotion<br/>COMPLETE — LOCAL/SYNTHETIC"]
+    M7["M7 — Complete local synthetic pipeline<br/>COMPLETE — LOCAL/SYNTHETIC"]
     M8["M8 — Azure non-production platform<br/>NOT STARTED"]
     M9["M9 — External and production admission<br/>NOT STARTED"]
     M10["M10 — Controlled production activation<br/>NOT STARTED"]
@@ -91,10 +104,11 @@ met.
 
 For the M5-to-M7 dependency, M7 requires the Legal Desk package mechanism and
 one closed test-only synthetic package, not completion of every production
-Hong Kong package. Production packages remain separately in M5 until their own
-complete source, rulebook, fixture, evaluation, and attestation gates pass. An
-M7 success therefore proves that the local platform works; it does not mark an
-unfinished real legal package complete.
+Hong Kong package. Production packages remain `NOT_READY` until their own
+complete source, rulebook, fixture, evaluation, owner, and attestation gates
+pass. Their external admission evidence is tracked under M9 and exact package
+gates. An M7 success therefore proves that the local platform works; it does
+not mark an unfinished real legal package complete.
 
 ## Milestones and exit gates
 
@@ -152,10 +166,10 @@ Delivered:
   OCI builds, normalized SPDX/provenance/scanner evidence, fail-closed
   vulnerability and licence policy, exact ORAS graph copy and recovery,
   isolated test-only signing, and locked-down runtime proof; and
-- completed local architecture spike covering all five application skeletons,
-  13 shared packages, exact direct dependencies, internal imports, cycles,
+- completed local architecture policy covering all five applications,
+  14 shared packages, exact direct dependencies, internal imports, cycles,
   declarations, and exclusive capability ownership, followed by the complete
-  offline package proof for the expanded 18-member workspace.
+  offline package proof for the expanded 19-member workspace.
 
 Next checkpoints, in recommended order:
 
@@ -182,16 +196,14 @@ Exit gate:
 - architecture tests enforce the monorepo dependency and capability rules; and
 - no external service is required for the ordinary test suite.
 
-Current next action: separately authorize or decline the immutable Command
-Envelope/Result and Effect Intent/Receipt contract/domain slice. The ordered
-lifecycle correction is complete and does not itself authorize that next slice
-or M3 runtime work.
-The disposable SQL Server and Durable Task emulator containers have been
-removed; their digest-pinned images may remain cached.
+M1 through M7 are complete locally. M8 is the next separately authorized
+capability milestone. The disposable SQL Server and Durable
+Task emulator containers have been removed; their digest-pinned images may
+remain cached.
 
-### M2 — Domain kernel and Management Register — IN PROGRESS
+### M2 — Domain kernel and Management Register — COMPLETE
 
-Completed checkpoint:
+Delivered:
 
 - the framework-free immutable lifecycle kernel for Pipeline Runs, Work Items,
   Source Contract Reviews, Coverage Gaps, and Quarantines: 37 closed states,
@@ -199,19 +211,27 @@ Completed checkpoint:
   runtime-exact primitive validation, recurrence identities, exhaustive
   allowed/forbidden tests, independent contract-to-code equivalence, and one
   exact ordinary developer bootstrap/test command; and
-- the narrow local Management Register adapter, first exact migration package,
-  synthetic Approval/Serving State procedures, and real SQL Server conformance
-  proof. This is foundation evidence, not the complete domain kernel or final
-  production schema.
+- contract package 1.2.0 plus framework-free immutable Command Envelope,
+  Command Result, Effect Intent, and Effect Receipt objects, with closed
+  submission resolution, owner/capability/destination bindings, strict runtime
+  validation, 27 independent fixtures, and contract-to-code equivalence; and
+- explicit quarantine release-to-new-linked-Work-Item re-entry; and
+- a typed framework-free `ManagementRegisterStore` port and deterministic
+  thread-safe fake covering exact replay/conflict, versions, winners, events,
+  effect intents, leases, fencing, attempts, receipts, policy states,
+  projections, digest failure, and recovery replay; and
+- the narrow local Management Register adapter and exact two-migration prefix,
+  including the nine-batch common M2 SQL substrate, five procedure-only
+  application roles, recovery views, and real SQL Server conformance proof.
 
 Design prerequisite: **ACCEPTED** in
 `docs/design/M2_DOMAIN_AND_REGISTER_PROTOCOL.md`.
 
-Build:
+Implemented:
 
 - framework-free immutable domain objects, IDs, fingerprints, state machines,
   commands, events, effect intents, results, and policy states;
-- typed `ManagementRegisterStore` ports and fake implementation;
+- typed `ManagementRegisterStore` port and fake implementation;
 - exact forward-only SQL Server migration packages and narrow runner;
 - command procedures, least-privilege views and roles, event/inbox/outbox
   persistence, projections, ledger verification, and recovery exports; and
@@ -225,28 +245,37 @@ Exit gate:
 - a fresh local SQL Server can be built and verified only from fingerprinted
   migrations.
 
-### M3 — Five local application boundaries — IN PROGRESS
+Exit result: **PASS**. Every M2 transition is tested exhaustively; replay,
+conflict, stale, concurrency, expiry, fencing, deadlock, ambiguous commit,
+lost acknowledgement, projection rebuild, digest failure, recovery, overlap,
+cancellation, recurrence, and re-entry have explicit proof. The fresh SQL
+Server proof applied only the exact `000001`/`000002` prefix and verified its
+ledger. Azure recovery operations and production settings remain M8–M10
+admission work rather than an unfinished M2 implementation default.
 
-Delivered checkpoint:
+### M3 — Five local application boundaries — COMPLETE
 
-- declarative installable skeletons for all five applications and 13 canonical
-  shared package roles, governed by closed dependency and capability tests.
-  These skeletons have no routes, entry points, worker loops, configuration,
-  credentials, or effects.
+Delivered:
 
-Design prerequisite: **ACCEPTED** in
-`docs/design/M3_APPLICATION_INTERFACE_PROTOCOL.md`. Runtime implementation
-must revise and re-prove the architecture manifest as specified there.
+- independently startable control-plane and Review FastAPI applications with
+  distinct `/api/v1` OpenAPI, audiences, origins, routes, health checks, exact
+  raw-body boundaries, errors, ETags, idempotency, and optimistic versions;
+- snapshot/filter/sort/caller/expiry-bound Review pagination, exact manifest
+  decisions, audited evidence streaming, and a replaceable PKCE browser client
+  that keeps bearer tokens in memory only;
+- independently startable acquisition, legal-processing, and promotion
+  workers with no HTTP ingress, exact revision configuration, separate local
+  task hubs, generation fencing, cooperative shutdown, and fail-closed effect
+  adapters;
+- a framework-free application-runtime package holding exact configuration,
+  local identity, register, pagination, projection, task, lease, and disabled-
+  effect adapters; and
+- evolved architecture and package policies for 5 applications, 14 packages,
+  80 internal edges, 31 capability ports, and exclusive control-plane proposal
+  preparation.
 
-Build:
-
-- control-plane FastAPI service;
-- Review Application FastAPI service and a minimal replaceable browser client;
-- acquisition, legal-processing, and promotion workers;
-- separate configuration, identity, database, task-hub, secret, network, and
-  effect ports for each boundary; and
-- local fake adapters, health checks, OpenAPI, architecture tests, and
-  independent package/container entry points.
+Design prerequisite: **ACCEPTED and implemented** in
+`docs/design/M3_APPLICATION_INTERFACE_PROTOCOL.md`.
 
 Exit gate:
 
@@ -256,12 +285,15 @@ Exit gate:
   and
 - later admin-portal integration depends only on the versioned Review API.
 
-### M4 — Evidence and acquisition — NOT STARTED
+Exit gate: **PASS**. M3 performs no source, model, embedding, serving, backup,
+routing, recovery, Azure, deployment, or production effect.
+
+### M4 — Evidence and acquisition — COMPLETE
 
 Design prerequisite: **ACCEPTED** in
 `docs/design/M4_ACQUISITION_AND_EVIDENCE_PROTOCOL.md`.
 
-Build:
+Delivered:
 
 - source registry, watcher, scraper, source-snapshot, evidence-vault, recovery-
   copy, content-addressing, hostile-content isolation, and coverage-accounting
@@ -269,6 +301,13 @@ Build:
 - deterministic synthetic source connectors and complete failure cases; and
 - local primary/recovery vault fakes with conditional-create, exact-version,
   read-back, manifest, retention, and recovery tests.
+
+Contract package 1.3.0 now governs Connector Request, Watcher Result, Scraper
+Result, Vault Object Receipt, Evidence Object, Evidence Package, and
+Acquisition Outcome. The acquisition worker uses a two-phase boundary: it can
+commit primary evidence, but only an independently supplied exact recovery
+receipt can make a Source Snapshot `PRESERVED` and legal-processing eligible.
+Recovery copying remains owned by the promotion-worker boundary.
 
 Exit gate:
 
@@ -278,14 +317,43 @@ Exit gate:
   exact Quarantine/Source Contract Review path; and
 - no change signal can silently create model, embedding, or promotion work.
 
-### M5 — Legal processing and executable rulebooks — NOT STARTED
+Exit gate: **PASS** using only synthetic responses and filesystem-backed local
+vaults. Missing/unavailable work creates Coverage Gap, source-contract drift
+creates Source Contract Review, hostile content creates Quarantine, stable
+full capture creates one preserved Source Snapshot, and admitted no-change
+authorizes no downstream work. No real source, Azure, model, embedding,
+serving, backup, routing, deployment, or production effect was performed.
+
+### M5 — Legal processing and executable rulebooks — COMPLETE (LOCAL/SYNTHETIC)
 
 Design prerequisite: **ACCEPTED** in
 `docs/design/M5_EXECUTABLE_LEGAL_DESK_PACKAGE_PROTOCOL.md`. The M7 platform
 proof uses one test-only synthetic package and satisfies no production Hong
 Kong package gate.
 
-Build initially around the accepted Hong Kong families:
+Delivered locally:
+
+- contract package 1.4.0 for executable package roots, exact scope activation,
+  Rule Execution Results, bounded Semantic Task Request/Decision, and candidate
+  artifacts;
+- a canonical-layout loader that rejects missing/extra files, drift, path or
+  code violations, contract mismatch, overlapping scopes, incomplete sources,
+  leakage, floating or expired profiles, stale activation, and environment
+  misuse;
+- a deterministic closed rule engine that blocks zero matches as
+  `RULEBOOK_NON_TOTAL`, blocks multiple matches as `RULEBOOK_AMBIGUOUS`, and
+  emits byte-identical evidence-bound outcomes and candidate bytes;
+- the sole provider-neutral semantic gate with a contract-equal twelve-stage
+  catalogue, six exact primary/secondary pairings, distinct profiles/prompts,
+  evidence budgets, preserved-reference validation, expiry, and deterministic
+  reconciliation; only an exact local fake is implemented and the default
+  runner is disabled; and
+- reserved package `ZZZ` / `LOCAL_SYNTHETIC` / `TEST_LEGAL_MATERIAL`, rejected
+  in every other environment and carrying no real locator, credential, legal
+  authority, or production scope.
+
+Real package admission remains outstanding for the accepted Hong Kong
+families:
 
 - executable Hong Kong Legislation Source Rulebook, schemas, exact fixtures,
   current-baseline/update behavior, and reconstruction capability;
@@ -310,21 +378,36 @@ Exit gate:
 - uncertainty never becomes guessed legal status or searchable text; and
 - only an exact admitted workflow may make a model-assisted proposal.
 
-### M6 — Review, Approval, corpus, and promotion — NOT STARTED
+Exit gate: **PASS for the only enabled package, the reserved local-synthetic
+scope.** Its complete invented source universe, deterministic fixtures, sealed
+evaluation references, exact local profiles, owner/test attestation, activation,
+rule execution, semantic challenge, quarantine, withholding, candidate, and
+reproducibility paths pass. No production Hong Kong package is enabled; all
+remain `NOT_READY`, so this result makes no Hong Kong legal-readiness claim.
+
+### M6 — Review, Approval, corpus, and promotion — COMPLETE (LOCAL/SYNTHETIC)
 
 Design prerequisite: **ACCEPTED** in
 `docs/design/M6_REVIEW_AND_PROMOTION_PROTOCOL.md`.
 
-Build:
+Delivered locally:
 
-- Review API evidence, comparison, rejection, revocation, single-role human-
-  identity, reason, and single-consumption contracts;
-- immutable Corpus Releases, Desired-State Inventories, coverage-status
-  manifests, Promotion Manifests, Approval, and Serving State lifecycle;
-- embedding, Pinecone, backup, routing, verification, rollback, and exact
-  retirement ports with local fakes; and
-- the promotion worker's full stale-approval, overlap, drift, recovery,
-  replacement-target, cutover, and rollback checks.
+- contract package 1.5.0 adds frozen proposal-package manifests and exact
+  embedding profile, request, and receipt objects with independent runtime
+  equivalence and schema-conformance proofs;
+- deterministic Corpus Release, Desired-State Inventory, complete Coverage
+  Status Manifest, Promotion Manifest, and manifest-last Proposal Package
+  construction, including exact role, byte, reference, and read-back checks;
+- the Review API writes fingerprint-bound comments, decisions, and revocations
+  to the named-human `PipelineAdministrator` Approval register with optimistic
+  versions, exact command replay, current-role revalidation, and atomic
+  single-lineage consumption;
+- provider-neutral embedding, replacement-target, backup, routing, coverage,
+  rollback, and exact-retirement ports with no-network local fakes; and
+- the promotion worker revalidates manifest/profile/cost/base/coverage facts,
+  reconciles lost acknowledgements, proves exact vector and metadata inventory,
+  verifies retrieval and backup, performs one compare-and-set cutover, and
+  reverse-swaps only to the retained predecessor.
 
 Exit gate:
 
@@ -335,12 +418,20 @@ Exit gate:
 - exact rollback and recovery are independently verified; and
 - broad or inferred deletion is impossible.
 
-### M7 — Complete local synthetic pipeline — NOT STARTED
+Exit gate: **PASS with local synthetic records and fakes only.** The required
+stale/revoked/consumed Approval, role removal, invalidation, drift, overlap,
+partial batch, lost acknowledgement, vector mismatch, unknown record, cost,
+backup, routing, warm-up, post-cutover, rollback, coverage, and retirement
+failures are exercised. No model, embedding provider, Pinecone, backup service,
+Ask.Legal slot, Azure resource, corpus publication, or production route was
+called or changed.
+
+### M7 — Complete local synthetic pipeline — COMPLETE (LOCAL/SYNTHETIC)
 
 Design prerequisite: **ACCEPTED** in
 `docs/design/M7_END_TO_END_CONFORMANCE_PLAN.md`.
 
-Prove the entire locally runnable flow:
+Delivered locally:
 
 1. schedule and observe a synthetic source;
 2. preserve exact evidence;
@@ -353,15 +444,26 @@ Prove the entire locally runnable flow:
 9. repeat failure, retry, duplicate, restart, stale-approval, overlap, hostile-
    input, and no-change cases.
 
-Exit gate:
+Exit evidence:
 
-- a new developer can reproduce the full flow offline from documented exact
-  commands and locks;
-- all artifacts and effects are deterministic and traceable; and
-- every external system is still represented by a local fake.
+- `uv run --frozen asklegal-local reset --exact-test-state`, named scenario,
+  and `prove --all` semantics are implemented and documented;
+- all 32 scenarios pass twice in clean path-distinct roots with byte-identical
+  complete reports and full generated-artifact inventories;
+- the golden flow uses the local M3–M6 application/service boundaries from
+  source observation through Review HTTP Approval, cutover, rollback, and
+  exact recovery;
+- every scenario is checked against a frozen expected result/fact/effect entry;
+  and
+- DNS/socket access is denied while every provider/system remains a local fake.
 
-This is the point at which the pipeline itself first genuinely works. The
-admin-portal integration remains after it.
+Exit gate: **PASS.** The report fingerprint from the final stable CLI proof is
+`sha256:1371eca6e75e380f8a754e665850e3839aa7e2ff9de4b86e18c5061ae026d8ae`
+and its statement is exactly `local synthetic platform proved`. This is the
+point at which the local pipeline first genuinely works. No real legal package,
+provider, Azure resource, Pinecone target, Ask.Legal route, deployment, or
+production effect was accessed or admitted. Admin-portal integration remains
+deferred.
 
 ### M8 — Azure non-production platform — NOT STARTED
 
@@ -464,38 +566,20 @@ Exit gate:
 
 ## Immediate decision and work queue
 
-1. **Design-decision gate:** decision 1 selected Azure OpenAI/Foundry for both
-   model families. Decision 2 selected one human administrator role with no
-   step-up freshness, Approval TTL, or absence-cover construct. Decision 3
-   selected severity, named assignment, immediate urgent notification, optional
-   due times, and no fixed review SLA. Decision 4 selected a separate restricted
-   production-candidate App Service slot, manual validated swap, and reverse-
-   swap rollback; development remains development-only. Decision 5 selected the
-   exact environment/jurisdiction/date/state Pinecone name. Decision 6 selected
-   the complete immutable, fingerprint-bound Coverage Status Manifest with
-   protected retrieval, verified caching, activation blocking, and fail-visible
-   unavailability, without a signing-key lifecycle. Decision 7 selected
-   LLM-assisted Gazette-event analysis/challenge and Reconstruction Plan
-   decision/challenge; offline evaluation is deterministic against human-
-   adjudicated truth, and every other unallocated task defaults to
-   deterministic handling for now.
-2. **Design-acceptance gate — COMPLETE:** ADR 0099 and D1–D6 are accepted.
-3. **First M2 implementation gate — COMPLETE:** the framework-free lifecycle
-   kernel and its ordered five-step correctness correction pass.
-4. **Corrective M2 gate — COMPLETE:** all six guard decisions and all five
-   correction steps are accepted and proved.
-5. **Accepted-design reconciliation — COMPLETE:** M2/M3/M6 prose, ADR status
-   wording, Approval 1.1.0, Coverage Status 1.1.0, and their independent
-   fixtures are aligned.
-6. **Next M2 feature gate:** separately authorize
-   or decline the Command Envelope/Result and Effect Intent/Receipt slice.
-7. **Later milestone gates:** separately authorize M3–M7 implementation only
-   when their prerequisites and prior exit evidence permit it.
-8. **Admission work:** populate and prove the exact source, model, Azure,
-   security, recovery, retention, service-level, capacity, cost, and operator
-   profiles before activating their capabilities.
+1. **M1–M7 local platform — COMPLETE:** the engineering foundation, domain and
+   register, five application boundaries, acquisition/evidence, executable ZZZ
+   processing, Review/Approval/promotion, and all 32 end-to-end scenarios pass.
+2. **Next implementation gate — M8:** separately authorize or decline the Azure
+   non-production platform. M7 completion alone grants no cloud authority.
+3. **M8 decision/evidence work:** before resource creation, settle and measure
+   exact region, capacity, service tier, retention, recovery, security,
+   observability, cost, identity, network, and operational admission profiles.
+4. **M9 admission work:** real source packages, Azure OpenAI deployments,
+   embeddings, Pinecone, recovery, Entra/WAF, and production dependencies remain
+   separate evidence gates; none is implied by local fake success.
+5. **Admin portal — DEFERRED:** integration may now be planned against the
+   stable Review API, but remains after the pipeline proof by explicit user
+   direction and is not part of M8 authority.
 
-The repository now includes the seven completed M1 checkpoints, the narrow
-Management Register checkpoint, and the accepted first M2 lifecycle checkpoint.
-No completed gate authorizes the next
-implementation slice.
+No completed local gate authorizes external access, Azure creation, deployment,
+production mutation, commit, or push.

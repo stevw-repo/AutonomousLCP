@@ -4,14 +4,25 @@ version = "0.1.0"
 description = "Declarative control-plane application boundary"
 requires-python = "==3.14.7"
 dependencies = [
+  "asklegal-application-runtime",
   "asklegal-contracts",
+  "asklegal-corpus",
   "asklegal-domain",
   "asklegal-durable-task-adapter",
+  "asklegal-evidence-vault",
   "asklegal-management-register",
   "asklegal-management-register-adapter",
   "asklegal-observability",
+  "asklegal-promotion",
   "asklegal-reporting",
+  "fastapi>=0.116,<1",
+  "pydantic>=2.12,<3",
+  "uvicorn>=0.35,<1",
 ]
+
+[project.scripts]
+asklegal-control-plane = "asklegal_control_plane.main:main"
+asklegal-local = "asklegal_control_plane.local_cli:main"
 
 [build-system]
 requires = ["uv-build==0.12.5"]
@@ -21,10 +32,14 @@ build-backend = "uv_build"
 module-name = "asklegal_control_plane"
 
 [tool.uv.sources]
+asklegal-application-runtime = { workspace = true }
 asklegal-contracts = { workspace = true }
+asklegal-corpus = { workspace = true }
 asklegal-domain = { workspace = true }
 asklegal-durable-task-adapter = { workspace = true }
+asklegal-evidence-vault = { workspace = true }
 asklegal-management-register = { workspace = true }
 asklegal-management-register-adapter = { workspace = true }
 asklegal-observability = { workspace = true }
+asklegal-promotion = { workspace = true }
 asklegal-reporting = { workspace = true }

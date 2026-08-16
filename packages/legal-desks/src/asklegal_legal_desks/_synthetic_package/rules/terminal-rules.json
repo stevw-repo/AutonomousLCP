@@ -1,0 +1,55 @@
+{
+  "rules": [
+    {
+      "rule_id": "ZZZ-TEST-CREATE-001",
+      "scope_id": "rsc_333333333333333333333333333333333333333333333333",
+      "predicates": [
+        {"fact": "change_kind", "operator": "EQUALS", "value": "CREATE"},
+        {"fact": "uncertain", "operator": "ABSENT", "value": null}
+      ],
+      "evidence_roles": ["SOURCE_CONTENT"],
+      "disposition": "CANDIDATE",
+      "reason_code": "SYNTHETIC_CANDIDATE",
+      "failure_code": null,
+      "next_action": "WRITE_CANDIDATE"
+    },
+    {
+      "rule_id": "ZZZ-TEST-SEMANTIC-001",
+      "scope_id": "rsc_333333333333333333333333333333333333333333333333",
+      "predicates": [
+        {"fact": "change_kind", "operator": "EQUALS", "value": "SEMANTIC"},
+        {"fact": "semantic.decision_code", "operator": "EQUALS", "value": "AMENDMENT"}
+      ],
+      "evidence_roles": ["SOURCE_CONTENT"],
+      "disposition": "CANDIDATE",
+      "reason_code": "SYNTHETIC_SEMANTIC_CANDIDATE",
+      "failure_code": null,
+      "next_action": "WRITE_CANDIDATE"
+    },
+    {
+      "rule_id": "ZZZ-TEST-UNCERTAIN-001",
+      "scope_id": "rsc_333333333333333333333333333333333333333333333333",
+      "predicates": [
+        {"fact": "uncertain", "operator": "PRESENT", "value": null}
+      ],
+      "evidence_roles": ["SOURCE_CONTENT"],
+      "disposition": "QUARANTINE",
+      "reason_code": "SYNTHETIC_UNCERTAIN",
+      "failure_code": "SYNTHETIC_UNCERTAINTY",
+      "next_action": "OPEN_LEGAL_DESK_REVIEW"
+    },
+    {
+      "rule_id": "ZZZ-TEST-WITHHOLD-001",
+      "scope_id": "rsc_333333333333333333333333333333333333333333333333",
+      "predicates": [
+        {"fact": "change_kind", "operator": "EQUALS", "value": "WITHHOLD"},
+        {"fact": "uncertain", "operator": "ABSENT", "value": null}
+      ],
+      "evidence_roles": ["SOURCE_CONTENT"],
+      "disposition": "WITHHOLD",
+      "reason_code": "SYNTHETIC_WITHHOLD",
+      "failure_code": null,
+      "next_action": "ACCOUNT_WITHHELD"
+    }
+  ]
+}

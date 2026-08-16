@@ -1,5 +1,62 @@
-"""Immutable evidence-vault port boundary."""
+"""Immutable evidence package, vault, and recovery-copy boundary."""
+
+from .local import (
+    LocalImmutableVault,
+    ManifestLastPackageWriter,
+    RecoveryCopier,
+    TwoVaultEvidenceReader,
+)
+from .model import (
+    ArtifactClass,
+    ArtifactDescriptor,
+    CorruptEvidence,
+    EvidenceError,
+    EvidenceIntegrityIncident,
+    EvidenceManifest,
+    EvidenceManifestEntry,
+    EvidencePackageReceipt,
+    EvidenceReadReceipt,
+    ExactObjectReference,
+    HostileClassification,
+    HostileReason,
+    PackageIncomplete,
+    RecoveryCopyReceipt,
+    RetentionBlocked,
+    RetentionProfile,
+    VaultCollision,
+    VaultName,
+    VaultWriteReceipt,
+    content_logical_key,
+    manifest_logical_key,
+)
 
 PACKAGE_ROLE: str = "evidence-vault"
 
-__all__ = ["PACKAGE_ROLE"]
+__all__ = [
+    "PACKAGE_ROLE",
+    "ArtifactClass",
+    "ArtifactDescriptor",
+    "CorruptEvidence",
+    "EvidenceError",
+    "EvidenceIntegrityIncident",
+    "EvidenceManifest",
+    "EvidenceManifestEntry",
+    "EvidencePackageReceipt",
+    "EvidenceReadReceipt",
+    "ExactObjectReference",
+    "HostileClassification",
+    "HostileReason",
+    "LocalImmutableVault",
+    "ManifestLastPackageWriter",
+    "PackageIncomplete",
+    "RecoveryCopier",
+    "RecoveryCopyReceipt",
+    "RetentionBlocked",
+    "RetentionProfile",
+    "TwoVaultEvidenceReader",
+    "VaultCollision",
+    "VaultName",
+    "VaultWriteReceipt",
+    "content_logical_key",
+    "manifest_logical_key",
+]

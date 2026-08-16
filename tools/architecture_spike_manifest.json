@@ -8,6 +8,7 @@
     "external_source_read": "asklegal-acquisition-worker",
     "generative_llm_provider": "asklegal-legal-processing-worker",
     "pinecone_mutation": "asklegal-promotion-worker",
+    "proposal_package_prepare": "asklegal-control-plane",
     "recovery_copy": "asklegal-promotion-worker",
     "revocation_command": "asklegal-review-api"
   },
@@ -15,6 +16,7 @@
     {
       "allowed_external_distributions": [],
       "allowed_internal_distributions": [
+        "asklegal-application-runtime",
         "asklegal-contracts",
         "asklegal-domain",
         "asklegal-durable-task-adapter",
@@ -38,6 +40,19 @@
       "role": "acquisition-worker"
     },
     {
+      "allowed_external_distributions": [],
+      "allowed_internal_distributions": [
+        "asklegal-contracts",
+        "asklegal-domain"
+      ],
+      "capability_ports": [],
+      "distribution": "asklegal-application-runtime",
+      "kind": "package",
+      "module": "asklegal_application_runtime",
+      "path": "packages/application-runtime",
+      "role": "application-runtime"
+    },
+    {
       "allowed_external_distributions": [
         "jsonschema",
         "pydantic",
@@ -53,20 +68,29 @@
       "role": "contracts"
     },
     {
-      "allowed_external_distributions": [],
+      "allowed_external_distributions": [
+        "fastapi",
+        "pydantic",
+        "uvicorn"
+      ],
       "allowed_internal_distributions": [
+        "asklegal-application-runtime",
         "asklegal-contracts",
+        "asklegal-corpus",
         "asklegal-domain",
         "asklegal-durable-task-adapter",
+        "asklegal-evidence-vault",
         "asklegal-management-register",
         "asklegal-management-register-adapter",
         "asklegal-observability",
+        "asklegal-promotion",
         "asklegal-reporting"
       ],
       "capability_ports": [
         "control_http_api",
         "coverage_report_read",
         "management_register_control",
+        "proposal_package_prepare",
         "source_registry_coordinate",
         "workflow_schedule"
       ],
@@ -144,6 +168,7 @@
     {
       "allowed_external_distributions": [],
       "allowed_internal_distributions": [
+        "asklegal-application-runtime",
         "asklegal-contracts",
         "asklegal-corpus",
         "asklegal-domain",
@@ -244,6 +269,7 @@
     {
       "allowed_external_distributions": [],
       "allowed_internal_distributions": [
+        "asklegal-application-runtime",
         "asklegal-contracts",
         "asklegal-corpus",
         "asklegal-domain",
@@ -285,8 +311,13 @@
       "role": "reporting"
     },
     {
-      "allowed_external_distributions": [],
+      "allowed_external_distributions": [
+        "fastapi",
+        "pydantic",
+        "uvicorn"
+      ],
       "allowed_internal_distributions": [
+        "asklegal-application-runtime",
         "asklegal-contracts",
         "asklegal-domain",
         "asklegal-evidence-vault",

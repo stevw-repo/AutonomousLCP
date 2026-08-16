@@ -433,6 +433,8 @@ function validateCatalogues() {
   }
   const capabilityEnum = schemas.get("schemas/capability-domain.schema.json").$defs.capability_profile.properties.capability_codes.items.enum;
   assert(sameValue(capabilityEnum, catalogueCodes("catalogues/capability-codes.json")), "Capability schema enum differs from capability catalogue");
+  const effectEnum = schemas.get("schemas/operation-domain.schema.json").$defs.effect_type.enum;
+  assert(sameValue(effectEnum, catalogueCodes("catalogues/effect-types.json")), "Effect schema enum differs from effect catalogue");
 }
 
 function validateStateMachines() {
@@ -657,7 +659,7 @@ function buildManifest() {
     schema_id: "asklegal.cross-cutting-package-manifest",
     schema_version: "1.0.0",
     package_id: "pkg_000000000000000000000000000000000000000000000001",
-    package_version: "1.1.0",
+    package_version: "1.5.0",
     created_at: "2026-08-16T00:00:00Z",
     canonicalization: "RFC8785-JCS",
     fingerprint_algorithm: "SHA-256",
@@ -727,6 +729,15 @@ function validateIsolatedReproducibility() {
 
 if (process.argv.includes("--print-manifest")) {
   process.stdout.write(`${JSON.stringify(buildManifest(), null, 2)}\n`);
+  process.exit(0);
+}
+
+if (process.argv.includes("--write-manifest")) {
+  fs.writeFileSync(
+    path.join(contractsRoot, "package-manifest.json"),
+    `${JSON.stringify(buildManifest(), null, 2)}\n`,
+    { encoding: "utf8", flag: "w" }
+  );
   process.exit(0);
 }
 

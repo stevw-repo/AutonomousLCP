@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Declarative acquisition-worker application boundary"
 requires-python = "==3.14.7"
 dependencies = [
+  "asklegal-application-runtime",
   "asklegal-contracts",
   "asklegal-domain",
   "asklegal-durable-task-adapter",
@@ -15,6 +16,9 @@ dependencies = [
   "asklegal-source-connectors",
 ]
 
+[project.scripts]
+asklegal-acquisition-worker = "asklegal_acquisition_worker.main:main"
+
 [build-system]
 requires = ["uv-build==0.12.5"]
 build-backend = "uv_build"
@@ -23,6 +27,7 @@ build-backend = "uv_build"
 module-name = "asklegal_acquisition_worker"
 
 [tool.uv.sources]
+asklegal-application-runtime = { workspace = true }
 asklegal-contracts = { workspace = true }
 asklegal-domain = { workspace = true }
 asklegal-durable-task-adapter = { workspace = true }

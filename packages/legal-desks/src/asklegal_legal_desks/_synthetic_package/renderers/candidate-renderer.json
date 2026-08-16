@@ -1,0 +1,10 @@
+{
+  "renderer_id": "zzz-test-candidate-v1",
+  "input_contract": "asklegal.rule-execution-result/1.0.0",
+  "output_contract": "asklegal.candidate-artifact/1.0.0",
+  "canonicalization": "RFC8785-JCS",
+  "source_unit_coverage": "EXACT_EVIDENCE_REFS",
+  "identity_policy": "REGISTER_OR_DETERMINISTIC_CANDIDATE_ONLY",
+  "authority_note_policy": "NO_AUTHORITY_NOTE_IN_SYNTHETIC_FIXTURE",
+  "forbidden_transformations": ["INVENT_TEXT", "TRANSLATE", "DROP_UNCERTAINTY"]
+}

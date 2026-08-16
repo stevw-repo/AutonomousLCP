@@ -1,12 +1,21 @@
-"""Declarative control-plane application boundary; no runtime behavior."""
+"""Private control-plane HTTP application boundary."""
 
 APPLICATION_NAME: str = "control-plane"
 CAPABILITY_PORTS: tuple[str, ...] = (
     "control_http_api",
     "coverage_report_read",
     "management_register_control",
+    "proposal_package_prepare",
     "source_registry_coordinate",
     "workflow_schedule",
 )
 
-__all__ = ["APPLICATION_NAME", "CAPABILITY_PORTS"]
+from asklegal_control_plane.api import create_app
+from asklegal_control_plane.proposal import ProposalPreparationService
+
+__all__ = [
+    "APPLICATION_NAME",
+    "CAPABILITY_PORTS",
+    "ProposalPreparationService",
+    "create_app",
+]

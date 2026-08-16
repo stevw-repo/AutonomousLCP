@@ -13,16 +13,21 @@ legal corpus aligned with that approval.
 
 **The architecture and implementation-facing design baseline is accepted
 through ADR 0099, including all six M2–M7 protocols and all seven material
-decisions. The repository has
-an implementation-neutral machine-contract foundation and locally validated
-Python contract, type-boundary, Management Register, durability, package,
-image-admission, and architecture spikes, plus the first framework-free M2
-lifecycle implementation. Five versioned machine contracts are now present;
-all six guard decisions, runtime-type hardening, independent conformance
-evidence, and the ordinary developer bootstrap pass. The first bounded M2
-lifecycle checkpoint is accepted. Contract package 1.1.0 also reconciles the
-no-independent-TTL Approval lifecycle and fingerprint-bound Coverage Status
-delivery with independent positive and negative fixtures.
+decisions. M1 through M7 are implemented and proved locally. The repository
+now has the complete local domain and Management Register kernel, five
+separately runnable application boundaries, synthetic acquisition and
+two-vault evidence preservation, and an executable Legal Desk package/rule
+engine with a bounded two-profile semantic-task gate, plus immutable corpus,
+proposal, named-human Approval, replacement-target, backup, routing, rollback,
+and exact-retirement behavior using deterministic local fakes. The complete
+32-scenario offline conformance runner connects those boundaries through the
+stable `asklegal-local` CLI, including duplicate, restart, cancellation,
+hostile-input, stale-approval, overlap, recovery, rollback, and deletion-denial
+proofs in two path-distinct executions. The only enabled legal package is the
+reserved `ZZZ` / `LOCAL_SYNTHETIC` test package; every real
+jurisdiction package remains `NOT_READY` and every real external effect remains
+disabled.**
+
 Python 3.14, the FastAPI and
 strict Python boundary toolchain, the Azure SQL
 Management Register boundary, the five-environment Azure Container Apps
@@ -45,9 +50,8 @@ adjudicated truth, and every other unallocated task defaults to deterministic
 handling for now.
 Quarantine/review work uses severity, named assignment, immediate urgent
 notification, optional due times, and no fixed SLA. The five applications and canonical shared-package roles
-now have declarative, installable boundary skeletons only. Runtime application
-behavior, infrastructure implementation, and every operational capability
-remain unauthorized.**
+remain separately secured. Azure infrastructure implementation and every real
+operational capability remain unauthorized.**
 
 The repository currently contains the initial overall design and durable
 briefing files, together with locally validated shared schemas, closed
@@ -62,6 +66,16 @@ strict raw-byte JSON, offline Draft 2020-12 validation, strict closed Pydantic
 binding, RFC 8785 JCS, SHA-256, all existing synthetic fixtures and exact
 artifacts, and fresh-process reproducibility. It adds no application, database,
 cloud adapter, source connector, or external capability.
+
+The bounded M2 domain implementation under
+[`packages/domain/`](packages/domain/) now includes the five accepted lifecycle
+machines and the generic immutable command/effect objects. It distinguishes
+the one durable applied/rejected Command Result from replay, conflict, and
+indeterminate submission resolution; validates exact references, timestamps,
+versions, sorted inputs, deadlines, retries, stop conditions, and predeclared
+compensation; and requires terminal Effect Receipt details to match their
+status. These objects record authority only and perform no register write or
+external effect.
 
 The completed type-boundary spike adds repository-wide official Pyright strict
 and a repository-owned fail-closed checker. It discovers future Python package
@@ -92,12 +106,12 @@ persistence across emulator termination or any Azure behavior.
 The completed package spike is governed by
 [`tools/package_spike_manifest.json`](tools/package_spike_manifest.json) and
 [`tools/package_spike.py`](tools/package_spike.py). It proves that every
-current workspace member is covered, builds 18 byte-identical wheels in two
+current workspace member is covered, builds 19 byte-identical wheels in two
 path-distinct workspaces, verifies each wheel's complete RECORD, installs each
 member and only its workspace dependency closure into a clean environment from
 the unchanged lock with uv network access disabled, and creates byte-identical
 wheel-plus-lock container-input bundles. It builds no OCI image and authorizes
-no runnable application behavior or remote action.
+no remote action.
 
 The completed local image-admission spike is governed by
 [`tools/image_admission_spike_manifest.json`](tools/image_admission_spike_manifest.json)
@@ -114,13 +128,59 @@ was used.
 The completed local architecture spike is governed by
 [`tools/architecture_spike_manifest.json`](tools/architecture_spike_manifest.json)
 and [`tools/architecture_spike.py`](tools/architecture_spike.py). Its closed
-policy covers 5 application skeletons and 13 shared packages, 70 permitted
-direct dependency edges, and 30 declared capability ports. It rejects future
+policy covers 5 applications and 14 shared packages, 80 permitted direct
+dependency edges, and 31 declared capability ports. It rejects future
 undeclared members, metadata or dependency drift, imports outside direct
 boundaries, package-to-application dependencies, cycles, declaration drift,
 and incorrect ownership of approval, source access, provider, serving, backup,
-routing, or recovery effects. The skeletons declare authority only; they start
-no service or worker and perform no effect.
+routing, recovery, or proposal-preparation effects.
+
+The complete local M7 proof is exposed through the locked workspace command:
+
+```bash
+uv run --frozen asklegal-local reset --exact-test-state
+uv run --frozen asklegal-local prove --scenario E2E-001
+uv run --frozen asklegal-local prove --all
+```
+
+`prove --all` executes all 32 accepted scenarios twice in clean path-distinct
+roots, rejects any external DNS/socket attempt, and writes only ignored
+synthetic state under `var/local-conformance/`. The report statement is
+`local synthetic platform proved`; it makes no source, jurisdiction, model,
+Azure, Pinecone, Ask.Legal routing, or production-readiness claim.
+
+M2 is complete locally. The framework-free domain now includes all five M2
+lifecycle machines, immutable command/effect contracts, explicit quarantine
+re-entry, and the typed Management Register boundary with a deterministic fake.
+Two exact forward-only migrations build the common register on fresh SQL
+Server, where local conformance proves replay, concurrency, stale rejection,
+atomic facts and intents, effect fencing, receipts, projections, recovery
+rows, ledger verification, and procedure-only application access.
+
+M3 is also complete locally. The private control-plane and public Review APIs
+start independently with strict `/api/v1` boundaries, separate audiences and
+CORS policies, exact OpenAPI fingerprints, bounded raw JSON, idempotency,
+optimistic versions, ETags, snapshot-bound pagination, safe errors, liveness,
+readiness, and local identity/register/task/projection adapters. The Review
+package includes a replaceable PKCE browser client with memory-only bearer
+tokens. The acquisition, legal-processing, and promotion workers have no HTTP
+ingress and prove exact configuration, local task hubs, leases, fencing,
+cooperative shutdown, drift rejection, and separately disabled effect ports.
+No external or production effect is authorized or performed.
+
+M4 is complete locally. Versioned machine contracts now govern connector
+requests, Watcher and Scraper outcomes, immutable evidence objects and
+packages, exact vault receipts, and the one outcome for each observation. The
+synthetic connector proves bounded retry, throttling facts, source-contract
+drift, no-change admission, complete pagination, instability restart, partial
+capture, and inert hostile input. Filesystem-backed local primary/recovery
+vault fakes prove content addressing, conditional create, exact-version reads,
+manifest-last visibility, verified recovery copies, corruption incidents,
+retention holds, lost acknowledgement, and restart. The acquisition worker
+cannot mark a Source Snapshot preserved until it receives the exact complete
+recovery receipt; it receives no recovery credential itself. No real source,
+Azure vault, model, embedding, serving, deployment, or production operation
+is enabled.
 
 Run the complete proof with an already-cached exact uv 0.12.5 installation:
 

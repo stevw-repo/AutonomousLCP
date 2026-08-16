@@ -15,6 +15,7 @@ from asklegal_management_register.store import (
 
 _DATABASE = "AskLegalManagementRegisterSpike"
 _MIGRATION = Path(__file__).parents[1] / "migrations" / "000001_management_register_spike"
+_M2_MIGRATION = Path(__file__).parents[1] / "migrations" / "000002_complete_m2_register"
 
 
 def _factory(database: str, *, autocommit: bool = False) -> MssqlConnectionFactory:
@@ -63,8 +64,9 @@ def test_management_register_sql_server_proof() -> None:
         f"ALTER DATABASE [{_DATABASE}] SET ALLOW_SNAPSHOT_ISOLATION ON;",
     )
     database = _factory(_DATABASE)
-    apply_packages(database, (_MIGRATION,), runner_build="management-register-spike-1")
-    apply_packages(database, (_MIGRATION,), runner_build="management-register-spike-1")
+    migrations = (_MIGRATION, _M2_MIGRATION)
+    apply_packages(database, migrations, runner_build="management-register-m2-1")
+    apply_packages(database, migrations, runner_build="management-register-m2-1")
 
     manifest = sha256(b"synthetic-manifest").digest()
     connection = database()
@@ -198,6 +200,159 @@ def test_management_register_sql_server_proof() -> None:
     )
     assert atomic_counts == [(1, 1, 1, 1)]
 
+    command_raw = b'{"command":"m2-applied"}'
+    event_raw = b'{"event":"m2-applied"}'
+    intent_raw = b'{"intent":"m2-effect"}'
+    connection = database()
+    cursor = connection.cursor()
+    try:
+        command_params = (
+            "ACQUISITION_WORKER",
+            "cmd-m2-applied",
+            sha256(command_raw).digest(),
+            command_raw,
+            "aggregate-m2",
+            None,
+            True,
+            "9999-12-31T23:59:59",
+            "APPLIED",
+            "winner:m2",
+            "event-m2-applied",
+            "M2_APPLIED",
+            event_raw,
+            sha256(event_raw).digest(),
+            "intent-m2",
+            "EVIDENCE_WRITE",
+            intent_raw,
+            sha256(intent_raw).digest(),
+            "9999-12-31T23:59:59",
+            2,
+        )
+        cursor.execute(
+            "EXEC register.commit_command_v1 ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+            "?, ?, ?, ?, ?, ?, ?, ?, ?, ?",
+            command_params,
+        )
+        applied = cursor.fetchone()
+        assert applied is not None and applied[1] == "APPLIED" and applied[2] == 1
+        connection.commit()
+    finally:
+        cursor.close()
+        connection.close()
+
+    connection = database()
+    cursor = connection.cursor()
+    try:
+        cursor.execute(
+            "EXEC register.commit_command_v1 ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+            "?, ?, ?, ?, ?, ?, ?, ?, ?, ?",
+            command_params,
+        )
+        replayed = cursor.fetchone()
+        assert replayed is not None and bool(replayed[4]) is True
+        connection.commit()
+    finally:
+        cursor.close()
+        connection.close()
+
+    stale_raw = b'{"command":"m2-stale"}'
+    stale_event = b'{"event":"m2-stale"}'
+    connection = database()
+    cursor = connection.cursor()
+    try:
+        cursor.execute(
+            "EXEC register.commit_command_v1 ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+            "?, ?, ?, ?, ?, ?, ?, ?, ?, ?",
+            (
+                "ACQUISITION_WORKER",
+                "cmd-m2-stale",
+                sha256(stale_raw).digest(),
+                stale_raw,
+                "aggregate-m2",
+                None,
+                True,
+                "9999-12-31T23:59:59",
+                "APPLIED",
+                None,
+                "event-m2-stale",
+                "M2_STALE",
+                stale_event,
+                sha256(stale_event).digest(),
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+            ),
+        )
+        stale = cursor.fetchone()
+        assert stale is not None and stale[1] == "REJECTED_STALE_VERSION"
+        connection.commit()
+    finally:
+        cursor.close()
+        connection.close()
+
+    connection = database()
+    cursor = connection.cursor()
+    attempt_raw = b'{"attempt":"started"}'
+    receipt_raw = b'{"receipt":"succeeded"}'
+    try:
+        cursor.execute("EXEC register.claim_effect_v1 ?, ?, ?", ("intent-m2", "worker-m2", 120))
+        claim = cursor.fetchone()
+        assert claim is not None and claim[2] == 1 and claim[3] == 1
+        fence = claim[3]
+        assert isinstance(fence, int)
+        cursor.execute(
+            "EXEC register.append_effect_attempt_v1 ?, ?, ?, ?, ?, ?, ?",
+            (
+                "intent-m2",
+                "worker-m2",
+                fence,
+                1,
+                "STARTED",
+                attempt_raw,
+                sha256(attempt_raw).digest(),
+            ),
+        )
+        cursor.execute(
+            "EXEC register.record_effect_receipt_v1 ?, ?, ?, ?, ?, ?, ?, ?",
+            (
+                "receipt-m2",
+                "intent-m2",
+                "SUCCEEDED",
+                1,
+                receipt_raw,
+                sha256(receipt_raw).digest(),
+                "worker-m2",
+                fence,
+            ),
+        )
+        receipt = cursor.fetchone()
+        assert receipt is not None and receipt[2] == "SUCCEEDED" and bool(receipt[6]) is False
+        connection.commit()
+    finally:
+        cursor.close()
+        connection.close()
+
+    _execute(database, "EXEC register.rebuild_projection_v1;")
+    m2_counts = _execute(
+        database,
+        """
+        SELECT
+          (SELECT COUNT(*) FROM register.command_v1_fact),
+          (SELECT COUNT(*) FROM register.event_v1_fact),
+          (SELECT COUNT(*) FROM register.effect_intent_fact),
+          (SELECT COUNT(*) FROM register.effect_attempt_fact),
+          (SELECT COUNT(*) FROM register.effect_receipt_fact),
+          (SELECT COUNT(*) FROM register.recovery_export_rows_v1),
+          (SELECT checkpoint_sequence FROM register.projection_checkpoint_current
+           WHERE projection_name='aggregate_status_v1');
+        """,
+        fetch=True,
+    )
+    assert m2_counts == [(2, 1, 1, 1, 1, 6, 1)]
+
     permission_error = ""
     connection = database()
     cursor = connection.cursor()
@@ -234,7 +389,7 @@ def test_management_register_sql_server_proof() -> None:
 
     migration_count = _execute(
         database,
-        "SELECT COUNT(*) FROM migration.applied_fact WHERE migration_id='000001';",
+        "SELECT COUNT(*) FROM migration.applied_fact WHERE migration_id IN ('000001','000002');",
         fetch=True,
     )
-    assert migration_count == [(1,)]
+    assert migration_count == [(2,)]

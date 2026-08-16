@@ -1,4 +1,4 @@
-"""Declarative Review API application boundary; no HTTP behavior."""
+"""Public human Review API application boundary."""
 
 APPLICATION_NAME: str = "review-api"
 CAPABILITY_PORTS: tuple[str, ...] = (
@@ -10,4 +10,6 @@ CAPABILITY_PORTS: tuple[str, ...] = (
     "revocation_command",
 )
 
-__all__ = ["APPLICATION_NAME", "CAPABILITY_PORTS"]
+from asklegal_review_api.api import create_app
+
+__all__ = ["APPLICATION_NAME", "CAPABILITY_PORTS", "create_app"]

@@ -1,4 +1,4 @@
-"""Declarative acquisition-worker boundary; no source access."""
+"""No-ingress acquisition-worker process boundary."""
 
 APPLICATION_NAME: str = "acquisition-worker"
 CAPABILITY_PORTS: tuple[str, ...] = (
@@ -8,4 +8,13 @@ CAPABILITY_PORTS: tuple[str, ...] = (
     "primary_evidence_write",
 )
 
-__all__ = ["APPLICATION_NAME", "CAPABILITY_PORTS"]
+from asklegal_acquisition_worker.runtime import create_runtime
+from asklegal_acquisition_worker.service import AcquisitionService, PendingObservation
+
+__all__ = [
+    "APPLICATION_NAME",
+    "CAPABILITY_PORTS",
+    "AcquisitionService",
+    "PendingObservation",
+    "create_runtime",
+]

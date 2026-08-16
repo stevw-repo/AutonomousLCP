@@ -1,0 +1,23 @@
+{
+  "complete": true,
+  "sources": [
+    {
+      "source_id": "src_111111111111111111111111111111111111111111111111",
+      "role": "CONTROLLING",
+      "endpoint_families": ["LOCAL_INVENTED_BILINGUAL_STRUCTURED"],
+      "checking_tier": "EVERY_SYNTHETIC_RUN",
+      "permitted_use": "TEST_ONLY_LEGAL_DECISION",
+      "completeness_rule": "Every invented item in the frozen local inventory is present exactly once",
+      "outage_consequence": "BLOCK_SCOPE"
+    },
+    {
+      "source_id": "src_222222222222222222222222222222222222222222222222",
+      "role": "EXCLUDED",
+      "endpoint_families": ["NONE"],
+      "checking_tier": "NEVER",
+      "permitted_use": "EXCLUDED",
+      "completeness_rule": "The excluded synthetic family contributes no decision evidence",
+      "outage_consequence": "NONE"
+    }
+  ]
+}

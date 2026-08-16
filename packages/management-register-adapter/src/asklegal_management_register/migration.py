@@ -122,6 +122,9 @@ def apply_packages(
     ids = tuple(package.migration_id for package in packages)
     if ids != tuple(sorted(ids)) or len(set(ids)) != len(ids):
         raise MigrationViolation("migration packages are not one ordered unique prefix")
+    expected_ids = tuple(f"{index:06d}" for index in range(1, len(ids) + 1))
+    if ids != expected_ids:
+        raise MigrationViolation("migration packages do not start at the complete prefix")
 
     connection = connection_factory()
     cursor = connection.cursor()
@@ -169,6 +172,24 @@ def apply_packages(
                 """,
                 (package.migration_id, package.package_fingerprint, runner_build),
             )
+        cursor.execute(
+            """
+            SELECT migration_id, package_fingerprint
+            FROM migration.applied_fact
+            ORDER BY migration_id;
+            """
+        )
+        applied_prefix = cursor.fetchall()
+        if len(applied_prefix) != len(packages):
+            raise MigrationViolation("database migration prefix differs from requested prefix")
+        for applied, package in zip(applied_prefix, packages, strict=True):
+            applied_id, applied_fingerprint = applied
+            if (
+                applied_id != package.migration_id
+                or not isinstance(applied_fingerprint, bytes)
+                or applied_fingerprint != package.package_fingerprint
+            ):
+                raise MigrationViolation("database migration prefix fingerprint differs")
         connection.commit()
     except Exception:
         connection.rollback()

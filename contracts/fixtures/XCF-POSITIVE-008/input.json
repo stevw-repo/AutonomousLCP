@@ -1,0 +1,21 @@
+{
+  "schema_id": "asklegal.effect-receipt",
+  "schema_version": "1.0.0",
+  "effect_receipt_id": "efr_111111111111111111111111111111111111111111111111",
+  "effect_intent_ref": {"ref_type": "EFFECT_INTENT", "ref_id": "efi_222222222222222222222222222222222222222222222222", "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"},
+  "command_ref": {"ref_type": "COMMAND", "ref_id": "cmd_333333333333333333333333333333333333333333333333", "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"},
+  "execution_lineage_ref": {"ref_type": "EXECUTION_LINEAGE", "ref_id": "exe_444444444444444444444444444444444444444444444444", "fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444"},
+  "terminal_status": "SUCCEEDED",
+  "attempt_count": 1,
+  "observed_at": "2026-08-16T01:02:00Z",
+  "evidence_refs": [{"ref_type": "EVIDENCE", "ref_id": "evi_555555555555555555555555555555555555555555555555", "fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555"}],
+  "detail": {
+    "detail_type": "SUCCEEDED",
+    "remote_identity": "synthetic-object-1",
+    "remote_version": "v1",
+    "provider_request_id": "request-1",
+    "response_fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+    "postcondition_evidence_refs": [{"ref_type": "EVIDENCE", "ref_id": "evi_777777777777777777777777777777777777777777777777", "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"}]
+  },
+  "immutable": true
+}

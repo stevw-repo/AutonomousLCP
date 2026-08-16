@@ -1,0 +1,7 @@
+{
+  "fixture_id": "ZZZ-DET-CREATE-001",
+  "input_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "facts": {"change_kind": "CREATE"},
+  "expected_rule_id": "ZZZ-TEST-CREATE-001",
+  "expected_disposition": "CANDIDATE"
+}

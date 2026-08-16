@@ -1,0 +1,7 @@
+{
+  "fixture_id": "ZZZ-DET-UNCERTAIN-001",
+  "input_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "facts": {"change_kind": "CREATE", "uncertain": "YES"},
+  "expected_rule_id": "ZZZ-TEST-UNCERTAIN-001",
+  "expected_disposition": "QUARANTINE"
+}

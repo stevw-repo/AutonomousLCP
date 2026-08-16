@@ -10,7 +10,7 @@
     "catalogue_version": {"$ref": "common.schema.json#/$defs/schema_version"},
     "catalogue_kind": {
       "type": "string",
-      "enum": ["CAPABILITY_CODE", "FAILURE_CODE", "IDENTITY_PREFIX", "LIFECYCLE_CODE", "REASON_CODE", "REFERENCE_TYPE", "RESULT_CODE", "REVIEW_CODE"]
+      "enum": ["CAPABILITY_CODE", "EFFECT_TYPE", "FAILURE_CODE", "IDENTITY_PREFIX", "LIFECYCLE_CODE", "REASON_CODE", "REFERENCE_TYPE", "RESULT_CODE", "REVIEW_CODE"]
     },
     "entries": {
       "type": "array",

@@ -3,6 +3,92 @@
   "$id": "https://contracts.asklegal.local/v1/promotion-domain.schema.json",
   "title": "Promotion, Approval, and execution objects",
   "$defs": {
+    "proposal_package_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "proposal_package_id", "created_at", "observation_cutoff", "status", "artifact_inventory", "promotion_manifest_ref", "base_serving_state_ref", "candidate_serving_state_ref", "review_report_ref", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.proposal-package-manifest"},
+        "schema_version": {"const": "1.0.0"},
+        "proposal_package_id": {"type": "string", "pattern": "^ppk_[0-9a-f]{48}$"},
+        "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "status": {"const": "REVIEW_READY"},
+        "artifact_inventory": {"type": "array", "minItems": 11, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/artifact_inventory_entry"}},
+        "promotion_manifest_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "base_serving_state_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "candidate_serving_state_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "review_report_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "immutable": {"const": true}
+      }
+    },
+    "embedding_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "embedding_profile_id", "provider", "resource_class", "geography_class", "deployment_name", "model_id", "model_version", "api_contract", "tokenizer", "dimensions", "encoding", "normalization", "metric", "max_input_tokens", "cost_limit_microunits", "expires_at", "stateful_features", "allowed_environments", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.embedding-profile"},
+        "schema_version": {"const": "1.0.0"},
+        "embedding_profile_id": {"type": "string", "pattern": "^emp_[0-9a-f]{48}$"},
+        "provider": {"type": "string", "enum": ["AZURE_OPENAI", "LOCAL_FAKE"]},
+        "resource_class": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "geography_class": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "deployment_name": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "model_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "model_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+        "api_contract": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "tokenizer": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "dimensions": {"type": "integer", "minimum": 1, "maximum": 20000},
+        "encoding": {"type": "string", "enum": ["FLOAT32"]},
+        "normalization": {"type": "string", "enum": ["NONE", "UNIT_LENGTH"]},
+        "metric": {"type": "string", "enum": ["COSINE", "DOTPRODUCT", "EUCLIDEAN"]},
+        "max_input_tokens": {"type": "integer", "minimum": 1},
+        "cost_limit_microunits": {"type": "integer", "minimum": 0},
+        "expires_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "stateful_features": {"const": false},
+        "allowed_environments": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
+        "immutable": {"const": true}
+      }
+    },
+    "embedding_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "embedding_request_id", "search_record_id", "serving_payload_fingerprint", "text", "text_fingerprint", "token_count", "embedding_profile_ref", "batch_id", "batch_position", "cache_key", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.embedding-request"},
+        "schema_version": {"const": "1.0.0"},
+        "embedding_request_id": {"type": "string", "pattern": "^emr_[0-9a-f]{48}$"},
+        "search_record_id": {"$ref": "common.schema.json#/$defs/search_record_id"},
+        "serving_payload_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "text": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "text_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "token_count": {"type": "integer", "minimum": 1},
+        "embedding_profile_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "batch_id": {"$ref": "common.schema.json#/$defs/issued_id"},
+        "batch_position": {"type": "integer", "minimum": 0},
+        "cache_key": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "immutable": {"const": true}
+      }
+    },
+    "embedding_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "embedding_receipt_id", "embedding_request_ref", "provider_request_id", "vector_count", "dimensions", "normalized_vector_bytes_fingerprint", "input_tokens", "latency_milliseconds", "result", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.embedding-receipt"},
+        "schema_version": {"const": "1.0.0"},
+        "embedding_receipt_id": {"type": "string", "pattern": "^emc_[0-9a-f]{48}$"},
+        "embedding_request_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "provider_request_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "vector_count": {"const": 1},
+        "dimensions": {"type": "integer", "minimum": 1, "maximum": 20000},
+        "normalized_vector_bytes_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "input_tokens": {"type": "integer", "minimum": 1},
+        "latency_milliseconds": {"type": "integer", "minimum": 0},
+        "result": {"type": "string", "enum": ["FAILED", "SUCCEEDED"]},
+        "immutable": {"const": true}
+      }
+    },
     "promotion_manifest": {
       "type": "object",
       "additionalProperties": false,

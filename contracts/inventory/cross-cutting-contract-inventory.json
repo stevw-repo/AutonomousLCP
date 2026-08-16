@@ -2,7 +2,7 @@
   "schema_id": "asklegal.cross-cutting-contract-inventory",
   "schema_version": "1.0.0",
   "inventory_id": "pkg_111111111111111111111111111111111111111111111111",
-  "inventory_version": "1.1.0",
+  "inventory_version": "1.5.0",
   "cutoff": "2026-08-16T00:00:00Z",
   "scope_rule": "Includes immutable value objects and accepted artifacts used by more than one jurisdiction or material family. Jurisdiction-specific legal semantics, runtime components, stores, and derived views remain with their existing owners and are not generalized here.",
   "objects": [
@@ -106,6 +106,83 @@
       "validation_status": "SCHEMA_VALIDATED"
     },
     {
+      "object_type": "Connector Request",
+      "owner": "acquisition-worker/source-connector",
+      "schema_ref": "schemas/source-domain.schema.json#/$defs/connector_request",
+      "identity_type": "VALUE_OBJECT_NO_ID",
+      "fingerprint_basis": "SHA-256 over the complete immutable request and exact referenced registrations",
+      "reference_fields": ["endpoint_ref", "observation_ref", "pipeline_run_ref", "previous_observation_ref", "previous_snapshot_ref", "rulebook_ref", "source_ref", "work_item_ref"],
+      "lifecycle_machine": "immutable-value",
+      "invariants": ["Source, endpoint, rulebook, run, work, cutoff, limits, retries, and prior state are exact", "Credentials are absent", "An unconfigured or expired source blocks before connector work"],
+      "validation_status": "SCHEMA_VALIDATED"
+    },
+    {
+      "object_type": "Watcher Result",
+      "owner": "acquisition-worker/source-connector",
+      "schema_ref": "schemas/source-domain.schema.json#/$defs/watcher_result",
+      "identity_type": "CONTAINED_BY_OBSERVATION",
+      "fingerprint_basis": "Contained by the immutable Observation result",
+      "reference_fields": ["attempt_evidence_refs", "observation_ref"],
+      "lifecycle_machine": "immutable-no-transition",
+      "invariants": ["Exactly one of six closed outcomes is emitted", "No-change requires the active source contract to admit the complete check", "A Watcher schedules no model, embedding, or promotion effect"],
+      "validation_status": "SCHEMA_VALIDATED"
+    },
+    {
+      "object_type": "Scraper Result",
+      "owner": "acquisition-worker/source-connector",
+      "schema_ref": "schemas/source-domain.schema.json#/$defs/scraper_result",
+      "identity_type": "CONTAINED_BY_OBSERVATION",
+      "fingerprint_basis": "Contained by the immutable Observation result",
+      "reference_fields": ["attempt_evidence_refs", "evidence_package_ref", "observation_ref"],
+      "lifecycle_machine": "immutable-no-transition",
+      "invariants": ["Exactly one of six closed outcomes is emitted", "Complete inventory accounts for every page, cursor, member, total, and termination", "Partial capture authorizes no candidate processing"],
+      "validation_status": "SCHEMA_VALIDATED"
+    },
+    {
+      "object_type": "Vault Object Receipt",
+      "owner": "evidence-vault/recovery-vault",
+      "schema_ref": "schemas/source-domain.schema.json#/$defs/vault_object_receipt",
+      "identity_type": "EXACT_PROVIDER_VERSION_VALUE",
+      "fingerprint_basis": "Exact raw object bytes",
+      "reference_fields": ["retention_profile_ref"],
+      "lifecycle_machine": "immutable-value",
+      "invariants": ["Logical key is content-addressed or an exact manifest key", "Exact version, byte length, SHA-256, retention, and verified read-back are required", "No reader silently falls forward or across vaults"],
+      "validation_status": "SCHEMA_VALIDATED"
+    },
+    {
+      "object_type": "Evidence Object",
+      "owner": "management-register/evidence-vault",
+      "schema_ref": "schemas/source-domain.schema.json#/$defs/evidence_object",
+      "identity_type": "art_ and evi_ plus 48 lowercase hexadecimal characters",
+      "fingerprint_basis": "SHA-256 over exact raw bytes plus immutable acquisition context",
+      "reference_fields": ["observation_ref", "primary_receipt", "recovery_receipt", "source_ref"],
+      "lifecycle_machine": "immutable-no-transition",
+      "invariants": ["Artifact identity is separate from URL and hash", "Primary and recovery exact-version receipts bind the same bytes", "Transport secrets are absent", "Hostile isolated bytes remain inert"],
+      "validation_status": "SCHEMA_VALIDATED"
+    },
+    {
+      "object_type": "Evidence Package",
+      "owner": "management-register/evidence-vault",
+      "schema_ref": "schemas/source-domain.schema.json#/$defs/evidence_package",
+      "identity_type": "pkg_ plus 48 lowercase hexadecimal characters",
+      "fingerprint_basis": "SHA-256 over the canonical complete manifest written last",
+      "reference_fields": ["artifact_refs", "observation_ref", "primary_manifest_receipt", "recovery_manifest_receipt"],
+      "lifecycle_machine": "immutable-no-transition",
+      "invariants": ["Objects are not visible as a committed package before the exact manifest", "Every manifest member has verified primary and recovery bytes", "A partial package never becomes a Source Snapshot"],
+      "validation_status": "SCHEMA_VALIDATED"
+    },
+    {
+      "object_type": "Acquisition Outcome",
+      "owner": "acquisition-worker/management-register",
+      "schema_ref": "schemas/source-domain.schema.json#/$defs/acquisition_outcome",
+      "identity_type": "ONE_PER_OBSERVATION",
+      "fingerprint_basis": "SHA-256 over the complete immutable observation input and result",
+      "reference_fields": ["evidence_package_ref", "issue_ref", "observation_ref", "scraper_result_ref", "source_snapshot_ref", "watcher_result_ref"],
+      "lifecycle_machine": "append-only-event",
+      "invariants": ["Every admitted observation has exactly one explicit disposition", "Only a complete two-vault Source Snapshot is legal-processing eligible", "Every other outcome authorizes no model, embedding, promotion, or inferred carry-forward"],
+      "validation_status": "SCHEMA_VALIDATED"
+    },
+    {
       "object_type": "Source Contract Review",
       "owner": "responsible-legal-desk",
       "schema_ref": "schemas/source-domain.schema.json#/$defs/source_contract_review",
@@ -148,6 +225,61 @@
       "lifecycle_machine": "immutable-no-transition",
       "invariants": ["Exact rulebook, build, and suites are bound", "Reproducibility is explicit", "Attestation creates no production effect"],
       "validation_status": "SCHEMA_VALIDATED"
+    },
+    {
+      "object_type": "Executable Source Rulebook Package",
+      "owner": "responsible-legal-desk",
+      "schema_ref": "schemas/processing-domain.schema.json#/$defs/executable_rulebook_package",
+      "identity_type": "rbp_ plus 48 lowercase hexadecimal characters",
+      "fingerprint_basis": "SHA-256 over RFC8785 JCS manifest bytes excluding only package_fingerprint, with exact byte hashes for every member",
+      "reference_fields": ["contract_locks", "predecessor", "scope_readiness"],
+      "lifecycle_machine": "transitions/rulebook-release-scope.json",
+      "invariants": ["No undeclared member is loaded", "Jurisdiction and material policy is package-owned", "Reserved synthetic identity is rejected outside LOCAL_SYNTHETIC", "Package conformance alone does not activate a scope"],
+      "validation_status": "SCHEMA_AND_SEMANTIC_VALIDATED"
+    },
+    {
+      "object_type": "Rulebook Activation",
+      "owner": "management-register/responsible-legal-desk",
+      "schema_ref": "schemas/processing-domain.schema.json#/$defs/rulebook_activation",
+      "identity_type": "wae_ plus 48 lowercase hexadecimal characters",
+      "fingerprint_basis": "SHA-256 over the exact package, engine, contracts, suites, profile, owner, scope, environment, and event bytes",
+      "reference_fields": ["allowed_scope_refs", "contract_set_ref", "deterministic_suite_ref", "engine_build_ref", "owner_attestation_ref", "package_ref", "semantic_profile_refs"],
+      "lifecycle_machine": "append-only-event",
+      "invariants": ["Activation is one immutable register event", "Stale package or build bindings fail closed", "Only attested inactive exact scopes may activate"],
+      "validation_status": "SCHEMA_AND_SEMANTIC_VALIDATED"
+    },
+    {
+      "object_type": "Rule Execution Result",
+      "owner": "responsible-legal-desk/legal-processing-worker",
+      "schema_ref": "schemas/processing-domain.schema.json#/$defs/rule_execution_result",
+      "identity_type": "rul_ plus 48 lowercase hexadecimal characters",
+      "fingerprint_basis": "SHA-256 over exact package, subject, evidence, prior state, trace, and terminal result",
+      "reference_fields": ["candidate_artifact_refs", "evidence_refs", "package_ref", "subject_ref"],
+      "lifecycle_machine": "immutable-no-transition",
+      "invariants": ["Exactly one terminal rule is required", "Zero matches blocks as RULEBOOK_NON_TOTAL", "Multiple matches block as RULEBOOK_AMBIGUOUS", "Unknown values never fall through"],
+      "validation_status": "SCHEMA_AND_SEMANTIC_VALIDATED"
+    },
+    {
+      "object_type": "Semantic Task Request and Decision",
+      "owner": "legal-processing-worker",
+      "schema_ref": "schemas/processing-domain.schema.json#/$defs/semantic_task_request",
+      "identity_type": "tsk_ plus 48 lowercase hexadecimal characters",
+      "fingerprint_basis": "SHA-256 over exact task profile, package, subject, evidence, phase, and bounded input",
+      "reference_fields": ["evidence_refs", "package_ref", "profile_ref", "subject_ref"],
+      "lifecycle_machine": "immutable-request-and-result",
+      "invariants": ["Only accepted named generative tasks exist", "Tools and stateful provider features are forbidden", "Primary judgment requires independent challenge and deterministic validation", "Model output is not evidence, identity, final text, Search Record, Approval, or effect command"],
+      "validation_status": "SCHEMA_AND_SEMANTIC_VALIDATED"
+    },
+    {
+      "object_type": "Legal Processing Candidate Artifact",
+      "owner": "legal-processing-worker",
+      "schema_ref": "schemas/processing-domain.schema.json#/$defs/candidate_artifact",
+      "identity_type": "car_ plus 48 lowercase hexadecimal characters",
+      "fingerprint_basis": "SHA-256 over deterministic canonical candidate bytes",
+      "reference_fields": ["evidence_refs", "rule_result_ref", "semantic_decision_ref", "subject_ref"],
+      "lifecycle_machine": "immutable-no-transition",
+      "invariants": ["Candidate is not a Search Record or Approval", "Uncertainty and blocked results create no searchable text", "Every byte is evidence- and rule-result-bound"],
+      "validation_status": "SCHEMA_AND_SEMANTIC_VALIDATED"
     },
     {
       "object_type": "Legal Desk Decision",
@@ -491,6 +623,50 @@
       "validation_status": "SCHEMA_VALIDATED"
     },
     {
+      "object_type": "Command Envelope",
+      "owner": "owning-application/management-register",
+      "schema_ref": "schemas/operation-domain.schema.json#/$defs/command_envelope",
+      "identity_type": "cmd_ plus 48 lowercase hexadecimal characters",
+      "fingerprint_basis": "SHA-256 over RFC8785 JCS envelope bytes excluding transport metadata",
+      "reference_fields": ["actor_ref", "authority_ref", "build_ref", "causation_ref", "configuration_ref", "contract_set_ref", "execution_lineage_ref", "input_refs", "payload", "policy_profile_refs", "target_ref"],
+      "lifecycle_machine": "immutable-idempotent-command",
+      "invariants": ["Command type is closed and contract-versioned", "Expected version is explicit", "Same identity and bytes replay exactly", "Same identity with different bytes never executes", "Payload binds an exact command-specific contract and immutable object"],
+      "validation_status": "SCHEMA_AND_SEMANTIC_VALIDATED"
+    },
+    {
+      "object_type": "Command Result",
+      "owner": "management-register",
+      "schema_ref": "schemas/operation-domain.schema.json#/$defs/command_result",
+      "identity_type": "cmr_ plus 48 lowercase hexadecimal characters",
+      "fingerprint_basis": "SHA-256 over RFC8785 JCS authoritative result bytes",
+      "reference_fields": ["command_ref", "effect_intent_refs", "event_refs", "evidence_refs"],
+      "lifecycle_machine": "immutable-one-result-per-command",
+      "invariants": ["Applied and rejected business outcomes are durable", "Applied results bind at least one event", "Rejected results bind no event or effect intent", "Exact replay returns original result bytes", "Transport uncertainty is not a business result"],
+      "validation_status": "SCHEMA_AND_SEMANTIC_VALIDATED"
+    },
+    {
+      "object_type": "Effect Intent",
+      "owner": "owning-application/management-register",
+      "schema_ref": "schemas/operation-domain.schema.json#/$defs/effect_intent",
+      "identity_type": "efi_ plus 48 lowercase hexadecimal characters",
+      "fingerprint_basis": "SHA-256 over RFC8785 JCS exact effect authority bytes",
+      "reference_fields": ["aggregate_ref", "capability_profile_ref", "command_ref", "compensation", "execution_lineage_ref", "expected_remote_precondition_ref", "input_refs", "success_postcondition_ref"],
+      "lifecycle_machine": "immutable-authority-before-effect",
+      "invariants": ["Intent is appended with the authorizing fact before any effect", "Only the exclusive application owner may claim it", "Destination coordinates and secrets are absent", "Retry and stop behavior are exact", "Compensation is predeclared or explicitly absent"],
+      "validation_status": "SCHEMA_AND_SEMANTIC_VALIDATED"
+    },
+    {
+      "object_type": "Effect Receipt",
+      "owner": "exclusive-effect-owner/management-register",
+      "schema_ref": "schemas/operation-domain.schema.json#/$defs/effect_receipt",
+      "identity_type": "efr_ plus 48 lowercase hexadecimal characters",
+      "fingerprint_basis": "SHA-256 over RFC8785 JCS sanitized terminal receipt bytes",
+      "reference_fields": ["command_ref", "detail", "effect_intent_ref", "evidence_refs", "execution_lineage_ref"],
+      "lifecycle_machine": "one-terminal-receipt-per-effect-intent",
+      "invariants": ["Exactly one terminal status matches one closed detail shape", "Success proves the declared postcondition", "Cancellation proves no attempt started", "Unknown outcome blocks dependent work for reconciliation", "Raw bodies, legal text, tokens, and secrets are absent"],
+      "validation_status": "SCHEMA_AND_SEMANTIC_VALIDATED"
+    },
+    {
       "object_type": "Pipeline LLM Task",
       "owner": "legal-processing-worker/llm-task-runner",
       "schema_ref": "schemas/capability-domain.schema.json#/$defs/pipeline_llm_task_contract",
@@ -555,6 +731,50 @@
       "lifecycle_machine": "transitions/capability.json",
       "invariants": ["State changes append", "Active scope cannot exceed the profile", "Suspended or revoked capability processes no new work", "Reactivation requires exact revalidation"],
       "validation_status": "SCHEMA_VALIDATED"
+    },
+    {
+      "object_type": "Proposal Package Manifest",
+      "owner": "control-plane/proposal-preparation",
+      "schema_ref": "schemas/promotion-domain.schema.json#/$defs/proposal_package_manifest",
+      "identity_type": "ppk_ plus 48 lowercase hexadecimal characters",
+      "fingerprint_basis": "SHA-256 over the exact manifest-last artifact inventory and immutable references",
+      "reference_fields": ["artifact_inventory", "base_serving_state_ref", "candidate_serving_state_ref", "promotion_manifest_ref", "review_report_ref"],
+      "lifecycle_machine": "immutable-review-ready-package",
+      "invariants": ["Every canonical M6 role is present", "All member bytes are verified before manifest commit", "Changed bytes create a new package", "The report is a projection and not authority"],
+      "validation_status": "SCHEMA_AND_SEMANTIC_VALIDATED"
+    },
+    {
+      "object_type": "Embedding Profile",
+      "owner": "promotion-worker/retrieval-admission",
+      "schema_ref": "schemas/promotion-domain.schema.json#/$defs/embedding_profile",
+      "identity_type": "emp_ plus 48 lowercase hexadecimal characters",
+      "fingerprint_basis": "SHA-256 over exact provider, deployment, model, dimensions, tokenizer, limits, and policy bytes",
+      "reference_fields": [],
+      "lifecycle_machine": "immutable-expiring-profile",
+      "invariants": ["Floating model values are forbidden", "Stateful features are false", "Dimensions and metric are exact", "Production provider use remains separately admitted"],
+      "validation_status": "SCHEMA_AND_SEMANTIC_VALIDATED"
+    },
+    {
+      "object_type": "Embedding Request",
+      "owner": "promotion-worker",
+      "schema_ref": "schemas/promotion-domain.schema.json#/$defs/embedding_request",
+      "identity_type": "emr_ plus 48 lowercase hexadecimal characters",
+      "fingerprint_basis": "SHA-256 over exact metadata.text fingerprint and complete embedding profile fingerprint",
+      "reference_fields": ["embedding_profile_ref", "search_record_id"],
+      "lifecycle_machine": "immutable-idempotent-request",
+      "invariants": ["Only metadata.text is embedded", "Record payload and batch position are bound", "Cache identity includes the complete profile", "Empty or oversized input blocks"],
+      "validation_status": "SCHEMA_AND_SEMANTIC_VALIDATED"
+    },
+    {
+      "object_type": "Embedding Receipt",
+      "owner": "promotion-worker",
+      "schema_ref": "schemas/promotion-domain.schema.json#/$defs/embedding_receipt",
+      "identity_type": "emc_ plus 48 lowercase hexadecimal characters",
+      "fingerprint_basis": "SHA-256 over the request binding and normalized vector-byte fingerprint",
+      "reference_fields": ["embedding_request_ref"],
+      "lifecycle_machine": "immutable-terminal-receipt",
+      "invariants": ["Raw vectors are absent", "Vector count and dimensions are exact", "Non-finite or partial vectors fail before receipt success", "Usage and latency are recorded"],
+      "validation_status": "SCHEMA_AND_SEMANTIC_VALIDATED"
     },
     {
       "object_type": "Cross-Cutting Foundation Status",

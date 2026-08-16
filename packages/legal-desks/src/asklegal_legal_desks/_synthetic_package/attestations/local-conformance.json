@@ -1,0 +1,10 @@
+{
+  "attestation_id": "rba_666666666666666666666666666666666666666666666666",
+  "attestation_kind": "LOCAL_SYNTHETIC_CONFORMANCE",
+  "deterministic_suite": "ALL_DECLARED_FIXTURES",
+  "semantic_admission": "LOCAL_FAKE_ONLY",
+  "reproducible": true,
+  "owner_acceptance": "TEST_FIXTURE_OWNER",
+  "activation_authority": "REGISTER_EVENT_REQUIRED",
+  "production_authority": "NONE"
+}

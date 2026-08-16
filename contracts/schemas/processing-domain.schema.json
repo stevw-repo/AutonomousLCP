@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/processing-domain.schema.json",
+  "title": "Executable rulebook and bounded legal-processing contracts",
+  "$defs": {
+    "rule_predicate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fact", "operator", "value"],
+      "properties": {
+        "fact": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "operator": {"type": "string", "enum": ["ABSENT", "EQUALS", "PRESENT"]},
+        "value": {"anyOf": [{"type": "string"}, {"type": "null"}]}
+      }
+    },
+    "package_file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "role", "byte_size", "fingerprint"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^[a-z0-9][A-Za-z0-9._/-]*$"},
+        "role": {"type": "string", "enum": ["ATTESTATION", "CATALOGUE", "CONTRACT", "DETERMINISTIC_FIXTURE", "EVALUATION", "EXPECTED_ARTIFACT", "PROFILE", "RENDERER", "RULES", "SCOPE_REGISTRY", "SEMANTIC_FIXTURE", "SOURCE_UNIVERSE"]},
+        "byte_size": {"type": "integer", "minimum": 1},
+        "fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"}
+      }
+    },
+    "scope_readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope_id", "state"],
+      "properties": {
+        "scope_id": {"type": "string", "pattern": "^rsc_[0-9a-f]{48}$"},
+        "state": {"type": "string", "enum": ["ACTIVE", "ATTESTED_INACTIVE", "DECISION_READY", "NOT_READY", "SUPERSEDED", "SUSPENDED"]}
+      }
+    },
+    "executable_rulebook_package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "package_id", "package_version", "package_fingerprint", "jurisdiction", "environment", "material_family", "legal_desk_owner", "effective_cutoff", "predecessor", "contract_locks", "code_locks", "source_universe_fingerprint", "scope_readiness", "unresolved_policy_codes", "impact_declaration", "minimum_engine_version", "files"],
+      "properties": {
+        "schema_id": {"const": "asklegal.executable-source-rulebook-package"},
+        "schema_version": {"const": "1.0.0"},
+        "package_id": {"type": "string", "pattern": "^rbp_[0-9a-f]{48}$"},
+        "package_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+        "package_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "jurisdiction": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "environment": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "material_family": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "legal_desk_owner": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "effective_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "predecessor": {"anyOf": [{"type": "string", "pattern": "^rbp_[0-9a-f]{48}$"}, {"type": "null"}]},
+        "contract_locks": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/fingerprint"}},
+        "code_locks": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
+        "source_universe_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "scope_readiness": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/scope_readiness"}},
+        "unresolved_policy_codes": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
+        "impact_declaration": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "minimum_engine_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+        "files": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/package_file"}}
+      }
+    },
+    "rulebook_activation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "activation_id", "package_ref", "engine_build_ref", "contract_set_ref", "deterministic_suite_ref", "semantic_profile_refs", "owner_attestation_ref", "allowed_scope_refs", "environment", "activated_at", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.rulebook-activation"},
+        "schema_version": {"const": "1.0.0"},
+        "activation_id": {"type": "string", "pattern": "^wae_[0-9a-f]{48}$"},
+        "package_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "engine_build_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "contract_set_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "deterministic_suite_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "semantic_profile_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "owner_attestation_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "allowed_scope_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "environment": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "activated_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "immutable": {"const": true}
+      }
+    },
+    "rule_trace_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_id", "matched", "predicate_results"],
+      "properties": {
+        "rule_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "matched": {"type": "boolean"},
+        "predicate_results": {"type": "array", "items": {"type": "boolean"}}
+      }
+    },
+    "rule_execution_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "result_id", "package_ref", "rule_id", "subject_ref", "evidence_refs", "prior_state", "trace", "processing_result", "disposition", "reason_code", "failure_code", "coverage_effect", "review_effect", "candidate_artifact_refs", "next_action", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.rule-execution-result"},
+        "schema_version": {"const": "1.0.0"},
+        "result_id": {"type": "string", "pattern": "^rul_[0-9a-f]{48}$"},
+        "package_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "rule_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "subject_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "prior_state": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "trace": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/rule_trace_entry"}},
+        "processing_result": {"type": "string", "enum": ["BLOCKED", "SUCCEEDED"]},
+        "disposition": {"anyOf": [{"type": "string", "enum": ["CANDIDATE", "NO_CHANGE", "QUARANTINE", "REVIEW", "WITHHOLD"]}, {"type": "null"}]},
+        "reason_code": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "failure_code": {"anyOf": [{"$ref": "common.schema.json#/$defs/non_empty_string"}, {"type": "null"}]},
+        "coverage_effect": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "review_effect": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "candidate_artifact_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "next_action": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "immutable": {"const": true}
+      }
+    },
+    "semantic_task_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "request_id", "task", "phase", "profile_ref", "package_ref", "subject_ref", "evidence_refs", "input_fingerprint", "tools", "stateful_features", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.semantic-task-request"},
+        "schema_version": {"const": "1.0.0"},
+        "request_id": {"type": "string", "pattern": "^tsk_[0-9a-f]{48}$"},
+        "task": {"type": "string", "enum": ["GAZETTE_EVENT_ANALYSIS", "GAZETTE_EVENT_CHALLENGE", "HK_CASE_PROPOSITION_ANALYSIS", "HK_CASE_PROPOSITION_CHALLENGE", "HK_LATER_TREATMENT_CANDIDATE_ANALYSIS", "HK_LATER_TREATMENT_DISCOVERY", "HK_REGULATORY_RECORD_ANALYSIS", "HK_REGULATORY_RECORD_CHALLENGE", "HK_REGULATORY_UPDATE_ANALYSIS", "HK_REGULATORY_UPDATE_CHALLENGE", "RECONSTRUCTION_PLAN_CHALLENGE", "RECONSTRUCTION_PLAN_DECISION"]},
+        "phase": {"type": "string", "enum": ["CHALLENGE", "DECISION"]},
+        "profile_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "package_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "subject_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "input_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "tools": {"const": "NONE"},
+        "stateful_features": {"const": false},
+        "immutable": {"const": true}
+      }
+    },
+    "semantic_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "request_ref", "task", "phase", "decision_code", "supporting_evidence_refs", "unresolved_facts", "challenge_code", "output_fingerprint", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.semantic-decision"},
+        "schema_version": {"const": "1.0.0"},
+        "request_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "task": {"type": "string", "enum": ["GAZETTE_EVENT_ANALYSIS", "GAZETTE_EVENT_CHALLENGE", "HK_CASE_PROPOSITION_ANALYSIS", "HK_CASE_PROPOSITION_CHALLENGE", "HK_LATER_TREATMENT_CANDIDATE_ANALYSIS", "HK_LATER_TREATMENT_DISCOVERY", "HK_REGULATORY_RECORD_ANALYSIS", "HK_REGULATORY_RECORD_CHALLENGE", "HK_REGULATORY_UPDATE_ANALYSIS", "HK_REGULATORY_UPDATE_CHALLENGE", "RECONSTRUCTION_PLAN_CHALLENGE", "RECONSTRUCTION_PLAN_DECISION"]},
+        "phase": {"type": "string", "enum": ["CHALLENGE", "DECISION"]},
+        "decision_code": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "supporting_evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "unresolved_facts": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
+        "challenge_code": {"type": "string", "enum": ["FAIL", "NOT_APPLICABLE", "PASS"]},
+        "output_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "immutable": {"const": true}
+      }
+    },
+    "candidate_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "artifact_id", "rule_result_ref", "subject_ref", "disposition", "evidence_refs", "semantic_decision_ref", "fingerprint", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.candidate-artifact"},
+        "schema_version": {"const": "1.0.0"},
+        "artifact_id": {"type": "string", "pattern": "^car_[0-9a-f]{48}$"},
+        "rule_result_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "subject_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "disposition": {"const": "CANDIDATE"},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "semantic_decision_ref": {"anyOf": [{"$ref": "common.schema.json#/$defs/reference"}, {"type": "null"}]},
+        "fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "immutable": {"const": true}
+      }
+    }
+  }
+}

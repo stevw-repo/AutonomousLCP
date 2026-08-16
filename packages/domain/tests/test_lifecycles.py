@@ -18,6 +18,7 @@ from asklegal_domain import (
     TransitionResult,
     TransitionResultCode,
     WorkItemState,
+    admit_quarantine_reentry,
 )
 
 
@@ -208,6 +209,35 @@ def test_closed_record_cannot_reopen_and_recurrence_gets_a_new_identity(
     assert recurrence.version == 1
     assert recurrence.predecessor_ref is not None
     assert recurrence.entity_id != recurrence.predecessor_ref
+
+
+def test_quarantine_release_creates_a_new_linked_work_item_for_full_reentry() -> None:
+    opened = QUARANTINE_MACHINE.start("quarantine-reentry")
+    released = QUARANTINE_MACHINE.transition(
+        opened,
+        QuarantineState.RELEASED_TO_REPROCESSING,
+        expected_version=1,
+    ).snapshot
+
+    admission = admit_quarantine_reentry(
+        released,
+        new_work_item_id="work-reentry-new",
+        predecessor_work_item_ref="work-quarantined-old",
+    )
+
+    assert admission.quarantine_id == released.entity_id
+    assert admission.work_item.state is WorkItemState.WORK_PLANNED
+    assert admission.work_item.version == 1
+    assert admission.work_item.predecessor_ref == "work-quarantined-old"
+
+
+def test_open_quarantine_cannot_reenter_processing() -> None:
+    with pytest.raises(ValueError, match="released"):
+        admit_quarantine_reentry(
+            QUARANTINE_MACHINE.start("quarantine-open"),
+            new_work_item_id="work-forbidden",
+            predecessor_work_item_ref="work-old",
+        )
 
 
 @pytest.mark.parametrize("invalid_id", ["", " leading", "trailing "])

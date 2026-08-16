@@ -140,10 +140,10 @@ def _fixture_result(fixture: JsonObject, registry: SchemaRegistry) -> JsonObject
 
 
 def test_python_reproduces_every_current_fixture(schema_registry: SchemaRegistry) -> None:
-    """All nineteen Node-oracle fixture results are byte-equivalent in Python."""
+    """All twenty-seven Node-oracle fixture results are byte-equivalent in Python."""
     catalogue = _object(_load(CONTRACTS_ROOT / "fixtures/catalogue.json"))
     entries = _array(catalogue["fixtures"])
-    assert len(entries) == 19
+    assert len(entries) == 27
     for entry_value in entries:
         entry = _object(entry_value)
         fixture = _object(_load(CONTRACTS_ROOT / _text(entry["path"])))

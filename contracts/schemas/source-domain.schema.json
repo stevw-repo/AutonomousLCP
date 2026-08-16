@@ -76,6 +76,176 @@
         "immutable": {"const": true}
       }
     },
+    "connector_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "pipeline_run_ref", "work_item_ref", "observation_ref", "observation_cutoff", "source_ref", "source_version", "endpoint_ref", "endpoint_version", "rulebook_ref", "rulebook_version", "previous_observation_ref", "previous_snapshot_ref", "method", "allowed_host", "allowed_path_prefix", "redirect_hosts", "authentication_class", "media_types", "max_bytes", "max_pages", "max_items", "time_budget_seconds", "complete_inventory_required", "required_capture_roles", "retry_profile", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.connector-request"},
+        "schema_version": {"const": "1.0.0"},
+        "pipeline_run_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "work_item_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "observation_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "source_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "source_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+        "endpoint_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "endpoint_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+        "rulebook_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "rulebook_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+        "previous_observation_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "previous_snapshot_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "method": {"type": "string", "enum": ["GET", "HEAD"]},
+        "allowed_host": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "allowed_path_prefix": {"type": "string", "pattern": "^/[^\\s]*$"},
+        "redirect_hosts": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
+        "authentication_class": {"type": "string", "enum": ["MANAGED_SECRET", "NONE"]},
+        "media_types": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
+        "max_bytes": {"type": "integer", "minimum": 1},
+        "max_pages": {"type": "integer", "minimum": 1},
+        "max_items": {"type": "integer", "minimum": 1},
+        "time_budget_seconds": {"type": "integer", "minimum": 1},
+        "complete_inventory_required": {"type": "boolean"},
+        "required_capture_roles": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
+        "retry_profile": {"$ref": "#/$defs/retry_profile"},
+        "immutable": {"const": true}
+      }
+    },
+    "retry_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attempt_ceiling", "max_elapsed_seconds", "backoff_seconds", "jitter_seed", "honor_retry_after"],
+      "properties": {
+        "attempt_ceiling": {"type": "integer", "minimum": 1},
+        "max_elapsed_seconds": {"type": "integer", "minimum": 1},
+        "backoff_seconds": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 0}},
+        "jitter_seed": {"type": "integer"},
+        "honor_retry_after": {"type": "boolean"}
+      }
+    },
+    "watcher_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "observation_ref", "result_code", "affected_boundary", "attempt_count", "attempt_evidence_refs", "downstream_effects", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.watcher-result"},
+        "schema_version": {"const": "1.0.0"},
+        "observation_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "result_code": {"type": "string", "enum": ["INCOMPLETE_OBSERVATION", "POSSIBLE_CHANGE", "SOURCE_CONTRACT_CHANGED", "SOURCE_UNAVAILABLE", "SUPPORTED_NO_CHANGE", "UNSAFE_RESPONSE"]},
+        "affected_boundary": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "attempt_count": {"type": "integer", "minimum": 1},
+        "attempt_evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "downstream_effects": {"const": "NONE"},
+        "immutable": {"const": true}
+      }
+    },
+    "scraper_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "observation_ref", "result_code", "member_ids", "cursors", "declared_total", "restart_count", "attempt_count", "attempt_evidence_refs", "evidence_package_ref", "downstream_effects", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.scraper-result"},
+        "schema_version": {"const": "1.0.0"},
+        "observation_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "result_code": {"type": "string", "enum": ["PARTIAL_CAPTURE", "SNAPSHOT_PRESERVED", "SOURCE_CONTRACT_CHANGED", "SOURCE_UNAVAILABLE", "SUPPORTED_NO_CHANGE_AFTER_CAPTURE", "UNSAFE_RESPONSE"]},
+        "member_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
+        "cursors": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
+        "declared_total": {"type": "integer", "minimum": 0},
+        "restart_count": {"type": "integer", "minimum": 0},
+        "attempt_count": {"type": "integer", "minimum": 1},
+        "attempt_evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "evidence_package_ref": {"anyOf": [{"$ref": "common.schema.json#/$defs/reference"}, {"type": "null"}]},
+        "downstream_effects": {"const": "NONE"},
+        "immutable": {"const": true}
+      }
+    },
+    "vault_object_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vault_role", "logical_key", "version_id", "fingerprint", "byte_length", "read_back_verified", "retention_profile_ref"],
+      "properties": {
+        "vault_role": {"type": "string", "enum": ["PRIMARY", "RECOVERY"]},
+        "logical_key": {"type": "string", "pattern": "^(objects/sha256/[0-9a-f]{2}/[0-9a-f]{62}|packages/[a-z0-9][a-z0-9._-]{0,127}/[a-z][a-z0-9]{2}_[0-9a-f]{48}/[0-9a-f]{64}\\.json)$"},
+        "version_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "byte_length": {"type": "integer", "minimum": 0},
+        "read_back_verified": {"const": true},
+        "retention_profile_ref": {"$ref": "common.schema.json#/$defs/reference"}
+      }
+    },
+    "transport_metadata_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "value"],
+      "properties": {
+        "name": {"type": "string", "pattern": "^(?!authorization$|cookie$|proxy-authorization$|set-cookie$)[a-z0-9-]+$"},
+        "value": {"type": "string"}
+      }
+    },
+    "evidence_object": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "artifact_id", "artifact_version_id", "artifact_class", "source_ref", "observation_ref", "observation_cutoff", "acquired_at", "acquisition_method", "source_locator", "declared_media_type", "detected_media_type", "content_encoding", "character_encoding", "transport_metadata", "fingerprint", "byte_length", "primary_receipt", "recovery_receipt", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.evidence-object"},
+        "schema_version": {"const": "1.0.0"},
+        "artifact_id": {"type": "string", "pattern": "^art_[0-9a-f]{48}$"},
+        "artifact_version_id": {"type": "string", "pattern": "^evi_[0-9a-f]{48}$"},
+        "artifact_class": {"type": "string", "enum": ["ACQUISITION_ATTEMPT", "HOSTILE_ISOLATED", "PACKAGE_MANIFEST", "SOURCE_CONTENT", "SOURCE_METADATA"]},
+        "source_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "observation_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "acquired_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "acquisition_method": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "source_locator": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "declared_media_type": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "detected_media_type": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "content_encoding": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "character_encoding": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "transport_metadata": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/transport_metadata_entry"}},
+        "fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "byte_length": {"type": "integer", "minimum": 0},
+        "primary_receipt": {"$ref": "#/$defs/vault_object_receipt"},
+        "recovery_receipt": {"$ref": "#/$defs/vault_object_receipt"},
+        "immutable": {"const": true}
+      }
+    },
+    "evidence_package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "package_id", "package_kind", "observation_ref", "artifact_refs", "manifest_fingerprint", "primary_manifest_receipt", "recovery_manifest_receipt", "complete", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.evidence-package"},
+        "schema_version": {"const": "1.0.0"},
+        "package_id": {"type": "string", "pattern": "^pkg_[0-9a-f]{48}$"},
+        "package_kind": {"type": "string", "enum": ["ACQUISITION_ATTEMPT", "SOURCE_SNAPSHOT"]},
+        "observation_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "artifact_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "manifest_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "primary_manifest_receipt": {"$ref": "#/$defs/vault_object_receipt"},
+        "recovery_manifest_receipt": {"$ref": "#/$defs/vault_object_receipt"},
+        "complete": {"const": true},
+        "immutable": {"const": true}
+      }
+    },
+    "acquisition_outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "observation_ref", "watcher_result_ref", "scraper_result_ref", "evidence_package_ref", "source_snapshot_ref", "issue_ref", "disposition", "downstream_authorization", "immutable"],
+      "properties": {
+        "schema_id": {"const": "asklegal.acquisition-outcome"},
+        "schema_version": {"const": "1.0.0"},
+        "observation_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "watcher_result_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "scraper_result_ref": {"anyOf": [{"$ref": "common.schema.json#/$defs/reference"}, {"type": "null"}]},
+        "evidence_package_ref": {"$ref": "common.schema.json#/$defs/reference"},
+        "source_snapshot_ref": {"anyOf": [{"$ref": "common.schema.json#/$defs/reference"}, {"type": "null"}]},
+        "issue_ref": {"anyOf": [{"$ref": "common.schema.json#/$defs/reference"}, {"type": "null"}]},
+        "disposition": {"type": "string", "enum": ["COMPLETE_NO_CHANGE", "COVERAGE_GAP", "QUARANTINE", "SNAPSHOT_PRESERVED", "SOURCE_CONTRACT_REVIEW"]},
+        "downstream_authorization": {"type": "string", "enum": ["LEGAL_PROCESSING_ELIGIBLE", "NONE"]},
+        "immutable": {"const": true}
+      }
+    },
     "source_contract_review": {
       "type": "object",
       "additionalProperties": false,

@@ -64,11 +64,11 @@
     "openssl_version_prefix": "OpenSSL 3.0.13"
   },
   "vulnerability_database": {
-    "built": "2026-08-15T06:13:48Z",
-    "database_sha256": "406f6fcf524b339b964ac99e34c1d1f8d9682263f2c7e3385f5afa75d02f90f5",
+    "built": "2026-08-16T06:14:30Z",
+    "database_sha256": "bc369d21c9cc3f223ef6feb19640a3aa1d99c53a518835f4252586de2a42d060",
     "max_age_seconds": 86400,
     "schema_version": "v6.1.9",
-    "source_archive_sha256": "5f8172952b86c8af2726ab5f17c323c16fde7cf99e76b87768f93fba68705a85"
+    "source_archive_sha256": "9372153c84a72a3a8c69b3a8f233022441abb5f548a63486bb7c52f5e74b16aa"
   },
   "test_licence_catalogue": {
     "allowed": [

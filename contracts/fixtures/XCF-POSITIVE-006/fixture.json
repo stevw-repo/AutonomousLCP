@@ -1,0 +1,9 @@
+{
+  "fixture_id": "XCF-POSITIVE-006",
+  "category": "POSITIVE",
+  "operation": "SCHEMA_VALIDATE",
+  "synthetic": true,
+  "input_path": "fixtures/XCF-POSITIVE-006/input.json",
+  "expected_path": "fixtures/XCF-POSITIVE-006/expected.json",
+  "schema_ref": "schemas/operation-domain.schema.json#/$defs/command_result"
+}

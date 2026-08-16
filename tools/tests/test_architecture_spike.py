@@ -110,9 +110,9 @@ def test_real_repository_has_exact_closed_architecture() -> None:
     report = run_spike(REPOSITORY_ROOT)
     assert check_repository(REPOSITORY_ROOT) == ()
     assert report.applications == 5
-    assert report.packages == 13
-    assert report.dependency_edges == 70
-    assert report.capability_ports == 30
+    assert report.packages == 14
+    assert report.dependency_edges == 80
+    assert report.capability_ports == 31
     assert policy.exclusive_capability_owners == {
         "approval_command": "asklegal-review-api",
         "asklegal_routing": "asklegal-promotion-worker",
@@ -121,9 +121,27 @@ def test_real_repository_has_exact_closed_architecture() -> None:
         "external_source_read": "asklegal-acquisition-worker",
         "generative_llm_provider": "asklegal-legal-processing-worker",
         "pinecone_mutation": "asklegal-promotion-worker",
+        "proposal_package_prepare": "asklegal-control-plane",
         "recovery_copy": "asklegal-promotion-worker",
         "revocation_command": "asklegal-review-api",
     }
+    members = {member.distribution: member for member in policy.members}
+    control = members["asklegal-control-plane"]
+    assert {
+        "asklegal-corpus",
+        "asklegal-evidence-vault",
+        "asklegal-promotion",
+    } <= set(control.allowed_internal_distributions)
+    assert "proposal_package_prepare" in control.capability_ports
+    assert "proposal_package_prepare" not in members["asklegal-promotion-worker"].capability_ports
+    assert all(
+        members[name].allowed_external_distributions == ()
+        for name in (
+            "asklegal-acquisition-worker",
+            "asklegal-legal-processing-worker",
+            "asklegal-promotion-worker",
+        )
+    )
 
 
 def test_future_member_cannot_escape_policy(tmp_path: Path) -> None:

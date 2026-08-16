@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Declarative Review API application boundary"
 requires-python = "==3.14.7"
 dependencies = [
+  "asklegal-application-runtime",
   "asklegal-contracts",
   "asklegal-domain",
   "asklegal-evidence-vault",
@@ -11,7 +12,13 @@ dependencies = [
   "asklegal-management-register-adapter",
   "asklegal-observability",
   "asklegal-reporting",
+  "fastapi>=0.116,<1",
+  "pydantic>=2.12,<3",
+  "uvicorn>=0.35,<1",
 ]
+
+[project.scripts]
+asklegal-review-api = "asklegal_review_api.main:main"
 
 [build-system]
 requires = ["uv-build==0.12.5"]
@@ -21,6 +28,7 @@ build-backend = "uv_build"
 module-name = "asklegal_review_api"
 
 [tool.uv.sources]
+asklegal-application-runtime = { workspace = true }
 asklegal-contracts = { workspace = true }
 asklegal-domain = { workspace = true }
 asklegal-evidence-vault = { workspace = true }
