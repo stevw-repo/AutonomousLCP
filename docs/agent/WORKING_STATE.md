@@ -23,6 +23,15 @@ the earlier validated foundation is commit `88f8e92`, and the current clean
 `main`/`origin/main` head is documentation commit `3726ee4`. Ignored local
 runtime evidence under `var/` is excluded.
 
+The accumulated Hong Kong readiness and disabled V1 POC checkpoint was
+committed locally on 2026-08-17 as `6be9dd0` (`feat: add Hong Kong readiness
+and V1 POC contracts`). The user's latest instruction was to commit and push
+before authorized official-source work. No push occurred: the configured
+destination is `https://github.com/stevw-repo/AskLegal-LegalDBPipeline.git`,
+but the push safeguard requires the user to explicitly approve that exact URL
+and `main` branch in the current instruction. Official-source access has not
+started because push was ordered first.
+
 The user has now accepted a strictly internal single-Ubuntu-host V1 POC. The
 Mac remains the development machine but is not a runtime dependency. One Ubuntu
 24.04 x86-64 PC with 64 GB RAM and 5 TB on one physical disk runs the five
