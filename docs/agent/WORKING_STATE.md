@@ -135,6 +135,18 @@ There is no remaining M7 implementation blocker or decision. Real Hong Kong
 packages and every exact external/platform admission value remain open evidence
 work, not defaults inferred from local success.
 
+## Current host prerequisite
+
+The exact `uv 0.12.5` required by the repository is not installed on this
+host's `PATH`. At the user's request, the verified temporary installation at
+`/tmp/asklegal-m6-uv` was removed on 2026-08-16 and its absence was verified.
+The recommended durable developer installation is the official versioned uv
+0.12.5 standalone installer targeting the normal user executable directory,
+with installer PATH mutation disabled. `/home/stevw-s14/.local/bin` already
+exists and is already on this host's `PATH`, so no shell-startup edit is needed.
+Until that durable installation is performed, repository commands requiring
+uv cannot run from a fresh shell.
+
 ## Authorization boundary and exact next step
 
 M7 completion grants no M8 or external authority. The next capability milestone
