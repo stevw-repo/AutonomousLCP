@@ -1,0 +1,36 @@
+{
+  "fixture_id": "HKLEG-BASE-HIST-FIX-005",
+  "title": "Conflicting historical evidence quarantines only the affected decision",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-HIST-001",
+  "input_fingerprint": "sha256:2b70194f27ff0ea1b2735c8a9647b495ae8e858f2424a455b727cddab9a4126b",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "affected_object_ids": [
+      "SYN-HKLEG-OBJ-001"
+    ],
+    "review_task": {
+      "review_task_id": "SYN-HKLEG-REVIEW-HIST-005",
+      "requested_source_ids": [
+        "HK-LEG-OFFICIAL-GAZETTE-ARCHIVE"
+      ],
+      "permitted_fact_code": "SOURCE_CONFLICT_RESOLUTION"
+    },
+    "historical_evidence": {
+      "source_id": "HK-LEG-OFFICIAL-GAZETTE-ARCHIVE",
+      "availability": "AVAILABLE",
+      "evidence_result": "CONFLICT",
+      "proof_basis": "EXPLICIT_OFFICIAL_EVIDENCE"
+    },
+    "proposed_fact_code": "SOURCE_CONFLICT_RESOLUTION",
+    "attempted_current_evidence_substitution": false,
+    "attempted_reconstruction": false,
+    "scope_completeness_impossible": false
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-history/HKLEG-BASE-HIST-FIX-005.json",
+    "fingerprint": "sha256:9f48e4728725d9315f94f544871e5aa3006a8fe326b4a5e4bcddfa16ede50b09"
+  }
+}

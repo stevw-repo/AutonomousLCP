@@ -28,6 +28,7 @@ from .model import (
     content_logical_key,
     manifest_logical_key,
 )
+from .ports import ImmutableVault
 
 
 class LocalImmutableVault:
@@ -208,7 +209,7 @@ class LocalImmutableVault:
 class RecoveryCopier:
     """Copy and verify exact primary versions into an isolated recovery fake."""
 
-    def __init__(self, primary: LocalImmutableVault, recovery: LocalImmutableVault) -> None:
+    def __init__(self, primary: ImmutableVault, recovery: ImmutableVault) -> None:
         """Bind one primary and recovery pair without granting app authority."""
         if primary.vault_name is not VaultName.PRIMARY:
             raise ValueError("primary adapter must have PRIMARY role")
@@ -234,7 +235,7 @@ class RecoveryCopier:
 class TwoVaultEvidenceReader:
     """Exact reader that inspects recovery after corruption but never falls back."""
 
-    def __init__(self, primary: LocalImmutableVault, recovery: LocalImmutableVault) -> None:
+    def __init__(self, primary: ImmutableVault, recovery: ImmutableVault) -> None:
         """Bind a primary/recovery pair for explicit integrity comparison."""
         if primary.vault_name is not VaultName.PRIMARY:
             raise ValueError("primary adapter must have PRIMARY role")
@@ -276,7 +277,7 @@ class TwoVaultEvidenceReader:
 class ManifestLastPackageWriter:
     """Restartable content-first, manifest-last package assembler."""
 
-    def __init__(self, primary: LocalImmutableVault) -> None:
+    def __init__(self, primary: ImmutableVault) -> None:
         """Bind package writes to the primary vault only."""
         if primary.vault_name is not VaultName.PRIMARY:
             raise ValueError("package writer requires the primary vault")

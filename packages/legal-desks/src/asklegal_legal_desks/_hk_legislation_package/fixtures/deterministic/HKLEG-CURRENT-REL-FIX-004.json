@@ -1,0 +1,47 @@
+{
+  "fixture_id": "HKLEG-CURRENT-REL-FIX-004",
+  "title": "Duplicate primary location accounting blocks release",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:7c98837060f421e9c3e0c44a188f992e2b954fc2b3c1b272ab5adcf57cec7349",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "predecessor_release_id": "rel_synthetic_predecessor",
+    "expected_accounting": {
+      "object_ids": [
+        "object-1"
+      ],
+      "location_ids": [
+        "location-1"
+      ],
+      "event_ids": [],
+      "selected_record_ids": [],
+      "retired_record_ids": [],
+      "coverage_gap_ids": [],
+      "quarantine_ids": []
+    },
+    "actual_accounting": {
+      "object_ids": [
+        "object-1"
+      ],
+      "location_ids": [
+        "location-1"
+      ],
+      "event_ids": [],
+      "selected_record_ids": [],
+      "retired_record_ids": [],
+      "coverage_gap_ids": [],
+      "quarantine_ids": []
+    },
+    "duplicate_location_ids": [
+      "location-1"
+    ],
+    "entry_consistency_proved": true,
+    "unresolved_completeness_ids": []
+  },
+  "expected_artifact": {
+    "path": "expected/current-release-accounting/HKLEG-CURRENT-REL-FIX-004.json",
+    "fingerprint": "sha256:166e0d85eba1e63d6ef367dac2914405046a17db40ef3883ddf04d0108410fe8"
+  }
+}

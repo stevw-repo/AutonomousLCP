@@ -1,0 +1,52 @@
+{
+  "fixture_id": "HKLEG-BASE-INV-FIX-003",
+  "title": "Ordinance object claimed by two Release Scopes",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-INV-001",
+  "input_fingerprint": "sha256:92cae5e9d84bb06c179db7d2c4fc4525ed90f28be2dd034750271ed927903dfb",
+  "input": {
+    "source_observation": {
+      "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "cutoff": "2026-08-17T00:00:00Z",
+      "complete": true
+    },
+    "observed_legal_objects": [
+      {
+        "inventory_item_id": "SYN-HKLEG-ITEM-003",
+        "legal_object_id": "SYN-HKLEG-OBJ-003",
+        "legal_nature": "ORDINANCE",
+        "resources": [
+          {
+            "resource_id": "SYN-HKLEG-RES-003-EN",
+            "language": "en",
+            "version_signal": "SYN_VERSION_2026_08_17",
+            "status_signal": "SYN_CURRENT",
+            "locator": "SYNTHETIC_LOCATOR_ORD_003_EN",
+            "declared_sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+          }
+        ]
+      }
+    ],
+    "accounting_claims": [
+      {
+        "legal_object_id": "SYN-HKLEG-OBJ-003",
+        "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+        "resource_ids": [
+          "SYN-HKLEG-RES-003-EN"
+        ]
+      },
+      {
+        "legal_object_id": "SYN-HKLEG-OBJ-003",
+        "scope_id": "rsc_1cdf5a558e8286dadf84f819de1d48168d455cd457fcf30e",
+        "resource_ids": [
+          "SYN-HKLEG-RES-003-EN"
+        ]
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-inventory/HKLEG-BASE-INV-FIX-003.json",
+    "fingerprint": "sha256:e781ee72fef748c1e51e3b452e5579b0adc4f680ccd06a1d26adce92906cad1a"
+  }
+}

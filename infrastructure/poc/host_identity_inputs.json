@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "status": "DESIGN_ONLY_DISABLED",
+  "authority": {
+    "identity_creation_authorized": false,
+    "path_ownership_change_authorized": false,
+    "service_enablement_authorized": false,
+    "host_mutation_authorized": false
+  },
+  "identity_profile": {
+    "account_locked": true,
+    "login_shell": "/usr/sbin/nologin",
+    "home_directory": "/nonexistent",
+    "supplementary_groups": [],
+    "shared_identity_forbidden": true,
+    "numeric_uid_gid_state": "HOST_ALLOCATION_REQUIRED",
+    "created": false
+  },
+  "required_blockers": [
+    "COLLISION_FREE_UID_GID_ALLOCATION",
+    "CONTAINER_UID_GID_MAPPING",
+    "PATH_OWNERSHIP_PROOF",
+    "UBUNTU_IDENTITY_PROOF"
+  ],
+  "identities": [
+    {"service_id":"control-plane","identity":"asklegal-control","owned_write_paths":["/var/lib/asklegal/control"],"uid":null,"gid":null,"created":false},
+    {"service_id":"review-api","identity":"asklegal-review","owned_write_paths":["/var/lib/asklegal/review"],"uid":null,"gid":null,"created":false},
+    {"service_id":"acquisition-worker","identity":"asklegal-acquisition","owned_write_paths":["/var/lib/asklegal/acquisition"],"uid":null,"gid":null,"created":false},
+    {"service_id":"legal-processing-worker","identity":"asklegal-processing","owned_write_paths":["/var/lib/asklegal/processing"],"uid":null,"gid":null,"created":false},
+    {"service_id":"promotion-worker","identity":"asklegal-promotion","owned_write_paths":["/var/lib/asklegal/promotion"],"uid":null,"gid":null,"created":false},
+    {"service_id":"vault-primary","identity":"asklegal-vault-primary","owned_write_paths":["/srv/asklegal/vault-primary/objects","/srv/asklegal/vault-primary/versions","/srv/asklegal/vault-primary/sidecar"],"uid":null,"gid":null,"created":false},
+    {"service_id":"vault-recovery","identity":"asklegal-vault-recovery","owned_write_paths":["/srv/asklegal/vault-recovery/objects","/srv/asklegal/vault-recovery/versions","/srv/asklegal/vault-recovery/sidecar"],"uid":null,"gid":null,"created":false},
+    {"service_id":"otel-collector","identity":"asklegal-otelcol","owned_write_paths":["/var/lib/otelcol"],"uid":null,"gid":null,"created":false},
+    {"service_id":"prometheus","identity":"asklegal-prometheus","owned_write_paths":["/var/lib/prometheus"],"uid":null,"gid":null,"created":false},
+    {"service_id":"grafana","identity":"asklegal-grafana","owned_write_paths":["/var/lib/grafana"],"uid":null,"gid":null,"created":false}
+  ]
+}

@@ -139,7 +139,9 @@
       "role": "durable-task-adapter"
     },
     {
-      "allowed_external_distributions": [],
+      "allowed_external_distributions": [
+        "boto3"
+      ],
       "allowed_internal_distributions": [
         "asklegal-contracts",
         "asklegal-domain"

@@ -166,6 +166,9 @@ ignore = [
   "S101",
 ]
 "tools/python_boundary_check.py" = ["T201"]
+"tools/v1_poc_topology.py" = ["T201"]
+"tools/v1_poc_host_admission.py" = ["T201"]
+"tools/v1_poc_artifacts.py" = ["T201"]
 "tools/local_conformance.py" = [
   "B003",
   "C901",

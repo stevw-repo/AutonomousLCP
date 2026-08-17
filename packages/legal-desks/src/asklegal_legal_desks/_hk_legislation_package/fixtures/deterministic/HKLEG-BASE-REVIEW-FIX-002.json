@@ -1,0 +1,31 @@
+{
+  "fixture_id": "HKLEG-BASE-REVIEW-FIX-002",
+  "title": "No material uncertainty opens no historical work",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-REVIEW-001",
+  "input_fingerprint": "sha256:cec73bccbb7382746b9ba1daa5419db32d3f369bffd821116f1050c41ca36db8",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "review_task_id": "SYN-HKLEG-REVIEW-002",
+    "trigger": "NO_MATERIAL_UNCERTAINTY",
+    "question": "Is historical work required for this clear item?",
+    "affected_object_ids": [
+      "SYN-HKLEG-OBJ-001"
+    ],
+    "investigation_scope": "TARGETED",
+    "requested_source_ids": [
+      "HK-LEG-HKEL-PAST-INVENTORY"
+    ],
+    "permitted_fact_codes": [
+      "EARLIER_ARTIFACT_FACT"
+    ],
+    "stopping_condition": "Do not start because the present baseline is already clear.",
+    "responsible_legal_desk": "HONG_KONG_LEGISLATION_LEGAL_DESK"
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-review/HKLEG-BASE-REVIEW-FIX-002.json",
+    "fingerprint": "sha256:f75d3547e1fa5570586f17512244613e7b6444b6b5c52bea0eb25bad262332fb"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "rule_id": "HKLEG-BASE-OBS-001",
+  "version": "1.0.0",
+  "stage": "FIRST_BASELINE_OBSERVATION_FREEZE",
+  "required_source_ids": [
+    "HK-LEG-HKEL-CURRENT-INVENTORY",
+    "HK-LEG-GLD-EGAZETTE"
+  ],
+  "expected_locks": {
+    "rulebook_version": "2026-08-17.1",
+    "rulebook_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "release_scope_registry_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "publication_specification_version": "SYNTHETIC_HKEL_SPEC_1",
+    "publication_specification_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "branch_precedence": [
+    "REQUIRED_SOURCE_UNAVAILABLE",
+    "CUTOFF_MIXED",
+    "LOCK_MISMATCH",
+    "POST_CUTOFF_CHANGE",
+    "FROZEN"
+  ],
+  "successor_rule_id": "HKLEG-BASE-INV-001",
+  "forbidden_shortcuts": [
+    "MIXED_CUTOFF_EVIDENCE",
+    "MISSING_RELEASE_BLOCKING_SOURCE",
+    "STALE_RELEASE_BLOCKING_SOURCE",
+    "LOCK_DRIFT_ACCEPTED",
+    "POST_CUTOFF_CHANGE_MERGED"
+  ]
+}

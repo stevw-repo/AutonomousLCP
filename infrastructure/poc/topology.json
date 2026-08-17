@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "status": "DESIGN_ONLY_DISABLED",
+  "host": {
+    "os": "Ubuntu 24.04",
+    "architecture": "x86_64",
+    "minimum_ram_gib": 64,
+    "physical_disk_count": 1,
+    "minimum_ext4_capacity_tb": 5,
+    "mac_runtime_dependency": false
+  },
+  "recovery_class": "LOGICALLY_SEPARATE_POC_RECOVERY",
+  "databases": ["AskLegalPocIntegration", "AskLegalPocOperational"],
+  "services": [
+    {"service_id":"sql-server","kind":"CONTAINER","identity":"mssql","artifact_state":"PINNED","artifact_ref":"mcr.microsoft.com/mssql/server@sha256:fa0dcf206087759fe6dad4cc02bfa88d97439085e548fbca9039330519c0cf1d","networks":["asklegal-register"],"credential_names":["sql-bootstrap-password"],"write_paths":["/srv/asklegal/sql"],"listeners":[{"port":1433,"scope":"CONTAINER_ONLY"}],"outbound_profile":"DENY","enabled":false},
+    {"service_id":"dts-general","kind":"CONTAINER","identity":"asklegal-dts-general","artifact_state":"PINNED","artifact_ref":"mcr.microsoft.com/dts/dts-emulator@sha256:1b49dcf1581168f5c620a4f32083e1291a7dddfa60434acb3eacd8b23355936a","networks":["asklegal-scheduler-general"],"credential_names":[],"write_paths":[],"listeners":[{"port":8080,"scope":"CONTAINER_ONLY"},{"port":8082,"scope":"CONTAINER_ONLY"}],"outbound_profile":"DENY","enabled":false},
+    {"service_id":"dts-promotion","kind":"CONTAINER","identity":"asklegal-dts-promotion","artifact_state":"PINNED","artifact_ref":"mcr.microsoft.com/dts/dts-emulator@sha256:1b49dcf1581168f5c620a4f32083e1291a7dddfa60434acb3eacd8b23355936a","networks":["asklegal-scheduler-promotion"],"credential_names":[],"write_paths":[],"listeners":[{"port":8080,"scope":"CONTAINER_ONLY"},{"port":8082,"scope":"CONTAINER_ONLY"}],"outbound_profile":"DENY","enabled":false},
+    {"service_id":"vault-primary","kind":"CONTAINER","identity":"asklegal-vault-primary","artifact_state":"PIN_REQUIRED","artifact_ref":null,"networks":["asklegal-vault-primary"],"credential_names":["vault-primary-root-access","vault-primary-root-secret"],"write_paths":["/srv/asklegal/vault-primary/objects","/srv/asklegal/vault-primary/versions","/srv/asklegal/vault-primary/sidecar"],"listeners":[{"port":7070,"scope":"CONTAINER_ONLY"}],"outbound_profile":"DENY","enabled":false},
+    {"service_id":"vault-recovery","kind":"CONTAINER","identity":"asklegal-vault-recovery","artifact_state":"PIN_REQUIRED","artifact_ref":null,"networks":["asklegal-vault-recovery"],"credential_names":["vault-recovery-root-access","vault-recovery-root-secret"],"write_paths":["/srv/asklegal/vault-recovery/objects","/srv/asklegal/vault-recovery/versions","/srv/asklegal/vault-recovery/sidecar"],"listeners":[{"port":7070,"scope":"CONTAINER_ONLY"}],"outbound_profile":"DENY","enabled":false},
+    {"service_id":"control-plane","kind":"REPOSITORY_IMAGE","identity":"asklegal-control","artifact_state":"PIN_REQUIRED","artifact_ref":null,"networks":["asklegal-register","asklegal-scheduler-general","asklegal-review","asklegal-telemetry","asklegal-vault-primary"],"credential_names":["sql-control","review-client","vault-primary-control"],"write_paths":["/var/lib/asklegal/control"],"listeners":[{"port":8000,"scope":"PRIVATE_HOST"}],"outbound_profile":"DENY","enabled":false},
+    {"service_id":"review-api","kind":"REPOSITORY_IMAGE","identity":"asklegal-review","artifact_state":"PIN_REQUIRED","artifact_ref":null,"networks":["asklegal-register","asklegal-review","asklegal-telemetry","asklegal-vault-primary"],"credential_names":["sql-review","review-api","vault-primary-review"],"write_paths":["/var/lib/asklegal/review"],"listeners":[{"port":8001,"scope":"PRIVATE_HOST"}],"outbound_profile":"DENY","enabled":false},
+    {"service_id":"acquisition-worker","kind":"REPOSITORY_IMAGE","identity":"asklegal-acquisition","artifact_state":"PIN_REQUIRED","artifact_ref":null,"networks":["asklegal-register","asklegal-scheduler-general","asklegal-vault-primary","asklegal-vault-recovery","asklegal-telemetry","asklegal-egress-source"],"credential_names":["sql-acquisition","vault-primary-acquisition","vault-recovery-acquisition","source-egress-proxy"],"write_paths":["/var/lib/asklegal/acquisition"],"listeners":[],"outbound_profile":"OFFICIAL_SOURCE_ONLY","enabled":false},
+    {"service_id":"legal-processing-worker","kind":"REPOSITORY_IMAGE","identity":"asklegal-processing","artifact_state":"PIN_REQUIRED","artifact_ref":null,"networks":["asklegal-register","asklegal-scheduler-general","asklegal-vault-primary","asklegal-telemetry","asklegal-egress-model"],"credential_names":["sql-processing","vault-primary-processing","model-egress-proxy"],"write_paths":["/var/lib/asklegal/processing"],"listeners":[],"outbound_profile":"MODEL_PROVIDER_ONLY","enabled":false},
+    {"service_id":"promotion-worker","kind":"REPOSITORY_IMAGE","identity":"asklegal-promotion","artifact_state":"PIN_REQUIRED","artifact_ref":null,"networks":["asklegal-register","asklegal-scheduler-promotion","asklegal-vault-primary","asklegal-vault-recovery","asklegal-telemetry","asklegal-egress-promotion"],"credential_names":["sql-promotion","vault-primary-promotion","vault-recovery-promotion","pinecone-poc","embedding-provider","promotion-egress-proxy"],"write_paths":["/var/lib/asklegal/promotion"],"listeners":[],"outbound_profile":"PINECONE_AND_EMBEDDING_ONLY","enabled":false},
+    {"service_id":"otel-collector","kind":"CONTAINER","identity":"asklegal-otelcol","artifact_state":"PIN_REQUIRED","artifact_ref":null,"networks":["asklegal-telemetry"],"credential_names":[],"write_paths":["/var/lib/otelcol"],"listeners":[{"port":4317,"scope":"CONTAINER_ONLY"},{"port":4318,"scope":"CONTAINER_ONLY"}],"outbound_profile":"DENY","enabled":false},
+    {"service_id":"prometheus","kind":"CONTAINER","identity":"asklegal-prometheus","artifact_state":"PIN_REQUIRED","artifact_ref":null,"networks":["asklegal-telemetry"],"credential_names":[],"write_paths":["/var/lib/prometheus"],"listeners":[{"port":9090,"scope":"CONTAINER_ONLY"}],"outbound_profile":"DENY","enabled":false},
+    {"service_id":"grafana","kind":"CONTAINER","identity":"asklegal-grafana","artifact_state":"PIN_REQUIRED","artifact_ref":null,"networks":["asklegal-telemetry"],"credential_names":["grafana-admin"],"write_paths":["/var/lib/grafana"],"listeners":[{"port":3000,"scope":"PRIVATE_HOST"}],"outbound_profile":"DENY","enabled":false},
+    {"service_id":"egress-source","kind":"CONTAINER","identity":"asklegal-egress-source","artifact_state":"PIN_REQUIRED","artifact_ref":null,"networks":["asklegal-egress-source"],"credential_names":[],"write_paths":[],"listeners":[{"port":3128,"scope":"CONTAINER_ONLY"}],"outbound_profile":"OFFICIAL_SOURCE_ALLOWLIST","enabled":false},
+    {"service_id":"egress-model","kind":"CONTAINER","identity":"asklegal-egress-model","artifact_state":"PIN_REQUIRED","artifact_ref":null,"networks":["asklegal-egress-model"],"credential_names":[],"write_paths":[],"listeners":[{"port":3128,"scope":"CONTAINER_ONLY"}],"outbound_profile":"MODEL_PROVIDER_ALLOWLIST","enabled":false},
+    {"service_id":"egress-promotion","kind":"CONTAINER","identity":"asklegal-egress-promotion","artifact_state":"PIN_REQUIRED","artifact_ref":null,"networks":["asklegal-egress-promotion"],"credential_names":[],"write_paths":[],"listeners":[{"port":3128,"scope":"CONTAINER_ONLY"}],"outbound_profile":"PINECONE_EMBEDDING_ALLOWLIST","enabled":false}
+  ],
+  "networks": [
+    {"network_id":"asklegal-register","internal":true,"members":["acquisition-worker","control-plane","legal-processing-worker","promotion-worker","review-api","sql-server"]},
+    {"network_id":"asklegal-scheduler-general","internal":true,"members":["acquisition-worker","control-plane","dts-general","legal-processing-worker"]},
+    {"network_id":"asklegal-scheduler-promotion","internal":true,"members":["dts-promotion","promotion-worker"]},
+    {"network_id":"asklegal-vault-primary","internal":true,"members":["acquisition-worker","control-plane","legal-processing-worker","promotion-worker","review-api","vault-primary"]},
+    {"network_id":"asklegal-vault-recovery","internal":true,"members":["acquisition-worker","promotion-worker","vault-recovery"]},
+    {"network_id":"asklegal-review","internal":true,"members":["control-plane","review-api"]},
+    {"network_id":"asklegal-telemetry","internal":true,"members":["acquisition-worker","control-plane","grafana","legal-processing-worker","otel-collector","prometheus","promotion-worker","review-api"]},
+    {"network_id":"asklegal-egress-source","internal":false,"members":["acquisition-worker","egress-source"]},
+    {"network_id":"asklegal-egress-model","internal":false,"members":["egress-model","legal-processing-worker"]},
+    {"network_id":"asklegal-egress-promotion","internal":false,"members":["egress-promotion","promotion-worker"]}
+  ],
+  "scheduler_instances": [
+    {"service_id":"dts-general","task_hubs":["acquisition","control","legal-processing"],"persistence":"MEMORY_ONLY","loss_result":"REPLACEMENT_FROM_SAFE_CHECKPOINT"},
+    {"service_id":"dts-promotion","task_hubs":["promotion"],"persistence":"MEMORY_ONLY","loss_result":"REPLACEMENT_FROM_SAFE_CHECKPOINT"}
+  ],
+  "vaults": [
+    {"service_id":"vault-primary","bucket":"asklegal-primary-evidence","root":"/srv/asklegal/vault-primary/objects","versions":"/srv/asklegal/vault-primary/versions","sidecar":"/srv/asklegal/vault-primary/sidecar","object_lock_required":true,"versioning_required":true,"manifest_last_required":true},
+    {"service_id":"vault-recovery","bucket":"asklegal-recovery-evidence","root":"/srv/asklegal/vault-recovery/objects","versions":"/srv/asklegal/vault-recovery/versions","sidecar":"/srv/asklegal/vault-recovery/sidecar","object_lock_required":true,"versioning_required":true,"manifest_last_required":true}
+  ],
+  "authoritative_audit": ["RECOVERY_VAULT_IMMUTABLE_ARCHIVE", "SQL_SERVER_LEDGER"],
+  "pinecone": {"project_isolation":"DEDICATED_POC_PROJECT","mutation_owner":"promotion-worker","replacement_indexes_only":true,"real_write_authorized":false,"plan":"UNSELECTED_PENDING_MEASUREMENT"}
+}

@@ -1,0 +1,20 @@
+{
+  "fixture_id": "HKLEG-CURRENT-DISP-FIX-004",
+  "title": "Proved ended location is historical",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:9d920eeb879193ce4e8123ada2bef179693658d40fce43713a601f96d75cede2",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.ordinary-update",
+    "location_id": "section-4",
+    "upstream_checkpoint": "PASS",
+    "status_coverage_complete": true,
+    "disposition_basis": "ENDED_OR_SUPERSEDED_PROVED"
+  },
+  "expected_artifact": {
+    "path": "expected/current-disposition/HKLEG-CURRENT-DISP-FIX-004.json",
+    "fingerprint": "sha256:937acb3ada7ae13c5b8923477291722c1ea4b63069e3f025e07d6d2359b4fb9b"
+  }
+}

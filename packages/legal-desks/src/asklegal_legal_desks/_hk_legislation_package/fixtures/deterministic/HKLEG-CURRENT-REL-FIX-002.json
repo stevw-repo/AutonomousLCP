@@ -1,0 +1,45 @@
+{
+  "fixture_id": "HKLEG-CURRENT-REL-FIX-002",
+  "title": "Missing predecessor returns to initial baseline",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:9f799269ab0d76c6271ec05e7af2a58fbaccb8deff0bbc6cdf0491a628936856",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "predecessor_release_id": null,
+    "expected_accounting": {
+      "object_ids": [
+        "object-1"
+      ],
+      "location_ids": [
+        "location-1"
+      ],
+      "event_ids": [],
+      "selected_record_ids": [],
+      "retired_record_ids": [],
+      "coverage_gap_ids": [],
+      "quarantine_ids": []
+    },
+    "actual_accounting": {
+      "object_ids": [
+        "object-1"
+      ],
+      "location_ids": [
+        "location-1"
+      ],
+      "event_ids": [],
+      "selected_record_ids": [],
+      "retired_record_ids": [],
+      "coverage_gap_ids": [],
+      "quarantine_ids": []
+    },
+    "duplicate_location_ids": [],
+    "entry_consistency_proved": true,
+    "unresolved_completeness_ids": []
+  },
+  "expected_artifact": {
+    "path": "expected/current-release-accounting/HKLEG-CURRENT-REL-FIX-002.json",
+    "fingerprint": "sha256:f843d4fb5de41b9ee44ce43a3a0699914877a81862d7a7ae6e5a0151dc670f80"
+  }
+}

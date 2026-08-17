@@ -1,0 +1,20 @@
+{
+  "fixture_id": "HKLEG-CURRENT-DISP-FIX-005",
+  "title": "Incomplete status coverage quarantines the exact location",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:688cb07f1cfb3170158e32316fab7a2d641844650453b76c5b64f71d153ef9c3",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.ordinary-update",
+    "location_id": "section-5",
+    "upstream_checkpoint": "PASS",
+    "status_coverage_complete": false,
+    "disposition_basis": "UNRESOLVED_MATERIAL_FACT"
+  },
+  "expected_artifact": {
+    "path": "expected/current-disposition/HKLEG-CURRENT-DISP-FIX-005.json",
+    "fingerprint": "sha256:7d2ed31547123694429e2b65d60de5ebfa5b36b2add70c0cf3ee2cccd68b6d63"
+  }
+}

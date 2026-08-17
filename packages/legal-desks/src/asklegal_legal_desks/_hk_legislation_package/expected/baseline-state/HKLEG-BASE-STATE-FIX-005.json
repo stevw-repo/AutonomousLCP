@@ -1,0 +1,5 @@
+{
+  "fixture_id": "HKLEG-BASE-STATE-FIX-005", "rule_id": "HKLEG-BASE-STATE-001", "processing_outcome": "BLOCK", "legal_disposition": "NOT_APPLICABLE", "coverage_effect": "COVERAGE_GAP", "source_contract_review_required": true,
+  "reason_codes": ["HKLEG_BASE_STATE_SOURCE_SEMANTICS_UNKNOWN"], "rule_trace": ["HKLEG-BASE-STATE-001"], "present_state": "UNRESOLVED", "historical_assertion_scope": "NONE",
+  "conflicting_source_ids": [], "unresolved_source_ids": ["HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS"], "unresolved_fact_codes": ["SOURCE_SEMANTICS"], "affected_scope_ids": ["rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95"], "record_output": "NONE", "next_action": "OPEN_SOURCE_CONTRACT_REVIEW"
+}

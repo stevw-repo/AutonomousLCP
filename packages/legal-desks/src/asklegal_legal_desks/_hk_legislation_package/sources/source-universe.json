@@ -1,0 +1,131 @@
+{
+  "complete": true,
+  "sources": [
+    {
+      "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "role": "CONTROLLING",
+      "endpoint_families": ["HKEL_CURRENT_INVENTORY"],
+      "checking_tier": "DAILY_AND_WITHIN_24_HOURS_OF_WEEKLY_CUTOFF",
+      "permitted_use": "Prove the complete current HKeL resource universe and its publisher signals, not exact wording or event cause",
+      "completeness_rule": "Every current item, resource, language, locator, version signal, status signal, and declared hash is accounted exactly once",
+      "outage_consequence": "RELEASE_BLOCKING"
+    },
+    {
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "role": "CONTROLLING",
+      "endpoint_families": ["HKEL_CURRENT_BILINGUAL_XML"],
+      "checking_tier": "ON_DEMAND_AFTER_CHANGE_OR_MISSING_EVIDENCE",
+      "permitted_use": "Construct and compare current English and Traditional Chinese legal text and structure, not independently prove version or cause",
+      "completeness_rule": "Every required changed item has complete corresponding bilingual structured source bytes",
+      "outage_consequence": "AFFECTED_WORK_BLOCKING"
+    },
+    {
+      "source_id": "HK-LEG-HKEL-VERIFIED-COPIES",
+      "role": "CORROBORATING",
+      "endpoint_families": ["HKEL_VERIFIED_BILINGUAL_COPIES"],
+      "checking_tier": "ON_DEMAND_ITEM_EVIDENCE",
+      "permitted_use": "Prove exact verified HKeL bilingual text and version while XML remains the construction input",
+      "completeness_rule": "Each item using the verified path has matching English and Traditional Chinese copies for the exact version",
+      "outage_consequence": "AFFECTED_WORK_BLOCKING"
+    },
+    {
+      "source_id": "HK-LEG-HKEL-ASSISTED-COPIES",
+      "role": "CORROBORATING",
+      "endpoint_families": ["HKEL_ASSISTED_BILINGUAL_COPIES"],
+      "checking_tier": "ON_DEMAND_ITEM_EVIDENCE",
+      "permitted_use": "Provide accepted official bilingual text-and-version evidence without claiming statutory verification",
+      "completeness_rule": "Each item using the assisted path has matching complete English and Traditional Chinese official copies for the exact version",
+      "outage_consequence": "AFFECTED_WORK_BLOCKING"
+    },
+    {
+      "source_id": "HK-LEG-HKEL-PAST-INVENTORY",
+      "role": "CORROBORATING",
+      "endpoint_families": ["HKEL_PAST_INVENTORY"],
+      "checking_tier": "ON_DEMAND_NAMED_HISTORICAL_TASK",
+      "permitted_use": "Locate retained earlier HKeL resources for a bounded investigation, recovery, audit, or evaluation task",
+      "completeness_rule": "The exact historical task declares and accounts for every required earlier resource and locator",
+      "outage_consequence": "AFFECTED_WORK_BLOCKING"
+    },
+    {
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "role": "CORROBORATING",
+      "endpoint_families": ["HKEL_PAST_BILINGUAL_XML"],
+      "checking_tier": "ON_DEMAND_NAMED_HISTORICAL_TASK",
+      "permitted_use": "Supply earlier bilingual structure for a named task, not prove present law, legal events, or identity by similarity",
+      "completeness_rule": "Every historical artifact required by the named task is exact, version-bound, and paired with its required text evidence",
+      "outage_consequence": "AFFECTED_WORK_BLOCKING"
+    },
+    {
+      "source_id": "HK-LEG-HKEL-EDITORIAL-RECORDS",
+      "role": "CONTROLLING",
+      "endpoint_families": ["HKEL_EDITORIAL_RECORDS"],
+      "checking_tier": "WEEKLY_AND_AFTER_AFFECTED_SIGNAL",
+      "permitted_use": "Prove an official editorial event and affected locations, not supply resulting consolidated serving text",
+      "completeness_rule": "The complete numbered editorial-record inventory is reconciled and every relied-on record is preserved",
+      "outage_consequence": "AFFECTED_WORK_BLOCKING"
+    },
+    {
+      "source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+      "role": "SPECIFICATION",
+      "endpoint_families": ["HKEL_XSD_DATA_DICTIONARIES_AND_NOTICES"],
+      "checking_tier": "WEEKLY_SUPPORTING_SOURCE",
+      "permitted_use": "Define accepted HKeL schemas, fields, structures, status values, formats, and copy labels, not item-specific facts",
+      "completeness_rule": "Every specification artifact actually relied on by parsing or verification is fingerprinted and interpretation-mapped",
+      "outage_consequence": "AFFECTED_WORK_BLOCKING_ON_UNKNOWN_OR_CHANGED_INTERPRETATION"
+    },
+    {
+      "source_id": "HK-LEG-GLD-EGAZETTE",
+      "role": "CONTROLLING",
+      "endpoint_families": ["GLD_ORDINARY_AND_EXTRAORDINARY_EGAZETTE"],
+      "checking_tier": "DAILY_AND_WITHIN_24_HOURS_OF_WEEKLY_CUTOFF",
+      "permitted_use": "Prove the assigned publication, clause, notice, or legal event, not resulting HKeL consolidation",
+      "completeness_rule": "Every issued artifact in the accepted observation universe is accounted and every relied-on clause is preserved exactly",
+      "outage_consequence": "RELEASE_BLOCKING"
+    },
+    {
+      "source_id": "HK-LEG-OFFICIAL-GAZETTE-ARCHIVE",
+      "role": "CORROBORATING",
+      "endpoint_families": ["OFFICIAL_PRINTED_OR_ARCHIVAL_GAZETTE"],
+      "checking_tier": "ON_DEMAND_HISTORICAL_OR_ESCALATION_TASK",
+      "permitted_use": "Prove a pre-online, missing, ambiguous, or conflicting Gazette fact for the exact affected task",
+      "completeness_rule": "Every archival artifact required by the bounded task is identified, preserved, and authority-classified",
+      "outage_consequence": "AFFECTED_WORK_BLOCKING"
+    },
+    {
+      "source_id": "HK-LEG-HKEL-GAZETTE-BACKCAPTURE",
+      "role": "DISCOVERY",
+      "endpoint_families": ["HKEL_GAZETTE_BACKCAPTURE"],
+      "checking_tier": "ON_DEMAND_DISCOVERY",
+      "permitted_use": "Discover candidate events and older official Gazette material, never prove a legal event alone",
+      "completeness_rule": "Every relied-on discovery lead resolves to required official event evidence or remains non-controlling",
+      "outage_consequence": "NONBLOCKING"
+    },
+    {
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "role": "DISCOVERY",
+      "endpoint_families": ["BASIC_LAW_PORTAL"],
+      "checking_tier": "MONTHLY_AND_AFTER_CONTROLLING_SOURCE_SIGNAL",
+      "permitted_use": "Supply constitutional inventory, Annex III and instrument links, and discrepancy signals, not serving wording or status alone",
+      "completeness_rule": "Every detected discrepancy is reconciled against the required HKeL and originating official evidence",
+      "outage_consequence": "NONBLOCKING_UNLESS_AFFECTED_CONFLICT_EXISTS"
+    },
+    {
+      "source_id": "HK-LEG-NPC-NATIONAL-LAWS-DATABASE",
+      "role": "CORROBORATING",
+      "endpoint_families": ["NPC_NATIONAL_LAWS_AND_REGULATIONS_DATABASE"],
+      "checking_tier": "MONTHLY_EVENT_TRIGGERED_AND_ON_DEMAND",
+      "permitted_use": "Prove an assigned originating national-law fact, not Hong Kong application or required HKeL bilingual serving evidence",
+      "completeness_rule": "Every item-specific reliance identifies the exact originating text, promulgation material, and assigned fact",
+      "outage_consequence": "AFFECTED_WORK_BLOCKING_WHEN_REQUIRED"
+    },
+    {
+      "source_id": "HK-LEG-NPC-NPCSC-OFFICIAL-MATERIALS",
+      "role": "CORROBORATING",
+      "endpoint_families": ["NPC_AND_NPCSC_OFFICIAL_DECISIONS_AND_INTERPRETATIONS"],
+      "checking_tier": "MONTHLY_EVENT_TRIGGERED_AND_ON_DEMAND",
+      "permitted_use": "Prove an assigned originating NPC or NPCSC decision or interpretation, not replace the HKeL evidence path",
+      "completeness_rule": "Every item-specific reliance preserves the exact official decision or interpretation and its assigned legal fact",
+      "outage_consequence": "AFFECTED_WORK_BLOCKING_WHEN_REQUIRED"
+    }
+  ]
+}

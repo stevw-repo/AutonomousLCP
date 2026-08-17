@@ -1,0 +1,40 @@
+{
+  "fixture_id": "HKLEG-CURRENT-EVID-FIX-006",
+  "title": "Authentic languages identifying different versions quarantine",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:9c9074aa6036854964128e8be5988cafe5eeac1334205b66794a595bc90c8d4b",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "affected_object_ids": [
+      "SYN-HKLEG-OBJ-001"
+    ],
+    "current_law_coverage_depends": true,
+    "applicable_version_order": [
+      "SYN-V2"
+    ],
+    "candidate_bundles": [
+      {
+        "version": "SYN-V2",
+        "evidence_class": "VERIFIED",
+        "official_hkel": true,
+        "en_xml_present": true,
+        "zh_hant_xml_present": true,
+        "en_copy_present": true,
+        "zh_hant_copy_present": true,
+        "required_assets_complete": true,
+        "source_capture_complete": true,
+        "bilingual_version_match": false,
+        "xml_copy_content_match": true,
+        "structure_reconciled": true,
+        "identity_reconciled": true,
+        "evidence_label_present": true
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/current-evidence/HKLEG-CURRENT-EVID-FIX-006.json",
+    "fingerprint": "sha256:da8eb57c336e20d8c26181008eb295393f2e56e74a0f68c4ed414c6c3f7dc8a2"
+  }
+}

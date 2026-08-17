@@ -1,0 +1,20 @@
+{
+  "fixture_id": "HKLEG-CURRENT-DISP-FIX-002",
+  "title": "Validly made location not proved operative enters Waiting Room",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:c0f278128a3060fdf61b99254d7674c5269754292f877be8e1c172ab6f299f31",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.ordinary-update",
+    "location_id": "section-2",
+    "upstream_checkpoint": "PASS",
+    "status_coverage_complete": true,
+    "disposition_basis": "VALIDLY_MADE_NOT_PROVED_OPERATIVE"
+  },
+  "expected_artifact": {
+    "path": "expected/current-disposition/HKLEG-CURRENT-DISP-FIX-002.json",
+    "fingerprint": "sha256:efe159a80ab2bdbf6096c77befee3002f6069117b6ee840910c524c9fcb7bddf"
+  }
+}

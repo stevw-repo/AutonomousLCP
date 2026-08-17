@@ -19,9 +19,27 @@ from asklegal_evidence_vault import (
     VaultCollision,
     VaultName,
     content_logical_key,
+    s3_provider_version_id,
+    s3_version_reference,
 )
 
 RETENTION = RetentionProfile("source-evidence", "2030-01-01T00:00:00Z")
+
+
+def test_s3_provider_version_reference_is_canonical_reversible_and_distinct() -> None:
+    """Preserve an opaque provider version without confusing it with the local fake ID."""
+    provider = "3/L4kqtJlcpXroDTDmJ+rmspXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo"
+    reference = s3_version_reference(provider)
+    assert reference.startswith("s3v_")
+    assert "+" not in reference
+    assert "/" not in reference
+    assert "=" not in reference
+    assert s3_provider_version_id(reference) == provider
+
+    with pytest.raises(ValueError, match="not an S3 provider"):
+        s3_provider_version_id("v" + "0" * 64)
+    with pytest.raises(ValueError, match="outside the exact safe boundary"):
+        s3_version_reference("line\nbreak")
 
 
 def _vaults(tmp_path: Path) -> tuple[LocalImmutableVault, LocalImmutableVault]:

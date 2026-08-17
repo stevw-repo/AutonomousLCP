@@ -1,0 +1,33 @@
+{
+  "rule_id": "HKLEG-BASE-INV-001",
+  "version": "1.0.0",
+  "stage": "FIRST_BASELINE_INVENTORY_ACCOUNTING",
+  "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+  "applicable_scope_ids": [
+    "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "rsc_1cdf5a558e8286dadf84f819de1d48168d455cd457fcf30e",
+    "rsc_4708261daa351aa91a1511674b94bced0a9c2eaa817770ea"
+  ],
+  "branch_precedence": [
+    "OWNERSHIP_AMBIGUOUS",
+    "OBJECT_OR_RESOURCE_UNACCOUNTED",
+    "SCOPE_MISASSIGNED",
+    "ACCOUNTED"
+  ],
+  "result_dimensions": [
+    "processing_outcome",
+    "legal_disposition",
+    "coverage_effect",
+    "source_contract_review_required",
+    "reason_codes",
+    "rule_trace",
+    "record_output"
+  ],
+  "forbidden_shortcuts": [
+    "FILE_LOCATION_AS_LEGAL_NATURE",
+    "A_NUMBER_AS_LEGAL_NATURE",
+    "UNACCOUNTED_OBJECT_IGNORED",
+    "DUPLICATE_OWNERSHIP_COLLAPSED",
+    "PASS_AS_SEARCHABILITY"
+  ]
+}

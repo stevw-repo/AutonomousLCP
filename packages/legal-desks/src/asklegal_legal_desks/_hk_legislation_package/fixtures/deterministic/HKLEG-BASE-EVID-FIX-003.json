@@ -1,0 +1,50 @@
+{
+  "fixture_id": "HKLEG-BASE-EVID-FIX-003",
+  "title": "Traditional Chinese current XML is missing",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-EVID-001",
+  "input_fingerprint": "sha256:3209caada75c0349ebdb0c6a09482477240a54970e1915538769fb17995936be",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "legal_object_id": "SYN-HKLEG-OBJ-001",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "official_version_id": "SYN-HKLEG-VER-001",
+    "artifacts": [
+      {
+        "artifact_id": "SYN-HKLEG-EVID-EN-XML-003",
+        "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+        "representation": "CURRENT_XML",
+        "language": "en",
+        "version_id": "SYN-HKLEG-VER-001",
+        "copy_status": "NOT_APPLICABLE",
+        "content_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "reconciliation": "MATCH"
+      },
+      {
+        "artifact_id": "SYN-HKLEG-EVID-EN-COPY-003",
+        "source_id": "HK-LEG-HKEL-VERIFIED-COPIES",
+        "representation": "OFFICIAL_COPY",
+        "language": "en",
+        "version_id": "SYN-HKLEG-VER-001",
+        "copy_status": "VERIFIED",
+        "content_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "reconciliation": "MATCH"
+      },
+      {
+        "artifact_id": "SYN-HKLEG-EVID-ZH-COPY-003",
+        "source_id": "HK-LEG-HKEL-VERIFIED-COPIES",
+        "representation": "OFFICIAL_COPY",
+        "language": "zh-Hant",
+        "version_id": "SYN-HKLEG-VER-001",
+        "copy_status": "VERIFIED",
+        "content_fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+        "reconciliation": "MATCH"
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-evidence/HKLEG-BASE-EVID-FIX-003.json",
+    "fingerprint": "sha256:62ac275bace6312814d994fc4676c1ebbc570f02ab5bf32cdc02bff0bdc0d8e0"
+  }
+}

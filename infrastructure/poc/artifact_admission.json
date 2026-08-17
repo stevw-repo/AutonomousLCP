@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "status": "DESIGN_ONLY_DISABLED",
+  "required_evidence": [
+    "EXACT_DIGEST",
+    "LICENSE_POLICY",
+    "PROVENANCE",
+    "REPRODUCIBILITY",
+    "SBOM",
+    "UBUNTU_24_04_X86_64_PROOF",
+    "VULNERABILITY_POLICY"
+  ],
+  "authority": {
+    "image_build_authorized": false,
+    "registry_pull_authorized": false,
+    "registry_push_authorized": false,
+    "service_enablement_authorized": false
+  },
+  "artifacts": [
+    {
+      "artifact_id": "sql-server",
+      "kind": "UPSTREAM_CONTAINER",
+      "consumers": ["sql-server"],
+      "selection_state": "DIGEST_PINNED_REPROOF_REQUIRED",
+      "artifact_ref": "mcr.microsoft.com/mssql/server@sha256:fa0dcf206087759fe6dad4cc02bfa88d97439085e548fbca9039330519c0cf1d",
+      "admitted": false,
+      "credential_interface_gate": true
+    },
+    {
+      "artifact_id": "durable-task-scheduler-emulator",
+      "kind": "UPSTREAM_CONTAINER",
+      "consumers": ["dts-general", "dts-promotion"],
+      "selection_state": "DIGEST_PINNED_REPROOF_REQUIRED",
+      "artifact_ref": "mcr.microsoft.com/dts/dts-emulator@sha256:1b49dcf1581168f5c620a4f32083e1291a7dddfa60434acb3eacd8b23355936a",
+      "admitted": false,
+      "credential_interface_gate": false
+    },
+    {
+      "artifact_id": "versity-gateway",
+      "kind": "UPSTREAM_CONTAINER",
+      "consumers": ["vault-primary", "vault-recovery"],
+      "selection_state": "VERSION_AND_DIGEST_REQUIRED",
+      "artifact_ref": null,
+      "admitted": false,
+      "credential_interface_gate": true
+    },
+    {
+      "artifact_id": "control-plane",
+      "kind": "REPOSITORY_IMAGE",
+      "consumers": ["control-plane"],
+      "selection_state": "REPRODUCIBLE_BUILD_REQUIRED",
+      "artifact_ref": null,
+      "admitted": false,
+      "credential_interface_gate": false
+    },
+    {
+      "artifact_id": "review-api",
+      "kind": "REPOSITORY_IMAGE",
+      "consumers": ["review-api"],
+      "selection_state": "REPRODUCIBLE_BUILD_REQUIRED",
+      "artifact_ref": null,
+      "admitted": false,
+      "credential_interface_gate": false
+    },
+    {
+      "artifact_id": "acquisition-worker",
+      "kind": "REPOSITORY_IMAGE",
+      "consumers": ["acquisition-worker"],
+      "selection_state": "REPRODUCIBLE_BUILD_REQUIRED",
+      "artifact_ref": null,
+      "admitted": false,
+      "credential_interface_gate": false
+    },
+    {
+      "artifact_id": "legal-processing-worker",
+      "kind": "REPOSITORY_IMAGE",
+      "consumers": ["legal-processing-worker"],
+      "selection_state": "REPRODUCIBLE_BUILD_REQUIRED",
+      "artifact_ref": null,
+      "admitted": false,
+      "credential_interface_gate": false
+    },
+    {
+      "artifact_id": "promotion-worker",
+      "kind": "REPOSITORY_IMAGE",
+      "consumers": ["promotion-worker"],
+      "selection_state": "REPRODUCIBLE_BUILD_REQUIRED",
+      "artifact_ref": null,
+      "admitted": false,
+      "credential_interface_gate": false
+    },
+    {
+      "artifact_id": "otel-collector",
+      "kind": "UPSTREAM_CONTAINER",
+      "consumers": ["otel-collector"],
+      "selection_state": "PRODUCT_VERSION_AND_DIGEST_REQUIRED",
+      "artifact_ref": null,
+      "admitted": false,
+      "credential_interface_gate": false
+    },
+    {
+      "artifact_id": "prometheus",
+      "kind": "UPSTREAM_CONTAINER",
+      "consumers": ["prometheus"],
+      "selection_state": "PRODUCT_VERSION_AND_DIGEST_REQUIRED",
+      "artifact_ref": null,
+      "admitted": false,
+      "credential_interface_gate": false
+    },
+    {
+      "artifact_id": "grafana",
+      "kind": "UPSTREAM_CONTAINER",
+      "consumers": ["grafana"],
+      "selection_state": "PRODUCT_VERSION_AND_DIGEST_REQUIRED",
+      "artifact_ref": null,
+      "admitted": false,
+      "credential_interface_gate": false
+    },
+    {
+      "artifact_id": "egress-proxy",
+      "kind": "UPSTREAM_CONTAINER",
+      "consumers": ["egress-model", "egress-promotion", "egress-source"],
+      "selection_state": "PRODUCT_VERSION_AND_DIGEST_REQUIRED",
+      "artifact_ref": null,
+      "admitted": false,
+      "credential_interface_gate": false
+    }
+  ]
+}

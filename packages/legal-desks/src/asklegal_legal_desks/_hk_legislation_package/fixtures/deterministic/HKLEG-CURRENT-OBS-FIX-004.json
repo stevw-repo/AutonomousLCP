@@ -1,0 +1,31 @@
+{
+  "fixture_id": "HKLEG-CURRENT-OBS-FIX-004",
+  "title": "Stale release-blocking inventory creates a Coverage Gap",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:260e29081561b69a714f7cddd093ebb4c3abb5d928ae531f59820d93b1ca1915",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "due_observations": [
+      {
+        "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+        "dependency_scope": "RELEASE_BLOCKING",
+        "status": "STALE",
+        "fresh": false,
+        "changed": false,
+        "affected_object_ids": []
+      }
+    ],
+    "current_inventory_matches_predecessor": true,
+    "unmatched_gazette_event": false,
+    "editorial_or_spec_signal": false,
+    "urgent_signal_open": false,
+    "detected_work_key": null,
+    "open_work_keys": []
+  },
+  "expected_artifact": {
+    "path": "expected/current-observation/HKLEG-CURRENT-OBS-FIX-004.json",
+    "fingerprint": "sha256:3b9cbcac445d00b06ffe90f66acf0443de40581dd3ae1f2e0ce673a91bf91958"
+  }
+}

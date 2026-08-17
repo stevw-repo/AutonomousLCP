@@ -1,0 +1,34 @@
+{
+  "fixture_id": "HKLEG-CURRENT-EVENT-FIX-003",
+  "title": "Suspended reconstruction falls back to an assisted HKeL base",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:8372f32b8eae4c76edc6f4fefa29002782d1db7b1f8dd4974a4e574ecf7ddeac",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.ord-003",
+    "event_evidence_fingerprints": [
+      "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    ],
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "event_operative_at_cutoff": true,
+    "effective_date": "2026-08-03",
+    "affected_location_ids": [
+      "part-2"
+    ],
+    "affected_location_scope": "BOUNDED_PARENT",
+    "matching_current_consolidation_available": false,
+    "reconstruction_capability_state": "SUSPENDED",
+    "reconstruction_exact_eligibility_proved": true,
+    "valid_latest_hkel_base_available": true,
+    "base_evidence_class": "ASSISTED",
+    "base_version_date": "2026-07-03"
+  },
+  "expected_artifact": {
+    "path": "expected/current-event/HKLEG-CURRENT-EVENT-FIX-003.json",
+    "fingerprint": "sha256:3c1937982d33942e3d4117c7289a909149e4cf216c56c46e92bb214b2a587305"
+  }
+}

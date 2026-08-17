@@ -1,0 +1,34 @@
+{
+  "fixture_id": "HKLEG-BASE-ID-FIX-003",
+  "title": "Source or legacy identifier cannot become authoritative identity",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-ID-001",
+  "input_fingerprint": "sha256:c503cbec81bf12089c9142eb84392c1e28836c2edb0246726f2686aa5e624ea1",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "legal_object_id": "SYN-HKLEG-OBJ-001",
+    "legal_location_reference": "SYN-HKLEG-LOC-001",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "official_version_reference": "SYN-HKLEG-VER-001",
+    "predecessor_result": {
+      "rule_id": "HKLEG-BASE-LIMIT-001",
+      "processing_outcome": "PASS",
+      "historical_assertion_scope": "PRESENT_STATE_ONLY"
+    },
+    "authoritative_identity_basis": "SOURCE_OR_LEGACY_IDENTIFIER",
+    "identity_ambiguity": "CLEAR",
+    "similarity_match_claimed": false,
+    "proposed_relationship_codes": [],
+    "aliases": [
+      {
+        "alias_type": "HKEL_NUMBER",
+        "value": "SYN-CAP-001"
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-identity/HKLEG-BASE-ID-FIX-003.json",
+    "fingerprint": "sha256:d9229e377ad90c3c42d19686fd9c39dd2af33da542c661b9df3deab6c51b9541"
+  }
+}

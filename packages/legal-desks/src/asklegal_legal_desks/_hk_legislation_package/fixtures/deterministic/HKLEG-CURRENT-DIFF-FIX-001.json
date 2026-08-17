@@ -1,0 +1,27 @@
+{
+  "fixture_id": "HKLEG-CURRENT-DIFF-FIX-001",
+  "title": "Exact accepted bundle is reuse eligible only with continuing support",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:a821c51f428dee78d9ecf3d774b836fc1454dfafe98c7db6e71b7c1723a53515",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "SYN-HKLEG-OBJ-001",
+    "predecessor_release_present": true,
+    "predecessor_object_present": true,
+    "current_bundle_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "predecessor_bundle_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "current_payload_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "predecessor_payload_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "current_structure_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "predecessor_structure_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "current_location_id": "SYN-LOC-001",
+    "predecessor_location_id": "SYN-LOC-001",
+    "continuing_support_proved": true
+  },
+  "expected_artifact": {
+    "path": "expected/current-difference/HKLEG-CURRENT-DIFF-FIX-001.json",
+    "fingerprint": "sha256:16a474c85bb4f5d8bacb753d0f4fe98bdd89f2df870bc75385b7095420483279"
+  }
+}

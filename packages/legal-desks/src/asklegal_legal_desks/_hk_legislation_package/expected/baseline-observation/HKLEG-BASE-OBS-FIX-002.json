@@ -1,0 +1,20 @@
+{
+  "fixture_id": "HKLEG-BASE-OBS-FIX-002",
+  "rule_id": "HKLEG-BASE-OBS-001",
+  "processing_outcome": "BLOCK",
+  "legal_disposition": "NOT_APPLICABLE",
+  "coverage_effect": "COVERAGE_GAP",
+  "source_contract_review_required": false,
+  "reason_codes": ["HKLEG_BASE_OBSERVATION_REQUIRED_SOURCE_UNAVAILABLE"],
+  "rule_trace": ["HKLEG-BASE-OBS-001"],
+  "frozen_cutoff": null,
+  "frozen_source_observation_ids": [],
+  "unresolved_source_ids": ["HK-LEG-GLD-EGAZETTE"],
+  "affected_scope_ids": [
+    "rsc_1cdf5a558e8286dadf84f819de1d48168d455cd457fcf30e",
+    "rsc_4708261daa351aa91a1511674b94bced0a9c2eaa817770ea",
+    "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95"
+  ],
+  "record_output": "NONE",
+  "next_action": "COMPLETE_REQUIRED_OBSERVATIONS"
+}

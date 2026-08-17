@@ -1,0 +1,22 @@
+{
+  "fixture_id": "HKLEG-CURRENT-REC-FIX-004",
+  "title": "Non-searchable disposition emits no serving record",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:eecd87df1999778e084a37cc36f0332698de5b2bf16623cff6fc2ddd0d22ca99",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.record",
+    "location_id": "section-2",
+    "legal_disposition": "WAITING_ROOM",
+    "continuing_legal_support": false,
+    "new_identity_register_allocated": false,
+    "predecessor_record": null,
+    "candidate_record": null
+  },
+  "expected_artifact": {
+    "path": "expected/current-record/HKLEG-CURRENT-REC-FIX-004.json",
+    "fingerprint": "sha256:90b701abb51c2e403675c8a5af5b995b7cef96db48ab18d30d96ef922db678a3"
+  }
+}

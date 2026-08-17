@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import base64
 import re
 from dataclasses import dataclass
 from enum import StrEnum
@@ -13,8 +14,11 @@ if TYPE_CHECKING:
 
 _FINGERPRINT = re.compile(r"^sha256:[0-9a-f]{64}$")
 _IDENTIFIER = re.compile(r"^[a-z][a-z0-9]{2}_[0-9a-f]{48}$")
-_VERSION = re.compile(r"^v[0-9a-f]{64}$")
+_LOCAL_VERSION = re.compile(r"^v[0-9a-f]{64}$")
+_S3_VERSION = re.compile(r"^s3v_([A-Za-z0-9_-]{1,684})$")
 _SAFE_SEGMENT = re.compile(r"^[a-z0-9][a-z0-9._-]{0,127}$")
+_MAX_PROVIDER_VERSION_BYTES = 512
+_FIRST_CONTROL_CODEPOINT = 0x20
 
 
 class EvidenceError(RuntimeError):
@@ -65,6 +69,53 @@ def _identifier(value: object, field: str) -> str:
     if _IDENTIFIER.fullmatch(text) is None:
         _fail(f"{field} must be a register-issued opaque identifier")
     return text
+
+
+def _version(value: object) -> str:
+    text = _text(value, "version_id")
+    if _LOCAL_VERSION.fullmatch(text) is not None:
+        return text
+    match = _S3_VERSION.fullmatch(text)
+    if match is None:
+        _fail("version_id must be one exact adapter-owned immutable version")
+    payload = match.group(1)
+    try:
+        decoded = base64.urlsafe_b64decode(payload + ("=" * (-len(payload) % 4)))
+        provider_version = decoded.decode("utf-8", errors="strict")
+    except UnicodeDecodeError, ValueError:
+        _fail("version_id must contain one canonical UTF-8 S3 version")
+    if (
+        not provider_version
+        or len(decoded) > _MAX_PROVIDER_VERSION_BYTES
+        or any(ord(character) < _FIRST_CONTROL_CODEPOINT for character in provider_version)
+        or base64.urlsafe_b64encode(decoded).rstrip(b"=").decode("ascii") != payload
+    ):
+        _fail("version_id must contain one canonical UTF-8 S3 version")
+    return text
+
+
+def s3_version_reference(provider_version_id: str) -> str:
+    """Encode one provider-issued S3 version ID as a canonical safe reference."""
+    provider = _text(provider_version_id, "provider_version_id")
+    raw = provider.encode("utf-8")
+    if len(raw) > _MAX_PROVIDER_VERSION_BYTES or any(
+        ord(character) < _FIRST_CONTROL_CODEPOINT for character in provider
+    ):
+        _fail("provider_version_id is outside the exact safe boundary")
+    encoded = base64.urlsafe_b64encode(raw).rstrip(b"=").decode("ascii")
+    reference = f"s3v_{encoded}"
+    _version(reference)
+    return reference
+
+
+def s3_provider_version_id(version_reference: str) -> str:
+    """Decode only one canonical S3 version reference for an exact provider read."""
+    reference = _version(version_reference)
+    match = _S3_VERSION.fullmatch(reference)
+    if match is None:
+        _fail("version_id is not an S3 provider version reference")
+    payload = match.group(1)
+    return base64.urlsafe_b64decode(payload + ("=" * (-len(payload) % 4))).decode("utf-8")
 
 
 class VaultName(StrEnum):
@@ -203,8 +254,7 @@ class ExactObjectReference:
         if type(self.vault) is not VaultName:
             raise TypeError("vault must be an exact VaultName")
         _logical_key(self.logical_key)
-        if _VERSION.fullmatch(_text(self.version_id, "version_id")) is None:
-            _fail("version_id must be an exact content-bound local version")
+        _version(self.version_id)
         _fingerprint(self.fingerprint, "fingerprint")
         if type(self.byte_length) is not int:
             raise TypeError("byte_length must be an exact integer")
@@ -389,6 +439,11 @@ def _logical_key(value: object) -> str:
     if any(_SAFE_SEGMENT.fullmatch(part) is None for part in text.split("/")):
         _fail("logical_key contains an unsafe segment")
     return text
+
+
+def validate_logical_key(value: object) -> str:
+    """Return one normalized contained logical object key."""
+    return _logical_key(value)
 
 
 def bytes_fingerprint(content: bytes) -> str:

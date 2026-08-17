@@ -1,0 +1,26 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-inventory.source-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "source_codes": [
+    {
+      "code": "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "fact_authority": "CURRENT_HKEL_INVENTORY_METADATA_ONLY",
+      "allowed_rule_ids": ["HKLEG-BASE-INV-001"]
+    }
+  ],
+  "legal_nature_scope_bindings": [
+    {
+      "legal_nature": "ORDINANCE",
+      "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95"
+    },
+    {
+      "legal_nature": "SUBSIDIARY_LEGISLATION",
+      "scope_id": "rsc_1cdf5a558e8286dadf84f819de1d48168d455cd457fcf30e"
+    },
+    {
+      "legal_nature": "CONSTITUTIONAL_OR_OTHER_INSTRUMENT",
+      "scope_id": "rsc_4708261daa351aa91a1511674b94bced0a9c2eaa817770ea"
+    }
+  ]
+}

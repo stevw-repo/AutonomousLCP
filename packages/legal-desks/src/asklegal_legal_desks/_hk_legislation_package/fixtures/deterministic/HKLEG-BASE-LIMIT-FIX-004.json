@@ -1,0 +1,28 @@
+{
+  "fixture_id": "HKLEG-BASE-LIMIT-FIX-004",
+  "title": "An unproved identity or continuity relationship is proposed",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-LIMIT-001",
+  "input_fingerprint": "sha256:4c462b98e1af3ccf95caeabde3c623f4d3f13de44570cf3aab9680878da12215",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "legal_object_id": "SYN-HKLEG-OBJ-001",
+    "legal_location_id": "SYN-HKLEG-LOC-001",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "official_version_id": "SYN-HKLEG-VER-001",
+    "predecessor_result": {
+      "rule_id": "HKLEG-BASE-STATE-001",
+      "processing_outcome": "PASS",
+      "present_state": "OPERATIVE_CURRENT",
+      "historical_assertion_scope": "PENDING_LIMIT_RULE"
+    },
+    "proposed_historical_assertion_codes": [
+      "IDENTITY_OR_CONTINUITY_RELATIONSHIP"
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-limit/HKLEG-BASE-LIMIT-FIX-004.json",
+    "fingerprint": "sha256:16d1ec905b48a70076ee7af568a0ceee5b19ce4510d587d03641521024c90bab"
+  }
+}

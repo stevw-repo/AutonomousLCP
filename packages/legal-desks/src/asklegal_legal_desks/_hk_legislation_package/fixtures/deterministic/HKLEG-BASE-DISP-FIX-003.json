@@ -1,0 +1,20 @@
+{
+  "fixture_id": "HKLEG-BASE-DISP-FIX-003",
+  "title": "Effect represented by another authority is evidence only",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-DISP-001",
+  "input_fingerprint": "sha256:5f596a75569b2923a036cda23b775ee263f4e53f8762706860dac0048491f2af",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "legal_object_id": "SYN-HKLEG-OBJ-001",
+    "legal_location_reference": "SYN-HKLEG-LOC-001",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "disposition_basis": "PRESENT_EFFECT_REPRESENTED_ELSEWHERE",
+    "identity_checkpoint": "GREENFIELD_ALLOCATION_REQUESTED"
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-disposition/HKLEG-BASE-DISP-FIX-003.json",
+    "fingerprint": "sha256:a042a2e8c0a92fc2085117182f30833aaf93768fc12ff96397856b0c67a3c2e4"
+  }
+}

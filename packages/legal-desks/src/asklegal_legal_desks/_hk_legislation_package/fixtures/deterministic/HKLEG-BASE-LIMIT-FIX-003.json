@@ -1,0 +1,28 @@
+{
+  "fixture_id": "HKLEG-BASE-LIMIT-FIX-003",
+  "title": "An unproved historical effective date is proposed",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-LIMIT-001",
+  "input_fingerprint": "sha256:57ee1217bf7c41b42cde8a23551a447529193a7d696a5b50a231a39027e6304e",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "legal_object_id": "SYN-HKLEG-OBJ-001",
+    "legal_location_id": "SYN-HKLEG-LOC-001",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "official_version_id": "SYN-HKLEG-VER-001",
+    "predecessor_result": {
+      "rule_id": "HKLEG-BASE-STATE-001",
+      "processing_outcome": "PASS",
+      "present_state": "OPERATIVE_CURRENT",
+      "historical_assertion_scope": "PENDING_LIMIT_RULE"
+    },
+    "proposed_historical_assertion_codes": [
+      "HISTORICAL_EFFECTIVE_DATE"
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-limit/HKLEG-BASE-LIMIT-FIX-003.json",
+    "fingerprint": "sha256:a82ae22821cd6ee8a54449ce182c6341b36b0b68d3fc3d9b2accb28ebfd0bf90"
+  }
+}

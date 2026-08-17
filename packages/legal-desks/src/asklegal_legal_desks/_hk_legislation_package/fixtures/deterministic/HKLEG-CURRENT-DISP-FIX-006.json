@@ -1,0 +1,20 @@
+{
+  "fixture_id": "HKLEG-CURRENT-DISP-FIX-006",
+  "title": "Blocked upstream checkpoint assigns no disposition",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:df2f6a20220b0671a7a9e230adb7db1ca065d4c5489d30050afa09373b3706e1",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.ordinary-update",
+    "location_id": "section-6",
+    "upstream_checkpoint": "BLOCK",
+    "status_coverage_complete": false,
+    "disposition_basis": "UNSUPPORTED_SIGNAL_ONLY"
+  },
+  "expected_artifact": {
+    "path": "expected/current-disposition/HKLEG-CURRENT-DISP-FIX-006.json",
+    "fingerprint": "sha256:213b05540d9104ec43a9857869ff84c6e9821a214d52c716e178f5e953ca9a60"
+  }
+}

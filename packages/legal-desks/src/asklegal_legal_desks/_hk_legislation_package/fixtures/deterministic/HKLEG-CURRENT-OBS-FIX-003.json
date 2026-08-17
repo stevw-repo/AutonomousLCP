@@ -1,0 +1,35 @@
+{
+  "fixture_id": "HKLEG-CURRENT-OBS-FIX-003",
+  "title": "Repeated affected signal deduplicates against open work",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:adc94de807cb091d225e40c8b10e08be11f941be82a3193a7959d7609ed124f5",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "due_observations": [
+      {
+        "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+        "dependency_scope": "RELEASE_BLOCKING",
+        "status": "COMPLETE",
+        "fresh": true,
+        "changed": true,
+        "affected_object_ids": [
+          "SYN-HKLEG-OBJ-001"
+        ]
+      }
+    ],
+    "current_inventory_matches_predecessor": false,
+    "unmatched_gazette_event": false,
+    "editorial_or_spec_signal": false,
+    "urgent_signal_open": false,
+    "detected_work_key": "SYN-WORK-OBJ-001",
+    "open_work_keys": [
+      "SYN-WORK-OBJ-001"
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/current-observation/HKLEG-CURRENT-OBS-FIX-003.json",
+    "fingerprint": "sha256:7a47a635643f214b064d46b09d9ee101faf539a1d2aa02918b6ebeb2185b333d"
+  }
+}

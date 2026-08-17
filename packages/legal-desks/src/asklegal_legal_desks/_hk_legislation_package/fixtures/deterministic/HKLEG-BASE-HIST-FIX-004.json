@@ -1,0 +1,36 @@
+{
+  "fixture_id": "HKLEG-BASE-HIST-FIX-004",
+  "title": "Unavailable requested history blocks affected scope completeness",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-HIST-001",
+  "input_fingerprint": "sha256:be8d20652961ecbd496761a6ed438baad641dbc4fb093d984f77a47056630f54",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "affected_object_ids": [
+      "SYN-HKLEG-OBJ-001"
+    ],
+    "review_task": {
+      "review_task_id": "SYN-HKLEG-REVIEW-HIST-004",
+      "requested_source_ids": [
+        "HK-LEG-OFFICIAL-GAZETTE-ARCHIVE"
+      ],
+      "permitted_fact_code": "PRESENT_OPERATIVE_STATUS"
+    },
+    "historical_evidence": {
+      "source_id": "HK-LEG-OFFICIAL-GAZETTE-ARCHIVE",
+      "availability": "UNAVAILABLE",
+      "evidence_result": "INSUFFICIENT",
+      "proof_basis": "NONE"
+    },
+    "proposed_fact_code": "PRESENT_OPERATIVE_STATUS",
+    "attempted_current_evidence_substitution": false,
+    "attempted_reconstruction": false,
+    "scope_completeness_impossible": true
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-history/HKLEG-BASE-HIST-FIX-004.json",
+    "fingerprint": "sha256:125dafd050f1232024cd0abf45d32907efa3cb2606c02c03dbf0d2933e5b47de"
+  }
+}

@@ -7,6 +7,15 @@ import sys
 from pathlib import Path
 
 from tools.package_spike import load_manifest
+from tools.v1_poc_admission import check_v1_admission
+from tools.v1_poc_application_images import check_application_image_policy
+from tools.v1_poc_application_runtime import check_runtime_input_policy
+from tools.v1_poc_artifacts import check_artifact_policy
+from tools.v1_poc_credential_interface import check_credential_interface_policy
+from tools.v1_poc_host_admission import check_policy
+from tools.v1_poc_host_identities import check_host_identity_policy
+from tools.v1_poc_systemd_units import check_systemd_input_policy
+from tools.v1_poc_topology import check_topology
 
 _EXPECTED_UV_VERSION = "0.12.5"
 _EXPECTED_NODE_VERSION = "v24.19.0"
@@ -49,6 +58,18 @@ def _workspace_source_path(root: Path) -> str:
 def run(uv_path: Path, node_path: Path, pytest_arguments: list[str]) -> None:
     """Validate the toolchain, sync the lock, and run ordinary local tests."""
     root = Path(__file__).resolve().parents[1]
+    try:
+        check_topology(root)
+        check_policy(root)
+        check_artifact_policy(root)
+        check_credential_interface_policy(root)
+        check_application_image_policy(root)
+        check_runtime_input_policy(root)
+        check_systemd_input_policy(root)
+        check_host_identity_policy(root)
+        check_v1_admission(root)
+    except (OSError, TypeError, ValueError) as error:
+        raise DeveloperTestFailure("V1_POC_STATIC_ADMISSION_FAILED") from error
     exact_uv = uv_path.expanduser().resolve()
     if not exact_uv.is_file() or not os.access(exact_uv, os.X_OK):
         raise DeveloperTestFailure("UV_EXECUTABLE_MISSING_OR_NOT_EXECUTABLE")
@@ -66,10 +87,7 @@ def run(uv_path: Path, node_path: Path, pytest_arguments: list[str]) -> None:
     if not exact_node.is_file() or not os.access(exact_node, os.X_OK):
         raise DeveloperTestFailure("NODE_EXECUTABLE_MISSING_OR_NOT_EXECUTABLE")
     node_version = _run([str(exact_node), "--version"], root=root, capture_output=True)
-    if (
-        node_version.returncode != 0
-        or node_version.stdout.strip() != _EXPECTED_NODE_VERSION
-    ):
+    if node_version.returncode != 0 or node_version.stdout.strip() != _EXPECTED_NODE_VERSION:
         raise DeveloperTestFailure("NODE_VERSION_MISMATCH")
 
     sync = _run(
@@ -85,10 +103,7 @@ def run(uv_path: Path, node_path: Path, pytest_arguments: list[str]) -> None:
         root=root,
         capture_output=True,
     )
-    if (
-        python_version.returncode != 0
-        or python_version.stdout.strip() != _EXPECTED_PYTHON_VERSION
-    ):
+    if python_version.returncode != 0 or python_version.stdout.strip() != _EXPECTED_PYTHON_VERSION:
         raise DeveloperTestFailure("PYTHON_VERSION_MISMATCH")
 
     test_environment = os.environ.copy()

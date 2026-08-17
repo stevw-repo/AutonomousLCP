@@ -1,0 +1,54 @@
+{
+  "fixture_id": "HKLEG-BASE-INV-FIX-001",
+  "title": "Complete Ordinance inventory accounting",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-INV-001",
+  "input_fingerprint": "sha256:0993c527637b50e144accf3c04b874b545a41897202c6a7d3453a18ea4d704ec",
+  "input": {
+    "source_observation": {
+      "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "cutoff": "2026-08-17T00:00:00Z",
+      "complete": true
+    },
+    "observed_legal_objects": [
+      {
+        "inventory_item_id": "SYN-HKLEG-ITEM-001",
+        "legal_object_id": "SYN-HKLEG-OBJ-001",
+        "legal_nature": "ORDINANCE",
+        "resources": [
+          {
+            "resource_id": "SYN-HKLEG-RES-001-EN",
+            "language": "en",
+            "version_signal": "SYN_VERSION_2026_08_17",
+            "status_signal": "SYN_CURRENT",
+            "locator": "SYNTHETIC_LOCATOR_ORD_001_EN",
+            "declared_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          {
+            "resource_id": "SYN-HKLEG-RES-001-ZH",
+            "language": "zh-Hant",
+            "version_signal": "SYN_VERSION_2026_08_17",
+            "status_signal": "SYN_CURRENT",
+            "locator": "SYNTHETIC_LOCATOR_ORD_001_ZH",
+            "declared_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+          }
+        ]
+      }
+    ],
+    "accounting_claims": [
+      {
+        "legal_object_id": "SYN-HKLEG-OBJ-001",
+        "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+        "resource_ids": [
+          "SYN-HKLEG-RES-001-EN",
+          "SYN-HKLEG-RES-001-ZH"
+        ]
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-inventory/HKLEG-BASE-INV-FIX-001.json",
+    "fingerprint": "sha256:a953d1978a68810ee933a82c4997dd31e7c789958e03126bc319e17755316e7c"
+  }
+}

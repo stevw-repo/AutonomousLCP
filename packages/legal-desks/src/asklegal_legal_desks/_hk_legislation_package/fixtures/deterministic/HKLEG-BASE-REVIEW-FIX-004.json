@@ -1,0 +1,32 @@
+{
+  "fixture_id": "HKLEG-BASE-REVIEW-FIX-004",
+  "title": "Unregistered historical source request is blocked",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-REVIEW-001",
+  "input_fingerprint": "sha256:7ca0e3624d9dfccd651ceba8a4831f92be1dcf1b388a2ec49be7e417f2196e66",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "review_task_id": "SYN-HKLEG-REVIEW-004",
+    "trigger": "POSSIBLE_DUPLICATE_OR_CONTINUITY",
+    "question": "Can an unregistered source resolve the named relationship?",
+    "affected_object_ids": [
+      "SYN-HKLEG-OBJ-001",
+      "SYN-HKLEG-OBJ-002"
+    ],
+    "investigation_scope": "TARGETED",
+    "requested_source_ids": [
+      "HK-LEG-UNREGISTERED-HISTORY"
+    ],
+    "permitted_fact_codes": [
+      "IDENTITY_OR_CONTINUITY"
+    ],
+    "stopping_condition": "Stop after the named relationship is resolved.",
+    "responsible_legal_desk": "HONG_KONG_LEGISLATION_LEGAL_DESK"
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-review/HKLEG-BASE-REVIEW-FIX-004.json",
+    "fingerprint": "sha256:5f29be295b8483f9981718898be770faca0ba62cdbdfe9f7744619a96192d56f"
+  }
+}

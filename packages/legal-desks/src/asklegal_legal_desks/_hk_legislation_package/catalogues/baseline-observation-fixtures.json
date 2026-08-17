@@ -1,0 +1,43 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-observation.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-BASE-OBS-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-BASE-OBS-FIX-001.json",
+      "fixture_fingerprint": "sha256:7e2c8b73736ddd88e1e38bab60fef6dd0e3bf898cc5a850c4f93f80badb05925",
+      "expected_path": "expected/baseline-observation/HKLEG-BASE-OBS-FIX-001.json",
+      "expected_fingerprint": "sha256:637eaf1892c66a11895941d58c06f401ac4172806b4995fb4926d908666550f3"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-OBS-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-BASE-OBS-FIX-002.json",
+      "fixture_fingerprint": "sha256:eb6b051a0f468f6d964a9966a3eb304947b2ab310e7f292340bb45b650c1845f",
+      "expected_path": "expected/baseline-observation/HKLEG-BASE-OBS-FIX-002.json",
+      "expected_fingerprint": "sha256:da2c704d669f062f5c72d4c83583a6d159454ec33dd1bbb1c9b722d4b5affac8"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-OBS-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-BASE-OBS-FIX-003.json",
+      "fixture_fingerprint": "sha256:5c16dcd0c5ab91bf6d2d47c7e27af4804654cee01e7813f8107b5634ea83c67c",
+      "expected_path": "expected/baseline-observation/HKLEG-BASE-OBS-FIX-003.json",
+      "expected_fingerprint": "sha256:5619efa42327cc1ee60577582fcab07082e0ffb5f01e8f67d847553d610251a1"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-OBS-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-BASE-OBS-FIX-004.json",
+      "fixture_fingerprint": "sha256:1eccabda07e9658c36ba166c457369e72980597011652d24cdb893796e428ac9",
+      "expected_path": "expected/baseline-observation/HKLEG-BASE-OBS-FIX-004.json",
+      "expected_fingerprint": "sha256:7eebbdf9b580b0fef64c1ea54198a2afbb00dcadd3b9fd4096487db64e7091d2"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-OBS-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-BASE-OBS-FIX-005.json",
+      "fixture_fingerprint": "sha256:222cd4f06490c1c2df60fc07732092aed69c57765e498c33353e52714aa6592a",
+      "expected_path": "expected/baseline-observation/HKLEG-BASE-OBS-FIX-005.json",
+      "expected_fingerprint": "sha256:d90158e9c403ff62f8d95245d82e4dba212f20d0cc527d4bac6bcc751da157fc"
+    }
+  ]
+}

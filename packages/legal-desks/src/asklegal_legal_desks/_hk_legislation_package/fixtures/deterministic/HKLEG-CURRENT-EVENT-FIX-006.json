@@ -1,0 +1,32 @@
+{
+  "fixture_id": "HKLEG-CURRENT-EVENT-FIX-006",
+  "title": "Incomplete event evidence blocks selection",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:773ad39e1adb1f999c1b758f7f0df077f3ed939624b7cc50c05e2b837d6ef28c",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.ord-006",
+    "event_evidence_fingerprints": [],
+    "event_evidence_complete": false,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "event_operative_at_cutoff": true,
+    "effective_date": null,
+    "affected_location_ids": [
+      "section-6"
+    ],
+    "affected_location_scope": "EXACT",
+    "matching_current_consolidation_available": false,
+    "reconstruction_capability_state": "ACTIVE_FOR_CANDIDATE_PROCESSING",
+    "reconstruction_exact_eligibility_proved": true,
+    "valid_latest_hkel_base_available": true,
+    "base_evidence_class": "VERIFIED",
+    "base_version_date": "2026-07-06"
+  },
+  "expected_artifact": {
+    "path": "expected/current-event/HKLEG-CURRENT-EVENT-FIX-006.json",
+    "fingerprint": "sha256:efab76206ef12f675f8f37d5ddd849604c8025b468eecbd36474048702818d04"
+  }
+}

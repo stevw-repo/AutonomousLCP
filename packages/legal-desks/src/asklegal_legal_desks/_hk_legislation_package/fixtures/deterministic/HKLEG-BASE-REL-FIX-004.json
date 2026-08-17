@@ -1,0 +1,41 @@
+{
+  "fixture_id": "HKLEG-BASE-REL-FIX-004",
+  "title": "Non-searchable disposition with a candidate record is inconsistent",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-REL-001",
+  "input_fingerprint": "sha256:e2f6c4d71a723f0ef533f13d40ed139d50c5098257c17646866a78fbb5dfd223",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "predecessor_release_id": null,
+    "expected_accounting": {
+      "object_ids": [
+        "SYN-HKLEG-OBJ-001"
+      ],
+      "location_ids": [
+        "SYN-HKLEG-LOC-001"
+      ],
+      "coverage_gap_ids": [],
+      "quarantine_ids": [],
+      "investigation_ids": []
+    },
+    "accounting_entries": [
+      {
+        "object_id": "SYN-HKLEG-OBJ-001",
+        "location_id": "SYN-HKLEG-LOC-001",
+        "legal_disposition": "WAITING_ROOM",
+        "identity_decision_id": "SYN-HKLEG-ID-DEC-001",
+        "record_id": "rec_111111111111111111111111111111111111111111111111",
+        "coverage_gap_ids": [],
+        "quarantine_ids": [],
+        "investigation_ids": []
+      }
+    ],
+    "unresolved_completeness_gap_ids": []
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-release-accounting/HKLEG-BASE-REL-FIX-004.json",
+    "fingerprint": "sha256:8fec3d0dcc49dc10ed97bda83a7cad94f2c7accaa28d2b233994b6a064126070"
+  }
+}

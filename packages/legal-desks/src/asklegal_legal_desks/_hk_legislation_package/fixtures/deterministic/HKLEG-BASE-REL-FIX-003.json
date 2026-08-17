@@ -1,0 +1,51 @@
+{
+  "fixture_id": "HKLEG-BASE-REL-FIX-003",
+  "title": "Duplicate location accounting blocks the release",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-REL-001",
+  "input_fingerprint": "sha256:d2f35e86b9d3143d8241a21f48b101c8d26a0a560890c29993f49225a20109b5",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "predecessor_release_id": null,
+    "expected_accounting": {
+      "object_ids": [
+        "SYN-HKLEG-OBJ-001"
+      ],
+      "location_ids": [
+        "SYN-HKLEG-LOC-001"
+      ],
+      "coverage_gap_ids": [],
+      "quarantine_ids": [],
+      "investigation_ids": []
+    },
+    "accounting_entries": [
+      {
+        "object_id": "SYN-HKLEG-OBJ-001",
+        "location_id": "SYN-HKLEG-LOC-001",
+        "legal_disposition": "SEARCHABLE_CURRENT",
+        "identity_decision_id": "SYN-HKLEG-ID-DEC-001",
+        "record_id": "rec_111111111111111111111111111111111111111111111111",
+        "coverage_gap_ids": [],
+        "quarantine_ids": [],
+        "investigation_ids": []
+      },
+      {
+        "object_id": "SYN-HKLEG-OBJ-001",
+        "location_id": "SYN-HKLEG-LOC-001",
+        "legal_disposition": "SEARCHABLE_CURRENT",
+        "identity_decision_id": "SYN-HKLEG-ID-DEC-002",
+        "record_id": "rec_222222222222222222222222222222222222222222222222",
+        "coverage_gap_ids": [],
+        "quarantine_ids": [],
+        "investigation_ids": []
+      }
+    ],
+    "unresolved_completeness_gap_ids": []
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-release-accounting/HKLEG-BASE-REL-FIX-003.json",
+    "fingerprint": "sha256:af0a58213d6ea3d466391d5b8fdecf644b0f53c6a2cf81d3d8695896927b7dad"
+  }
+}

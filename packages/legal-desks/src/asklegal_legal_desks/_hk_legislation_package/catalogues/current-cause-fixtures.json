@@ -1,0 +1,50 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.current-cause.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-CURRENT-CAUSE-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CAUSE-FIX-001.json",
+      "fixture_fingerprint": "sha256:d1d900c1105bb3c224788f00ed04e6059a6b37f1d4a1330bf27a0a2ab17e2c9d",
+      "expected_path": "expected/current-cause/HKLEG-CURRENT-CAUSE-FIX-001.json",
+      "expected_fingerprint": "sha256:059f951371ca1d96c51369a6f7ee1fe068de8853b42f6b1faec73ceb98f3c802"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CAUSE-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CAUSE-FIX-002.json",
+      "fixture_fingerprint": "sha256:5a15be7e4a003d216a8e73b713226f53e7536c311bb268292f26b9fa730127c5",
+      "expected_path": "expected/current-cause/HKLEG-CURRENT-CAUSE-FIX-002.json",
+      "expected_fingerprint": "sha256:ef17dcc0b48a6500c1cc61c446d5f6b7bd6f3bfa4100b715c3ff182682627a05"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CAUSE-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CAUSE-FIX-003.json",
+      "fixture_fingerprint": "sha256:8d0a98684cfb6b8c4f6fa201009a0d6299d877209571ce174f7da72e9efff99a",
+      "expected_path": "expected/current-cause/HKLEG-CURRENT-CAUSE-FIX-003.json",
+      "expected_fingerprint": "sha256:927842876e85dfbc0364483240e354830c9e391c6f29af7e7ab65dfe65638199"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CAUSE-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CAUSE-FIX-004.json",
+      "fixture_fingerprint": "sha256:0be4c1c05f5c6e74efcf747eb36b6972ae2cdac5fbcc9c25d09bc662328cfc7c",
+      "expected_path": "expected/current-cause/HKLEG-CURRENT-CAUSE-FIX-004.json",
+      "expected_fingerprint": "sha256:a6da7b51b22bdfa64bc95ef354bc3334861821ccf1437815491b63714adf604c"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CAUSE-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CAUSE-FIX-005.json",
+      "fixture_fingerprint": "sha256:0a042fac51b292264cc291f3036c521c28a4859c0b1a61c93ff72ab47ee9dce7",
+      "expected_path": "expected/current-cause/HKLEG-CURRENT-CAUSE-FIX-005.json",
+      "expected_fingerprint": "sha256:b0e8b1b89a8b69aae95c76fed604cd57902a28be9fc022b1de3c3b7fa6b55315"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CAUSE-FIX-006",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CAUSE-FIX-006.json",
+      "fixture_fingerprint": "sha256:d1fc81b4ad90694a4345840ac23e3f666e0f9c03d88d0c6f11e55582e7709646",
+      "expected_path": "expected/current-cause/HKLEG-CURRENT-CAUSE-FIX-006.json",
+      "expected_fingerprint": "sha256:4c26406475f3bbc4c1369a8fa16a1e8dc32ddbfe4adc076133ef1265950badbf"
+    }
+  ]
+}

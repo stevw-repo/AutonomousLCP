@@ -1,0 +1,20 @@
+{
+  "fixture_id": "HKLEG-BASE-DISP-FIX-004",
+  "title": "Proved ceased or superseded material is historical",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-DISP-001",
+  "input_fingerprint": "sha256:fe92a4823f06586503d32d83c9eb18e6ad9e718386fe71c2521e55b71f2c100e",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "legal_object_id": "SYN-HKLEG-OBJ-001",
+    "legal_location_reference": "SYN-HKLEG-LOC-001",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "disposition_basis": "CEASED_OR_SUPERSEDED_PROVED",
+    "identity_checkpoint": "GREENFIELD_ALLOCATION_REQUESTED"
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-disposition/HKLEG-BASE-DISP-FIX-004.json",
+    "fingerprint": "sha256:fe3d6a50b473e3373af63b5f53ca63d14ec6aca1905dfb40f0711e4192eac573"
+  }
+}

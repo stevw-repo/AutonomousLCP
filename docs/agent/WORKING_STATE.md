@@ -1,23 +1,220 @@
 # AskLegal Legal Database Pipeline — Working State
 
-Updated: 2026-08-16
+Updated: 2026-08-17
 
 ## Current outcome
+
+The user has instructed the agent to continue working toward the accepted
+local V1 and stop only when a material user decision or new permission is
+required. Safe repository-only implementation and validation should therefore
+continue in dependency order without routine confirmation. Infrastructure
+products are now selected, but exact external admission, credentials, messages,
+commit/push, deployment, destructive work, and production effects remain
+explicit stop gates.
 
 The user authorized M7 with the instruction "M7." The complete offline local-
 synthetic milestone is **COMPLETE** against
 `docs/design/M7_END_TO_END_CONFORMANCE_PLAN.md`.
 
 M1 through M7 now pass locally. The user subsequently authorized committing
-and pushing the complete accumulated M2–M7 implementation to `main`. The
-commit scope is the full project change set above pushed commit `88f8e92`;
-ignored local runtime evidence under `var/` is excluded.
+and pushing the complete accumulated M2–M7 implementation to `main`. Git state
+was re-verified on 2026-08-17: the M2–M7 implementation is commit `297afda`,
+the earlier validated foundation is commit `88f8e92`, and the current clean
+`main`/`origin/main` head is documentation commit `3726ee4`. Ignored local
+runtime evidence under `var/` is excluded.
 
-M8 remains separately gated. No real source, credential, Azure resource,
+The user has now accepted a strictly internal single-Ubuntu-host V1 POC. The
+Mac remains the development machine but is not a runtime dependency. One Ubuntu
+24.04 x86-64 PC with 64 GB RAM and 5 TB on one physical disk runs the five
+applications, SQL Server 2025 Developer, separate general and promotion Durable
+Task Scheduler emulators, separate Primary and Recovery Versity Gateway
+instances, systemd credential delivery, and local telemetry. Hosted Pinecone
+Cloud in a dedicated isolated POC project is the replaceable vector-serving
+copy. Azure application hosting remains post-V1/deferred.
+
+Both vaults share the one disk and therefore provide only
+`LOGICALLY_SEPARATE_POC_RECOVERY`. Scheduler state is memory-only; loss fences
+the old execution and starts reconciled replacement work from the last safe SQL
+checkpoint, never a claim that lost history resumed. Exact topology, image
+pins/digests, incremental implementation, and verification planning are the
+current infrastructure objective. No deployment or external effect is
+authorized; explicit permission is required before the first real Pinecone
+write.
+
+No real source, credential, Azure resource,
 Azure OpenAI/model or embedding call, Pinecone target, provider backup,
 Ask.Legal route/slot, deployment, corpus publication, or production effect was
 accessed or changed. Ask.Legal admin-portal integration remains deferred; M7
 stabilizes the Review API boundary it will later consume.
+
+The current authorized parallel workstream is local, network-disabled Hong
+Kong Legislation package readiness with `HK-LEG-ORDINANCES` first. Its frozen
+readiness inventory and complete 27-rule ordinary offline path are
+implemented and validated, but all real scopes remain `NOT_READY` and cannot
+activate or process real observations.
+
+The accepted Ubuntu infrastructure products, complete service/network/storage/
+systemd topology, and 12-step incremental verification plan are now recorded in
+`docs/design/V1_POC_UBUNTU_TOPOLOGY.md`. Its first implementation slice is
+complete: `infrastructure/poc/topology.json` is a secret-free, disabled-by-
+default closed inventory and `tools/v1_poc_topology.py` plus 10 focused tests
+fail closed on authority, isolation, secret, surface, recovery, scheduler, and
+artifact drift. The ordinary developer entrypoint now executes this gate.
+All 16 services remain disabled; 3 existing artifacts are digest-pinned and 13
+remain `PIN_REQUIRED`. The read-only host-admission policy and synthetic facts
+validator are also complete with 14 focused cases. They require exact Ubuntu
+24.04 x86-64, memory/disk/ext4/path, credential protection, nftables, sealed
+journal, time, and Docker isolation facts but always return `admitted=false`.
+The three durable host blockers are `CREDENTIAL_INTERFACE_PROOF`,
+`HOST_PACKAGE_LOCKS`, and `PRIVATE_SUBNET_SELECTION`. The secret-free artifact
+registry is also complete: 12 unique artifact entries cover all 16 services,
+the SQL and shared DTS candidates are digest-pinned but require Ubuntu reproof,
+10 artifact selections/builds remain, and all 12 entries are
+`admitted=false`. Build, registry pull/push, service enablement, actual host
+collection, and provisioning remain permission gates. Read-only credential-
+interface research and the local difference, cause, proved-event, disposition,
+record, and release-accounting gates are complete. After the repository-only
+runtime-input and credential-loader work below, the infrastructure critical
+path needs the Ubuntu host and explicit image pull/run permission; real Hong
+Kong package admission separately needs external-source and named-owner
+authority.
+
+The next repository-only infrastructure checkpoint is also complete.
+`infrastructure/poc/application_image_inputs.json` freezes all five repository
+image inputs and their complete 19-distribution closures, health commands,
+topology identities/listeners, exact locks, and hardening profile. Ten focused
+tests enforce five explicit blockers and `tools/dev_test.py` now runs the gate.
+No runtime command is declared: every current local-fake application
+entrypoint remains `ADAPTER_REQUIRED`, so it cannot be mistaken for a V1
+continuous service. `tools/v1_poc_collect_host_facts.py` adds the bounded
+read-only Ubuntu collector with three focused tests. It refuses macOS, reads no
+credential value, writes nothing, and emits only the exact fact schema already
+consumed by host admission.
+
+`infrastructure/poc/application_runtime_inputs.json` now freezes the exact
+disabled per-process runtime inputs: five application/service identities, five
+operational database roles, four scheduler/task hubs, permitted vaults, 25
+logical destinations, exact topology networks/listeners/outbound profiles,
+and 19 credential filenames. Thirteen focused tests enforce seven remaining
+blockers, and `tools/dev_test.py` runs this gate too. The application-runtime
+package now provides a locally tested process-side systemd credential loader
+with absolute-directory, canonical-name, no-symlink, exact `0400`, bounded-
+read, and redacted-error rules. This does not resolve real addresses, start a
+service, prove container credential delivery, or settle the SQL/Versity vendor
+credential-interface conflict.
+
+The Management Register adapter now provides a V1-only SQL connection factory
+that composes exact non-secret topology with a redacted password value. It
+allows only `sql-server:1433`, `AskLegalPocOperational`, and the five application
+principals; requires strict encryption, certificate hostname validation, and
+no trust bypass; bounds login time; and emits only a closed failure code. The
+16 focused cases also bind the pinned driver's password-log sanitizer. Trusted
+certificate issuance and application-image trust-bundle delivery remain a new
+explicit `SQL_SERVER_CERTIFICATE_TRUST` blocker; no certificate or trust root
+was generated.
+
+The locked Durable Task SDK now has an exact V1 settings/factory boundary with
+seven focused cases. General and promotion emulator DNS names and task hubs are
+closed, Review cannot acquire a scheduler, no token or TLS is added to the
+private emulator networks, worker capacity must be explicit, and memory loss
+remains replacement from a safe SQL checkpoint.
+
+Locked Boto3 `1.43.49` now supplies the disabled V1 S3-compatible vault
+boundary. It disables ambient credential lookup, uses only exact credential
+files, SigV4 path-style HTTPS with vault-specific CA bundles, and the frozen
+three-attempt/five-second-connect/30-second-read profile. Provider version IDs
+round-trip losslessly. Conditional create, SHA-256 read-back, COMPLIANCE
+retention, legal hold, replay adoption, collision/corruption handling,
+manifest-last writes, and primary-to-recovery copying pass against deterministic
+S3 fakes. No delete API exists. Seven application-composition cases prove that
+all five applications construct only their own SQL, scheduler, and authorized
+Primary/Recovery vault roles and load every declared provider credential file
+without connecting, inventing an unselected provider format, or reading an
+environment password. Provider material without an admitted adapter remains an
+opaque redacted value.
+
+The composition audit found and corrected one V1 topology omission. The
+accepted M3 protocol requires read-only evidence for Control proposal
+preparation and Review evidence streaming, so both applications now have
+separate Primary Vault credential references and internal network membership.
+The topology therefore has 25 credential references. No vault credential,
+real endpoint, certificate, bucket policy, or permission was created; those
+remain blocked. `VAULT_SERVER_CERTIFICATE_TRUST` is an explicit seventh runtime
+blocker.
+
+The framework-free application-runtime package now has the complete exact V1
+readiness dependency inventory for all five applications and a bounded async
+gate. It rejects missing, extra, duplicate, reordered, or unbounded probes;
+runs the complete set with per-probe deadlines; normalizes failure and timeout
+states; and becomes ready only when every dependency succeeds. The disabled
+runtime policy carries the same dependency codes and cross-checks them against
+the package. SQL now has a non-mutating exact `SELECT 1` readiness check with
+resource cleanup, while each S3 vault verifies versioning and Object Lock
+without writing. Official Microsoft guidance documents connectivity testing
+to emulator gRPC port 8080 but no non-mutating SDK/task-hub health operation.
+Scheduler, telemetry, Review/egress, and actual host probe behavior therefore
+remain inside `BOUNDED_READINESS_PROBES`; no private SDK API or fake mutation
+was substituted.
+
+The accepted systemd graph is now machine checked rather than prose only.
+`infrastructure/poc/systemd_unit_inputs.json` binds all 16 topology services,
+two disabled privileged bootstrap one-shots, and five disabled timers whose
+cadences remain package/admission inputs. It fixes unit dependencies, runtime
+identities, exact credential files, write paths, root-owned management, restart
+policy, `NoNewPrivileges`, strict protected system paths, private temporary
+space, and an empty capability bounding set. Ten focused tests reject missing
+units, identity/credential/dependency drift, weaker hardening, secret-bearing
+configuration, timer defaults, bootstrap enablement, or authority expansion.
+Six blockers keep runtime commands, unit installation, image pulls, credential
+bridging, subnets, and Ubuntu proof unavailable; the checker never contacts or
+modifies systemd.
+
+The accepted host accounts are also now machine checked. The host-identity
+contract binds the ten services that own persistent application/vault/telemetry
+paths to distinct locked, non-login, group-isolated accounts and all 14 exact
+write paths. Numeric UID/GID values stay null and every account stays
+`created=false` until collision checks occur on Ubuntu. Nine focused tests
+reject missing/shared/root identities, interactive shells, invented IDs,
+ownership drift, embedded secrets, or host-mutation authority. Four blockers
+retain numeric allocation, container UID/GID mapping, ownership read-back, and
+real Ubuntu proof. SQL remains image-defined; pathless DTS and egress container
+identities are not falsely declared as host accounts.
+
+The executable credential-interface proof now has exact machine-checked inputs
+instead of prose alone. `credential_interface_proof_inputs.json` binds SQL and
+both Versity services to their current artifact selections, systemd credential
+names, six proof steps, seven canary-inspection surfaces, 12 required evidence
+classes, restart/rotation behavior, named cleanup, and the accepted fail-closed
+decision gate. All three results remain `NOT_RUN`; image and host actions remain
+unauthorized. Twelve focused mutation cases reject false execution, authority,
+secret-rule weakening, evidence loss, artifact/systemd drift, or embedded
+material.
+
+The V1 admission result is now one fail-closed machine verdict rather than an
+inference from separate static checks. `infrastructure/poc/v1_admission_gate.json`
+binds 14 ordered components and all effect authority to false;
+`tools/v1_poc_admission.py` re-runs the eight implemented static checkers and
+returns exactly `V1_POC_NOT_ADMITTED`, with eight static contracts validated
+and 14 blockers. It cannot admit V1, mutate the host, resolve or pull an image,
+create a credential, contact a source/provider, or write Pinecone. Twelve
+focused mutation cases protect the component order, evidence references,
+states, blockers, authority, secret-free content, aggregate verdict, and
+static-check propagation.
+
+Read-only credential-interface research is now recorded in
+`docs/design/V1_POC_CREDENTIAL_INTERFACE_SPIKE.md`. Official SQL material did
+not reveal a supported password-file input, and Versity documents root
+credentials only through arguments/environment while its internal IAM files
+are persistent plaintext. No image pull or runtime test was authorized or
+possible on the current Mac. The exact-image proof therefore remains gated on
+an admitted Ubuntu test host, immutable pins, synthetic credentials, and
+explicit pull/run permission; a failed proof will require a user choice rather
+than a silent weakening of the accepted secret rule.
+Current vendor interfaces expose one fail-closed admission risk: official SQL
+Server container and Versity guidance uses environment variables or command
+arguments for root credentials, which does not yet prove the accepted file-only
+`systemd-creds` boundary. Credential-interface spikes must resolve this before
+either service can be admitted; the rule is not silently relaxed.
 
 ## Completed M7 implementation
 
@@ -31,9 +228,9 @@ closed 5-application/14-package architecture graph is unchanged.
 The accepted interfaces are implemented:
 
 ```text
-uv run --frozen asklegal-local reset --exact-test-state
-uv run --frozen asklegal-local prove --scenario <E2E-001..E2E-032>
-uv run --frozen asklegal-local prove --all
+uv run --frozen --all-packages asklegal-local reset --exact-test-state
+uv run --frozen --all-packages asklegal-local prove --scenario <E2E-001..E2E-032>
+uv run --frozen --all-packages asklegal-local prove --all
 ```
 
 Reset validates the exact resolved ignored `var/local-conformance` path and its
@@ -73,6 +270,238 @@ fingerprint drift fails closed. `LocalReviewProjectionStore` accepts explicit
 frozen proposals and a snapshot for M7 composition while preserving its M3
 defaults.
 
+## Hong Kong Legislation readiness checkpoint
+
+The user accepted the recommendation to start one real-package workstream and
+explicitly authorized local, network-disabled implementation. The first target
+is `HK-LEG-ORDINANCES`; no source access, model call, cloud work, or production
+action was authorized.
+
+The new frozen package at
+`packages/legal-desks/src/asklegal_legal_desks/_hk_legislation_package/` binds:
+
+- all 14 accepted Hong Kong Legislation stable source roles without URLs,
+  credentials, or acquired bytes;
+- the three accepted non-overlapping Release Scopes, with Ordinances marked as
+  the current implementation target;
+- exact source, rights, bytes, incomplete rule/fixture-universe, evaluation,
+  model-profile, owner, and attestation blockers; and
+- a package inventory/fingerprint of
+  `sha256:8176705e872a1751e280093435731b7302a123e9846a94e58058e919067541f5`.
+
+The second checkpoint adds the offline `HKLEG-BASE-INV-001` vertical slice:
+
+- one strict package-local Draft 2020-12 schema for the source/reason
+  catalogues, rule, input, fixture catalogue, fixture, and decision;
+- closed bindings from declared legal nature to the three accepted Release
+  Scopes and one admitted current-inventory source role;
+- four terminal branches—accounted, unaccounted, duplicate-owned, and
+  misassigned—with no implicit success;
+- four small synthetic fixture manifests and separately hashed exact expected
+  decisions; and
+- a deterministic conformance evaluator that validates all locks and emits no
+  legal disposition or record.
+
+The third checkpoint adds the preceding offline `HKLEG-BASE-OBS-001` slice:
+
+- exact synthetic rulebook, Release Scope registry, and HKeL publication-
+  specification locks at one cutoff;
+- the release-blocking current-inventory and Gazette observation source set;
+- five terminal branches for frozen success, missing/incomplete/stale required
+  source, mixed cutoff, lock mismatch, and post-cutoff source change;
+- five separately hashed fixtures and expected decisions; and
+- an ordered proof that only the frozen-success branch advances through
+  `HKLEG-BASE-OBS-001` → `HKLEG-BASE-INV-001`.
+
+The fourth checkpoint adds the following offline `HKLEG-BASE-EVID-001` slice:
+
+- matching English and Traditional Chinese current XML plus matching official
+  HKeL copies for the exact synthetic version;
+- both ADR 0081 copy classes, `VERIFIED` and `ASSISTED`, as permitted success
+  paths without treating assisted copies as verified;
+- five separately hashed fixtures and expected decisions covering both success
+  modes, a missing Traditional Chinese current XML block, reconciliation
+  conflict quarantine, and forbidden historical substitution; and
+- an ordered proof through `HKLEG-BASE-OBS-001` → `HKLEG-BASE-INV-001` →
+  `HKLEG-BASE-EVID-001`, with only an exact passing bundle advancing to
+  `HKLEG-BASE-STATE-001`.
+
+The fifth checkpoint adds `HKLEG-BASE-STATE-001`:
+
+- exact predecessor binding to passing inventory and bilingual-evidence gates;
+- one clear branch requiring complete current item, provision, structure,
+  location mapping, version, operative-effect, no-conflict, and written-
+  rulebook support facts;
+- six fail-closed branches for missing required signals, partial or ambiguous
+  mapping, accepted-source conflict, unknown source semantics, unproved
+  operative effect, and missing rulebook support;
+- seven separately hashed fixtures and expected decisions; and
+- a composed ordered proof through `HKLEG-BASE-OBS-001` →
+  `HKLEG-BASE-INV-001` → `HKLEG-BASE-EVID-001` →
+  `HKLEG-BASE-STATE-001`.
+
+The passing STATE result establishes only `OPERATIVE_CURRENT` at the frozen
+cutoff. It keeps legal disposition `NOT_APPLICABLE`, emits no record, and uses
+`historical_assertion_scope: PENDING_LIMIT_RULE`.
+
+The sixth checkpoint adds `HKLEG-BASE-LIMIT-001`:
+
+- an exact predecessor binding to the successful present-state result;
+- one success branch that changes the assertion scope to
+  `PRESENT_STATE_ONLY` without creating a historical claim;
+- four blocked branches for unsupported historical events, effective dates,
+  identity or continuity relationships, and complete event chains;
+- five separately hashed fixtures and expected decisions; and
+- a composed ordered proof through `OBS-001`, `INV-001`, `EVID-001`,
+  `STATE-001`, and `LIMIT-001`, with only the exact present-state-only result
+  allowed to advance to `HKLEG-BASE-ID-001`.
+
+The seventh checkpoint adds `HKLEG-BASE-ID-001`:
+
+- new opaque register-owned identity requests for all four ADR 0011 layers,
+  without inventing their unresolved concrete encodings;
+- source identifiers and legacy Distillation/Pinecone IDs preserved only as
+  aliases or trace facts;
+- blocked source/legacy authoritative identity reuse and unproved lineage;
+- quarantined duplicate or continuity ambiguity even when similarity is
+  claimed; and
+- five exact fixtures with two passes, two blocks, and one quarantine, with
+  only clean allocation requests advancing to `HKLEG-BASE-DISP-001`.
+
+The eighth checkpoint adds `HKLEG-BASE-DISP-001`:
+
+- one exact supported result for each of `SEARCHABLE_CURRENT`, `WAITING_ROOM`,
+  `EVIDENCE_ONLY`, `HISTORICAL`, and `QUARANTINE`;
+- a visible Coverage Gap when an operative event is proved without matching
+  current consolidation evidence;
+- rejection of publication or one status signal as a disposition shortcut;
+- seven separately hashed fixtures and expected decisions; and
+- only the exact searchable-current branch advancing to
+  `HKLEG-BASE-REC-001`; every other branch emits no record.
+
+The ninth checkpoint adds `HKLEG-BASE-REC-001`:
+
+- exact ADR 0021 canonical bilingual rendering with English first and
+  Traditional Chinese second, NFC, LF, and language-correct punctuation;
+- the repository-wide six-field Serving Record shape and exact metadata-only
+  fingerprint, excluding register-issued identity;
+- one synthetic metadata profile that is conformance-only and not an admitted
+  production profile;
+- six fixtures covering exact candidate creation, non-searchable exclusion,
+  legacy identity rejection, incomplete alignment, non-canonical rendering,
+  and unapproved authority notes; and
+- only the exact candidate branch advancing to `HKLEG-BASE-REL-001`.
+
+The tenth checkpoint adds `HKLEG-BASE-REL-001`:
+
+- complete accounting for objects, locations, dispositions, candidates,
+  Coverage Gaps, Quarantines, investigations, and identity decisions;
+- an explicit initial-baseline marker with no predecessor release;
+- seven fixtures covering success, missing and duplicate inventory,
+  inconsistent disposition output, false predecessor, missing references, and
+  unresolved completeness;
+- one fingerprint over the complete exact accounting input; and
+- eligibility only to build a candidate Corpus Release, with no publication,
+  Approval, promotion, or deployment authority.
+
+The eleventh checkpoint adds `HKLEG-BASE-REVIEW-001`:
+
+- one exact named question, affected-object set, registered-source request,
+  permitted fact, stopping condition, and responsible Legal Desk;
+- four permitted on-demand historical/discovery source roles;
+- five fixtures covering one successful targeted review and blocks for no
+  material uncertainty, whole-history acquisition, unregistered sources, and
+  mismatched fact scope; and
+- no source access or historical assertion; only an exact task may advance to
+  `HKLEG-BASE-HIST-001`.
+
+The twelfth checkpoint adds `HKLEG-BASE-HIST-001`:
+
+- six fixtures prove one exact permitted fact and block current-evidence
+  substitution, similarity-only proof, unavailable/insufficient evidence, and
+  discovery-only proof;
+- conflicting evidence quarantines the affected decision; and
+- history neither reconstructs current text nor manufactures legal events.
+
+The thirteenth checkpoint adds `HKLEG-BASE-CHANGE-001`:
+
+- seven fixtures cover no post-cutoff change, both permitted later-change
+  strategies, lost frozen-package evidence, a missing separate Observation,
+  silent cutoff mixing, and an unsupported later-currency claim; and
+- no branch mutates the original freeze or authorizes an ordinary update.
+
+The fourteenth checkpoint adds ordinary `HKLEG-CURRENT-OBS-001` through
+`HKLEG-CURRENT-OBS-003`:
+
+- six fixtures distinguish supported silence, new and deduplicated bounded
+  affected work, release-blocking unavailability, item-only unavailability,
+  and an open urgent signal;
+- only complete, fresh, reconciled silence reuses the existing Corpus Release;
+  no zero-record release is created; and
+- a change signal opens acquisition work but makes no legal conclusion.
+
+The fifteenth checkpoint adds ordinary `HKLEG-CURRENT-EVID-001` through
+`HKLEG-CURRENT-EVID-004`:
+
+- nine fixtures prove verified and assisted success, newer-assisted selection,
+  and same-version verified preference;
+- unavailable evidence blocks with a Coverage Gap only when current-law
+  coverage actually depends on it; and
+- unofficial copies, bilingual/version/content mismatches, and unresolved
+  structure or identity cannot pass or be overridden.
+
+The sixteenth checkpoint adds ordinary `HKLEG-CURRENT-DIFF-001` and
+`HKLEG-CURRENT-DIFF-002`:
+
+- seven fixtures classify exact unchanged, payload, structure/location,
+  evidence-bundle-only, object-addition, and missing-baseline cases;
+- exact unchanged is reuse-eligible only with separately proved continuing
+  support; and
+- the gate emits no record and explicitly makes no legal-identity, legal-
+  status, repeal, or continuity inference.
+
+The seventeenth checkpoint adds ordinary `HKLEG-CURRENT-CAUSE-001` and
+`HKLEG-CURRENT-CAUSE-002`:
+
+- six fixtures prove accepted Gazette and Editorial Record causes, fully exact
+  non-serving technical republication, unexplained and conflicting-change
+  Quarantine, and bounded Source Contract Review;
+- status signals, HKeL appearance, similarity, and AI output cannot replace
+  exact assigned cause evidence; and
+- the gate emits no record and makes no legal-identity or status inference.
+
+The eighteenth checkpoint adds `HKLEG-CURRENT-EVENT-001`:
+
+- eight fixtures prove exact routing to an eligible reconstruction plan,
+  verified or assisted known-stale fallback, explicit no-record gap, ordinary
+  current-bundle handling, and fail-closed incomplete/conflicting/unbounded
+  inputs;
+- successful missing-consolidation cases record a Legal Status Event and exact
+  Coverage Gap but emit no Search Record; and
+- a synthetic active reconstruction state proves only selection precedence and
+  grants no real reconstruction or activation authority.
+
+The nineteenth through twenty-first checkpoints add the complete ordinary
+`HKLEG-CURRENT-DISP-001` → `HKLEG-CURRENT-REC-001` →
+`HKLEG-CURRENT-REL-001` tail:
+
+- seven disposition fixtures assign each accepted primary state or fail closed
+  on upstream, coverage, or single-signal uncertainty;
+- eight record fixtures enforce exact six-field reuse, new immutable identity
+  on any serving change, no record for non-searchable states, and Quarantine on
+  same-ID mutation; and
+- seven release-accounting fixtures reconcile every object, location, event,
+  selected and retired record, Coverage Gap, and Quarantine before candidate
+  release construction.
+
+The loader now represents the accepted `NOT_READY` lifecycle honestly: every
+not-ready scope must name blockers, ready scopes cannot retain not-ready
+blockers, decision-ready or later scopes require real fixture/evaluation
+inventory, and attested or later scopes require attestations. The package now
+contains 27 offline conformance rules and 127 fixtures, but zero activation-
+executable terminal rules, semantic profiles, evaluation IDs, or attestation
+IDs. All three real scopes remain `NOT_READY`.
+
 ## Validation performed
 
 All application bytes and effects were synthetic/local:
@@ -95,7 +524,69 @@ All application bytes and effects were synthetic/local:
 - complete network-disabled package proof: two byte-identical builds and clean
   installs for all 19 wheels plus byte-identical container inputs.
 
-Current reproducibility fingerprints include:
+Those M7 results are historical evidence for the committed M7 tree. Validation
+of the current 2026-08-17 Hong Kong readiness checkpoint produced:
+
+- focused Legal Desk loader/lifecycle and 27-rule package suite:
+  **49 passed**;
+- V1 POC topology, read-only host-admission/collector, artifact-inventory,
+  application-image-input, application-runtime-input, and cross-application
+  composition, systemd/identity/credential-proof-input, composite-admission,
+  and V1 S3 adapter suites: **115 passed**;
+  their CLIs
+  report 16 disabled services,
+  25 credential references, 12 non-admitted
+  artifacts, five non-admitted repository images, five non-admitted application
+  runtime profiles, 16 disabled service-unit inputs, two disabled bootstrap
+  units, five disabled timers, ten uncreated host identities, seven runtime
+  blockers, six systemd blockers, four identity blockers, and three explicit
+  host blockers; the credential-interface CLI reports **three subjects, six
+  steps, seven inspection surfaces, six blockers, executed=0**; the composite
+  CLI reports **14 components, eight static contracts validated, 14 blockers,
+  admitted=false**;
+- V1 SQL file-credential, exact-topology, strict-TLS, readiness,
+  driver-sanitizer, and secret-free-failure suite plus exact two-emulator
+  scheduler and common bounded-readiness suites: **34 passed**;
+- ordinary repository suite excluding its loopback-only durability file:
+  **436 passed, 4 skipped**, with two durability
+  tests initially denied IPv6 loopback binding by the sandbox; both passed when
+  previously rerun with explicit loopback permission, for an effective
+  **438 passed,
+  4 skipped** across the updated test inventory;
+- Ruff check and formatting for all touched Python files: PASS;
+- repository-owned Python boundary checker: PASS across **129 files** with the
+  same eight exact reviewed exceptions;
+- architecture proof: PASS with 5 applications, 14 packages, 80 dependency
+  edges, 31 capability ports, and policy fingerprint
+  `sha256:7f1f055c93c44be1577588937bf92afbd0ae38315935a1e6879fa4074511b7b9`;
+- JSON Schema validation of the frozen real-package manifest: PASS; and
+- exact uv 0.12.5 offline wheel build: PASS in two distinct output roots with
+  byte-identical SHA-256
+  `734df40775d0c0f23028e6551dfa85eb759f2648ebc36d961d7890f2a7643177`;
+  all current event/disposition/record/release artifacts are present; and
+- deterministic package rebuild: PASS with package version `0.21.0`, package
+  fingerprint `sha256:61d58fca4b695a466dbaaa73353c066614ba47df3be7cf5f3c89aa5389a1e978`,
+  and `package.json` SHA-256
+  `292bc2b72fcd641f3448528f949a1edc6d73243c80fe1515c209b509c2370a88`.
+
+Repository-wide Ruff lint passes. Touched files pass Ruff formatting, while a
+full-tree format check reports two preserved pre-existing formatting drifts in
+`packages/domain/src/asklegal_domain/operations.py` and
+`tools/build_synthetic_rulebook.py`. The Python boundary checker passes across
+129 files with the same eight reviewed exceptions.
+
+Strict Pyright, the exact Node validator, and the complete two-path package
+proof have not been rerun for this checkpoint. The full M7 32-scenario proof
+was rerun twice from clean path-distinct state and passed with current report
+fingerprint
+`sha256:24ba2d3ec5471276ec7c62263af3ae7662178014bf007245e4025c936fba8edb`.
+`npm run typecheck` cannot start because `node_modules` is absent, and Node.js
+remains 24.15.0 rather than the required 24.19.0; no dependency download was
+performed for Node. The user separately authorized the package-registry step
+that locked Boto3 `1.43.49` and its transitive dependencies; no service or vault
+endpoint was contacted.
+
+Historical M7 reproducibility fingerprints include:
 
 - unchanged uv lock:
   `cf0e9eb5f7c6aa14a7ee79dd55d1468a5a56cb95c5f1daf05a06b807e682ce92`;
@@ -125,36 +616,108 @@ M7 changes are concentrated in:
 The ignored `var/local-conformance/` tree contains only disposable generated
 synthetic proof state and is not a repository artifact.
 
+## Hong Kong readiness checkpoint files changed
+
+- `packages/legal-desks/src/asklegal_legal_desks/loader.py`;
+- `packages/legal-desks/src/asklegal_legal_desks/hk_legislation.py` and package
+  exports;
+- `packages/legal-desks/src/asklegal_legal_desks/_hk_legislation_package/`;
+- `packages/legal-desks/tests/test_rulebook_package.py`;
+- `tools/build_hk_legislation_rulebook.py`;
+- `README.md`; and
+- the four canonical continuity files under `docs/agent/`.
+
+## Latest V1 credential-proof checkpoint files changed
+
+- `infrastructure/poc/credential_interface_proof_inputs.json`;
+- `tools/v1_poc_credential_interface.py` and its focused tests;
+- the composite gate and ordinary developer entrypoint;
+- `README.md` and both V1 POC design documents; and
+- `CONTEXT.md`, `ROADMAP.md`, and this working state. No new product decision
+  was made, so `DECISIONS.md` was not changed by this checkpoint.
+
 ## Decisions and open questions
 
 No new product or production architecture choice was required for M7. The
 implementation follows the accepted 32-scenario plan and existing M3–M6
-boundaries.
+boundaries. The user subsequently selected `HK-LEG-ORDINANCES` as the first
+real-package target and authorized local, network-disabled implementation.
 
-There is no remaining M7 implementation blocker or decision. Real Hong Kong
-packages and every exact external/platform admission value remain open evidence
-work, not defaults inferred from local success.
+There is no remaining M7 implementation blocker or decision. The Ordinances
+package now has an exact blocker inventory and 27 fully covered offline rules,
+but remains `NOT_READY`. Real
+endpoint/source/right evidence, named owner acceptance, adjudicated evaluation
+truth, semantic deployment profiles, and conformance attestations remain open
+evidence work, not defaults inferred from local success.
 
 ## Current host prerequisite
 
-The exact `uv 0.12.5` required by the repository is not installed on this
-host's `PATH`. At the user's request, the verified temporary installation at
-`/tmp/asklegal-m6-uv` was removed on 2026-08-16 and its absence was verified.
-The recommended durable developer installation is the official versioned uv
-0.12.5 standalone installer targeting the normal user executable directory,
-with installer PATH mutation disabled. `/home/stevw-s14/.local/bin` already
-exists and is already on this host's `PATH`, so no shell-startup edit is needed.
-Until that durable installation is performed, repository commands requiring
-uv cannot run from a fresh shell.
+The active 2026-08-17 workspace is macOS Darwin 25.3.0 on arm64 under
+`/Users/admin/Desktop/AskLegal-LegalDBPipeline`. The repository requires exact
+Python 3.14.7, uv 0.12.5, and Node.js 24.19.0 for its complete developer
+command. Exact uv 0.12.5 and uvx 0.12.5 are installed at
+`/Users/admin/.local/bin/uv` and `/Users/admin/.local/bin/uvx` from Astral's
+version-pinned standalone installer with `UV_NO_MODIFY_PATH=1`. No shell-startup
+file was changed by the installer. The user can invoke `uv` in the active
+interactive shell. uv installed managed Python 3.14.7 and created a project
+`.venv` while running the frozen all-package workspace command. System Python
+remains 3.12.3 and Node.js remains 24.15.0. Exact Node.js 24.19.0 is therefore
+a remaining prerequisite for the locked complete developer command. No Docker
+executable is available in the current Mac environment.
+
+## Latest checkpoint verification
+
+On 2026-08-17 the user successfully ran the local reset and `E2E-001` proof on
+macOS after correcting the clean-workspace command to include
+`--all-packages`; it returned `GOLDEN_FLOW_RECOVERED` with fingerprint
+`sha256:a8cfe0c154ba9ded80fe6f37df79db289cafda4edc962b749375bef5e10d4558`.
+The user then authorized the local Hong Kong Legislation readiness checkpoint
+described above. Validation results are recorded in the current validation
+section.
+
+No real source, model, embedding, Azure, Pinecone, backup, routing, deployment,
+or production system was accessed. The only external download in this thread
+was the previously authorized official uv installer and its pinned release
+artifact. Current package work and validation were local; the wheel build was
+explicitly offline.
 
 ## Authorization boundary and exact next step
 
-M7 completion grants no M8 or external authority. The next capability milestone
-is M8, the Azure non-production platform, only if the user explicitly
-authorizes it. Before creating cloud resources, M8 must settle and measure the
-exact region, capacity, retention, recovery, security, identity, network,
-observability, service-level, and cost profiles required by its accepted exit
-gate.
+M7 completion grants no M8 or external authority. M8 remains a later platform
+milestone only if the user separately authorizes it. The stable first-baseline
+rules run through `HKLEG-BASE-CHANGE-001`; the ordinary update path now runs
+through complete `HKLEG-CURRENT-REL-001` accounting, with the separate
+`HKLEG-CURRENT-EVENT-001` missing-consolidation router. Further real-package
+admission needs real endpoint/source/right evidence, a named owner,
+adjudicated evaluations, and explicit external-source authorization.
+Real endpoint verification, source acquisition/rights, named owner acceptance,
+adjudicated real evaluations, and model admission require separate explicit
+authorization.
+
+The static V1 POC topology, host-policy, artifact, application-image,
+application-runtime-input, systemd-unit-input, host-identity-input, and exact
+credential-interface-proof-input contracts are complete and disabled. The
+composite gate records the complete
+current result as `V1_POC_NOT_ADMITTED`; it does not turn those static passes
+into readiness. Process-side
+systemd credential-file loading, SQL/DTS/S3 factory composition, the complete
+readiness gate, and concrete SQL/vault checks are locally proved, but
+host/container delivery and the other concrete probes are not. The next
+infrastructure proof cannot run honestly in the current environment. Its six
+remaining inputs are exact: access to the intended Ubuntu 24.04 x86-64 host;
+read-only image resolution authority; permission to pull and run only the
+named SQL Server and Versity proof images; selection of an exact Versity
+version/digest from that read-only resolution; permission to create synthetic
+one-use credentials; and permission to create, inspect, then remove only the
+named throwaway proof state after evidence capture. That host proof
+is limited to credential-file behavior, SQL certificate trust and hostname
+rejection, canary leak
+inspection, rotation, restart, and named throwaway state. It authorizes no real
+credential, source, Pinecone, model, deployment, or production effect. If the
+Versity proof confirms its documented interface is incompatible, the user must
+choose a native file-credential product, a maintained custom build, or an
+explicit bounded relaxation; the recommendation is to preserve the rule and
+prefer a native file interface.
 
 The user explicitly confirmed that the private
 `https://github.com/stevw-repo/AskLegal-LegalDBPipeline.git` remote is the

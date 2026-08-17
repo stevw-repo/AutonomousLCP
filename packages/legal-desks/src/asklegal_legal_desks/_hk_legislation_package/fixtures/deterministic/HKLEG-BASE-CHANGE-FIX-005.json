@@ -1,0 +1,21 @@
+{
+  "fixture_id": "HKLEG-BASE-CHANGE-FIX-005",
+  "title": "A later source change requires a separate Observation",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-CHANGE-001",
+  "input_fingerprint": "sha256:bb0ae418501843e027d168e5738ab4cd340dcf1d8d31f2751e4551ea7126a0c8",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "post_cutoff_change_observed": true,
+    "frozen_package_preserved": true,
+    "new_observation_recorded_separately": false,
+    "selected_strategy": "ABANDON_AND_REFREEZE",
+    "later_currency_claimed_before_update": false
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-change/HKLEG-BASE-CHANGE-FIX-005.json",
+    "fingerprint": "sha256:6953888511d78ff56b6ff11e2727d3bf2b5f9a7baeaad0d8b18d72a3bf218f1a"
+  }
+}

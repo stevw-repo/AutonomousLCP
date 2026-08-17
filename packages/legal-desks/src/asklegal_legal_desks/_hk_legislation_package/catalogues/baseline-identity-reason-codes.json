@@ -1,0 +1,9 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-identity.reason-codes", "version": "1.0.0", "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {"code": "HKLEG_BASE_ID_GREENFIELD_ALLOCATION_REQUESTED", "meaning": "Request one new opaque register-owned identity at every accepted identity layer.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_BASE_ID_NON_REGISTER_IDENTITY_FORBIDDEN", "meaning": "A source or legacy identifier cannot be used as authoritative greenfield identity.", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_BASE_ID_UNPROVED_RELATIONSHIP_FORBIDDEN", "meaning": "No predecessor, successor, split, merge, or continuation relationship may be asserted without proof.", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_BASE_ID_DUPLICATE_OR_CONTINUITY_AMBIGUOUS", "meaning": "A duplicate or continuity ambiguity requires targeted review and quarantine.", "processing_outcome": "QUARANTINE"}
+  ]
+}

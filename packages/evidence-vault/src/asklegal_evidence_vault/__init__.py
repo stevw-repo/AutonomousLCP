@@ -28,6 +28,19 @@ from .model import (
     VaultWriteReceipt,
     content_logical_key,
     manifest_logical_key,
+    s3_provider_version_id,
+    s3_version_reference,
+    validate_logical_key,
+)
+from .ports import ImmutableVault
+from .s3 import (
+    S3AccessCredential,
+    S3ImmutableVault,
+    S3VaultError,
+    S3VaultErrorCode,
+    V1S3VaultSettings,
+    create_exact_v1_s3_vault,
+    create_v1_s3_client,
 )
 
 PACKAGE_ROLE: str = "evidence-vault"
@@ -46,6 +59,7 @@ __all__ = [
     "ExactObjectReference",
     "HostileClassification",
     "HostileReason",
+    "ImmutableVault",
     "LocalImmutableVault",
     "ManifestLastPackageWriter",
     "PackageIncomplete",
@@ -53,10 +67,20 @@ __all__ = [
     "RecoveryCopyReceipt",
     "RetentionBlocked",
     "RetentionProfile",
+    "S3AccessCredential",
+    "S3ImmutableVault",
+    "S3VaultError",
+    "S3VaultErrorCode",
     "TwoVaultEvidenceReader",
+    "V1S3VaultSettings",
     "VaultCollision",
     "VaultName",
     "VaultWriteReceipt",
     "content_logical_key",
+    "create_exact_v1_s3_vault",
+    "create_v1_s3_client",
     "manifest_logical_key",
+    "s3_provider_version_id",
+    "s3_version_reference",
+    "validate_logical_key",
 ]

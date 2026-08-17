@@ -1,0 +1,1 @@
+{"rule_id":"HKLEG-CURRENT-DIFF-002","version":"1.0.0","stage":"EXACT_UNCHANGED_REUSE_GATE","establishes":"REUSE_ELIGIBILITY","record_output":"NONE","forbidden_inferences":["LEGAL_IDENTITY","LEGAL_STATUS","REPEAL","CONTINUITY"]}

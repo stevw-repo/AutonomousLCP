@@ -1,0 +1,45 @@
+{
+  "fixture_id": "HKLEG-BASE-STATE-FIX-006",
+  "title": "An InEffect-style signal lacks operative-effect proof",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-STATE-001",
+  "input_fingerprint": "sha256:e704e3500dacb6c73a6a68a7cd74c14fe84e6a9e8ba3238744bb8a384dda700a",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "legal_object_id": "SYN-HKLEG-OBJ-001",
+    "legal_location_id": "SYN-HKLEG-LOC-001",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "official_version_id": "SYN-HKLEG-VER-001",
+    "predecessor_results": [
+      {
+        "rule_id": "HKLEG-BASE-INV-001",
+        "processing_outcome": "PASS"
+      },
+      {
+        "rule_id": "HKLEG-BASE-EVID-001",
+        "processing_outcome": "PASS"
+      }
+    ],
+    "state_facts": {
+      "accepted_signal_set_complete": true,
+      "semantics_status": "KNOWN",
+      "item_status": "CURRENT",
+      "provision_status": "OPERATIVE_SIGNAL_ONLY",
+      "structure_status": "COMPLETE",
+      "status_mapping": "COMPLETE",
+      "commencement_support": "UNPROVED",
+      "status_version_id": "SYN-HKLEG-VER-001"
+    },
+    "unresolved_source_ids": [],
+    "conflicting_source_ids": [],
+    "rulebook_support": {
+      "ownership_supported": true,
+      "operative_disposition_supported": true
+    }
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-state/HKLEG-BASE-STATE-FIX-006.json",
+    "fingerprint": "sha256:0ce76395ea7205f2d34a281795ac0a833242142247175c20bbbaaa18e6f57ada"
+  }
+}

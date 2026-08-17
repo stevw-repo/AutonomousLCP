@@ -1,0 +1,93 @@
+{
+  "complete_non_overlap": true,
+  "scopes": [
+    {
+      "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+      "ownership_keys": ["HK:LEGISLATION:HK-LEG-ORDINANCES"],
+      "required_source_ids": [
+        "HK-LEG-HKEL-CURRENT-INVENTORY",
+        "HK-LEG-HKEL-CURRENT-DATA",
+        "HK-LEG-HKEL-VERIFIED-COPIES",
+        "HK-LEG-HKEL-ASSISTED-COPIES",
+        "HK-LEG-HKEL-EDITORIAL-RECORDS",
+        "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+        "HK-LEG-GLD-EGAZETTE"
+      ],
+      "zero_record_rule": "Zero records is invalid unless the complete frozen current inventory proves that this scope owns zero legal objects",
+      "withholding_rule": "Every unresolved, unsupported, unaccounted, or conflicting item is withheld or quarantined with explicit evidence",
+      "readiness": "NOT_READY",
+      "blocker_codes": [
+        "HKLEG_SOURCE_ENDPOINT_EVIDENCE_MISSING",
+        "HKLEG_SOURCE_RIGHTS_ATTESTATION_MISSING",
+        "HKLEG_REAL_SOURCE_BYTES_MISSING",
+        "HKLEG_EXECUTABLE_RULESET_INCOMPLETE",
+        "HKLEG_DETERMINISTIC_FIXTURE_UNIVERSE_INCOMPLETE",
+        "HKLEG_ADJUDICATED_EVALUATIONS_MISSING",
+        "HKLEG_SEMANTIC_PROFILES_MISSING",
+        "HKLEG_NAMED_OWNER_ATTESTATION_MISSING",
+        "HKLEG_CONFORMANCE_ATTESTATION_MISSING"
+      ]
+    },
+    {
+      "scope_id": "rsc_1cdf5a558e8286dadf84f819de1d48168d455cd457fcf30e",
+      "ownership_keys": ["HK:LEGISLATION:HK-LEG-SUBSIDIARY"],
+      "required_source_ids": [
+        "HK-LEG-HKEL-CURRENT-INVENTORY",
+        "HK-LEG-HKEL-CURRENT-DATA",
+        "HK-LEG-HKEL-VERIFIED-COPIES",
+        "HK-LEG-HKEL-ASSISTED-COPIES",
+        "HK-LEG-HKEL-EDITORIAL-RECORDS",
+        "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+        "HK-LEG-GLD-EGAZETTE"
+      ],
+      "zero_record_rule": "Zero records is invalid unless the complete frozen current inventory proves that this scope owns zero legal objects",
+      "withholding_rule": "Every unresolved, unsupported, unaccounted, or conflicting item is withheld or quarantined with explicit evidence",
+      "readiness": "NOT_READY",
+      "blocker_codes": [
+        "HKLEG_CURRENT_IMPLEMENTATION_TARGET_MISSING",
+        "HKLEG_SOURCE_ENDPOINT_EVIDENCE_MISSING",
+        "HKLEG_SOURCE_RIGHTS_ATTESTATION_MISSING",
+        "HKLEG_REAL_SOURCE_BYTES_MISSING",
+        "HKLEG_EXECUTABLE_RULESET_INCOMPLETE",
+        "HKLEG_DETERMINISTIC_FIXTURE_UNIVERSE_INCOMPLETE",
+        "HKLEG_ADJUDICATED_EVALUATIONS_MISSING",
+        "HKLEG_SEMANTIC_PROFILES_MISSING",
+        "HKLEG_NAMED_OWNER_ATTESTATION_MISSING",
+        "HKLEG_CONFORMANCE_ATTESTATION_MISSING"
+      ]
+    },
+    {
+      "scope_id": "rsc_4708261daa351aa91a1511674b94bced0a9c2eaa817770ea",
+      "ownership_keys": ["HK:LEGISLATION:HK-LEG-CONSTITUTIONAL-AND-OTHER-INSTRUMENTS"],
+      "required_source_ids": [
+        "HK-LEG-HKEL-CURRENT-INVENTORY",
+        "HK-LEG-HKEL-CURRENT-DATA",
+        "HK-LEG-HKEL-VERIFIED-COPIES",
+        "HK-LEG-HKEL-ASSISTED-COPIES",
+        "HK-LEG-HKEL-EDITORIAL-RECORDS",
+        "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+        "HK-LEG-GLD-EGAZETTE",
+        "HK-LEG-BASIC-LAW-PORTAL",
+        "HK-LEG-NPC-NATIONAL-LAWS-DATABASE",
+        "HK-LEG-NPC-NPCSC-OFFICIAL-MATERIALS"
+      ],
+      "zero_record_rule": "Zero records is invalid because the accepted constitutional scope contains known legal-material families requiring exact accounting",
+      "withholding_rule": "The complete scope remains disabled until the Instruments & Others review and row-level disposition registry are complete",
+      "readiness": "NOT_READY",
+      "blocker_codes": [
+        "HKLEG_CURRENT_IMPLEMENTATION_TARGET_MISSING",
+        "HKLEG_INSTRUMENTS_AND_OTHERS_REVIEW_REQUIRED",
+        "HKLEG_INSTRUMENT_DISPOSITION_REGISTRY_MISSING",
+        "HKLEG_SOURCE_ENDPOINT_EVIDENCE_MISSING",
+        "HKLEG_SOURCE_RIGHTS_ATTESTATION_MISSING",
+        "HKLEG_REAL_SOURCE_BYTES_MISSING",
+        "HKLEG_EXECUTABLE_RULESET_INCOMPLETE",
+        "HKLEG_DETERMINISTIC_FIXTURE_UNIVERSE_INCOMPLETE",
+        "HKLEG_ADJUDICATED_EVALUATIONS_MISSING",
+        "HKLEG_SEMANTIC_PROFILES_MISSING",
+        "HKLEG_NAMED_OWNER_ATTESTATION_MISSING",
+        "HKLEG_CONFORMANCE_ATTESTATION_MISSING"
+      ]
+    }
+  ]
+}

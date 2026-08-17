@@ -1,0 +1,57 @@
+{
+  "fixture_id": "HKLEG-CURRENT-EVID-FIX-002",
+  "title": "Newer complete assisted bundle proceeds instead of older verified version",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:cb72d37673140b3a28f4baafde083344a2fde07d6a3f2dd833b0f2e1264082a4",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "affected_object_ids": [
+      "SYN-HKLEG-OBJ-001"
+    ],
+    "current_law_coverage_depends": true,
+    "applicable_version_order": [
+      "SYN-V1",
+      "SYN-V2"
+    ],
+    "candidate_bundles": [
+      {
+        "version": "SYN-V1",
+        "evidence_class": "VERIFIED",
+        "official_hkel": true,
+        "en_xml_present": true,
+        "zh_hant_xml_present": true,
+        "en_copy_present": true,
+        "zh_hant_copy_present": true,
+        "required_assets_complete": true,
+        "source_capture_complete": true,
+        "bilingual_version_match": true,
+        "xml_copy_content_match": true,
+        "structure_reconciled": true,
+        "identity_reconciled": true,
+        "evidence_label_present": true
+      },
+      {
+        "version": "SYN-V2",
+        "evidence_class": "ASSISTED",
+        "official_hkel": true,
+        "en_xml_present": true,
+        "zh_hant_xml_present": true,
+        "en_copy_present": true,
+        "zh_hant_copy_present": true,
+        "required_assets_complete": true,
+        "source_capture_complete": true,
+        "bilingual_version_match": true,
+        "xml_copy_content_match": true,
+        "structure_reconciled": true,
+        "identity_reconciled": true,
+        "evidence_label_present": true
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/current-evidence/HKLEG-CURRENT-EVID-FIX-002.json",
+    "fingerprint": "sha256:3688b0cf6197cc5501b6918a29d51bad99362c16a28de4e726638a0da21e2fc6"
+  }
+}

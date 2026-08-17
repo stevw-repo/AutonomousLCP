@@ -1,0 +1,43 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-review.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-BASE-REVIEW-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-BASE-REVIEW-FIX-001.json",
+      "fixture_fingerprint": "sha256:6a2e1e6bf18257350bf15cfa3ceb2746173cad40894a72bdea86a66e7182c60f",
+      "expected_path": "expected/baseline-review/HKLEG-BASE-REVIEW-FIX-001.json",
+      "expected_fingerprint": "sha256:2b77a175586222b97fc378ad30d8bcfb38ee2943e4464f872633d34156a7f82a"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-REVIEW-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-BASE-REVIEW-FIX-002.json",
+      "fixture_fingerprint": "sha256:9eb183efc48feece1d2524779aff36bb31929d4a9db577d0260527f0d91b2f65",
+      "expected_path": "expected/baseline-review/HKLEG-BASE-REVIEW-FIX-002.json",
+      "expected_fingerprint": "sha256:f75d3547e1fa5570586f17512244613e7b6444b6b5c52bea0eb25bad262332fb"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-REVIEW-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-BASE-REVIEW-FIX-003.json",
+      "fixture_fingerprint": "sha256:11c286b77c91290eb31cc5b4de437f80ecaa559d8b260429611975079b9a84bd",
+      "expected_path": "expected/baseline-review/HKLEG-BASE-REVIEW-FIX-003.json",
+      "expected_fingerprint": "sha256:d25449c66401fc5ddd99edeba8402fc931200174a9ffe081594d5719ea495666"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-REVIEW-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-BASE-REVIEW-FIX-004.json",
+      "fixture_fingerprint": "sha256:8b4cfab3a6eb7ab50ddfb8e4fa12475a8622867980ccaba4e2523cc2a1bd4dcf",
+      "expected_path": "expected/baseline-review/HKLEG-BASE-REVIEW-FIX-004.json",
+      "expected_fingerprint": "sha256:5f29be295b8483f9981718898be770faca0ba62cdbdfe9f7744619a96192d56f"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-REVIEW-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-BASE-REVIEW-FIX-005.json",
+      "fixture_fingerprint": "sha256:68d92b2fbe5a2d3abdfb78c34789b45775b5a58825bfaa93c74430b1840dcc7d",
+      "expected_path": "expected/baseline-review/HKLEG-BASE-REVIEW-FIX-005.json",
+      "expected_fingerprint": "sha256:38c80cb74e4d4554aa54809b8567e7f5983f7799722ccab16849a3e7865a91a2"
+    }
+  ]
+}

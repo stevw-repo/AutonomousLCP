@@ -1,0 +1,49 @@
+{
+  "fixture_id": "HKLEG-CURRENT-REL-FIX-007",
+  "title": "Complete update with no gaps is candidate-release eligible",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:68c6e0936c31d106f5829dd967ebd894524ad0a56c51cb8327317c8a6e12966c",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "predecessor_release_id": "rel_synthetic_predecessor",
+    "expected_accounting": {
+      "object_ids": [
+        "object-1"
+      ],
+      "location_ids": [
+        "location-1"
+      ],
+      "event_ids": [],
+      "selected_record_ids": [
+        "rec_111111111111111111111111111111111111111111111111"
+      ],
+      "retired_record_ids": [],
+      "coverage_gap_ids": [],
+      "quarantine_ids": []
+    },
+    "actual_accounting": {
+      "object_ids": [
+        "object-1"
+      ],
+      "location_ids": [
+        "location-1"
+      ],
+      "event_ids": [],
+      "selected_record_ids": [
+        "rec_111111111111111111111111111111111111111111111111"
+      ],
+      "retired_record_ids": [],
+      "coverage_gap_ids": [],
+      "quarantine_ids": []
+    },
+    "duplicate_location_ids": [],
+    "entry_consistency_proved": true,
+    "unresolved_completeness_ids": []
+  },
+  "expected_artifact": {
+    "path": "expected/current-release-accounting/HKLEG-CURRENT-REL-FIX-007.json",
+    "fingerprint": "sha256:0bb4e05ebe9f088367a8f20422baa08807cb57d8f71f67125a4a2f07bae93bbb"
+  }
+}

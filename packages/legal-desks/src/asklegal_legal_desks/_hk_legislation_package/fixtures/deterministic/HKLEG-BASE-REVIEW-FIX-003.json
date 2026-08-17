@@ -1,0 +1,33 @@
+{
+  "fixture_id": "HKLEG-BASE-REVIEW-FIX-003",
+  "title": "Whole historical corpus request is forbidden",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-REVIEW-001",
+  "input_fingerprint": "sha256:809acf660066c776392a39d8eb9b164e7d5de7971faceeecd06a2a3370499d21",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "review_task_id": "SYN-HKLEG-REVIEW-003",
+    "trigger": "POSSIBLE_DUPLICATE_OR_CONTINUITY",
+    "question": "Download all history to look for any possible relationship.",
+    "affected_object_ids": [
+      "SYN-HKLEG-OBJ-001",
+      "SYN-HKLEG-OBJ-002"
+    ],
+    "investigation_scope": "WHOLE_HISTORICAL_CORPUS",
+    "requested_source_ids": [
+      "HK-LEG-HKEL-PAST-INVENTORY",
+      "HK-LEG-HKEL-PAST-DATA"
+    ],
+    "permitted_fact_codes": [
+      "IDENTITY_OR_CONTINUITY"
+    ],
+    "stopping_condition": "Stop after all historical material is downloaded.",
+    "responsible_legal_desk": "HONG_KONG_LEGISLATION_LEGAL_DESK"
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-review/HKLEG-BASE-REVIEW-FIX-003.json",
+    "fingerprint": "sha256:d25449c66401fc5ddd99edeba8402fc931200174a9ffe081594d5719ea495666"
+  }
+}

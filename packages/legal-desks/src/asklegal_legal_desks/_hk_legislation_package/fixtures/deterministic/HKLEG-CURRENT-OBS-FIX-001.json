@@ -1,0 +1,39 @@
+{
+  "fixture_id": "HKLEG-CURRENT-OBS-FIX-001",
+  "title": "Complete unchanged due observations support no change",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:896b4d07bfe9f848d23844b83ce5bf7507c799dbdf73d02743e656cbae2a4ec2",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "due_observations": [
+      {
+        "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+        "dependency_scope": "RELEASE_BLOCKING",
+        "status": "COMPLETE",
+        "fresh": true,
+        "changed": false,
+        "affected_object_ids": []
+      },
+      {
+        "source_id": "HK-LEG-GLD-EGAZETTE",
+        "dependency_scope": "RELEASE_BLOCKING",
+        "status": "COMPLETE",
+        "fresh": true,
+        "changed": false,
+        "affected_object_ids": []
+      }
+    ],
+    "current_inventory_matches_predecessor": true,
+    "unmatched_gazette_event": false,
+    "editorial_or_spec_signal": false,
+    "urgent_signal_open": false,
+    "detected_work_key": null,
+    "open_work_keys": []
+  },
+  "expected_artifact": {
+    "path": "expected/current-observation/HKLEG-CURRENT-OBS-FIX-001.json",
+    "fingerprint": "sha256:a8f69b1953060aeafe5b2e878558c0e6cf8230880a0a8dccb2f18b7ad053d0a0"
+  }
+}

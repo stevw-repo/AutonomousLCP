@@ -1,23 +1,49 @@
 # AskLegal Legal Database Pipeline — Delivery Roadmap
 
-Updated: 2026-08-16
+Updated: 2026-08-17
 
 ## Purpose
 
 This is the durable overall progress plan for turning the accepted pipeline
-design into a locally proved, Azure-hosted, production-admitted system. It
-tracks delivery state and dependency order; it does not replace the canonical
-overall design, ADRs, or the exact current handoff in `WORKING_STATE.md`.
+design into a locally proved and locally operated V1, with separately gated
+later cloud deployment. It tracks delivery state and dependency order; it does
+not replace the canonical overall design, ADRs, or the exact current handoff in
+`WORKING_STATE.md`.
 
 This roadmap contains no delivery-date estimate and grants no implementation
 or operational authorization. Each implementation, external integration,
 cloud proof, and production action remains separately gated.
 
+## V1 target — single-Ubuntu-host internal POC
+
+V1 is a **strictly internal POC**, not an Azure-hosted deployment:
+
+- development remains on the Mac, while all five applications run continuously
+  on one Ubuntu 24.04 x86-64 PC; the Mac is not a runtime dependency;
+- SQL Server 2025 Developer, two Durable Task Scheduler emulator instances,
+  two Versity Gateway vault instances, secrets, and monitoring run on Ubuntu;
+- hosted Pinecone Cloud in a dedicated isolated POC project supplies the
+  replaceable vector-serving copy;
+- controlled outbound access to admitted official legal-source endpoints is
+  allowed;
+- controlled outbound calls to separately admitted hosted model and embedding
+  APIs are allowed; and
+- Azure application hosting is outside V1.
+
+Products and the exact disabled service topology are selected. Static topology
+and read-only host-admission policy contracts now pass locally, but exact
+tested image versions/digests, Ubuntu package locks and host facts, private
+subnets, Pinecone plan/endpoints, credentials, and admission evidence remain
+implementation work. Azure M8 is post-V1/deferred. This direction authorizes no
+deployment or external effect; explicit authorization is required before the
+first real Pinecone write.
+
 ## Honest progress summary
 
-The project is **advanced in design with the local synthetic platform complete,
-but external/platform implementation not started**. The architecture and Hong
-Kong legal-policy model are extensive. The normative
+The project is **advanced in design with the local synthetic platform complete
+and the first real-package readiness checkpoint implemented, but external and
+platform work not started**. The architecture and Hong Kong legal-policy model
+are extensive. The normative
 cross-cutting contract package plus the Python contract, type, durability,
 package, synthetic image-admission, and architecture boundaries are locally
 proved. M2 is complete: its domain kernel, typed Management Register boundary,
@@ -27,7 +53,17 @@ local boundaries and fail-closed local adapters. M4 is complete with exact
 evidence/acquisition contracts, synthetic connectors, two local vault fakes,
 and explicit observation outcomes. M5 is complete for the executable package
 engine, local lifecycle, bounded semantic boundary, processing worker, and one
-reserved synthetic package; every real Hong Kong package remains `NOT_READY`.
+reserved synthetic package. A frozen Hong Kong Legislation package now records
+all three scopes and their exact blockers and proves the ordered offline
+`HKLEG-BASE-OBS-001` → `HKLEG-BASE-INV-001` → `HKLEG-BASE-EVID-001` →
+`HKLEG-BASE-STATE-001` → `HKLEG-BASE-LIMIT-001` → `HKLEG-BASE-ID-001` →
+`HKLEG-BASE-DISP-001` → `HKLEG-BASE-REC-001` → `HKLEG-BASE-REL-001` path,
+the bounded `REVIEW-001` → `HIST-001` branch, and the orthogonal
+`CHANGE-001` cutoff guard, the three ordinary current-observation outcomes,
+four ordinary evidence rules, two observable-difference rules, and two
+evidence-bound cause rules against 97 exact synthetic cases without
+fabricated real-source proof;
+every real scope remains `NOT_READY`.
 M6 is complete with local corpus/proposal construction, Review-backed Approval,
 and a fully checked fake replacement-target promotion and rollback. M7 is
 complete: all 32 accepted offline scenarios connect the real local boundaries
@@ -38,16 +74,17 @@ embedding-provider run, Pinecone promotion, or production activation yet.
 | Area | Current state | Evidence or remaining gap |
 |---|---|---|
 | Overall design and architecture | **DESIGN ACCEPTED** | Architecture and implementation-facing design are accepted through ADR 0099, including all six M2–M7 protocols |
-| Hong Kong legal-policy design | Advanced at design level; real packages `NOT_READY` | Legislation, case proposition/treatment, reconstruction, and HKEX Regulatory designs and conceptual catalogues exist; real source inventories/rights, bytes, owner attestations, and adjudicated evaluations remain |
+| Hong Kong legal-policy design | Complete ordinary offline path implemented; real scopes `NOT_READY` | The package binds 14 source roles and all three scopes; 27 offline rules now cover first-baseline, ordinary current update through complete release accounting, and missing-consolidation event routing in 127 exact synthetic cases. Real endpoint/source/right evidence, named owner acceptance, adjudicated evaluations, complete-universe acceptance, and activation evidence remain |
 | Normative machine contracts | Foundation through M6 contracts complete | Repository-owned Draft 2020-12 package 1.5.0 covers 74 shared objects and 27 cross-cutting fixtures, adding proposal-package and exact embedding profile/request/receipt contracts |
 | Python and Management Register foundations | All seven M1 checkpoints complete | Python 3.14.7 contract/type/package/architecture gates, synthetic image admission, the independent Node oracle, and separate real SQL Server and Durable Task emulator proofs pass |
 | Domain kernel and Management Register | **M2 COMPLETE** | Five lifecycle machines, operation objects, re-entry, typed store/fake, exact SQL prefix, procedures, ledger, recovery, and conformance proofs pass |
 | Five applications and shared runtime packages | **M3 COMPLETE** | Two strict independent FastAPI APIs, one replaceable Review client, three no-ingress workers, and one framework-free application-runtime package pass local boundary proofs; all external effects remain disabled |
 | Evidence and acquisition | **M4 COMPLETE** | Deterministic Registered Source/endpoint, Watcher, Scraper, hostile-input, coverage-accounting, manifest-last primary/recovery vault, exact receipt, corruption, retention, restart, and acquisition-outcome proofs pass using synthetic bytes only |
-| Legal processing and executable packages | **M5 COMPLETE (LOCAL/SYNTHETIC)** | Closed package loader, activation lifecycle, total rule execution, leakage/profile/environment gates, bounded challenged local semantic fake, deterministic candidates, exact replay, and reserved `ZZZ` package pass; no real jurisdiction or model is admitted |
+| Legal processing and executable packages | **M5 COMPLETE (LOCAL/SYNTHETIC); HK READINESS IN PROGRESS** | The loader now admits honest non-executable `NOT_READY` inventories; the frozen HK Legislation checkpoint selects Ordinances first while all real scopes remain blocked and no real jurisdiction or model is admitted |
 | Review, Approval, corpus, and promotion | **M6 COMPLETE (LOCAL/SYNTHETIC)** | Exact releases/desired state/coverage/proposals, real local Review governance, single-use Approval, replacement target, embedding, backup, routing, rollback, coverage cache, and retirement-denial proofs pass; all remote adapters remain disabled |
 | Local end-to-end pipeline | **M7 COMPLETE (LOCAL/SYNTHETIC)** | Stable reset/named/all CLI; 32 expected-result scenarios; golden acquisition-to-recovery flow; failure/retry/restart/hostility/Approval/promotion/recovery/deletion proofs; network denial; and path-distinct reproducibility pass |
-| Azure infrastructure and delivery | Design selected; not implemented | Azure SQL, Container Apps, Scheduler, Blob, ACR, Application Gateway, Azure Pipelines, and Azure Monitor are selected but no Bicep, pipelines, or cloud resources exist |
+| V1 operating environment | **STATIC INPUTS, DISABLED UNIT/IDENTITY/CREDENTIAL-PROOF GRAPHS, AND SQL/DTS/S3 PROCESS COMPOSITION COMPLETE; ADMISSION NOT READY** | Closed contracts prove 16 disabled services, 10 networks, 25 credential references, 12 artifact mappings, all five exact application package closures and runtime profiles, every application-owned credential file, strict-TLS SQL factories, exact two-emulator scheduler factories, a locked explicit-credential S3/Versity client with exact immutable versions, 16 service-unit inputs, two bootstrap one-shots, five unresolved timers, ten uncreated non-login host identities with 14 owned paths, the exact three-subject/six-step credential-interface proof plan, authority boundaries, and a runnable read-only Ubuntu facts collector. Remaining executable readiness/continuous-runtime work, seven runtime blockers, five app-image blockers, six systemd blockers, four identity blockers, upstream product/digest selections, executable credential-interface evidence, package locks, subnets, real host facts, and deployment proof remain |
+| Azure infrastructure and delivery | Post-V1/deferred unless separately restored to V1 scope | Azure SQL, Container Apps, Scheduler, Blob, ACR, Application Gateway, Azure Pipelines, and Azure Monitor remain accepted future architecture, but no Bicep, pipelines, or cloud resources exist |
 | Real-source, model, embedding, and Pinecone operation | Not started | Azure OpenAI/Foundry is selected for both model families to match Ask.Legal Backend; exact deployments and every external proof remain disabled/uncreated |
 | Production admission and activation | Not started | Security, recovery, quality, operational, and human-approval proofs remain |
 | Ask.Legal admin-portal integration | Intentionally deferred | M7 now satisfies the complete-pipeline prerequisite, but integration remains deferred by explicit direction |
@@ -365,6 +402,40 @@ families:
 - Principles and any additional jurisdiction/material package only after its
   own source, rights, coverage, and rulebook decisions exist.
 
+The first eleven local Hong Kong package checkpoints are complete. The frozen Hong
+Kong Legislation package records all 14 accepted stable source roles and all
+three non-overlapping scopes, selects `HK-LEG-ORDINANCES` as the current target,
+and executes only the offline ordered `HKLEG-BASE-OBS-001` →
+`HKLEG-BASE-INV-001` → `HKLEG-BASE-EVID-001` → `HKLEG-BASE-STATE-001` →
+`HKLEG-BASE-LIMIT-001` → `HKLEG-BASE-ID-001` → `HKLEG-BASE-DISP-001` →
+`HKLEG-BASE-REC-001` → `HKLEG-BASE-REL-001` conformance path. Five observation fixtures cover frozen,
+missing-source, mixed-cutoff, lock-drift, and post-cutoff-change branches; four
+inventory fixtures cover accounted, unaccounted, duplicate-owned, and
+misassigned branches. Five evidence fixtures cover verified and assisted
+bilingual success, missing-language blocking, conflict quarantine, and
+forbidden historical substitution. Seven state fixtures cover clear operative success, missing
+signals, partial-status ambiguity, source conflict, unknown semantics, unproved
+operative effect, and missing rulebook support. Five limit fixtures cover a
+present-state-only success and blocks for unsupported historical events,
+effective dates, identity or continuity relationships, and complete historical
+event chains. Five identity fixtures cover fresh register allocation, legacy
+aliases, blocked source/legacy identity reuse, blocked unproved lineage, and
+quarantined similarity-based ambiguity. The package still declares
+Seven disposition fixtures cover all five primary dispositions, a visible
+operative-event consolidation gap, and rejection of single-signal shortcuts.
+Six record fixtures cover exact candidate creation, non-searchable exclusion,
+legacy identity rejection, incomplete bilingual content, non-canonical
+rendering, and unapproved authority notes.
+Seven release-accounting fixtures cover a complete initial release, missing and
+duplicate inventory, inconsistent outputs, a false predecessor, missing
+references, and unresolved completeness.
+Five targeted-review fixtures cover one bounded investigation and reject no-
+question, whole-history, unregistered-source, and fact-scope-mismatch requests.
+The package still declares
+incomplete rule and fixture universes plus exact source, rights, bytes, evaluation, semantic-
+profile, owner, and attestation blockers. It remains non-activatable and
+`NOT_READY`; this is progress toward its gate, not satisfaction of it.
+
 Azure OpenAI models sold by Azure through Microsoft Foundry are the selected
 service boundary. Exact deployed models remain disabled until their immutable
 evaluation/admission profiles pass. This does not block deterministic
@@ -446,8 +517,8 @@ Delivered locally:
 
 Exit evidence:
 
-- `uv run --frozen asklegal-local reset --exact-test-state`, named scenario,
-  and `prove --all` semantics are implemented and documented;
+- `uv run --frozen --all-packages asklegal-local reset --exact-test-state`,
+  named scenario, and `prove --all` semantics are implemented and documented;
 - all 32 scenarios pass twice in clean path-distinct roots with byte-identical
   complete reports and full generated-artifact inventories;
 - the golden flow uses the local M3–M6 application/service boundaries from
@@ -569,15 +640,40 @@ Exit gate:
 1. **M1–M7 local platform — COMPLETE:** the engineering foundation, domain and
    register, five application boundaries, acquisition/evidence, executable ZZZ
    processing, Review/Approval/promotion, and all 32 end-to-end scenarios pass.
-2. **Next implementation gate — M8:** separately authorize or decline the Azure
-   non-production platform. M7 completion alone grants no cloud authority.
-3. **M8 decision/evidence work:** before resource creation, settle and measure
-   exact region, capacity, service tier, retention, recovery, security,
-   observability, cost, identity, network, and operational admission profiles.
-4. **M9 admission work:** real source packages, Azure OpenAI deployments,
-   embeddings, Pinecone, recovery, Entra/WAF, and production dependencies remain
-   separate evidence gates; none is implied by local fake success.
-5. **Admin portal — DEFERRED:** integration may now be planned against the
+2. **V1 POC topology — STATIC CONTRACTS COMPLETE; ADMISSION NOT READY:** the
+   exact disabled service/network/vault/scheduler/authority inventory, complete
+   12-artifact-to-16-service mapping, read-only Ubuntu host-facts policy, five-
+   image build-input inventory, five-application runtime-input inventory, and
+   process-side file credential loader pass locally. The disabled credential-interface
+   proof plan also binds all three credential-gated product services to six
+   exact steps and seven inspection surfaces. The composite admission gate now
+   revalidates all eight static contracts and reports the single authoritative
+   verdict `V1_POC_NOT_ADMITTED`: 14 ordered components, eight static contracts
+   validated, 14 blockers, and no admission or effect
+   authority. Preserve the exact
+   `LOGICALLY_SEPARATE_POC_RECOVERY` limitation. Next resolve tested artifact
+   and Ubuntu package pins, collision-free private subnets, remaining adapter
+   and readiness composition, host credential delivery, SQL Server and vault
+   certificate trust, and the file-only SQL/Versity credential-interface gate
+   before any service can be enabled.
+   The implementation baseline and incremental proof plan are in
+   `docs/design/V1_POC_UBUNTU_TOPOLOGY.md`.
+3. **Hong Kong package work:** the stable first-baseline set and complete
+   ordinary current-update path are implemented locally through
+   `HKLEG-CURRENT-REL-001`. All three scopes remain `NOT_READY`; the next
+   package admission work needs real endpoint/source/right evidence,
+   adjudicated truth, complete conformance scope, and named ownership. Those
+   inputs require separate external authorization.
+4. **V1 admission work:** real source packages, hosted model and embedding
+   deployments, Pinecone serving, recovery, and application dependencies
+   remain separate evidence gates; none is implied by local fake success.
+5. **Azure M8 — POST-V1/DEFERRED:** retain the accepted cloud design, but do not
+   treat Azure resource creation as a V1 prerequisite without a new decision.
+6. **External-effect gate:** Pinecone belongs to the POC design, but credentials,
+   plan purchase, project/index creation, writes, and routing remain gated until
+   explicitly authorized. Azure application hosting, Entra/WAF, and other cloud
+   production dependencies remain post-V1.
+7. **Admin portal — DEFERRED:** integration may now be planned against the
    stable Review API, but remains after the pipeline proof by explicit user
    direction and is not part of M8 authority.
 

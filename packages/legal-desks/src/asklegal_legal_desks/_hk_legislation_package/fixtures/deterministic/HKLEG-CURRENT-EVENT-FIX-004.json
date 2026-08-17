@@ -1,0 +1,34 @@
+{
+  "fixture_id": "HKLEG-CURRENT-EVENT-FIX-004",
+  "title": "No valid base produces an explicit no-record coverage gap",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:38ae3b1f3ddeed39a243e274306650739cb5b939d5bdd31d96d0a121e9d8f199",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.ord-004",
+    "event_evidence_fingerprints": [
+      "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+    ],
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "event_operative_at_cutoff": true,
+    "effective_date": "2026-08-04",
+    "affected_location_ids": [
+      "section-5"
+    ],
+    "affected_location_scope": "EXACT",
+    "matching_current_consolidation_available": false,
+    "reconstruction_capability_state": "DESIGN_ONLY",
+    "reconstruction_exact_eligibility_proved": false,
+    "valid_latest_hkel_base_available": false,
+    "base_evidence_class": null,
+    "base_version_date": null
+  },
+  "expected_artifact": {
+    "path": "expected/current-event/HKLEG-CURRENT-EVENT-FIX-004.json",
+    "fingerprint": "sha256:377da28cb972eb89f12708afa321d44a422e36b11fe73057bdac875079409e4c"
+  }
+}

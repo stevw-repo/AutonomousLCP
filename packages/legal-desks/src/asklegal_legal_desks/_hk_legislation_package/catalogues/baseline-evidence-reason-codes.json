@@ -1,0 +1,11 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-evidence.reason-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {"code": "HKLEG_BASE_EVIDENCE_RECONCILED", "meaning": "Both current XML languages and matching official copies prove one version", "processing_outcome": "PASS", "coverage_effect": "NONE"},
+    {"code": "HKLEG_BASE_EVIDENCE_REQUIRED_ARTIFACT_MISSING", "meaning": "At least one required current bilingual evidence role is missing", "processing_outcome": "BLOCK", "coverage_effect": "COVERAGE_GAP"},
+    {"code": "HKLEG_BASE_EVIDENCE_VERSION_OR_CONTENT_CONFLICT", "meaning": "The available bilingual evidence does not reconcile to one exact version", "processing_outcome": "QUARANTINE", "coverage_effect": "NONE"},
+    {"code": "HKLEG_BASE_EVIDENCE_HISTORICAL_SUBSTITUTION_FORBIDDEN", "meaning": "Historical text was offered while required current evidence was absent", "processing_outcome": "BLOCK", "coverage_effect": "COVERAGE_GAP"}
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "fixture_id": "HKLEG-BASE-INV-FIX-002",
+  "title": "Observed Ordinance object missing from accounting",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-INV-001",
+  "input_fingerprint": "sha256:d2fbef1f0d09bc28701af8a6d1cafde3f5e279e6f3efae96b7a3d9c5b67849da",
+  "input": {
+    "source_observation": {
+      "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "cutoff": "2026-08-17T00:00:00Z",
+      "complete": true
+    },
+    "observed_legal_objects": [
+      {
+        "inventory_item_id": "SYN-HKLEG-ITEM-002",
+        "legal_object_id": "SYN-HKLEG-OBJ-002",
+        "legal_nature": "ORDINANCE",
+        "resources": [
+          {
+            "resource_id": "SYN-HKLEG-RES-002-EN",
+            "language": "en",
+            "version_signal": "SYN_VERSION_2026_08_17",
+            "status_signal": "SYN_CURRENT",
+            "locator": "SYNTHETIC_LOCATOR_ORD_002_EN",
+            "declared_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+          }
+        ]
+      }
+    ],
+    "accounting_claims": []
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-inventory/HKLEG-BASE-INV-FIX-002.json",
+    "fingerprint": "sha256:0563c08744c9d90215ae667e7ae9029e890dfd1d1682d2a83ec040b98974bb76"
+  }
+}

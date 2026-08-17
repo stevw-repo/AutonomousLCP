@@ -1,0 +1,20 @@
+{
+  "fixture_id": "HKLEG-CURRENT-DISP-FIX-007",
+  "title": "Status signal alone cannot select a legal disposition",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:b2dbe555e670a5f66c4e32b2843cb971fe213f786726541527244e49fd6ae224",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.ordinary-update",
+    "location_id": "section-7",
+    "upstream_checkpoint": "PASS",
+    "status_coverage_complete": true,
+    "disposition_basis": "UNSUPPORTED_SIGNAL_ONLY"
+  },
+  "expected_artifact": {
+    "path": "expected/current-disposition/HKLEG-CURRENT-DISP-FIX-007.json",
+    "fingerprint": "sha256:c500c645c91d48e1d4c75409096a79e818af25470bc24feb5bbdd875c42a9c8b"
+  }
+}

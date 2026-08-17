@@ -1,0 +1,42 @@
+{
+  "fixture_id": "HKLEG-CURRENT-CAUSE-FIX-006",
+  "title": "Source contract change opens review instead of legal inference",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:8ca603e49a0ab7661343df5287ab7e73396ad7f7594c49343a98b6d4684ba48d",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "SYN-HKLEG-OBJ-001",
+    "difference_class": "STRUCTURE_CHANGED",
+    "before_bundle_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "after_bundle_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "affected_location_ids": [
+      "SYN-LOC-001"
+    ],
+    "cause_type": null,
+    "cause_source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+    "cause_evidence_fingerprints": [
+      "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+    ],
+    "cause_evidence_complete": true,
+    "cause_matches_after_bundle": false,
+    "cause_evidence_conflicts": false,
+    "publication_date": "2026-08-17",
+    "effective_date": null,
+    "operative_provision_ref": null,
+    "technical_republication": {
+      "item_exact": false,
+      "version_exact": false,
+      "legal_content_exact": false,
+      "meaningful_structure_exact": false,
+      "operative_state_exact": false,
+      "six_serving_fields_exact": false
+    },
+    "source_contract_changed": true
+  },
+  "expected_artifact": {
+    "path": "expected/current-cause/HKLEG-CURRENT-CAUSE-FIX-006.json",
+    "fingerprint": "sha256:4c26406475f3bbc4c1369a8fa16a1e8dc32ddbfe4adc076133ef1265950badbf"
+  }
+}

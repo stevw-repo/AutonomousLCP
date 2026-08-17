@@ -1,0 +1,32 @@
+{
+  "fixture_id": "HKLEG-CURRENT-EVENT-FIX-005",
+  "title": "Available current consolidation returns to the ordinary evidence path",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:eec8020083a8e095a588f2d3fc1ea16901ceb25c2392c56ee1d752816c5212a9",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.ord-005",
+    "event_evidence_fingerprints": [],
+    "event_evidence_complete": false,
+    "event_evidence_authentic": false,
+    "event_evidence_conflicts": false,
+    "event_operative_at_cutoff": false,
+    "effective_date": null,
+    "affected_location_ids": [
+      "whole-instrument"
+    ],
+    "affected_location_scope": "EXACT",
+    "matching_current_consolidation_available": true,
+    "reconstruction_capability_state": "DESIGN_ONLY",
+    "reconstruction_exact_eligibility_proved": false,
+    "valid_latest_hkel_base_available": false,
+    "base_evidence_class": null,
+    "base_version_date": null
+  },
+  "expected_artifact": {
+    "path": "expected/current-event/HKLEG-CURRENT-EVENT-FIX-005.json",
+    "fingerprint": "sha256:c7c9907942db3b453e39c2dbd6eeaef0f860228b04a9bb0c0f0fce5cc15121af"
+  }
+}

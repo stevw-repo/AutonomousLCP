@@ -1,0 +1,36 @@
+{
+  "fixture_id": "HKLEG-BASE-HIST-FIX-002",
+  "title": "Historical evidence cannot substitute for missing current evidence",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-HIST-001",
+  "input_fingerprint": "sha256:7616fa4f68836c3c9cb10395d41527f6cbd220325a902436b92c8a284bbbacbf",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "affected_object_ids": [
+      "SYN-HKLEG-OBJ-001"
+    ],
+    "review_task": {
+      "review_task_id": "SYN-HKLEG-REVIEW-HIST-002",
+      "requested_source_ids": [
+        "HK-LEG-HKEL-PAST-DATA"
+      ],
+      "permitted_fact_code": "EARLIER_ARTIFACT_FACT"
+    },
+    "historical_evidence": {
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "availability": "AVAILABLE",
+      "evidence_result": "PROVES_PERMITTED_FACT",
+      "proof_basis": "EXPLICIT_OFFICIAL_EVIDENCE"
+    },
+    "proposed_fact_code": "EARLIER_ARTIFACT_FACT",
+    "attempted_current_evidence_substitution": true,
+    "attempted_reconstruction": false,
+    "scope_completeness_impossible": false
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-history/HKLEG-BASE-HIST-FIX-002.json",
+    "fingerprint": "sha256:73e3314fbe457741cbd7b4d82003baf7c5e378cef785fbc446d5237099e59a72"
+  }
+}

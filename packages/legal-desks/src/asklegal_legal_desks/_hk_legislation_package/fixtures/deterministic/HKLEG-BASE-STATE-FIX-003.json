@@ -1,0 +1,45 @@
+{
+  "fixture_id": "HKLEG-BASE-STATE-FIX-003",
+  "title": "Partial status has no exact operative location mapping",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-STATE-001",
+  "input_fingerprint": "sha256:fd79179cd55e7f66cb07e54df5db8d4a075bb45c43dc25b392c965874765f987",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "legal_object_id": "SYN-HKLEG-OBJ-001",
+    "legal_location_id": "SYN-HKLEG-LOC-001",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "official_version_id": "SYN-HKLEG-VER-001",
+    "predecessor_results": [
+      {
+        "rule_id": "HKLEG-BASE-INV-001",
+        "processing_outcome": "PASS"
+      },
+      {
+        "rule_id": "HKLEG-BASE-EVID-001",
+        "processing_outcome": "PASS"
+      }
+    ],
+    "state_facts": {
+      "accepted_signal_set_complete": true,
+      "semantics_status": "KNOWN",
+      "item_status": "CURRENT",
+      "provision_status": "PARTIAL",
+      "structure_status": "COMPLETE",
+      "status_mapping": "AMBIGUOUS",
+      "commencement_support": "PROVED",
+      "status_version_id": "SYN-HKLEG-VER-001"
+    },
+    "unresolved_source_ids": [],
+    "conflicting_source_ids": [],
+    "rulebook_support": {
+      "ownership_supported": true,
+      "operative_disposition_supported": true
+    }
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-state/HKLEG-BASE-STATE-FIX-003.json",
+    "fingerprint": "sha256:a6723ccc6b766cf283751552d07b13f0687162485532339c805e628efb2de91e"
+  }
+}

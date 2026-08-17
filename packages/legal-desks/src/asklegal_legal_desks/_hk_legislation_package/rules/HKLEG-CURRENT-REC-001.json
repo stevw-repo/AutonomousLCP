@@ -1,0 +1,1 @@
+{"rule_id":"HKLEG-CURRENT-REC-001","version":"1.0.0","stage":"ORDINARY_CURRENT_RECORD_REUSE_OR_CREATE","predecessor_rule_id":"HKLEG-CURRENT-DISP-001","successor_rule_id":"HKLEG-CURRENT-REL-001","exact_reuse_fields":["text","country","jurisdiction","type","source","authority_note"],"identity_rule":"REUSE_ONLY_ON_EXACT_PAYLOAD_ELSE_NEW_REGISTER_ID"}

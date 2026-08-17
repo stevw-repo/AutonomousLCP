@@ -1,0 +1,16 @@
+{
+  "fixture_id": "HKLEG-BASE-EVID-FIX-004",
+  "rule_id": "HKLEG-BASE-EVID-001",
+  "processing_outcome": "QUARANTINE",
+  "legal_disposition": "NOT_APPLICABLE",
+  "coverage_effect": "NONE",
+  "source_contract_review_required": false,
+  "reason_codes": ["HKLEG_BASE_EVIDENCE_VERSION_OR_CONTENT_CONFLICT"],
+  "rule_trace": ["HKLEG-BASE-EVID-001"],
+  "evidence_mode": "NONE",
+  "accepted_artifact_ids": [],
+  "unresolved_evidence_roles": [],
+  "affected_scope_ids": ["rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95"],
+  "record_output": "NONE",
+  "next_action": "QUARANTINE_EVIDENCE_CONFLICT"
+}

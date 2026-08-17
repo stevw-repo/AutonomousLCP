@@ -564,6 +564,339 @@ adjudicated evaluation truth, exact Azure OpenAI deployments, and attestations
 cannot be fabricated from platform code and remain exact M9/package-admission
 evidence.
 
+## V1 POC operating target
+
+V1 is a strictly internal POC. Development remains on macOS, but the continuous
+runtime is one Ubuntu 24.04 x86-64 PC with 64 GB RAM and 5 TB on one physical
+drive. Ubuntu is initially the only runtime host; the Mac must not be required
+for operation. Azure application hosting is post-V1/deferred.
+
+The accepted runtime uses SQL Server 2025 Developer Edition in a pinned official
+Microsoft Linux container; two memory-only Durable Task Scheduler emulator
+instances (general and promotion) with `systemd` timers; two separately
+identified and credentialed Versity Gateway instances for Primary and Recovery
+Evidence Vaults; Ubuntu `systemd-creds`; hosted Pinecone Cloud in an isolated
+POC project; OpenTelemetry Collector, Prometheus, Grafana OSS, and persistent
+forward-secure-sealed journald. Every container requires an exact tested version
+and digest. Services are private by default and least-privileged.
+
+The Management Register remains authoritative over orchestration. Scheduler
+loss fences the old execution and creates replacement work from reconciled SQL
+state and the last safe checkpoint; it is never described as resuming lost
+history. Both evidence vaults share one physical drive, so the recovery class is
+exactly `LOGICALLY_SEPARATE_POC_RECOVERY`, not protection from host or disk loss.
+SQL ledger plus immutable Recovery Vault archives are the authoritative audit
+trail. Pinecone is a replaceable serving copy built through immutable
+replacement indexes; it is not an evidence or register authority.
+
+Controlled outbound official-source and admitted hosted model/embedding calls
+remain separately gated. So do credentials, Pinecone plan selection and the
+first real Pinecone mutation. These infrastructure decisions authorize design
+and repository implementation only, not deployment or any external effect.
+
+The static POC contracts are under `infrastructure/poc/`. `topology.json`
+declares 16 disabled services, 10 networks, and 25 credential reference names;
+`artifact_admission.json` maps those services to 12 unique, non-admitted
+artifacts; and `host_admission_policy.json` defines the read-only Ubuntu facts
+boundary. Matching synthetic host facts never grant admission while credential-
+interface proof, exact host-package locks, and private-subnet selection remain
+open. These files contain no credential values and grant no build, registry,
+host-mutation, service-enablement, or external-write authority.
+
+## Hong Kong Legislation readiness checkpoint
+
+On 2026-08-17, the user selected `HK-LEG-ORDINANCES` as the first real-package
+workstream and authorized local, network-disabled implementation only. The
+frozen package under
+`packages/legal-desks/src/asklegal_legal_desks/_hk_legislation_package/`
+contains the accepted 14 stable source roles and all three non-overlapping Hong
+Kong Legislation scopes. Ordinances is the current implementation target;
+subsidiary legislation is not yet targeted, and constitutional/other
+instruments retains the mandatory Instruments & Others review and row-level
+disposition-registry blockers.
+
+The second local checkpoint implements the deterministic, offline
+`HKLEG-BASE-INV-001` inventory-accounting slice. A strict package-local Draft
+2020-12 schema, closed current-inventory source and reason-code catalogues, one
+declarative rule, four synthetic fixtures, and four separately hashed expected
+decisions prove complete, missing, duplicate-owned, and legal-nature-
+misassigned accounting. The rule decides inventory completeness only: its
+legal disposition is always `NOT_APPLICABLE`, it emits no record, and its four
+declared terminal branches all have exact fixture coverage.
+
+The third local checkpoint implements the preceding deterministic, offline
+`HKLEG-BASE-OBS-001` observation-freeze slice. Five exact fixtures cover one
+valid frozen cutoff, a missing required Gazette observation, mixed cutoffs,
+rulebook/scope/specification lock drift, and a source change detected after the
+cutoff. Only the valid branch advances. The composed proof is exactly
+`HKLEG-BASE-OBS-001` → `HKLEG-BASE-INV-001`; later source changes must trigger a
+refreeze or a separate ordinary update and cannot be silently merged.
+
+The fourth local checkpoint implements the following deterministic, offline
+`HKLEG-BASE-EVID-001` current-evidence gate. Five exact fixtures prove matching
+English and Traditional Chinese current XML with either verified or assisted
+official HKeL copies, missing-language blocking, conflict quarantine, and the
+ban on using historical XML as a current-evidence substitute. The rule records
+the copy evidence class but makes no legal-status decision and emits no Search
+Record. The complete ordered proof is now `HKLEG-BASE-OBS-001` →
+`HKLEG-BASE-INV-001` → `HKLEG-BASE-EVID-001`; only its golden current bilingual
+bundle advances to `HKLEG-BASE-STATE-001`.
+
+The fifth local checkpoint implements `HKLEG-BASE-STATE-001`. Seven exact
+fixtures distinguish a fully supported present operative state from a missing
+required state signal, partial or ambiguous location mapping, accepted-source
+conflict, unknown source semantics, an unproved `InEffect`-style operative
+signal, and missing written rulebook support. Only the clear branch emits
+`present_state: OPERATIVE_CURRENT`; legal disposition remains
+`NOT_APPLICABLE`, no Search Record is emitted, and historical assertion scope
+remains `PENDING_LIMIT_RULE` until `HKLEG-BASE-LIMIT-001` runs. The complete
+ordered proof is now `HKLEG-BASE-OBS-001` → `HKLEG-BASE-INV-001` →
+`HKLEG-BASE-EVID-001` → `HKLEG-BASE-STATE-001`.
+
+The sixth local checkpoint implements `HKLEG-BASE-LIMIT-001`. Five exact
+fixtures prove the clean transition from `PENDING_LIMIT_RULE` to
+`PRESENT_STATE_ONLY` and separately block unsupported historical event,
+effective-date, continuity, and complete-event-chain assertions. The complete
+ordered proof now continues from STATE through LIMIT, and only the clean branch
+advances to `HKLEG-BASE-ID-001`.
+
+The seventh local checkpoint implements `HKLEG-BASE-ID-001`. A clear present
+object requests new opaque register-owned Legal Item, Official Version, Legal
+Location, and Search Record identities without choosing the still-unsettled
+concrete ID encodings. HKeL coordinates and legacy Distillation or Pinecone IDs
+remain aliases or trace facts. Source/legacy identity reuse and unproved
+lineage are blocked; duplicate or continuity ambiguity is quarantined for
+targeted review.
+
+The eighth local checkpoint implements `HKLEG-BASE-DISP-001`. It keeps all five
+accepted primary dispositions distinct, sends only supported presently
+operative text toward record construction, preserves non-searchable accounting,
+keeps unresolved facts quarantined, exposes an operative-event/current-text gap,
+and blocks publication or one source signal as insufficient.
+
+The ninth local checkpoint implements `HKLEG-BASE-REC-001`. It renders the
+ADR 0021 English-first and Traditional-Chinese-second canonical text with exact
+punctuation, NFC/LF rules, six metadata strings, and the `None` authority-note
+sentinel. The candidate conforms to the repository-wide Serving Record schema,
+uses a register-issued `rec_` identity, and fingerprints only canonical metadata.
+Non-searchable, legacy-ID, incomplete-bilingual, non-canonical, and unapproved-
+note paths emit no candidate.
+
+The tenth local checkpoint implements `HKLEG-BASE-REL-001`. It proves complete
+initial-release accounting across objects, locations, dispositions, candidates,
+Coverage Gaps, Quarantines, investigations, and identity decisions; requires no
+accepted predecessor; and produces eligibility for candidate Corpus Release
+construction without itself sealing or publishing a release.
+
+The eleventh local checkpoint implements `HKLEG-BASE-REVIEW-001`. Historical
+work opens only for a named material uncertainty and binds the exact question,
+objects, requested registered source roles, permitted fact, stopping condition,
+and responsible Hong Kong Legislation Legal Desk. Clear items, whole-history
+requests, unregistered sources, and mismatched fact scopes do not open work.
+
+The twelfth local checkpoint implements `HKLEG-BASE-HIST-001`. Historical
+evidence can establish only the exact fact permitted by the targeted Review
+task. Current-evidence substitution, similarity-only proof, unavailable or
+insufficient evidence, discovery-only sources, and conflicts all fail closed;
+an unavailable fact that makes scope completeness impossible exposes a
+Coverage Gap, while a conflict quarantines only the affected decision.
+
+The thirteenth local checkpoint implements `HKLEG-BASE-CHANGE-001`. A source
+change after the frozen cutoff must preserve the original package and create a
+separate Observation. The only permitted responses are abandon-and-refreeze or
+finish the internally consistent original baseline and then run an ordinary
+update. Silent cutoff mixing and claims of later currency are blocked.
+
+The fourteenth local checkpoint implements the ordinary
+`HKLEG-CURRENT-OBS-001` through `HKLEG-CURRENT-OBS-003` gate. Six fixtures
+distinguish supported no change, newly opened and deduplicated bounded work,
+release-blocking observation failure with a Coverage Gap, item-only dependency
+failure, and an urgent affected signal. A signal opens acquisition work but
+does not decide legal status; supported no change reuses the existing Corpus
+Release instead of creating an empty release.
+
+The fifteenth local checkpoint implements `HKLEG-CURRENT-EVID-001` through
+`HKLEG-CURRENT-EVID-004`. Nine fixtures prove complete verified and assisted
+bilingual bundles, newer-assisted selection, same-version verified preference,
+coverage-dependent and non-current missing evidence, bilingual version and
+XML/copy conflicts, unofficial-copy rejection, and structure/identity
+quarantine. Evidence class never cures a mismatch or missing artifact.
+
+The sixteenth local checkpoint implements `HKLEG-CURRENT-DIFF-001` and
+`HKLEG-CURRENT-DIFF-002`. Seven fixtures distinguish exact unchanged reuse,
+unsupported reuse, payload change, multiple structure/location differences,
+evidence-bundle-only change, an added object, and a missing predecessor
+baseline. The classifier reads only exact accepted-bundle fingerprints and
+references. It emits no record and makes no legal-identity, status, repeal, or
+continuity inference; exact equality is reuse-eligible only when continuing
+support is separately proved.
+
+The seventeenth local checkpoint implements `HKLEG-CURRENT-CAUSE-001` and
+`HKLEG-CURRENT-CAUSE-002`. Six fixtures prove exact Gazette cause, exact
+Editorial Record cause, fully exact non-serving technical republication,
+unexplained-change Quarantine, cause/bundle conflict Quarantine, and bounded
+Source Contract Review. A status signal, HKeL appearance, similarity, or AI
+result cannot substitute for assigned cause evidence. The gate emits no record
+and makes no legal identity or status inference.
+
+The eighteenth local checkpoint implements `HKLEG-CURRENT-EVENT-001`. Eight
+fixtures route a proved operative event with no matching current consolidation
+to an eligible reconstruction plan, verified or assisted known-stale fallback,
+or explicit no-record Coverage Gap; they also prove ordinary-path return,
+incomplete-evidence blocking, conflict Quarantine, and unbounded-affected-set
+Quarantine. The gate records only a Legal Status Event and Coverage Gap. It
+cannot construct text or emit a Search Record.
+
+The nineteenth through twenty-first local checkpoints implement the ordinary
+`HKLEG-CURRENT-DISP-001` → `HKLEG-CURRENT-REC-001` →
+`HKLEG-CURRENT-REL-001` completion path. Disposition assigns exactly one of the
+five accepted states while keeping processing separate. Record handling reuses
+an immutable Search Record only when all six serving fields are equal and
+continuing legal support is proved; any serving-field change requires a new
+Register-issued ID and an attempted same-ID mutation quarantines. Release
+accounting exactly reconciles objects, locations, events, selected and retired
+records, Coverage Gaps, and Quarantines before candidate-release construction.
+
+The package is version `0.21.0` with fingerprint
+`sha256:61d58fca4b695a466dbaaa73353c066614ba47df3be7cf5f3c89aa5389a1e978`.
+It contains 27 offline rules and 127 exact deterministic fixtures.
+It still has no real source bytes, source-rights acceptance, complete rule or
+fixture universe, semantic profile, adjudicated evaluation, named owner
+attestation, conformance attestation, activation, or processing authority. All
+three scopes therefore remain `NOT_READY`; the loader continues to require
+explicit blockers and later-state proof.
+
+## V1 POC application-image, runtime-input, and host-fact checkpoint
+
+The disabled V1 artifact inventory now has a second closed contract for the
+five repository images. `infrastructure/poc/application_image_inputs.json`
+binds Linux amd64, Python 3.14.7, the exact root/package locks, every
+application's complete workspace distribution closure, console health check,
+service identity, listener ports, and non-root/read-only/no-new-privileges/
+no-secret hardening requirements. It admits no image and deliberately leaves
+the base digest, third-party wheelhouse, OCI build definition, real runtime
+configuration adapters, and Ubuntu build proof unresolved. This prevents the
+current local-fake entrypoints from being packaged as if they were V1 runtime
+services.
+
+`infrastructure/poc/application_runtime_inputs.json` adds the closed disabled
+per-process contract. It binds all five application codes and service
+identities to the operational database and exact procedure-only roles, four
+scheduler/task-hub assignments, permitted vaults, 25 logical destinations,
+topology networks/listeners/outbound profiles, and exactly 19 credential
+filenames. It resolves no address and admits no application. Seven blockers
+remain: logical destination resolution, systemd credential delivery proof,
+real adapter composition, bounded readiness probes, SQL Server certificate
+trust, vault-server certificate trust, and Ubuntu runtime proof.
+
+The application-runtime package now owns a process-side
+`SystemdCredentialDirectory` loader. It reads only canonical names beneath an
+absolute injected `$CREDENTIALS_DIRECTORY`, uses directory-relative no-follow
+opens, requires a single-link private `0400` regular file, limits material to
+65,536 bytes by default, and exposes only closed path/value-free error codes.
+This is a local loader proof, not evidence that systemd or a container image
+delivered the files correctly and not a resolution of the separate SQL and
+Versity vendor-interface conflict.
+
+The concrete Management Register driver now provides a distinct V1
+application factory. It binds `sql-server:1433`, `AskLegalPocOperational`, and
+the five exact application principals; requires strict encrypted transport with
+hostname-validated server certificates; bounds login time; holds passwords in
+a redacted value object; and normalizes connection failures without credential
+or topology detail. The old raw-string factory remains only for the opt-in SQL
+spike and hides its connection string from representation. This makes trusted
+SQL certificate issuance and application-image trust-bundle delivery an
+explicit admission blocker rather than accepting `TrustServerCertificate`.
+
+The locked Durable Task emulator SDK now has an exact V1 settings/factory
+boundary. Control, acquisition, and legal processing use disjoint hubs on
+`dts-general:8080`; promotion alone uses `promotion` on
+`dts-promotion:8080`; Review is rejected. The emulator receives no token and
+uses private-network plaintext gRPC, requires an explicit concurrency profile,
+and preserves only `MEMORY_ONLY` plus `REPLACEMENT_FROM_SAFE_CHECKPOINT`.
+All five applications compose their own file credential into the exact SQL
+factory and the four applicable scheduler settings without connecting.
+
+The evidence-vault package now also owns the disabled V1 S3-compatible client
+boundary. Locked Boto3 `1.43.49` receives only explicit credential-file values,
+vault-specific HTTPS endpoints and CA bundles, SigV4 path-style addressing,
+and one bounded retry/timeout profile. Exact provider version IDs are encoded
+losslessly; conditional create, SHA-256, COMPLIANCE retention, legal hold,
+exact-version read-back, replay adoption, manifest-last writing, and
+primary-to-recovery copying pass against deterministic S3 fakes. Every
+application now composes only its authorized Primary/Recovery vault roles.
+Client construction opens no connection. Real Versity behavior, certificates,
+bucket/policy setup, credentials, and Ubuntu access remain unproved.
+
+The application-runtime package now defines the complete ordered V1 readiness
+dependency set for each application and an asynchronous gate with a hard
+per-probe response deadline, safe normalized failure/timeout results, complete
+evaluation, and fail-closed aggregate status. The runtime-input contract binds
+those exact dependency codes. SQL has a non-mutating bounded encrypted
+connection plus exact `SELECT 1` check; each vault has a read-only versioning
+and Object Lock check. Official DTS emulator guidance documents gRPC port 8080
+connectivity checks but no non-mutating SDK/task-hub health operation, so the
+scheduler, telemetry, Review/egress, and real-host probe implementations remain
+admission work rather than relying on private SDK internals.
+
+The V1 topology now also reflects the accepted M3 evidence boundary: Control
+proposal preparation and Review evidence streaming each receive a separate
+read-only Primary Vault credential reference and internal network path. This
+corrects the earlier omission but creates no credential or vault access. The
+real endpoint resolution, server-certificate trust, bucket policies, and
+negative authorization proof remain unresolved admission work.
+
+`tools/v1_poc_collect_host_facts.py` is the corresponding bounded read-only
+Ubuntu collector. It emits exactly the facts accepted by the host-admission
+policy, reads no credential value, makes no host change, refuses the Mac, and
+leaves package-lock and subnet facts empty until their separate admission
+steps. Inability to inspect nftables, paths, sealing, or credential modes fails
+closed.
+
+`infrastructure/poc/systemd_unit_inputs.json` now turns the accepted unit graph
+into a closed disabled contract: one input for every topology service, two
+privileged one-shot bootstrap units, five cadence-unresolved timers, exact
+dependencies, runtime identities, credential names, write paths, root-owned
+management, and a uniform hardening profile. Six explicit blockers prevent
+runtime commands, installation, image pull, credential bridging, subnet use,
+or enablement. The validator reads repository JSON only; it neither renders nor
+touches systemd. All five application compositions now load every one of their
+19 declared credential files. Credentials without an admitted provider adapter
+remain opaque redacted material rather than receiving an invented format.
+
+`infrastructure/poc/host_identity_inputs.json` closes the remaining static
+identity boundary for the ten accepted services that own host paths. Every
+account is locked, non-login, group-isolated, uncreated, and has no numeric
+UID/GID until collision-free allocation on the Ubuntu host; 14 owned paths are
+bound back to topology. The image-defined SQL identity and pathless DTS/egress
+container identities are not misrepresented as created host accounts. Four
+blockers retain UID/GID allocation, container mapping, ownership read-back, and
+real Ubuntu identity proof.
+
+`infrastructure/poc/credential_interface_proof_inputs.json` turns the remaining
+SQL/Versity secret-delivery spike into an exact, still-disabled executable-
+evidence contract. It binds the credential-gated SQL service and both Versity
+vault services to their artifact selection and exact systemd credential names;
+requires six delivery, startup, inspection, rotation, restart, and evidence-
+then-cleanup steps; scans seven leak surfaces; and requires 12 manifest-last
+evidence classes. All three subject results remain `NOT_RUN`. Six explicit
+blockers retain Ubuntu access, read-only resolution, pull/run, an exact Versity
+digest, synthetic one-use credential creation, and named throwaway-state
+mutation/cleanup authority. A failed exact-image proof still requires the
+accepted user choice and cannot silently relax the file-only secret rule.
+
+`infrastructure/poc/v1_admission_gate.json` is the authoritative composite V1
+POC verdict. It binds 14 ordered components: the eight currently implemented
+static contracts plus real Hong Kong package, official source,
+model/embedding, Pinecone, Ubuntu end-to-end, and final named-human acceptance
+admission. The static contracts may validate while the aggregate remains
+exactly `V1_POC_NOT_ADMITTED`, `ready=false`, with all external, host-mutation,
+image-pull, credential-creation, service-enablement, and Pinecone-write
+authority false. `tools/v1_poc_admission.py` re-executes every static checker
+before reporting eight validated static contracts and 14 blockers. It performs
+no host or external action and prevents a partial local pass from being
+misrepresented as V1 readiness.
+
 ## M6 local Review, Approval, corpus, and promotion milestone
 
 M6 is complete locally against
@@ -780,12 +1113,13 @@ result. Ledger verification locally requires both read-committed snapshot and
 snapshot isolation and runs outside a user transaction. External digest
 storage remains an Azure-only future proof.
 
-Ubuntu Docker 29.1.3 is installed on the development host and its services are
-enabled. The user is deliberately not a member of the Docker group; use
-`sudo docker`. The validated container and temporary credential were removed,
-while the digest-pinned image may remain cached. This checkpoint authorizes no
-Azure resource, external data, legal record, application, deployment, or
-production capability.
+The real-engine checkpoint ran on the prior Ubuntu development host with Docker
+29.1.3 enabled; that user was deliberately not a member of the Docker group and
+used `sudo docker`. This is historical proof evidence, not a prerequisite fact
+about every later workspace host. The validated container and temporary
+credential were removed, while the digest-pinned image may remain cached on
+that prior host. This checkpoint authorizes no Azure resource, external data,
+legal record, application, deployment, or production capability.
 
 ## Production hosting and network boundary
 

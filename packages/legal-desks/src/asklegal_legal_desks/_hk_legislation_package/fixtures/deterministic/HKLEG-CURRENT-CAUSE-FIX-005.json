@@ -1,0 +1,42 @@
+{
+  "fixture_id": "HKLEG-CURRENT-CAUSE-FIX-005",
+  "title": "Cause evidence conflicting with resulting HKeL bundle is quarantined",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:f429fcd02cad8769cdeee1f82fd2742737484c75cb11b1bde6c585fb1ae19d90",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "SYN-HKLEG-OBJ-001",
+    "difference_class": "PAYLOAD_CHANGED",
+    "before_bundle_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "after_bundle_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "affected_location_ids": [
+      "SYN-LOC-001"
+    ],
+    "cause_type": "GAZETTE_EVENT",
+    "cause_source_id": "HK-LEG-GLD-EGAZETTE",
+    "cause_evidence_fingerprints": [
+      "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    ],
+    "cause_evidence_complete": true,
+    "cause_matches_after_bundle": false,
+    "cause_evidence_conflicts": true,
+    "publication_date": "2026-08-15",
+    "effective_date": "2026-08-17",
+    "operative_provision_ref": "SYN-NOTICE-1:s2",
+    "technical_republication": {
+      "item_exact": false,
+      "version_exact": false,
+      "legal_content_exact": false,
+      "meaningful_structure_exact": false,
+      "operative_state_exact": false,
+      "six_serving_fields_exact": false
+    },
+    "source_contract_changed": false
+  },
+  "expected_artifact": {
+    "path": "expected/current-cause/HKLEG-CURRENT-CAUSE-FIX-005.json",
+    "fingerprint": "sha256:b0e8b1b89a8b69aae95c76fed604cd57902a28be9fc022b1de3c3b7fa6b55315"
+  }
+}

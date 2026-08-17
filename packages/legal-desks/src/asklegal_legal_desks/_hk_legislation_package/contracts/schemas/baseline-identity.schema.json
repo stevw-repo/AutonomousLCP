@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/hk-legislation-baseline-identity.schema.json",
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "scope_id": {"enum": ["rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95", "rsc_1cdf5a558e8286dadf84f819de1d48168d455cd457fcf30e", "rsc_4708261daa351aa91a1511674b94bced0a9c2eaa817770ea"]},
+    "alias_type": {"enum": ["HKEL_NUMBER", "URL", "TITLE", "CITATION", "VISIBLE_LOCATOR", "FILE", "LEGACY_DISTILLATION_ID", "LEGACY_PINECONE_ID"]},
+    "identity_layer": {"enum": ["LEGAL_ITEM", "OFFICIAL_VERSION", "LEGAL_LOCATION", "SEARCH_RECORD"]},
+    "relationship_code": {"enum": ["PREDECESSOR", "SUCCESSOR", "SPLIT", "MERGE", "CONTINUATION"]},
+    "reason_code": {"enum": ["HKLEG_BASE_ID_GREENFIELD_ALLOCATION_REQUESTED", "HKLEG_BASE_ID_NON_REGISTER_IDENTITY_FORBIDDEN", "HKLEG_BASE_ID_UNPROVED_RELATIONSHIP_FORBIDDEN", "HKLEG_BASE_ID_DUPLICATE_OR_CONTINUITY_AMBIGUOUS"]},
+    "alias": {
+      "type": "object", "additionalProperties": false, "required": ["alias_type", "value"],
+      "properties": {"alias_type": {"$ref": "#/$defs/alias_type"}, "value": {"type": "string", "minLength": 1}}
+    },
+    "reason_code_catalogue": {
+      "type": "object", "additionalProperties": false, "required": ["catalogue_id", "version", "status", "reason_codes"],
+      "properties": {
+        "catalogue_id": {"const": "asklegal.hk-legislation.baseline-identity.reason-codes"}, "version": {"const": "1.0.0"}, "status": {"const": "FROZEN_PARTIAL"},
+        "reason_codes": {"type": "array", "minItems": 4, "maxItems": 4, "uniqueItems": true, "items": {"type": "object", "additionalProperties": false, "required": ["code", "meaning", "processing_outcome"], "properties": {"code": {"$ref": "#/$defs/reason_code"}, "meaning": {"type": "string", "minLength": 1}, "processing_outcome": {"enum": ["PASS", "BLOCK", "QUARANTINE"]}}}}
+      }
+    },
+    "rule": {
+      "type": "object", "additionalProperties": false, "required": ["rule_id", "version", "stage", "predecessor_rule_id", "branch_precedence", "successor_rule_id", "allocation_layers"],
+      "properties": {
+        "rule_id": {"const": "HKLEG-BASE-ID-001"}, "version": {"const": "1.0.0"}, "stage": {"const": "FIRST_BASELINE_GREENFIELD_IDENTITY"}, "predecessor_rule_id": {"const": "HKLEG-BASE-LIMIT-001"},
+        "branch_precedence": {"const": ["DUPLICATE_OR_CONTINUITY_AMBIGUOUS", "UNPROVED_RELATIONSHIP_FORBIDDEN", "NON_REGISTER_IDENTITY_FORBIDDEN", "GREENFIELD_ALLOCATION_REQUESTED"]},
+        "successor_rule_id": {"const": "HKLEG-BASE-DISP-001"},
+        "allocation_layers": {"const": ["LEGAL_ITEM", "OFFICIAL_VERSION", "LEGAL_LOCATION", "SEARCH_RECORD"]}
+      }
+    },
+    "input": {
+      "type": "object", "additionalProperties": false, "required": ["cutoff", "legal_object_id", "legal_location_reference", "scope_id", "official_version_reference", "predecessor_result", "authoritative_identity_basis", "identity_ambiguity", "similarity_match_claimed", "proposed_relationship_codes", "aliases"],
+      "properties": {
+        "cutoff": {"const": "2026-08-17T00:00:00Z"}, "legal_object_id": {"const": "SYN-HKLEG-OBJ-001"}, "legal_location_reference": {"const": "SYN-HKLEG-LOC-001"}, "scope_id": {"$ref": "#/$defs/scope_id"}, "official_version_reference": {"const": "SYN-HKLEG-VER-001"},
+        "predecessor_result": {"const": {"rule_id": "HKLEG-BASE-LIMIT-001", "processing_outcome": "PASS", "historical_assertion_scope": "PRESENT_STATE_ONLY"}},
+        "authoritative_identity_basis": {"enum": ["REGISTER_ALLOCATION", "SOURCE_OR_LEGACY_IDENTIFIER"]},
+        "identity_ambiguity": {"enum": ["CLEAR", "DUPLICATE_OR_CONTINUITY_UNRESOLVED"]},
+        "similarity_match_claimed": {"type": "boolean"},
+        "proposed_relationship_codes": {"type": "array", "maxItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/relationship_code"}},
+        "aliases": {"type": "array", "maxItems": 8, "uniqueItems": true, "items": {"$ref": "#/$defs/alias"}}
+      }
+    },
+    "fixture": {
+      "type": "object", "additionalProperties": false, "required": ["fixture_id", "title", "synthetic", "status", "rule_id", "input_fingerprint", "input", "expected_artifact"],
+      "properties": {
+        "fixture_id": {"type": "string", "pattern": "^HKLEG-BASE-ID-FIX-00[1-5]$"}, "title": {"type": "string", "minLength": 1}, "synthetic": {"const": true}, "status": {"const": "FROZEN_PARTIAL"}, "rule_id": {"const": "HKLEG-BASE-ID-001"}, "input_fingerprint": {"$ref": "#/$defs/sha256"}, "input": {"$ref": "#/$defs/input"},
+        "expected_artifact": {"type": "object", "additionalProperties": false, "required": ["path", "fingerprint"], "properties": {"path": {"type": "string", "pattern": "^expected/baseline-identity/HKLEG-BASE-ID-FIX-00[1-5]\\.json$"}, "fingerprint": {"$ref": "#/$defs/sha256"}}}
+      }
+    },
+    "fixture_catalogue": {
+      "type": "object", "additionalProperties": false, "required": ["catalogue_id", "version", "status", "accepted_complete_universe", "fixtures"],
+      "properties": {
+        "catalogue_id": {"const": "asklegal.hk-legislation.baseline-identity.fixtures"}, "version": {"const": "1.0.0"}, "status": {"const": "FROZEN_PARTIAL"}, "accepted_complete_universe": {"const": false},
+        "fixtures": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"type": "object", "additionalProperties": false, "required": ["fixture_id", "path", "fixture_fingerprint", "expected_path", "expected_fingerprint"], "properties": {"fixture_id": {"type": "string", "pattern": "^HKLEG-BASE-ID-FIX-00[1-5]$"}, "path": {"type": "string", "pattern": "^fixtures/deterministic/HKLEG-BASE-ID-FIX-00[1-5]\\.json$"}, "fixture_fingerprint": {"$ref": "#/$defs/sha256"}, "expected_path": {"type": "string", "pattern": "^expected/baseline-identity/HKLEG-BASE-ID-FIX-00[1-5]\\.json$"}, "expected_fingerprint": {"$ref": "#/$defs/sha256"}}}}
+      }
+    },
+    "decision": {
+      "type": "object", "additionalProperties": false, "required": ["fixture_id", "rule_id", "processing_outcome", "legal_disposition", "coverage_effect", "source_contract_review_required", "reason_codes", "rule_trace", "identity_effects", "preserved_aliases", "rejected_relationship_codes", "affected_scope_ids", "record_output", "next_action"],
+      "properties": {
+        "fixture_id": {"type": "string", "pattern": "^HKLEG-BASE-ID-FIX-00[1-5]$"}, "rule_id": {"const": "HKLEG-BASE-ID-001"}, "processing_outcome": {"enum": ["PASS", "BLOCK", "QUARANTINE"]}, "legal_disposition": {"const": "NOT_APPLICABLE"}, "coverage_effect": {"const": "NONE"}, "source_contract_review_required": {"type": "boolean"}, "reason_codes": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"$ref": "#/$defs/reason_code"}}, "rule_trace": {"const": ["HKLEG-BASE-ID-001"]},
+        "identity_effects": {"type": "array", "maxItems": 4, "uniqueItems": true, "items": {"type": "object", "additionalProperties": false, "required": ["identity_layer", "action"], "properties": {"identity_layer": {"$ref": "#/$defs/identity_layer"}, "action": {"const": "ALLOCATE_NEW_OPAQUE"}}}},
+        "preserved_aliases": {"type": "array", "maxItems": 8, "uniqueItems": true, "items": {"$ref": "#/$defs/alias"}},
+        "rejected_relationship_codes": {"type": "array", "maxItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/relationship_code"}},
+        "affected_scope_ids": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"$ref": "#/$defs/scope_id"}}, "record_output": {"const": "NONE"},
+        "next_action": {"enum": ["RUN_HKLEG_BASE_DISP_001", "USE_REGISTER_ALLOCATION_ONLY", "REMOVE_UNPROVED_RELATIONSHIPS", "RUN_HKLEG_BASE_REVIEW_001"]}
+      }
+    }
+  }
+}

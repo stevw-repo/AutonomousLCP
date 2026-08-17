@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "status": "DESIGN_ONLY_DISABLED",
+  "authority": {
+    "credential_creation_authorized": false,
+    "image_pull_authorized": false,
+    "unit_installation_authorized": false,
+    "service_enablement_authorized": false,
+    "host_mutation_authorized": false
+  },
+  "credential_transport": {
+    "systemd_directive": "LoadCredentialEncrypted",
+    "runtime_directory_variable": "CREDENTIALS_DIRECTORY",
+    "container_bridge_state": "PROOF_REQUIRED",
+    "secret_environment_forbidden": true,
+    "secret_arguments_forbidden": true,
+    "persistent_plaintext_forbidden": true
+  },
+  "hardening_profile": {
+    "manager_user": "root",
+    "restart": "on-failure",
+    "no_new_privileges": true,
+    "protect_system": "strict",
+    "private_tmp": true,
+    "capability_bounding_set": [],
+    "runtime_command_state": "REQUIRED",
+    "enabled": false
+  },
+  "required_blockers": [
+    "ARTIFACT_PINS",
+    "CONTAINER_CREDENTIAL_BRIDGE",
+    "CREDENTIAL_INTERFACE_PROOF",
+    "PRIVATE_SUBNETS",
+    "RUNTIME_COMMANDS",
+    "UBUNTU_SYSTEMD_PROOF"
+  ],
+  "service_units": [
+    {"service_id":"sql-server","unit_name":"asklegal-sql-server.service","runtime_identity":"mssql","requires":[],"after_targets":["asklegal-filesystems.target"],"credential_names":["sql-bootstrap-password"],"read_write_paths":["/srv/asklegal/sql"],"runtime_command_state":"REQUIRED","enabled":false},
+    {"service_id":"dts-general","unit_name":"asklegal-dts-general.service","runtime_identity":"asklegal-dts-general","requires":["asklegal-register-migrate.service"],"after_targets":[],"credential_names":[],"read_write_paths":[],"runtime_command_state":"REQUIRED","enabled":false},
+    {"service_id":"dts-promotion","unit_name":"asklegal-dts-promotion.service","runtime_identity":"asklegal-dts-promotion","requires":["asklegal-register-migrate.service"],"after_targets":[],"credential_names":[],"read_write_paths":[],"runtime_command_state":"REQUIRED","enabled":false},
+    {"service_id":"vault-primary","unit_name":"asklegal-vault-primary.service","runtime_identity":"asklegal-vault-primary","requires":[],"after_targets":["asklegal-filesystems.target"],"credential_names":["vault-primary-root-access","vault-primary-root-secret"],"read_write_paths":["/srv/asklegal/vault-primary/objects","/srv/asklegal/vault-primary/versions","/srv/asklegal/vault-primary/sidecar"],"runtime_command_state":"REQUIRED","enabled":false},
+    {"service_id":"vault-recovery","unit_name":"asklegal-vault-recovery.service","runtime_identity":"asklegal-vault-recovery","requires":[],"after_targets":["asklegal-filesystems.target"],"credential_names":["vault-recovery-root-access","vault-recovery-root-secret"],"read_write_paths":["/srv/asklegal/vault-recovery/objects","/srv/asklegal/vault-recovery/versions","/srv/asklegal/vault-recovery/sidecar"],"runtime_command_state":"REQUIRED","enabled":false},
+    {"service_id":"control-plane","unit_name":"asklegal-control-plane.service","runtime_identity":"asklegal-control","requires":["asklegal-dts-general.service","asklegal-otel-collector.service","asklegal-register-migrate.service","asklegal-vault-bootstrap.service"],"after_targets":[],"credential_names":["review-client","sql-control","vault-primary-control"],"read_write_paths":["/var/lib/asklegal/control"],"runtime_command_state":"REQUIRED","enabled":false},
+    {"service_id":"review-api","unit_name":"asklegal-review-api.service","runtime_identity":"asklegal-review","requires":["asklegal-otel-collector.service","asklegal-register-migrate.service","asklegal-vault-bootstrap.service"],"after_targets":[],"credential_names":["review-api","sql-review","vault-primary-review"],"read_write_paths":["/var/lib/asklegal/review"],"runtime_command_state":"REQUIRED","enabled":false},
+    {"service_id":"acquisition-worker","unit_name":"asklegal-acquisition-worker.service","runtime_identity":"asklegal-acquisition","requires":["asklegal-dts-general.service","asklegal-egress-source.service","asklegal-otel-collector.service","asklegal-register-migrate.service","asklegal-vault-bootstrap.service"],"after_targets":[],"credential_names":["source-egress-proxy","sql-acquisition","vault-primary-acquisition","vault-recovery-acquisition"],"read_write_paths":["/var/lib/asklegal/acquisition"],"runtime_command_state":"REQUIRED","enabled":false},
+    {"service_id":"legal-processing-worker","unit_name":"asklegal-legal-processing-worker.service","runtime_identity":"asklegal-processing","requires":["asklegal-dts-general.service","asklegal-egress-model.service","asklegal-otel-collector.service","asklegal-register-migrate.service","asklegal-vault-bootstrap.service"],"after_targets":[],"credential_names":["model-egress-proxy","sql-processing","vault-primary-processing"],"read_write_paths":["/var/lib/asklegal/processing"],"runtime_command_state":"REQUIRED","enabled":false},
+    {"service_id":"promotion-worker","unit_name":"asklegal-promotion-worker.service","runtime_identity":"asklegal-promotion","requires":["asklegal-dts-promotion.service","asklegal-egress-promotion.service","asklegal-otel-collector.service","asklegal-register-migrate.service","asklegal-vault-bootstrap.service"],"after_targets":[],"credential_names":["embedding-provider","pinecone-poc","promotion-egress-proxy","sql-promotion","vault-primary-promotion","vault-recovery-promotion"],"read_write_paths":["/var/lib/asklegal/promotion"],"runtime_command_state":"REQUIRED","enabled":false},
+    {"service_id":"otel-collector","unit_name":"asklegal-otel-collector.service","runtime_identity":"asklegal-otelcol","requires":[],"after_targets":[],"credential_names":[],"read_write_paths":["/var/lib/otelcol"],"runtime_command_state":"REQUIRED","enabled":false},
+    {"service_id":"prometheus","unit_name":"asklegal-prometheus.service","runtime_identity":"asklegal-prometheus","requires":["asklegal-otel-collector.service"],"after_targets":[],"credential_names":[],"read_write_paths":["/var/lib/prometheus"],"runtime_command_state":"REQUIRED","enabled":false},
+    {"service_id":"grafana","unit_name":"asklegal-grafana.service","runtime_identity":"asklegal-grafana","requires":["asklegal-prometheus.service"],"after_targets":[],"credential_names":["grafana-admin"],"read_write_paths":["/var/lib/grafana"],"runtime_command_state":"REQUIRED","enabled":false},
+    {"service_id":"egress-source","unit_name":"asklegal-egress-source.service","runtime_identity":"asklegal-egress-source","requires":[],"after_targets":[],"credential_names":[],"read_write_paths":[],"runtime_command_state":"REQUIRED","enabled":false},
+    {"service_id":"egress-model","unit_name":"asklegal-egress-model.service","runtime_identity":"asklegal-egress-model","requires":[],"after_targets":[],"credential_names":[],"read_write_paths":[],"runtime_command_state":"REQUIRED","enabled":false},
+    {"service_id":"egress-promotion","unit_name":"asklegal-egress-promotion.service","runtime_identity":"asklegal-egress-promotion","requires":[],"after_targets":[],"credential_names":[],"read_write_paths":[],"runtime_command_state":"REQUIRED","enabled":false}
+  ],
+  "bootstrap_units": [
+    {"unit_name":"asklegal-register-migrate.service","kind":"ONESHOT","requires":["asklegal-sql-server.service"],"credential_names":["sql-bootstrap-password"],"disable_after_verified_success":true,"runtime_command_state":"REQUIRED","enabled":false},
+    {"unit_name":"asklegal-vault-bootstrap.service","kind":"ONESHOT","requires":["asklegal-vault-primary.service","asklegal-vault-recovery.service"],"credential_names":["vault-primary-root-access","vault-primary-root-secret","vault-recovery-root-access","vault-recovery-root-secret"],"disable_after_verified_success":true,"runtime_command_state":"REQUIRED","enabled":false}
+  ],
+  "timer_units": [
+    {"timer_id":"audit-archive","unit_name":"asklegal-audit-archive.timer","cadence_state":"ADMISSION_VALUE_REQUIRED","enabled":false},
+    {"timer_id":"full-reconciliation","unit_name":"asklegal-full-reconciliation.timer","cadence_state":"ADMISSION_VALUE_REQUIRED","enabled":false},
+    {"timer_id":"ordinary-observation","unit_name":"asklegal-ordinary-observation.timer","cadence_state":"PACKAGE_VALUE_REQUIRED","enabled":false},
+    {"timer_id":"recovery-verification","unit_name":"asklegal-recovery-verification.timer","cadence_state":"ADMISSION_VALUE_REQUIRED","enabled":false},
+    {"timer_id":"telemetry-retention","unit_name":"asklegal-telemetry-retention.timer","cadence_state":"ADMISSION_VALUE_REQUIRED","enabled":false}
+  ]
+}

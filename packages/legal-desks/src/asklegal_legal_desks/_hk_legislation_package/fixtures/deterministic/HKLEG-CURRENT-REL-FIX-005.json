@@ -1,0 +1,45 @@
+{
+  "fixture_id": "HKLEG-CURRENT-REL-FIX-005",
+  "title": "Inconsistent disposition and output accounting blocks release",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:2a38fd406cfb4eb4d70153676985cb71cf6008673b04478c5e9e4d82e18bba74",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "predecessor_release_id": "rel_synthetic_predecessor",
+    "expected_accounting": {
+      "object_ids": [
+        "object-1"
+      ],
+      "location_ids": [
+        "location-1"
+      ],
+      "event_ids": [],
+      "selected_record_ids": [],
+      "retired_record_ids": [],
+      "coverage_gap_ids": [],
+      "quarantine_ids": []
+    },
+    "actual_accounting": {
+      "object_ids": [
+        "object-1"
+      ],
+      "location_ids": [
+        "location-1"
+      ],
+      "event_ids": [],
+      "selected_record_ids": [],
+      "retired_record_ids": [],
+      "coverage_gap_ids": [],
+      "quarantine_ids": []
+    },
+    "duplicate_location_ids": [],
+    "entry_consistency_proved": false,
+    "unresolved_completeness_ids": []
+  },
+  "expected_artifact": {
+    "path": "expected/current-release-accounting/HKLEG-CURRENT-REL-FIX-005.json",
+    "fingerprint": "sha256:fad496378dee063008ff309a11439e7c2a5170de04298851f3629ea9e17d3fbc"
+  }
+}

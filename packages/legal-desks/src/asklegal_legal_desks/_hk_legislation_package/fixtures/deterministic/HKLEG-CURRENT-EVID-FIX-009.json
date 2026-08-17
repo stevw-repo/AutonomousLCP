@@ -1,0 +1,40 @@
+{
+  "fixture_id": "HKLEG-CURRENT-EVID-FIX-009",
+  "title": "Unreconciled structure or identity quarantines",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:c9b77b05a94d3749fea241f441b40d3efbb71bb141bc95b73f964bd953b9e72d",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "affected_object_ids": [
+      "SYN-HKLEG-OBJ-001"
+    ],
+    "current_law_coverage_depends": true,
+    "applicable_version_order": [
+      "SYN-V2"
+    ],
+    "candidate_bundles": [
+      {
+        "version": "SYN-V2",
+        "evidence_class": "VERIFIED",
+        "official_hkel": true,
+        "en_xml_present": true,
+        "zh_hant_xml_present": true,
+        "en_copy_present": true,
+        "zh_hant_copy_present": true,
+        "required_assets_complete": true,
+        "source_capture_complete": true,
+        "bilingual_version_match": true,
+        "xml_copy_content_match": true,
+        "structure_reconciled": false,
+        "identity_reconciled": true,
+        "evidence_label_present": true
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/current-evidence/HKLEG-CURRENT-EVID-FIX-009.json",
+    "fingerprint": "sha256:0be2d3d612a95133aeb58eda1f9d35a6ed02fffde743d7af5fdaf4448327441d"
+  }
+}

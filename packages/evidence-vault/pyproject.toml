@@ -6,6 +6,7 @@ requires-python = "==3.14.7"
 dependencies = [
   "asklegal-contracts",
   "asklegal-domain",
+  "boto3==1.43.49",
 ]
 
 [build-system]

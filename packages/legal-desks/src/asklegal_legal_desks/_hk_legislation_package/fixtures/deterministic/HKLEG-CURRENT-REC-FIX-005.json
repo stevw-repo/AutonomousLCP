@@ -1,0 +1,42 @@
+{
+  "fixture_id": "HKLEG-CURRENT-REC-FIX-005",
+  "title": "Exact bytes without continuing support cannot be reused",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:6c896ac7cbbfe5453e05e2b145acfe02265b56ffbfa4077b35a207d2d686f812",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.record",
+    "location_id": "section-1",
+    "legal_disposition": "SEARCHABLE_CURRENT",
+    "continuing_legal_support": false,
+    "new_identity_register_allocated": false,
+    "predecessor_record": {
+      "id": "rec_111111111111111111111111111111111111111111111111",
+      "metadata": {
+        "text": "Synthetic bilingual text v1",
+        "country": "Hong Kong",
+        "jurisdiction": "Hong Kong",
+        "type": "Legislation",
+        "source": "HKeL",
+        "authority_note": "None"
+      }
+    },
+    "candidate_record": {
+      "id": "rec_111111111111111111111111111111111111111111111111",
+      "metadata": {
+        "text": "Synthetic bilingual text v1",
+        "country": "Hong Kong",
+        "jurisdiction": "Hong Kong",
+        "type": "Legislation",
+        "source": "HKeL",
+        "authority_note": "None"
+      }
+    }
+  },
+  "expected_artifact": {
+    "path": "expected/current-record/HKLEG-CURRENT-REC-FIX-005.json",
+    "fingerprint": "sha256:c3a4c3984692ec887092d83609def41a0c5add9943a5b760ae717667c2b9588f"
+  }
+}

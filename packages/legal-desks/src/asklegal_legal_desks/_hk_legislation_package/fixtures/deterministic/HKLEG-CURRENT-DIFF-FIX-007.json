@@ -1,0 +1,27 @@
+{
+  "fixture_id": "HKLEG-CURRENT-DIFF-FIX-007",
+  "title": "Ordinary comparison cannot invent a missing predecessor baseline",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:b670e8d53b7c6d0383dd1b1ea3eb5f20227c1859f0ad92dc30edc6148d705f0b",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "SYN-HKLEG-OBJ-001",
+    "predecessor_release_present": false,
+    "predecessor_object_present": false,
+    "current_bundle_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "predecessor_bundle_fingerprint": null,
+    "current_payload_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "predecessor_payload_fingerprint": null,
+    "current_structure_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "predecessor_structure_fingerprint": null,
+    "current_location_id": "SYN-LOC-001",
+    "predecessor_location_id": null,
+    "continuing_support_proved": false
+  },
+  "expected_artifact": {
+    "path": "expected/current-difference/HKLEG-CURRENT-DIFF-FIX-007.json",
+    "fingerprint": "sha256:3391bc658a1181f85622904e4310f8fabae09c5aee8e9f5fb26feb0e11ba87cc"
+  }
+}

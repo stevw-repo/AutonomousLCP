@@ -1,0 +1,21 @@
+{
+  "fixture_id": "HKLEG-BASE-CHANGE-FIX-001",
+  "title": "No post-cutoff change permits the original frozen baseline to continue",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-CHANGE-001",
+  "input_fingerprint": "sha256:177e325971f2b0c170895dbf52d39643433bb9ce619cc607ae19db58b8d34e83",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "post_cutoff_change_observed": false,
+    "frozen_package_preserved": true,
+    "new_observation_recorded_separately": false,
+    "selected_strategy": "NONE",
+    "later_currency_claimed_before_update": false
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-change/HKLEG-BASE-CHANGE-FIX-001.json",
+    "fingerprint": "sha256:8ed1159b729d34580baca56274e08e1e4a87f46a12f3a4abc0d15d113f6c35d3"
+  }
+}

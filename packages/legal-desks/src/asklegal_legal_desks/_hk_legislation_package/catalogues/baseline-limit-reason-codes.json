@@ -1,0 +1,10 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-limit.reason-codes", "version": "1.0.0", "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {"code": "HKLEG_BASE_LIMIT_PRESENT_STATE_ONLY", "meaning": "The accepted assertion is limited to present state at the cutoff", "processing_outcome": "PASS"},
+    {"code": "HKLEG_BASE_LIMIT_HISTORICAL_EVENT_FORBIDDEN", "meaning": "An unproved commencement, amendment, repeal, revival, expiry, or replacement event was proposed", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_BASE_LIMIT_EFFECTIVE_DATE_FORBIDDEN", "meaning": "An unproved historical effective date was proposed", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_BASE_LIMIT_CONTINUITY_FORBIDDEN", "meaning": "An unproved renumbering, split, merge, reenactment, replacement, or continuity relationship was proposed", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_BASE_LIMIT_COMPLETE_HISTORY_FORBIDDEN", "meaning": "An unproved complete historical version or event chain was proposed", "processing_outcome": "BLOCK"}
+  ]
+}

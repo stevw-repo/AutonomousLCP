@@ -1,0 +1,33 @@
+{
+  "fixture_id": "HKLEG-CURRENT-OBS-FIX-002",
+  "title": "Changed current inventory opens bounded affected work",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:4ae9fc9429c0a0b62e77a9025a8f4fb2a7d00dc541b1552cdc4f2f1d545069a9",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "due_observations": [
+      {
+        "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+        "dependency_scope": "RELEASE_BLOCKING",
+        "status": "COMPLETE",
+        "fresh": true,
+        "changed": true,
+        "affected_object_ids": [
+          "SYN-HKLEG-OBJ-001"
+        ]
+      }
+    ],
+    "current_inventory_matches_predecessor": false,
+    "unmatched_gazette_event": false,
+    "editorial_or_spec_signal": false,
+    "urgent_signal_open": false,
+    "detected_work_key": "SYN-WORK-OBJ-001",
+    "open_work_keys": []
+  },
+  "expected_artifact": {
+    "path": "expected/current-observation/HKLEG-CURRENT-OBS-FIX-002.json",
+    "fingerprint": "sha256:3ef6ae153b1cc7babee3781dabf92c3f08d49b061359dc98831952c675e180d0"
+  }
+}

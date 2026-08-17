@@ -1,0 +1,16 @@
+{
+  "fixture_id": "HKLEG-BASE-EVID-FIX-002",
+  "rule_id": "HKLEG-BASE-EVID-001",
+  "processing_outcome": "PASS",
+  "legal_disposition": "NOT_APPLICABLE",
+  "coverage_effect": "NONE",
+  "source_contract_review_required": false,
+  "reason_codes": ["HKLEG_BASE_EVIDENCE_RECONCILED"],
+  "rule_trace": ["HKLEG-BASE-EVID-001"],
+  "evidence_mode": "ASSISTED",
+  "accepted_artifact_ids": ["SYN-HKLEG-EVID-EN-COPY-002", "SYN-HKLEG-EVID-EN-XML-002", "SYN-HKLEG-EVID-ZH-COPY-002", "SYN-HKLEG-EVID-ZH-XML-002"],
+  "unresolved_evidence_roles": [],
+  "affected_scope_ids": ["rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95"],
+  "record_output": "NONE",
+  "next_action": "RUN_HKLEG_BASE_STATE_001"
+}

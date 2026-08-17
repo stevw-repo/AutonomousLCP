@@ -1,0 +1,31 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-inventory.reason-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {
+      "code": "HKLEG_BASE_INVENTORY_ACCOUNTED",
+      "meaning": "Every observed legal object and resource has exactly one legal-nature-consistent Release Scope owner.",
+      "processing_outcome": "PASS",
+      "coverage_effect": "NONE"
+    },
+    {
+      "code": "HKLEG_BASE_INVENTORY_OBJECT_OR_RESOURCE_UNACCOUNTED",
+      "meaning": "At least one observed legal object or its complete resource set lacks one exact accounting claim.",
+      "processing_outcome": "BLOCK",
+      "coverage_effect": "COVERAGE_GAP"
+    },
+    {
+      "code": "HKLEG_BASE_INVENTORY_OWNERSHIP_AMBIGUOUS",
+      "meaning": "At least one observed legal object has more than one Release Scope ownership claim.",
+      "processing_outcome": "QUARANTINE",
+      "coverage_effect": "COVERAGE_GAP"
+    },
+    {
+      "code": "HKLEG_BASE_INVENTORY_SCOPE_MISASSIGNED",
+      "meaning": "A legal object's claimed Release Scope conflicts with its declared legal nature.",
+      "processing_outcome": "BLOCK",
+      "coverage_effect": "COVERAGE_GAP"
+    }
+  ]
+}

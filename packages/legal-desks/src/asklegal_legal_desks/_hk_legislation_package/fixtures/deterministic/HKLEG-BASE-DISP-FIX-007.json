@@ -1,0 +1,20 @@
+{
+  "fixture_id": "HKLEG-BASE-DISP-FIX-007",
+  "title": "One publication or status signal cannot select a disposition",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-DISP-001",
+  "input_fingerprint": "sha256:56c4d022cdc3c01c4ac8fed0a84e773acc75f2ada1ee503311790a78bd82c9d2",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "legal_object_id": "SYN-HKLEG-OBJ-001",
+    "legal_location_reference": "SYN-HKLEG-LOC-001",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "disposition_basis": "UNSUPPORTED_SIGNAL_ONLY",
+    "identity_checkpoint": "NOT_APPLICABLE_TO_BLOCKED_PATH"
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-disposition/HKLEG-BASE-DISP-FIX-007.json",
+    "fingerprint": "sha256:6fe8584f03697564eff3bdb46bc62cca97e874d43b6011ea75ebdaf6f184d711"
+  }
+}

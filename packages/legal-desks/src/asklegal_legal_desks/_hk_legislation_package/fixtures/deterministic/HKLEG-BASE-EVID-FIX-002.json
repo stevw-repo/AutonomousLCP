@@ -1,0 +1,60 @@
+{
+  "fixture_id": "HKLEG-BASE-EVID-FIX-002",
+  "title": "Matching bilingual current XML and assisted official copies",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-EVID-001",
+  "input_fingerprint": "sha256:dace4bbb17a920388a4f2cacd0b313624c276e3467482e833d0f8d1690955d8c",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "legal_object_id": "SYN-HKLEG-OBJ-001",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "official_version_id": "SYN-HKLEG-VER-001",
+    "artifacts": [
+      {
+        "artifact_id": "SYN-HKLEG-EVID-EN-XML-002",
+        "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+        "representation": "CURRENT_XML",
+        "language": "en",
+        "version_id": "SYN-HKLEG-VER-001",
+        "copy_status": "NOT_APPLICABLE",
+        "content_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "reconciliation": "MATCH"
+      },
+      {
+        "artifact_id": "SYN-HKLEG-EVID-ZH-XML-002",
+        "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+        "representation": "CURRENT_XML",
+        "language": "zh-Hant",
+        "version_id": "SYN-HKLEG-VER-001",
+        "copy_status": "NOT_APPLICABLE",
+        "content_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "reconciliation": "MATCH"
+      },
+      {
+        "artifact_id": "SYN-HKLEG-EVID-EN-COPY-002",
+        "source_id": "HK-LEG-HKEL-ASSISTED-COPIES",
+        "representation": "OFFICIAL_COPY",
+        "language": "en",
+        "version_id": "SYN-HKLEG-VER-001",
+        "copy_status": "ASSISTED",
+        "content_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "reconciliation": "MATCH"
+      },
+      {
+        "artifact_id": "SYN-HKLEG-EVID-ZH-COPY-002",
+        "source_id": "HK-LEG-HKEL-ASSISTED-COPIES",
+        "representation": "OFFICIAL_COPY",
+        "language": "zh-Hant",
+        "version_id": "SYN-HKLEG-VER-001",
+        "copy_status": "ASSISTED",
+        "content_fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+        "reconciliation": "MATCH"
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-evidence/HKLEG-BASE-EVID-FIX-002.json",
+    "fingerprint": "sha256:9ad043505e1be9bc0e0b5054b20ea70bd275ade3cbad4280bb23b00876eef0f7"
+  }
+}

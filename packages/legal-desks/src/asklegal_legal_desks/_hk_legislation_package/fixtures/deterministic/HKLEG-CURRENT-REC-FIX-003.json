@@ -1,0 +1,42 @@
+{
+  "fixture_id": "HKLEG-CURRENT-REC-FIX-003",
+  "title": "Changed authority note creates a new immutable record",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:c0234bfd73f7d2a87a96b3eadfcfdb1f8a1b1fad24fbc23eae17421ae7abaafa",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.record",
+    "location_id": "section-1",
+    "legal_disposition": "SEARCHABLE_CURRENT",
+    "continuing_legal_support": true,
+    "new_identity_register_allocated": true,
+    "predecessor_record": {
+      "id": "rec_111111111111111111111111111111111111111111111111",
+      "metadata": {
+        "text": "Synthetic bilingual text v1",
+        "country": "Hong Kong",
+        "jurisdiction": "Hong Kong",
+        "type": "Legislation",
+        "source": "HKeL",
+        "authority_note": "None"
+      }
+    },
+    "candidate_record": {
+      "id": "rec_333333333333333333333333333333333333333333333333",
+      "metadata": {
+        "text": "Synthetic bilingual text v1",
+        "country": "Hong Kong",
+        "jurisdiction": "Hong Kong",
+        "type": "Legislation",
+        "source": "HKeL",
+        "authority_note": "Synthetic approved warning"
+      }
+    }
+  },
+  "expected_artifact": {
+    "path": "expected/current-record/HKLEG-CURRENT-REC-FIX-003.json",
+    "fingerprint": "sha256:f09b65dca24476fae3a65a91f7e743d1420b8a55af6a070faeef9615026288a6"
+  }
+}

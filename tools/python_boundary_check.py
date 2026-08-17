@@ -81,11 +81,11 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
         "runtime mapping recognition is narrowed before every key and value is validated",
     ),
     ApprovedException(
-        ExceptionKey(_MSSQL_DRIVER_PATH, 19, BoundaryCode.IGNORED_ERROR),
+        ExceptionKey(_MSSQL_DRIVER_PATH, 85, BoundaryCode.IGNORED_ERROR),
         "mssql-python 1.12 leaves execute parameters unknown behind this typed wrapper",
     ),
     ApprovedException(
-        ExceptionKey(_MSSQL_DRIVER_PATH, 21, BoundaryCode.IGNORED_ERROR),
+        ExceptionKey(_MSSQL_DRIVER_PATH, 87, BoundaryCode.IGNORED_ERROR),
         "mssql-python 1.12 leaves parameterless execute unknown behind this typed wrapper",
     ),
 )

@@ -1,0 +1,40 @@
+{
+  "fixture_id": "HKLEG-CURRENT-EVID-FIX-008",
+  "title": "Unofficial copy cannot become serving evidence",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:f29c9f635d688328f8d6df267d07869e8f10642e98633e65a3b33cb80101d395",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "affected_object_ids": [
+      "SYN-HKLEG-OBJ-001"
+    ],
+    "current_law_coverage_depends": true,
+    "applicable_version_order": [
+      "SYN-V2"
+    ],
+    "candidate_bundles": [
+      {
+        "version": "SYN-V2",
+        "evidence_class": "ASSISTED",
+        "official_hkel": false,
+        "en_xml_present": true,
+        "zh_hant_xml_present": true,
+        "en_copy_present": true,
+        "zh_hant_copy_present": true,
+        "required_assets_complete": true,
+        "source_capture_complete": true,
+        "bilingual_version_match": true,
+        "xml_copy_content_match": true,
+        "structure_reconciled": true,
+        "identity_reconciled": true,
+        "evidence_label_present": true
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/current-evidence/HKLEG-CURRENT-EVID-FIX-008.json",
+    "fingerprint": "sha256:401d67045101bdc583b79781c2adc0b3ba1eecf0e308b872d13f533b5b4091d1"
+  }
+}

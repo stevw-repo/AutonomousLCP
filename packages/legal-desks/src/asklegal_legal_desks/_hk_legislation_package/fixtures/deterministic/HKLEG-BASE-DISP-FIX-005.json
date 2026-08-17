@@ -1,0 +1,20 @@
+{
+  "fixture_id": "HKLEG-BASE-DISP-FIX-005",
+  "title": "Unresolved material fact requires quarantine",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-DISP-001",
+  "input_fingerprint": "sha256:1ef0eede906f9b51a86daa6e6142002f2c280a7786f5d3aa49f252d0efc8b175",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "legal_object_id": "SYN-HKLEG-OBJ-001",
+    "legal_location_reference": "SYN-HKLEG-LOC-001",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "disposition_basis": "UNRESOLVED_MATERIAL_FACT",
+    "identity_checkpoint": "IDENTITY_UNRESOLVED"
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-disposition/HKLEG-BASE-DISP-FIX-005.json",
+    "fingerprint": "sha256:53dfa100ca03b5b3d496779f81a7eeb1abd9feaa9037227b120a6e5e8daac956"
+  }
+}

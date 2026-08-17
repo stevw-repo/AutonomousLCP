@@ -1,0 +1,57 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-change.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-BASE-CHANGE-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-BASE-CHANGE-FIX-001.json",
+      "fixture_fingerprint": "sha256:d75f72eea4b81e0ea6730ee036eb1f44e3303225cc8c24e88016c094f22bbb51",
+      "expected_path": "expected/baseline-change/HKLEG-BASE-CHANGE-FIX-001.json",
+      "expected_fingerprint": "sha256:8ed1159b729d34580baca56274e08e1e4a87f46a12f3a4abc0d15d113f6c35d3"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-CHANGE-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-BASE-CHANGE-FIX-002.json",
+      "fixture_fingerprint": "sha256:3a3b9a9b575a5ee780efa34f67e6d2f77a097410e3f8412a045622b71b7b580e",
+      "expected_path": "expected/baseline-change/HKLEG-BASE-CHANGE-FIX-002.json",
+      "expected_fingerprint": "sha256:4c420604cb42e3fa2e827e8d5d63e2dcf09a39054dfce592d99985f0a62cd815"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-CHANGE-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-BASE-CHANGE-FIX-003.json",
+      "fixture_fingerprint": "sha256:becad2c24175ec9a199fe5e8ca20523381636355d80311e5598b54b4bd9057ad",
+      "expected_path": "expected/baseline-change/HKLEG-BASE-CHANGE-FIX-003.json",
+      "expected_fingerprint": "sha256:15e8083d7acf485a0276d18a637dbf8266dacdf27c4a462700c08c68eac8b2a8"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-CHANGE-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-BASE-CHANGE-FIX-004.json",
+      "fixture_fingerprint": "sha256:d4c660684e097b7de0e1d19a33ebab7def89eab00e8ae3ab82fa382d458bdee5",
+      "expected_path": "expected/baseline-change/HKLEG-BASE-CHANGE-FIX-004.json",
+      "expected_fingerprint": "sha256:603636303d12de9d09874140a241dec60456795740d4f110813675dda2b14f63"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-CHANGE-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-BASE-CHANGE-FIX-005.json",
+      "fixture_fingerprint": "sha256:517145695b5c873ee1f4e360fc18ab0141f450e9672757149fbb5bbfa4c5d34f",
+      "expected_path": "expected/baseline-change/HKLEG-BASE-CHANGE-FIX-005.json",
+      "expected_fingerprint": "sha256:6953888511d78ff56b6ff11e2727d3bf2b5f9a7baeaad0d8b18d72a3bf218f1a"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-CHANGE-FIX-006",
+      "path": "fixtures/deterministic/HKLEG-BASE-CHANGE-FIX-006.json",
+      "fixture_fingerprint": "sha256:a79cf505420bbe4adf55cc60248103105e4a47b582723c0e6160116b2557b5ac",
+      "expected_path": "expected/baseline-change/HKLEG-BASE-CHANGE-FIX-006.json",
+      "expected_fingerprint": "sha256:25d48e3a651b39192aa79987125f4c2c7dee60f828d4d7693e8a7e280af09cdd"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-CHANGE-FIX-007",
+      "path": "fixtures/deterministic/HKLEG-BASE-CHANGE-FIX-007.json",
+      "fixture_fingerprint": "sha256:978129b1dc99d2efa66990148e50e99f1d98c277eb791719d46067a98c6a2bb2",
+      "expected_path": "expected/baseline-change/HKLEG-BASE-CHANGE-FIX-007.json",
+      "expected_fingerprint": "sha256:ce0d1c5ff48a7b8574322f11c5a999d4933f838d8573aa971750500ff341942d"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "fixture_id": "HKLEG-BASE-OBS-FIX-001",
+  "title": "One internally consistent baseline cutoff",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-OBS-001",
+  "input_fingerprint": "sha256:a08e95f7c1b533f2e398ecacf87bd333bbc49daf2ccf978f5df9b9eec9a9dc76",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "locks": {
+      "rulebook_version": "2026-08-17.1",
+      "rulebook_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "release_scope_registry_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "publication_specification_version": "SYNTHETIC_HKEL_SPEC_1",
+      "publication_specification_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "source_observations": [
+      {
+        "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+        "observation_id": "SYN-HKLEG-OBS-INV-001",
+        "cutoff": "2026-08-17T00:00:00Z",
+        "complete": true,
+        "freshness": "FRESH",
+        "artifact_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "change_observed_at": null
+      },
+      {
+        "source_id": "HK-LEG-GLD-EGAZETTE",
+        "observation_id": "SYN-HKLEG-OBS-GAZ-001",
+        "cutoff": "2026-08-17T00:00:00Z",
+        "complete": true,
+        "freshness": "FRESH",
+        "artifact_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "change_observed_at": null
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-observation/HKLEG-BASE-OBS-FIX-001.json",
+    "fingerprint": "sha256:637eaf1892c66a11895941d58c06f401ac4172806b4995fb4926d908666550f3"
+  }
+}

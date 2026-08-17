@@ -351,6 +351,12 @@ def _parse_scopes(root: Path, sources: tuple[SourceDefinition, ...]) -> tuple[Re
             readiness = ReadinessState(_string(scope["readiness"], "readiness"))
         except ValueError as error:
             raise RulebookError(RulebookErrorCode.UNKNOWN_CODE, "readiness") from error
+        blocker_codes = _strings(scope["blocker_codes"], "blocker_codes")
+        if (readiness is ReadinessState.NOT_READY) != bool(blocker_codes):
+            raise RulebookError(
+                RulebookErrorCode.CONTRACT_MISMATCH,
+                "NOT_READY scopes require blockers and ready scopes forbid them",
+            )
         scopes.append(
             ReleaseScope(
                 _string(scope["scope_id"], "scope_id"),
@@ -359,7 +365,7 @@ def _parse_scopes(root: Path, sources: tuple[SourceDefinition, ...]) -> tuple[Re
                 _string(scope["zero_record_rule"], "zero_record_rule"),
                 _string(scope["withholding_rule"], "withholding_rule"),
                 readiness,
-                _strings(scope["blocker_codes"], "blocker_codes"),
+                blocker_codes,
             )
         )
     if not scopes or len({scope.scope_id for scope in scopes}) != len(scopes):
@@ -432,9 +438,35 @@ def _parse_rules(root: Path, scopes: tuple[ReleaseScope, ...]) -> tuple[RuleDefi
                 _string(rule["next_action"], "next_action"),
             )
         )
-    if not rules or len({rule.rule_id for rule in rules}) != len(rules):
+    if len({rule.rule_id for rule in rules}) != len(rules) or (
+        not rules and any(scope.readiness is not ReadinessState.NOT_READY for scope in scopes)
+    ):
         raise RulebookError(RulebookErrorCode.CONTRACT_MISMATCH, "rules")
     return tuple(rules)
+
+
+def _validate_blocker_catalogue(
+    root: Path,
+    manifest: RulebookManifest,
+    scopes: tuple[ReleaseScope, ...],
+) -> None:
+    defined: set[str] = set()
+    for path in sorted((root / "catalogues").glob("*.json")):
+        document = _read_json(path)
+        raw_codes = document.get("blocker_codes")
+        if raw_codes is None:
+            continue
+        for raw_code in _array(raw_codes, "blocker_codes"):
+            entry = _object(raw_code, "blocker_code")
+            _exact_keys(entry, frozenset({"code", "meaning"}), "blocker_code")
+            code = _string(entry["code"], "blocker code")
+            _string(entry["meaning"], "blocker meaning")
+            if code in defined:
+                raise RulebookError(RulebookErrorCode.CONTRACT_MISMATCH, "duplicate blocker")
+            defined.add(code)
+    referenced = {code for scope in scopes for code in scope.blocker_codes}
+    if referenced != defined or not set(manifest.unresolved_policy_codes).issubset(referenced):
+        raise RulebookError(RulebookErrorCode.UNKNOWN_CODE, "readiness blocker")
 
 
 def _timestamp(value: str) -> datetime:
@@ -592,6 +624,11 @@ def load_rulebook_package(
     declared_readiness = dict(manifest.scope_readiness)
     if declared_readiness != {scope.scope_id: scope.readiness for scope in scopes}:
         raise RulebookError(RulebookErrorCode.CONTRACT_MISMATCH, "scope readiness")
+    if any(scope.readiness is not ReadinessState.NOT_READY for scope in scopes) and (
+        manifest.legal_desk_owner.startswith("UNASSIGNED_")
+    ):
+        raise RulebookError(RulebookErrorCode.CONTRACT_MISMATCH, "legal desk owner")
+    _validate_blocker_catalogue(root, manifest, scopes)
     rules = _parse_rules(root, scopes)
     profiles = _parse_profiles(root, environment, now)
     fixture_ids, evaluation_ids = _fixture_and_evaluation_ids(root)
@@ -599,8 +636,17 @@ def load_rulebook_package(
         _string(_read_json(path).get("attestation_id"), "attestation_id")
         for path in sorted((root / "attestations").glob("*.json"))
     )
-    if not fixture_ids or not evaluation_ids or not attestations:
+    decision_evidence_required = any(
+        scope.readiness is not ReadinessState.NOT_READY for scope in scopes
+    )
+    conformance_attestation_required = any(
+        scope.readiness not in {ReadinessState.NOT_READY, ReadinessState.DECISION_READY}
+        for scope in scopes
+    )
+    if decision_evidence_required and (not fixture_ids or not evaluation_ids):
         raise RulebookError(RulebookErrorCode.CONTRACT_MISMATCH, "proof inventory")
+    if conformance_attestation_required and not attestations:
+        raise RulebookError(RulebookErrorCode.CONTRACT_MISMATCH, "attestation inventory")
     return LoadedRulebook(
         manifest,
         sources,

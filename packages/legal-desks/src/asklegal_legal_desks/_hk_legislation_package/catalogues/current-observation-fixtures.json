@@ -1,0 +1,50 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.current-observation.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-CURRENT-OBS-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-OBS-FIX-001.json",
+      "fixture_fingerprint": "sha256:47bd64537dc6908599aaf22c1a7e79a390031512a926f93df0a6f5a2c0b90557",
+      "expected_path": "expected/current-observation/HKLEG-CURRENT-OBS-FIX-001.json",
+      "expected_fingerprint": "sha256:a8f69b1953060aeafe5b2e878558c0e6cf8230880a0a8dccb2f18b7ad053d0a0"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-OBS-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-OBS-FIX-002.json",
+      "fixture_fingerprint": "sha256:605391f771cb7e81b214cb8f31902835037b6fe20387badc75450655e0661a31",
+      "expected_path": "expected/current-observation/HKLEG-CURRENT-OBS-FIX-002.json",
+      "expected_fingerprint": "sha256:3ef6ae153b1cc7babee3781dabf92c3f08d49b061359dc98831952c675e180d0"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-OBS-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-OBS-FIX-003.json",
+      "fixture_fingerprint": "sha256:ceebdf79648b5c790d197cab24ef2eadabdc4d60d752626d1f587786f3e8baff",
+      "expected_path": "expected/current-observation/HKLEG-CURRENT-OBS-FIX-003.json",
+      "expected_fingerprint": "sha256:7a47a635643f214b064d46b09d9ee101faf539a1d2aa02918b6ebeb2185b333d"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-OBS-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-OBS-FIX-004.json",
+      "fixture_fingerprint": "sha256:66d2917b8ff2761eff70d6b89a253c098bbaaffde0b2af575774e03099867635",
+      "expected_path": "expected/current-observation/HKLEG-CURRENT-OBS-FIX-004.json",
+      "expected_fingerprint": "sha256:3b9cbcac445d00b06ffe90f66acf0443de40581dd3ae1f2e0ce673a91bf91958"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-OBS-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-OBS-FIX-005.json",
+      "fixture_fingerprint": "sha256:46485fecc1d98452a2f7da7f5b0d647f7e918db9b64bfc0ccec32610c2c76293",
+      "expected_path": "expected/current-observation/HKLEG-CURRENT-OBS-FIX-005.json",
+      "expected_fingerprint": "sha256:3e4a326b6f89bbc02f990a89acd860cc61a0c135a736f2d9a54f6313025cc4d4"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-OBS-FIX-006",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-OBS-FIX-006.json",
+      "fixture_fingerprint": "sha256:b4770db0c647ea7b37fd295bbceff2325a431d33b68065a845b7e05b60b113f5",
+      "expected_path": "expected/current-observation/HKLEG-CURRENT-OBS-FIX-006.json",
+      "expected_fingerprint": "sha256:889d9cde25aecffbf3cc748a2e9e0f34c13ed2a307d009be6a30b8512eb73977"
+    }
+  ]
+}

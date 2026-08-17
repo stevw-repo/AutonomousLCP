@@ -1,0 +1,20 @@
+{
+  "fixture_id": "HKLEG-BASE-DISP-FIX-001",
+  "title": "Supported present operative text is searchable current",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-DISP-001",
+  "input_fingerprint": "sha256:06d45074411281c333cce8a3404f36f62a32ebfe76ddc068c179d7917c7d5cdc",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "legal_object_id": "SYN-HKLEG-OBJ-001",
+    "legal_location_reference": "SYN-HKLEG-LOC-001",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "disposition_basis": "PRESENT_OPERATIVE_SUPPORTED",
+    "identity_checkpoint": "GREENFIELD_ALLOCATION_REQUESTED"
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-disposition/HKLEG-BASE-DISP-FIX-001.json",
+    "fingerprint": "sha256:0a1f2a80b7780a126e97b1c7c7225b610a0000620833453be0bcbaa00abd70cb"
+  }
+}

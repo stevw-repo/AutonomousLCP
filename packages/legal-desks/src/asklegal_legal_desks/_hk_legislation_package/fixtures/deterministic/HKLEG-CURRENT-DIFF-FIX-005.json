@@ -1,0 +1,27 @@
+{
+  "fixture_id": "HKLEG-CURRENT-DIFF-FIX-005",
+  "title": "Evidence bundle metadata change is observable without payload change",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:33ae96367ab8a5c06b7d288e8c7c3e018ac0a0e493c75c96517fbad56b3c58a5",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "SYN-HKLEG-OBJ-001",
+    "predecessor_release_present": true,
+    "predecessor_object_present": true,
+    "current_bundle_fingerprint": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+    "predecessor_bundle_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "current_payload_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "predecessor_payload_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "current_structure_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "predecessor_structure_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "current_location_id": "SYN-LOC-001",
+    "predecessor_location_id": "SYN-LOC-001",
+    "continuing_support_proved": true
+  },
+  "expected_artifact": {
+    "path": "expected/current-difference/HKLEG-CURRENT-DIFF-FIX-005.json",
+    "fingerprint": "sha256:abf31a197f072d6377a8247754cd5d7dbf3f1ca86cfc430b832fd0092195e2c1"
+  }
+}

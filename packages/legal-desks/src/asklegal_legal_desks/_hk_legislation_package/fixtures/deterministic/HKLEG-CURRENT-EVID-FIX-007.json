@@ -1,0 +1,40 @@
+{
+  "fixture_id": "HKLEG-CURRENT-EVID-FIX-007",
+  "title": "XML and applicable official copy wording conflict quarantines",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:d85638a8f4b86684f89e09ed702e6bd27286994b01889922bea82ecd7f345546",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "affected_object_ids": [
+      "SYN-HKLEG-OBJ-001"
+    ],
+    "current_law_coverage_depends": true,
+    "applicable_version_order": [
+      "SYN-V2"
+    ],
+    "candidate_bundles": [
+      {
+        "version": "SYN-V2",
+        "evidence_class": "VERIFIED",
+        "official_hkel": true,
+        "en_xml_present": true,
+        "zh_hant_xml_present": true,
+        "en_copy_present": true,
+        "zh_hant_copy_present": true,
+        "required_assets_complete": true,
+        "source_capture_complete": true,
+        "bilingual_version_match": true,
+        "xml_copy_content_match": false,
+        "structure_reconciled": true,
+        "identity_reconciled": true,
+        "evidence_label_present": true
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/current-evidence/HKLEG-CURRENT-EVID-FIX-007.json",
+    "fingerprint": "sha256:c4ed22511f655c5187c061602895039d3fe62d481ecfc5d550bf71408a842c4b"
+  }
+}

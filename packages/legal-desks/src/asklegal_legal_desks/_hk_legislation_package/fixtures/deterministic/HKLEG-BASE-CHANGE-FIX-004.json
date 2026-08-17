@@ -1,0 +1,21 @@
+{
+  "fixture_id": "HKLEG-BASE-CHANGE-FIX-004",
+  "title": "A later source change cannot overwrite the original frozen package",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-CHANGE-001",
+  "input_fingerprint": "sha256:40f060ddab95595bd1ebad14cd57fd5418486bbf8f9bf72dae8e4ee7a5ef7580",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "post_cutoff_change_observed": true,
+    "frozen_package_preserved": false,
+    "new_observation_recorded_separately": true,
+    "selected_strategy": "ABANDON_AND_REFREEZE",
+    "later_currency_claimed_before_update": false
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-change/HKLEG-BASE-CHANGE-FIX-004.json",
+    "fingerprint": "sha256:603636303d12de9d09874140a241dec60456795740d4f110813675dda2b14f63"
+  }
+}

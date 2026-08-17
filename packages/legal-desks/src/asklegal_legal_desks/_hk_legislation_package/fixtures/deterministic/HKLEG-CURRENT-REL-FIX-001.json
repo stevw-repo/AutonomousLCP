@@ -1,0 +1,69 @@
+{
+  "fixture_id": "HKLEG-CURRENT-REL-FIX-001",
+  "title": "Complete update accounting preserves every selected and non-selected result",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:8de2b301ef95dbf92e8ddeced734c3e96ea248be0496306beb972cc92c822c40",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "predecessor_release_id": "rel_synthetic_predecessor",
+    "expected_accounting": {
+      "object_ids": [
+        "object-1"
+      ],
+      "location_ids": [
+        "location-1",
+        "location-2"
+      ],
+      "event_ids": [
+        "event-1"
+      ],
+      "selected_record_ids": [
+        "rec_111111111111111111111111111111111111111111111111",
+        "rec_222222222222222222222222222222222222222222222222"
+      ],
+      "retired_record_ids": [
+        "rec_000000000000000000000000000000000000000000000000"
+      ],
+      "coverage_gap_ids": [
+        "gap-1"
+      ],
+      "quarantine_ids": [
+        "quarantine-1"
+      ]
+    },
+    "actual_accounting": {
+      "object_ids": [
+        "object-1"
+      ],
+      "location_ids": [
+        "location-1",
+        "location-2"
+      ],
+      "event_ids": [
+        "event-1"
+      ],
+      "selected_record_ids": [
+        "rec_111111111111111111111111111111111111111111111111",
+        "rec_222222222222222222222222222222222222222222222222"
+      ],
+      "retired_record_ids": [
+        "rec_000000000000000000000000000000000000000000000000"
+      ],
+      "coverage_gap_ids": [
+        "gap-1"
+      ],
+      "quarantine_ids": [
+        "quarantine-1"
+      ]
+    },
+    "duplicate_location_ids": [],
+    "entry_consistency_proved": true,
+    "unresolved_completeness_ids": []
+  },
+  "expected_artifact": {
+    "path": "expected/current-release-accounting/HKLEG-CURRENT-REL-FIX-001.json",
+    "fingerprint": "sha256:13a077987d8777e1c362e68e610dd52c2c50afab0845818161fd42a9b92ee2df"
+  }
+}

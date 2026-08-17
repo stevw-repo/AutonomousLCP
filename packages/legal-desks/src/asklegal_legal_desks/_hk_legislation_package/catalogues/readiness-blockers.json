@@ -1,0 +1,52 @@
+{
+  "blocker_codes": [
+    {
+      "code": "HKLEG_CURRENT_IMPLEMENTATION_TARGET_MISSING",
+      "meaning": "This Release Scope is not the currently authorized local implementation target."
+    },
+    {
+      "code": "HKLEG_SOURCE_ENDPOINT_EVIDENCE_MISSING",
+      "meaning": "Current official endpoint records and source-contract evidence have not been verified."
+    },
+    {
+      "code": "HKLEG_SOURCE_RIGHTS_ATTESTATION_MISSING",
+      "meaning": "Permitted-use and source-rights evidence has not been accepted by a named owner."
+    },
+    {
+      "code": "HKLEG_REAL_SOURCE_BYTES_MISSING",
+      "meaning": "No real HKeL, Gazette, or other official source bytes are present in the package evidence."
+    },
+    {
+      "code": "HKLEG_EXECUTABLE_RULESET_INCOMPLETE",
+      "meaning": "HKLEG-BASE-INV-001 is executable offline, but the accepted Hong Kong Legislation rule universe is not completely encoded."
+    },
+    {
+      "code": "HKLEG_DETERMINISTIC_FIXTURE_UNIVERSE_INCOMPLETE",
+      "meaning": "Four exact baseline-inventory fixtures exist, but the accepted complete deterministic conformance universe is not implemented."
+    },
+    {
+      "code": "HKLEG_ADJUDICATED_EVALUATIONS_MISSING",
+      "meaning": "Protected human-adjudicated evaluation truth and acceptance results do not yet exist."
+    },
+    {
+      "code": "HKLEG_SEMANTIC_PROFILES_MISSING",
+      "meaning": "No exact admitted Gazette-event or Reconstruction Plan model profile exists."
+    },
+    {
+      "code": "HKLEG_NAMED_OWNER_ATTESTATION_MISSING",
+      "meaning": "No named Hong Kong Legislation Legal Desk owner has accepted this package."
+    },
+    {
+      "code": "HKLEG_CONFORMANCE_ATTESTATION_MISSING",
+      "meaning": "The exact deterministic and required semantic conformance attestations have not passed."
+    },
+    {
+      "code": "HKLEG_INSTRUMENTS_AND_OTHERS_REVIEW_REQUIRED",
+      "meaning": "The mandatory HKeL Instruments & Others policy review remains open."
+    },
+    {
+      "code": "HKLEG_INSTRUMENT_DISPOSITION_REGISTRY_MISSING",
+      "meaning": "The row-level legal-nature and disposition registry is not complete."
+    }
+  ]
+}

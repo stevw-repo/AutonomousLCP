@@ -1,0 +1,20 @@
+{
+  "fixture_id": "HKLEG-CURRENT-DISP-FIX-003",
+  "title": "Present effect represented elsewhere is evidence only",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:6aac21ab3f3e84716fd6c37a618d3e808b56c260c0ca2f57d48705d08214590b",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.ordinary-update",
+    "location_id": "section-3",
+    "upstream_checkpoint": "PASS",
+    "status_coverage_complete": true,
+    "disposition_basis": "PRESENT_EFFECT_REPRESENTED_ELSEWHERE"
+  },
+  "expected_artifact": {
+    "path": "expected/current-disposition/HKLEG-CURRENT-DISP-FIX-003.json",
+    "fingerprint": "sha256:d0438cc427e57b3febeaa790b0bf385118cd1836b824383a032705698652f18d"
+  }
+}

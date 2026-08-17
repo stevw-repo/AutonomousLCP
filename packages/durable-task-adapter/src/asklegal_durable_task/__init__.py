@@ -16,6 +16,11 @@ from asklegal_durable_task.models import (
     WorkflowOutput,
     WorkflowResultCode,
 )
+from asklegal_durable_task.v1 import (
+    V1SchedulerError,
+    V1SchedulerErrorCode,
+    V1SchedulerSettings,
+)
 from asklegal_durable_task.workflow import (
     DurableWorkflowActivities,
     review_gate_orchestrator,
@@ -35,6 +40,9 @@ __all__ = [
     "ReviewEventRef",
     "ReviewResolution",
     "ReviewResolutionCode",
+    "V1SchedulerError",
+    "V1SchedulerErrorCode",
+    "V1SchedulerSettings",
     "WorkflowInput",
     "WorkflowOutput",
     "WorkflowResultCode",

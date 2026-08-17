@@ -1,5 +1,11 @@
 """Typed SQL Server Management Register boundary."""
 
+from asklegal_management_register.driver import (
+    SqlCredentialError,
+    SqlCredentialErrorCode,
+    SqlServerPassword,
+    V1MssqlConnectionFactory,
+)
 from asklegal_management_register.store import (
     AmbiguousCommit,
     CommandFingerprintMismatch,
@@ -15,4 +21,8 @@ __all__ = [
     "CommandFingerprintMismatch",
     "CommandResult",
     "ManagementRegisterStore",
+    "SqlCredentialError",
+    "SqlCredentialErrorCode",
+    "SqlServerPassword",
+    "V1MssqlConnectionFactory",
 ]

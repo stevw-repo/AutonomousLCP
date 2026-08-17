@@ -1,0 +1,27 @@
+{
+  "fixture_id": "HKLEG-CURRENT-DIFF-FIX-006",
+  "title": "Object added to an existing release is an observable class only",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:baf12eeef6e300614aa80c5e49186d358e0887d8e3f59fe9c7c321f292dc530d",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "SYN-HKLEG-OBJ-002",
+    "predecessor_release_present": true,
+    "predecessor_object_present": false,
+    "current_bundle_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "predecessor_bundle_fingerprint": null,
+    "current_payload_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "predecessor_payload_fingerprint": null,
+    "current_structure_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "predecessor_structure_fingerprint": null,
+    "current_location_id": "SYN-LOC-002",
+    "predecessor_location_id": null,
+    "continuing_support_proved": false
+  },
+  "expected_artifact": {
+    "path": "expected/current-difference/HKLEG-CURRENT-DIFF-FIX-006.json",
+    "fingerprint": "sha256:55dac22e7aed78a166a3c2ca4a5704a6dc071332c640eb22784203be1a5eaefb"
+  }
+}

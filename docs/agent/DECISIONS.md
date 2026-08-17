@@ -3,6 +3,257 @@
 Only settled decisions belong here. Recommendations and unresolved choices stay
 in the design brief and `WORKING_STATE.md` until the user decides them.
 
+## 2026-08-17 — Continue autonomously toward the accepted local V1
+
+The user instructed the agent to work toward V1 and stop only when user input
+is genuinely required. This authorizes sustained, dependency-ordered,
+repository-only implementation, tests, deterministic local artifacts, and
+continuity maintenance within the already accepted local-V1 direction. The
+agent should continue through safe reversible work without asking for routine
+confirmation.
+
+This instruction does not silently choose unresolved local infrastructure
+products or authorize real-source/provider access, credentials, paid calls,
+external messages, commits, pushes, deployments, destructive operations, or
+production effects. The agent must stop when one of those choices or
+permissions becomes materially necessary, or when competing accepted paths
+cannot be resolved from repository evidence.
+
+## 2026-08-17 — Use locked Boto3 for the V1 S3-compatible vault boundary
+
+The V1 POC Primary and Recovery Versity gateways use the repository-owned
+immutable-vault protocol through Boto3 `1.43.49`, locked in `uv.lock`. The
+adapter uses only explicit per-application access pairs, SigV4, path-style
+addressing, `us-east-1`, HTTPS with a vault-specific CA bundle, three total
+attempts, a five-second connect timeout, and a 30-second read timeout. It does
+not use the ambient AWS credential chain.
+
+Provider version IDs are preserved losslessly in canonical URL-safe references.
+Writes use conditional create, SHA-256, COMPLIANCE retention, optional legal
+hold, exact-version read-back, and exact replay adoption. No delete API is
+exposed. This decision selects the application client boundary only: it does
+not prove the chosen Versity image, certificates, buckets, versioning/Object
+Lock behavior, policies, credentials, restart behavior, or Ubuntu deployment,
+and it authorizes no real vault access.
+
+## 2026-08-17 — Route proved Hong Kong events before constructing records
+
+`HKLEG-CURRENT-EVENT-001` records an accepted operative event and exact
+Coverage Gap when matching current HKeL consolidation is unavailable. It then
+selects exactly one downstream path in accepted order: an eligible
+reconstruction plan only while reconstruction capability is explicitly
+`ACTIVE_FOR_CANDIDATE_PROCESSING`; otherwise a warned known-stale candidate
+when a valid latest applicable verified or assisted HKeL base is held;
+otherwise an explicit no-record gap. Incomplete evidence blocks, conflicts and
+unbounded affected sets quarantine, and an available current consolidation
+returns to the ordinary evidence path.
+
+This checkpoint cannot reconstruct text or emit a Search Record. Its synthetic
+active-capability case proves routing logic only and does not activate the real
+Hong Kong package or any real reconstruction capability.
+
+## 2026-08-17 — Use the accepted single-Ubuntu-host V1 POC infrastructure
+
+The V1 POC is strictly internal. Development remains on the user's Mac, but the
+continuous runtime is one Ubuntu 24.04 x86-64 PC with 64 GB RAM and 5 TB on one
+physical drive. Ubuntu is initially the only runtime host; the Mac is not a
+runtime dependency.
+
+The accepted POC products and boundaries are:
+
+- **Management Register:** SQL Server 2025 Developer Edition in an exact-
+  version, digest-pinned official Microsoft Linux container, private-only,
+  with persistent ext4 storage and separate operational-POC and integration-
+  test databases. Existing migrations, procedures, roles, concurrency, ledger,
+  and recovery contracts remain authoritative. Developer Edition is limited to
+  this internal development/test POC.
+- **Durability:** the Microsoft Durable Task Scheduler emulator with the
+  standalone Python SDK. One general scheduler instance owns control-plane,
+  acquisition, and legal-processing hubs; a separate instance owns promotion.
+  `systemd` timers create recurring triggers. The emulator is memory-only. On
+  loss, the system fences the old execution, reconciles authoritative SQL state
+  and effects, and starts replacement work from the last safe checkpoint; it
+  never claims lost orchestration history resumed. A persistent supported
+  scheduler is required before real production use.
+- **Evidence:** separate Primary and Recovery Versity Gateway instances with
+  distinct directories, identities, credentials, buckets, policies, and
+  endpoints, Object Lock and versioning, application SHA-256 verification, and
+  manifest-last writes. Suggested roots are `/srv/asklegal/vault-primary/` and
+  `/srv/asklegal/vault-recovery/`. Because both use the same physical disk, the
+  exact capability label is `LOGICALLY_SEPARATE_POC_RECOVERY`; it does not cover
+  disk failure, theft, or host destruction.
+- **Secrets:** Ubuntu `systemd-creds` with `LoadCredentialEncrypted=`. Setup
+  detects TPM2, preferring TPM2 plus host-key protection and otherwise using
+  host-key mode. Each service has separate credentials; plaintext appears only
+  as read-only runtime credential files supplied to that service. Secrets never
+  enter Git, images, Compose files, command arguments, plaintext `.env` files,
+  or logs. Root compromise can expose them, and total host loss requires manual
+  reprovisioning for this POC.
+- **Vector serving:** a dedicated isolated Pinecone Cloud POC project. Serving
+  uses immutable replacement indexes, verifies a new index before routing
+  changes, and uploads only approved Serving Records and necessary metadata.
+  SQL Server and the Evidence Vault remain authoritative. Credentials use
+  `systemd-creds`; outbound access is restricted to required Pinecone
+  endpoints. Pinecone Local or deterministic fakes remain test-only. Exact plan
+  selection waits for measured corpus size and confirmed native backup/restore
+  and RBAC requirements; Standard is required if those features are necessary
+  to the V1 acceptance proof.
+- **Operations:** OpenTelemetry Collector, Prometheus, Grafana OSS, and
+  persistent forward-secure-sealed `systemd-journald`. SQL Server ledger records
+  plus immutable Recovery Vault archives are authoritative audit evidence;
+  telemetry, dashboards, and journals are operational aids. Loki is omitted
+  initially. Monitoring shares the single host and is unavailable with it.
+
+Every container must be pinned to an exact tested version and image digest.
+Services are private by default and least-privileged. This decision supersedes
+the earlier assumption that vector serving itself must be local and that
+Pinecone is outside V1; Azure application hosting remains outside V1. It does
+not authorize deployment, credential creation, real source/model calls, a real
+Pinecone write, or any other external effect. Explicit authorization is
+required immediately before the first real Pinecone mutation or other external
+effect.
+
+## 2026-08-17 — Operate V1 locally
+
+The user set an overall product-direction constraint that V1 must run locally.
+Azure implementation is therefore not assumed to be a V1 prerequisite or the
+automatic next milestone. The accepted Azure architecture remains a possible
+post-V1 deployment design unless a later decision supersedes it.
+
+This earlier direction is superseded in part by the accepted single-Ubuntu-host
+POC infrastructure decision above. It settled the operating profile before
+products were selected; the newer decision now selects them and restores a
+dedicated Pinecone Cloud POC project to V1 scope. The controlled-internet
+profile remains:
+
+- all pipeline applications, databases, durable runtime state, evidence and
+  recovery storage, and scheduling infrastructure run on Ubuntu;
+- controlled outbound access to admitted official legal-source endpoints is
+  permitted;
+- controlled outbound calls to separately admitted hosted model and embedding
+  APIs are permitted; and
+- Pinecone Cloud supplies the replaceable vector-serving copy, while Azure-
+  hosted application infrastructure is not a V1 runtime dependency.
+
+Exact source endpoints, provider deployments, Pinecone plan and endpoints,
+credentials, network allowlists, evaluation profiles, and admission evidence
+remain separately gated. This product-direction decision alone authorizes no
+external call or implementation.
+
+## 2026-08-17 — Start Hong Kong Legislation package readiness with Ordinances
+
+The user accepted the recommendation to advance one real-package workstream in
+parallel with the separately gated M8 platform and explicitly authorized local,
+network-disabled implementation. `HK-LEG-ORDINANCES` is the first target because
+its policy architecture is complete and it has no unresolved Hong Kong policy
+choice; the package still includes and honestly reports all three accepted non-
+overlapping Hong Kong Legislation scopes.
+
+The first checkpoint is a frozen `NOT_READY` readiness package, not an
+executable or admitted legal package. It must contain the accepted stable source
+role universe, exact scope ownership, and named blocker codes without inventing
+source bytes, rights, fixtures, adjudicated evaluations, model profiles, named
+owner acceptance, or conformance attestations. A `NOT_READY` package may load
+for inspection but cannot activate or execute. `HK-LEG-SUBSIDIARY` remains
+outside the current implementation target, and
+`HK-LEG-CONSTITUTIONAL-AND-OTHER-INSTRUMENTS` retains its mandatory Instruments
+& Others review and row-level disposition-registry blockers.
+
+This authorization permits repository code, package artifacts, tests, and
+continuity updates only. It does not authorize source access, source-rights
+acceptance, model or embedding calls, Azure, Pinecone, backup or routing
+mutation, deployment, production activation, commit, or push.
+
+The user then instructed the agent to implement the recommended next slice.
+`HKLEG-BASE-INV-001` is therefore the first offline executable conformance rule.
+It accounts for each synthetic inventory legal object and resource, requires
+exactly one Release Scope owner consistent with legal nature, and has four
+closed results: accounted, unaccounted, duplicate-owned, or misassigned.
+Passing this checkpoint does not decide legal disposition or produce a record.
+The package stays `NOT_READY` because the complete rule/fixture universe and
+all real-source, rights, evaluation, owner, and attestation evidence remain
+missing. `HKLEG-BASE-OBS-001`, not `HKLEG-BASE-INV-001`, owns cutoff and source-
+observation completeness.
+
+The user next instructed the agent to implement that observation rule.
+`HKLEG-BASE-OBS-001` now freezes one synthetic cutoff, the exact release-
+blocking current-inventory and Gazette source set, and exact rulebook, Release
+Scope registry, and publication-specification locks. Missing/incomplete/stale
+required observations, mixed cutoffs, lock drift, or a post-cutoff source
+change block progression. Only the one frozen-success branch may run
+`HKLEG-BASE-INV-001`. This remains offline conformance, not evidence that any
+real source observation or legal baseline has been accepted.
+
+The user next instructed the agent to implement the bilingual current-evidence
+gate. `HKLEG-BASE-EVID-001` now requires matching English and Traditional
+Chinese current XML plus matching official HKeL copies for the exact version.
+The copies may be `VERIFIED` or `ASSISTED` under ADR 0081. Missing current
+evidence blocks the affected scope, a version or reconciliation conflict enters
+Quarantine, and historical XML cannot substitute for a missing current
+artifact. The rule emits neither legal disposition nor a Search Record; only a
+passing synthetic evidence bundle may advance to `HKLEG-BASE-STATE-001`. This
+adds no real-source, processing, activation, or production authority.
+
+The user then authorized the recommended present-state slice.
+`HKLEG-BASE-STATE-001` now establishes `OPERATIVE_CURRENT` only when the
+inventory and evidence predecessors passed, the complete current item,
+provision, structure, mapping, version, and operative-effect facts agree, no
+accepted source conflicts, and the written rulebook supports ownership and the
+proposed operative disposition. Missing required facts block; partial or
+ambiguous location mapping and same-fact source disagreement quarantine;
+unknown source semantics block and require Source Contract Review; and an
+`InEffect`-style signal without operative-effect proof cannot pass. The rule
+keeps legal disposition `NOT_APPLICABLE`, emits no record, and marks historical
+assertion scope `PENDING_LIMIT_RULE`; only `HKLEG-BASE-LIMIT-001` may impose the
+accepted present-state-only assertion boundary.
+
+`HKLEG-BASE-LIMIT-001` now performs that boundary explicitly. A passing STATE
+result may advance only with no proposed historical claim, after which LIMIT
+sets `historical_assertion_scope: PRESENT_STATE_ONLY`. Unproved historical
+legal events, effective dates, identity or continuity relationships, and
+complete historical event chains each block with an exact reason. LIMIT keeps
+legal disposition `NOT_APPLICABLE`, emits no record, and advances only its
+clean success branch to `HKLEG-BASE-ID-001`.
+
+The sustained V1 instruction next advanced `HKLEG-BASE-ID-001`. The rule emits
+allocation requests rather than inventing the concrete opaque ID encodings that
+ADR 0011 leaves unsettled. It preserves source and legacy values only as aliases,
+blocks their use as authoritative identity, blocks unproved predecessor or
+continuity relationships, and quarantines duplicate/continuity ambiguity even
+when wording or legacy records appear to match. Only its clean branches may
+advance to `HKLEG-BASE-DISP-001`.
+
+The sustained V1 instruction next advanced `HKLEG-BASE-DISP-001`. It assigns
+exactly one of the accepted five primary dispositions only from a complete
+supported legal basis. An operative event with missing current consolidation
+remains an explicit Coverage Gap, and publication or one HKeL signal alone is
+blocked rather than treated as current law. Only `SEARCHABLE_CURRENT` advances
+to `HKLEG-BASE-REC-001`; every other result remains accounted for without a
+record.
+
+The sustained V1 instruction next advanced `HKLEG-BASE-REC-001`. The rule uses
+the accepted ADR 0021 canonical bilingual rendering and the repository-wide
+six-field Serving Record contract. Its local metadata profile values are
+explicitly synthetic conformance values, not an admitted production profile.
+It rejects legacy identity carry-forward, incomplete bilingual alignment,
+non-canonical rendering, and unapproved authority notes; only one exact
+candidate advances to `HKLEG-BASE-REL-001`.
+
+The sustained V1 instruction next advanced `HKLEG-BASE-REL-001`. It requires
+complete initial-baseline accounting for every accepted dimension and records
+that the first release has no predecessor. Missing or duplicate objects and
+locations, inconsistent disposition outputs, missing gap/quarantine/
+investigation references, and unresolved completeness gaps all block. A pass
+only authorizes candidate Corpus Release construction; it does not publish,
+approve, promote, or deploy anything.
+
+The sustained V1 instruction next advanced `HKLEG-BASE-REVIEW-001`. It opens
+only one bounded historical investigation for a named material uncertainty and
+binds its question, affected objects, registered source roles, permitted fact,
+stopping condition, and responsible Legal Desk. It blocks clear-item history,
+whole-corpus requests, unregistered sources, and mismatched fact scope. This is
+an offline task contract and performs no source access.
+
 ## 2026-08-16 — Authorize and complete the local/synthetic M7 milestone
 
 The user's instruction "M7" authorizes the complete offline end-to-end

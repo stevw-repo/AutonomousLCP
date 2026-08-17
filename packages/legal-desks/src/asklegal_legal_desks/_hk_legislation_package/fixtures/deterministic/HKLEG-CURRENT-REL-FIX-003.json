@@ -1,0 +1,46 @@
+{
+  "fixture_id": "HKLEG-CURRENT-REL-FIX-003",
+  "title": "Missing location blocks release accounting",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:8191f7646c696a98aef2f6d718a00884bffa23365817b159e61cf8d3dfb6a820",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "predecessor_release_id": "rel_synthetic_predecessor",
+    "expected_accounting": {
+      "object_ids": [
+        "object-1"
+      ],
+      "location_ids": [
+        "location-1",
+        "location-2"
+      ],
+      "event_ids": [],
+      "selected_record_ids": [],
+      "retired_record_ids": [],
+      "coverage_gap_ids": [],
+      "quarantine_ids": []
+    },
+    "actual_accounting": {
+      "object_ids": [
+        "object-1"
+      ],
+      "location_ids": [
+        "location-1"
+      ],
+      "event_ids": [],
+      "selected_record_ids": [],
+      "retired_record_ids": [],
+      "coverage_gap_ids": [],
+      "quarantine_ids": []
+    },
+    "duplicate_location_ids": [],
+    "entry_consistency_proved": true,
+    "unresolved_completeness_ids": []
+  },
+  "expected_artifact": {
+    "path": "expected/current-release-accounting/HKLEG-CURRENT-REL-FIX-003.json",
+    "fingerprint": "sha256:eb1b960a6d9833fc602e5d4fb45eac8a5ab9d8b2a73c7e033cb0728e80c061bb"
+  }
+}

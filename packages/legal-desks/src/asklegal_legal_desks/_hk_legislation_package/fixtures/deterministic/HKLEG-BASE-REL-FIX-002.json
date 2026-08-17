@@ -1,0 +1,43 @@
+{
+  "fixture_id": "HKLEG-BASE-REL-FIX-002",
+  "title": "Missing object and location block complete accounting",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-REL-001",
+  "input_fingerprint": "sha256:4e8fc06e377634f3c57a518fc10aeba872c8cbcbb65213e6ff157f6cbdadd11d",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "predecessor_release_id": null,
+    "expected_accounting": {
+      "object_ids": [
+        "SYN-HKLEG-OBJ-001",
+        "SYN-HKLEG-OBJ-002"
+      ],
+      "location_ids": [
+        "SYN-HKLEG-LOC-001",
+        "SYN-HKLEG-LOC-002"
+      ],
+      "coverage_gap_ids": [],
+      "quarantine_ids": [],
+      "investigation_ids": []
+    },
+    "accounting_entries": [
+      {
+        "object_id": "SYN-HKLEG-OBJ-001",
+        "location_id": "SYN-HKLEG-LOC-001",
+        "legal_disposition": "SEARCHABLE_CURRENT",
+        "identity_decision_id": "SYN-HKLEG-ID-DEC-001",
+        "record_id": "rec_111111111111111111111111111111111111111111111111",
+        "coverage_gap_ids": [],
+        "quarantine_ids": [],
+        "investigation_ids": []
+      }
+    ],
+    "unresolved_completeness_gap_ids": []
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-release-accounting/HKLEG-BASE-REL-FIX-002.json",
+    "fingerprint": "sha256:2fcb52b7da7415d26be4db314689bf1df9c15ab7f2a41d1881bf410209fe0845"
+  }
+}

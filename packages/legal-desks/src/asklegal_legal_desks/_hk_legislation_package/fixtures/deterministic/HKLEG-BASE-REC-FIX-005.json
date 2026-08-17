@@ -1,0 +1,41 @@
+{
+  "fixture_id": "HKLEG-BASE-REC-FIX-005",
+  "title": "Non-canonical bilingual rendering is quarantined",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-REC-001",
+  "input_fingerprint": "sha256:c33b4023df5a8c6cfb59146d2feb32777ad6813898ceaf5eb62a5da88500df39",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "legal_object_id": "SYN-HKLEG-OBJ-001",
+    "legal_location_reference": "SYN-HKLEG-LOC-001",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "legal_disposition": "SEARCHABLE_CURRENT",
+    "identity_origin": "REGISTER_ALLOCATED",
+    "search_record_id": "rec_444444444444444444444444444444444444444444444444",
+    "bilingual_alignment": "COMPLETE",
+    "renderer_conformance": "NON_CANONICAL",
+    "authority_note": "None",
+    "authority_note_approved": true,
+    "content": {
+      "english": {
+        "instrument_title": "Synthetic Ordinance",
+        "citation": "Synthetic Cap. 1",
+        "locator": "Section 1",
+        "heading": "Short title",
+        "text": "This Ordinance may be cited as the Synthetic Ordinance."
+      },
+      "traditional_chinese": {
+        "instrument_title": "合成條例",
+        "citation": "合成第1章",
+        "locator": "第1條",
+        "heading": "簡稱",
+        "text": "本條例可引稱為《合成條例》。"
+      }
+    }
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-record/HKLEG-BASE-REC-FIX-005.json",
+    "fingerprint": "sha256:0f7d9c7f5d087e76d6e140598ce0195fd414590c75ef144efae542eac026f9ba"
+  }
+}

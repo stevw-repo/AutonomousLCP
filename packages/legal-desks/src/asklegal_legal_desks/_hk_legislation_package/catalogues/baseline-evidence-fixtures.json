@@ -1,0 +1,43 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-evidence.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-BASE-EVID-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-BASE-EVID-FIX-001.json",
+      "fixture_fingerprint": "sha256:3a7a7368fc2b3cb3d02f2de35ccff6621a3195c75e730bb0dec2a9a60211ef12",
+      "expected_path": "expected/baseline-evidence/HKLEG-BASE-EVID-FIX-001.json",
+      "expected_fingerprint": "sha256:ad4a519f6f080e10bd8cb22d2edd0cb4811a01eb42b1048c3a334ad1e01620aa"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-EVID-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-BASE-EVID-FIX-002.json",
+      "fixture_fingerprint": "sha256:e6d8bad5a517d6c1fdaeb154b87daf98d4ab8d062f4deac5f486b832ab67d5c6",
+      "expected_path": "expected/baseline-evidence/HKLEG-BASE-EVID-FIX-002.json",
+      "expected_fingerprint": "sha256:9ad043505e1be9bc0e0b5054b20ea70bd275ade3cbad4280bb23b00876eef0f7"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-EVID-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-BASE-EVID-FIX-003.json",
+      "fixture_fingerprint": "sha256:5a3275377c421209c72963f13d22b0eda5663e5b0f37cb2dc396175eb6ba27f8",
+      "expected_path": "expected/baseline-evidence/HKLEG-BASE-EVID-FIX-003.json",
+      "expected_fingerprint": "sha256:62ac275bace6312814d994fc4676c1ebbc570f02ab5bf32cdc02bff0bdc0d8e0"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-EVID-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-BASE-EVID-FIX-004.json",
+      "fixture_fingerprint": "sha256:f01c9d55a80459d559aa06b047ea9c17586d98d90aadea40b1e9551f400ccddb",
+      "expected_path": "expected/baseline-evidence/HKLEG-BASE-EVID-FIX-004.json",
+      "expected_fingerprint": "sha256:6f5b9efd36c198c302e0210dfb0db6452c443e916fe006636a89d1aa2d31c0ff"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-EVID-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-BASE-EVID-FIX-005.json",
+      "fixture_fingerprint": "sha256:5cc1db8862ac7d622de512f2610609d491973fe265078be414dc82eb8d327f2a",
+      "expected_path": "expected/baseline-evidence/HKLEG-BASE-EVID-FIX-005.json",
+      "expected_fingerprint": "sha256:222eff59bb71bc52dde03b3de3d2b9ac742e1dc7dd24ad9df768e9e6ca50df7e"
+    }
+  ]
+}

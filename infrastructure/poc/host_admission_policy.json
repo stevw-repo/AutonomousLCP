@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "status": "DESIGN_ONLY_DISABLED",
+  "host": {
+    "os_id": "ubuntu",
+    "os_version_id": "24.04",
+    "architecture": "x86_64",
+    "minimum_memory_bytes": 68719476736
+  },
+  "storage": {
+    "physical_disk_count": 1,
+    "minimum_disk_bytes": 5000000000000,
+    "filesystem_type": "ext4",
+    "required_paths": [
+      "/srv/asklegal/sql",
+      "/srv/asklegal/vault-primary",
+      "/srv/asklegal/vault-recovery"
+    ],
+    "same_physical_disk_required": true,
+    "distinct_real_paths_required": true,
+    "symlinks_forbidden": true,
+    "recovery_class": "LOGICALLY_SEPARATE_POC_RECOVERY"
+  },
+  "security": {
+    "credential_delivery": "SYSTEMD_CREDS_LOAD_CREDENTIAL_ENCRYPTED",
+    "allowed_credential_protection_modes": [
+      "TPM2_PLUS_HOST_KEY",
+      "HOST_KEY_ONLY"
+    ],
+    "encrypted_credential_blob_mode": "0400",
+    "persistent_plaintext_credentials_forbidden": true,
+    "docker_group_non_root_members_forbidden": true,
+    "nftables_input_default": "DROP",
+    "nftables_forward_default": "DROP",
+    "direct_container_egress_default": "DROP",
+    "public_tcp_ports": [],
+    "persistent_journal_required": true,
+    "forward_secure_sealing_required": true,
+    "time_synchronization_required": true
+  },
+  "runtime": {
+    "service_manager": "systemd",
+    "container_runtime": "docker",
+    "exact_host_package_locks_required": true,
+    "host_package_locks": {},
+    "collision_free_private_subnets_required": true,
+    "selected_private_subnets": {}
+  },
+  "authority": {
+    "host_mutation_authorized": false,
+    "credential_creation_authorized": false,
+    "external_write_authorized": false
+  },
+  "admission_blockers": [
+    "CREDENTIAL_INTERFACE_PROOF",
+    "HOST_PACKAGE_LOCKS",
+    "PRIVATE_SUBNET_SELECTION"
+  ]
+}

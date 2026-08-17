@@ -216,7 +216,7 @@ class RulebookManifest:
 
 @dataclass(frozen=True, slots=True)
 class LoadedRulebook:
-    """One fully validated immutable executable package."""
+    """One validated immutable package whose scope readiness governs execution."""
 
     manifest: RulebookManifest
     sources: tuple[SourceDefinition, ...]

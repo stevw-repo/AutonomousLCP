@@ -1,0 +1,57 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.current-release-accounting.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-CURRENT-REL-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-REL-FIX-001.json",
+      "fixture_fingerprint": "sha256:26944be95b4c84e489a576c4dd6eee8cfd0434048dd1469170734a81e584dd73",
+      "expected_path": "expected/current-release-accounting/HKLEG-CURRENT-REL-FIX-001.json",
+      "expected_fingerprint": "sha256:13a077987d8777e1c362e68e610dd52c2c50afab0845818161fd42a9b92ee2df"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-REL-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-REL-FIX-002.json",
+      "fixture_fingerprint": "sha256:ae956295fc53bc772b227c1bb07f74b408ea45a2df84389c0eb1de4b3a3224ea",
+      "expected_path": "expected/current-release-accounting/HKLEG-CURRENT-REL-FIX-002.json",
+      "expected_fingerprint": "sha256:f843d4fb5de41b9ee44ce43a3a0699914877a81862d7a7ae6e5a0151dc670f80"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-REL-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-REL-FIX-003.json",
+      "fixture_fingerprint": "sha256:97af3b0c349910f40f6d3fd1875cbb3aa7a960186b7843b1b9b6ab703564d0bc",
+      "expected_path": "expected/current-release-accounting/HKLEG-CURRENT-REL-FIX-003.json",
+      "expected_fingerprint": "sha256:eb1b960a6d9833fc602e5d4fb45eac8a5ab9d8b2a73c7e033cb0728e80c061bb"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-REL-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-REL-FIX-004.json",
+      "fixture_fingerprint": "sha256:1d3bfb8e8aa4fb8ce965ceadfbe28e69a229bd8a5af383a9b6c90cf1fd2493d6",
+      "expected_path": "expected/current-release-accounting/HKLEG-CURRENT-REL-FIX-004.json",
+      "expected_fingerprint": "sha256:166e0d85eba1e63d6ef367dac2914405046a17db40ef3883ddf04d0108410fe8"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-REL-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-REL-FIX-005.json",
+      "fixture_fingerprint": "sha256:6085ce1ed123036ca3603f56978ec55b6a4d49fa89be92e3a0a442253653c154",
+      "expected_path": "expected/current-release-accounting/HKLEG-CURRENT-REL-FIX-005.json",
+      "expected_fingerprint": "sha256:fad496378dee063008ff309a11439e7c2a5170de04298851f3629ea9e17d3fbc"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-REL-FIX-006",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-REL-FIX-006.json",
+      "fixture_fingerprint": "sha256:7264f6cfee4941180a072219a6d23275c19406b1a05f413ea9a632c7a60f33ce",
+      "expected_path": "expected/current-release-accounting/HKLEG-CURRENT-REL-FIX-006.json",
+      "expected_fingerprint": "sha256:5a79baebafc87ffd1b5c77a63870f2e29dd46458732a89ba509157d05dd8d21a"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-REL-FIX-007",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-REL-FIX-007.json",
+      "fixture_fingerprint": "sha256:86dce2216bdedd2788d4ecad1ed09c050e7a230e39fe9a4c37c520205f39dc49",
+      "expected_path": "expected/current-release-accounting/HKLEG-CURRENT-REL-FIX-007.json",
+      "expected_fingerprint": "sha256:0bb4e05ebe9f088367a8f20422baa08807cb57d8f71f67125a4a2f07bae93bbb"
+    }
+  ]
+}

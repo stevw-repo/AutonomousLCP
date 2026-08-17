@@ -1,0 +1,42 @@
+{
+  "fixture_id": "HKLEG-CURRENT-CAUSE-FIX-003",
+  "title": "Exact technical republication changes no serving or legal fact",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:521f709e63a819f73582d9dddca8f6fe77cc66905bf9b924e95bf22ec3c76c0a",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "SYN-HKLEG-OBJ-001",
+    "difference_class": "EVIDENCE_BUNDLE_CHANGED",
+    "before_bundle_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "after_bundle_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "affected_location_ids": [
+      "SYN-LOC-001"
+    ],
+    "cause_type": "TECHNICAL_REPUBLICATION",
+    "cause_source_id": "HK-LEG-HKEL-CURRENT-DATA",
+    "cause_evidence_fingerprints": [
+      "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+    ],
+    "cause_evidence_complete": true,
+    "cause_matches_after_bundle": true,
+    "cause_evidence_conflicts": false,
+    "publication_date": null,
+    "effective_date": null,
+    "operative_provision_ref": null,
+    "technical_republication": {
+      "item_exact": true,
+      "version_exact": true,
+      "legal_content_exact": true,
+      "meaningful_structure_exact": true,
+      "operative_state_exact": true,
+      "six_serving_fields_exact": true
+    },
+    "source_contract_changed": false
+  },
+  "expected_artifact": {
+    "path": "expected/current-cause/HKLEG-CURRENT-CAUSE-FIX-003.json",
+    "fingerprint": "sha256:927842876e85dfbc0364483240e354830c9e391c6f29af7e7ab65dfe65638199"
+  }
+}

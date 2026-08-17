@@ -1,0 +1,40 @@
+{
+  "fixture_id": "HKLEG-CURRENT-EVID-FIX-005",
+  "title": "Missing asset for uncommenced material blocks without manufacturing current-law gap",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:01ac7a2a5be278369f507c51f2dcc3a40ce6c1a2cba7a5d73aa65cc60a6bd3cf",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "affected_object_ids": [
+      "SYN-HKLEG-OBJ-002"
+    ],
+    "current_law_coverage_depends": false,
+    "applicable_version_order": [
+      "SYN-V2"
+    ],
+    "candidate_bundles": [
+      {
+        "version": "SYN-V2",
+        "evidence_class": "ASSISTED",
+        "official_hkel": true,
+        "en_xml_present": true,
+        "zh_hant_xml_present": true,
+        "en_copy_present": true,
+        "zh_hant_copy_present": true,
+        "required_assets_complete": false,
+        "source_capture_complete": true,
+        "bilingual_version_match": true,
+        "xml_copy_content_match": true,
+        "structure_reconciled": true,
+        "identity_reconciled": true,
+        "evidence_label_present": true
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/current-evidence/HKLEG-CURRENT-EVID-FIX-005.json",
+    "fingerprint": "sha256:ac298a2964827fa5f346c90615d8911b54e4bd7f24cd179533610374a55a71b7"
+  }
+}

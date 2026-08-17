@@ -1,0 +1,9 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-limit.assertion-codes", "version": "1.0.0", "status": "FROZEN_PARTIAL",
+  "assertion_codes": [
+    {"code": "HISTORICAL_LEGAL_EVENT", "forbidden_without_exact_evidence": true},
+    {"code": "HISTORICAL_EFFECTIVE_DATE", "forbidden_without_exact_evidence": true},
+    {"code": "IDENTITY_OR_CONTINUITY_RELATIONSHIP", "forbidden_without_exact_evidence": true},
+    {"code": "COMPLETE_HISTORICAL_EVENT_CHAIN", "forbidden_without_exact_evidence": true}
+  ]
+}

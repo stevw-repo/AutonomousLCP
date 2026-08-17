@@ -1,0 +1,36 @@
+{
+  "fixture_id": "HKLEG-BASE-HIST-FIX-006",
+  "title": "Discovery-only source cannot establish the permitted fact",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-HIST-001",
+  "input_fingerprint": "sha256:ae68053cb0508944ed08ae3634dee3ebc4a176d8b5d586753b7805b64d257eb5",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "affected_object_ids": [
+      "SYN-HKLEG-OBJ-001"
+    ],
+    "review_task": {
+      "review_task_id": "SYN-HKLEG-REVIEW-HIST-006",
+      "requested_source_ids": [
+        "HK-LEG-HKEL-GAZETTE-BACKCAPTURE"
+      ],
+      "permitted_fact_code": "PRESENT_OPERATIVE_STATUS"
+    },
+    "historical_evidence": {
+      "source_id": "HK-LEG-HKEL-GAZETTE-BACKCAPTURE",
+      "availability": "AVAILABLE",
+      "evidence_result": "PROVES_PERMITTED_FACT",
+      "proof_basis": "EXPLICIT_OFFICIAL_EVIDENCE"
+    },
+    "proposed_fact_code": "PRESENT_OPERATIVE_STATUS",
+    "attempted_current_evidence_substitution": false,
+    "attempted_reconstruction": false,
+    "scope_completeness_impossible": false
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-history/HKLEG-BASE-HIST-FIX-006.json",
+    "fingerprint": "sha256:7f712bb6f9365aae08cc2d1e539542e3eec899206bcd2b4cd2e6bcaee11346aa"
+  }
+}

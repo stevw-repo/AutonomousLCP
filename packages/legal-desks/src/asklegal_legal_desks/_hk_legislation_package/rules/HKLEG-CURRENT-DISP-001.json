@@ -1,0 +1,10 @@
+{
+  "rule_id": "HKLEG-CURRENT-DISP-001",
+  "version": "1.0.0",
+  "stage": "ORDINARY_CURRENT_PRIMARY_DISPOSITION",
+  "ordinary_path_only": true,
+  "predecessor_rule_ids": ["HKLEG-CURRENT-DIFF-001", "HKLEG-CURRENT-CAUSE-001", "HKLEG-CURRENT-CAUSE-002"],
+  "successor_rule_id": "HKLEG-CURRENT-REC-001",
+  "primary_dispositions": ["SEARCHABLE_CURRENT", "WAITING_ROOM", "EVIDENCE_ONLY", "HISTORICAL", "QUARANTINE"],
+  "record_output": "NONE"
+}

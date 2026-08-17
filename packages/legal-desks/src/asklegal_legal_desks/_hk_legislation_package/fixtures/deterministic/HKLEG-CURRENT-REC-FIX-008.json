@@ -1,0 +1,32 @@
+{
+  "fixture_id": "HKLEG-CURRENT-REC-FIX-008",
+  "title": "Ordinary update without predecessor returns to initial baseline",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:baa4034c43f81230f250cc974ea7e892c0f8b4961db0d980712619805403bbba",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.record",
+    "location_id": "section-1",
+    "legal_disposition": "SEARCHABLE_CURRENT",
+    "continuing_legal_support": true,
+    "new_identity_register_allocated": true,
+    "predecessor_record": null,
+    "candidate_record": {
+      "id": "rec_222222222222222222222222222222222222222222222222",
+      "metadata": {
+        "text": "Synthetic bilingual text v2",
+        "country": "Hong Kong",
+        "jurisdiction": "Hong Kong",
+        "type": "Legislation",
+        "source": "HKeL",
+        "authority_note": "None"
+      }
+    }
+  },
+  "expected_artifact": {
+    "path": "expected/current-record/HKLEG-CURRENT-REC-FIX-008.json",
+    "fingerprint": "sha256:ab0885f88e83bfc5cde62a6ee66c4f44d9e9eb7cafa2a07bdf39f3fe5db14217"
+  }
+}

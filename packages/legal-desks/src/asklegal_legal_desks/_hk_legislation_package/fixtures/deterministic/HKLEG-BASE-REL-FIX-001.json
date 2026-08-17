@@ -1,0 +1,73 @@
+{
+  "fixture_id": "HKLEG-BASE-REL-FIX-001",
+  "title": "Complete initial baseline accounting is eligible for candidate release construction",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-REL-001",
+  "input_fingerprint": "sha256:13a425c68884c1d61f9f701527ec8b62971e70c1a943dc61b09e2f3844bdf6e9",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "predecessor_release_id": null,
+    "expected_accounting": {
+      "object_ids": [
+        "SYN-HKLEG-OBJ-001",
+        "SYN-HKLEG-OBJ-002",
+        "SYN-HKLEG-OBJ-003"
+      ],
+      "location_ids": [
+        "SYN-HKLEG-LOC-001",
+        "SYN-HKLEG-LOC-002",
+        "SYN-HKLEG-LOC-003"
+      ],
+      "coverage_gap_ids": [],
+      "quarantine_ids": [
+        "SYN-HKLEG-QUA-001"
+      ],
+      "investigation_ids": [
+        "SYN-HKLEG-INVEST-001"
+      ]
+    },
+    "accounting_entries": [
+      {
+        "object_id": "SYN-HKLEG-OBJ-001",
+        "location_id": "SYN-HKLEG-LOC-001",
+        "legal_disposition": "SEARCHABLE_CURRENT",
+        "identity_decision_id": "SYN-HKLEG-ID-DEC-001",
+        "record_id": "rec_111111111111111111111111111111111111111111111111",
+        "coverage_gap_ids": [],
+        "quarantine_ids": [],
+        "investigation_ids": []
+      },
+      {
+        "object_id": "SYN-HKLEG-OBJ-002",
+        "location_id": "SYN-HKLEG-LOC-002",
+        "legal_disposition": "WAITING_ROOM",
+        "identity_decision_id": "SYN-HKLEG-ID-DEC-002",
+        "record_id": null,
+        "coverage_gap_ids": [],
+        "quarantine_ids": [],
+        "investigation_ids": []
+      },
+      {
+        "object_id": "SYN-HKLEG-OBJ-003",
+        "location_id": "SYN-HKLEG-LOC-003",
+        "legal_disposition": "QUARANTINE",
+        "identity_decision_id": "SYN-HKLEG-ID-DEC-003",
+        "record_id": null,
+        "coverage_gap_ids": [],
+        "quarantine_ids": [
+          "SYN-HKLEG-QUA-001"
+        ],
+        "investigation_ids": [
+          "SYN-HKLEG-INVEST-001"
+        ]
+      }
+    ],
+    "unresolved_completeness_gap_ids": []
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-release-accounting/HKLEG-BASE-REL-FIX-001.json",
+    "fingerprint": "sha256:51e8ffbf933c8e9c5465fa701fba137b1fed81616eb87f3c93cfa3aba6410069"
+  }
+}

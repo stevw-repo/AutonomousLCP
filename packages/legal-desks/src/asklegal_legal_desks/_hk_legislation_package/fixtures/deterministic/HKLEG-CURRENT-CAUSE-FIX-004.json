@@ -1,0 +1,40 @@
+{
+  "fixture_id": "HKLEG-CURRENT-CAUSE-FIX-004",
+  "title": "Material change without accepted cause is quarantined",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:24d26d11acb92f07c8994b3ba3979b69b932ec84c52d750a15985ca0dd1b4929",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "SYN-HKLEG-OBJ-001",
+    "difference_class": "PAYLOAD_CHANGED",
+    "before_bundle_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "after_bundle_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "affected_location_ids": [
+      "SYN-LOC-001"
+    ],
+    "cause_type": null,
+    "cause_source_id": null,
+    "cause_evidence_fingerprints": [],
+    "cause_evidence_complete": false,
+    "cause_matches_after_bundle": false,
+    "cause_evidence_conflicts": false,
+    "publication_date": null,
+    "effective_date": null,
+    "operative_provision_ref": null,
+    "technical_republication": {
+      "item_exact": false,
+      "version_exact": false,
+      "legal_content_exact": false,
+      "meaningful_structure_exact": false,
+      "operative_state_exact": false,
+      "six_serving_fields_exact": false
+    },
+    "source_contract_changed": false
+  },
+  "expected_artifact": {
+    "path": "expected/current-cause/HKLEG-CURRENT-CAUSE-FIX-004.json",
+    "fingerprint": "sha256:a6da7b51b22bdfa64bc95ef354bc3334861821ccf1437815491b63714adf604c"
+  }
+}

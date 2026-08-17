@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "status": "DESIGN_ONLY_DISABLED",
+  "admission_statement": "V1_POC_NOT_ADMITTED",
+  "ready": false,
+  "authority": {
+    "credential_creation_authorized": false,
+    "external_access_authorized": false,
+    "host_mutation_authorized": false,
+    "image_pull_authorized": false,
+    "pinecone_write_authorized": false,
+    "service_enablement_authorized": false
+  },
+  "components": [
+    {"component_id":"STATIC_TOPOLOGY","evidence":"tools/v1_poc_topology.py","state":"STATIC_CONTRACT_VALIDATED_NOT_ADMITTED","admission_blocker":"ARTIFACT_PINS_AND_HOST_RESOLUTION"},
+    {"component_id":"HOST_ADMISSION","evidence":"tools/v1_poc_host_admission.py","state":"STATIC_CONTRACT_VALIDATED_NOT_ADMITTED","admission_blocker":"REAL_HOST_FACTS"},
+    {"component_id":"CREDENTIAL_INTERFACE_PROOF_PLAN","evidence":"tools/v1_poc_credential_interface.py","state":"STATIC_CONTRACT_VALIDATED_NOT_ADMITTED","admission_blocker":"UBUNTU_EXECUTABLE_CREDENTIAL_PROOF"},
+    {"component_id":"ARTIFACT_ADMISSION","evidence":"tools/v1_poc_artifacts.py","state":"STATIC_CONTRACT_VALIDATED_NOT_ADMITTED","admission_blocker":"ARTIFACT_EVIDENCE"},
+    {"component_id":"APPLICATION_IMAGE_ADMISSION","evidence":"tools/v1_poc_application_images.py","state":"STATIC_CONTRACT_VALIDATED_NOT_ADMITTED","admission_blocker":"IMAGE_BUILD_AND_UBUNTU_PROOF"},
+    {"component_id":"APPLICATION_RUNTIME_ADMISSION","evidence":"tools/v1_poc_application_runtime.py","state":"STATIC_CONTRACT_VALIDATED_NOT_ADMITTED","admission_blocker":"REAL_RUNTIME_ADAPTERS_AND_PROBES"},
+    {"component_id":"SYSTEMD_UNIT_ADMISSION","evidence":"tools/v1_poc_systemd_units.py","state":"STATIC_CONTRACT_VALIDATED_NOT_ADMITTED","admission_blocker":"UNIT_RUNTIME_INPUTS_AND_UBUNTU_PROOF"},
+    {"component_id":"HOST_IDENTITY_ADMISSION","evidence":"tools/v1_poc_host_identities.py","state":"STATIC_CONTRACT_VALIDATED_NOT_ADMITTED","admission_blocker":"UID_GID_AND_OWNERSHIP_PROOF"},
+    {"component_id":"REAL_HONG_KONG_PACKAGE_ADMISSION","evidence":"packages/legal-desks/src/asklegal_legal_desks/_hk_legislation_package/package.json","state":"NOT_READY","admission_blocker":"REAL_PACKAGE_ADMISSION"},
+    {"component_id":"OFFICIAL_SOURCE_ADMISSION","evidence":"NOT_CREATED","state":"NOT_STARTED","admission_blocker":"EXTERNAL_SOURCE_PROFILE_AND_RIGHTS"},
+    {"component_id":"MODEL_AND_EMBEDDING_ADMISSION","evidence":"NOT_CREATED","state":"NOT_STARTED","admission_blocker":"DEPLOYMENT_PROFILE_AND_EVALUATION"},
+    {"component_id":"PINECONE_ADMISSION","evidence":"NOT_CREATED","state":"NOT_STARTED","admission_blocker":"PLAN_PROJECT_CREDENTIALS_AND_WRITE_AUTHORITY"},
+    {"component_id":"UBUNTU_END_TO_END_ADMISSION","evidence":"NOT_CREATED","state":"NOT_STARTED","admission_blocker":"DEPLOYMENT_RECOVERY_AND_OPERATIONAL_PROOF"},
+    {"component_id":"V1_ACCEPTANCE","evidence":"NOT_CREATED","state":"NOT_STARTED","admission_blocker":"COMPLETE_EVIDENCE_AND_NAMED_HUMAN_ACCEPTANCE"}
+  ]
+}

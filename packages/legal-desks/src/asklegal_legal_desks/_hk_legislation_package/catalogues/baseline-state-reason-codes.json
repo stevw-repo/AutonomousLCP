@@ -1,0 +1,14 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-state.reason-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {"code": "HKLEG_BASE_STATE_PRESENT_OPERATIVE_ESTABLISHED", "meaning": "Complete accepted current facts support operative state at the cutoff", "processing_outcome": "PASS", "coverage_effect": "NONE", "source_contract_review_required": false},
+    {"code": "HKLEG_BASE_STATE_REQUIRED_SIGNAL_MISSING", "meaning": "A required present-state signal or accepted signal set is incomplete", "processing_outcome": "BLOCK", "coverage_effect": "COVERAGE_GAP", "source_contract_review_required": false},
+    {"code": "HKLEG_BASE_STATE_STATUS_OR_STRUCTURE_AMBIGUOUS", "meaning": "Complete known facts do not identify a safe exact operative boundary", "processing_outcome": "QUARANTINE", "coverage_effect": "NONE", "source_contract_review_required": false},
+    {"code": "HKLEG_BASE_STATE_ACCEPTED_SIGNAL_CONFLICT", "meaning": "Accepted sources assign inconsistent present state or version facts", "processing_outcome": "QUARANTINE", "coverage_effect": "NONE", "source_contract_review_required": false},
+    {"code": "HKLEG_BASE_STATE_SOURCE_SEMANTICS_UNKNOWN", "meaning": "A relied-on status or structure meaning is not defined by the pinned contract", "processing_outcome": "BLOCK", "coverage_effect": "COVERAGE_GAP", "source_contract_review_required": true},
+    {"code": "HKLEG_BASE_STATE_OPERATIVE_EFFECT_NOT_PROVED", "meaning": "A current or InEffect-style signal lacks required operative-effect proof", "processing_outcome": "BLOCK", "coverage_effect": "NONE", "source_contract_review_required": false},
+    {"code": "HKLEG_BASE_STATE_RULEBOOK_SUPPORT_MISSING", "meaning": "The written rulebook does not support the proposed ownership or operative disposition", "processing_outcome": "BLOCK", "coverage_effect": "COVERAGE_GAP", "source_contract_review_required": false}
+  ]
+}

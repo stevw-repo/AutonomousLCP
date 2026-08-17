@@ -1,0 +1,11 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-evidence.source-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "source_codes": [
+    {"code": "HK-LEG-HKEL-CURRENT-DATA", "permitted_evidence_use": "Current bilingual XML construction and comparison"},
+    {"code": "HK-LEG-HKEL-VERIFIED-COPIES", "permitted_evidence_use": "Official verified bilingual text-and-version evidence"},
+    {"code": "HK-LEG-HKEL-ASSISTED-COPIES", "permitted_evidence_use": "Official assisted bilingual text-and-version evidence under ADR 0081"},
+    {"code": "HK-LEG-HKEL-PAST-DATA", "permitted_evidence_use": "Historical XML for separate historical or reconstruction work only"}
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "fixture_id": "HKLEG-BASE-OBS-FIX-002",
+  "title": "Required Gazette observation is missing",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-OBS-001",
+  "input_fingerprint": "sha256:b487188d9d50831bf983b14f2ad27e5ede6352780fd255cd5926c3487c1c498f",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "locks": {
+      "rulebook_version": "2026-08-17.1",
+      "rulebook_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "release_scope_registry_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "publication_specification_version": "SYNTHETIC_HKEL_SPEC_1",
+      "publication_specification_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "source_observations": [
+      {
+        "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+        "observation_id": "SYN-HKLEG-OBS-INV-002",
+        "cutoff": "2026-08-17T00:00:00Z",
+        "complete": true,
+        "freshness": "FRESH",
+        "artifact_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "change_observed_at": null
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-observation/HKLEG-BASE-OBS-FIX-002.json",
+    "fingerprint": "sha256:da2c704d669f062f5c72d4c83583a6d159454ec33dd1bbb1c9b722d4b5affac8"
+  }
+}

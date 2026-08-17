@@ -1,0 +1,42 @@
+{
+  "fixture_id": "HKLEG-CURRENT-CAUSE-FIX-002",
+  "title": "Exact Editorial Record proves an editorial cause",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:ed8923a278b80ba985aa2ffd458ca82ba276d96654b168a76f6d0dc1f4a44f03",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "SYN-HKLEG-OBJ-001",
+    "difference_class": "PAYLOAD_CHANGED",
+    "before_bundle_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "after_bundle_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "affected_location_ids": [
+      "SYN-LOC-001"
+    ],
+    "cause_type": "EDITORIAL_RECORD",
+    "cause_source_id": "HK-LEG-HKEL-EDITORIAL-RECORDS",
+    "cause_evidence_fingerprints": [
+      "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+    ],
+    "cause_evidence_complete": true,
+    "cause_matches_after_bundle": true,
+    "cause_evidence_conflicts": false,
+    "publication_date": "2026-08-16",
+    "effective_date": "2026-08-16",
+    "operative_provision_ref": "SYN-EDITORIAL-1",
+    "technical_republication": {
+      "item_exact": false,
+      "version_exact": true,
+      "legal_content_exact": false,
+      "meaningful_structure_exact": true,
+      "operative_state_exact": true,
+      "six_serving_fields_exact": false
+    },
+    "source_contract_changed": false
+  },
+  "expected_artifact": {
+    "path": "expected/current-cause/HKLEG-CURRENT-CAUSE-FIX-002.json",
+    "fingerprint": "sha256:ef17dcc0b48a6500c1cc61c446d5f6b7bd6f3bfa4100b715c3ff182682627a05"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-state.source-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "source_codes": [
+    {"code": "HK-LEG-HKEL-CURRENT-INVENTORY", "permitted_state_use": "Current item, resource, version, and status signals only"},
+    {"code": "HK-LEG-HKEL-CURRENT-DATA", "permitted_state_use": "Current structure and version consistency only"},
+    {"code": "HK-LEG-GLD-EGAZETTE", "permitted_state_use": "Assigned modern legal-event facts and conflict checks"},
+    {"code": "HK-LEG-HKEL-EDITORIAL-RECORDS", "permitted_state_use": "Assigned editorial-event facts and conflict checks"},
+    {"code": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS", "permitted_state_use": "Pinned meanings of status and structure signals only"},
+    {"code": "HK-LEG-BASIC-LAW-PORTAL", "permitted_state_use": "Relevant constitutional discrepancy signals only"},
+    {"code": "HK-LEG-NPC-NATIONAL-LAWS-DATABASE", "permitted_state_use": "Assigned originating national-law facts only"},
+    {"code": "HK-LEG-NPC-NPCSC-OFFICIAL-MATERIALS", "permitted_state_use": "Assigned originating NPC or NPCSC facts only"}
+  ]
+}

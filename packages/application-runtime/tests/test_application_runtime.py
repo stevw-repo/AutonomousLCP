@@ -2,18 +2,22 @@
 
 from dataclasses import replace
 from datetime import UTC, datetime, timedelta
+from pathlib import Path
 
 import pytest
 from asklegal_application_runtime import (
     ApplicationConfiguration,
     ConfigurationError,
     ConfigurationErrorCode,
+    CredentialError,
+    CredentialErrorCode,
     DisabledEffectPort,
     LocalAdapterError,
     LocalAdapterErrorCode,
     LocalCommandRegister,
     LocalPaginationStore,
     LocalTaskHub,
+    SystemdCredentialDirectory,
     WorkerResultCode,
     WorkerRuntime,
     WorkLease,
@@ -184,3 +188,92 @@ def test_configuration_revision_is_immutable() -> None:
     replacement = replace(configuration, revision="r2")
     assert configuration.revision == "local-r1"
     assert replacement.revision == "r2"
+
+
+def test_systemd_credential_loader_reads_only_exact_private_files(tmp_path: Path) -> None:
+    """Read one named file without exposing its value through diagnostics."""
+    credential = tmp_path / "sql-control"
+    credential.write_bytes(b"synthetic-password")
+    credential.chmod(0o400)
+    directory = SystemdCredentialDirectory.from_environment(
+        {"CREDENTIALS_DIRECTORY": str(tmp_path)}
+    )
+
+    material = directory.read("sql-control", max_bytes=64)
+
+    assert material.reveal() == b"synthetic-password"
+    assert repr(material) == "CredentialMaterial(<redacted>)"
+    assert "synthetic-password" not in repr(material)
+
+
+@pytest.mark.parametrize(
+    ("name", "code"),
+    [
+        ("../credential", CredentialErrorCode.NAME),
+        ("/absolute", CredentialErrorCode.NAME),
+        ("contains_underscore", CredentialErrorCode.NAME),
+        ("", CredentialErrorCode.NAME),
+    ],
+)
+def test_systemd_credential_loader_rejects_non_names(
+    tmp_path: Path, name: str, code: CredentialErrorCode
+) -> None:
+    """Reject traversal and non-canonical names before opening a file."""
+    directory = SystemdCredentialDirectory(str(tmp_path))
+    with pytest.raises(CredentialError) as error:
+        directory.read(name)
+    assert error.value.code is code
+
+
+def test_systemd_credential_loader_rejects_symlinks_modes_sizes_and_empty_files(
+    tmp_path: Path,
+) -> None:
+    """Fail closed on filesystem aliases and material outside exact bounds."""
+    directory = SystemdCredentialDirectory(str(tmp_path))
+    target = tmp_path / "target"
+    target.write_bytes(b"value")
+    target.chmod(0o400)
+    link = tmp_path / "linked"
+    link.symlink_to(target)
+    with pytest.raises(CredentialError) as error:
+        directory.read("linked")
+    assert error.value.code is CredentialErrorCode.FILE
+
+    loose = tmp_path / "loose"
+    loose.write_bytes(b"value")
+    loose.chmod(0o600)
+    with pytest.raises(CredentialError) as error:
+        directory.read("loose")
+    assert error.value.code is CredentialErrorCode.MODE
+
+    large = tmp_path / "large"
+    large.write_bytes(b"12345")
+    large.chmod(0o400)
+    with pytest.raises(CredentialError) as error:
+        directory.read("large", max_bytes=4)
+    assert error.value.code is CredentialErrorCode.SIZE
+
+    empty = tmp_path / "empty"
+    empty.write_bytes(b"")
+    empty.chmod(0o400)
+    with pytest.raises(CredentialError) as error:
+        directory.read("empty")
+    assert error.value.code is CredentialErrorCode.EMPTY
+
+
+def test_systemd_credential_loader_requires_absolute_directory_environment() -> None:
+    """Accept no implicit, relative, or malformed credential directory."""
+    for environment in ({}, {"CREDENTIALS_DIRECTORY": "relative"}):
+        with pytest.raises(CredentialError) as error:
+            SystemdCredentialDirectory.from_environment(environment)
+        assert error.value.code is CredentialErrorCode.DIRECTORY
+
+
+def test_systemd_credential_errors_never_include_paths_or_values(tmp_path: Path) -> None:
+    """Normalize operating-system failures to one non-sensitive code."""
+    missing_name = "missing-credential"
+    directory = SystemdCredentialDirectory(str(tmp_path))
+    with pytest.raises(CredentialError) as error:
+        directory.read(missing_name)
+    assert str(error.value) == "CREDENTIAL_FILE_INVALID"
+    assert missing_name not in str(error.value)

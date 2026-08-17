@@ -1,0 +1,33 @@
+{
+  "fixture_id": "HKLEG-CURRENT-OBS-FIX-005",
+  "title": "Unavailable item-specific source blocks only dependent work",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:62faf24589dbb851656b4b530b1a2a65b13c7b9925f8ad5a6073bab4871f26ae",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "due_observations": [
+      {
+        "source_id": "HK-LEG-HKEL-EDITORIAL-RECORDS",
+        "dependency_scope": "AFFECTED_WORK",
+        "status": "FAILED",
+        "fresh": false,
+        "changed": false,
+        "affected_object_ids": [
+          "SYN-HKLEG-OBJ-002"
+        ]
+      }
+    ],
+    "current_inventory_matches_predecessor": true,
+    "unmatched_gazette_event": false,
+    "editorial_or_spec_signal": false,
+    "urgent_signal_open": false,
+    "detected_work_key": null,
+    "open_work_keys": []
+  },
+  "expected_artifact": {
+    "path": "expected/current-observation/HKLEG-CURRENT-OBS-FIX-005.json",
+    "fingerprint": "sha256:3e4a326b6f89bbc02f990a89acd860cc61a0c135a736f2d9a54f6313025cc4d4"
+  }
+}

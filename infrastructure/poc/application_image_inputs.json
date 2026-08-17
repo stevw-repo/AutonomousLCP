@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "status": "DESIGN_ONLY_DISABLED",
+  "target_platform": "linux/amd64",
+  "python_version": "3.14.7",
+  "source_date_epoch": 315532800,
+  "input_locks": {
+    ".python-version": "sha256:922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
+    "pyproject.toml": "sha256:8e64c998c21bf07c326da77f50c05e85babfbf8f7717fa7ee644743c4d352433",
+    "tools/package_spike_manifest.json": "sha256:55f3db8e9dc49dc82c6ff65599cdc570e7d6c512bade6340f24c8d68c565f758",
+    "uv.lock": "sha256:446df06d22f4eb7eb651c95eb93246c18d49e19aba71eb222fc9bc2e75c15d84"
+  },
+  "base_image": {
+    "selection_state": "PYTHON_3_14_7_LINUX_AMD64_DIGEST_REQUIRED",
+    "artifact_ref": null
+  },
+  "security_profile": {
+    "non_root_required": true,
+    "read_only_root_filesystem_required": true,
+    "no_new_privileges_required": true,
+    "drop_all_linux_capabilities_required": true,
+    "secret_environment_forbidden": true,
+    "secret_arguments_forbidden": true,
+    "network_during_build_forbidden": true
+  },
+  "authority": {
+    "image_build_authorized": false,
+    "registry_pull_authorized": false,
+    "registry_push_authorized": false,
+    "service_enablement_authorized": false
+  },
+  "required_blockers": [
+    "BASE_IMAGE_DIGEST",
+    "THIRD_PARTY_WHEELHOUSE",
+    "OCI_BUILD_DEFINITION",
+    "RUNTIME_CONFIGURATION_ADAPTER",
+    "UBUNTU_24_04_X86_64_OCI_PROOF"
+  ],
+  "images": [
+    {
+      "artifact_id": "control-plane",
+      "application_path": "apps/control-plane",
+      "distribution": "asklegal-control-plane",
+      "module": "asklegal_control_plane",
+      "console_script": "asklegal-control-plane",
+      "check_command": ["asklegal-control-plane", "--check"],
+      "runtime_command": null,
+      "runtime_entrypoint_state": "ADAPTER_REQUIRED",
+      "topology_identity": "asklegal-control",
+      "topology_listener_ports": [8000],
+      "workspace_distribution_closure": ["asklegal-application-runtime", "asklegal-contracts", "asklegal-control-plane", "asklegal-corpus", "asklegal-domain", "asklegal-durable-task-adapter", "asklegal-evidence-vault", "asklegal-management-register", "asklegal-management-register-adapter", "asklegal-observability", "asklegal-promotion", "asklegal-reporting"],
+      "third_party_wheelhouse_state": "REQUIRED",
+      "oci_build_definition_state": "REQUIRED",
+      "artifact_ref": null,
+      "admitted": false
+    },
+    {
+      "artifact_id": "review-api",
+      "application_path": "apps/review-api",
+      "distribution": "asklegal-review-api",
+      "module": "asklegal_review_api",
+      "console_script": "asklegal-review-api",
+      "check_command": ["asklegal-review-api", "--check"],
+      "runtime_command": null,
+      "runtime_entrypoint_state": "ADAPTER_REQUIRED",
+      "topology_identity": "asklegal-review",
+      "topology_listener_ports": [8001],
+      "workspace_distribution_closure": ["asklegal-application-runtime", "asklegal-contracts", "asklegal-domain", "asklegal-evidence-vault", "asklegal-management-register", "asklegal-management-register-adapter", "asklegal-observability", "asklegal-reporting", "asklegal-review-api"],
+      "third_party_wheelhouse_state": "REQUIRED",
+      "oci_build_definition_state": "REQUIRED",
+      "artifact_ref": null,
+      "admitted": false
+    },
+    {
+      "artifact_id": "acquisition-worker",
+      "application_path": "apps/acquisition-worker",
+      "distribution": "asklegal-acquisition-worker",
+      "module": "asklegal_acquisition_worker",
+      "console_script": "asklegal-acquisition-worker",
+      "check_command": ["asklegal-acquisition-worker", "--check"],
+      "runtime_command": null,
+      "runtime_entrypoint_state": "ADAPTER_REQUIRED",
+      "topology_identity": "asklegal-acquisition",
+      "topology_listener_ports": [],
+      "workspace_distribution_closure": ["asklegal-acquisition-worker", "asklegal-application-runtime", "asklegal-contracts", "asklegal-domain", "asklegal-durable-task-adapter", "asklegal-evidence-vault", "asklegal-management-register", "asklegal-management-register-adapter", "asklegal-observability", "asklegal-reporting", "asklegal-source-connectors"],
+      "third_party_wheelhouse_state": "REQUIRED",
+      "oci_build_definition_state": "REQUIRED",
+      "artifact_ref": null,
+      "admitted": false
+    },
+    {
+      "artifact_id": "legal-processing-worker",
+      "application_path": "apps/legal-processing-worker",
+      "distribution": "asklegal-legal-processing-worker",
+      "module": "asklegal_legal_processing_worker",
+      "console_script": "asklegal-legal-processing-worker",
+      "check_command": ["asklegal-legal-processing-worker", "--check"],
+      "runtime_command": null,
+      "runtime_entrypoint_state": "ADAPTER_REQUIRED",
+      "topology_identity": "asklegal-processing",
+      "topology_listener_ports": [],
+      "workspace_distribution_closure": ["asklegal-application-runtime", "asklegal-contracts", "asklegal-corpus", "asklegal-domain", "asklegal-durable-task-adapter", "asklegal-evidence-vault", "asklegal-legal-desks", "asklegal-legal-processing-worker", "asklegal-management-register", "asklegal-management-register-adapter", "asklegal-observability", "asklegal-processing", "asklegal-reporting"],
+      "third_party_wheelhouse_state": "REQUIRED",
+      "oci_build_definition_state": "REQUIRED",
+      "artifact_ref": null,
+      "admitted": false
+    },
+    {
+      "artifact_id": "promotion-worker",
+      "application_path": "apps/promotion-worker",
+      "distribution": "asklegal-promotion-worker",
+      "module": "asklegal_promotion_worker",
+      "console_script": "asklegal-promotion-worker",
+      "check_command": ["asklegal-promotion-worker", "--check"],
+      "runtime_command": null,
+      "runtime_entrypoint_state": "ADAPTER_REQUIRED",
+      "topology_identity": "asklegal-promotion",
+      "topology_listener_ports": [],
+      "workspace_distribution_closure": ["asklegal-application-runtime", "asklegal-contracts", "asklegal-corpus", "asklegal-domain", "asklegal-durable-task-adapter", "asklegal-evidence-vault", "asklegal-management-register", "asklegal-management-register-adapter", "asklegal-observability", "asklegal-promotion", "asklegal-promotion-worker", "asklegal-reporting"],
+      "third_party_wheelhouse_state": "REQUIRED",
+      "oci_build_definition_state": "REQUIRED",
+      "artifact_ref": null,
+      "admitted": false
+    }
+  ]
+}

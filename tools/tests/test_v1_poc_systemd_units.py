@@ -1,0 +1,150 @@
+"""Fail-closed tests for disabled V1 POC systemd unit inputs."""
+
+import json
+from copy import deepcopy
+from pathlib import Path
+
+import pytest
+
+from tools.v1_poc_systemd_units import (
+    SYSTEMD_POLICY_PATH,
+    TOPOLOGY_PATH,
+    SystemdInputCode,
+    SystemdInputReport,
+    check_systemd_input_policy,
+    validate_systemd_input_policy,
+)
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+
+
+def _object(path: Path) -> dict[str, object]:
+    value = json.loads(path.read_bytes())
+    assert isinstance(value, dict)
+    return value
+
+
+def _policy() -> dict[str, object]:
+    return _object(REPOSITORY_ROOT / SYSTEMD_POLICY_PATH)
+
+
+def _topology() -> dict[str, object]:
+    return _object(REPOSITORY_ROOT / TOPOLOGY_PATH)
+
+
+def _service(policy: dict[str, object], service_id: str) -> dict[str, object]:
+    services = policy["service_units"]
+    assert isinstance(services, list)
+    return next(
+        item for item in services if isinstance(item, dict) and item.get("service_id") == service_id
+    )
+
+
+def _codes(
+    policy: dict[str, object], topology: dict[str, object] | None = None
+) -> set[SystemdInputCode]:
+    return {
+        finding.code for finding in validate_systemd_input_policy(policy, topology or _topology())
+    }
+
+
+def test_systemd_unit_inputs_are_complete_hardened_and_disabled() -> None:
+    """Bind every service/bootstrap/timer without installing or enabling it."""
+    assert check_systemd_input_policy(REPOSITORY_ROOT) == SystemdInputReport(
+        services=16,
+        bootstrap_units=2,
+        timers=5,
+        blockers=(
+            "ARTIFACT_PINS",
+            "CONTAINER_CREDENTIAL_BRIDGE",
+            "CREDENTIAL_INTERFACE_PROOF",
+            "PRIVATE_SUBNETS",
+            "RUNTIME_COMMANDS",
+            "UBUNTU_SYSTEMD_PROOF",
+        ),
+        enabled=0,
+    )
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "expected"),
+    [
+        ("runtime_identity", "root", SystemdInputCode.TOPOLOGY),
+        ("credential_names", ["sql-control"], SystemdInputCode.TOPOLOGY),
+        ("requires", [], SystemdInputCode.DEPENDENCY),
+        ("runtime_command_state", "READY", SystemdInputCode.RUNTIME),
+        ("enabled", True, SystemdInputCode.RUNTIME),
+    ],
+)
+def test_service_identity_credentials_dependencies_and_runtime_drift_fail_closed(
+    field: str, value: object, expected: SystemdInputCode
+) -> None:
+    """Keep the Control unit bound to topology and explicitly non-runnable."""
+    policy = deepcopy(_policy())
+    _service(policy, "control-plane")[field] = value
+    assert expected in _codes(policy)
+
+
+def test_missing_or_duplicate_service_unit_fails_closed() -> None:
+    """Require exactly one unit input for every topology service."""
+    policy = deepcopy(_policy())
+    units = policy["service_units"]
+    assert isinstance(units, list)
+    units[-1] = deepcopy(units[0])
+    assert SystemdInputCode.INVENTORY in _codes(policy)
+
+
+def test_authority_hardening_and_credential_transport_drift_fail_closed() -> None:
+    """Reject host mutation authority, weaker hardening, or secret transport drift."""
+    policy = deepcopy(_policy())
+    authority = policy["authority"]
+    assert isinstance(authority, dict)
+    authority["unit_installation_authorized"] = True
+    assert SystemdInputCode.AUTHORITY in _codes(policy)
+
+    policy = deepcopy(_policy())
+    hardening = policy["hardening_profile"]
+    assert isinstance(hardening, dict)
+    hardening["no_new_privileges"] = False
+    assert SystemdInputCode.HARDENING in _codes(policy)
+
+    policy = deepcopy(_policy())
+    transport = policy["credential_transport"]
+    assert isinstance(transport, dict)
+    transport["secret_environment_forbidden"] = False
+    assert SystemdInputCode.CREDENTIAL in _codes(policy)
+
+
+def test_bootstrap_and_timer_drift_fail_closed() -> None:
+    """Keep privileged one-shots disabled and timer cadences unresolved."""
+    policy = deepcopy(_policy())
+    bootstrap = policy["bootstrap_units"]
+    assert isinstance(bootstrap, list)
+    assert isinstance(bootstrap[0], dict)
+    bootstrap[0]["enabled"] = True
+    assert SystemdInputCode.BOOTSTRAP in _codes(policy)
+
+    policy = deepcopy(_policy())
+    timers = policy["timer_units"]
+    assert isinstance(timers, list)
+    assert isinstance(timers[0], dict)
+    timers[0]["cadence_state"] = "INVENTED_DAILY_DEFAULT"
+    assert SystemdInputCode.TIMER in _codes(policy)
+
+
+def test_topology_and_embedded_secret_drift_fail_closed() -> None:
+    """Bind unit inputs to topology and reject secret-bearing additions."""
+    topology = _topology()
+    services = topology["services"]
+    assert isinstance(services, list)
+    control = next(
+        item
+        for item in services
+        if isinstance(item, dict) and item.get("service_id") == "control-plane"
+    )
+    control["identity"] = "changed-identity"
+    assert SystemdInputCode.TOPOLOGY in _codes(_policy(), topology)
+
+    policy = deepcopy(_policy())
+    policy["api_key"] = "sk-forbidden"
+    assert SystemdInputCode.SECRET in _codes(policy)

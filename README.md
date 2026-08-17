@@ -28,6 +28,52 @@ reserved `ZZZ` / `LOCAL_SYNTHETIC` test package; every real
 jurisdiction package remains `NOT_READY` and every real external effect remains
 disabled.**
 
+The first real-package readiness checkpoint is also present under
+`packages/legal-desks/src/asklegal_legal_desks/_hk_legislation_package/`.
+It selects `HK-LEG-ORDINANCES` as the current local implementation target and
+binds the accepted Hong Kong Legislation source-role and scope inventory with
+explicit blockers. Its first 27 offline rule slices implement the ordered
+`HKLEG-BASE-OBS-001` → `HKLEG-BASE-INV-001` → `HKLEG-BASE-EVID-001` →
+`HKLEG-BASE-STATE-001` → `HKLEG-BASE-LIMIT-001` →
+`HKLEG-BASE-ID-001` → `HKLEG-BASE-DISP-001` → `HKLEG-BASE-REC-001` →
+`HKLEG-BASE-REL-001` clear path, the bounded `HKLEG-BASE-REVIEW-001` →
+`HKLEG-BASE-HIST-001` branch, and the orthogonal `HKLEG-BASE-CHANGE-001` cutoff
+guard, plus `HKLEG-CURRENT-OBS-001` through `HKLEG-CURRENT-EVID-004` and
+`HKLEG-CURRENT-DIFF-001` through `HKLEG-CURRENT-DIFF-002` and
+`HKLEG-CURRENT-CAUSE-001` through `HKLEG-CURRENT-CAUSE-002`, plus the
+`HKLEG-CURRENT-EVENT-001` missing-consolidation router, and the ordinary
+`HKLEG-CURRENT-DISP-001` → `HKLEG-CURRENT-REC-001` →
+`HKLEG-CURRENT-REL-001` completion path, with 127 exact
+synthetic fixtures. They cover cutoff/source/lock consistency;
+complete, missing, duplicate, or misassigned inventory accounting; and
+matching verified or assisted bilingual evidence, missing evidence, conflict
+quarantine, forbidden historical substitution, clear present operative state,
+missing or unknown signals, partial-status ambiguity, source conflict,
+unproved operative effect, and missing rulebook support.
+The ordinary difference gate classifies only observable payload, structure,
+location, evidence-bundle, and object-addition changes. Exact equality is
+reuse-eligible only with separately proved continuing support; it never infers
+legal identity, status, repeal, or continuity and emits no record.
+The cause gate requires exact assigned Gazette or Editorial Record evidence,
+recognizes a non-serving technical republication only when all legal and six
+serving fields are exact, quarantines missing or conflicting causes, and sends
+source-contract drift to bounded review.
+The limit gate also blocks unsupported historical events, effective dates,
+continuity relationships, and complete-event-chain claims. The identity gate
+requests new opaque register identities, keeps source and legacy identifiers
+as aliases, blocks unproved lineage, and quarantines similarity-based identity
+ambiguity. The disposition gate assigns exactly one supported primary result,
+keeps operative-event consolidation gaps visible, and blocks single-signal
+shortcuts. The record gate constructs the exact English-first canonical
+bilingual payload and six-field candidate, while excluding non-searchable,
+legacy-ID, incomplete, non-canonical, or unapproved-note paths. The release-
+accounting gate requires total first-baseline accounting and forbids a false
+predecessor before candidate release construction. The review gate opens only
+one named, source-bounded, fact-bounded historical question and rejects broad
+history acquisition. It contains no real source
+bytes, complete executable ruleset, model profile, owner acceptance, or
+activation authority, so every real scope remains `NOT_READY`.
+
 Python 3.14, the FastAPI and
 strict Python boundary toolchain, the Azure SQL
 Management Register boundary, the five-environment Azure Container Apps
@@ -135,12 +181,91 @@ boundaries, package-to-application dependencies, cycles, declaration drift,
 and incorrect ownership of approval, source access, provider, serving, backup,
 routing, recovery, or proposal-preparation effects.
 
+The accepted V1 POC Ubuntu topology is recorded in
+[`infrastructure/poc/topology.json`](infrastructure/poc/topology.json) and
+validated by [`tools/v1_poc_topology.py`](tools/v1_poc_topology.py). The
+contract is secret-free and disabled by default: all 16 services are off, only
+3 artifacts currently have exact digests, and the other 13 remain
+`PIN_REQUIRED`. Its gate rejects unknown topology fields, embedded secrets,
+floating artifacts, public listeners, network-membership drift, collapsed
+vault separation, false scheduler-resume semantics, or real Pinecone write
+authority. Run it without network access with:
+
+```sh
+uv run --frozen --offline --all-packages python tools/v1_poc_topology.py
+uv run --frozen --offline --all-packages pytest -o addopts='' -q \
+  tools/tests/test_v1_poc_topology.py
+```
+
+The companion Ubuntu host-admission policy is
+[`infrastructure/poc/host_admission_policy.json`](infrastructure/poc/host_admission_policy.json).
+Its validator accepts only supplied read-only host facts and performs no host
+inspection or mutation itself. Even perfectly matching synthetic facts remain
+`admitted=false` until exact host-package locks, private subnets, and the
+file-only SQL/Versity credential interface are proved:
+
+```sh
+uv run --frozen --offline --all-packages python tools/v1_poc_host_admission.py
+```
+
+The disabled systemd input contract at
+[`infrastructure/poc/systemd_unit_inputs.json`](infrastructure/poc/systemd_unit_inputs.json)
+binds all 16 service units, two bootstrap one-shots, five cadence-unresolved
+timers, exact dependencies/identities/credential files/write paths, and the
+common hardening profile. It installs or enables nothing:
+
+```sh
+uv run --frozen --offline --all-packages python tools/v1_poc_systemd_units.py
+```
+
+The companion host-identity contract keeps ten non-login service accounts and
+14 exact write paths uncreated and UID/GID-unallocated until Ubuntu collision,
+container mapping, and ownership proof:
+
+```sh
+uv run --frozen --offline --all-packages python tools/v1_poc_host_identities.py
+```
+
+The executable credential-interface proof is frozen, but not authorized or
+run, by
+[`infrastructure/poc/credential_interface_proof_inputs.json`](infrastructure/poc/credential_interface_proof_inputs.json).
+It binds the SQL service and both Versity vault services to their exact
+artifact/systemd credential inventories, six proof steps, seven canary-
+inspection surfaces, manifest-last evidence, rotation/restart requirements,
+and the fail-closed product decision gate:
+
+```sh
+uv run --frozen --offline --all-packages python -m \
+  tools.v1_poc_credential_interface
+```
+
+The aggregate admission contract at
+[`infrastructure/poc/v1_admission_gate.json`](infrastructure/poc/v1_admission_gate.json)
+combines all eight present static gates with the still-unstarted real package,
+source, model/embedding, Pinecone, Ubuntu end-to-end, and final acceptance
+gates. It deliberately reports `V1_POC_NOT_ADMITTED`; a static pass is not a
+V1 readiness claim:
+
+```sh
+uv run --frozen --offline --all-packages python -m tools.v1_poc_admission
+```
+
+The artifact-admission inventory at
+[`infrastructure/poc/artifact_admission.json`](infrastructure/poc/artifact_admission.json)
+binds all 16 services to 12 unique artifacts. Two immutable candidates cover
+SQL Server and both scheduler services; ten selections or reproducible builds
+remain, and no artifact is admitted. The offline consistency gate is:
+
+```sh
+uv run --frozen --offline --all-packages python tools/v1_poc_artifacts.py
+```
+
 The complete local M7 proof is exposed through the locked workspace command:
 
 ```bash
-uv run --frozen asklegal-local reset --exact-test-state
-uv run --frozen asklegal-local prove --scenario E2E-001
-uv run --frozen asklegal-local prove --all
+uv run --frozen --all-packages asklegal-local reset --exact-test-state
+uv run --frozen --all-packages asklegal-local prove --scenario E2E-001
+uv run --frozen --all-packages asklegal-local prove --all
 ```
 
 `prove --all` executes all 32 accepted scenarios twice in clean path-distinct
@@ -181,6 +306,14 @@ cannot mark a Source Snapshot preserved until it receives the exact complete
 recovery receipt; it receives no recovery credential itself. No real source,
 Azure vault, model, embedding, serving, deployment, or production operation
 is enabled.
+
+The disabled V1 POC boundary additionally locks Boto3 `1.43.49` for explicit-
+credential S3 access to separate logical Versity endpoints. Offline fakes prove
+conditional immutable writes, lossless provider-version references, exact read-
+back, COMPLIANCE retention/legal hold, and manifest-last recovery composition.
+All five applications construct only their permitted vault roles without
+connecting. Real certificates, buckets, policies, Versity behavior, and Ubuntu
+runtime admission remain blocked.
 
 Run the complete proof with an already-cached exact uv 0.12.5 installation:
 

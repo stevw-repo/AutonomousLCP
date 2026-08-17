@@ -1,0 +1,20 @@
+{
+  "fixture_id": "HKLEG-BASE-INV-FIX-001",
+  "rule_id": "HKLEG-BASE-INV-001",
+  "processing_outcome": "PASS",
+  "legal_disposition": "NOT_APPLICABLE",
+  "coverage_effect": "NONE",
+  "source_contract_review_required": false,
+  "reason_codes": ["HKLEG_BASE_INVENTORY_ACCOUNTED"],
+  "rule_trace": ["HKLEG-BASE-INV-001"],
+  "accounted_object_ids": ["SYN-HKLEG-OBJ-001"],
+  "unresolved_object_ids": [],
+  "affected_scope_ids": ["rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95"],
+  "scope_inventory_results": [
+    {
+      "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+      "result": "COMPLETE"
+    }
+  ],
+  "record_output": "NONE"
+}

@@ -1,0 +1,37 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-observation.reason-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {
+      "code": "HKLEG_BASE_OBSERVATION_FROZEN",
+      "meaning": "All required observations and exact interpretation locks form one internally consistent cutoff package.",
+      "processing_outcome": "PASS",
+      "coverage_effect": "NONE"
+    },
+    {
+      "code": "HKLEG_BASE_OBSERVATION_REQUIRED_SOURCE_UNAVAILABLE",
+      "meaning": "A release-blocking source observation is missing, incomplete, or stale.",
+      "processing_outcome": "BLOCK",
+      "coverage_effect": "COVERAGE_GAP"
+    },
+    {
+      "code": "HKLEG_BASE_OBSERVATION_CUTOFF_MIXED",
+      "meaning": "Source observations from different cutoffs were presented as one baseline package.",
+      "processing_outcome": "BLOCK",
+      "coverage_effect": "NONE"
+    },
+    {
+      "code": "HKLEG_BASE_OBSERVATION_LOCK_MISMATCH",
+      "meaning": "The rulebook, Release Scope registry, or publication-specification lock differs from the frozen rule contract.",
+      "processing_outcome": "BLOCK",
+      "coverage_effect": "NONE"
+    },
+    {
+      "code": "HKLEG_BASE_OBSERVATION_POST_CUTOFF_CHANGE",
+      "meaning": "A required source changed after the selected cutoff and cannot be silently merged into the frozen baseline.",
+      "processing_outcome": "BLOCK",
+      "coverage_effect": "NONE"
+    }
+  ]
+}

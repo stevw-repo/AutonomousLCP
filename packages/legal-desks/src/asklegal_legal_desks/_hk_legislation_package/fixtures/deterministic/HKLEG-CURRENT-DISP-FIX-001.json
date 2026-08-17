@@ -1,0 +1,20 @@
+{
+  "fixture_id": "HKLEG-CURRENT-DISP-FIX-001",
+  "title": "Supported operative location is searchable current",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:f1d87bb6a0684b61ced65f638763f54c5637b3af41d35106d0b0a1f9b6ee18fe",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.ordinary-update",
+    "location_id": "section-1",
+    "upstream_checkpoint": "PASS",
+    "status_coverage_complete": true,
+    "disposition_basis": "PRESENT_OPERATIVE_SUPPORTED"
+  },
+  "expected_artifact": {
+    "path": "expected/current-disposition/HKLEG-CURRENT-DISP-FIX-001.json",
+    "fingerprint": "sha256:19d2344b5bf2c843fe7af9a51d4c9967eb7642a8c99e097e00b254c2aa7a944c"
+  }
+}

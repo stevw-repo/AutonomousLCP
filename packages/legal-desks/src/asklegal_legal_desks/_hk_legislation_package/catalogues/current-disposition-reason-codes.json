@@ -1,0 +1,14 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.current-disposition.reason-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {"code": "HKLEG_CURRENT_DISP_SEARCHABLE_CURRENT_SUPPORTED", "meaning": "Complete ordinary evidence supports presently operative text for later record construction.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_DISP_WAITING_ROOM_SUPPORTED", "meaning": "Validly made material is not proved operative and remains outside current search.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_DISP_EVIDENCE_ONLY_SUPPORTED", "meaning": "The artifact's present effect is completely represented by another tracked authority.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_DISP_HISTORICAL_SUPPORTED", "meaning": "Accepted evidence proves the location ended, expired, or was superseded.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_DISP_QUARANTINE_REQUIRED", "meaning": "An unresolved, conflicting, or incompletely covered material fact prevents search.", "processing_outcome": "QUARANTINE"},
+    {"code": "HKLEG_CURRENT_DISP_UPSTREAM_BLOCKED", "meaning": "An upstream checkpoint has not passed and no legal disposition is assigned here.", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_CURRENT_DISP_SINGLE_SIGNAL_INSUFFICIENT", "meaning": "A publication or status signal alone cannot establish one legal disposition.", "processing_outcome": "BLOCK"}
+  ]
+}

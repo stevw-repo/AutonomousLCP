@@ -1,0 +1,32 @@
+{
+  "fixture_id": "HKLEG-BASE-REVIEW-FIX-005",
+  "title": "Permitted fact must match the named uncertainty",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-REVIEW-001",
+  "input_fingerprint": "sha256:b2c80c309239fe6120417d1da32338551db24a387c8f5268987fffc85bdddcef",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "review_task_id": "SYN-HKLEG-REVIEW-005",
+    "trigger": "POSSIBLE_DUPLICATE_OR_CONTINUITY",
+    "question": "Do the entries represent one continuing item?",
+    "affected_object_ids": [
+      "SYN-HKLEG-OBJ-001",
+      "SYN-HKLEG-OBJ-002"
+    ],
+    "investigation_scope": "TARGETED",
+    "requested_source_ids": [
+      "HK-LEG-HKEL-PAST-INVENTORY"
+    ],
+    "permitted_fact_codes": [
+      "PRESENT_OPERATIVE_STATUS"
+    ],
+    "stopping_condition": "Stop after the unrelated status fact is found.",
+    "responsible_legal_desk": "HONG_KONG_LEGISLATION_LEGAL_DESK"
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-review/HKLEG-BASE-REVIEW-FIX-005.json",
+    "fingerprint": "sha256:38c80cb74e4d4554aa54809b8567e7f5983f7799722ccab16849a3e7865a91a2"
+  }
+}

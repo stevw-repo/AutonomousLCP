@@ -1,0 +1,43 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-limit.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-BASE-LIMIT-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-BASE-LIMIT-FIX-001.json",
+      "fixture_fingerprint": "sha256:56cbb66132c1c83714fe5fb0cab5857bb01b4094049f883278b3b530e08aa124",
+      "expected_path": "expected/baseline-limit/HKLEG-BASE-LIMIT-FIX-001.json",
+      "expected_fingerprint": "sha256:40ca7d815469204277acb0da4e010c609b10b248fbfe46547080046255ec519d"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-LIMIT-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-BASE-LIMIT-FIX-002.json",
+      "fixture_fingerprint": "sha256:362070b5df798267153a45ddee15f83d0332efe35579cfd0f67cf0630c001924",
+      "expected_path": "expected/baseline-limit/HKLEG-BASE-LIMIT-FIX-002.json",
+      "expected_fingerprint": "sha256:388832086c967fb591d8738e4c169122a2e38445ff4998360a91184bc1756f5d"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-LIMIT-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-BASE-LIMIT-FIX-003.json",
+      "fixture_fingerprint": "sha256:ae8a11c1e257d5c12ba5930489dc12e4bf1cd91d9bbd59fe130ae48ca758cad4",
+      "expected_path": "expected/baseline-limit/HKLEG-BASE-LIMIT-FIX-003.json",
+      "expected_fingerprint": "sha256:a82ae22821cd6ee8a54449ce182c6341b36b0b68d3fc3d9b2accb28ebfd0bf90"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-LIMIT-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-BASE-LIMIT-FIX-004.json",
+      "fixture_fingerprint": "sha256:4c7a516ce490a1e84415977a4c693d8266a0bb2a38d7d25bd944d9903c538d8c",
+      "expected_path": "expected/baseline-limit/HKLEG-BASE-LIMIT-FIX-004.json",
+      "expected_fingerprint": "sha256:16d1ec905b48a70076ee7af568a0ceee5b19ce4510d587d03641521024c90bab"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-LIMIT-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-BASE-LIMIT-FIX-005.json",
+      "fixture_fingerprint": "sha256:1be7c7795223d3912e8df3cb1782960827f116779c4d5ba36c8898dd57e76ba3",
+      "expected_path": "expected/baseline-limit/HKLEG-BASE-LIMIT-FIX-005.json",
+      "expected_fingerprint": "sha256:c669695fde5cd5c2c224b66a67fb7d4cdd3190db43a2879c2a999c1380926cca"
+    }
+  ]
+}

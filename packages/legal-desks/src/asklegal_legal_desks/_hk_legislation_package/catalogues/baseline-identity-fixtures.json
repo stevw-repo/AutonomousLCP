@@ -1,0 +1,43 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.baseline-identity.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-BASE-ID-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-BASE-ID-FIX-001.json",
+      "fixture_fingerprint": "sha256:2db368d73009ecbfd7331ac10b7c8d8fd873d3268d467126dcdbe9fbcc2736dd",
+      "expected_path": "expected/baseline-identity/HKLEG-BASE-ID-FIX-001.json",
+      "expected_fingerprint": "sha256:28e1baf4d13ec3d4c03cb740b9ef89dbe8053ae20f4d79a9f3a9ec8ded5dae45"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-ID-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-BASE-ID-FIX-002.json",
+      "fixture_fingerprint": "sha256:45af09fe190d7adf75a75b93d2ee8768a19be184f1cc8db73ed1ef0372f1b7a0",
+      "expected_path": "expected/baseline-identity/HKLEG-BASE-ID-FIX-002.json",
+      "expected_fingerprint": "sha256:cd596b83ecf9b582be989604b0ff80efcff997ee48881e9e10b02c9e69553fb9"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-ID-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-BASE-ID-FIX-003.json",
+      "fixture_fingerprint": "sha256:d7021a63794e52a73c0325ab8578de6ed28e30dd5602d2f87f0f184094a2a097",
+      "expected_path": "expected/baseline-identity/HKLEG-BASE-ID-FIX-003.json",
+      "expected_fingerprint": "sha256:d9229e377ad90c3c42d19686fd9c39dd2af33da542c661b9df3deab6c51b9541"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-ID-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-BASE-ID-FIX-004.json",
+      "fixture_fingerprint": "sha256:037d1f2f0b4882266f5ec74ed4697931b4e3476eba1bbf06068939d0509b342e",
+      "expected_path": "expected/baseline-identity/HKLEG-BASE-ID-FIX-004.json",
+      "expected_fingerprint": "sha256:24df0a10290acd6f2b6a43b6420fc47dd41b8811925c9082227fb76c42ebfdb1"
+    },
+    {
+      "fixture_id": "HKLEG-BASE-ID-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-BASE-ID-FIX-005.json",
+      "fixture_fingerprint": "sha256:20d0912cdeb39365c892376a043b668a3bf5b5e226af90e670ac5e70ac7726f4",
+      "expected_path": "expected/baseline-identity/HKLEG-BASE-ID-FIX-005.json",
+      "expected_fingerprint": "sha256:f76736e11087c3255c9a56e7962dc07020c2853fd944a0d6217d9fce91590663"
+    }
+  ]
+}

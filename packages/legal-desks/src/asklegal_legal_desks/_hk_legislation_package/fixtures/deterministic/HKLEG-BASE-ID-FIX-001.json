@@ -1,0 +1,54 @@
+{
+  "fixture_id": "HKLEG-BASE-ID-FIX-001",
+  "title": "Clear present object requests new register-owned identities",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "rule_id": "HKLEG-BASE-ID-001",
+  "input_fingerprint": "sha256:4d7fcd9aa7fd69dc70516bb4440f2b6a103b9252ee5adc21e5efe11d26ee055b",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "legal_object_id": "SYN-HKLEG-OBJ-001",
+    "legal_location_reference": "SYN-HKLEG-LOC-001",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "official_version_reference": "SYN-HKLEG-VER-001",
+    "predecessor_result": {
+      "rule_id": "HKLEG-BASE-LIMIT-001",
+      "processing_outcome": "PASS",
+      "historical_assertion_scope": "PRESENT_STATE_ONLY"
+    },
+    "authoritative_identity_basis": "REGISTER_ALLOCATION",
+    "identity_ambiguity": "CLEAR",
+    "similarity_match_claimed": false,
+    "proposed_relationship_codes": [],
+    "aliases": [
+      {
+        "alias_type": "HKEL_NUMBER",
+        "value": "SYN-CAP-001"
+      },
+      {
+        "alias_type": "URL",
+        "value": "https://example.invalid/hkel/SYN-CAP-001"
+      },
+      {
+        "alias_type": "TITLE",
+        "value": "Synthetic Ordinance"
+      },
+      {
+        "alias_type": "CITATION",
+        "value": "Synthetic Cap. 1"
+      },
+      {
+        "alias_type": "VISIBLE_LOCATOR",
+        "value": "s 1"
+      },
+      {
+        "alias_type": "FILE",
+        "value": "synthetic-cap-001.xml"
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/baseline-identity/HKLEG-BASE-ID-FIX-001.json",
+    "fingerprint": "sha256:28e1baf4d13ec3d4c03cb740b9ef89dbe8053ae20f4d79a9f3a9ec8ded5dae45"
+  }
+}
