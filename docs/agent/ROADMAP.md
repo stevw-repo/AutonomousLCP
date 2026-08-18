@@ -1,6 +1,6 @@
 # AskLegal Legal Database Pipeline — Delivery Roadmap
 
-Updated: 2026-08-17
+Updated: 2026-08-18
 
 ## Purpose
 
@@ -41,8 +41,8 @@ first real Pinecone write.
 ## Honest progress summary
 
 The project is **advanced in design with the local synthetic platform complete
-and the first real-package readiness checkpoint implemented, but external and
-platform work not started**. The architecture and Hong Kong legal-policy model
+and the first real-package source-access checkpoint implemented, but external
+admission and platform operation incomplete**. The architecture and Hong Kong legal-policy model
 are extensive. The normative
 cross-cutting contract package plus the Python contract, type, durability,
 package, synthetic image-admission, and architecture boundaries are locally
@@ -63,7 +63,11 @@ the bounded `REVIEW-001` → `HIST-001` branch, and the orthogonal
 four ordinary evidence rules, two observable-difference rules, and two
 evidence-bound cause rules against 97 exact synthetic cases without
 fabricated real-source proof;
-every real scope remains `NOT_READY`.
+every real scope remains `NOT_READY`. The repository now also has a strict
+fourteen-role official-source register and bounded HTTPS connector. The legal
+team has cleared all fourteen roles. Five roles are technically complete, five
+are partially configured, and four remain technically blocked; legal clearance
+has not been converted into false technical readiness.
 M6 is complete with local corpus/proposal construction, Review-backed Approval,
 and a fully checked fake replacement-target promotion and rollback. M7 is
 complete: all 32 accepted offline scenarios connect the real local boundaries
@@ -74,7 +78,7 @@ embedding-provider run, Pinecone promotion, or production activation yet.
 | Area | Current state | Evidence or remaining gap |
 |---|---|---|
 | Overall design and architecture | **DESIGN ACCEPTED** | Architecture and implementation-facing design are accepted through ADR 0099, including all six M2–M7 protocols |
-| Hong Kong legal-policy design | Complete ordinary offline path implemented; real scopes `NOT_READY` | The package binds 14 source roles and all three scopes; 27 offline rules now cover first-baseline, ordinary current update through complete release accounting, and missing-consolidation event routing in 127 exact synthetic cases. Real endpoint/source/right evidence, named owner acceptance, adjudicated evaluations, complete-universe acceptance, and activation evidence remain |
+| Hong Kong legal-policy design | Complete ordinary offline path and expanding official-source boundary implemented; real scopes `NOT_READY` | The package binds 14 source roles and all three scopes; 27 offline rules cover first-baseline, ordinary current update through complete release accounting, and missing-consolidation event routing in 127 exact synthetic cases. The strict source register binds 78 endpoints and records legal-team clearance for all roles; five roles are configured, five partially configured, and four technically blocked. Technical reporting accounts for all roles, item URL binding is implemented, bilingual inventories are atomic, and bounded direct plus isolated Patchright discovery is proved. Inert evidence, catalogue, physical, direct-search, adjudicated-evaluation, complete-universe, and activation evidence remain |
 | Normative machine contracts | Foundation through M6 contracts complete | Repository-owned Draft 2020-12 package 1.5.0 covers 74 shared objects and 27 cross-cutting fixtures, adding proposal-package and exact embedding profile/request/receipt contracts |
 | Python and Management Register foundations | All seven M1 checkpoints complete | Python 3.14.7 contract/type/package/architecture gates, synthetic image admission, the independent Node oracle, and separate real SQL Server and Durable Task emulator proofs pass |
 | Domain kernel and Management Register | **M2 COMPLETE** | Five lifecycle machines, operation objects, re-entry, typed store/fake, exact SQL prefix, procedures, ledger, recovery, and conformance proofs pass |
@@ -85,13 +89,18 @@ embedding-provider run, Pinecone promotion, or production activation yet.
 | Local end-to-end pipeline | **M7 COMPLETE (LOCAL/SYNTHETIC)** | Stable reset/named/all CLI; 32 expected-result scenarios; golden acquisition-to-recovery flow; failure/retry/restart/hostility/Approval/promotion/recovery/deletion proofs; network denial; and path-distinct reproducibility pass |
 | V1 operating environment | **STATIC INPUTS, DISABLED UNIT/IDENTITY/CREDENTIAL-PROOF GRAPHS, AND SQL/DTS/S3 PROCESS COMPOSITION COMPLETE; ADMISSION NOT READY** | Closed contracts prove 16 disabled services, 10 networks, 25 credential references, 12 artifact mappings, all five exact application package closures and runtime profiles, every application-owned credential file, strict-TLS SQL factories, exact two-emulator scheduler factories, a locked explicit-credential S3/Versity client with exact immutable versions, 16 service-unit inputs, two bootstrap one-shots, five unresolved timers, ten uncreated non-login host identities with 14 owned paths, the exact three-subject/six-step credential-interface proof plan, authority boundaries, and a runnable read-only Ubuntu facts collector. Remaining executable readiness/continuous-runtime work, seven runtime blockers, five app-image blockers, six systemd blockers, four identity blockers, upstream product/digest selections, executable credential-interface evidence, package locks, subnets, real host facts, and deployment proof remain |
 | Azure infrastructure and delivery | Post-V1/deferred unless separately restored to V1 scope | Azure SQL, Container Apps, Scheduler, Blob, ACR, Application Gateway, Azure Pipelines, and Azure Monitor remain accepted future architecture, but no Bicep, pipelines, or cloud resources exist |
-| Real-source, model, embedding, and Pinecone operation | Not started | Azure OpenAI/Foundry is selected for both model families to match Ask.Legal Backend; exact deployments and every external proof remain disabled/uncreated |
+| Real-source, model, embedding, and Pinecone operation | **READ-ONLY HK SOURCE BUILD IN PROGRESS; ALL OTHER EXTERNAL OPERATION NOT STARTED** | Legal admission is clear for all 14 roles. Build reporting identifies 62 endpoint procedures ready and 16 needing inert evidence, catalogue, or physical procedures; five roles are fully operationally callable, five partially configured, and four technically blocked. Patchright proved the NPC application and HKeL Gazette discovery handshakes; the NPC metadata APIs and HKeL verified-copy inventory passed bounded in-memory captures. No corpus publication, model, embedding, Pinecone, deployment, or production effect occurred |
 | Production admission and activation | Not started | Security, recovery, quality, operational, and human-approval proofs remain |
 | Ask.Legal admin-portal integration | Intentionally deferred | M7 now satisfies the complete-pipeline prerequisite, but integration remains deferred by explicit direction |
 
 Numerical percentage is deliberately omitted: counting accepted documents and
 implemented production capabilities as equivalent units would overstate
 progress.
+
+Publisher and archive enquiries are deferred by user direction and are not a
+V1 prerequisite. Any source that cannot be completed through independently
+verified official interfaces remains an explicit coverage limitation rather
+than blocking unrelated V1 construction.
 
 ## Status legend
 

@@ -288,6 +288,14 @@ ignore = [
   "PLR0911",
   "TRY003",
 ]
+"apps/acquisition-worker/src/asklegal_acquisition_worker/patchright_discovery.py" = [
+  "D105",
+  "EM101",
+  "PLR2004",
+  "TRY003",
+  "TRY301",
+]
+"apps/acquisition-worker/tests/test_patchright_discovery.py" = ["D101", "D103"]
 "apps/acquisition-worker/tests/test_m4_acquisition.py" = [
   "D103",
   "FBT003",

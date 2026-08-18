@@ -71,8 +71,32 @@ accounting gate requires total first-baseline accounting and forbids a false
 predecessor before candidate release construction. The review gate opens only
 one named, source-bounded, fact-bounded historical question and rejects broad
 history acquisition. It contains no real source
-bytes, complete executable ruleset, model profile, owner acceptance, or
+evidence artifacts, complete executable ruleset, model profile, owner acceptance, or
 activation authority, so every real scope remains `NOT_READY`.
+
+The first official-source access boundary is implemented under
+`packages/source-connectors/`. A fingerprinted register binds all 14 Hong Kong
+Legislation source roles to 78 exact endpoint contracts and keeps every role
+fail-closed unless both legal and operational admission permit it. The
+AskLegal legal team's clearance for all 14 roles is recorded separately from
+the unchanged publisher notices. Five roles are fully configured, five are
+partially configured, and four remain technically blocked; disabled endpoints
+still reject access before transport. The connector verifies TLS, media type,
+size, and hostile content and
+permits no redirects, proxies, cookies, ambient credentials, uploads, or
+writes. RSS is a discovery signal only and cannot prove completeness or no
+change.
+
+Build readiness is reported separately from legal admission for all 14 roles
+and 78 endpoints. Item-specific official URL templates use strict relative-
+path binding, complete HKeL inventories require the exact English and
+Traditional Chinese member pair, and JavaScript products use a Patchright
+`1.62.1` discovery boundary in the acquisition worker. The browser is
+ephemeral, exact-host, and non-controlling: it returns a sanitized request map,
+not legal evidence. Official direct APIs are used when their exact read
+contract is known; the NPC application, enumeration, aggregate, and website-
+configuration APIs are discovery metadata only, while every incomplete source
+path remains fail-closed.
 
 Python 3.14, the FastAPI and
 strict Python boundary toolchain, the Azure SQL

@@ -26,6 +26,18 @@ class ResponseAdmissionPolicy:
             raise TypeError("max_expansion_ratio must be a positive exact integer")
 
 
+@dataclass(frozen=True, slots=True)
+class ContentAdmissionInput:
+    """Transport-neutral inert bytes and their declared envelope."""
+
+    body: bytes
+    media_type: str
+    max_bytes: int
+    declared_length: int
+    truncated: bool
+    character_encoding: str
+
+
 def admit_response(
     response: SyntheticResponse,
     endpoint: EndpointContract,
@@ -36,7 +48,18 @@ def admit_response(
         raise TypeError("response and endpoint must be exact M4 values")
     if type(policy) is not ResponseAdmissionPolicy:
         raise TypeError("policy must be an exact ResponseAdmissionPolicy")
-    reasons: set[HostileReason] = set()
+    content_classification = classify_content(
+        ContentAdmissionInput(
+            body=response.body,
+            media_type=response.media_type,
+            max_bytes=endpoint.max_bytes,
+            declared_length=response.declared_length,
+            truncated=response.truncated,
+            character_encoding=response.character_encoding,
+        ),
+        policy,
+    )
+    reasons = set(content_classification.reasons)
     if response.host != endpoint.allowed_host or not response.path.startswith(
         endpoint.allowed_path_prefix
     ):
@@ -45,23 +68,62 @@ def admit_response(
         reasons.add(HostileReason.PATH_TRAVERSAL)
     if response.media_type not in endpoint.media_types:
         reasons.add(HostileReason.MEDIA_TYPE)
-    if len(response.body) > endpoint.max_bytes:
+    ordered = tuple(sorted(reasons, key=lambda item: item.value))
+    return HostileClassification(not ordered, ordered)
+
+
+def classify_content(
+    content: ContentAdmissionInput,
+    policy: ResponseAdmissionPolicy,
+) -> HostileClassification:
+    """Classify bounded inert content independently of any transport adapter."""
+    if type(content) is not ContentAdmissionInput:
+        raise TypeError("content must be an exact ContentAdmissionInput")
+    body = content.body
+    media_type = content.media_type
+    max_bytes = content.max_bytes
+    declared_length = content.declared_length
+    truncated = content.truncated
+    character_encoding = content.character_encoding
+    if type(body) is not bytes:
+        raise TypeError("body must be exact bytes")
+    if type(media_type) is not str or not media_type:
+        raise TypeError("media_type must be an exact non-empty string")
+    if type(max_bytes) is not int or max_bytes < 1:
+        raise TypeError("max_bytes must be a positive exact integer")
+    if type(declared_length) is not int or declared_length < 0:
+        raise TypeError("declared_length must be a non-negative exact integer")
+    if type(truncated) is not bool:
+        raise TypeError("truncated must be an exact boolean")
+    if type(character_encoding) is not str or not character_encoding:
+        raise TypeError("character_encoding must be an exact non-empty string")
+    if type(policy) is not ResponseAdmissionPolicy:
+        raise TypeError("policy must be an exact ResponseAdmissionPolicy")
+    reasons: set[HostileReason] = set()
+    if len(body) > max_bytes:
         reasons.add(HostileReason.SIZE_LIMIT)
-    if response.declared_length != len(response.body):
+    if declared_length != len(body):
         reasons.add(HostileReason.LENGTH_MISMATCH)
-    if response.truncated:
+    if truncated:
         reasons.add(HostileReason.TRUNCATED)
-    if response.character_encoding.lower() not in {"binary", "utf-8"}:
+    if character_encoding.lower() not in {"binary", "utf-8"}:
         reasons.add(HostileReason.ENCODING_DECLARATION)
-    lowered = response.body.lower()
+    lowered = body.lower()
     if b"eicar-standard-antivirus-test-file" in lowered:
         reasons.add(HostileReason.MALWARE_SIGNATURE)
-    if response.media_type in {"text/html", "application/xhtml+xml"} and (
+    if media_type in {"text/html", "application/xhtml+xml"} and (
         b"<script" in lowered or b"javascript:" in lowered
     ):
         reasons.add(HostileReason.ACTIVE_CONTENT)
-    if response.media_type in {"application/zip", "application/x-zip-compressed"}:
-        reasons.update(_archive_reasons(response.body, policy, depth=0))
+    if media_type in {
+        "application/xml",
+        "application/rss+xml",
+        "application/xhtml+xml",
+        "text/xml",
+    } and (b"<!doctype" in lowered or b"<!entity" in lowered):
+        reasons.add(HostileReason.ACTIVE_CONTENT)
+    if media_type in {"application/zip", "application/x-zip-compressed"}:
+        reasons.update(_archive_reasons(body, policy, depth=0))
     ordered = tuple(sorted(reasons, key=lambda item: item.value))
     return HostileClassification(not ordered, ordered)
 

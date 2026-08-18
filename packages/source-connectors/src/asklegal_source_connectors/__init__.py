@@ -1,6 +1,11 @@
 """Closed deterministic source-fact acquisition boundary."""
 
-from .admission import ResponseAdmissionPolicy, admit_response
+from .admission import (
+    ContentAdmissionInput,
+    ResponseAdmissionPolicy,
+    admit_response,
+    classify_content,
+)
 from .model import (
     AcquisitionArtifact,
     AcquisitionConsequence,
@@ -23,33 +28,110 @@ from .model import (
     WatcherResult,
     WatcherResultCode,
 )
+from .official import (
+    HK_LEGISLATION_SOURCE_IDS,
+    EndpointAccessMode,
+    HongKongLegislationSourceRegister,
+    LegalClearanceAttestation,
+    OfficialAccessAuthorization,
+    OfficialEndpointContract,
+    OfficialSourceProfile,
+    OfficialSourceState,
+    PublisherRightsEvidence,
+    PublisherRightsState,
+    SignalUse,
+    load_hk_legislation_source_register,
+)
+from .official_binding import BoundOfficialEndpoint, bind_official_endpoint_locator
+from .official_http import (
+    OfficialFetchCode,
+    OfficialFetchRequest,
+    OfficialFetchResult,
+    OfficialHttpConnector,
+    OfficialHttpTransport,
+    OfficialTransportFailure,
+    OfficialTransportResponse,
+    StdlibOfficialHttpTransport,
+)
+from .official_inventory import (
+    OfficialInventoryCode,
+    OfficialInventoryConnector,
+    OfficialInventoryRequest,
+    OfficialInventoryResult,
+)
+from .official_planning import (
+    OfficialEndpointBuildAssessment,
+    OfficialSourceBuildAssessment,
+    OfficialSourceBuildReport,
+    assess_official_source_build,
+)
+from .official_rendered import (
+    OfficialRenderedFetchRequest,
+    OfficialRenderedSessionConnector,
+    OfficialRenderedSessionTransport,
+)
 from .synthetic import SyntheticConnector
 
 PACKAGE_ROLE: str = "source-connectors"
 
 __all__ = [
+    "HK_LEGISLATION_SOURCE_IDS",
     "PACKAGE_ROLE",
     "AcquisitionArtifact",
     "AcquisitionConsequence",
     "AcquisitionOutcome",
     "AuthenticationClass",
+    "BoundOfficialEndpoint",
     "ConnectorRequest",
+    "ContentAdmissionInput",
     "CoverageAccounting",
     "CoverageAccountingResult",
+    "EndpointAccessMode",
     "EndpointContract",
+    "HongKongLegislationSourceRegister",
     "HttpMethod",
+    "LegalClearanceAttestation",
     "ObservationDisposition",
+    "OfficialAccessAuthorization",
+    "OfficialEndpointBuildAssessment",
+    "OfficialEndpointContract",
+    "OfficialFetchCode",
+    "OfficialFetchRequest",
+    "OfficialFetchResult",
+    "OfficialHttpConnector",
+    "OfficialHttpTransport",
+    "OfficialInventoryCode",
+    "OfficialInventoryConnector",
+    "OfficialInventoryRequest",
+    "OfficialInventoryResult",
+    "OfficialRenderedFetchRequest",
+    "OfficialRenderedSessionConnector",
+    "OfficialRenderedSessionTransport",
+    "OfficialSourceBuildAssessment",
+    "OfficialSourceBuildReport",
+    "OfficialSourceProfile",
+    "OfficialSourceState",
+    "OfficialTransportFailure",
+    "OfficialTransportResponse",
+    "PublisherRightsEvidence",
+    "PublisherRightsState",
     "RegisteredSource",
     "ResponseAdmissionPolicy",
     "RetryProfile",
     "ScraperResult",
     "ScraperResultCode",
+    "SignalUse",
     "SourcePolicyState",
     "SourceRegistry",
+    "StdlibOfficialHttpTransport",
     "SyntheticConnector",
     "SyntheticPage",
     "SyntheticResponse",
     "WatcherResult",
     "WatcherResultCode",
     "admit_response",
+    "assess_official_source_build",
+    "bind_official_endpoint_locator",
+    "classify_content",
+    "load_hk_legislation_source_register",
 ]

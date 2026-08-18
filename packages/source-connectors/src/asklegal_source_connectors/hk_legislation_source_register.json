@@ -1,0 +1,2105 @@
+{
+  "schema_id": "https://contracts.asklegal.local/v1/hk-legislation-source-register.schema.json",
+  "schema_version": "1.0.0",
+  "register_id": "hsr_000000000000000000000000000000000000000000000001",
+  "register_version": "2026-08-18.2",
+  "effective_date": "2026-08-18",
+  "status": "PARTIALLY_CONFIGURED_FAIL_CLOSED",
+  "fingerprint": "sha256:e792bc88bc3dca14dee4816927291429d002d73efef18a10b217bd640e0dfc58",
+  "authorization": {
+    "authorized_on": "2026-08-17",
+    "scope": "READ_ONLY_OFFICIAL_SOURCE_ACCESS_AND_EVIDENCE_CAPTURE_FOR_ALL_14_HK_LEGISLATION_SOURCE_ROLES",
+    "source_ids": [
+      "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "HK-LEG-HKEL-CURRENT-DATA",
+      "HK-LEG-HKEL-VERIFIED-COPIES",
+      "HK-LEG-HKEL-ASSISTED-COPIES",
+      "HK-LEG-HKEL-PAST-INVENTORY",
+      "HK-LEG-HKEL-PAST-DATA",
+      "HK-LEG-HKEL-EDITORIAL-RECORDS",
+      "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+      "HK-LEG-GLD-EGAZETTE",
+      "HK-LEG-OFFICIAL-GAZETTE-ARCHIVE",
+      "HK-LEG-HKEL-GAZETTE-BACKCAPTURE",
+      "HK-LEG-BASIC-LAW-PORTAL",
+      "HK-LEG-NPC-NATIONAL-LAWS-DATABASE",
+      "HK-LEG-NPC-NPCSC-OFFICIAL-MATERIALS"
+    ],
+    "rss_policy": "DISCOVERY_OR_CHANGE_SIGNAL_ONLY",
+    "forbidden_effects": [
+      "CORPUS_PUBLICATION",
+      "MODEL_OR_EMBEDDING_CALL",
+      "PINECONE_MUTATION",
+      "DEPLOYMENT",
+      "PRODUCTION_ROUTING",
+      "INFERRED_PUBLISHER_PERMISSION"
+    ]
+  },
+  "legal_clearance": {
+    "attestation_id": "lca_000000000000000000000000000000000000000000000001",
+    "confirmed_on": "2026-08-18",
+    "authority": "ASKLEGAL_LEGAL_TEAM",
+    "reported_by": "PROJECT_USER",
+    "source_ids": [
+      "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "HK-LEG-HKEL-CURRENT-DATA",
+      "HK-LEG-HKEL-VERIFIED-COPIES",
+      "HK-LEG-HKEL-ASSISTED-COPIES",
+      "HK-LEG-HKEL-PAST-INVENTORY",
+      "HK-LEG-HKEL-PAST-DATA",
+      "HK-LEG-HKEL-EDITORIAL-RECORDS",
+      "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+      "HK-LEG-GLD-EGAZETTE",
+      "HK-LEG-OFFICIAL-GAZETTE-ARCHIVE",
+      "HK-LEG-HKEL-GAZETTE-BACKCAPTURE",
+      "HK-LEG-BASIC-LAW-PORTAL",
+      "HK-LEG-NPC-NATIONAL-LAWS-DATABASE",
+      "HK-LEG-NPC-NPCSC-OFFICIAL-MATERIALS"
+    ],
+    "conclusion": "ALL_SOURCE_RIGHTS_AND_PERMISSIONS_GREEN"
+  },
+  "rights_evidence": [
+    {
+      "evidence_id": "rte_000000000000000000000000000000000000000000000001",
+      "publisher": "DATA.GOV.HK / Digital Policy Office",
+      "url": "https://data.gov.hk/en/terms-and-conditions",
+      "observed_on": "2026-08-17",
+      "conclusion": "PUBLISHED_TERMS_PERMIT",
+      "conditions": [
+        "ATTRIBUTE_GOVERNMENT_RELEVANT_ORGANISATION_AND_DATA_GOV_HK",
+        "COMPLY_WITH_CURRENT_TERMS",
+        "PRESERVE_AS_IS_AND_NO_WARRANTY_STATUS"
+      ]
+    },
+    {
+      "evidence_id": "rte_000000000000000000000000000000000000000000000002",
+      "publisher": "Hong Kong e-Legislation / Department of Justice",
+      "url": "https://www.elegislation.gov.hk/copyright",
+      "observed_on": "2026-08-17",
+      "conclusion": "NAMED_OWNER_ACCEPTANCE_REQUIRED",
+      "conditions": [
+        "REVOCABLE_NON_EXCLUSIVE_ROYALTY_FREE_LICENCE",
+        "ACCURACY_AND_REQUIRED_PRODUCT_STATEMENTS",
+        "INDEMNITY_AND_NON_ENDORSEMENT_TERMS_REQUIRE_NAMED_OWNER_ACCEPTANCE"
+      ]
+    },
+    {
+      "evidence_id": "rte_000000000000000000000000000000000000000000000003",
+      "publisher": "Government Logistics Department e-Gazette",
+      "url": "https://egazette.gld.gov.hk/en/important-notices",
+      "observed_on": "2026-08-17",
+      "conclusion": "PRIOR_WRITTEN_AUTHORIZATION_REQUIRED",
+      "conditions": [
+        "REPRODUCTION_ADAPTATION_DISTRIBUTION_DISSEMINATION_OR_PUBLIC_AVAILABILITY_REQUIRES_PRIOR_WRITTEN_AUTHORIZATION",
+        "PERSONAL_DATA_PURPOSE_LIMITS_APPLY",
+        "PRINTED_GAZETTE_VERIFICATION_ADVISED"
+      ]
+    },
+    {
+      "evidence_id": "rte_000000000000000000000000000000000000000000000004",
+      "publisher": "Constitutional and Mainland Affairs Bureau Basic Law portal",
+      "url": "https://www.basiclaw.gov.hk/en/notices/index.html",
+      "observed_on": "2026-08-17",
+      "conclusion": "PRIOR_WRITTEN_AUTHORIZATION_REQUIRED",
+      "conditions": [
+        "PORTAL_INFORMATION_HAS_NO_LEGAL_STATUS",
+        "NON_COMMERCIAL_REPRODUCTION_REQUIRES_ATTRIBUTION",
+        "COMMERCIAL_REPRODUCTION_REQUIRES_PRIOR_WRITTEN_AUTHORIZATION"
+      ]
+    },
+    {
+      "evidence_id": "rte_000000000000000000000000000000000000000000000005",
+      "publisher": "Government Records Service",
+      "url": "https://www.grs.gov.hk/ws/erp/en/highlights/gazette.html",
+      "observed_on": "2026-08-17",
+      "conclusion": "UNVERIFIED",
+      "conditions": [
+        "HOLDINGS_ACCESS_IS_CONFIRMED",
+        "EXACT_REPRODUCTION_RIGHTS_AND_REQUEST_PROCESS_NOT_YET_ACCEPTED"
+      ]
+    },
+    {
+      "evidence_id": "rte_000000000000000000000000000000000000000000000006",
+      "publisher": "National People's Congress",
+      "url": "https://flk.npc.gov.cn/",
+      "observed_on": "2026-08-17",
+      "conclusion": "UNVERIFIED",
+      "conditions": [
+        "OFFICIAL_DATABASE_REACHABILITY_CONFIRMED",
+        "MACHINE_ACCESS_AND_REPRODUCTION_TERMS_NOT_YET_VERIFIED"
+      ]
+    },
+    {
+      "evidence_id": "rte_000000000000000000000000000000000000000000000007",
+      "publisher": "Hong Kong e-Legislation publication specifications",
+      "url": "https://www.elegislation.gov.hk/datagovhk/hkel_list_xml-dictionary_en.pdf",
+      "observed_on": "2026-08-17",
+      "conclusion": "PRIOR_WRITTEN_AUTHORIZATION_REQUIRED",
+      "conditions": [
+        "DATA_DICTIONARY_STATES_NO_WHOLE_OR_PART_REPRODUCTION_WITHOUT_EXPRESS_GOVERNMENT_PERMISSION",
+        "SPECIFICATION_CAPTURE_REQUIRES_SEPARATE_RIGHTS_ACCEPTANCE"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000001",
+      "version": "1.0.0",
+      "endpoint_ids": [
+        "sep_000000000000000000000000000000000000000000000001",
+        "sep_000000000000000000000000000000000000000000000002",
+        "sep_000000000000000000000000000000000000000000000003",
+        "sep_000000000000000000000000000000000000000000000004",
+        "sep_000000000000000000000000000000000000000000000005",
+        "sep_000000000000000000000000000000000000000000000006",
+        "sep_000000000000000000000000000000000000000000000007",
+        "sep_000000000000000000000000000000000000000000000008"
+      ],
+      "rights_state": "PUBLISHED_TERMS_PERMIT",
+      "operational_state": "CONFIGURED",
+      "rights_evidence_ids": [
+        "rte_000000000000000000000000000000000000000000000001"
+      ],
+      "blockers": []
+    },
+    {
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000002",
+      "version": "1.0.0",
+      "endpoint_ids": [
+        "sep_000000000000000000000000000000000000000000000009",
+        "sep_00000000000000000000000000000000000000000000000a",
+        "sep_00000000000000000000000000000000000000000000000b",
+        "sep_00000000000000000000000000000000000000000000000c",
+        "sep_00000000000000000000000000000000000000000000000d",
+        "sep_00000000000000000000000000000000000000000000000e",
+        "sep_00000000000000000000000000000000000000000000000f",
+        "sep_000000000000000000000000000000000000000000000010",
+        "sep_000000000000000000000000000000000000000000000011",
+        "sep_000000000000000000000000000000000000000000000012",
+        "sep_000000000000000000000000000000000000000000000013",
+        "sep_000000000000000000000000000000000000000000000014",
+        "sep_000000000000000000000000000000000000000000000015"
+      ],
+      "rights_state": "PUBLISHED_TERMS_PERMIT",
+      "operational_state": "CONFIGURED",
+      "rights_evidence_ids": [
+        "rte_000000000000000000000000000000000000000000000001"
+      ],
+      "blockers": []
+    },
+    {
+      "source_id": "HK-LEG-HKEL-VERIFIED-COPIES",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000003",
+      "version": "1.0.0",
+      "endpoint_ids": [
+        "sep_000000000000000000000000000000000000000000000016",
+        "sep_000000000000000000000000000000000000000000000017",
+        "sep_000000000000000000000000000000000000000000000018",
+        "sep_00000000000000000000000000000000000000000000004d"
+      ],
+      "rights_state": "LEGAL_TEAM_CLEARED",
+      "operational_state": "PARTIALLY_CONFIGURED",
+      "rights_evidence_ids": [
+        "rte_000000000000000000000000000000000000000000000002"
+      ],
+      "blockers": [
+        "EXACT_ITEM_COPY_LOCATOR_CONTRACT_REQUIRED"
+      ]
+    },
+    {
+      "source_id": "HK-LEG-HKEL-ASSISTED-COPIES",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000004",
+      "version": "1.0.0",
+      "endpoint_ids": [
+        "sep_000000000000000000000000000000000000000000000019",
+        "sep_00000000000000000000000000000000000000000000001a",
+        "sep_00000000000000000000000000000000000000000000001b"
+      ],
+      "rights_state": "LEGAL_TEAM_CLEARED",
+      "operational_state": "BLOCKED",
+      "rights_evidence_ids": [
+        "rte_000000000000000000000000000000000000000000000002"
+      ],
+      "blockers": [
+        "RENDERED_SESSION_TRANSPORT_REQUIRED"
+      ]
+    },
+    {
+      "source_id": "HK-LEG-HKEL-PAST-INVENTORY",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000005",
+      "version": "1.0.0",
+      "endpoint_ids": [
+        "sep_00000000000000000000000000000000000000000000001c",
+        "sep_00000000000000000000000000000000000000000000001d",
+        "sep_00000000000000000000000000000000000000000000001e",
+        "sep_00000000000000000000000000000000000000000000001f",
+        "sep_000000000000000000000000000000000000000000000020",
+        "sep_000000000000000000000000000000000000000000000021",
+        "sep_000000000000000000000000000000000000000000000022"
+      ],
+      "rights_state": "PUBLISHED_TERMS_PERMIT",
+      "operational_state": "CONFIGURED",
+      "rights_evidence_ids": [
+        "rte_000000000000000000000000000000000000000000000001"
+      ],
+      "blockers": []
+    },
+    {
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000006",
+      "version": "1.0.0",
+      "endpoint_ids": [
+        "sep_000000000000000000000000000000000000000000000023",
+        "sep_000000000000000000000000000000000000000000000024",
+        "sep_000000000000000000000000000000000000000000000025",
+        "sep_000000000000000000000000000000000000000000000026",
+        "sep_000000000000000000000000000000000000000000000027",
+        "sep_000000000000000000000000000000000000000000000028",
+        "sep_000000000000000000000000000000000000000000000029",
+        "sep_00000000000000000000000000000000000000000000002a",
+        "sep_00000000000000000000000000000000000000000000002b",
+        "sep_00000000000000000000000000000000000000000000002c",
+        "sep_00000000000000000000000000000000000000000000002d",
+        "sep_00000000000000000000000000000000000000000000002e",
+        "sep_00000000000000000000000000000000000000000000002f",
+        "sep_000000000000000000000000000000000000000000000030",
+        "sep_000000000000000000000000000000000000000000000031",
+        "sep_000000000000000000000000000000000000000000000032"
+      ],
+      "rights_state": "PUBLISHED_TERMS_PERMIT",
+      "operational_state": "CONFIGURED",
+      "rights_evidence_ids": [
+        "rte_000000000000000000000000000000000000000000000001"
+      ],
+      "blockers": []
+    },
+    {
+      "source_id": "HK-LEG-HKEL-EDITORIAL-RECORDS",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000007",
+      "version": "1.0.0",
+      "endpoint_ids": [
+        "sep_000000000000000000000000000000000000000000000033",
+        "sep_000000000000000000000000000000000000000000000034"
+      ],
+      "rights_state": "LEGAL_TEAM_CLEARED",
+      "operational_state": "PARTIALLY_CONFIGURED",
+      "rights_evidence_ids": [
+        "rte_000000000000000000000000000000000000000000000002"
+      ],
+      "blockers": [
+        "RENDERED_SESSION_TRANSPORT_REQUIRED"
+      ]
+    },
+    {
+      "source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000008",
+      "version": "1.0.0",
+      "endpoint_ids": [
+        "sep_000000000000000000000000000000000000000000000035",
+        "sep_000000000000000000000000000000000000000000000036",
+        "sep_000000000000000000000000000000000000000000000037",
+        "sep_000000000000000000000000000000000000000000000038",
+        "sep_000000000000000000000000000000000000000000000039",
+        "sep_00000000000000000000000000000000000000000000003a"
+      ],
+      "rights_state": "LEGAL_TEAM_CLEARED",
+      "operational_state": "PARTIALLY_CONFIGURED",
+      "rights_evidence_ids": [
+        "rte_000000000000000000000000000000000000000000000007"
+      ],
+      "blockers": [
+        "RENDERED_SESSION_TRANSPORT_REQUIRED"
+      ]
+    },
+    {
+      "source_id": "HK-LEG-GLD-EGAZETTE",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000009",
+      "version": "1.0.0",
+      "endpoint_ids": [
+        "sep_00000000000000000000000000000000000000000000003b",
+        "sep_00000000000000000000000000000000000000000000003c",
+        "sep_00000000000000000000000000000000000000000000003d",
+        "sep_00000000000000000000000000000000000000000000003e"
+      ],
+      "rights_state": "LEGAL_TEAM_CLEARED",
+      "operational_state": "PARTIALLY_CONFIGURED",
+      "rights_evidence_ids": [
+        "rte_000000000000000000000000000000000000000000000003"
+      ],
+      "blockers": [
+        "RENDERED_SESSION_TRANSPORT_REQUIRED"
+      ]
+    },
+    {
+      "source_id": "HK-LEG-OFFICIAL-GAZETTE-ARCHIVE",
+      "registered_source_id": "src_00000000000000000000000000000000000000000000000a",
+      "version": "1.0.0",
+      "endpoint_ids": [
+        "sep_00000000000000000000000000000000000000000000003f",
+        "sep_000000000000000000000000000000000000000000000040"
+      ],
+      "rights_state": "LEGAL_TEAM_CLEARED",
+      "operational_state": "BLOCKED",
+      "rights_evidence_ids": [
+        "rte_000000000000000000000000000000000000000000000005"
+      ],
+      "blockers": [
+        "CATALOGUE_DISCOVERY_PROCEDURE_REQUIRED",
+        "PHYSICAL_HOLDING_PROCEDURE_REQUIRED"
+      ]
+    },
+    {
+      "source_id": "HK-LEG-HKEL-GAZETTE-BACKCAPTURE",
+      "registered_source_id": "src_00000000000000000000000000000000000000000000000b",
+      "version": "1.0.0",
+      "endpoint_ids": [
+        "sep_000000000000000000000000000000000000000000000041"
+      ],
+      "rights_state": "LEGAL_TEAM_CLEARED",
+      "operational_state": "BLOCKED",
+      "rights_evidence_ids": [
+        "rte_000000000000000000000000000000000000000000000002"
+      ],
+      "blockers": [
+        "EXACT_GRID_PAGINATION_AND_ARTIFACT_LOCATOR_CONTRACT_REQUIRED"
+      ]
+    },
+    {
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "registered_source_id": "src_00000000000000000000000000000000000000000000000c",
+      "version": "1.0.0",
+      "endpoint_ids": [
+        "sep_000000000000000000000000000000000000000000000042",
+        "sep_000000000000000000000000000000000000000000000043",
+        "sep_000000000000000000000000000000000000000000000044",
+        "sep_000000000000000000000000000000000000000000000045"
+      ],
+      "rights_state": "LEGAL_TEAM_CLEARED",
+      "operational_state": "CONFIGURED",
+      "rights_evidence_ids": [
+        "rte_000000000000000000000000000000000000000000000004"
+      ],
+      "blockers": []
+    },
+    {
+      "source_id": "HK-LEG-NPC-NATIONAL-LAWS-DATABASE",
+      "registered_source_id": "src_00000000000000000000000000000000000000000000000d",
+      "version": "1.0.0",
+      "endpoint_ids": [
+        "sep_000000000000000000000000000000000000000000000046",
+        "sep_000000000000000000000000000000000000000000000047",
+        "sep_000000000000000000000000000000000000000000000048",
+        "sep_00000000000000000000000000000000000000000000004b",
+        "sep_00000000000000000000000000000000000000000000004c",
+        "sep_00000000000000000000000000000000000000000000004e"
+      ],
+      "rights_state": "LEGAL_TEAM_CLEARED",
+      "operational_state": "PARTIALLY_CONFIGURED",
+      "rights_evidence_ids": [
+        "rte_000000000000000000000000000000000000000000000006"
+      ],
+      "blockers": [
+        "DIRECT_SEARCH_API_CONTRACT_REQUIRED"
+      ]
+    },
+    {
+      "source_id": "HK-LEG-NPC-NPCSC-OFFICIAL-MATERIALS",
+      "registered_source_id": "src_00000000000000000000000000000000000000000000000e",
+      "version": "1.0.0",
+      "endpoint_ids": [
+        "sep_000000000000000000000000000000000000000000000049",
+        "sep_00000000000000000000000000000000000000000000004a"
+      ],
+      "rights_state": "LEGAL_TEAM_CLEARED",
+      "operational_state": "BLOCKED",
+      "rights_evidence_ids": [
+        "rte_000000000000000000000000000000000000000000000006"
+      ],
+      "blockers": [
+        "RENDERED_SESSION_TRANSPORT_REQUIRED"
+      ]
+    }
+  ],
+  "endpoints": [
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000001",
+      "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "version": "1.0.0",
+      "name": "DATA.GOV.HK current-list CKAN catalogue",
+      "url": "https://data.gov.hk/en-data/api/3/action/package_show?id=hk-doj-hkel-list-of-legislation-current",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/json"
+      ],
+      "max_bytes": 5000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "RESOURCE_CATALOGUE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000002",
+      "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "version": "1.0.0",
+      "name": "Current inventory English XML",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_en.xml",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/xml",
+        "text/xml"
+      ],
+      "max_bytes": 500000000,
+      "complete_inventory_required": true,
+      "signal_use": "COMPLETE_INVENTORY",
+      "proves_no_change": false,
+      "evidence_role": "ACCEPTED_CURRENT_INVENTORY",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000003",
+      "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "version": "1.0.0",
+      "name": "Current inventory Traditional Chinese XML",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_zh-Hant.xml",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/xml",
+        "text/xml"
+      ],
+      "max_bytes": 500000000,
+      "complete_inventory_required": true,
+      "signal_use": "COMPLETE_INVENTORY",
+      "proves_no_change": false,
+      "evidence_role": "ACCEPTED_CURRENT_INVENTORY",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000004",
+      "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "version": "1.0.0",
+      "name": "Current inventory Simplified Chinese XML",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_zh-Hans.xml",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/xml",
+        "text/xml"
+      ],
+      "max_bytes": 500000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_CROSSCHECK",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000005",
+      "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "version": "1.0.0",
+      "name": "Current inventory English JSON",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_en.json",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/json"
+      ],
+      "max_bytes": 500000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_CROSSCHECK",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000006",
+      "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "version": "1.0.0",
+      "name": "Current inventory Traditional Chinese JSON",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_zh-Hant.json",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/json"
+      ],
+      "max_bytes": 500000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_CROSSCHECK",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000007",
+      "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "version": "1.0.0",
+      "name": "Current inventory Simplified Chinese JSON",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_zh-Hans.json",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/json"
+      ],
+      "max_bytes": 500000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_CROSSCHECK",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000008",
+      "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "version": "1.0.0",
+      "name": "DATA.GOV.HK global resource-path RSS",
+      "url": "https://data.gov.hk/filestore/feeds/data_rss_en.xml",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/rss+xml",
+        "application/xml",
+        "text/xml"
+      ],
+      "max_bytes": 10000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "DISCOVERY_SIGNAL_ONLY",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000009",
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "version": "1.0.0",
+      "name": "DATA.GOV.HK current-data CKAN catalogue",
+      "url": "https://data.gov.hk/en-data/api/3/action/package_show?id=hk-doj-hkel-legislation-current",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/json"
+      ],
+      "max_bytes": 5000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "RESOURCE_CATALOGUE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000000a",
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "version": "1.0.0",
+      "name": "Current HKeL data hkel_c_leg_cap_1_cap_300_en.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_1_cap_300_en.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000000b",
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "version": "1.0.0",
+      "name": "Current HKeL data hkel_c_leg_cap_301_cap_600_en.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_301_cap_600_en.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000000c",
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "version": "1.0.0",
+      "name": "Current HKeL data hkel_c_leg_cap_601_cap_end_en.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_601_cap_end_en.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000000d",
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "version": "1.0.0",
+      "name": "Current HKeL data hkel_c_instruments_en.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_c_instruments_en.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000000e",
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "version": "1.0.0",
+      "name": "Current HKeL data hkel_c_leg_cap_1_cap_300_zh-Hant.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_1_cap_300_zh-Hant.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000000f",
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "version": "1.0.0",
+      "name": "Current HKeL data hkel_c_leg_cap_301_cap_600_zh-Hant.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_301_cap_600_zh-Hant.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000010",
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "version": "1.0.0",
+      "name": "Current HKeL data hkel_c_leg_cap_601_cap_end_zh-Hant.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_601_cap_end_zh-Hant.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000011",
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "version": "1.0.0",
+      "name": "Current HKeL data hkel_c_instruments_zh-Hant.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_c_instruments_zh-Hant.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000012",
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "version": "1.0.0",
+      "name": "Current HKeL data hkel_c_leg_cap_1_cap_300_zh-Hans.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_1_cap_300_zh-Hans.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_SIMPLIFIED_CHINESE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000013",
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "version": "1.0.0",
+      "name": "Current HKeL data hkel_c_leg_cap_301_cap_600_zh-Hans.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_301_cap_600_zh-Hans.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_SIMPLIFIED_CHINESE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000014",
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "version": "1.0.0",
+      "name": "Current HKeL data hkel_c_leg_cap_601_cap_end_zh-Hans.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_601_cap_end_zh-Hans.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_SIMPLIFIED_CHINESE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000015",
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "version": "1.0.0",
+      "name": "Current HKeL data hkel_c_instruments_zh-Hans.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_c_instruments_zh-Hans.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_SIMPLIFIED_CHINESE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000016",
+      "source_id": "HK-LEG-HKEL-VERIFIED-COPIES",
+      "version": "1.0.0",
+      "name": "HKeL exact Legal Item page",
+      "url": "https://www.elegislation.gov.hk/hk/{legal_item_locator}",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "COPY_STATUS_AND_VERSION_METADATA",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000017",
+      "source_id": "HK-LEG-HKEL-VERIFIED-COPIES",
+      "version": "1.0.0",
+      "name": "HKeL verified PDF artifact",
+      "url": "https://www.elegislation.gov.hk/hk/{verified_copy_locator}.pdf",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/pdf"
+      ],
+      "max_bytes": 500000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "VERIFIED_COPY",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000018",
+      "source_id": "HK-LEG-HKEL-VERIFIED-COPIES",
+      "version": "1.0.0",
+      "name": "HKeL verified-copy meanings",
+      "url": "https://www.elegislation.gov.hk/importantnotices",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "VERIFICATION_MEANING",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000019",
+      "source_id": "HK-LEG-HKEL-ASSISTED-COPIES",
+      "version": "1.0.0",
+      "name": "HKeL exact Legal Item page",
+      "url": "https://www.elegislation.gov.hk/hk/{legal_item_locator}",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "COPY_STATUS_AND_VERSION_METADATA",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000004d",
+      "source_id": "HK-LEG-HKEL-VERIFIED-COPIES",
+      "version": "1.0.0",
+      "name": "HKeL official list of verified legislation",
+      "url": "https://www.elegislation.gov.hk/verifiedlist?_lang=en",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/pdf"
+      ],
+      "max_bytes": 50000000,
+      "complete_inventory_required": true,
+      "signal_use": "COMPLETE_INVENTORY",
+      "proves_no_change": false,
+      "evidence_role": "VERIFIED_COPY_COVERAGE_INVENTORY",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000001a",
+      "source_id": "HK-LEG-HKEL-ASSISTED-COPIES",
+      "version": "1.0.0",
+      "name": "HKeL assisted PDF artifact",
+      "url": "https://www.elegislation.gov.hk/hk/{assisted_copy_locator}.pdf",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/pdf"
+      ],
+      "max_bytes": 500000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "ASSISTED_COPY",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000001b",
+      "source_id": "HK-LEG-HKEL-ASSISTED-COPIES",
+      "version": "1.0.0",
+      "name": "HKeL assisted-copy meanings",
+      "url": "https://www.elegislation.gov.hk/importantnotices",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "ASSISTED_COPY_MEANING",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000001c",
+      "source_id": "HK-LEG-HKEL-PAST-INVENTORY",
+      "version": "1.0.0",
+      "name": "DATA.GOV.HK past-list CKAN catalogue",
+      "url": "https://data.gov.hk/en-data/api/3/action/package_show?id=hk-doj-hkel-list-of-legislation-past",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/json"
+      ],
+      "max_bytes": 5000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "RESOURCE_CATALOGUE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000001d",
+      "source_id": "HK-LEG-HKEL-PAST-INVENTORY",
+      "version": "1.0.0",
+      "name": "Past inventory English XML",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_list_p_all_en.xml",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/xml",
+        "text/xml"
+      ],
+      "max_bytes": 750000000,
+      "complete_inventory_required": true,
+      "signal_use": "COMPLETE_INVENTORY",
+      "proves_no_change": false,
+      "evidence_role": "ACCEPTED_PAST_INVENTORY",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000001e",
+      "source_id": "HK-LEG-HKEL-PAST-INVENTORY",
+      "version": "1.0.0",
+      "name": "Past inventory Traditional Chinese XML",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_list_p_all_zh-Hant.xml",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/xml",
+        "text/xml"
+      ],
+      "max_bytes": 750000000,
+      "complete_inventory_required": true,
+      "signal_use": "COMPLETE_INVENTORY",
+      "proves_no_change": false,
+      "evidence_role": "ACCEPTED_PAST_INVENTORY",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000001f",
+      "source_id": "HK-LEG-HKEL-PAST-INVENTORY",
+      "version": "1.0.0",
+      "name": "Past inventory Simplified Chinese XML",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_list_p_all_zh-Hans.xml",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/xml",
+        "text/xml"
+      ],
+      "max_bytes": 750000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_CROSSCHECK",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000020",
+      "source_id": "HK-LEG-HKEL-PAST-INVENTORY",
+      "version": "1.0.0",
+      "name": "Past inventory English JSON",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_list_p_all_en.json",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/json"
+      ],
+      "max_bytes": 750000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_CROSSCHECK",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000021",
+      "source_id": "HK-LEG-HKEL-PAST-INVENTORY",
+      "version": "1.0.0",
+      "name": "Past inventory Traditional Chinese JSON",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_list_p_all_zh-Hant.json",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/json"
+      ],
+      "max_bytes": 750000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_CROSSCHECK",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000022",
+      "source_id": "HK-LEG-HKEL-PAST-INVENTORY",
+      "version": "1.0.0",
+      "name": "Past inventory Simplified Chinese JSON",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_list_p_all_zh-Hans.json",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/json"
+      ],
+      "max_bytes": 750000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_CROSSCHECK",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000023",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "DATA.GOV.HK past-data CKAN catalogue",
+      "url": "https://data.gov.hk/en-data/api/3/action/package_show?id=hk-doj-hkel-legislation-past",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/json"
+      ],
+      "max_bytes": 5000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "RESOURCE_CATALOGUE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000024",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "Past HKeL data hkel_p_leg_cap_1_cap_200_en.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_p_leg_cap_1_cap_200_en.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "HISTORICAL_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000025",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "Past HKeL data hkel_p_leg_cap_201_cap_400_en.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_p_leg_cap_201_cap_400_en.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "HISTORICAL_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000026",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "Past HKeL data hkel_p_leg_cap_401_cap_600_en.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_p_leg_cap_401_cap_600_en.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "HISTORICAL_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000027",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "Past HKeL data hkel_p_leg_cap_601_cap_end_en.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_p_leg_cap_601_cap_end_en.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "HISTORICAL_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000028",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "Past HKeL data hkel_p_instruments_en.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_p_instruments_en.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "HISTORICAL_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000029",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "Past HKeL data hkel_p_leg_cap_1_cap_200_zh-Hant.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_p_leg_cap_1_cap_200_zh-Hant.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "HISTORICAL_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000002a",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "Past HKeL data hkel_p_leg_cap_201_cap_400_zh-Hant.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_p_leg_cap_201_cap_400_zh-Hant.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "HISTORICAL_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000002b",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "Past HKeL data hkel_p_leg_cap_401_cap_600_zh-Hant.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_p_leg_cap_401_cap_600_zh-Hant.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "HISTORICAL_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000002c",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "Past HKeL data hkel_p_leg_cap_601_cap_end_zh-Hant.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_p_leg_cap_601_cap_end_zh-Hant.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "HISTORICAL_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000002d",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "Past HKeL data hkel_p_instruments_zh-Hant.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_p_instruments_zh-Hant.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "HISTORICAL_STRUCTURED_SOURCE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000002e",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "Past HKeL data hkel_p_leg_cap_1_cap_200_zh-Hans.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_p_leg_cap_1_cap_200_zh-Hans.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_SIMPLIFIED_CHINESE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000002f",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "Past HKeL data hkel_p_leg_cap_201_cap_400_zh-Hans.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_p_leg_cap_201_cap_400_zh-Hans.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_SIMPLIFIED_CHINESE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000030",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "Past HKeL data hkel_p_leg_cap_401_cap_600_zh-Hans.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_p_leg_cap_401_cap_600_zh-Hans.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_SIMPLIFIED_CHINESE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000031",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "Past HKeL data hkel_p_leg_cap_601_cap_end_zh-Hans.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_p_leg_cap_601_cap_end_zh-Hans.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_SIMPLIFIED_CHINESE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000032",
+      "source_id": "HK-LEG-HKEL-PAST-DATA",
+      "version": "1.0.0",
+      "name": "Past HKeL data hkel_p_instruments_zh-Hans.zip",
+      "url": "https://resource.data.one.gov.hk/doj/data/hkel_p_instruments_zh-Hans.zip",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/zip",
+        "application/x-zip-compressed"
+      ],
+      "max_bytes": 2000000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "INFORMATIONAL_SIMPLIFIED_CHINESE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000033",
+      "source_id": "HK-LEG-HKEL-EDITORIAL-RECORDS",
+      "version": "1.0.0",
+      "name": "HKeL Editorial Records complete inventory",
+      "url": "https://www.elegislation.gov.hk/editorialrecord",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": true,
+      "signal_use": "COMPLETE_INVENTORY",
+      "proves_no_change": false,
+      "evidence_role": "NUMBERED_EDITORIAL_RECORD_INVENTORY",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000034",
+      "source_id": "HK-LEG-HKEL-EDITORIAL-RECORDS",
+      "version": "1.0.0",
+      "name": "HKeL Editorial Records RSS",
+      "url": "https://www.elegislation.gov.hk/editorialrecord!en.rss.xml",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/rss+xml",
+        "application/xml",
+        "text/xml"
+      ],
+      "max_bytes": 10000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "DISCOVERY_SIGNAL_ONLY",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000035",
+      "source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+      "version": "1.0.0",
+      "name": "HKeL XML schema",
+      "url": "https://www.elegislation.gov.hk/schemas/hklm.xsd",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/xml",
+        "text/xml"
+      ],
+      "max_bytes": 10000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "PARSER_SPECIFICATION",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000036",
+      "source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+      "version": "1.0.0",
+      "name": "HKeL legislation XML data dictionary",
+      "url": "https://www.elegislation.gov.hk/datagovhk/hkel_data-dictionary_en.pdf",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/pdf"
+      ],
+      "max_bytes": 50000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "DATA_DICTIONARY",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000037",
+      "source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+      "version": "1.0.0",
+      "name": "HKeL inventory XML data dictionary",
+      "url": "https://www.elegislation.gov.hk/datagovhk/hkel_list_xml-dictionary_en.pdf",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/pdf"
+      ],
+      "max_bytes": 50000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "DATA_DICTIONARY",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000038",
+      "source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+      "version": "1.0.0",
+      "name": "HKeL inventory JSON data dictionary",
+      "url": "https://www.elegislation.gov.hk/datagovhk/hkel_list_json-dictionary_en.pdf",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/pdf"
+      ],
+      "max_bytes": 50000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "DATA_DICTIONARY",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000039",
+      "source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+      "version": "1.0.0",
+      "name": "HKeL Important Notices",
+      "url": "https://www.elegislation.gov.hk/importantnotices",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "PUBLISHER_INTERPRETATION",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000003a",
+      "source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+      "version": "1.0.0",
+      "name": "HKeL Copyright Policy",
+      "url": "https://www.elegislation.gov.hk/copyright",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "RIGHTS_STATEMENT",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000003b",
+      "source_id": "HK-LEG-GLD-EGAZETTE",
+      "version": "1.0.0",
+      "name": "GLD e-Gazette list of Gazette",
+      "url": "https://egazette.gld.gov.hk/en/list-of-gazette",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": true,
+      "signal_use": "COMPLETE_INVENTORY",
+      "proves_no_change": false,
+      "evidence_role": "MODERN_GAZETTE_INVENTORY",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000003c",
+      "source_id": "HK-LEG-GLD-EGAZETTE",
+      "version": "1.0.0",
+      "name": "GLD e-Gazette search",
+      "url": "https://egazette.gld.gov.hk/en/search-gazette",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "ARTIFACT_LOCATOR_ONLY",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000003d",
+      "source_id": "HK-LEG-GLD-EGAZETTE",
+      "version": "1.0.0",
+      "name": "GLD e-Gazette issued artifact",
+      "url": "https://egazette.gld.gov.hk/{issued_artifact_locator}",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/pdf",
+        "text/html"
+      ],
+      "max_bytes": 500000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "ISSUED_GAZETTE_ARTIFACT",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000003e",
+      "source_id": "HK-LEG-GLD-EGAZETTE",
+      "version": "1.0.0",
+      "name": "GLD e-Gazette Important Notices",
+      "url": "https://egazette.gld.gov.hk/en/important-notices",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "RIGHTS_AND_SOURCE_CONTRACT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000003f",
+      "source_id": "HK-LEG-OFFICIAL-GAZETTE-ARCHIVE",
+      "version": "1.0.0",
+      "name": "Government Records Service Gazette holdings description",
+      "url": "https://www.grs.gov.hk/ws/erp/en/highlights/gazette.html",
+      "access_mode": "PHYSICAL_HOLDING",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "OFFICIAL_HOLDING_DESCRIPTION",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000040",
+      "source_id": "HK-LEG-OFFICIAL-GAZETTE-ARCHIVE",
+      "version": "1.0.0",
+      "name": "Government Records Service catalogue",
+      "url": "https://search.grs.gov.hk/en/search.xhtml?q=gazette",
+      "access_mode": "CATALOGUE_DISCOVERY",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "ARCHIVAL_LOCATOR_ONLY",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000041",
+      "source_id": "HK-LEG-HKEL-GAZETTE-BACKCAPTURE",
+      "version": "1.0.0",
+      "name": "HKeL Gazette back-capture",
+      "url": "https://www.elegislation.gov.hk/gazette",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "DISCOVERY_ONLY",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000042",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law text inventory",
+      "url": "https://www.basiclaw.gov.hk/en/basiclawtext/index.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": true,
+      "signal_use": "COMPLETE_INVENTORY",
+      "proves_no_change": false,
+      "evidence_role": "CONSTITUTIONAL_DISCREPANCY_SIGNAL",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000043",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law Annex III",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/annex3.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "ANNEX_III_INVENTORY",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000044",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law instruments",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/annex-instrument.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "INSTRUMENT_LINK_INVENTORY",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000045",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law portal Important Notices",
+      "url": "https://www.basiclaw.gov.hk/en/notices/index.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "RIGHTS_AND_STATUS_STATEMENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000046",
+      "source_id": "HK-LEG-NPC-NATIONAL-LAWS-DATABASE",
+      "version": "1.0.0",
+      "name": "National Laws and Regulations Database application",
+      "url": "https://flk.npc.gov.cn/index",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "OFFICIAL_DATABASE_ENTRY",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000047",
+      "source_id": "HK-LEG-NPC-NATIONAL-LAWS-DATABASE",
+      "version": "1.0.0",
+      "name": "National Laws database exact search API",
+      "url": "https://flk.npc.gov.cn/law-search/search/list",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/json"
+      ],
+      "max_bytes": 50000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "ORIGINATING_LAW_SEARCH",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000048",
+      "source_id": "HK-LEG-NPC-NATIONAL-LAWS-DATABASE",
+      "version": "1.0.0",
+      "name": "National Laws database exact detail API",
+      "url": "https://flk.npc.gov.cn/law-search/search/flfgDetails",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/json"
+      ],
+      "max_bytes": 50000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "ORIGINATING_LAW_DETAIL",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000004b",
+      "source_id": "HK-LEG-NPC-NATIONAL-LAWS-DATABASE",
+      "version": "1.0.0",
+      "name": "National Laws database official enumeration metadata API",
+      "url": "https://flk.npc.gov.cn/law-search/search/enumData",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/json"
+      ],
+      "max_bytes": 1000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "OFFICIAL_DATABASE_ENUMERATION_METADATA",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000004c",
+      "source_id": "HK-LEG-NPC-NATIONAL-LAWS-DATABASE",
+      "version": "1.0.0",
+      "name": "National Laws database official aggregate metadata API",
+      "url": "https://flk.npc.gov.cn/law-search/index/aggregateData",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/json"
+      ],
+      "max_bytes": 1000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "OFFICIAL_DATABASE_AGGREGATE_METADATA",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000004e",
+      "source_id": "HK-LEG-NPC-NATIONAL-LAWS-DATABASE",
+      "version": "1.0.0",
+      "name": "National Laws database official website configuration API",
+      "url": "https://flk.npc.gov.cn/law-search/index/wjConfig",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "application/json"
+      ],
+      "max_bytes": 1000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "OFFICIAL_DATABASE_WEBSITE_CONFIGURATION",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000049",
+      "source_id": "HK-LEG-NPC-NPCSC-OFFICIAL-MATERIALS",
+      "version": "1.0.0",
+      "name": "National People's Congress official site",
+      "url": "https://www.npc.gov.cn/",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "OFFICIAL_MATERIALS_ENTRY",
+      "enabled": false
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000004a",
+      "source_id": "HK-LEG-NPC-NPCSC-OFFICIAL-MATERIALS",
+      "version": "1.0.0",
+      "name": "NPC/NPCSC exact official publication",
+      "url": "https://www.npc.gov.cn/{official_material_locator}",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html",
+        "application/pdf"
+      ],
+      "max_bytes": 500000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "ORIGINATING_DECISION_OR_INTERPRETATION",
+      "enabled": false
+    }
+  ]
+}

@@ -14,7 +14,9 @@
   },
   "members": [
     {
-      "allowed_external_distributions": [],
+      "allowed_external_distributions": [
+        "patchright"
+      ],
       "allowed_internal_distributions": [
         "asklegal-application-runtime",
         "asklegal-contracts",

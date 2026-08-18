@@ -50,6 +50,21 @@ def _string_tuple(value: tuple[object, ...], field: str) -> tuple[str, ...]:
     return result
 
 
+def exact_text(value: object, field: str) -> str:
+    """Validate one whitespace-exact non-empty string for sibling modules."""
+    return _text(value, field)
+
+
+def exact_identifier(value: object, field: str, prefix: str) -> str:
+    """Validate one register-issued identity for sibling modules."""
+    return _identifier(value, field, prefix)
+
+
+def exact_string_tuple(value: tuple[object, ...], field: str) -> tuple[str, ...]:
+    """Validate one non-empty unique exact string tuple for sibling modules."""
+    return _string_tuple(value, field)
+
+
 class SourcePolicyState(StrEnum):
     """Explicit source authorization state."""
 

@@ -134,10 +134,10 @@ def test_real_repository_has_exact_closed_architecture() -> None:
     } <= set(control.allowed_internal_distributions)
     assert "proposal_package_prepare" in control.capability_ports
     assert "proposal_package_prepare" not in members["asklegal-promotion-worker"].capability_ports
+    assert members["asklegal-acquisition-worker"].allowed_external_distributions == ("patchright",)
     assert all(
         members[name].allowed_external_distributions == ()
         for name in (
-            "asklegal-acquisition-worker",
             "asklegal-legal-processing-worker",
             "asklegal-promotion-worker",
         )

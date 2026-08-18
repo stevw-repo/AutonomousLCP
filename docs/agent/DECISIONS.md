@@ -3,6 +3,91 @@
 Only settled decisions belong here. Recommendations and unresolved choices stay
 in the design brief and `WORKING_STATE.md` until the user decides them.
 
+## 2026-08-18 — Use Patchright only for isolated non-controlling discovery
+
+The user selected Patchright for JavaScript-backed official-source access.
+Patchright `1.62.1` runs only in the acquisition worker under exact endpoint
+policies and an ephemeral, credential-free Chromium context. It may reveal
+locators and request contracts, but its rendered output cannot become legal
+evidence, prove completeness or no change, or authorize processing. The
+connector returns only a sanitized request-map summary; legal source bytes
+must be fetched again through an admitted inert connector.
+
+This is the narrow ADR 0100 exception to M4's original active-content rule.
+There is no CAPTCHA or access-control bypass, undeclared cross-host request,
+persistent browser profile, retained cookie/header/body, authentication, or
+automatic terms acceptance. Exact same-host POST paths may be allowed only as
+reviewed browser-handshake steps. Patchright and its Chromium runtime require
+separate supply-chain and Ubuntu admission before V1 deployment.
+
+## 2026-08-18 — Defer publisher and archive enquiries for V1
+
+The user does not want external technical enquiries sent to HKeL, the
+Government Logistics Department, the Government Records Service, or another
+publisher/archive at this stage. V1 work will continue using independently
+verifiable official interfaces and already authorized read-only access.
+
+External enquiries are not a V1 prerequisite. Sources whose complete technical
+access procedure cannot be established independently remain explicitly
+`PARTIALLY_CONFIGURED` or `BLOCKED`; they cannot be represented as complete,
+silently omitted from coverage accounting, or used to infer no change. This
+decision defers external messages but does not prevent further inert endpoint
+research, implementation, synthetic evaluation, or work on the configured
+source roles.
+
+## 2026-08-18 — Record legal-team clearance for all Hong Kong Legislation sources
+
+The user reported that the AskLegal legal team has confirmed that all source
+rights and permissions are green. This clears the independent legal-admission
+gate for all fourteen frozen Hong Kong Legislation source roles. The source
+register records that conclusion as a separate, dated AskLegal legal-team
+attestation reported by the project user; it does not alter or overwrite the
+historical publisher notices observed on 2026-08-17.
+
+Legal clearance does not imply technical completeness. Sources whose complete,
+bounded acquisition procedure is not yet implemented remain `BLOCKED` or
+`PARTIALLY_CONFIGURED`, and disabled endpoints still reject access before
+transport. This decision authorizes continued credential-free read-only source
+implementation within the prior access scope; it does not authorize corpus
+publication, models, embeddings, Pinecone mutation, deployment, or production
+routing.
+
+## 2026-08-18 — Continue source engineering while legal review remains pending — superseded
+
+The user directed the project to skip waiting for the legal team's source-
+rights work and build the technical source capability first. Engineering may
+therefore complete source contracts, safe locator binding, transport ports,
+complete-inventory operations, hostile-content controls, deterministic tests,
+and disabled runtime composition for all fourteen Hong Kong Legislation source
+roles without pausing for the outstanding rights evidence.
+
+This development-sequencing decision governed work while the review was
+pending. It is superseded by the later 2026-08-18 legal-team clearance above.
+The distinction it established between legal admission and technical readiness
+remains in force.
+
+## 2026-08-17 — Authorize bounded read-only Hong Kong Legislation source access
+
+The user authorized credential-free, read-only access to the official sources
+needed for all fourteen frozen Hong Kong Legislation source roles across the
+three accepted release scopes. This authorization covers endpoint and format
+verification, source-contract implementation, bounded capture, and local
+validation. It does not extend to Hong Kong Cases, HKEX Regulatory Materials,
+other jurisdictions, external messages, publication, deployment, or any remote
+mutation.
+
+Publisher terms remain an independent admission gate. User authorization does
+not replace a publisher licence, required Government written permission, or a
+named accountable owner's acceptance of applicable terms. A role therefore
+remains fail-closed when its rights evidence or owner attestation is incomplete,
+even if the endpoint is technically reachable.
+
+RSS and similar feeds are discovery or change signals only. They may cause the
+pipeline to inspect a complete official inventory, but absence from a feed is
+never proof of completeness, legal status, currency, or no change. Release
+accounting must continue to reconcile the applicable complete official
+inventory and controlling evidence.
+
 ## 2026-08-17 — Continue autonomously toward the accepted local V1
 
 The user instructed the agent to work toward V1 and stop only when user input

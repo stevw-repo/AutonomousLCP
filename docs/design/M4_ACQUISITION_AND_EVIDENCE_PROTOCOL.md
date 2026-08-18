@@ -128,8 +128,12 @@ and termination proof. A changing inventory during capture triggers a bounded
 clean restart; repeated instability becomes incomplete, never a best-effort
 snapshot.
 
-Redirects cross no unregistered host or scheme. Active content is never
-executed. Archives and documents are parsed later in an isolated processing
+Redirects cross no unregistered host or scheme. Evidence capture never executes
+active content. ADR 0100 permits a separate isolated Patchright session to
+execute active content for non-controlling locator and request discovery only;
+its output cannot prove completeness, no change, legal text, or processing
+eligibility, and discovered source bytes must be fetched again inertly.
+Archives and documents are parsed later in an isolated processing
 boundary from preserved bytes; acquisition does not trust embedded links,
 macros, scripts, instructions, filenames, or metadata.
 

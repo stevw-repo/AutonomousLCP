@@ -4,6 +4,50 @@ This glossary defines the stable language of the autonomous legal-database
 pipeline. Architecture and policy decisions belong in `DECISIONS.md` and
 `docs/adr/`; current work belongs in `WORKING_STATE.md`.
 
+## Official Hong Kong Legislation source boundary
+
+`packages/source-connectors/src/asklegal_source_connectors/
+hk_legislation_source_register.json` is the repository-owned operational
+register for the fourteen frozen Hong Kong Legislation source roles. Its
+current fingerprint is
+`sha256:e792bc88bc3dca14dee4816927291429d002d73efef18a10b217bd640e0dfc58`.
+It contains 78 exact endpoint contracts, seven publisher-rights evidence
+entries, and the project user's dated report of the AskLegal legal team's
+clearance for all fourteen roles. The loader rejects missing roles, unknown
+values, identifier or endpoint drift, and a mismatched fingerprint.
+
+Five roles are technically complete and configured for bounded credential-free
+read-only access: the four DATA.GOV.HK current/past inventory/data roles and
+the Basic Law portal. Five roles are partially configured: HKeL Editorial
+Records, HKeL publication specifications, HKeL verified copies, GLD
+e-Gazette, and the NPC National Laws Database. Four roles remain technically
+blocked. Legal admission is no longer a blocker, but disabled endpoints remain
+inaccessible until their exact rendered, catalogue, physical-holding, or
+direct-search procedure exists.
+
+`official_http.py` is a deliberately narrow source transport: direct HTTPS,
+certificate and hostname verification, no proxy, cookies, redirects, ambient
+credentials, uploads, or writes, bounded response sizes, exact expected media
+types, and content admission before a capture result. RSS endpoints always
+produce discovery-signal results; they cannot produce a legal no-change result.
+
+Technical implementation readiness and source admission are separate facts.
+`official_planning.py` accounts for all fourteen roles and all 78 endpoints
+without treating legal clearance as technical readiness. `official_binding.py`
+binds the six item-specific URL templates without allowing scheme, authority,
+credential, query, fragment, or traversal injection. `official_inventory.py`
+requires the exact English and Traditional Chinese member set before returning
+one complete inventory fingerprint. `official_rendered.py` supplies a bounded
+discovery-only rendered-session port. ADR 0100 selects Patchright `1.62.1` in
+the acquisition worker as an ephemeral, exact-host discovery adapter. It
+returns a sanitized request map, never rendered executable HTML as evidence;
+all legal bytes still require inert re-fetch. The NPC application's stable
+`/index` route and its `enumData`, `aggregateData`, and `wjConfig` APIs are
+enabled as discovery metadata only and cannot prove a complete inventory or no
+change. The HKeL Gazette handshake is technically observed through exact
+same-host paths, but the role stays blocked until `/grid` pagination,
+completeness, and artifact locators are exact.
+
 ## Collaboration and decision-escalation preference
 
 For remaining design and contract work, do not ask the user
@@ -760,8 +804,8 @@ records, Coverage Gaps, and Quarantines before candidate-release construction.
 The package is version `0.21.0` with fingerprint
 `sha256:61d58fca4b695a466dbaaa73353c066614ba47df3be7cf5f3c89aa5389a1e978`.
 It contains 27 offline rules and 127 exact deterministic fixtures.
-It still has no real source bytes, source-rights acceptance, complete rule or
-fixture universe, semantic profile, adjudicated evaluation, named owner
+It still has no real source bytes, complete source-acquisition proof, complete
+rule or fixture universe, semantic profile, adjudicated evaluation, named owner
 attestation, conformance attestation, activation, or processing authority. All
 three scopes therefore remain `NOT_READY`; the loader continues to require
 explicit blockers and later-state proof.

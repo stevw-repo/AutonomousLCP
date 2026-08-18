@@ -1,6 +1,6 @@
 # AskLegal Legal Database Pipeline — Working State
 
-Updated: 2026-08-17
+Updated: 2026-08-18
 
 ## Current outcome
 
@@ -24,13 +24,119 @@ the earlier validated foundation is commit `88f8e92`, and the current clean
 runtime evidence under `var/` is excluded.
 
 The accumulated Hong Kong readiness and disabled V1 POC checkpoint was
-committed locally on 2026-08-17 as `6be9dd0` (`feat: add Hong Kong readiness
-and V1 POC contracts`). The user's latest instruction was to commit and push
-before authorized official-source work. No push occurred: the configured
-destination is `https://github.com/stevw-repo/AskLegal-LegalDBPipeline.git`,
-but the push safeguard requires the user to explicitly approve that exact URL
-and `main` branch in the current instruction. Official-source access has not
-started because push was ordered first.
+committed on 2026-08-17 as `6be9dd0` (`feat: add Hong Kong readiness and V1
+POC contracts`), followed by continuity commit `5140578`. The user explicitly
+confirmed the exact private destination and `main` branch; both commits were
+pushed to `https://github.com/stevw-repo/AskLegal-LegalDBPipeline.git`, whose
+`main` now resolves through `5140578`.
+
+The user then authorized read-only official legal-source access and requested
+that all 14 accepted Hong Kong Legislation source roles be completed together.
+This means the 14 roles across the three frozen Hong Kong Legislation scopes;
+it does not extend to Cases, HKEX Regulatory Materials, other jurisdictions,
+models, Pinecone, deployment, publication, or production mutation. RSS is
+permitted only as a discovery/change signal and never as controlling legal
+evidence or proof of complete no-change.
+
+Official-source verification started on 2026-08-17. On 2026-08-18 the user
+reported that the AskLegal legal team confirmed all source rights and
+permissions green for the fourteen frozen Hong Kong Legislation source roles.
+The register preserves that conclusion as a separate legal-team attestation;
+it does not rewrite the previously observed DATA.GOV.HK, HKeL, GLD, Basic Law,
+archive, or NPC publisher notices. Legal admission is therefore clear while
+technical admission remains fail-closed per source and endpoint.
+
+The first operational source checkpoint is now implemented. The strict source
+register at `packages/source-connectors/src/asklegal_source_connectors/
+hk_legislation_source_register.json` binds all 14 source roles, 78 exact
+endpoint contracts, seven rights-evidence entries, one legal-team attestation,
+and fingerprint
+`sha256:e792bc88bc3dca14dee4816927291429d002d73efef18a10b217bd640e0dfc58`.
+Five source roles are configured, five are partially configured, and four are
+technically blocked. The official HTTPS connector is credential-free, direct, TLS-
+validating, bounded, no-redirect, proxy-free, cookie-free, content-admitting,
+and fail-closed on contract drift. RSS results are discovery signals only.
+
+A read-only live probe returned HTTP 200 with the expected media types for all
+44 enabled exact endpoints. Bounded full GETs captured only the English and
+Traditional Chinese current and past XML inventories plus DATA.GOV.HK's RSS
+feed in memory. No ZIP corpus body was downloaded or saved. The four inventory
+captures returned `CAPTURED`; RSS returned `DISCOVERY_SIGNAL_CAPTURED`. No
+source artifact was written, published, or committed as legal evidence.
+
+On 2026-08-18 the earlier build-first sequencing assumption was superseded by
+the legal team's clearance. Repository-only work now includes a complete
+14-role/77-endpoint engineering report, safe binding for all six declared item
+URL templates, an atomic exact-member bilingual inventory connector, and a
+rendered-session connector boundary. The report now identifies 62 endpoint
+procedures with implemented handling and 16 endpoints requiring direct inert
+evidence, catalogue, or physical procedures; five source roles are technically
+complete and operationally callable.
+
+The user selected Patchright for JavaScript-backed access. ADR 0100 pins
+Patchright `1.62.1` to the acquisition worker and confines it to ephemeral,
+credential-free, exact-host discovery. Browser output is reduced to a
+sanitized request-map summary and can return only a discovery result; rendered
+HTML cannot become legal evidence, prove completeness/no-change, or authorize
+processing. Exact legal bytes still require inert direct capture and the
+ordinary manifest-last evidence flow. No CAPTCHA or access-control bypass is
+permitted.
+
+The Mac now has Patchright's local Chrome for Testing and headless-shell
+runtime `151.0.7922.34` (Playwright Chromium build `1234`). A bounded live NPC
+run completed through the registered `/index` endpoint as
+`DISCOVERY_SIGNAL_CAPTURED`, observing 17 same-host requests and producing a
+3,367-byte sanitized summary. It exposed the official read-only `wjConfig` API;
+the strict HTTP connector separately captured its 138-byte JSON response in
+memory with fingerprint
+`sha256:680b4065825b32fb4fc99ea872c824621416890e9714d53cecb99008b741a71c`.
+
+Bounded HKeL Gazette discovery proved the exact same-host client-check paths
+`/checkconfig/submitClientConfig.do`, `/client-check`, and `/grid`. The
+rendered page returned 200 at `/gazette`, but the role remains technically
+blocked until the grid request body, pagination/completeness proof, and exact
+artifact locators are contracted. GLD e-Gazette redirected to its terms page
+and requested a blocked Cloudflare Turnstile script; no terms acceptance or
+challenge bypass occurred. The NPC/NPCSC official-materials site failed with
+Chromium TLS cipher/version mismatch and remains blocked.
+
+Inert inspection of the official NPC application identified its direct
+read-only enumeration and aggregate metadata APIs. Both exact `GET` endpoints
+are now registered. The enumeration endpoint passed the actual bounded
+connector as `DISCOVERY_SIGNAL_CAPTURED`: HTTP 200, `application/json`, 7,936
+bytes, fingerprint
+`sha256:910dff8c504334db211dc53f527c1f4b9d39ea8233f0a4af087b6a1a6835719e`.
+The aggregate endpoint separately returned HTTP 200 JSON, 3,228 bytes,
+fingerprint
+`sha256:c1148d4e638445cf9045dd6828ccc7df486bf84a4d4a8371ca13c31b7acb145c`,
+with the publisher's aggregate classification and popularity fields. Both are
+discovery metadata only and do not prove a complete law inventory or no
+change. The accepted M4
+method contract remains closed to `GET` and `HEAD`;
+the internal NPC POST search call was not added without an exact protocol and
+request-body contract.
+
+HKeL's official verified-legislation coverage list was identified as a direct
+PDF endpoint independent of its active item pages. The exact endpoint is now
+enabled under the partially configured verified-copies role and passed the
+actual connector as `CAPTURED`: 16,659,689 bytes, `application/pdf`, fingerprint
+`sha256:098d592927bfbcb34ecdeae573077399c7429e83c2558eb516c91800143f9be5`.
+The bytes remained in memory only. This proves the coverage inventory path,
+not the still-disabled per-item verified-copy locator.
+
+The official HKeL client-check page exposes a deterministic no-JavaScript
+fallback, but live inspection proved that it redirects from HTTPS to HTTP and
+then returns only a reduced `/no-js` page without the requested item or PDF
+download metadata. The connector will not follow that downgrade or execute the
+publisher's active JavaScript. Patchright now completes the isolated discovery
+handshake, but this no-JavaScript path still cannot supply item/PDF locators and
+is not mislabeled as source evidence.
+
+Official fetch results now retain the exact inert transport envelope for
+successful, unsafe, redirect/status-drift, and media-drift responses. A genuine
+transport failure retains no invented response. This closes the evidence-loss
+gap before official outcomes are composed into the acquisition worker's
+manifest-last flow.
 
 The user has now accepted a strictly internal single-Ubuntu-host V1 POC. The
 Mac remains the development machine but is not a runtime dependency. One Ubuntu
@@ -50,11 +156,14 @@ current infrastructure objective. No deployment or external effect is
 authorized; explicit permission is required before the first real Pinecone
 write.
 
-No real source, credential, Azure resource,
+No credential, Azure resource,
 Azure OpenAI/model or embedding call, Pinecone target, provider backup,
 Ask.Legal route/slot, deployment, corpus publication, or production effect was
-accessed or changed. Ask.Legal admin-portal integration remains deferred; M7
-stabilizes the Review API boundary it will later consume.
+accessed or changed. Read-only official Hong Kong source pages and catalogue
+metadata were accessed only for source-contract and rights verification; no
+legal corpus was bulk-downloaded, no source artifact was published, and no
+external account or resource was changed. Ask.Legal admin-portal integration
+remains deferred; M7 stabilizes the Review API boundary it will later consume.
 
 The current authorized parallel workstream is local, network-disabled Hong
 Kong Legislation package readiness with `HK-LEG-ORDINANCES` first. Its frozen
@@ -85,8 +194,8 @@ interface research and the local difference, cause, proved-event, disposition,
 record, and release-accounting gates are complete. After the repository-only
 runtime-input and credential-loader work below, the infrastructure critical
 path needs the Ubuntu host and explicit image pull/run permission; real Hong
-Kong package admission separately needs external-source and named-owner
-authority.
+Kong package admission separately needs complete source evidence and package-
+owner authority.
 
 The next repository-only infrastructure checkpoint is also complete.
 `infrastructure/poc/application_image_inputs.json` freezes all five repository
@@ -578,21 +687,56 @@ of the current 2026-08-17 Hong Kong readiness checkpoint produced:
   and `package.json` SHA-256
   `292bc2b72fcd641f3448528f949a1edc6d73243c80fe1515c209b509c2370a88`.
 
+Validation of the official-source and Patchright checkpoint, including the
+2026-08-18 build-first extension, produced:
+
+- complete repository pytest inventory after legal clearance, NPC metadata,
+  and Patchright integration: **485 passed, 4 skipped**;
+- source-connectors package: **50 passed**, including strict register,
+  build-accounting, locator-injection, exact bilingual-member, rendered-
+  session, transport-drift, content-admission, and RSS signal cases;
+- repository-wide Ruff lint: PASS;
+- acquisition-worker plus source-connectors strict Pyright: **0 errors, 0
+  warnings, 0 information messages**;
+- Python boundary checker: PASS across **143 files** with the same eight exact
+  reviewed exceptions; and
+- architecture proof: PASS with five applications, fourteen packages, 80
+  dependency edges, 31 capability ports, and policy fingerprint
+  `sha256:e1055d5940e3b0387e482976b578bb44f990fe9b3bc93854e9c7c7987e9dbc50`;
+- V1 application-image input gate: PASS while still `NOT_READY` with five
+  images and five blockers; and
+- V1 composite admission gate: PASS while still `NOT_ADMITTED` with fourteen
+  components, eight validated static contracts, and fourteen blockers.
+
+The complete network-disabled two-path package proof was attempted after the
+Patchright lock update. It stopped during a clean acquisition-worker install
+because the already locked `s3transfer 0.19.2` artifact was not available to
+the offline uv cache. No network fallback occurred. This is an explicit
+wheelhouse/cache blocker; it is not a Patchright runtime or source-connector
+test failure.
+
+The repository-wide `npm run typecheck` was also attempted after installing
+the lock-pinned local Node dependencies. It reports 370 errors in preserved
+unrelated V1 files and missing Boto stubs; the changed source-connectors package
+itself passes strict Pyright. Node.js is still 24.15.0 rather than the required
+24.19.0, so the complete exact developer gate remains unavailable on this Mac.
+
 Repository-wide Ruff lint passes. Touched files pass Ruff formatting, while a
 full-tree format check reports two preserved pre-existing formatting drifts in
 `packages/domain/src/asklegal_domain/operations.py` and
 `tools/build_synthetic_rulebook.py`. The Python boundary checker passes across
-129 files with the same eight reviewed exceptions.
+141 files with the same eight reviewed exceptions.
 
-Strict Pyright, the exact Node validator, and the complete two-path package
-proof have not been rerun for this checkpoint. The full M7 32-scenario proof
+Repository-wide strict Pyright, the exact Node validator, and the complete
+two-path package proof have not passed for this source checkpoint. The full M7 32-scenario proof
 was rerun twice from clean path-distinct state and passed with current report
 fingerprint
 `sha256:24ba2d3ec5471276ec7c62263af3ae7662178014bf007245e4025c936fba8edb`.
-`npm run typecheck` cannot start because `node_modules` is absent, and Node.js
-remains 24.15.0 rather than the required 24.19.0; no dependency download was
-performed for Node. The user separately authorized the package-registry step
-that locked Boto3 `1.43.49` and its transitive dependencies; no service or vault
+Lock-pinned Node dependencies are now installed locally and ignored by Git.
+Repository-wide `npm run typecheck` starts but retains the 370 unrelated
+baseline errors described above. Node.js remains 24.15.0 rather than the
+required 24.19.0. The user separately authorized the package-registry step that
+locked Boto3 `1.43.49` and its transitive dependencies; no service or vault
 endpoint was contacted.
 
 Historical M7 reproducibility fingerprints include:
@@ -636,6 +780,26 @@ synthetic proof state and is not a repository artifact.
 - `README.md`; and
 - the four canonical continuity files under `docs/agent/`.
 
+## Official-source checkpoint files changed
+
+- `packages/source-connectors/src/asklegal_source_connectors/official.py`;
+- `packages/source-connectors/src/asklegal_source_connectors/official_http.py`;
+- `packages/source-connectors/src/asklegal_source_connectors/official_binding.py`;
+- `packages/source-connectors/src/asklegal_source_connectors/official_inventory.py`;
+- `packages/source-connectors/src/asklegal_source_connectors/official_planning.py`;
+- `packages/source-connectors/src/asklegal_source_connectors/official_rendered.py`;
+- `packages/source-connectors/src/asklegal_source_connectors/
+  hk_legislation_source_register.json`;
+- `apps/acquisition-worker/src/asklegal_acquisition_worker/
+  patchright_discovery.py` and its focused tests;
+- acquisition-worker dependency metadata, the exact uv lock, architecture
+  policy/test, and V1 application-image input hashes;
+- `docs/adr/0100-isolate-patchright-to-non-controlling-source-discovery.md` and
+  the corresponding M4 protocol clarification;
+- source-connectors admission, model, and public exports;
+- six focused official-source test modules plus the Patchright test module; and
+- all four canonical continuity files under `docs/agent/`.
+
 ## Latest V1 credential-proof checkpoint files changed
 
 - `infrastructure/poc/credential_interface_proof_inputs.json`;
@@ -654,10 +818,11 @@ real-package target and authorized local, network-disabled implementation.
 
 There is no remaining M7 implementation blocker or decision. The Ordinances
 package now has an exact blocker inventory and 27 fully covered offline rules,
-but remains `NOT_READY`. Real
-endpoint/source/right evidence, named owner acceptance, adjudicated evaluation
-truth, semantic deployment profiles, and conformance attestations remain open
-evidence work, not defaults inferred from local success.
+but remains `NOT_READY`. Legal admission is clear for all 14 official-source
+roles. Five roles are configured, five are partially configured, and four are
+technically blocked. Adjudicated evaluation truth, semantic deployment
+profiles, complete-universe acceptance, and conformance attestations remain
+open evidence work, not defaults inferred from local success.
 
 ## Current host prerequisite
 
@@ -684,11 +849,14 @@ The user then authorized the local Hong Kong Legislation readiness checkpoint
 described above. Validation results are recorded in the current validation
 section.
 
-No real source, model, embedding, Azure, Pinecone, backup, routing, deployment,
-or production system was accessed. The only external download in this thread
-was the previously authorized official uv installer and its pinned release
-artifact. Current package work and validation were local; the wheel build was
-explicitly offline.
+Credential-free official Hong Kong source pages, catalogue metadata, HEAD
+responses, four XML inventories, two RSS feeds, publisher JavaScript bundles,
+and the NPC enumeration metadata API were accessed read-only.
+Captured response bodies were bounded and held in memory only; no legal corpus
+or source evidence was saved or published. No model, embedding, Azure,
+Pinecone, backup, routing, deployment, production system, account, or remote
+mutable resource was accessed or changed. The source-connectors wheel build
+was explicitly offline.
 
 ## Authorization boundary and exact next step
 
@@ -697,11 +865,23 @@ milestone only if the user separately authorizes it. The stable first-baseline
 rules run through `HKLEG-BASE-CHANGE-001`; the ordinary update path now runs
 through complete `HKLEG-CURRENT-REL-001` accounting, with the separate
 `HKLEG-CURRENT-EVENT-001` missing-consolidation router. Further real-package
-admission needs real endpoint/source/right evidence, a named owner,
-adjudicated evaluations, and explicit external-source authorization.
-Real endpoint verification, source acquisition/rights, named owner acceptance,
-adjudicated real evaluations, and model admission require separate explicit
-authorization.
+admission needs adjudicated evaluations and complete-universe acceptance;
+source rights are no longer the blocker. Bounded credential-free read access
+is proved for the direct endpoints currently enabled, including the NPC
+metadata API.
+
+The next repository-only source steps are the exact HKeL `/grid` request,
+pagination, completeness, and artifact-locator contracts; exact NPC direct
+search/detail request bodies; catalogue and physical-holding procedures;
+source-specific complete-capture composition; and integration with the
+acquisition worker's manifest-last Primary/Recovery evidence flow. Patchright
+may discover these contracts but cannot supply the controlling evidence. None
+may bypass source or endpoint technical admission state.
+The user has declined external publisher/archive enquiries for now. They are
+not a V1 prerequisite and no message or request has been sent. Work continues
+through independently verifiable official interfaces; sources without a
+complete safe procedure remain visible as partial or blocked and cannot
+contribute false completeness or no-change claims.
 
 The static V1 POC topology, host-policy, artifact, application-image,
 application-runtime-input, systemd-unit-input, host-identity-input, and exact
@@ -731,6 +911,7 @@ prefer a native file interface.
 The user explicitly confirmed that the private
 `https://github.com/stevw-repo/AskLegal-LegalDBPipeline.git` remote is the
 approved destination and authorized synchronizing the complete committed
-M2–M7 change set from `main` to `origin/main`. That repository push is the only
-authorized remote action. No deployment, external message, cloud mutation, or
-other remote-system action was performed.
+M2–M7/V1 checkpoint from `main` to `origin/main`. Commits `6be9dd0` and
+`5140578` were pushed successfully. No new official-source or Patchright implementation is
+committed. Other than read-only official-source access, no deployment,
+external message, cloud mutation, or other remote-system action was performed.
