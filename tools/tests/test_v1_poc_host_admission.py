@@ -70,7 +70,7 @@ def _facts() -> dict[str, object]:
         "container_runtime": {
             "name": "docker",
             "service_manager": "systemd",
-            "docker_group_non_root_members": [],
+            "docker_group_non_root_members": ["docpro"],
         },
         "host_packages": {},
         "private_subnets": {},

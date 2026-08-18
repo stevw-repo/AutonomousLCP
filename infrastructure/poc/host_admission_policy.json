@@ -29,7 +29,7 @@
     ],
     "encrypted_credential_blob_mode": "0400",
     "persistent_plaintext_credentials_forbidden": true,
-    "docker_group_non_root_members_forbidden": true,
+    "permitted_docker_group_members": ["docpro"],
     "nftables_input_default": "DROP",
     "nftables_forward_default": "DROP",
     "direct_container_egress_default": "DROP",

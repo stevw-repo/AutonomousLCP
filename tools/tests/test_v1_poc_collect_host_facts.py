@@ -94,7 +94,7 @@ class _FakeSource:
         return {
             "name": "docker",
             "service_manager": "systemd",
-            "docker_group_non_root_members": [],
+            "docker_group_non_root_members": ["docpro"],
         }
 
 

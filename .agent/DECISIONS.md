@@ -3,6 +3,32 @@
 Only settled decisions belong here. Recommendations and unresolved choices stay
 in the design brief and `WORKING_STATE.md` until the user decides them.
 
+## 2026-08-18 — Permit one named account in the host `docker` group
+
+The user installed rootful Docker Engine 29.7.2 and explicitly authorized adding
+their login account to the host `docker` group. The previously accepted rule
+forbade any non-root member of that group, because membership grants
+password-free root-equivalent control of the daemon.
+
+The rule is amended rather than removed. `permitted_docker_group_members`
+replaces `docker_group_non_root_members_forbidden`, and the host check now
+requires the reported membership to equal that exact list. The accepted value is
+`["docpro"]`. Any additional, renamed, or unexpected member still fails closed
+with a `CONTAINER` finding, so the check keeps its detection value instead of
+being switched off.
+
+This is a deliberate, user-authorized reduction in host isolation for an
+internal POC. It is not a finding that the original rule was wrong. The
+residual risk is that any process running as `docpro` can control the Docker
+daemon without a password, which includes reading and writing any container's
+data. Rootless Docker remains the stronger option and was offered; the user
+chose the group. Reversing this means removing the account from the group and
+restoring the exact-empty membership rule.
+
+The user must run the `usermod` step; the agent has no `sudo` authority on this
+host and did not attempt to acquire any. This decision grants no image pull,
+container run, credential, source, model, Pinecone, or deployment authority.
+
 ## 2026-08-18 — Place both vaults on the 4.0 TB disk and amend the host thresholds
 
 The user chose to keep the Primary and Recovery Evidence Vaults, and the SQL

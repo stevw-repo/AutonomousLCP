@@ -14,6 +14,8 @@ _MAX_DOCUMENT_BYTES = 1_000_000
 _MIN_MEMORY_BYTES = 64_424_509_440
 _MIN_DISK_BYTES = 3_900_000_000_000
 _PHYSICAL_DISK_COUNT = 3
+_PERMITTED_DOCKER_GROUP_MEMBERS = ("docpro",)
+_RUNTIME_KEYS = frozenset({"name", "service_manager", "docker_group_non_root_members"})
 _SECRET_VALUE = re.compile(r"(?:^sk-[A-Za-z0-9]|BEGIN [A-Z ]*PRIVATE KEY|://[^/\s:]+:[^/@\s]+@)")
 _POLICY_KEYS = frozenset(
     {
@@ -177,7 +179,7 @@ def validate_policy(policy: dict[str, object]) -> tuple[HostFinding, ...]:
         "allowed_credential_protection_modes": ["TPM2_PLUS_HOST_KEY", "HOST_KEY_ONLY"],
         "encrypted_credential_blob_mode": "0400",
         "persistent_plaintext_credentials_forbidden": True,
-        "docker_group_non_root_members_forbidden": True,
+        "permitted_docker_group_members": list(_PERMITTED_DOCKER_GROUP_MEMBERS),
         "nftables_input_default": "DROP",
         "nftables_forward_default": "DROP",
         "direct_container_egress_default": "DROP",
@@ -319,11 +321,15 @@ def _validate_security_facts(facts: dict[str, object]) -> tuple[HostFinding, ...
         "forward_secure_sealing": True,
     }:
         findings.append(HostFinding(HostCode.JOURNAL, "persistent sealed journal"))
-    if _mapping(facts.get("container_runtime")) != {
-        "name": "docker",
-        "service_manager": "systemd",
-        "docker_group_non_root_members": [],
-    }:
+    runtime = _mapping(facts.get("container_runtime"))
+    if (
+        runtime is None
+        or frozenset(runtime) != _RUNTIME_KEYS
+        or runtime.get("name") != "docker"
+        or runtime.get("service_manager") != "systemd"
+        or runtime.get("docker_group_non_root_members")
+        != list(_PERMITTED_DOCKER_GROUP_MEMBERS)
+    ):
         findings.append(HostFinding(HostCode.CONTAINER, "runtime boundary"))
     return tuple(findings)
 
