@@ -899,10 +899,28 @@ object with `AccessDenied`. The user accepted a bounded exception for the two
 Versity root bootstrap credentials only. Details are in the dated `DECISIONS.md`
 entry.
 
-Still not executed: `DELIVER_SYSTEMD_CREDENTIAL_FILES` and
-`ROTATE_AND_REJECT_OLD_VALUE`. The credential file was delivered by a container
-bind mount rather than `systemd-creds`, no systemd unit exists to inspect, and
-rotation was not attempted. The proof is therefore partial.
+Both remaining steps have since been executed.
+`DELIVER_SYSTEMD_CREDENTIAL_FILES` **passes**: `LoadCredential` delivers a `0400`
+per-unit file, the container reads it through a bind mount, SQL Server starts,
+the exact value authenticates and a wrong value is refused, and the value leaks
+on none of five surfaces including the systemd unit and the journal.
+
+`ROTATE_AND_REJECT_OLD_VALUE` **fails silently and is the most important finding
+of the session.** Swapping the credential file and restarting does not rotate the
+password: the new value was refused, the old value still authenticated, and the
+service reported no error. Rotation must use in-database
+`ALTER LOGIN sa WITH PASSWORD`, which was proved to work and to refuse the old
+value afterwards. Any runbook that rotates by file swap would leave a supposedly
+retired password live.
+
+A delivery constraint also emerged: the credential file is owned by the systemd
+service account at mode `0400`, so the container must run under the same numeric
+UID. That is now a hard input to the still-open host-identity UID allocation and
+container UID/GID mapping blockers, not a free choice.
+
+The proof used a `systemd --user` unit, which exercises the same mechanism
+without root. The encrypted `systemd-creds` variant, which needs the root-only
+host key, and the real system-level units remain unproved.
 
 **Known contract gap.** `infrastructure/poc/credential_interface_proof_inputs.json`
 and `tools/v1_poc_credential_interface.py` still encode the pre-execution plan:

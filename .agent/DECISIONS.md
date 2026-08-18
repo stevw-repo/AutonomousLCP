@@ -3,6 +3,43 @@
 Only settled decisions belong here. Recommendations and unresolved choices stay
 in the design brief and `WORKING_STATE.md` until the user decides them.
 
+## 2026-08-18 — Rotate SQL Server credentials in-database, never by swapping the credential file
+
+The remaining two proof steps were executed. `systemd` credential delivery
+**passes**: `LoadCredential` places the value in an ephemeral per-unit directory
+as a `0400` file owned by the service user, that directory is bind-mounted into
+the container, SQL Server starts from it, and the exact value authenticates
+(`AUTH_OK`) while a wrong value is refused (`Login failed for user 'sa'`). The
+value appeared on none of five surfaces: container environment, container
+arguments, service logs, systemd unit properties, and the journal.
+
+`ROTATE_AND_REJECT_OLD_VALUE` **fails, and fails silently.** Writing a new value
+into the credential file and restarting the unit does not rotate the password.
+Measured: the new value was refused and the old value still authenticated, while
+the service started normally and reported no error. SQL Server consumes
+`MSSQL_SA_PASSWORD_FILE` only when initializing an empty data directory; once the
+database exists the stored password wins and the file is ignored.
+
+The accepted rotation procedure is therefore an in-database
+`ALTER LOGIN sa WITH PASSWORD = N'<new>'`, executed against the running instance.
+That was proved end to end: the statement returned `ROTATED`, the new value then
+authenticated, and the old value was refused. Operational runbooks must use this
+path. A file swap must never be treated as a completed rotation, because the
+service gives every outward appearance of success while still accepting the old
+credential — the dangerous case is believing a compromised password has been
+retired when it has not.
+
+One integration constraint follows from delivery. The credential file is mode
+`0400` owned by the systemd service account, so the container process must run
+under the same numeric UID or it cannot read the file. This is the concrete
+reason the host-identity contract leaves numeric UID allocation and container
+UID/GID mapping open; those values must be aligned per service rather than
+chosen freely. The proof ran the container under the invoking user's UID to
+demonstrate the mechanism.
+
+All proof state was removed and verified: no containers, no user units, no
+scratch directories.
+
 ## 2026-08-18 — Keep file-only secrets for SQL Server; grant Versity root keys a bounded exception
 
 The credential-interface question is answered by execution rather than vendor
