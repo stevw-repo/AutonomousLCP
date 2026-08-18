@@ -1,6 +1,7 @@
-"""Fail-closed tests for disabled V1 credential-interface proof inputs."""
+"""Fail-closed tests for the recorded V1 credential-interface proof results."""
 
 import json
+from collections.abc import Callable
 from copy import deepcopy
 from pathlib import Path
 
@@ -41,10 +42,50 @@ def _subject(policy: dict[str, object], service_id: str) -> dict[str, object]:
     subjects = policy["subjects"]
     assert isinstance(subjects, list)
     return next(
-        item
-        for item in subjects
-        if isinstance(item, dict) and item.get("service_id") == service_id
+        item for item in subjects if isinstance(item, dict) and item.get("service_id") == service_id
     )
+
+
+def _list(policy: dict[str, object], key: str) -> list[object]:
+    value = policy[key]
+    assert isinstance(value, list)
+    return value
+
+
+def _first(policy: dict[str, object], key: str) -> dict[str, object]:
+    entry = _list(policy, key)[0]
+    assert isinstance(entry, dict)
+    return entry
+
+
+def _nested(policy: dict[str, object], key: str) -> dict[str, object]:
+    value = policy[key]
+    assert isinstance(value, dict)
+    return value
+
+
+def _claim_ready(policy: dict[str, object]) -> None:
+    policy["ready"] = True
+
+
+_MUTATIONS: dict[str, Callable[[dict[str, object]], None]] = {
+    "ready_with_blockers": _claim_ready,
+    "unevidenced_step": lambda policy: _first(policy, "required_steps").__setitem__(
+        "evidence_refs", []
+    ),
+    "unrun_step_with_evidence": lambda policy: _first(policy, "required_steps").__setitem__(
+        "state", "NOT_RUN"
+    ),
+    "unknown_step_evidence": lambda policy: _first(policy, "required_steps").__setitem__(
+        "evidence_refs", ["INVENTED_EVIDENCE"]
+    ),
+    "evidence_inventory": lambda policy: _list(policy, "required_evidence").pop(),
+    "blocker": lambda policy: _list(policy, "blockers").pop(),
+    "unevidenced_subject": lambda policy: _subject(policy, "sql-server").__setitem__(
+        "evidence_refs", []
+    ),
+    "embedded_secret": lambda policy: policy.__setitem__("password", "forbidden-canary"),
+}
 
 
 def _codes(
@@ -60,75 +101,109 @@ def _codes(
     }
 
 
-def test_credential_interface_plan_is_complete_disabled_and_unexecuted() -> None:
-    """Freeze the exact host proof without claiming image or credential authority."""
+def test_credential_interface_record_is_executed_but_not_ready() -> None:
+    """Record the executed proof without turning partial results into readiness."""
     assert check_credential_interface_policy(REPOSITORY_ROOT) == CredentialInterfaceReport(
         subjects=3,
         steps=6,
         inspection_surfaces=7,
         blockers=(
-            "UBUNTU_HOST_ACCESS",
-            "READ_ONLY_IMAGE_RESOLUTION_AUTHORITY",
-            "IMAGE_PULL_RUN_AUTHORITY",
-            "VERSITY_VERSION_AND_DIGEST",
-            "SYNTHETIC_CREDENTIAL_CREATION_AUTHORITY",
-            "NAMED_THROWAWAY_STATE_MUTATION_AND_CLEANUP_AUTHORITY",
+            "SYSTEM_UNIT_AND_ENCRYPTED_CREDENTIAL_REPROOF",
+            "HOST_AND_CONTAINER_UID_ALIGNMENT",
+            "MANIFEST_LAST_EVIDENCE_PACKAGE",
         ),
-        executed=0,
+        executed=6,
+        exceptions=1,
+        findings=2,
+        ready=False,
     )
 
 
 @pytest.mark.parametrize(
     ("mutation", "expected"),
     [
-        ("ready", CredentialInterfaceCode.ADMISSION),
+        ("ready_with_blockers", CredentialInterfaceCode.ADMISSION),
         ("authority", CredentialInterfaceCode.AUTHORITY),
         ("secret_rule", CredentialInterfaceCode.SECRET),
         ("isolation", CredentialInterfaceCode.STATE),
-        ("step", CredentialInterfaceCode.STATE),
-        ("evidence", CredentialInterfaceCode.EVIDENCE),
+        ("unevidenced_step", CredentialInterfaceCode.EVIDENCE),
+        ("unrun_step_with_evidence", CredentialInterfaceCode.EVIDENCE),
+        ("unknown_step_evidence", CredentialInterfaceCode.EVIDENCE),
+        ("evidence_inventory", CredentialInterfaceCode.EVIDENCE),
         ("blocker", CredentialInterfaceCode.BLOCKER),
-        ("subject_state", CredentialInterfaceCode.STATE),
+        ("unevidenced_subject", CredentialInterfaceCode.EVIDENCE),
         ("embedded_secret", CredentialInterfaceCode.SECRET),
     ],
 )
-def test_credential_interface_policy_drift_fails_closed(
+def test_credential_interface_record_drift_fails_closed(
     mutation: str, expected: CredentialInterfaceCode
 ) -> None:
-    """Reject invented readiness, authority, proof, evidence, or secret transport."""
+    """Reject invented readiness, authority, evidence, or secret transport."""
     policy = deepcopy(_policy())
-    if mutation == "ready":
-        policy["ready"] = True
-    elif mutation == "authority":
-        authority = policy["authority"]
-        assert isinstance(authority, dict)
-        authority["image_pull_authorized"] = True
-    elif mutation == "secret_rule":
-        secret_rule = policy["secret_rule"]
-        assert isinstance(secret_rule, dict)
-        secret_rule["environment_forbidden"] = False
-    elif mutation == "isolation":
-        isolation = policy["isolation_rule"]
-        assert isinstance(isolation, dict)
-        isolation["real_credentials_forbidden"] = False
-    elif mutation == "step":
-        steps = policy["required_steps"]
-        assert isinstance(steps, list)
-        assert isinstance(steps[0], dict)
-        steps[0]["state"] = "PASSED"
-    elif mutation == "evidence":
-        evidence = policy["required_evidence"]
-        assert isinstance(evidence, list)
-        evidence.pop()
-    elif mutation == "blocker":
-        blockers = policy["blockers"]
-        assert isinstance(blockers, list)
-        blockers.pop()
-    elif mutation == "subject_state":
-        _subject(policy, "sql-server")["result"] = "PASSED"
-    else:
-        policy["password"] = "forbidden-canary"
+    _nested(policy, "authority")["host_mutation_authorized"] = mutation == "authority"
+    if mutation == "secret_rule":
+        _nested(policy, "secret_rule")["environment_forbidden"] = False
+    if mutation == "isolation":
+        _nested(policy, "isolation_rule")["real_credentials_forbidden"] = False
+    _MUTATIONS.get(mutation, lambda _: None)(policy)
     assert expected in _codes(policy)
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "unbacked_exception",
+        "unused_exception",
+        "unrelaxable_rule",
+        "unknown_rule",
+        "unknown_subject",
+        "argument_delivery",
+        "missing_residual_risk",
+    ],
+)
+def test_exception_mechanism_cannot_be_abused(mutation: str) -> None:
+    """Keep every accepted relaxation named, bounded, and tied to a real subject."""
+    policy = deepcopy(_policy())
+    if mutation == "unbacked_exception":
+        _subject(policy, "sql-server")["result"] = "EXCEPTION_ACCEPTED"
+        _subject(policy, "sql-server")["exception_id"] = "INVENTED_EXCEPTION"
+    elif mutation == "unused_exception":
+        _subject(policy, "sql-server")["exception_id"] = "VERSITY_ROOT_BOOTSTRAP_ENVIRONMENT"
+    elif mutation == "unrelaxable_rule":
+        _first(policy, "accepted_exceptions")["relaxed_rules"] = ["arguments_forbidden"]
+    elif mutation == "unknown_rule":
+        _first(policy, "accepted_exceptions")["relaxed_rules"] = ["invented_rule"]
+    elif mutation == "unknown_subject":
+        _first(policy, "accepted_exceptions")["subjects"] = ["not-a-service"]
+    elif mutation == "argument_delivery":
+        _first(policy, "accepted_exceptions")["forbidden_delivery"] = "NONE"
+    else:
+        _first(policy, "accepted_exceptions")["residual_risk"] = ""
+    assert CredentialInterfaceCode.EXCEPTION in _codes(policy)
+
+
+@pytest.mark.parametrize("mutation", ["severity", "unproved_flag", "unknown_subject"])
+def test_recorded_findings_must_stay_well_formed(mutation: str) -> None:
+    """Keep executed findings typed, scoped, and honest about proved remedies."""
+    policy = deepcopy(_policy())
+    if mutation == "severity":
+        _first(policy, "findings")["severity"] = "CATASTROPHIC"
+    elif mutation == "unproved_flag":
+        _first(policy, "findings")["procedure_proved"] = "yes"
+    else:
+        _first(policy, "findings")["subjects"] = ["not-a-service"]
+    assert CredentialInterfaceCode.FINDING in _codes(policy)
+
+
+def test_ready_is_allowed_only_when_every_step_passed_and_nothing_blocks() -> None:
+    """Permit readiness exactly once the record itself justifies it."""
+    policy = deepcopy(_policy())
+    policy["ready"] = True
+    policy["blockers"] = []
+    for step in _list(policy, "required_steps"):
+        assert isinstance(step, dict)
+        step["state"] = "PASSED"
+    assert CredentialInterfaceCode.ADMISSION not in _codes(policy)
 
 
 def test_artifact_selection_and_digest_drift_fail_closed() -> None:

@@ -922,18 +922,30 @@ The proof used a `systemd --user` unit, which exercises the same mechanism
 without root. The encrypted `systemd-creds` variant, which needs the root-only
 host key, and the real system-level units remain unproved.
 
-**Known contract gap.** `infrastructure/poc/credential_interface_proof_inputs.json`
-and `tools/v1_poc_credential_interface.py` still encode the pre-execution plan:
-every step `NOT_RUN`, `ready: false`, all six authority flags false, and the
-original six blockers, with the checker hard-wired to assert exactly that. Those
-statements no longer match reality — authority was granted, images were pulled and
-run, and the Versity digest is resolved. The checker must be redesigned from a
-"nothing has run" guard into one that records executed results against evidence,
-together with its twelve focused cases. That redesign was deliberately not
-attempted in the same session as the execution, to avoid rushing a fail-closed
-safety check. Until it lands, `DECISIONS.md` is the authoritative record of what
-was actually proved, and the composite gate's `NOT_ADMITTED` verdict remains
-correct.
+**Contract gap now closed.** The proof record was redesigned from a
+"nothing has run" guard into one that records executed results against evidence.
+`credential_interface_proof_inputs.json` is schema 2 with status
+`EXECUTED_PARTIAL`: real authority flags, six executed steps carrying evidence
+references, per-subject results, one named accepted exception, two recorded
+findings, and three replacement blockers
+(`SYSTEM_UNIT_AND_ENCRYPTED_CREDENTIAL_REPROOF`,
+`HOST_AND_CONTAINER_UID_ALIGNMENT`, `MANIFEST_LAST_EVIDENCE_PACKAGE`).
+
+The checker enforces honesty rather than inactivity. An executed step or subject
+must carry evidence drawn from the declared inventory; an unrun one must carry
+none. `ready` is derived, not asserted: it may only be true when every step
+passed and no blocker remains. An exception must name real subjects, give a
+reason, a residual risk and a retirement path, forbid argument delivery, and may
+never relax `arguments_forbidden`,
+`credential_values_in_evidence_forbidden`, or `persisted_canary_forbidden`. A
+subject claiming `EXCEPTION_ACCEPTED` must reference an exception that exists,
+and a subject not claiming it may not carry one. The focused cases grew from
+twelve to twenty-five, including seven that attack the exception mechanism
+itself.
+
+The Versity linux/amd64 digest is now pinned in `artifact_admission.json` and
+both vault services in `topology.json`, raising pinned artifacts from two to
+three and pinned topology artifacts from three to five.
 
 The read-only host-facts collector was run here and aborted with
 `read-only probe failed: findmnt`, consistent with an unprovisioned host: the

@@ -39,8 +39,8 @@
       "artifact_id": "versity-gateway",
       "kind": "UPSTREAM_CONTAINER",
       "consumers": ["vault-primary", "vault-recovery"],
-      "selection_state": "VERSION_AND_DIGEST_REQUIRED",
-      "artifact_ref": null,
+      "selection_state": "DIGEST_PINNED_REPROOF_REQUIRED",
+      "artifact_ref": "ghcr.io/versity/versitygw@sha256:ef1c6bf0180abd9583da8a0466b3cba1cfc1ed368afebdf7280c0774081d2c82",
       "admitted": false,
       "credential_interface_gate": true
     },
