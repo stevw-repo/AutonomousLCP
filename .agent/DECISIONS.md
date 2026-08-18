@@ -3,6 +3,46 @@
 Only settled decisions belong here. Recommendations and unresolved choices stay
 in the design brief and `WORKING_STATE.md` until the user decides them.
 
+## 2026-08-18 — Select the remaining upstream products and allocate the private subnets
+
+The four unselected upstream products are chosen and pinned by linux/amd64
+digest, resolved read-only from their official registries:
+
+- OTel Collector Contrib `0.159.0`;
+- Prometheus `v3.13.2`;
+- Grafana OSS `13.0.2`, the newest published on that repository, not the
+  `13.1.3` tag which exists only for the non-OSS build; and
+- Squid `6.6-24.04_edge` from Canonical as the egress proxy.
+
+Squid resolves the previously open "selected egress proxy" question. The
+accepted topology already fixes port 3128 and allowlist-based outbound control
+on all three egress services, which is Squid's native model, so this follows the
+design rather than introducing a new one. Envoy would offer finer TLS control
+and remains a later option if per-destination inspection is needed; nothing in
+V1 requires it. Canonical's build is chosen for its Ubuntu 24.04 base, matching
+the host.
+
+Eleven of sixteen services are now digest-pinned. The five remaining are the
+repository's own application images, which must be built rather than selected.
+
+Ten collision-free private `/24` subnets are allocated from `10.90.0.0/16`, one
+per declared network. That range avoids every network in use on this host: the
+`192.168.8.0/22` LAN, the `10.2.0.0/16` VPN interface, and Docker's own
+`172.17.0.0/16` bridge. It also sits outside Docker's default automatic
+allocation pool of `172.16.0.0/12`, so Docker cannot later assign a colliding
+subnet to an unrelated network.
+
+The host checker now validates the allocation rather than accepting a declared
+list: every declared network must appear exactly once, each value must parse as
+a strict private `/24`, and no subnet may overlap another or any reserved host
+network. Six focused cases cover a missing network, an overlap, a public range,
+a wrong prefix length, a collision with the Docker bridge, and a malformed
+value. `PRIVATE_SUBNET_SELECTION` is closed, leaving
+`CREDENTIAL_INTERFACE_PROOF` and `HOST_PACKAGE_LOCKS` as host blockers.
+
+No image was pulled, no network was created, and no service was enabled by this
+decision.
+
 ## 2026-08-18 — Rotate SQL Server credentials in-database, never by swapping the credential file
 
 The remaining two proof steps were executed. `systemd` credential delivery

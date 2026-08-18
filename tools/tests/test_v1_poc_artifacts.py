@@ -48,8 +48,8 @@ def test_repository_artifact_inventory_passes_but_admits_nothing() -> None:
     assert check_artifact_policy(REPOSITORY_ROOT) == ArtifactReport(
         artifacts=12,
         consumers=16,
-        pinned_candidates=3,
-        selections_pending=9,
+        pinned_candidates=7,
+        selections_pending=5,
         admitted=0,
     )
 

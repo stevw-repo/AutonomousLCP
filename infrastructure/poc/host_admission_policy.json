@@ -44,7 +44,18 @@
     "exact_host_package_locks_required": true,
     "host_package_locks": {},
     "collision_free_private_subnets_required": true,
-    "selected_private_subnets": {}
+    "selected_private_subnets": {
+      "asklegal-register": "10.90.0.0/24",
+      "asklegal-scheduler-general": "10.90.1.0/24",
+      "asklegal-scheduler-promotion": "10.90.2.0/24",
+      "asklegal-vault-primary": "10.90.3.0/24",
+      "asklegal-vault-recovery": "10.90.4.0/24",
+      "asklegal-review": "10.90.5.0/24",
+      "asklegal-telemetry": "10.90.6.0/24",
+      "asklegal-egress-source": "10.90.7.0/24",
+      "asklegal-egress-model": "10.90.8.0/24",
+      "asklegal-egress-promotion": "10.90.9.0/24"
+    }
   },
   "authority": {
     "host_mutation_authorized": false,
@@ -53,7 +64,6 @@
   },
   "admission_blockers": [
     "CREDENTIAL_INTERFACE_PROOF",
-    "HOST_PACKAGE_LOCKS",
-    "PRIVATE_SUBNET_SELECTION"
+    "HOST_PACKAGE_LOCKS"
   ]
 }

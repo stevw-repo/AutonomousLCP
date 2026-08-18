@@ -93,8 +93,8 @@
       "artifact_id": "otel-collector",
       "kind": "UPSTREAM_CONTAINER",
       "consumers": ["otel-collector"],
-      "selection_state": "PRODUCT_VERSION_AND_DIGEST_REQUIRED",
-      "artifact_ref": null,
+      "selection_state": "DIGEST_PINNED_REPROOF_REQUIRED",
+      "artifact_ref": "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib@sha256:4f4276c07cee9055f2ab630a86330243f85e208c388ee697bea2a44dab896c3f",
       "admitted": false,
       "credential_interface_gate": false
     },
@@ -102,8 +102,8 @@
       "artifact_id": "prometheus",
       "kind": "UPSTREAM_CONTAINER",
       "consumers": ["prometheus"],
-      "selection_state": "PRODUCT_VERSION_AND_DIGEST_REQUIRED",
-      "artifact_ref": null,
+      "selection_state": "DIGEST_PINNED_REPROOF_REQUIRED",
+      "artifact_ref": "quay.io/prometheus/prometheus@sha256:1147c92841726a6fef55fe6124491d6f85480f8de204f7d420304ca5bbd0a8f7",
       "admitted": false,
       "credential_interface_gate": false
     },
@@ -111,8 +111,8 @@
       "artifact_id": "grafana",
       "kind": "UPSTREAM_CONTAINER",
       "consumers": ["grafana"],
-      "selection_state": "PRODUCT_VERSION_AND_DIGEST_REQUIRED",
-      "artifact_ref": null,
+      "selection_state": "DIGEST_PINNED_REPROOF_REQUIRED",
+      "artifact_ref": "docker.io/grafana/grafana-oss@sha256:b8f6abae513b839b2f3487343fa5e44d9c9d7871271fdd17689c4c452cb8098e",
       "admitted": false,
       "credential_interface_gate": false
     },
@@ -120,8 +120,8 @@
       "artifact_id": "egress-proxy",
       "kind": "UPSTREAM_CONTAINER",
       "consumers": ["egress-model", "egress-promotion", "egress-source"],
-      "selection_state": "PRODUCT_VERSION_AND_DIGEST_REQUIRED",
-      "artifact_ref": null,
+      "selection_state": "DIGEST_PINNED_REPROOF_REQUIRED",
+      "artifact_ref": "docker.io/ubuntu/squid@sha256:94f844158e12b52f51b4ae996515e37e8fb3e8d85e1c86caba1a297376e4ec4f",
       "admitted": false,
       "credential_interface_gate": false
     }

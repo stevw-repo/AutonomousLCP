@@ -88,10 +88,35 @@ def test_repository_policy_is_valid_but_not_ready() -> None:
         blockers=(
             "CREDENTIAL_INTERFACE_PROOF",
             "HOST_PACKAGE_LOCKS",
-            "PRIVATE_SUBNET_SELECTION",
         ),
         host_mutation_authorized=False,
     )
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    ["missing", "overlapping", "public", "wrong_prefix", "host_collision", "malformed"],
+)
+def test_private_subnet_selection_fails_closed(mutation: str) -> None:
+    """Keep every declared network on a distinct, private, non-colliding subnet."""
+    policy = deepcopy(_policy())
+    runtime = policy["runtime"]
+    assert isinstance(runtime, dict)
+    subnets = runtime["selected_private_subnets"]
+    assert isinstance(subnets, dict)
+    if mutation == "missing":
+        del subnets["asklegal-register"]
+    elif mutation == "overlapping":
+        subnets["asklegal-review"] = subnets["asklegal-register"]
+    elif mutation == "public":
+        subnets["asklegal-register"] = "8.8.8.0/24"
+    elif mutation == "wrong_prefix":
+        subnets["asklegal-register"] = "10.90.0.0/16"
+    elif mutation == "host_collision":
+        subnets["asklegal-register"] = "172.17.0.0/24"
+    else:
+        subnets["asklegal-register"] = "not-a-subnet"
+    assert HostCode.POLICY in {finding.code for finding in validate_policy(policy)}
 
 
 def test_conforming_synthetic_facts_do_not_override_blockers() -> None:
@@ -100,7 +125,7 @@ def test_conforming_synthetic_facts_do_not_override_blockers() -> None:
     assert result.facts_conform is True
     assert result.admitted is False
     assert result.findings == ()
-    assert len(result.blockers) == 3
+    assert len(result.blockers) == 2
 
 
 @pytest.mark.parametrize(

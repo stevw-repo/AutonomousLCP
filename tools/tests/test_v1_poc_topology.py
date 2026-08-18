@@ -40,8 +40,8 @@ def test_repository_topology_passes_with_exact_summary() -> None:
         services=16,
         networks=10,
         credentials=25,
-        pinned_artifacts=5,
-        pins_required=11,
+        pinned_artifacts=11,
+        pins_required=5,
     )
 
 

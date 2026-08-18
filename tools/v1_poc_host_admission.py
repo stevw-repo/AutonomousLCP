@@ -7,6 +7,7 @@ import json
 import re
 from dataclasses import dataclass
 from enum import StrEnum
+from ipaddress import AddressValueError, IPv4Network, NetmaskValueError
 from pathlib import Path
 
 POLICY_PATH = Path("infrastructure/poc/host_admission_policy.json")
@@ -15,6 +16,30 @@ _MIN_MEMORY_BYTES = 64_424_509_440
 _MIN_DISK_BYTES = 3_900_000_000_000
 _PHYSICAL_DISK_COUNT = 3
 _PERMITTED_DOCKER_GROUP_MEMBERS = ("docpro",)
+_RUNTIME_POLICY_KEYS = frozenset(
+    {
+        "service_manager",
+        "container_runtime",
+        "exact_host_package_locks_required",
+        "host_package_locks",
+        "collision_free_private_subnets_required",
+        "selected_private_subnets",
+    }
+)
+_PRIVATE_NETWORK_IDS = (
+    "asklegal-register",
+    "asklegal-scheduler-general",
+    "asklegal-scheduler-promotion",
+    "asklegal-vault-primary",
+    "asklegal-vault-recovery",
+    "asklegal-review",
+    "asklegal-telemetry",
+    "asklegal-egress-source",
+    "asklegal-egress-model",
+    "asklegal-egress-promotion",
+)
+_SUBNET_PREFIX_LENGTH = 24
+_RESERVED_HOST_NETWORKS = ("172.17.0.0/16", "10.2.0.0/16", "192.168.8.0/22")
 _RUNTIME_KEYS = frozenset({"name", "service_manager", "docker_group_non_root_members"})
 _SECRET_VALUE = re.compile(r"(?:^sk-[A-Za-z0-9]|BEGIN [A-Z ]*PRIVATE KEY|://[^/\s:]+:[^/@\s]+@)")
 _POLICY_KEYS = frozenset(
@@ -52,7 +77,6 @@ _PATH_KEYS = frozenset({"fs_type", "path", "physical_disk_id", "real_path", "sym
 _EXPECTED_BLOCKERS = (
     "CREDENTIAL_INTERFACE_PROOF",
     "HOST_PACKAGE_LOCKS",
-    "PRIVATE_SUBNET_SELECTION",
 )
 _REQUIRED_PATHS = (
     "/srv/asklegal/sql",
@@ -189,16 +213,7 @@ def validate_policy(policy: dict[str, object]) -> tuple[HostFinding, ...]:
         "time_synchronization_required": True,
     }:
         findings.append(HostFinding(HostCode.POLICY, "security"))
-    runtime = _mapping(policy.get("runtime"))
-    if runtime != {
-        "service_manager": "systemd",
-        "container_runtime": "docker",
-        "exact_host_package_locks_required": True,
-        "host_package_locks": {},
-        "collision_free_private_subnets_required": True,
-        "selected_private_subnets": {},
-    }:
-        findings.append(HostFinding(HostCode.POLICY, "runtime"))
+    findings.extend(_validate_runtime_policy(policy))
     authority = _mapping(policy.get("authority"))
     if authority != {
         "host_mutation_authorized": False,
@@ -260,6 +275,56 @@ def _backing_disk_findings(
     if backing_bytes < _MIN_DISK_BYTES:
         return (HostFinding(HostCode.STORAGE, "physical disk"),)
     return ()
+
+
+def _validate_runtime_policy(policy: dict[str, object]) -> tuple[HostFinding, ...]:
+    """Validate the runtime block and its selected private subnets."""
+    runtime = _mapping(policy.get("runtime"))
+    if runtime is None or frozenset(runtime) != _RUNTIME_POLICY_KEYS:
+        return (HostFinding(HostCode.POLICY, "runtime"),)
+    findings: list[HostFinding] = []
+    if (
+        runtime.get("service_manager") != "systemd"
+        or runtime.get("container_runtime") != "docker"
+        or runtime.get("exact_host_package_locks_required") is not True
+        or runtime.get("host_package_locks") != {}
+        or runtime.get("collision_free_private_subnets_required") is not True
+    ):
+        findings.append(HostFinding(HostCode.POLICY, "runtime"))
+    findings.extend(_validate_private_subnets(runtime.get("selected_private_subnets")))
+    return tuple(findings)
+
+
+def _parse_private_subnet(raw: object) -> IPv4Network | None:
+    """Return one exact private /24, or None when the value is unusable."""
+    if type(raw) is not str:
+        return None
+    try:
+        network = IPv4Network(raw, strict=True)
+    except AddressValueError, NetmaskValueError, ValueError:
+        return None
+    if not network.is_private or network.prefixlen != _SUBNET_PREFIX_LENGTH:
+        return None
+    return network
+
+
+def _validate_private_subnets(value: object) -> tuple[HostFinding, ...]:
+    """Require one distinct, private, non-overlapping subnet per declared network."""
+    if not isinstance(value, dict) or set(value) != set(_PRIVATE_NETWORK_IDS):
+        return (HostFinding(HostCode.POLICY, "private subnet inventory"),)
+    networks: list[IPv4Network] = []
+    for network_id in _PRIVATE_NETWORK_IDS:
+        network = _parse_private_subnet(value[network_id])
+        if network is None:
+            return (HostFinding(HostCode.POLICY, f"private subnet {network_id}"),)
+        networks.append(network)
+    reserved = [IPv4Network(item) for item in _RESERVED_HOST_NETWORKS]
+    overlaps = any(
+        network.overlaps(other)
+        for index, network in enumerate(networks)
+        for other in (*networks[index + 1 :], *reserved)
+    )
+    return (HostFinding(HostCode.POLICY, "private subnet collision"),) if overlaps else ()
 
 
 def _validate_storage(facts: dict[str, object]) -> tuple[HostFinding, ...]:
@@ -327,8 +392,7 @@ def _validate_security_facts(facts: dict[str, object]) -> tuple[HostFinding, ...
         or frozenset(runtime) != _RUNTIME_KEYS
         or runtime.get("name") != "docker"
         or runtime.get("service_manager") != "systemd"
-        or runtime.get("docker_group_non_root_members")
-        != list(_PERMITTED_DOCKER_GROUP_MEMBERS)
+        or runtime.get("docker_group_non_root_members") != list(_PERMITTED_DOCKER_GROUP_MEMBERS)
     ):
         findings.append(HostFinding(HostCode.CONTAINER, "runtime boundary"))
     return tuple(findings)
