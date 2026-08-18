@@ -11,8 +11,9 @@ from pathlib import Path
 
 POLICY_PATH = Path("infrastructure/poc/host_admission_policy.json")
 _MAX_DOCUMENT_BYTES = 1_000_000
-_MIN_MEMORY_BYTES = 68_719_476_736
-_MIN_DISK_BYTES = 5_000_000_000_000
+_MIN_MEMORY_BYTES = 64_424_509_440
+_MIN_DISK_BYTES = 3_900_000_000_000
+_PHYSICAL_DISK_COUNT = 3
 _SECRET_VALUE = re.compile(r"(?:^sk-[A-Za-z0-9]|BEGIN [A-Z ]*PRIVATE KEY|://[^/\s:]+:[^/@\s]+@)")
 _POLICY_KEYS = frozenset(
     {
@@ -160,7 +161,7 @@ def validate_policy(policy: dict[str, object]) -> tuple[HostFinding, ...]:
         findings.append(HostFinding(HostCode.POLICY, "host"))
     storage = _mapping(policy.get("storage"))
     if storage != {
-        "physical_disk_count": 1,
+        "physical_disk_count": _PHYSICAL_DISK_COUNT,
         "minimum_disk_bytes": _MIN_DISK_BYTES,
         "filesystem_type": "ext4",
         "required_paths": list(_REQUIRED_PATHS),
@@ -222,20 +223,49 @@ def check_policy(root: Path) -> HostPolicyReport:
     )
 
 
+def _disk_inventory(facts: dict[str, object]) -> dict[str, int] | HostFinding:
+    """Return the exact declared disk sizes by identity, or the first failure."""
+    disks = _mappings(facts.get("physical_disks"))
+    if disks is None or len(disks) != _PHYSICAL_DISK_COUNT:
+        return HostFinding(HostCode.STORAGE, "physical disk count")
+    by_disk: dict[str, int] = {}
+    for disk in disks:
+        stable_id = disk.get("stable_id")
+        size_bytes = disk.get("size_bytes")
+        if (
+            frozenset(disk) != _DISK_KEYS
+            or type(stable_id) is not str
+            or type(size_bytes) is not int
+        ):
+            return HostFinding(HostCode.STORAGE, "physical disk")
+        by_disk[stable_id] = size_bytes
+    if len(by_disk) != len(disks):
+        return HostFinding(HostCode.STORAGE, "duplicate disk identity")
+    return by_disk
+
+
+def _backing_disk_findings(
+    by_disk: dict[str, int], by_path: dict[object, dict[str, object]]
+) -> tuple[HostFinding, ...]:
+    """Require one shared backing disk of at least the accepted minimum size."""
+    backing = {by_path[required_path].get("physical_disk_id") for required_path in _REQUIRED_PATHS}
+    if len(backing) != 1:
+        return (HostFinding(HostCode.STORAGE, "same physical disk"),)
+    backing_id = next(iter(backing))
+    backing_bytes = by_disk.get(backing_id) if type(backing_id) is str else None
+    if backing_bytes is None:
+        return (HostFinding(HostCode.STORAGE, "unknown backing disk"),)
+    if backing_bytes < _MIN_DISK_BYTES:
+        return (HostFinding(HostCode.STORAGE, "physical disk"),)
+    return ()
+
+
 def _validate_storage(facts: dict[str, object]) -> tuple[HostFinding, ...]:
     findings: list[HostFinding] = []
-    disks = _mappings(facts.get("physical_disks"))
-    if disks is None or len(disks) != 1:
-        return (HostFinding(HostCode.STORAGE, "physical disk count"),)
-    disk_id = disks[0].get("stable_id")
-    disk_bytes = disks[0].get("size_bytes")
-    if (
-        frozenset(disks[0]) != _DISK_KEYS
-        or type(disk_id) is not str
-        or type(disk_bytes) is not int
-        or disk_bytes < _MIN_DISK_BYTES
-    ):
-        findings.append(HostFinding(HostCode.STORAGE, "physical disk"))
+    inventory = _disk_inventory(facts)
+    if isinstance(inventory, HostFinding):
+        return (inventory,)
+    by_disk = inventory
     paths = _mappings(facts.get("paths"))
     if paths is None:
         return (*findings, HostFinding(HostCode.PATH, "path facts"))
@@ -243,6 +273,7 @@ def _validate_storage(facts: dict[str, object]) -> tuple[HostFinding, ...]:
     if set(by_path) != set(_REQUIRED_PATHS):
         findings.append(HostFinding(HostCode.PATH, "path inventory"))
         return tuple(findings)
+    findings.extend(_backing_disk_findings(by_disk, by_path))
     real_paths: list[str] = []
     for required_path in _REQUIRED_PATHS:
         item = by_path[required_path]
@@ -252,7 +283,6 @@ def _validate_storage(facts: dict[str, object]) -> tuple[HostFinding, ...]:
         if (
             frozenset(item) != _PATH_KEYS
             or item.get("fs_type") != "ext4"
-            or item.get("physical_disk_id") != disk_id
             or item.get("symlink") is not False
             or item.get("writable") is not True
             or real_path != required_path

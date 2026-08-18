@@ -3,6 +3,48 @@
 Only settled decisions belong here. Recommendations and unresolved choices stay
 in the design brief and `WORKING_STATE.md` until the user decides them.
 
+## 2026-08-18 — Place both vaults on the 4.0 TB disk and amend the host thresholds
+
+The user chose to keep the Primary and Recovery Evidence Vaults, and the SQL
+data path, together on the single 4.0 TB SATA disk. The alternative — splitting
+Recovery onto a 500 GB NVMe for real single-disk-loss protection — was rejected
+because the disks are asymmetric: a ~458 GB Recovery volume cannot mirror a
+4.0 TB Primary, so the stronger class would become a false promise as soon as
+the evidence corpus outgrew the smaller disk.
+
+`recovery_class` therefore stays `LOGICALLY_SEPARATE_POC_RECOVERY`, and
+`same_physical_disk_required` stays `true`. The POC still does not survive loss
+of that disk or of the host, and nothing in this decision claims otherwise.
+
+The accepted thresholds are amended to match the real machine:
+
+- `host_admission_policy.json`: `physical_disk_count` 1 to 3,
+  `minimum_disk_bytes` 5,000,000,000,000 to 3,900,000,000,000, and
+  `minimum_memory_bytes` 68,719,476,736 to 64,424,509,440;
+- `topology.json`: `minimum_ram_gib` 64 to 60, `physical_disk_count` 1 to 3,
+  and `minimum_ext4_capacity_tb` 5 to 3.
+
+The memory threshold moved because the old value was unsatisfiable by
+construction, not merely too high. Host memory is measured as
+`SC_PHYS_PAGES * SC_PAGE_SIZE`, which excludes firmware-reserved memory, so a
+genuine 64 GB machine reports 67,252,903,936 bytes and could never meet a
+literal 64 GiB minimum. The new value is 60 GiB, which this host clears while
+still rejecting a 32 GB host.
+
+`_validate_storage` also changed meaning, not just constants. It previously
+required the host to report exactly one physical disk and compared every
+required path against that sole disk. It now accepts the declared disk count,
+requires all three required paths to share exactly one backing disk, and
+applies `minimum_disk_bytes` to that backing disk. Fail-closed behavior is
+preserved and extended: an unexpected disk count, a duplicate disk identity, an
+unknown backing disk, a path split across disks, or an undersized backing disk
+each produce a `STORAGE` finding. Two focused cases were added for the split
+and undersized branches.
+
+This changes no runtime authority. The host remains unprovisioned, the composite
+gate still returns `V1_POC_NOT_ADMITTED` with 14 blockers, and the three durable
+host blockers are unchanged.
+
 ## 2026-08-18 — Correct the V1 host storage and development-host facts
 
 The user reported that the previously recorded V1 host description was their own
@@ -15,8 +57,9 @@ The user also said they will probably do significant parts of development on
 this Ubuntu machine from now on. That is recorded as a direction, not a settled
 replacement of the Mac as development host.
 
-Three accepted values do not match this machine and are deliberately left
-unchanged pending a separate decision. `minimum_disk_bytes` is 5,000,000,000,000
+Superseded later the same day by the vault-placement decision below, which
+amends these values. Three accepted values did not match this machine and were
+initially left unchanged pending a separate decision. `minimum_disk_bytes` is 5,000,000,000,000
 against a largest single ext4 volume of 4,000,785,104,896.
 `minimum_memory_bytes` is 68,719,476,736 against a measured 67,252,903,936.
 `recovery_class` stays `LOGICALLY_SEPARATE_POC_RECOVERY`, because a stronger

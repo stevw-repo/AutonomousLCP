@@ -152,9 +152,12 @@ copy. Azure application hosting remains post-V1/deferred.
 Both vaults currently share one filesystem and therefore provide only
 `LOGICALLY_SEPARATE_POC_RECOVERY`. The earlier single-physical-disk premise was
 a reporting mistake corrected on 2026-08-18; the host actually has three
-physical disks. The recovery class is deliberately left unchanged until vault
-placement is decided, because a stronger class must be earned by proved
-separate-disk placement rather than inferred from disk count. Scheduler state is memory-only; loss fences
+physical disks. Vault placement was decided on 2026-08-18: both vaults and the SQL data path
+sit together on the 4.0 TB SATA disk, because the disks are asymmetric and a
+~458 GB Recovery volume could not honestly mirror a 4.0 TB Primary. The
+recovery class therefore stays `LOGICALLY_SEPARATE_POC_RECOVERY`, and the host
+thresholds were amended to match the real machine; see the dated entry in
+`DECISIONS.md`. Scheduler state is memory-only; loss fences
 the old execution and starts reconciled replacement work from the last safe SQL
 checkpoint, never a claim that lost history resumed. Exact topology, image
 pins/digests, incremental implementation, and verification planning are the

@@ -38,7 +38,11 @@ class _FakeSource:
 
     def physical_disks(self) -> list[JsonValue]:
         self._called("physical_disks")
-        return [{"stable_id": "disk:poc", "size_bytes": 5_000_000_000_000}]
+        return [
+            {"stable_id": "disk:poc", "size_bytes": 4_000_787_030_016},
+            {"stable_id": "disk:poc-root", "size_bytes": 500_107_862_016},
+            {"stable_id": "disk:poc-spare", "size_bytes": 500_107_862_016},
+        ]
 
     def path_facts(self) -> list[JsonValue]:
         self._called("path_facts")

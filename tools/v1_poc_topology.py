@@ -173,9 +173,9 @@ def _validate_host(document: dict[str, object]) -> tuple[TopologyFinding, ...]:
     expected = {
         "os": "Ubuntu 24.04",
         "architecture": "x86_64",
-        "minimum_ram_gib": 64,
-        "physical_disk_count": 1,
-        "minimum_ext4_capacity_tb": 5,
+        "minimum_ram_gib": 60,
+        "physical_disk_count": 3,
+        "minimum_ext4_capacity_tb": 3,
         "mac_runtime_dependency": False,
     }
     return () if host == expected else (TopologyFinding(TopologyCode.HOST, "exact host"),)

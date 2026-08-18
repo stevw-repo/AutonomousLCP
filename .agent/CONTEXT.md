@@ -630,8 +630,9 @@ loss fences the old execution and creates replacement work from reconciled SQL
 state and the last safe checkpoint; it is never described as resuming lost
 history. Both evidence vaults currently share one filesystem, so the recovery class is
 exactly `LOGICALLY_SEPARATE_POC_RECOVERY`, not protection from host or disk
-loss. The earlier single-physical-drive premise was corrected on 2026-08-18;
-the class stays unchanged until vault placement is decided.
+loss. The earlier single-physical-drive premise was corrected on 2026-08-18:
+the host has three disks, and both vaults plus the SQL data path are placed
+together on its 4.0 TB disk, so the class is unchanged and still honest.
 SQL ledger plus immutable Recovery Vault archives are the authoritative audit
 trail. Pinecone is a replaceable serving copy built through immutable
 replacement indexes; it is not an evidence or register authority.

@@ -31,14 +31,18 @@ def _facts() -> dict[str, object]:
         "source": "READ_ONLY_HOST_FACTS",
         "os": {"id": "ubuntu", "version_id": "24.04"},
         "architecture": "x86_64",
-        "memory_bytes": 68_719_476_736,
-        "physical_disks": [{"stable_id": "disk-poc", "size_bytes": 5_000_000_000_000}],
+        "memory_bytes": 67_252_903_936,
+        "physical_disks": [
+            {"stable_id": "disk-poc-data", "size_bytes": 4_000_787_030_016},
+            {"stable_id": "disk-poc-root", "size_bytes": 500_107_862_016},
+            {"stable_id": "disk-poc-spare", "size_bytes": 500_107_862_016},
+        ],
         "paths": [
             {
                 "path": path,
                 "real_path": path,
                 "fs_type": "ext4",
-                "physical_disk_id": "disk-poc",
+                "physical_disk_id": "disk-poc-data",
                 "symlink": False,
                 "writable": True,
             }
@@ -105,6 +109,8 @@ def test_conforming_synthetic_facts_do_not_override_blockers() -> None:
         ("os", HostCode.OPERATING_SYSTEM),
         ("memory", HostCode.MEMORY),
         ("disk", HostCode.STORAGE),
+        ("split_disk", HostCode.STORAGE),
+        ("small_disk", HostCode.STORAGE),
         ("path", HostCode.PATH),
         ("time", HostCode.TIME),
     ],
@@ -120,6 +126,16 @@ def test_unsafe_or_incomplete_host_facts_fail_closed(
         facts["memory_bytes"] = 8_000_000_000
     elif mutation == "disk":
         facts["physical_disks"] = []
+    elif mutation == "split_disk":
+        paths = facts["paths"]
+        assert isinstance(paths, list)
+        assert isinstance(paths[2], dict)
+        paths[2]["physical_disk_id"] = "disk-poc-spare"
+    elif mutation == "small_disk":
+        disks = facts["physical_disks"]
+        assert isinstance(disks, list)
+        assert isinstance(disks[0], dict)
+        disks[0]["size_bytes"] = 1_000_000_000_000
     elif mutation == "path":
         paths = facts["paths"]
         assert isinstance(paths, list)

@@ -5,11 +5,11 @@
     "os_id": "ubuntu",
     "os_version_id": "24.04",
     "architecture": "x86_64",
-    "minimum_memory_bytes": 68719476736
+    "minimum_memory_bytes": 64424509440
   },
   "storage": {
-    "physical_disk_count": 1,
-    "minimum_disk_bytes": 5000000000000,
+    "physical_disk_count": 3,
+    "minimum_disk_bytes": 3900000000000,
     "filesystem_type": "ext4",
     "required_paths": [
       "/srv/asklegal/sql",
