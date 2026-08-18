@@ -884,6 +884,39 @@ attributing it partly to Node.js 24.15.0 was wrong. The errors concentrate in
 fails first, `npm run typecheck` never reaches the boundary checker, which
 passes when run directly. Clearing this baseline is open work.
 
+## Credential-interface proof — partially executed 2026-08-18
+
+Docker Engine 29.7.2 is installed on this host and the login account is in the
+`docker` group, so container work is now possible. Both proof images were pulled
+by digest and run with networking disabled and synthetic throwaway credentials.
+
+Settled by execution: SQL Server 2025 satisfies the file-only secret rule through
+`MSSQL_SA_PASSWORD_FILE`, leaking the value on none of the five inspected
+surfaces; Versity Gateway `v1.7.0` has no file input and exposes its root keys on
+four surfaces; and Versity's posix backend genuinely enforces Object Lock,
+versioning, `COMPLIANCE` retention, and legal hold, refusing deletion of a locked
+object with `AccessDenied`. The user accepted a bounded exception for the two
+Versity root bootstrap credentials only. Details are in the dated `DECISIONS.md`
+entry.
+
+Still not executed: `DELIVER_SYSTEMD_CREDENTIAL_FILES` and
+`ROTATE_AND_REJECT_OLD_VALUE`. The credential file was delivered by a container
+bind mount rather than `systemd-creds`, no systemd unit exists to inspect, and
+rotation was not attempted. The proof is therefore partial.
+
+**Known contract gap.** `infrastructure/poc/credential_interface_proof_inputs.json`
+and `tools/v1_poc_credential_interface.py` still encode the pre-execution plan:
+every step `NOT_RUN`, `ready: false`, all six authority flags false, and the
+original six blockers, with the checker hard-wired to assert exactly that. Those
+statements no longer match reality — authority was granted, images were pulled and
+run, and the Versity digest is resolved. The checker must be redesigned from a
+"nothing has run" guard into one that records executed results against evidence,
+together with its twelve focused cases. That redesign was deliberately not
+attempted in the same session as the execution, to avoid rushing a fail-closed
+safety check. Until it lands, `DECISIONS.md` is the authoritative record of what
+was actually proved, and the composite gate's `NOT_ADMITTED` verdict remains
+correct.
+
 The read-only host-facts collector was run here and aborted with
 `read-only probe failed: findmnt`, consistent with an unprovisioned host: the
 required `/srv/asklegal/...` paths do not exist. Two accepted policy thresholds

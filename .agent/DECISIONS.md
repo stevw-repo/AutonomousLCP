@@ -3,6 +3,58 @@
 Only settled decisions belong here. Recommendations and unresolved choices stay
 in the design brief and `WORKING_STATE.md` until the user decides them.
 
+## 2026-08-18 — Keep file-only secrets for SQL Server; grant Versity root keys a bounded exception
+
+The credential-interface question is answered by execution rather than vendor
+documentation. Both images were pulled by digest on the Ubuntu host and run with
+networking disabled and synthetic throwaway credentials.
+
+SQL Server **passes the accepted rule unchanged**. The pinned 2025 image supports
+`MSSQL_SA_PASSWORD_FILE`. Started from a read-only mounted file it reached "SQL
+Server is now ready for client connections" and survived a restart without the
+value being supplied again. The exact synthetic value did not appear in container
+configuration, container arguments, process arguments, process environment, or
+service logs. Only the file path is visible. No relaxation is needed or granted
+for SQL Server, and the earlier expectation that it would fail was wrong.
+
+Versity Gateway `v1.7.0` **cannot meet the rule**. Its complete option set exposes
+root credentials only as `--access`/`--secret` arguments or the
+`ROOT_ACCESS_KEY_ID`/`ROOT_SECRET_ACCESS_KEY` environment variables. There is no
+file input. Measured exposure with both forms supplied: container environment,
+container arguments, process arguments, and process environment all expose the
+value; service logs do not, and the value is not persisted to the data,
+versioning, or sidecar directories.
+
+The user selected the bounded exception over a general relaxation. The exception
+covers **only** the two Versity root bootstrap credentials on this internal
+single-host POC. The accepted `SYSTEMD_CREDS_LOAD_CREDENTIAL_ENCRYPTED`
+file-only rule continues to govern every other credential, including SQL Server's.
+Implementations must supply the Versity root keys through the environment only,
+never as command arguments, because arguments are readable by any local user
+through `ps` while the environment is readable only by the same user and root.
+
+Two facts bound the residual risk. Versity does not write the root secret to
+disk, so exposure is runtime-only. More importantly, the vault enforces
+immutability independently of who holds the keys: a bucket created with Object
+Lock reported `ObjectLockEnabled: Enabled` and `Versioning: Enabled`, an object
+written under `COMPLIANCE` retention with legal hold returned both values on
+read-back, and deleting that locked object was refused with `AccessDenied`.
+Possession of the root keys therefore does not permit silent rewriting of
+preserved evidence, which is the property the design exists to protect.
+
+The Versity linux/amd64 artifact is now resolved and pinned in this record as
+`ghcr.io/versity/versitygw@sha256:ef1c6bf0180abd9583da8a0466b3cba1cfc1ed368afebdf7280c0774081d2c82`,
+which closes the `VERSITY_VERSION_AND_DIGEST` blocker. Versity's admin account
+mechanism is a later path to retiring the exception; it is not V1 work.
+
+This is a partial proof and must not be recorded as a complete one. The
+product-interface question, the leak-surface question, and the object-lock
+question are settled. `DELIVER_SYSTEMD_CREDENTIAL_FILES` and
+`ROTATE_AND_REJECT_OLD_VALUE` were **not** executed: the file was delivered by a
+container bind mount rather than `systemd-creds`, no systemd unit exists to
+inspect, and no rotation was attempted. All throwaway containers and state were
+removed, verified by name.
+
 ## 2026-08-18 — Permit one named account in the host `docker` group
 
 The user installed rootful Docker Engine 29.7.2 and explicitly authorized adding
