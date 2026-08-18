@@ -610,9 +610,10 @@ evidence.
 
 ## V1 POC operating target
 
-V1 is a strictly internal POC. Development remains on macOS, but the continuous
-runtime is one Ubuntu 24.04 x86-64 PC with 64 GB RAM and 5 TB on one physical
-drive. Ubuntu is initially the only runtime host; the Mac must not be required
+V1 is a strictly internal POC. Development is shifting to the Ubuntu machine:
+on 2026-08-18 the user said they will probably do significant parts of
+development there from now on, without retiring the Mac. The continuous runtime
+is one Ubuntu 24.04 x86-64 PC with 64 GB RAM and local ext4 storage. Ubuntu is initially the only runtime host; the Mac must not be required
 for operation. Azure application hosting is post-V1/deferred.
 
 The accepted runtime uses SQL Server 2025 Developer Edition in a pinned official
@@ -627,8 +628,10 @@ and digest. Services are private by default and least-privileged.
 The Management Register remains authoritative over orchestration. Scheduler
 loss fences the old execution and creates replacement work from reconciled SQL
 state and the last safe checkpoint; it is never described as resuming lost
-history. Both evidence vaults share one physical drive, so the recovery class is
-exactly `LOGICALLY_SEPARATE_POC_RECOVERY`, not protection from host or disk loss.
+history. Both evidence vaults currently share one filesystem, so the recovery class is
+exactly `LOGICALLY_SEPARATE_POC_RECOVERY`, not protection from host or disk
+loss. The earlier single-physical-drive premise was corrected on 2026-08-18;
+the class stays unchanged until vault placement is decided.
 SQL ledger plus immutable Recovery Vault archives are the authoritative audit
 trail. Pinecone is a replaceable serving copy built through immutable
 replacement indexes; it is not an evidence or register authority.

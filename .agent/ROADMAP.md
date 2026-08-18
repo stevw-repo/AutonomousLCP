@@ -18,8 +18,10 @@ cloud proof, and production action remains separately gated.
 
 V1 is a **strictly internal POC**, not an Azure-hosted deployment:
 
-- development remains on the Mac, while all five applications run continuously
-  on one Ubuntu 24.04 x86-64 PC; the Mac is not a runtime dependency;
+- development is shifting to the Ubuntu machine — from 2026-08-18 the user
+  expects to do significant parts of development there, without retiring the
+  Mac — while all five applications run continuously on one Ubuntu 24.04
+  x86-64 PC; the Mac is not a runtime dependency;
 - SQL Server 2025 Developer, two Durable Task Scheduler emulator instances,
   two Versity Gateway vault instances, secrets, and monitoring run on Ubuntu;
 - hosted Pinecone Cloud in a dedicated isolated POC project supplies the

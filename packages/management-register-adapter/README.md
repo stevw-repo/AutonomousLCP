@@ -13,7 +13,7 @@ access, legal data, deployment, or production use.
 
 The ordinary repository suite skips the marked SQL Server test. The integration
 suite requires the digest-pinned SQL Server Developer container documented in
-`docs/agent/CONTEXT.md` and an ephemeral
+`.agent/CONTEXT.md` and an ephemeral
 `ASKLEGAL_SQL_CONNECTION_BASE` environment value. Keep its generated local
 credential outside the repository and remove the disposable container and
 credential file after the proof.

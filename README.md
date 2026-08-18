@@ -363,11 +363,11 @@ proofs.
 ## Start here
 
 1. [`AGENTS.md`](AGENTS.md) — mandatory operating instructions.
-2. [`docs/agent/CONTEXT.md`](docs/agent/CONTEXT.md) — stable domain language.
-3. [`docs/agent/DECISIONS.md`](docs/agent/DECISIONS.md) — settled decisions.
-4. [`docs/agent/ROADMAP.md`](docs/agent/ROADMAP.md) — overall progress,
+2. [`.agent/CONTEXT.md`](.agent/CONTEXT.md) — stable domain language.
+3. [`.agent/DECISIONS.md`](.agent/DECISIONS.md) — settled decisions.
+4. [`.agent/ROADMAP.md`](.agent/ROADMAP.md) — overall progress,
    delivery milestones, proof dependencies, and exit gates.
-5. [`docs/agent/WORKING_STATE.md`](docs/agent/WORKING_STATE.md) — current
+5. [`.agent/WORKING_STATE.md`](.agent/WORKING_STATE.md) — current
    objective and exact next step.
 6. [`docs/adr/0001-use-a-modular-monorepo.md`](docs/adr/0001-use-a-modular-monorepo.md)
    — accepted repository architecture.

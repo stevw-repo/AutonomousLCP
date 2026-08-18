@@ -3,6 +3,47 @@
 Only settled decisions belong here. Recommendations and unresolved choices stay
 in the design brief and `WORKING_STATE.md` until the user decides them.
 
+## 2026-08-18 — Correct the V1 host storage and development-host facts
+
+The user reported that the previously recorded V1 host description was their own
+mistake. The accepted record said one Ubuntu PC with 64 GB RAM and 5 TB on one
+physical disk. The actual machine, `docpro-MS-7D99`, has three physical disks: a
+499 GB NVMe ext4 root, a second 500 GB NVMe ext4 volume, and a 4.0 TB SATA ext4
+volume. Measured memory is 67,252,903,936 bytes.
+
+The user also said they will probably do significant parts of development on
+this Ubuntu machine from now on. That is recorded as a direction, not a settled
+replacement of the Mac as development host.
+
+Three accepted values do not match this machine and are deliberately left
+unchanged pending a separate decision. `minimum_disk_bytes` is 5,000,000,000,000
+against a largest single ext4 volume of 4,000,785,104,896.
+`minimum_memory_bytes` is 68,719,476,736 against a measured 67,252,903,936.
+`recovery_class` stays `LOGICALLY_SEPARATE_POC_RECOVERY`, because a stronger
+class must be earned by proved separate-disk vault placement and never inferred
+from the existence of more disks. `infrastructure/poc/topology.json`,
+`infrastructure/poc/host_admission_policy.json`, their checkers in `tools/`, and
+their focused tests are therefore not yet amended; correcting a fail-closed
+admission threshold requires the capacity and vault-placement decisions first.
+
+## 2026-08-18 — Move agent continuity files to `.agent/`
+
+On 2026-08-18 the four canonical agent continuity files — `CONTEXT.md`,
+`DECISIONS.md`, `ROADMAP.md`, and `WORKING_STATE.md` — moved from `docs/agent/`
+to `.agent/`. The move used `git mv`, so file history is preserved.
+
+The rationale is that continuity state is the agent's working material, not
+documentation for people. Keeping it under `docs/` places it inside the
+human-facing documentation tree and inside any future documentation build. The
+new location keeps working state out of documentation builds and out of
+human-facing docs.
+
+This supersedes the previous `docs/agent/` location convention. The files stay
+tracked in Git and continue to synchronize between machines through the remote;
+`.agent/` matches no `.gitignore` rule. Path references in `AGENTS.md`,
+`README.md`, `packages/management-register-adapter/README.md`, and
+`docs/design/V1_POC_UBUNTU_TOPOLOGY.md` were updated to the new location.
+
 ## 2026-08-18 — Use Patchright only for isolated non-controlling discovery
 
 The user selected Patchright for JavaScript-backed official-source access.

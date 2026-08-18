@@ -1,6 +1,6 @@
 # AskLegal Legal Database Pipeline — Working State
 
-Updated: 2026-08-18
+Updated: 2026-08-18 — docpro-MS-7D99 (Ubuntu 24.04.4 LTS, x86-64)
 
 ## Current outcome
 
@@ -139,16 +139,22 @@ gap before official outcomes are composed into the acquisition worker's
 manifest-last flow.
 
 The user has now accepted a strictly internal single-Ubuntu-host V1 POC. The
-Mac remains the development machine but is not a runtime dependency. One Ubuntu
-24.04 x86-64 PC with 64 GB RAM and 5 TB on one physical disk runs the five
+user said on 2026-08-18 that they will probably do significant parts of
+development on the Ubuntu machine from now on; the Mac is not retired and this
+is not yet a settled change of development host. One Ubuntu
+24.04 x86-64 PC with 64 GB RAM and local ext4 storage runs the five
 applications, SQL Server 2025 Developer, separate general and promotion Durable
 Task Scheduler emulators, separate Primary and Recovery Versity Gateway
 instances, systemd credential delivery, and local telemetry. Hosted Pinecone
 Cloud in a dedicated isolated POC project is the replaceable vector-serving
 copy. Azure application hosting remains post-V1/deferred.
 
-Both vaults share the one disk and therefore provide only
-`LOGICALLY_SEPARATE_POC_RECOVERY`. Scheduler state is memory-only; loss fences
+Both vaults currently share one filesystem and therefore provide only
+`LOGICALLY_SEPARATE_POC_RECOVERY`. The earlier single-physical-disk premise was
+a reporting mistake corrected on 2026-08-18; the host actually has three
+physical disks. The recovery class is deliberately left unchanged until vault
+placement is decided, because a stronger class must be earned by proved
+separate-disk placement rather than inferred from disk count. Scheduler state is memory-only; loss fences
 the old execution and starts reconciled replacement work from the last safe SQL
 checkpoint, never a claim that lost history resumed. Exact topology, image
 pins/digests, incremental implementation, and verification planning are the
@@ -778,7 +784,7 @@ synthetic proof state and is not a repository artifact.
 - `packages/legal-desks/tests/test_rulebook_package.py`;
 - `tools/build_hk_legislation_rulebook.py`;
 - `README.md`; and
-- the four canonical continuity files under `docs/agent/`.
+- the four canonical continuity files under `.agent/`.
 
 ## Official-source checkpoint files changed
 
@@ -798,7 +804,7 @@ synthetic proof state and is not a repository artifact.
   the corresponding M4 protocol clarification;
 - source-connectors admission, model, and public exports;
 - six focused official-source test modules plus the Patchright test module; and
-- all four canonical continuity files under `docs/agent/`.
+- all four canonical continuity files under `.agent/`.
 
 ## Latest V1 credential-proof checkpoint files changed
 
@@ -826,18 +832,66 @@ open evidence work, not defaults inferred from local success.
 
 ## Current host prerequisite
 
-The active 2026-08-17 workspace is macOS Darwin 25.3.0 on arm64 under
-`/Users/admin/Desktop/AskLegal-LegalDBPipeline`. The repository requires exact
-Python 3.14.7, uv 0.12.5, and Node.js 24.19.0 for its complete developer
-command. Exact uv 0.12.5 and uvx 0.12.5 are installed at
-`/Users/admin/.local/bin/uv` and `/Users/admin/.local/bin/uvx` from Astral's
-version-pinned standalone installer with `UV_NO_MODIFY_PATH=1`. No shell-startup
-file was changed by the installer. The user can invoke `uv` in the active
-interactive shell. uv installed managed Python 3.14.7 and created a project
-`.venv` while running the frozen all-package workspace command. System Python
-remains 3.12.3 and Node.js remains 24.15.0. Exact Node.js 24.19.0 is therefore
-a remaining prerequisite for the locked complete developer command. No Docker
-executable is available in the current Mac environment.
+The active 2026-08-18 workspace is Ubuntu 24.04.4 LTS on x86-64
+(`docpro-MS-7D99`), under `/home/docpro/Desktop/Ask.Legal Database/
+AskLegal-LegalDBPipeline`. This is the machine intended as the V1 runtime host.
+The repository requires exact Python 3.14.7, uv 0.12.5, and Node.js 24.19.0 for
+its complete developer command. That toolchain was installed on this machine on
+2026-08-18, without `sudo` and without modifying any shell startup file:
+
+- uv and uvx 0.12.5 at `~/.local/bin/`, from the GitHub release tarball
+  verified against its published SHA-256;
+- managed CPython 3.14.7 via `uv python install`;
+- Node.js 24.19.0 and npm 11.17.0 at
+  `~/.local/opt/node-v24.19.0-linux-x64/`, from the nodejs.org tarball verified
+  against the official `SHASUMS256.txt`; and
+- the locked workspace (`uv sync --frozen --all-packages`, 87 packages) and
+  locked npm devDependency Pyright 1.1.413 (`npm ci`).
+
+Docker is deliberately not installed. It needs root, and adding the login user
+to the `docker` group would violate the accepted
+`docker_group_non_root_members_forbidden` host rule. The ordinary suite skips
+every Docker-marked test, so it is not required for the developer command.
+
+The complete developer command now runs on this machine for the first time; it
+could not run on the Mac, whose Node.js was 24.15.0. System Python remains
+3.12.3, which is what `tools.dev_test` is invoked with. The eight pure-Python
+static gates still pass and the composite gate still returns
+`V1_POC_NOT_ADMITTED`.
+
+Validation on this machine after the install: the complete developer gate
+`python3 -m tools.dev_test` passed with **485 passed, 4 skipped**; the Python
+boundary checker passed across 143 files with the same eight reviewed
+exceptions; the architecture proof reproduced policy fingerprint
+`sha256:e1055d5940e3b0387e482976b578bb44f990fe9b3bc93854e9c7c7987e9dbc50`;
+repository-wide Ruff passed; and `asklegal-local prove --scenario E2E-001`
+returned `GOLDEN_FLOW_RECOVERED` with fingerprint
+`sha256:a8cfe0c154ba9ded80fe6f37df79db289cafda4edc962b749375bef5e10d4558`,
+byte-identical to the earlier macOS arm64 run. That is the first cross-machine,
+cross-architecture reproduction of the local proof.
+
+`npm run typecheck` still reports **370 errors, 0 warnings** from Pyright. The
+count is identical to the figure recorded on the Mac, so it is a pre-existing
+baseline rather than an install or toolchain artifact; the earlier note
+attributing it partly to Node.js 24.15.0 was wrong. The errors concentrate in
+`packages/legal-desks/.../hk_legislation.py` (51),
+`packages/evidence-vault/.../s3.py` (26) and its tests (23), and the
+`tools/v1_poc_*.py` family, and are mostly `reportUnknownVariableType`,
+`reportUnknownArgumentType`, and `reportUnknownMemberType`. Because Pyright
+fails first, `npm run typecheck` never reaches the boundary checker, which
+passes when run directly. Clearing this baseline is open work.
+
+The read-only host-facts collector was run here and aborted with
+`read-only probe failed: findmnt`, consistent with an unprovisioned host: the
+required `/srv/asklegal/...` paths do not exist. Two accepted policy thresholds
+also do not match this machine as written; see the 2026-08-18 host-fact
+correction in `DECISIONS.md`.
+
+The earlier macOS workspace remains accurate history: Darwin 25.3.0 on arm64
+under `/Users/admin/Desktop/AskLegal-LegalDBPipeline`, with uv and uvx 0.12.5
+at `/Users/admin/.local/bin/`, managed Python 3.14.7, system Python 3.12.3,
+Node.js 24.15.0, and no Docker. Exact Node.js 24.19.0 was, and remains, a
+prerequisite for the locked complete developer command.
 
 ## Latest checkpoint verification
 
@@ -857,6 +911,16 @@ or source evidence was saved or published. No model, embedding, Azure,
 Pinecone, backup, routing, deployment, production system, account, or remote
 mutable resource was accessed or changed. The source-connectors wheel build
 was explicitly offline.
+
+## Continuity file location change
+
+On 2026-08-18 the four canonical continuity files moved from `docs/agent/` to
+`.agent/` using `git mv`, preserving history as `R100` renames. Path references
+were updated in `AGENTS.md`, `README.md`,
+`packages/management-register-adapter/README.md`, and
+`docs/design/V1_POC_UBUNTU_TOPOLOGY.md`. `.agent/` matches no `.gitignore` rule
+and all four files remain tracked. The change is staged and not committed. See
+the dated entry in `DECISIONS.md`.
 
 ## Authorization boundary and exact next step
 
@@ -893,8 +957,9 @@ systemd credential-file loading, SQL/DTS/S3 factory composition, the complete
 readiness gate, and concrete SQL/vault checks are locally proved, but
 host/container delivery and the other concrete probes are not. The next
 infrastructure proof cannot run honestly in the current environment. Its six
-remaining inputs are exact: access to the intended Ubuntu 24.04 x86-64 host;
-read-only image resolution authority; permission to pull and run only the
+inputs are exact: access to the intended Ubuntu 24.04 x86-64 host, which is now
+satisfied because the repository is checked out and running static gates on that
+machine, leaving five outstanding; read-only image resolution authority; permission to pull and run only the
 named SQL Server and Versity proof images; selection of an exact Versity
 version/digest from that read-only resolution; permission to create synthetic
 one-use credentials; and permission to create, inspect, then remove only the
@@ -912,6 +977,8 @@ The user explicitly confirmed that the private
 `https://github.com/stevw-repo/AskLegal-LegalDBPipeline.git` remote is the
 approved destination and authorized synchronizing the complete committed
 M2–M7/V1 checkpoint from `main` to `origin/main`. Commits `6be9dd0` and
-`5140578` were pushed successfully. No new official-source or Patchright implementation is
-committed. Other than read-only official-source access, no deployment,
+`5140578` were pushed successfully. The official-source and Patchright
+implementation was subsequently committed as `8f2501d` and pushed by the user
+manually outside an agent session; `main` and `origin/main` both resolve to
+`8f2501d`. Other than read-only official-source access, no deployment,
 external message, cloud mutation, or other remote-system action was performed.

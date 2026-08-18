@@ -51,8 +51,8 @@ crossing the boundary.
 Before planning, editing, or running project commands:
 
 1. Read this file completely.
-2. Read `docs/agent/CONTEXT.md`, `docs/agent/DECISIONS.md`,
-   `docs/agent/ROADMAP.md`, and `docs/agent/WORKING_STATE.md` completely.
+2. Read `.agent/CONTEXT.md`, `.agent/DECISIONS.md`,
+   `.agent/ROADMAP.md`, and `.agent/WORKING_STATE.md` completely.
 3. Read the relevant portions of
    `docs/design/INITIAL_OVERALL_PIPELINE_DESIGN.md` and applicable ADRs under
    `docs/adr/`.
@@ -71,11 +71,11 @@ already serves the purpose.
   design of the complete intended system. It is comprehensive but not a final
   specification.
 - `docs/adr/` records accepted, hard-to-reverse architecture decisions.
-- `docs/agent/CONTEXT.md` defines the project's stable domain language.
-- `docs/agent/DECISIONS.md` records settled product and policy decisions.
-- `docs/agent/ROADMAP.md` tracks overall delivery progress, proof dependencies,
+- `.agent/CONTEXT.md` defines the project's stable domain language.
+- `.agent/DECISIONS.md` records settled product and policy decisions.
+- `.agent/ROADMAP.md` tracks overall delivery progress, proof dependencies,
   milestone exit gates, and the durable work queue.
-- `docs/agent/WORKING_STATE.md` records the current objective, blockers,
+- `.agent/WORKING_STATE.md` records the current objective, blockers,
   validation, changed files, and exact next steps.
 
 Keep these files handoff-ready. Conversation history is temporary and must not

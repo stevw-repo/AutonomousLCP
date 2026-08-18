@@ -3,7 +3,7 @@
 Status: implementation baseline, 2026-08-17
 
 This document turns the accepted V1 POC products in
-`docs/agent/DECISIONS.md` into one concrete single-host topology. It authorizes
+`.agent/DECISIONS.md` into one concrete single-host topology. It authorizes
 repository design and local validation only. It does not authorize provisioning
 the Ubuntu host, creating credentials or Pinecone resources, accessing sources
 or providers, deploying applications, or making an external write.
