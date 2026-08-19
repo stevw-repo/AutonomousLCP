@@ -32,7 +32,13 @@ _ROW = [
     "Appropriation Ordinance 2026", "《2026年撥款條例》",
     "E", "C", None, "1", "hk/2026/1", "08/05/2026",
 ]
-_PAGE_HTML = b'<html><script>var cfg={"csrfToken":"TOKEN-FROM-PAGE"};</script></html>'
+# Shaped like the real served page: the token is a hidden form input.
+_PAGE_HTML = (
+    b'<html><form name="proj_form" method="post" action="/gazette">'
+    b'<input type="hidden" name="MODE" value="1" />'
+    b'<input type="hidden" name="_CSRF_TOKEN" value="TOKEN-FROM-PAGE" />'
+    b"</form></html>"
+)
 
 
 class StubTransport:
@@ -244,3 +250,20 @@ def test_a_malformed_date_is_refused_before_the_request() -> None:
 
     with pytest.raises(GazetteRegisterError):
         client.page(1, date_from="2026-01-01", date_to="30/06/2026")
+
+
+def test_the_token_is_read_from_the_hidden_form_input() -> None:
+    """The served HTML carries _CSRF_TOKEN as a hidden input, not as a JSON key.
+
+    The lowercase `csrfToken` key appears only in the request body the page's own
+    JavaScript assembles. Matching on that found nothing against the real page.
+    """
+    served = (
+        b'<form name="proj_form" method="post" action="/gazette">'
+        b'<input type="hidden" name="MODE" value="1" />'
+        b'<input type="hidden" name="_CSRF_TOKEN" value="WM4YN6Pw73wVEn8Z/qvt0reo==" />'
+        b'</form>'
+    )
+    client, _ = _client([(200, b""), (200, served)])
+
+    assert client.open_session() == "WM4YN6Pw73wVEn8Z/qvt0reo=="

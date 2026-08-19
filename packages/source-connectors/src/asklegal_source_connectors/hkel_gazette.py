@@ -36,7 +36,13 @@ CLIENT_CHECK_PATH = "/client-check"
 _LEGAL_SUPPLEMENTS = ("1", "2", "3")
 _DEFAULT_PAGE_SIZE = 20
 _MAX_PAGE_SIZE = 100
-_CSRF_PATTERN = re.compile(r'["\']csrfToken["\']\s*:\s*["\']([^"\']+)["\']')
+# The page carries the token as a hidden form input named _CSRF_TOKEN. The
+# lowercase JSON key `csrfToken` appears only in the request body the page's own
+# JavaScript builds, so searching for that finds nothing in the served HTML.
+_CSRF_PATTERN = re.compile(
+    r'name="_CSRF_TOKEN"\s+value="([^"]+)"',
+    re.IGNORECASE,
+)
 
 ENGLISH = "en"
 TRADITIONAL_CHINESE = "zh-Hant-HK"
@@ -234,6 +240,16 @@ class HkelGazetteRegisterClient:
             raise GazetteRegisterError(message)
         self._csrf = found.group(1)
         return self._csrf
+
+    @property
+    def session_cookies(self) -> dict[str, str]:
+        """Return the session established by `open_session`.
+
+        Gazette PDFs sit behind the same capability gate as the register page, so
+        an inert fetch of an address from the grid needs this session or it is
+        redirected to the gate.
+        """
+        return dict(self._cookies)
 
     def _grid_body(
         self,

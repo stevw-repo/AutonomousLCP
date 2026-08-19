@@ -2386,3 +2386,51 @@ If the token turns out to be JavaScript-injected, the options are: keep a
 discovery step that reads the token and hands it to the inert fetch, or ask the
 DoJ for a documented interface. That is a design decision and it should be made
 knowingly rather than by patching a regex until something passes.
+
+## The gazette capture works, end to end, against the live site
+
+```
+capturing {'date_from': '01/03/2026', 'date_to': '31/03/2026', 'language': 'en'}
+listed 14, retained 14, skipped 0
+   30023  2026/ln20!en    98303 B  created=True verified=True
+   30026  2026/ln21!en   142342 B  created=True verified=True
+   30032  2026/ln27!en   711094 B  created=True verified=True
+```
+
+Real Hong Kong gazette PDFs, addressed from the register grid, fetched through
+the inert connector, retained under Object Lock with the read-back verified.
+
+Two defects stood between the built code and a working capture, and both were
+only findable by running it.
+
+**The CSRF token is a hidden form input, not a JSON key.** The served page carries
+`<input type="hidden" name="_CSRF_TOKEN" value="…">`. The lowercase `csrfToken`
+key appears only in the request body the page's own JavaScript assembles, which is
+where discovery had seen it. Worse, the diagnostic that should have caught this
+searched for lowercase `csrf` against uppercase markup and reported zero matches,
+which briefly suggested the token was JavaScript-injected and the design unworkable.
+It was neither. The pattern is now anchored on the hidden input and case-insensitive,
+and the test fixture is shaped like the real page instead of like the old guess.
+
+**The PDFs sit behind the same capability gate as the register page.** Every fetch
+returned `MEDIA_TYPE_DRIFT` because `/hk/2026/1!en` redirects to
+`checkClientConfig.jsp` for a client with no session, and the inert connector
+starts each fetch with an empty jar. `ProxiedOfficialHttpTransport` gained
+`with_session(cookies)`, and the activity now fetches artifacts through a
+connector carrying the session the grid client established.
+
+That is a real widening and it is worth naming: the inert connector now carries a
+session it did not create. It is still GET and HEAD only, still executes nothing,
+still follows redirects only on the same host. What changed is that a legitimately
+obtained address can now be fetched without being bounced to a gate. The
+alternative was pulling the bytes down the publisher-API path, which would have
+put evidence on the wrong side of the boundary — a worse trade.
+
+Both fixes are the same lesson as the `pdf-link` selector: when something reports
+nothing, check the assumption behind the question before concluding anything about
+the answer.
+
+Still true: `lastPage` was 1415, so the register is far larger than any window
+captured here, and the role stays `PARTIALLY_CONFIGURED` with
+`COMPLETE_INVENTORY_RULE_IS_DATE_WINDOWED_NOT_WHOLE_REGISTER`. A windowed capture
+is reproducible and now demonstrably works; it is not a claim to hold the register.

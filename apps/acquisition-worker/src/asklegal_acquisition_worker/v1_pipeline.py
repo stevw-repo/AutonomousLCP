@@ -126,6 +126,13 @@ class AcquisitionActivities:
 
         client = HkelGazetteRegisterClient(self._transport)
         client.open_session()
+        # The PDFs sit behind the same capability gate as the register page, so
+        # the inert fetch has to carry the session the grid client established or
+        # it is redirected to the gate and the media type never matches.
+        session_connector = OfficialHttpConnector(
+            self._register,
+            self._transport.with_session(client.session_cookies),
+        )
         listed = 0
         retained: list[dict[str, object]] = []
         skipped: list[dict[str, str]] = []
@@ -140,7 +147,9 @@ class AcquisitionActivities:
                 continue
             locator = address.split("/hk/", 1)[1]
             try:
-                retained.append(self._retain_gazette_artifact(entry, locator))
+                retained.append(
+                    self._retain_gazette_artifact(entry, locator, session_connector)
+                )
             except AcquisitionPipelineError as error:
                 skipped.append({"gazette_id": entry.gazette_id, "reason": str(error)[:120]})
         _LOGGER.info(
@@ -162,13 +171,18 @@ class AcquisitionActivities:
             "skips": skipped,
         }
 
-    def _retain_gazette_artifact(self, entry: object, locator: str) -> dict[str, object]:
+    def _retain_gazette_artifact(
+        self,
+        entry: object,
+        locator: str,
+        connector: OfficialHttpConnector,
+    ) -> dict[str, object]:
         """Fetch one addressed gazette PDF inertly and retain it."""
         endpoint = self._endpoints.get(_GAZETTE_ARTIFACT_ENDPOINT)
         if endpoint is None or not endpoint.enabled:
             message = "the gazette artifact endpoint is absent or disabled"
             raise AcquisitionPipelineError(message)
-        result = self._connector.fetch(
+        result = connector.fetch(
             OfficialFetchRequest(
                 endpoint_id=endpoint.endpoint_id,
                 endpoint_version=endpoint.version,

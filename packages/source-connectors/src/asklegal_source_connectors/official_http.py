@@ -351,12 +351,32 @@ class ProxiedOfficialHttpTransport:
         proxy_host: str,
         proxy_port: int,
         max_redirects: int = 3,
+        session_cookies: dict[str, str] | None = None,
     ) -> None:
-        """Create a transport pinned to one proxy with default trust."""
+        """Create a transport pinned to one proxy with default trust.
+
+        `session_cookies` seeds every fetch with a session the caller already
+        established. Some publishers gate their documents behind a capability
+        check, so an address obtained legitimately still redirects to that gate
+        unless the session travels with it. This does not make the transport less
+        inert: it is still GET and HEAD only, executes nothing, and follows
+        redirects only on the same host. It carries a session; it does not create
+        one.
+        """
         self._context = ssl.create_default_context()
         self._proxy_host = proxy_host
         self._proxy_port = proxy_port
         self._max_redirects = max_redirects
+        self._session_cookies = dict(session_cookies or {})
+
+    def with_session(self, cookies: dict[str, str]) -> ProxiedOfficialHttpTransport:
+        """Return a transport identical to this one but carrying `cookies`."""
+        return ProxiedOfficialHttpTransport(
+            self._proxy_host,
+            self._proxy_port,
+            self._max_redirects,
+            cookies,
+        )
 
     def request(
         self,
@@ -366,7 +386,12 @@ class ProxiedOfficialHttpTransport:
         timeout_seconds: int,
     ) -> OfficialTransportResponse:
         """Fetch at most max_bytes plus one sentinel byte through the proxy."""
-        return self._fetch(endpoint, method, timeout_seconds, _FetchState())
+        return self._fetch(
+            endpoint,
+            method,
+            timeout_seconds,
+            _FetchState(cookies=dict(self._session_cookies)),
+        )
 
     def exchange(
         self,
