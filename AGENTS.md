@@ -306,16 +306,23 @@ These are not ceremony. Each has already caught a real defect in this project.
 - **Publisher rights and copyright terms.** Not strictness — someone else's terms.
   See below.
 
-### Never do these on the user's behalf
+### Third-party terms — read first, then only with explicit permission
 
-- **Accepting terms of use, consent gates, or cookie banners.** Even when asked
-  directly. It is a commitment made in the user's name, and on 2026-08-19 reading
-  the terms first is exactly what revealed that the GLD e-Gazette prohibits
-  reproduction without prior written authorization — which is what this pipeline
-  does. Clicking "I accept" would have made the position worse, not better.
-- Entering credentials, payment details, or personal data into a form.
-- Anything that reproduces or republishes third-party content whose terms forbid
-  it. Loosening our own rules is the user's call; other people's terms are not.
+- **Accepting terms of use, consent gates, or cookie banners needs the user's
+  explicit say-so, and you read the terms before acting either way.** On
+  2026-08-19 reading first is what revealed that the GLD e-Gazette prohibits
+  reproduction without prior written authorization, which is exactly what this
+  pipeline does. Clicking "I accept" without reading would have recorded
+  agreement to a prohibition the product breaches. The user later reported legal
+  team clearance for that source; record such clearance as *the user's report of
+  it*, dated, never as authorization obtained from the publisher, because those
+  are different facts and the register distinguishes them.
+- Note that the sandbox may independently block a request that submits an
+  acceptance to an external site. That is not something to route around; surface
+  it and let the user decide.
+- Entering credentials, payment details, or personal data into a form: never.
+- Republishing third-party content whose terms forbid it is the user's decision
+  to take with their own legal advice, not one to infer.
 
 When you loosen something, prefer the narrowest version that unblocks the work:
 follow one redirect on the same host rather than all redirects anywhere; widen one

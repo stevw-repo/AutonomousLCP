@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 import ssl
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import StrEnum
 from hashlib import sha256
 from http.client import HTTPResponse, HTTPSConnection
@@ -72,8 +72,8 @@ class OfficialTransportResponse:
     def __post_init__(self) -> None:
         if type(self.status_code) is not int or not 100 <= self.status_code <= 599:
             raise ValueError("status_code must be an exact HTTP status")
-        for field in ("final_url", "media_type", "character_encoding"):
-            exact_text(getattr(self, field), field)
+        for attribute in ("final_url", "media_type", "character_encoding"):
+            exact_text(getattr(self, attribute), attribute)
         if type(self.body) is not bytes:
             raise TypeError("body must be exact bytes")
         if type(self.declared_length) is not int or self.declared_length < 0:
@@ -315,13 +315,18 @@ class ProxiedOfficialHttpTransport:
     constructor argument, never an environment variable, so a worker cannot fall
     back to direct egress when the variable is missing.
 
-    It also follows a bounded number of redirects, which the strict transport
-    refuses. Several Hong Kong government sites answer a plain GET with a 302 to a
-    session or configuration check on the same host and serve the document on the
-    second request; refusing to follow made five otherwise-open endpoints look
-    blocked. The loosening is deliberately narrow: same host only, so a redirect
-    can never move the fetch to a host the register has not admitted, and at most
-    `max_redirects` hops.
+    It also follows a bounded number of redirects and keeps cookies within one
+    fetch, both of which the strict transport refuses. Several Hong Kong
+    government sites answer a plain GET with a 302 to a configuration or session
+    check on the same host, which sets a cookie and sends the client back; without
+    both, the second request loops and the document never arrives. Refusing them
+    made five otherwise-open endpoints look blocked.
+
+    The loosening is deliberately narrow. Redirects are same host only, so a
+    redirect can never move a fetch to a host the register has not admitted, and
+    at most `max_redirects` hops. Cookies live for the duration of one fetch and
+    are discarded with it: nothing persists between endpoints, so a session cannot
+    carry identity from one capture into the next.
     """
 
     def __init__(
@@ -344,15 +349,14 @@ class ProxiedOfficialHttpTransport:
         timeout_seconds: int,
     ) -> OfficialTransportResponse:
         """Fetch at most max_bytes plus one sentinel byte through the proxy."""
-        return self._fetch(endpoint, method, timeout_seconds, None, 0)
+        return self._fetch(endpoint, method, timeout_seconds, _FetchState())
 
     def _fetch(
         self,
         endpoint: OfficialEndpointContract,
         method: HttpMethod,
         timeout_seconds: int,
-        override_target: str | None,
-        depth: int,
+        state: _FetchState,
     ) -> OfficialTransportResponse:
         parsed = urlsplit(endpoint.url)
         if parsed.scheme != "https" or parsed.hostname is None:
@@ -360,8 +364,8 @@ class ProxiedOfficialHttpTransport:
         request_target = parsed.path or "/"
         if parsed.query:
             request_target = f"{request_target}?{parsed.query}"
-        if override_target is not None:
-            request_target = override_target
+        if state.target is not None:
+            request_target = state.target
         connection = HTTPSConnection(
             self._proxy_host,
             port=self._proxy_port,
@@ -370,15 +374,17 @@ class ProxiedOfficialHttpTransport:
         )
         try:
             connection.set_tunnel(parsed.hostname, parsed.port or 443)
-            connection.request(
-                method.value,
-                request_target,
-                headers={
-                    "Accept": ", ".join(endpoint.media_types),
-                    "User-Agent": "AskLegal-Official-Source-Acquisition/1.0",
-                },
-            )
+            headers = {
+                "Accept": ", ".join(endpoint.media_types),
+                "User-Agent": "AskLegal-Official-Source-Acquisition/1.0",
+            }
+            if state.cookies:
+                headers["Cookie"] = "; ".join(f"{k}={v}" for k, v in state.cookies.items())
+            connection.request(method.value, request_target, headers=headers)
             response = connection.getresponse()
+            for name, value in response.getheaders():
+                if name.lower() == "set-cookie":
+                    _collect_cookies(value, state.cookies)
             location = response.getheader("Location") if _is_redirect(response.status) else None
             if location is None:
                 return _read_response(response, endpoint.url, endpoint.max_bytes)
@@ -388,9 +394,44 @@ class ProxiedOfficialHttpTransport:
             raise OfficialTransportFailure("BOUNDED_TRANSPORT_FAILURE") from error
         finally:
             connection.close()
-        if depth >= self._max_redirects:
+        if state.depth >= self._max_redirects:
             raise OfficialTransportFailure("REDIRECT_LIMIT_EXCEEDED")
-        return self._fetch(endpoint, method, timeout_seconds, target, depth + 1)
+        return self._fetch(
+            endpoint,
+            method,
+            timeout_seconds,
+            _FetchState(target, state.depth + 1, state.cookies),
+        )
+
+
+@dataclass(slots=True)
+class _FetchState:
+    """Mutable state carried across the redirect hops of one fetch."""
+
+    target: str | None = None
+    depth: int = 0
+    cookies: dict[str, str] = field(default_factory=dict)
+
+
+def _collect_cookies(header: str | None, jar: dict[str, str]) -> None:
+    """Record cookies from one response, keeping only the name and value.
+
+    Attributes are dropped on purpose. This jar exists to complete one fetch, not
+    to emulate a browser, so expiry, domain, and path scoping would be honoured
+    inconsistently and give a false impression of fidelity.
+    """
+    if not header:
+        return
+    for chunk in header.split(","):
+        pair = chunk.split(";", 1)[0].strip()
+        if "=" not in pair:
+            continue
+        name, _, value = pair.partition("=")
+        name = name.strip()
+        # A comma inside an Expires attribute splits into a fragment with no
+        # usable name; skip those rather than storing rubbish.
+        if name and " " not in name:
+            jar[name] = value.strip()
 
 
 def _is_redirect(status: int) -> bool:

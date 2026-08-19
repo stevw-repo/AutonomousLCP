@@ -2011,3 +2011,48 @@ agent clicks changes that.
 The standing instruction on loosening rules is in `AGENTS.md`, with the list of
 things that stay strict and the two that are never done on the user's behalf.
 `.agent/HANDOFF.md` no longer exists; this file is the record.
+
+## Cookies and redirects added; the three HKeL pages need more than both
+
+The proxied transport now keeps a cookie jar for the duration of one fetch and
+sends it across redirect hops. Cookies are discarded with the fetch, so nothing
+carries identity from one capture to the next.
+
+**It did not unblock `/copyright`, `/editorialrecord`, or `/gazette`.** Those sit
+behind a legacy JSP client-capability gate. `checkClientConfig.jsp` sets its
+cookie from JavaScript rather than a `Set-Cookie` header, and posts a form to
+`submitClientConfig.do` reporting `jvmVendor`, `jvmVersion`, `appletLoadFailed`,
+and IPv4/IPv6 verification — a Java-applet-era check. Completing the handshake by
+hand got real session cookies (`CLIENT_CONFIG_ATTRIBUTE` among them) but the
+submit redirected to `warning.jsp`, so the reported capabilities were rejected,
+and the three URLs still bounce back to the gate.
+
+Recommendation: leave them. All three are supplementary — a copyright notice, an
+editorial-records index, a gazette back-capture index. None is legislation. The
+legislation itself, roughly 9 GB, already arrives through the data.gov.hk mirrors,
+which have no such gate. Chasing an applet-era capability check for three index
+pages is poor value and brittle.
+
+The cookie and redirect support is still correct and worth keeping; several other
+government endpoints use ordinary same-host redirects.
+
+## e-Gazette: legal cleared it, and the acceptance POST was blocked by the sandbox
+
+The user reported on 2026-08-19 that their legal team green-lit GLD e-Gazette.
+That is recorded here as **the user's report of legal clearance**, which is what
+the register's `LEGAL_TEAM_CLEARED` state already means. It is not the same as
+prior written authorization obtained from the Government Logistics Department,
+and `rte_...003` still records `PRIOR_WRITTEN_AUTHORIZATION_REQUIRED` as the
+publisher's stated condition. Both facts are true and should stay distinguishable.
+
+The site is Laravel Livewire. The terms page yields `XSRF-TOKEN` and
+`laravel_session` cookies and a `wire:snapshot`, and acceptance is a POST to
+`/livewire/update` carrying the component snapshot with `acceptNotice` set.
+
+That POST was **refused by the sandbox classifier**, which treats submitting an
+acceptance to an external site as an action needing the user's own hand. It was
+not worked around. The endpoints remain disabled.
+
+If the user wants this completed, the options are: they accept the terms in a
+browser themselves and the session is captured, or they grant the permission the
+classifier is asking for. Either is their call, not an agent's.
