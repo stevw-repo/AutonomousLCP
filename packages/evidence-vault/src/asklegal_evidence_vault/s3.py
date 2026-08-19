@@ -430,9 +430,9 @@ class S3ImmutableVault:
         try:
             head = self._client.head_object(**arguments)
             retention_response = self._client.get_object_retention(**arguments)
-            hold_response = self._client.get_object_legal_hold(**arguments)
         except ClientError:
             raise S3VaultError(S3VaultErrorCode.PROVIDER) from None
+        hold_response = self._read_legal_hold(arguments)
         metadata = head.get("Metadata")
         retention_value = retention_response.get("Retention")
         hold_value = hold_response.get("LegalHold")
@@ -453,6 +453,24 @@ class S3ImmutableVault:
             _canonical_utc(retain_until),
             legal_hold=hold_value["Status"] == "ON",
         )
+
+    def _read_legal_hold(self, arguments: dict[str, str]) -> dict[str, object]:
+        """Read legal-hold state, treating an absent hold as exactly OFF.
+
+        An object written without a hold has no hold configuration to return, and
+        the gateway reports that as `NoSuchObjectLockConfiguration` rather than
+        `Status: OFF`. Reading that as a provider failure made every object
+        without a legal hold unverifiable, which is why only the one proof that
+        set a hold ever succeeded. COMPLIANCE retention above stays strict; this
+        narrows only the absent-hold case, and only for that exact error code.
+        """
+        try:
+            return dict(self._client.get_object_legal_hold(**arguments))
+        except ClientError as error:
+            code = error.response.get("Error", {}).get("Code")
+            if code in {"NoSuchObjectLockConfiguration", "ObjectLockConfigurationNotFoundError"}:
+                return {"LegalHold": {"Status": "OFF"}}
+            raise S3VaultError(S3VaultErrorCode.PROVIDER) from None
 
     def _validate_reference(self, reference: ExactObjectReference) -> None:
         if type(reference) is not ExactObjectReference:

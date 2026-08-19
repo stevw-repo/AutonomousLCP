@@ -1728,3 +1728,66 @@ script.
 That is the first time work has flowed through this system end to end. It covers
 the promotion stage only: acquisition and processing still have no work source,
 and nothing chains the three stages together.
+
+## All three stages wired, and one document went the whole way
+
+The acquisition and legal-processing workers now serve their own Durable Task
+hubs, the same way the promotion worker does. Each has a `v1_pipeline.py` holding
+its real activities, and its `v1_service` serves the hub instead of looping on an
+empty in-process one.
+
+**The full chain, executed:**
+
+```
+STAGE 1  acquisition: retained 1973663 bytes from HK-LEG-HKEL-CURRENT-INVENTORY
+STAGE 2  processing:  decision INSUFFICIENT_EVIDENCE, 4 unresolved facts
+STAGE 3  promotion:   {'written': 1, 'verified': True, 'index': 'testing-index-1'}
+```
+
+A real Hong Kong endpoint was fetched through the source proxy, retained in the
+Primary vault under Object Lock with a verified read-back, read back out by the
+processing worker at that exact version, analysed by the real `gpt-5.4`
+deployment through the model proxy, and the resulting decision embedded and
+written to the Pinecone serving target with retrieval verified. Six records now
+sit in `testing-index-1`.
+
+**The model behaved correctly on real input.** Given a legislation index rather
+than legislative text, it returned `INSUFFICIENT_EVIDENCE` and said why — that
+the evidence is a catalogue, that the task's decision vocabulary was not
+supplied, and that no subject-specific facts were present. It did not
+manufacture a judgment from a table of contents.
+
+### Four more bugs, all found by running
+
+- **Retention timestamps must end in `Z`.** `isoformat()` yields `+00:00` and the
+  vault rejects it as `S3_RETENTION_INVALID`.
+- **The vault could only verify objects that had a legal hold on.** `retention()`
+  treated any error from `get_object_legal_hold` as a provider failure, but a
+  gateway reports an object with no hold as `NoSuchObjectLockConfiguration`
+  rather than `Status: OFF`. Every object written without a hold was therefore
+  unverifiable, which is why the one historical proof that set a hold was the only
+  one that ever passed. Narrowed to that exact error code; `COMPLIANCE` checking
+  is unchanged.
+- **A clock read inside an activity is not replay-safe.** Retention computed from
+  `now()` differed on retry, and adoption of an already-written object compares
+  the whole profile, so a retry collided with its own first attempt. The retention
+  instant is now fixed.
+- **Document bodies must not travel through the scheduler.** Fetch and store were
+  two activities, which would have put a 1.9 MB body into orchestration history,
+  because that is where activity results are persisted and replayed from. They are
+  one activity now and only the reference travels. This one was a design error
+  introduced in this session, not an inherited defect.
+
+### Known scars and gaps
+
+- One vault key, `poc/source/sep_…042/feac1a…`, is permanently stuck from a
+  half-finished attempt: the bytes were written before verification failed, and
+  Object Lock means it cannot be cleaned up. Harmless, but it is there.
+- Two Basic Law endpoints return `HOSTILE_OR_INCOMPLETE_CONTENT`. That is the
+  admission guard working, not a defect.
+- **The units still run older images.** The chain above was driven against
+  hand-started containers on the current build. `ROOT_SETUP.sh` has to be re-run
+  for systemd to serve the pipelines.
+- Nothing schedules this chain on its own. A driver script ran the three stages in
+  order; no orchestration chains them, and the control plane does not yet start
+  anything. That is the remaining piece between "it works" and "it runs itself".

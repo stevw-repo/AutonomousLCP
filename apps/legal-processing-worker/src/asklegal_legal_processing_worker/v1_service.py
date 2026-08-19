@@ -18,39 +18,62 @@ import asyncio
 import logging
 import os
 import sys
-from collections.abc import Mapping
+from collections.abc import Awaitable, Callable, Mapping
+from typing import TYPE_CHECKING
 
 from asklegal_application_runtime import (
     CredentialError,
     ServiceExitCode,
-    WorkerResultCode,
     run_v1_service,
 )
+from asklegal_durable_task import ConcurrencyOptions
 
-from asklegal_legal_processing_worker.runtime import create_runtime
 from asklegal_legal_processing_worker.v1_infrastructure import (
     load_v1_infrastructure,
     readiness_gate,
 )
+from asklegal_legal_processing_worker.v1_pipeline import (
+    analyse_stored_evidence,
+    build_activities,
+)
 
-_IDLE_POLL_SECONDS = 1.0
+if TYPE_CHECKING:
+    from asklegal_legal_processing_worker.v1_infrastructure import (
+        V1LegalProcessingInfrastructure,
+    )
+
 _LOGGER = logging.getLogger("asklegal_legal_processing_worker.v1_service")
 
 
-async def _serve(shutdown: asyncio.Event) -> None:
-    """Claim bounded work until shutdown, then drain the current claim exactly once."""
-    runtime = create_runtime()
-    while not shutdown.is_set():
-        result = await asyncio.to_thread(runtime.run_once, lambda _lease: None)
-        if result is WorkerResultCode.NO_WORK:
-            try:
-                async with asyncio.timeout(_IDLE_POLL_SECONDS):
-                    await shutdown.wait()
-            except TimeoutError:
-                continue
-    _LOGGER.info("LEGAL_PROCESSING_WORKER shutdown requested")
-    if runtime.shutdown() is WorkerResultCode.INTERRUPTED:
-        _LOGGER.info("LEGAL_PROCESSING_WORKER interrupted one in-flight claim")
+def _build_serve(
+    infrastructure: V1LegalProcessingInfrastructure,
+    environment: Mapping[str, str],
+) -> Callable[[asyncio.Event], Awaitable[None]]:
+    """Bind one serve callable to this process's own infrastructure."""
+
+    async def _serve(shutdown: asyncio.Event) -> None:
+        """Serve the real task hub until systemd asks the process to stop."""
+        activities = build_activities(infrastructure, environment)
+        worker = infrastructure.scheduler.create_worker(
+            concurrency_options=ConcurrencyOptions()
+        )
+        worker.add_activity(activities.read_evidence)
+        worker.add_activity(activities.analyse_evidence)
+        worker.add_orchestrator(analyse_stored_evidence)
+        worker.start()
+        _LOGGER.info(
+            "LEGAL_PROCESSING_WORKER serving hub=%s deployment=%s",
+            infrastructure.scheduler.task_hub,
+            activities.deployment,
+        )
+        try:
+            await shutdown.wait()
+        finally:
+            _LOGGER.info("LEGAL_PROCESSING_WORKER shutdown requested")
+            await asyncio.to_thread(worker.stop)
+            _LOGGER.info("LEGAL_PROCESSING_WORKER stopped serving")
+
+    return _serve
 
 
 async def _run(environment: Mapping[str, str]) -> ServiceExitCode:
@@ -59,7 +82,11 @@ async def _run(environment: Mapping[str, str]) -> ServiceExitCode:
     except CredentialError as error:
         _LOGGER.critical("credentials unavailable: %s", error.code.value)
         return ServiceExitCode.NOT_READY
-    return await run_v1_service(readiness_gate(infrastructure), _serve, report_line=_LOGGER.info)
+    return await run_v1_service(
+        readiness_gate(infrastructure),
+        _build_serve(infrastructure, environment),
+        report_line=_LOGGER.info,
+    )
 
 
 def run() -> int:
