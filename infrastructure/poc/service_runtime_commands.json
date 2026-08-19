@@ -415,7 +415,7 @@
     {
       "service_id": "review-api",
       "unit_name": "asklegal-review-api.service",
-      "image": "asklegal/review-api:tls-c",
+      "image": "asklegal/review-api:v1",
       "image_state": "LOCALLY_BUILT_TAG_PIN_REQUIRED",
       "runtime_uid": 3007,
       "networks": [
@@ -482,7 +482,7 @@
     {
       "service_id": "control-plane",
       "unit_name": "asklegal-control-plane.service",
-      "image": "asklegal/control-plane:tls-c",
+      "image": "asklegal/control-plane:v1",
       "image_state": "LOCALLY_BUILT_TAG_PIN_REQUIRED",
       "runtime_uid": 3001,
       "networks": [
@@ -548,7 +548,7 @@
     {
       "service_id": "acquisition-worker",
       "unit_name": "asklegal-acquisition-worker.service",
-      "image": "asklegal/acquisition-worker:tls-c",
+      "image": "asklegal/acquisition-worker:v1",
       "image_state": "LOCALLY_BUILT_TAG_PIN_REQUIRED",
       "runtime_uid": 3000,
       "networks": [
@@ -619,7 +619,7 @@
     {
       "service_id": "legal-processing-worker",
       "unit_name": "asklegal-legal-processing-worker.service",
-      "image": "asklegal/legal-processing-worker:model-cred",
+      "image": "asklegal/legal-processing-worker:v1",
       "image_state": "LOCALLY_BUILT_TAG_PIN_REQUIRED",
       "runtime_uid": 3003,
       "networks": [
@@ -686,7 +686,7 @@
     {
       "service_id": "promotion-worker",
       "unit_name": "asklegal-promotion-worker.service",
-      "image": "asklegal/promotion-worker:tls-c",
+      "image": "asklegal/promotion-worker:v1",
       "image_state": "LOCALLY_BUILT_TAG_PIN_REQUIRED",
       "runtime_uid": 3006,
       "networks": [

@@ -39,7 +39,7 @@ docker create \
   -v '/etc/asklegal/trust/vault-primary-ca.pem:/etc/asklegal/trust/vault-primary-ca.pem:ro' \
   -v '/etc/asklegal/trust/vault-recovery-ca.pem:/etc/asklegal/trust/vault-recovery-ca.pem:ro' \
   -v '/etc/asklegal/tls/internal-ca.crt:/etc/asklegal/tls/internal-ca.crt:ro' \
-  'asklegal/promotion-worker:tls-c' \
+  'asklegal/promotion-worker:v1' \
   'python' \
   '-m' \
   'asklegal_promotion_worker.v1_service' >/dev/null

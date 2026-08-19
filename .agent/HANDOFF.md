@@ -1,4 +1,4 @@
-# Handoff — 2026-08-19, after wiring the inference credential
+# Handoff — 2026-08-19, after the V1 provider push
 
 Read this first, then `WORKING_STATE.md` for the full record. `CONTEXT.md` is the
 glossary and `DECISIONS.md` the decision log; neither changed today.
@@ -50,9 +50,8 @@ Fourteen containers, started by hand, on `/srv/asklegal` (the 3.6 TB SATA disk).
 | Egress | `egress-source`, `egress-model`, `egress-promotion` |
 | Applications | `review-api`, `control-plane`, and the three workers |
 
-`legal-processing-worker` runs `asklegal/legal-processing-worker:model-cred`; the
-other four run `:tls-c`. That is deliberate — only the processing worker needed
-the rebuild, and the records name the image that actually ran.
+All five applications run `:v1`, and `service_runtime_commands.json` records
+`:v1` for all five. Every recorded image is one that actually ran.
 
 All five applications report **READY** on every declared dependency.
 
@@ -99,64 +98,29 @@ only), the deployment profile and evaluation behind
 
 ---
 
-## 4. The obvious next four things
+## 4. What to do next
 
-### 4.1 ~~Give the inference credential a home~~ — done, and executed
-
-`model-provider` is now declared in all four contracts and read by
-`load_v1_infrastructure`. The processing image was rebuilt as `:model-cred`, the
-credential volume restaged with four files, and the container recreated and
-observed **READY**. `service_runtime_commands.json` was only updated after that
-run, so its proof note stays true.
-
-Note for the next change of this shape: the four places named below were not all
-of them. Two validators cross-check the credential lists and two tests pin the
-credential totals. `WORKING_STATE.md` has the full list.
-
-**The credential can be loaded. Nothing calls with it** — that is 4.3.
-
-### 4.2 Install the startup files — needs the user, not you
-
-`infrastructure/poc/units/` holds 33 generated files. Nothing has been installed
-or run as root, so they are rendered and tested, **not proved on the host**.
-
-The user's sequence, in this order:
+**4.1 Run the root script.** `infrastructure/poc/ROOT_SETUP.sh` bundles every
+step needing root, in dependency order, idempotently, with a preflight that
+checks the credentials, units, images, and TPM before touching anything:
 
 ```sh
-sudo ./infrastructure/poc/units/80-install.sh
-sudo ./infrastructure/poc/units/70-credentials.sh var/run/staging
-sudo systemctl enable --now asklegal.target
+sudo ./infrastructure/poc/ROOT_SETUP.sh
 ```
 
-`80-install.sh` deliberately does not enable anything. `70-credentials.sh` seals
-every credential with `systemd-creds encrypt --with-key=host+tpm2`.
+It has never been executed. Treat the first run as a test. Rotate the SQL
+passwords afterwards and delete the plaintext staging directory.
 
-**Tell the user to rotate the SQL passwords when they do this.** `sa-password`
-and `app-password` have sat in plain files in `var/run/` since the register work
-and have been read by more than one session.
+**4.2 Wire the worker loops — the largest remaining piece.** The provider
+adapters are built and proved, but `v1_service._serve` still calls `run_once`
+with a no-op. Nothing claims a task from a scheduler and drives acquire →
+process → promote. Until that exists, the parts work but the pipeline does not
+run.
 
-**Expect the first boot to find problems.** The units are correct on paper —
-`systemd-analyze verify` accepts them and every generated script parses — but no
-unit has ever started a container. Treat the first `enable --now` as a test.
+**4.3 Telemetry.** No application emits anything; the collector still only has a
+debug exporter.
 
-### 4.3 Build the provider adapters — the real work
-
-There is **no Azure OpenAI adapter and no Pinecone adapter** in this workspace:
-no package, no client, no call site. Today's smoke tests were standalone scripts,
-not application code paths. `packages/` has `processing` and `promotion`, but
-neither reaches a provider.
-
-Until this exists, working credentials and a correct network path buy nothing.
-This is the largest remaining piece of V1.
-
-### 4.4 Exercise the schedulers
-
-Nothing has run through either task hub: no orchestration, no claimed work, no
-duplicate or restart behaviour, no fencing, no SQL reconciliation, and no
-replacement-from-checkpoint report after a deliberate emulator loss. The
-schedulers are proved reachable and correctly configured, and nothing more.
-
----
+**4.4 Prove a reboot.** That is what the units are for and it is unproved.
 
 ## 5. Two gaps that are proved, not theorised — do not paper over these
 
@@ -220,18 +184,20 @@ Smaller, but real:
 
 ## 7. Repository state
 
-Everything is committed and pushed. Check with `git status` and
-`git log --oneline origin/main..HEAD`; both were empty when this was written.
+Check with `git status` and `git log --oneline origin/main..HEAD`.
 
-The inference-credential work is in, executed and proved. Before it came the
-previous session record, the V1 POC run, and the rendered startup files.
+The provider push added `packages/promotion/src/asklegal_promotion/remote.py`,
+`packages/processing/src/asklegal_processing/remote.py`,
+`ProxiedOfficialHttpTransport` in the source connectors, two test files,
+`infrastructure/poc/ROOT_SETUP.sh`, and `var/run/assemble_staging.sh` (ignored).
 
 Ignored runtime material under `var/` is excluded and nothing under it is
-tracked. The plaintext credentials in `var/run/staging/` and `var/run/creds-*/`
+tracked. The plaintext credentials in `var/run/staging*/` and `var/run/creds-*/`
 have never been committed.
 
 The composite verdict is unchanged and should stay that way:
-**`V1_POC_NOT_ADMITTED`.** Static contracts passing is not readiness.
+**`V1_POC_NOT_ADMITTED`.** Static contracts passing is not readiness, and neither
+is a proved adapter — the pipeline that would use it is not wired.
 
 ## 8. How the user wants to be talked to
 

@@ -37,7 +37,7 @@ docker create \
   -v '/etc/asklegal/trust/vault-primary-ca.pem:/etc/asklegal/trust/vault-primary-ca.pem:ro' \
   -v '/etc/asklegal/trust/vault-recovery-ca.pem:/etc/asklegal/trust/vault-recovery-ca.pem:ro' \
   -v '/etc/asklegal/tls/internal-ca.crt:/etc/asklegal/tls/internal-ca.crt:ro' \
-  'asklegal/acquisition-worker:tls-c' \
+  'asklegal/acquisition-worker:v1' \
   'python' \
   '-m' \
   'asklegal_acquisition_worker.v1_service' >/dev/null

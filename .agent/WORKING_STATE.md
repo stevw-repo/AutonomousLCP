@@ -1558,3 +1558,77 @@ value and no call is made with it: there is still no Azure OpenAI adapter in thi
 workspace. `MODEL_AND_EMBEDDING_ADMISSION` is untouched and the composite verdict
 stays `V1_POC_NOT_ADMITTED`. The local runtime still composes
 `DisabledEffectPort("generative-model")`, which is the seam an adapter would fill.
+
+## V1 completion push — provider adapters built and proved 2026-08-19
+
+The user asked to finish V1 as fast as possible, authorised real Pinecone writes,
+chose the five open Hong Kong sources, and allowed four security relaxations.
+
+**The four external paths are real now, each proved from inside the owning
+worker's image through its own egress proxy.**
+
+| Path | Proof |
+|---|---|
+| Azure embeddings | 1536 dimensions, ~1.9 s, real token accounting, deterministic fingerprint across runs |
+| Pinecone writes | three real vectors written to `testing-index-1`, enumerated back, retrieval gate passed |
+| Azure inference `gpt-5.4` | real bounded decision returned; strictness guards refused a mismatched deployment and a wrong provider |
+| Hong Kong sources | 1.9 MB of live HKeL current-inventory JSON (source-updated 2026-08-17) and the Basic Law portal, both admitted by the hostile-content classifier |
+
+**New code.** `asklegal_promotion.remote` holds the Azure embedding adapter and
+the Pinecone serving-target store. `asklegal_processing.remote` holds the Azure
+semantic task runner. `ProxiedOfficialHttpTransport` lets the acquisition worker
+reach official sources through its proxy.
+
+All three speak REST directly with the standard library. Neither provider SDK is
+in the pinned wheelhouse, and adding one would need network access and a
+wheelhouse rebuild, so the SDK-free route was the fast route *and* the offline-safe
+one. Every transport opens its connection to the proxy and tunnels with CONNECT,
+matching the pattern the source connector already used.
+
+**Fail-closed by construction.** Pinecone writes need `write_authorized`; deleting
+an index needs a second, separate `destructive_authorized`, because that is not
+recoverable. The semantic runner refuses an extra key, a missing key, an
+unparseable body, an unknown challenge code, and any citation the evidence did not
+supply — a legal component that repairs a malformed reply into a plausible
+judgment is worse than one that refuses.
+
+**Twenty new offline tests**, transports stubbed. Suite went 727 → 747 passed,
+4 skipped.
+
+**Two contract locks moved.** Adding a lint-ignore entry changed `pyproject.toml`,
+which is a pinned image-build input, so its recorded fingerprint was re-locked.
+All five images were rebuilt as `:v1`, all five containers recreated on `:v1` and
+observed READY, and `service_runtime_commands.json` now records `:v1` for all
+five — one tag everywhere, and every recorded image is one that actually ran.
+
+**One root script.** `infrastructure/poc/ROOT_SETUP.sh` bundles every step needing
+root, in order, idempotently. It found a real gap first: the sealing step wants all
+25 credentials in one directory, but they were spread across three places and five
+had different file names, so the user's run would have failed immediately.
+`var/run/assemble_staging.sh` now builds a complete `var/run/staging-all`, verified
+25 of 25. The script preflights the whole credential set, the rendered units, the
+images, and the TPM device before it changes anything.
+
+### What is still not done, plainly
+
+- **The worker loops still do no domain work.** `run_once` is called with a
+  no-op. The adapters exist and are proved, but nothing yet claims a task from a
+  scheduler and drives acquire → process → promote. This is the largest remaining
+  piece and it is the difference between "the parts work" and "the pipeline runs".
+- **No application emits telemetry.** Unchanged.
+- **Nothing has run under systemd.** `ROOT_SETUP.sh` is written and syntax-checked
+  but has never been executed; it needs root, which this agent does not have.
+- **Reboot survival is unproved**, and remains the point of the units.
+- **Generative output is not reproducible.** The same prompt returned
+  `INSUFFICIENT_EVIDENCE` on one run and `APPLIES_WITH_BASIC_LAW_QUALIFICATION` on
+  the next. That is expected of the provider, but it means the challenge phase and
+  evaluator are load-bearing, not decoration.
+
+### Relaxations the user authorised, recorded so none of them hides
+
+- egress firewall boundary not applied; workers keep unrestricted outbound access
+- one shared vault root credential, no per-application vault identity
+- Review API served with no client authentication
+- images stay local tags, not digests, so `ARTIFACT_PINS` stays open
+
+The composite verdict is unchanged: **`V1_POC_NOT_ADMITTED`**.

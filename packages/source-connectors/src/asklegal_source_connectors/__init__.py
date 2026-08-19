@@ -51,6 +51,7 @@ from .official_http import (
     OfficialHttpTransport,
     OfficialTransportFailure,
     OfficialTransportResponse,
+    ProxiedOfficialHttpTransport,
     StdlibOfficialHttpTransport,
 )
 from .official_inventory import (
@@ -113,6 +114,7 @@ __all__ = [
     "OfficialSourceState",
     "OfficialTransportFailure",
     "OfficialTransportResponse",
+    "ProxiedOfficialHttpTransport",
     "PublisherRightsEvidence",
     "PublisherRightsState",
     "RegisteredSource",

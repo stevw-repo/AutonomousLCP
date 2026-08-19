@@ -255,6 +255,13 @@ ignore = [
   "S101",
 ]
 "packages/corpus/tests/**" = ["D103", "INP001", "PLR2004", "S101"]
+"packages/promotion/tests/**" = [
+  "ANN202",
+  "D103",
+  "INP001",
+  "PLR2004",
+  "S101",
+]
 "packages/source-connectors/src/asklegal_source_connectors/**" = [
   "C901",
   "D105",

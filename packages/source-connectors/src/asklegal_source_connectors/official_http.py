@@ -306,6 +306,60 @@ class StdlibOfficialHttpTransport:
             connection.close()
 
 
+class ProxiedOfficialHttpTransport:
+    """TLS-validating transport that reaches every source through one egress proxy.
+
+    Identical to `StdlibOfficialHttpTransport` except that the connection is opened
+    to the proxy and tunnelled with CONNECT, so TLS is still terminated at the
+    official source and the proxy sees only the host name. The proxy is a
+    constructor argument, never an environment variable, so a worker cannot fall
+    back to direct egress when the variable is missing.
+    """
+
+    def __init__(self, proxy_host: str, proxy_port: int) -> None:
+        """Create a transport pinned to one proxy with default trust."""
+        self._context = ssl.create_default_context()
+        self._proxy_host = proxy_host
+        self._proxy_port = proxy_port
+
+    def request(
+        self,
+        *,
+        endpoint: OfficialEndpointContract,
+        method: HttpMethod,
+        timeout_seconds: int,
+    ) -> OfficialTransportResponse:
+        """Fetch at most max_bytes plus one sentinel byte through the proxy."""
+        parsed = urlsplit(endpoint.url)
+        if parsed.scheme != "https" or parsed.hostname is None:
+            raise OfficialTransportFailure("ENDPOINT_SCHEME_INVALID")
+        request_target = parsed.path or "/"
+        if parsed.query:
+            request_target = f"{request_target}?{parsed.query}"
+        connection = HTTPSConnection(
+            self._proxy_host,
+            port=self._proxy_port,
+            timeout=timeout_seconds,
+            context=self._context,
+        )
+        try:
+            connection.set_tunnel(parsed.hostname, parsed.port or 443)
+            connection.request(
+                method.value,
+                request_target,
+                headers={
+                    "Accept": ", ".join(endpoint.media_types),
+                    "User-Agent": "AskLegal-Official-Source-Acquisition/1.0",
+                },
+            )
+            response = connection.getresponse()
+            return _read_response(response, endpoint.url, endpoint.max_bytes)
+        except (OSError, TimeoutError) as error:
+            raise OfficialTransportFailure("BOUNDED_TRANSPORT_FAILURE") from error
+        finally:
+            connection.close()
+
+
 def _read_response(
     response: HTTPResponse,
     final_url: str,

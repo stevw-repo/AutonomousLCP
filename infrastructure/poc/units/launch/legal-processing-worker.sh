@@ -37,7 +37,7 @@ docker create \
   -v '/etc/asklegal/trust/vault-primary-ca.pem:/etc/asklegal/trust/vault-primary-ca.pem:ro' \
   -v '/etc/asklegal/trust/vault-recovery-ca.pem:/etc/asklegal/trust/vault-recovery-ca.pem:ro' \
   -v '/etc/asklegal/tls/internal-ca.crt:/etc/asklegal/tls/internal-ca.crt:ro' \
-  'asklegal/legal-processing-worker:model-cred' \
+  'asklegal/legal-processing-worker:v1' \
   'python' \
   '-m' \
   'asklegal_legal_processing_worker.v1_service' >/dev/null

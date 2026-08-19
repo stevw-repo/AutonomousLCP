@@ -7,6 +7,12 @@ from .model import (
     SemanticDecision,
     SemanticTaskRequest,
 )
+from .remote import (
+    AZURE_OPENAI_PROVIDER,
+    AzureDeployment,
+    AzureSemanticTaskRunner,
+    BoundedModelTransport,
+)
 from .render import render_candidate
 from .semantic import (
     DeterministicSemanticTaskRunner,
@@ -18,8 +24,12 @@ from .semantic import (
 PACKAGE_ROLE: str = "processing"
 
 __all__ = [
+    "AZURE_OPENAI_PROVIDER",
     "PACKAGE_ROLE",
     "AdmittedSemanticDecision",
+    "AzureDeployment",
+    "AzureSemanticTaskRunner",
+    "BoundedModelTransport",
     "CandidateArtifact",
     "DeterministicSemanticTaskRunner",
     "DisabledSemanticTaskRunner",

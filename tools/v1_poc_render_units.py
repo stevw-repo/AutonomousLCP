@@ -104,6 +104,12 @@ def _unit_file(service: dict[str, object], requires: list[str]) -> str:
         "ProtectHome=true",
         "PrivateTmp=true",
         "CapabilityBoundingSet=",
+        # ProtectSystem=strict refuses to build the mount namespace if a
+        # ReadWritePaths entry does not exist, so systemd has to create the
+        # directory itself. Preserve it: several units share it, and the default
+        # would delete it from under the others as soon as one stopped.
+        "RuntimeDirectory=asklegal",
+        "RuntimeDirectoryPreserve=yes",
         "ReadWritePaths=/run/asklegal",
     ]
     # Sealed to this host's TPM; systemd decrypts into $CREDENTIALS_DIRECTORY,

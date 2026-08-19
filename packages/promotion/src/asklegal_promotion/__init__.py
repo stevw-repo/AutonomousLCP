@@ -34,11 +34,26 @@ from .model import (
     TargetRecord,
 )
 from .ports import BackupPort, CoveragePort, EmbeddingPort, RoutingPort, ServingTargetPort
+from .remote import (
+    AZURE_OPENAI_PROVIDER,
+    AzureOpenAIConfig,
+    AzureOpenAIEmbeddingAdapter,
+    AzureOpenAIGenerativeAdapter,
+    PineconeConfig,
+    PineconeServingTargetStore,
+    ProviderResponse,
+    ProviderTransport,
+    target_state_fingerprint,
+)
 
 PACKAGE_ROLE: str = "promotion"
 
 __all__ = [
+    "AZURE_OPENAI_PROVIDER",
     "PACKAGE_ROLE",
+    "AzureOpenAIConfig",
+    "AzureOpenAIEmbeddingAdapter",
+    "AzureOpenAIGenerativeAdapter",
     "BackupPort",
     "BackupVerification",
     "CoveragePort",
@@ -56,11 +71,15 @@ __all__ = [
     "LocalRoutingStore",
     "LocalServingTargetStore",
     "OutcomeUnknown",
+    "PineconeConfig",
+    "PineconeServingTargetStore",
     "PromotionError",
     "PromotionErrorCode",
     "PromotionExecutionResult",
     "PromotionManifest",
     "PromotionPlan",
+    "ProviderResponse",
+    "ProviderTransport",
     "RoutingPort",
     "ServingTargetPort",
     "TargetDefinition",
@@ -69,6 +88,7 @@ __all__ = [
     "freeze_embedding_profile",
     "freeze_promotion_manifest",
     "pinecone_index_name",
+    "target_state_fingerprint",
     "verify_embedding_profile",
     "verify_promotion_manifest",
 ]
