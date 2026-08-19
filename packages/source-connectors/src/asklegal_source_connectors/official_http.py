@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 import ssl
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from enum import StrEnum
 from hashlib import sha256
 from http.client import HTTPResponse, HTTPSConnection
@@ -351,6 +351,58 @@ class ProxiedOfficialHttpTransport:
         """Fetch at most max_bytes plus one sentinel byte through the proxy."""
         return self._fetch(endpoint, method, timeout_seconds, _FetchState())
 
+    def exchange(
+        self,
+        call: PublisherCall,
+        cookies: dict[str, str] | None = None,
+    ) -> tuple[int, bytes, dict[str, str]]:
+        """Send one bounded request to an exact host and return status, body, cookies.
+
+        Deliberately outside `OfficialHttpTransport`. That protocol is the inert
+        acquisition boundary — GET and HEAD, no body, no redirects — and it should
+        stay that way, because source bytes must never gain authority through it.
+        This is the separate surface used by clients that must talk to a
+        publisher's own API, such as the HKeL gazette register grid, which is
+        `POST`-only and issues a CSRF token through a rendered page.
+
+        The caller names the host, and it is compared against nothing here: the
+        caller is responsible for having resolved it from an admitted endpoint.
+        """
+        jar = dict(cookies or {})
+        connection = HTTPSConnection(
+            self._proxy_host,
+            port=self._proxy_port,
+            timeout=call.timeout_seconds,
+            context=self._context,
+        )
+        headers = {
+            "User-Agent": "AskLegal-Official-Source-Acquisition/1.0",
+            "Accept": "application/json, text/html, */*",
+        }
+        if call.content_type:
+            headers["Content-Type"] = call.content_type
+        if jar:
+            headers["Cookie"] = "; ".join(f"{k}={v}" for k, v in jar.items())
+        try:
+            connection.set_tunnel(call.host, 443)
+            connection.request(call.method, call.path, body=call.body, headers=headers)
+            response = connection.getresponse()
+            for name, value in response.getheaders():
+                if name.lower() == "set-cookie":
+                    _collect_cookies(value, jar)
+            payload = response.read(call.max_bytes)
+            status = response.status
+            location = response.getheader("Location")
+        except (OSError, TimeoutError) as error:
+            raise OfficialTransportFailure("BOUNDED_TRANSPORT_FAILURE") from error
+        finally:
+            connection.close()
+        if _is_redirect(status) and location:
+            target = _same_host_redirect(location, call.host)
+            follow = replace(call, method="GET", path=target, body=None, content_type=None)
+            return self.exchange(follow, jar)
+        return (status, payload, jar)
+
     def _fetch(
         self,
         endpoint: OfficialEndpointContract,
@@ -402,6 +454,19 @@ class ProxiedOfficialHttpTransport:
             timeout_seconds,
             _FetchState(target, state.depth + 1, state.cookies),
         )
+
+
+@dataclass(frozen=True, slots=True)
+class PublisherCall:
+    """One bounded request to a publisher's own API on an already-admitted host."""
+
+    host: str
+    method: str
+    path: str
+    body: bytes | None = None
+    content_type: str | None = None
+    timeout_seconds: int = 45
+    max_bytes: int = 8_000_000
 
 
 @dataclass(slots=True)

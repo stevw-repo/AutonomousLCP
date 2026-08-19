@@ -2213,3 +2213,43 @@ browser's shared objects, so a mounted Chromium fails on `libglib-2.0.so.0`. The
 host has both, and the repo venv already has patchright 1.62.1, so discovery runs
 there. Putting it in the worker means adding roughly thirty libraries through
 `var/debs`, which is how the image already gets its Kerberos libraries.
+
+## The gazette register client is built
+
+`packages/source-connectors/src/asklegal_source_connectors/hkel_gazette.py`
+implements the discovered contract. Nine offline tests, transport stubbed.
+
+**It is not part of `OfficialHttpConnector`, on purpose.** That connector is the
+inert acquisition boundary — GET and HEAD, no body, no redirects — and it stays
+that way, because source bytes must never gain a route into it. The gazette
+register is a publisher API: `POST`-only, gated, and it issues a CSRF token
+through a rendered page. `ProxiedOfficialHttpTransport` gained a separate
+`exchange(PublisherCall, cookies)` surface for that, documented as the
+publisher-API path rather than the evidence path.
+
+What the client does: passes the capability gate at `/client-check`, reads the
+`csrfToken` from the returned `/gazette` page, then `POST`s `/grid` with the
+supplement filters and walks pages by `lastPage`.
+
+**`CAPABILITY_CLAIM` asserts `BR=Chrome` and `JS_S=true`, and says so.** The
+project owner decided this on 2026-08-19. The client is neither Chrome nor
+JavaScript-capable; the values are stated because the gate refuses service
+without them. The constant carries its own docstring explaining that they are
+asserted rather than measured, so the claim stays visible instead of being buried
+at a call site. The grid returns JSON and is never rendered, so nothing about a
+document's production or interpretation depends on them.
+
+Three behaviours the tests pin, each because getting them wrong is silent:
+
+- **`totalRecords` is never read.** It reported 100 against `lastPage` 1415 live.
+  Paging follows `lastPage`, re-read every page, and stops early on an empty page.
+- **`ENG_PDF`/`CHI_PDF`/`BI_PDF` are flags, not URLs** — `"E"`, `"C"`, or absent.
+  Treating them as addresses would fetch nothing and look like a bad source.
+- **A reply without its `columns` fails** rather than guessing. Row data is
+  positional, so absent columns make every cell a guess.
+
+Still outstanding, unchanged: the PDF address construction was never observed, so
+`PDF_ARTIFACT_URL_CONSTRUCTION_NOT_OBSERVED` remains a blocker and the role stays
+disabled. The client yields locators and item URLs, which is what the register
+needed; turning a locator into a PDF address needs one more discovery run that
+exercises a `generatePdf` control.

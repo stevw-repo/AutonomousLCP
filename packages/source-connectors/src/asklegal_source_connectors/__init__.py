@@ -76,6 +76,7 @@ from .synthetic import SyntheticConnector
 PACKAGE_ROLE: str = "source-connectors"
 
 __all__ = [
+    "CAPABILITY_CLAIM",
     "HK_LEGISLATION_SOURCE_IDS",
     "PACKAGE_ROLE",
     "AcquisitionArtifact",
@@ -89,6 +90,10 @@ __all__ = [
     "CoverageAccountingResult",
     "EndpointAccessMode",
     "EndpointContract",
+    "GazetteEntry",
+    "GazettePage",
+    "GazetteRegisterError",
+    "HkelGazetteRegisterClient",
     "HongKongLegislationSourceRegister",
     "HttpMethod",
     "LegalClearanceAttestation",
@@ -115,6 +120,7 @@ __all__ = [
     "OfficialTransportFailure",
     "OfficialTransportResponse",
     "ProxiedOfficialHttpTransport",
+    "PublisherCall",
     "PublisherRightsEvidence",
     "PublisherRightsState",
     "RegisteredSource",
