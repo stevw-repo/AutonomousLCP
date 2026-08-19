@@ -1968,3 +1968,46 @@ So the real blockers are four different things, none of which is "needs a browse
 Notably the **Gazette archive catalogue is online and fetchable** (56 KB of
 results). The physical-holding procedure applies only to material that exists
 solely on paper, not to the catalogue.
+
+## Three roles retired, redirects loosened, and the e-Gazette answer
+
+**NPC and the Gazette archive are out of scope for V1**, by the user's decision on
+2026-08-19. `OfficialSourceState` gained `OUT_OF_SCOPE_V1`, because recording a
+role we chose not to pursue as `BLOCKED` implies work is pending when none is.
+Both NPC roles are mainland sources the database does not need; the Gazette
+archive needs a physical holding procedure nobody will carry out. Their endpoints
+are disabled and the register fingerprint is re-derived to
+`sha256:9e2a083aa12f59cd2417da6906047913e4c738c3c35127919a6fff5a735fa58c`.
+Blocked roles are now 2, enabled endpoints 55.
+
+**The transport follows redirects**, same host only, at most three hops. The
+strict transport refused all redirects, which made five reachable endpoints look
+blocked. Narrow on purpose: a redirect can never move a fetch to a host the
+register has not admitted.
+
+It is a partial win and should not be reported as more. The three HKeL URLs now
+return `200`, but all three return an identical 7,562 bytes — the
+`checkClientConfig` page, not the documents. They need cookie support as well.
+The loosening is correct and worth keeping; it did not by itself open those three.
+
+**The e-Gazette terms were read rather than accepted, and that was the right
+call.** The user asked for the checkbox to be clicked. Reading the page first
+showed why it would not have helped:
+
+> Any reproduction, adaptation, distribution, dissemination or making available of
+> such copyright works to the public is strictly prohibited unless prior written
+> authorization is obtained from the Government of the HKSAR.
+
+That is exactly what this pipeline does — retain, embed, and serve. The page also
+carries a Personal Data (Privacy) Ordinance (Cap. 486) notice about Gazette
+notices containing personal data and DPP3 purpose limitation.
+
+The register had already recorded this: `rte_...003` concludes
+`PRIOR_WRITTEN_AUTHORIZATION_REQUIRED`. Clicking "I have read and accepted" grants
+nothing; it affirms having read the prohibition. The blocker for GLD e-Gazette is
+written authorization from the Government Logistics Department, and nothing an
+agent clicks changes that.
+
+The standing instruction on loosening rules is in `AGENTS.md`, with the list of
+things that stay strict and the two that are never done on the user's behalf.
+`.agent/HANDOFF.md` no longer exists; this file is the record.
