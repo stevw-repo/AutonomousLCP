@@ -10,7 +10,6 @@ rather than by `totalRecords`, which is not a row count.
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING
 
 import pytest
 from asklegal_source_connectors.hkel_gazette import (
@@ -18,9 +17,10 @@ from asklegal_source_connectors.hkel_gazette import (
     GazetteRegisterError,
     HkelGazetteRegisterClient,
 )
-
-if TYPE_CHECKING:
-    from asklegal_source_connectors.official_http import PublisherCall
+from asklegal_source_connectors.official_http import (
+    ProxiedOfficialHttpTransport,
+    PublisherCall,
+)
 
 _COLUMNS = [
     "GAZETTE_ID", "YEAR", "GAZETTE_SUPPLEMENT_NO", "DISP_GAZETTE_NO", "GAZETTE_NO",
@@ -267,3 +267,32 @@ def test_the_token_is_read_from_the_hidden_form_input() -> None:
     client, _ = _client([(200, b""), (200, served)])
 
     assert client.open_session() == "WM4YN6Pw73wVEn8Z/qvt0reo=="
+
+
+def test_a_session_transport_sends_its_session_on_both_surfaces() -> None:
+    """with_session must apply to exchange too, or gated fetches get the gate page.
+
+    This was a real defect: with_session seeded the inert `request` path only, so
+    `with_session(...).exchange(...)` sent no cookies and every gated document came
+    back as the capability check instead of the document.
+    """
+    seen: list[str] = []
+
+    class Recorder(ProxiedOfficialHttpTransport):
+        """Captures the Cookie header a real exchange would have sent."""
+
+        def exchange(
+            self,
+            call: PublisherCall,
+            cookies: dict[str, str] | None = None,
+        ) -> tuple[int, bytes, dict[str, str]]:
+            """Record which jar the base class would use."""
+            del call
+            jar = dict(cookies) if cookies is not None else dict(self._session_cookies)
+            seen.append("; ".join(f"{k}={v}" for k, v in jar.items()))
+            return (200, b"", jar)
+
+    bound = Recorder("proxy", 3128).with_session({"JSTP1": "abc"})
+    Recorder.exchange(bound, PublisherCall("h", "GET", "/x"))
+
+    assert seen == ["JSTP1=abc"]

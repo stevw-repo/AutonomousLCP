@@ -400,6 +400,11 @@ class ProxiedOfficialHttpTransport:
     ) -> tuple[int, bytes, dict[str, str]]:
         """Send one bounded request to an exact host and return status, body, cookies.
 
+        Falls back to this transport's own session when the caller passes none, so
+        a transport built by `with_session` behaves the same on both surfaces.
+        Without that, `with_session(...).exchange(...)` silently sent no session
+        and every gated fetch returned the capability page instead of the document.
+
         Deliberately outside `OfficialHttpTransport`. That protocol is the inert
         acquisition boundary — GET and HEAD, no body, no redirects — and it should
         stay that way, because source bytes must never gain authority through it.
@@ -410,7 +415,7 @@ class ProxiedOfficialHttpTransport:
         The caller names the host, and it is compared against nothing here: the
         caller is responsible for having resolved it from an admitted endpoint.
         """
-        jar = dict(cookies or {})
+        jar = dict(cookies) if cookies is not None else dict(self._session_cookies)
         connection = HTTPSConnection(
             self._proxy_host,
             port=self._proxy_port,
