@@ -1693,3 +1693,38 @@ which is the one package allowed to see the library.
 **Not done:** the other three workers still have no work source, and nothing yet
 chains acquisition to processing to promotion. The promotion worker is the pattern,
 not the whole pipeline.
+
+## Fourth systemd bug, and the first real end-to-end run
+
+**The launcher started every application twice.** Each image's entrypoint is
+already `["/opt/asklegal/bin/asklegal-service", "--serve"]`, which calls exactly
+the same `run()` as `python -m <app>.v1_service`. The runtime-command contract
+also recorded that module invocation, and Docker appends a recorded command to the
+entrypoint as *arguments*, so every application died on
+`asklegal-service: error: unrecognized arguments: python -m ...`. All five were
+affected; none had ever started under systemd. The five `command` entries are now
+empty, and the image entrypoint runs as designed.
+
+Note the shape of this one: the contract was internally consistent and every
+static gate passed. Only running it showed that the recorded command and the image
+entrypoint were two ways of saying the same thing, and that saying it twice breaks.
+
+**Then the pipeline ran for real.** With the corrected configuration the promotion
+worker reached READY on all six dependencies and served its hub. One orchestration
+was scheduled against it and completed:
+
+```
+scheduled e2ba6cc76a9847c1aae7cc7dc5b40dd2
+status: COMPLETED
+output: {"written": 2, "verified": true, "index": "testing-index-1"}
+```
+
+The worker's own log shows `embedded 2 record(s)` then
+`wrote and verified 2 record(s) in testing-index-1`, and the index went from three
+vectors to five. Real scheduler, real Azure embeddings, real Pinecone writes, real
+retrieval verification, driven by the deployed application rather than a probe
+script.
+
+That is the first time work has flowed through this system end to end. It covers
+the promotion stage only: acquisition and processing still have no work source,
+and nothing chains the three stages together.

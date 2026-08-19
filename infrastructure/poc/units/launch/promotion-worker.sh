@@ -40,10 +40,7 @@ docker create \
   -v '/etc/asklegal/trust/vault-primary-ca.pem:/etc/asklegal/trust/vault-primary-ca.pem:ro' \
   -v '/etc/asklegal/trust/vault-recovery-ca.pem:/etc/asklegal/trust/vault-recovery-ca.pem:ro' \
   -v '/etc/asklegal/tls/internal-ca.crt:/etc/asklegal/tls/internal-ca.crt:ro' \
-  'asklegal/promotion-worker:v1' \
-  'python' \
-  '-m' \
-  'asklegal_promotion_worker.v1_service' >/dev/null
+  'asklegal/promotion-worker:v1' >/dev/null
 
 # Every network is attached before the process starts. Attaching after start
 # is a race: the readiness gate can run before a dependency is reachable.

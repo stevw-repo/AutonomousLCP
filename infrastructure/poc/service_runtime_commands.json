@@ -483,11 +483,7 @@
         }
       ],
       "tmpfs": [],
-      "command": [
-        "python",
-        "-m",
-        "asklegal_review_api.v1_service"
-      ],
+      "command": [],
       "read_only_root": false,
       "capabilities_add": []
     },
@@ -550,11 +546,7 @@
         }
       ],
       "tmpfs": [],
-      "command": [
-        "python",
-        "-m",
-        "asklegal_control_plane.v1_service"
-      ],
+      "command": [],
       "read_only_root": false,
       "capabilities_add": []
     },
@@ -622,11 +614,7 @@
         }
       ],
       "tmpfs": [],
-      "command": [
-        "python",
-        "-m",
-        "asklegal_acquisition_worker.v1_service"
-      ],
+      "command": [],
       "read_only_root": false,
       "capabilities_add": []
     },
@@ -690,11 +678,7 @@
         }
       ],
       "tmpfs": [],
-      "command": [
-        "python",
-        "-m",
-        "asklegal_legal_processing_worker.v1_service"
-      ],
+      "command": [],
       "read_only_root": false,
       "capabilities_add": []
     },
@@ -769,11 +753,7 @@
         }
       ],
       "tmpfs": [],
-      "command": [
-        "python",
-        "-m",
-        "asklegal_promotion_worker.v1_service"
-      ],
+      "command": [],
       "read_only_root": false,
       "capabilities_add": []
     }
