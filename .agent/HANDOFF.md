@@ -220,12 +220,11 @@ Smaller, but real:
 
 ## 7. Repository state
 
-Everything is committed and pushed. `main` is level with `origin/main` at
-`46af9da`, and the working tree is clean.
+Everything is committed and pushed. Check with `git status` and
+`git log --oneline origin/main..HEAD`; both were empty when this was written.
 
-Recent commits: `46af9da` (the inference credential given a home, executed and
-proved), `3978674` (previous session record and this handoff), `ef48338` (the V1
-POC run and the rendered startup files).
+The inference-credential work is in, executed and proved. Before it came the
+previous session record, the V1 POC run, and the rendered startup files.
 
 Ignored runtime material under `var/` is excluded and nothing under it is
 tracked. The plaintext credentials in `var/run/staging/` and `var/run/creds-*/`
