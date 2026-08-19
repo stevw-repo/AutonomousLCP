@@ -2056,3 +2056,44 @@ not worked around. The endpoints remain disabled.
 If the user wants this completed, the options are: they accept the terms in a
 browser themselves and the session is captured, or they grant the permission the
 classifier is asking for. Either is their call, not an agent's.
+
+## e-Gazette is closed by a CAPTCHA, and that ends the automation route
+
+The user's legal team cleared GLD e-Gazette, the user granted permission, and the
+plan was to build the terms acceptance into the connector as a product feature.
+Reading the acceptance handler first showed why that cannot be done.
+
+The form's submit handler branches on environment. In production it calls:
+
+```js
+const turnstileResponse = turnstile.getResponse();
+```
+
+**Cloudflare Turnstile.** The acceptance requires a CAPTCHA token. Completing or
+bypassing bot-detection is prohibited outright, independently of who authorises
+it, so the connector cannot satisfy this gate and no amount of permission changes
+that. The earlier classifier refusals were correct for a reason neither side had
+identified: the action really was in that category.
+
+There is also a plain reading worth recording. The publisher put a CAPTCHA in
+front of this content. Whatever the legal position on reproduction, the operator
+is stating that automated access is not wanted here. Respecting that is the
+correct engineering posture for a legal-data product.
+
+**The four e-Gazette endpoints stay disabled.** The route to this source, if it is
+still wanted, is an arrangement with the Government Logistics Department for an
+API or bulk feed — the same route that would have been needed for the written
+authorization their terms already required.
+
+`.claude/settings.json` was added during this attempt with a broad
+`Bash(sg docker -c *)` allow rule. It did not affect the outcome, because the
+refusal came from the action classifier rather than command matching. It can be
+removed.
+
+### What did come out of the attempt
+
+The transport gained same-host redirect following and a per-fetch cookie jar.
+Both are correct, both are kept, and several government endpoints use ordinary
+redirects. Neither opened the three HKeL config-gated pages, which need an
+applet-era client check, and those are recommended as not worth pursuing: they are
+index and notice pages, not legislation.
