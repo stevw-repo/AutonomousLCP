@@ -220,14 +220,16 @@ Smaller, but real:
 
 ## 7. Repository state
 
-The previous session's work **is** committed, contrary to what this section used
-to say. Last commits are `ef48338` (the V1 POC run and rendered startup files)
-and `3978674` (session record and handoff).
+Everything is committed and pushed. `main` is level with `origin/main` at
+`46af9da`, and the working tree is clean.
 
-Uncommitted right now, from the inference-credential work: the four
-`infrastructure/poc/` contracts, the processing worker's `v1_infrastructure.py`,
-three tests, the three re-rendered files under `infrastructure/poc/units/`, and
-these continuity files. Nothing has been pushed.
+Recent commits: `46af9da` (the inference credential given a home, executed and
+proved), `3978674` (previous session record and this handoff), `ef48338` (the V1
+POC run and the rendered startup files).
+
+Ignored runtime material under `var/` is excluded and nothing under it is
+tracked. The plaintext credentials in `var/run/staging/` and `var/run/creds-*/`
+have never been committed.
 
 The composite verdict is unchanged and should stay that way:
 **`V1_POC_NOT_ADMITTED`.** Static contracts passing is not readiness.
