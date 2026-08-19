@@ -2155,3 +2155,61 @@ legislation, which is the operative law and is already in hand. If the gazette
 artefacts are genuinely wanted, ask the Department of Justice to publish them
 through data.gov.hk, which is the channel their own robots.txt and open-data
 programme point to.
+
+## The HKeL gazette contract is written down
+
+Patchright discovery succeeded on 2026-08-19, run by the user on the host after
+the DoJ cleared the access. The full contract is in
+`docs/design/HKEL_GAZETTE_GRID_CONTRACT.md`. Summary of what was unknown and now
+is not:
+
+**The capability gate is query parameters, not an applet.** `/gazette` bounces
+through `checkClientConfig.jsp`, `submitClientConfig.do`, and `warning.jsp`, then
+`/client-check?…&JS_S=true&C_S=` returns and `/gazette?…` serves. Nothing hidden.
+
+**The grid** is `POST /grid` with a JSON body naming
+`gridId: GAZETTE_REGISTER_LIST`, `queryId: GAZETTE_REGISTER_QRY`, and
+`screenId: ERTS0502`. `queryParams` is a list of `KEY=VALUE` strings where a
+repeated key is a multi-valued filter; the three `GAZETTE_SUPPLEMENT_NO` entries
+select Legal Supplements 1, 2 and 3 — Ordinances, Regulations, Bills.
+
+**Pagination** is `pageNo`/`pageSize`, with `firstPage` and `lastPage` in the
+response. `lastPage` was 1415 at `pageSize` 20.
+
+**`totalRecords` is a trap.** It reported `100` against `lastPage: 1415`, so it is
+not a row count and must never be used as a completeness figure. Walk the pages
+and count what arrives.
+
+**The artifact locator is `VIRTUAL_URL`**, a site-relative path without a leading
+slash: `hk/2026/1` → `https://www.elegislation.gov.hk/hk/2026/1`. That is the same
+shape the register already carries as `{legal_item_locator}` for the verified and
+assisted copy roles, so this may unblock their locator half too — unverified.
+
+Three things remain, and the role's blockers now say exactly these rather than the
+old blanket `EXACT_GRID_PAGINATION_AND_ARTIFACT_LOCATOR_CONTRACT_REQUIRED`:
+
+- `PDF_ARTIFACT_URL_CONSTRUCTION_NOT_OBSERVED` — `ENG_PDF`/`CHI_PDF`/`BI_PDF` are
+  flags (`"E"`, `"C"`, `null`), not URLs, and the address is built client-side by
+  a `generatePdf` control that was never exercised. One discovery run that clicks
+  a PDF link settles it.
+- `CONNECTOR_POST_SUPPORT_REQUIRED` — `OfficialHttpConnector` is `GET`/`HEAD` only,
+  and the grid needs `POST` plus a `csrfToken` read from the rendered page.
+- `CLIENT_CAPABILITY_ASSERTION_DECISION_REQUIRED` — the gate wants `BR=Chrome` and
+  `JS_S=true`. The inert connector is neither. Asserting them is very likely
+  harmless for a JSON endpoint that never renders, but it is a statement about our
+  client to the publisher, and that decision belongs to the project owner.
+
+### Two process notes from the discovery itself
+
+The second discovery run returned an empty page — 39 chars, one request — and
+**overwrote the first run's capture**, which was a real defect in the tool: a
+discovery script must never clobber a previous result. Output is timestamped now,
+a thin load retries once, and a thin result is reported as a failure rather than
+written out as if it succeeded. The third run reproduced the first cleanly, so
+the empty one was transient rather than a block.
+
+The acquisition image cannot run Patchright: it carries the library but none of a
+browser's shared objects, so a mounted Chromium fails on `libglib-2.0.so.0`. The
+host has both, and the repo venv already has patchright 1.62.1, so discovery runs
+there. Putting it in the worker means adding roughly thirty libraries through
+`var/debs`, which is how the image already gets its Kerberos libraries.
