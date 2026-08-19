@@ -16,8 +16,10 @@ worker at a host the register has not admitted.
 
 from __future__ import annotations
 
+import json
 import logging
 from dataclasses import dataclass
+from hashlib import sha256
 from typing import TYPE_CHECKING
 from urllib.parse import urlsplit
 
@@ -136,10 +138,29 @@ class AcquisitionActivities:
         listed = 0
         retained: list[dict[str, object]] = []
         skipped: list[dict[str, str]] = []
+        listing: list[dict[str, object]] = []
         for entry in client.iter_entries(
             date_from=date_from, date_to=date_to, max_pages=_GAZETTE_MAX_PAGES
         ):
             listed += 1
+            # Every row is recorded, including those the publisher offers no file
+            # for. Their metadata is the only record that the document exists.
+            listing.append(
+                {
+                    "gazette_id": entry.gazette_id,
+                    "year": entry.year,
+                    "supplement": entry.supplement,
+                    "gazette_number": entry.gazette_number,
+                    "gazette_date": entry.gazette_date,
+                    "title_english": entry.title_english,
+                    "title_chinese": entry.title_chinese,
+                    "locator": entry.locator,
+                    "item_url": entry.item_url,
+                    "has_english_pdf": entry.has_english_pdf,
+                    "has_chinese_pdf": entry.has_chinese_pdf,
+                    "has_bilingual_pdf": entry.has_bilingual_pdf,
+                }
+            )
             address = entry.pdf_url(language)
             if address is None:
                 # A language the publisher never issued is a fact, not a failure.
@@ -152,6 +173,7 @@ class AcquisitionActivities:
                 )
             except AcquisitionPipelineError as error:
                 skipped.append({"gazette_id": entry.gazette_id, "reason": str(error)[:120]})
+        manifest = self._retain_gazette_listing(date_from, date_to, listing)
         _LOGGER.info(
             "ACQUISITION_WORKER gazette window %s-%s: listed %s, retained %s, skipped %s",
             date_from,
@@ -161,6 +183,7 @@ class AcquisitionActivities:
             len(skipped),
         )
         return {
+            "listing_manifest": manifest,
             "date_from": date_from,
             "date_to": date_to,
             "language": language,
@@ -169,6 +192,61 @@ class AcquisitionActivities:
             "skipped": len(skipped),
             "artifacts": retained,
             "skips": skipped,
+        }
+
+    def _retain_gazette_listing(
+        self,
+        date_from: str,
+        date_to: str,
+        listing: list[dict[str, object]],
+    ) -> dict[str, object]:
+        """Retain the register listing for one window as its own manifest.
+
+        This is not a source artifact and must not be filed as one. The rows come
+        from the publisher's grid API, which ADR 0100 treats as discovery rather
+        than controlling evidence, so the manifest lives under its own key prefix
+        and records where it came from. What it is good for is the question the
+        PDFs cannot answer: which documents were gazetted in this window,
+        including the ones the publisher hosts no file for.
+
+        The bytes are canonical — rows sorted by gazette id, separators fixed, no
+        capture timestamp inside — so re-running a window produces the identical
+        object and the vault adopts it instead of writing a second copy.
+        """
+        document = {
+            "kind": "HKEL_GAZETTE_REGISTER_LISTING",
+            "provenance": "publisher grid API, not an inert source fetch",
+            "source_id": "HK-LEG-HKEL-GAZETTE-BACKCAPTURE",
+            "supplements": ["1", "2", "3"],
+            "date_from": date_from,
+            "date_to": date_to,
+            "row_count": len(listing),
+            "rows": sorted(listing, key=lambda row: str(row["gazette_id"])),
+        }
+        body = json.dumps(document, sort_keys=True, separators=(",", ":")).encode()
+        window = f"{date_from.replace('/', '')}-{date_to.replace('/', '')}"
+        fingerprint = sha256(body).hexdigest()
+        logical_key = f"poc/source/gazette-listing/{window}/{fingerprint}"
+        receipt = self._vault.conditional_create(
+            logical_key,
+            body,
+            RetentionProfile(_RETENTION_PROFILE, _RETENTION_UNTIL),
+        )
+        _LOGGER.info(
+            "ACQUISITION_WORKER retained a %s-row listing for %s..%s (created=%s)",
+            len(listing),
+            date_from,
+            date_to,
+            receipt.created,
+        )
+        return {
+            "logical_key": logical_key,
+            "fingerprint": f"sha256:{fingerprint}",
+            "row_count": len(listing),
+            "byte_length": len(body),
+            "created": receipt.created,
+            "read_back_verified": receipt.read_back_verified,
+            "version_id": receipt.reference.version_id,
         }
 
     def _retain_gazette_artifact(

@@ -2485,3 +2485,29 @@ fails in exactly the same shape.
 The progress file lives on a Docker volume rather than in `var/run`, because the
 container runs as the service uid and `var/run` belongs to the host user; the
 first version would have failed its first save, after a year of work.
+
+## The register listing is retained as its own manifest
+
+Closing the gap named above: the 193 entries in 2000 that the publisher hosts no
+file for had real metadata and none of it was kept.
+
+`_retain_gazette_listing` now writes one manifest per window under
+`poc/source/gazette-listing/{window}/{fingerprint}`, holding every row including
+those with no PDF in any language: gazette id, date, supplement, number, both
+titles, locator, item URL, and the three availability flags.
+
+**It is filed apart from the artifacts on purpose.** The rows come from the
+publisher's grid API, which ADR 0100 treats as discovery rather than controlling
+evidence, so the manifest carries its own `kind` and a `provenance` line saying so
+and lives under a distinct key prefix. Nothing should mistake it for a source
+artifact. What it answers is the question the PDFs cannot: which documents were
+gazetted in this window, including the ones with nothing to download.
+
+The bytes are canonical — rows sorted by gazette id, fixed separators, no capture
+timestamp inside — so re-running a window produces the identical object and the
+vault adopts it rather than writing a second copy.
+
+**Written and unit-green, not yet verified live.** `var/run/run_gazette_verify.sh`
+re-captures one year and reads the manifest back out of the vault to confirm the
+no-PDF rows are in it. It is slow because it re-fetches that year's PDFs, so it is
+the user's to run rather than something to poll from here.
