@@ -12,11 +12,11 @@ def _report() -> OfficialSourceBuildReport:
     return assess_official_source_build(load_hk_legislation_source_register())
 
 
-def test_report_accounts_for_all_14_sources_and_78_endpoints() -> None:
+def test_report_accounts_for_all_14_sources_and_79_endpoints() -> None:
     report = _report()
 
     assert len(report.sources) == 14
-    assert report.endpoint_count == 78
+    assert report.endpoint_count == 79
     assert tuple(item.source_id for item in report.sources) == tuple(
         sorted(item.source_id for item in report.sources)
     )
@@ -58,11 +58,12 @@ def test_every_remaining_engineering_gap_is_explicit_and_endpoint_bound() -> Non
     )
     ready = tuple(item for item in endpoint_assessments if item.implementation_ready)
     blocked = tuple(item for item in endpoint_assessments if not item.implementation_ready)
-    assert len(ready) == 62
+    assert len(ready) == 63
     assert len(blocked) == 16
     assert all(item.technical_blockers for item in blocked)
     assert all(not item.technical_blockers for item in ready)
-    assert sum(item.requires_locator_binding for item in endpoint_assessments) == 6
+    # Seven now: the gazette artifact endpoint is the newest locator-bound one.
+    assert sum(item.requires_locator_binding for item in endpoint_assessments) == 7
     assert {blocker for item in blocked for blocker in item.technical_blockers} == {
         "CATALOGUE_DISCOVERY_PROCEDURE_REQUIRED",
         "PHYSICAL_HOLDING_PROCEDURE_REQUIRED",

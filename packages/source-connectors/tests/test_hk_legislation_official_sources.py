@@ -26,14 +26,14 @@ def test_register_binds_the_complete_14_role_universe_and_stays_fail_closed() ->
     register = load_hk_legislation_source_register()
 
     assert len(register.sources) == 14
-    assert len(register.endpoints) == 78
+    assert len(register.endpoints) == 79
     assert {item.source_id for item in register.sources} == HK_LEGISLATION_SOURCE_IDS
     assert set(register.authorization.source_ids) == HK_LEGISLATION_SOURCE_IDS
     assert register.authorization.rss_policy == "DISCOVERY_OR_CHANGE_SIGNAL_ONLY"
     assert register.status == "PARTIALLY_CONFIGURED_FAIL_CLOSED"
     assert register.operationally_admitted is False
     assert register.fingerprint == (
-        "sha256:2bbad109451b9b47c63179c8b527934239dac399989087ed74c95a00bbeedf0d"
+        "sha256:40e1918882a78a4ef29a095b426cdf20105f77968beee0f0c9ce49689daa0669"
     )
     assert register.legal_clearance.authority == "ASKLEGAL_LEGAL_TEAM"
     assert register.legal_clearance.reported_by == "PROJECT_USER"
@@ -53,10 +53,14 @@ def test_technically_complete_basic_law_role_joins_the_configured_sources() -> N
     assert register.partially_configured_source_ids == (
         "HK-LEG-GLD-EGAZETTE",
         "HK-LEG-HKEL-EDITORIAL-RECORDS",
+        # Gazette back-capture joined once its grid, pagination, locator, and PDF
+        # address were observed and implemented; only the completeness rule and
+        # its date-window consequence remain.
+        "HK-LEG-HKEL-GAZETTE-BACKCAPTURE",
         "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
         "HK-LEG-HKEL-VERIFIED-COPIES",
         )
-    assert len(register.blocked_source_ids) == 2
+    assert len(register.blocked_source_ids) == 1
     configured = {
         item.source_id: item
         for item in register.sources

@@ -32,6 +32,7 @@ from asklegal_acquisition_worker.v1_infrastructure import load_v1_infrastructure
 from asklegal_acquisition_worker.v1_pipeline import (
     acquire_endpoint,
     acquire_endpoints,
+    acquire_gazette_window,
     build_activities,
 )
 
@@ -55,8 +56,10 @@ def _build_serve(
             concurrency_options=ConcurrencyOptions()
         )
         worker.add_activity(activities.capture_endpoint)
+        worker.add_activity(activities.capture_gazette_window)
         worker.add_orchestrator(acquire_endpoint)
         worker.add_orchestrator(acquire_endpoints)
+        worker.add_orchestrator(acquire_gazette_window)
         worker.start()
         _LOGGER.info(
             "ACQUISITION_WORKER serving hub=%s vault=%s",

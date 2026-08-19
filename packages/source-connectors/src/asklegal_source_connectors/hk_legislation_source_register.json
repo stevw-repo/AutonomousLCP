@@ -5,7 +5,7 @@
   "register_version": "2026-08-18.2",
   "effective_date": "2026-08-18",
   "status": "PARTIALLY_CONFIGURED_FAIL_CLOSED",
-  "fingerprint": "sha256:2bbad109451b9b47c63179c8b527934239dac399989087ed74c95a00bbeedf0d",
+  "fingerprint": "sha256:40e1918882a78a4ef29a095b426cdf20105f77968beee0f0c9ce49689daa0669",
   "authorization": {
     "authorized_on": "2026-08-17",
     "scope": "READ_ONLY_OFFICIAL_SOURCE_ACCESS_AND_EVIDENCE_CAPTURE_FOR_ALL_14_HK_LEGISLATION_SOURCE_ROLES",
@@ -354,15 +354,16 @@
       "registered_source_id": "src_00000000000000000000000000000000000000000000000b",
       "version": "1.0.0",
       "endpoint_ids": [
-        "sep_000000000000000000000000000000000000000000000041"
+        "sep_000000000000000000000000000000000000000000000041",
+        "sep_00000000000000000000000000000000000000000000004f"
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
-      "operational_state": "BLOCKED",
+      "operational_state": "PARTIALLY_CONFIGURED",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000002"
       ],
       "blockers": [
-        "ACQUISITION_INTEGRATION_AND_COMPLETENESS_RULE_REQUIRED"
+        "COMPLETE_INVENTORY_RULE_IS_DATE_WINDOWED_NOT_WHOLE_REGISTER"
       ]
     },
     {
@@ -2099,6 +2100,26 @@
       "proves_no_change": false,
       "evidence_role": "ORIGINATING_DECISION_OR_INTERPRETATION",
       "enabled": false
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000004f",
+      "source_id": "HK-LEG-HKEL-GAZETTE-BACKCAPTURE",
+      "version": "1.0.0",
+      "name": "HKeL gazette artifact",
+      "url": "https://www.elegislation.gov.hk/hk/{gazette_artifact_locator}",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET"
+      ],
+      "media_types": [
+        "application/pdf"
+      ],
+      "max_bytes": 50000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "DISCOVERY_ONLY",
+      "enabled": true
     }
   ]
 }

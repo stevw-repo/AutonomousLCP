@@ -24,6 +24,7 @@ from urllib.parse import urlsplit
 from asklegal_durable_task import TaskFailedError
 from asklegal_evidence_vault import RetentionProfile
 from asklegal_source_connectors import (
+    HkelGazetteRegisterClient,
     HttpMethod,
     OfficialFetchRequest,
     OfficialHttpConnector,
@@ -47,6 +48,9 @@ _RETENTION_PROFILE = "poc-source-evidence"
 # retention horizon and nothing more.
 _RETENTION_UNTIL = "2027-01-01T00:00:00Z"
 _FETCH_TIMEOUT_SECONDS = 45
+_GAZETTE_ARTIFACT_ENDPOINT = "sep_00000000000000000000000000000000000000000000004f"
+_GAZETTE_LOCATOR_PLACEHOLDER = "gazette_artifact_locator"
+_GAZETTE_MAX_PAGES = 50
 
 
 class AcquisitionPipelineError(RuntimeError):
@@ -94,6 +98,108 @@ class AcquisitionActivities:
         )
         self._endpoints = {item.endpoint_id: item for item in self._register.endpoints}
         self._vault = infrastructure.primary_vault
+        self._transport = ProxiedOfficialHttpTransport(host, port)
+
+    def capture_gazette_window(self, _context: ActivityContext, payload: object) -> object:
+        """Enumerate the gazette register for a date window and retain its PDFs.
+
+        Two boundaries meet here and stay separate. The register grid is a
+        publisher API reached through the proxied transport, and it produces only
+        locators — discovery, never evidence. Each addressed PDF is then fetched
+        through the inert connector and retained the ordinary way, so the bytes
+        that become evidence arrive on the evidence path.
+
+        The window is required. An unbounded walk is not reproducible: the
+        register grows at the front, so page one shifts between runs and two
+        captures of the same query disagree. A closed window over past dates
+        returns the same rows every time.
+        """
+        if not isinstance(payload, dict):
+            message = "capture_gazette_window needs a date window"
+            raise AcquisitionPipelineError(message)
+        date_from = str(payload.get("date_from", ""))
+        date_to = str(payload.get("date_to", ""))
+        if not date_from or not date_to:
+            message = "capture_gazette_window needs both date_from and date_to as DD/MM/YYYY"
+            raise AcquisitionPipelineError(message)
+        language = str(payload.get("language", "en"))
+
+        client = HkelGazetteRegisterClient(self._transport)
+        client.open_session()
+        listed = 0
+        retained: list[dict[str, object]] = []
+        skipped: list[dict[str, str]] = []
+        for entry in client.iter_entries(
+            date_from=date_from, date_to=date_to, max_pages=_GAZETTE_MAX_PAGES
+        ):
+            listed += 1
+            address = entry.pdf_url(language)
+            if address is None:
+                # A language the publisher never issued is a fact, not a failure.
+                skipped.append({"gazette_id": entry.gazette_id, "reason": "NOT_PUBLISHED"})
+                continue
+            locator = address.split("/hk/", 1)[1]
+            try:
+                retained.append(self._retain_gazette_artifact(entry, locator))
+            except AcquisitionPipelineError as error:
+                skipped.append({"gazette_id": entry.gazette_id, "reason": str(error)[:120]})
+        _LOGGER.info(
+            "ACQUISITION_WORKER gazette window %s-%s: listed %s, retained %s, skipped %s",
+            date_from,
+            date_to,
+            listed,
+            len(retained),
+            len(skipped),
+        )
+        return {
+            "date_from": date_from,
+            "date_to": date_to,
+            "language": language,
+            "listed": listed,
+            "retained": len(retained),
+            "skipped": len(skipped),
+            "artifacts": retained,
+            "skips": skipped,
+        }
+
+    def _retain_gazette_artifact(self, entry: object, locator: str) -> dict[str, object]:
+        """Fetch one addressed gazette PDF inertly and retain it."""
+        endpoint = self._endpoints.get(_GAZETTE_ARTIFACT_ENDPOINT)
+        if endpoint is None or not endpoint.enabled:
+            message = "the gazette artifact endpoint is absent or disabled"
+            raise AcquisitionPipelineError(message)
+        result = self._connector.fetch(
+            OfficialFetchRequest(
+                endpoint_id=endpoint.endpoint_id,
+                endpoint_version=endpoint.version,
+                method=HttpMethod.GET,
+                prior_fingerprint=None,
+                timeout_seconds=_FETCH_TIMEOUT_SECONDS,
+                substitutions=((_GAZETTE_LOCATOR_PLACEHOLDER, locator),),
+            )
+        )
+        if result.failure_code is not None:
+            message = f"gazette artifact fetch failed: {result.failure_code}"
+            raise AcquisitionPipelineError(message)
+        if not result.classification.admitted:
+            message = f"gazette artifact not admitted: {result.classification.reasons}"
+            raise AcquisitionPipelineError(message)
+        logical_key = f"poc/source/gazette/{result.fingerprint.removeprefix('sha256:')}"
+        receipt = self._vault.conditional_create(
+            logical_key,
+            result.body,
+            RetentionProfile(_RETENTION_PROFILE, _RETENTION_UNTIL),
+        )
+        return {
+            "gazette_id": getattr(entry, "gazette_id", ""),
+            "locator": locator,
+            "logical_key": logical_key,
+            "fingerprint": result.fingerprint,
+            "byte_length": len(result.body),
+            "created": receipt.created,
+            "read_back_verified": receipt.read_back_verified,
+            "version_id": receipt.reference.version_id,
+        }
 
     def capture_endpoint(self, _context: ActivityContext, payload: object) -> object:
         """Capture one enabled endpoint and retain it, returning only its reference.
@@ -221,3 +327,12 @@ def build_activities(
 ) -> AcquisitionActivities:
     """Compose this worker's activities from its own infrastructure."""
     return AcquisitionActivities(infrastructure)
+
+
+def acquire_gazette_window(
+    context: OrchestrationContext,
+    payload: object,
+) -> Generator[Task[object], object, object]:
+    """Capture one date-bounded slice of the gazette register."""
+    captured = yield context.call_activity("capture_gazette_window", input=payload)
+    return captured

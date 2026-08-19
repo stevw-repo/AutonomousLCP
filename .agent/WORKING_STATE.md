@@ -2299,3 +2299,47 @@ Discovery uses **patchright**, not playwright — `from patchright.sync_api impo
 sync_playwright`, which keeps the playwright API name. The browser binary is the
 playwright-installed `chromium_headless_shell-1234` from the host cache, which
 patchright reads from the same location.
+
+## Gazette integration built; the completeness rule is a date window
+
+Three pieces closed the remaining blocker.
+
+**Completeness is a date window, and that is a decision, not a discovery.** An
+unbounded walk of the register is not reproducible: it grows at the front, so page
+one shifts as gazettes are published and two runs of the same query disagree.
+`iter_entries(date_from=…, date_to=…)` sends `GAZETTE_DATE_FR` and
+`GAZETTE_DATE_TO`, which the grid already accepted; a closed window over past
+dates returns the same rows every time. A malformed date is refused before the
+request rather than silently ignored, because an ignored filter would return the
+whole register while looking bounded.
+
+**Template resolution reached the inert connector.** `OfficialFetchRequest` gained
+`substitutions`, and `_resolve_template` fills a registered template such as
+`.../hk/{gazette_artifact_locator}`. The guard is the template's own fixed prefix:
+the resolved URL must still start with the part before the first placeholder, so a
+value carrying a scheme, a host, or a parent traversal cannot move the fetch. Four
+tests cover the happy path and the three refusals. The register already supported
+URL templates natively — `allow_template=True` — so the model had anticipated this.
+
+**The two boundaries stay separate, which was the point.** The register grid is a
+publisher API reached through the proxied transport and yields only locators. Each
+addressed PDF is then fetched through the inert connector and retained the
+ordinary way, so bytes that become evidence arrive on the evidence path.
+`capture_gazette_window` in the acquisition worker does exactly that, with
+`acquire_gazette_window` as its orchestration.
+
+A new endpoint, `sep_…004f`, carries the artifact template as `DIRECT_HTTP` and is
+enabled. `HK-LEG-HKEL-GAZETTE-BACKCAPTURE` moved from `BLOCKED` to
+`PARTIALLY_CONFIGURED`, and its remaining blocker states the honest limitation:
+`COMPLETE_INVENTORY_RULE_IS_DATE_WINDOWED_NOT_WHOLE_REGISTER`. A windowed capture
+is reproducible; it is not a claim to hold the whole register, and the role should
+not pretend otherwise.
+
+Counts moved with it: 79 endpoints, 56 enabled, one blocked role, five partially
+configured. Suite 765.
+
+**Not yet executed against the live site.** Every part is proved offline with
+stubbed transports, and the grid contract itself came from live discovery, but no
+gazette PDF has been fetched and retained end to end. That run needs the rebuilt
+acquisition image under systemd, and it is the next thing to do rather than
+something already done.

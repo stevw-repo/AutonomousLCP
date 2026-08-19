@@ -223,3 +223,24 @@ def test_an_unknown_pdf_language_is_refused() -> None:
 
     with pytest.raises(GazetteRegisterError):
         entry.pdf_url("sc")
+
+
+def test_a_date_window_is_sent_and_bounds_the_query() -> None:
+    """An unbounded walk is not reproducible; the window is the completeness rule."""
+    client, transport = _client([(200, b""), (200, _PAGE_HTML), (200, _grid_reply(last_page=1))])
+    client.open_session()
+
+    client.page(1, date_from="01/01/2026", date_to="30/06/2026")
+
+    body = json.loads(transport.calls[-1].body or b"{}")
+    assert "GAZETTE_DATE_FR=01/01/2026" in body["queryParams"]
+    assert "GAZETTE_DATE_TO=30/06/2026" in body["queryParams"]
+
+
+def test_a_malformed_date_is_refused_before_the_request() -> None:
+    """A silently ignored filter would return the whole register as if bounded."""
+    client, _ = _client([(200, b""), (200, _PAGE_HTML)])
+    client.open_session()
+
+    with pytest.raises(GazetteRegisterError):
+        client.page(1, date_from="2026-01-01", date_to="30/06/2026")

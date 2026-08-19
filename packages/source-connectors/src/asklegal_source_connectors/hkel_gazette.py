@@ -41,6 +41,7 @@ _CSRF_PATTERN = re.compile(r'["\']csrfToken["\']\s*:\s*["\']([^"\']+)["\']')
 ENGLISH = "en"
 TRADITIONAL_CHINESE = "zh-Hant-HK"
 _PDF_LANGUAGES = (ENGLISH, TRADITIONAL_CHINESE)
+_DATE_PATTERN = re.compile(r"\d{2}/\d{2}/\d{4}")
 
 CAPABILITY_CLAIM: dict[str, str] = {
     "OS": "Linux",
@@ -234,7 +235,12 @@ class HkelGazetteRegisterClient:
         self._csrf = found.group(1)
         return self._csrf
 
-    def _grid_body(self, page_number: int) -> bytes:
+    def _grid_body(
+        self,
+        page_number: int,
+        date_from: str = "",
+        date_to: str = "",
+    ) -> bytes:
         if self._csrf is None:
             message = "open_session must run before the grid is called"
             raise GazetteRegisterError(message)
@@ -258,8 +264,8 @@ class HkelGazetteRegisterClient:
                     "GAZETTE_NO=",
                     "GAZETTE_NAME=",
                     *(f"GAZETTE_SUPPLEMENT_NO={value}" for value in _LEGAL_SUPPLEMENTS),
-                    "GAZETTE_DATE_FR=",
-                    "GAZETTE_DATE_TO=",
+                    f"GAZETTE_DATE_FR={date_from}",
+                    f"GAZETTE_DATE_TO={date_to}",
                     "SER_FLD=E",
                     "GN_TYP=N",
                     "GN_PFX=-",
@@ -282,18 +288,27 @@ class HkelGazetteRegisterClient:
             separators=(",", ":"),
         ).encode()
 
-    def page(self, page_number: int = 1) -> GazettePage:
-        """Read one page of the register."""
+    def page(
+        self,
+        page_number: int = 1,
+        date_from: str = "",
+        date_to: str = "",
+    ) -> GazettePage:
+        """Read one page of the register, optionally bounded by gazettal date."""
         if page_number < 1:
             message = "page_number starts at 1"
             raise GazetteRegisterError(message)
+        for label, value in (("date_from", date_from), ("date_to", date_to)):
+            if value and _DATE_PATTERN.fullmatch(value) is None:
+                message = f"{label} must be DD/MM/YYYY"
+                raise GazetteRegisterError(message)
         try:
             status, body, cookies = self._transport.exchange(
                 PublisherCall(
                     GAZETTE_HOST,
                     "POST",
                     GRID_PATH,
-                    body=self._grid_body(page_number),
+                    body=self._grid_body(page_number, date_from, date_to),
                     content_type="application/json",
                 ),
                 self._cookies,
@@ -317,20 +332,29 @@ class HkelGazetteRegisterClient:
             row_offset=int(payload.get("rowOffset", 0) or 0),
         )
 
-    def iter_entries(self, *, max_pages: int | None = None) -> Iterator[GazetteEntry]:
-        """Walk the register from the first page, counting what actually arrives.
+    def iter_entries(
+        self,
+        *,
+        date_from: str = "",
+        date_to: str = "",
+        max_pages: int | None = None,
+    ) -> Iterator[GazetteEntry]:
+        """Walk the register, counting what actually arrives.
 
         `totalRecords` is not used and must not be: it reported 100 against a
         `lastPage` of 1415, so it is not a row count. `lastPage` is re-read on
         every page because it can move while paging.
+
+        **Bound the window.** An unbounded walk is not reproducible: the register
+        grows at the front, so page 1 shifts as gazettes are published and two
+        runs of the same query return different sets. A closed date window over
+        past dates returns the same rows every time, which is what makes a capture
+        repeatable and a completeness claim meaningful.
         """
         page_number = 1
-        seen = 0
         while True:
-            page = self.page(page_number)
-            for entry in page.entries:
-                seen += 1
-                yield entry
+            page = self.page(page_number, date_from, date_to)
+            yield from page.entries
             if not page.entries or not page.has_more:
                 return
             page_number += 1

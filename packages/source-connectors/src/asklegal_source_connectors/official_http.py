@@ -45,9 +45,25 @@ class OfficialFetchRequest:
     method: HttpMethod
     prior_fingerprint: str | None
     timeout_seconds: int
+    substitutions: tuple[tuple[str, str], ...] = ()
+    """Values for a templated endpoint URL, as `(placeholder, value)` pairs.
+
+    A registered template such as `.../hk/{legal_item_locator}` names the shape
+    of an address without knowing the item. The value comes from a listing the
+    publisher itself returned, so it is data, and it is checked accordingly: the
+    resolved URL must keep the template's fixed prefix, so no substitution can
+    move a fetch to another host or another path root.
+    """
 
     def __post_init__(self) -> None:
         exact_identifier(self.endpoint_id, "endpoint_id", "sep")
+        if type(self.substitutions) is not tuple or any(
+            type(pair) is not tuple
+            or len(pair) != 2
+            or not all(type(item) is str and item for item in pair)
+            for pair in self.substitutions
+        ):
+            raise TypeError("substitutions must be exact (placeholder, value) string pairs")
         exact_text(self.endpoint_version, "endpoint_version")
         if type(self.method) is not HttpMethod:
             raise TypeError("method must be an exact HttpMethod")
@@ -184,6 +200,7 @@ class OfficialHttpConnector:
         )
         if endpoint.access_mode is not EndpointAccessMode.DIRECT_HTTP:
             raise PermissionError("endpoint requires a non-HTTP acquisition procedure")
+        endpoint = _resolve_template(endpoint, request.substitutions)
         if "{" in endpoint.url or "}" in endpoint.url:
             raise PermissionError("unresolved endpoint templates cannot be fetched")
         if request.method not in endpoint.methods:
@@ -497,6 +514,36 @@ def _collect_cookies(header: str | None, jar: dict[str, str]) -> None:
         # usable name; skip those rather than storing rubbish.
         if name and " " not in name:
             jar[name] = value.strip()
+
+
+def _resolve_template(
+    endpoint: OfficialEndpointContract,
+    substitutions: tuple[tuple[str, str], ...],
+) -> OfficialEndpointContract:
+    """Fill a templated endpoint URL, refusing anything that moves the target.
+
+    The resolved URL must still begin with the template's own fixed prefix — the
+    part before its first placeholder. A value carrying a scheme, a host, or a
+    parent traversal therefore cannot redirect the fetch, because it would break
+    that prefix. Substituted values arrive from a publisher listing and are
+    treated as data throughout.
+    """
+    if not substitutions:
+        return endpoint
+    if "{" not in endpoint.url:
+        raise PermissionError("substitutions supplied for a non-templated endpoint")
+    prefix = endpoint.url.split("{", 1)[0]
+    resolved = endpoint.url
+    for placeholder, value in substitutions:
+        token = "{" + placeholder + "}"
+        if token not in resolved:
+            raise PermissionError("substitution names no placeholder in this endpoint")
+        if any(fragment in value for fragment in ("://", "..", "\\")):
+            raise PermissionError("substitution value may not carry a scheme or traversal")
+        resolved = resolved.replace(token, value)
+    if not resolved.startswith(prefix):
+        raise PermissionError("resolved URL left the endpoint's fixed prefix")
+    return replace(endpoint, url=resolved)
 
 
 def _is_redirect(status: int) -> bool:
