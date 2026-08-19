@@ -2253,3 +2253,49 @@ Still outstanding, unchanged: the PDF address construction was never observed, s
 disabled. The client yields locators and item URLs, which is what the register
 needed; turning a locator into a PDF address needs one more discovery run that
 exercises a `generatePdf` control.
+
+## The PDF address is settled; the gazette contract is complete
+
+Read from the rendered grid markup on 2026-08-19:
+
+```html
+<td><a href="/hk/2026/1!en"><img src="/images/icon/pdf.gif" class="pdf-link"></a></td>
+<td><a href="/hk/2026/1!zh-Hant-HK"><img src="/images/icon/pdf.gif"></a></td>
+<td><div>-</div></td>
+```
+
+**The address is the locator, a `!`, and the language code** —
+`https://www.elegislation.gov.hk/hk/2026/1!en`. No server round-trip;
+`generatePdf` only composes the string. Two published languages, `en` and
+`zh-Hant-HK`. A bare `-` means that language was never published, the matching
+flag is absent, and `pdf_url()` returns `None` rather than inventing an address
+that would fetch nothing and look like a broken source.
+
+`GazetteEntry.pdf_url(language)` and `published_pdf_urls()` implement it, with
+three more tests. Suite is 759.
+
+**A lesson worth keeping: two runs were wasted guessing selectors.** The marker
+class `pdf-link` sits on the `<img>`, not the `<a>`, so filtering anchors by class
+matched nothing twice. Dumping the row markup and reading it answered the question
+in one run. When a selector finds zero, print the DOM rather than guess again.
+
+The role's blocker is now the single honest remainder,
+`ACQUISITION_INTEGRATION_AND_COMPLETENESS_RULE_REQUIRED`:
+
+- nothing yet enumerates the register and fetches the addressed PDFs through the
+  inert connector; the client returns locators and addresses, and that is all
+- completeness is undefined. `lastPage` was 1415 and can move while paging, so a
+  reproducible run probably needs a date-bounded query rather than a full walk.
+  This is a design decision, not a coding one.
+
+Settled and recorded in the contract document: the capability assertion was the
+owner's decision, and `POST` went to a separate `exchange` surface rather than
+into `OfficialHttpConnector`, which stays `GET`/`HEAD` so the inert evidence path
+is untouched.
+
+### Tooling note
+
+Discovery uses **patchright**, not playwright — `from patchright.sync_api import
+sync_playwright`, which keeps the playwright API name. The browser binary is the
+playwright-installed `chromium_headless_shell-1234` from the host cache, which
+patchright reads from the same location.

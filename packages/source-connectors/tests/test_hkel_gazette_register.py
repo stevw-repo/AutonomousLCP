@@ -185,3 +185,41 @@ def test_a_failing_grid_status_is_reported_not_swallowed() -> None:
 
     with pytest.raises(GazetteRegisterError):
         client.page(1)
+
+
+def test_pdf_address_is_the_locator_a_bang_and_the_language() -> None:
+    """Observed in the rendered grid: /hk/2026/1!en, no server round-trip."""
+    client, _ = _client([(200, b""), (200, _PAGE_HTML), (200, _grid_reply())])
+    client.open_session()
+
+    entry = client.page(1).entries[0]
+
+    assert entry.pdf_url("en") == "https://www.elegislation.gov.hk/hk/2026/1!en"
+    assert entry.pdf_url("zh-Hant-HK") == "https://www.elegislation.gov.hk/hk/2026/1!zh-Hant-HK"
+
+
+def test_an_unpublished_language_returns_none_rather_than_a_guess() -> None:
+    """The grid shows a bare dash; inventing an address would fetch nothing."""
+    row = list(_ROW)
+    row[_COLUMNS.index("CHI_PDF")] = None
+    reply = json.dumps(
+        {"firstPage": 1, "lastPage": 1, "columns": _COLUMNS, "rowData": [row]}
+    ).encode()
+    client, _ = _client([(200, b""), (200, _PAGE_HTML), (200, reply)])
+    client.open_session()
+
+    entry = client.page(1).entries[0]
+
+    assert entry.pdf_url("zh-Hant-HK") is None
+    assert entry.pdf_url("en") is not None
+    assert entry.published_pdf_urls() == ("https://www.elegislation.gov.hk/hk/2026/1!en",)
+
+
+def test_an_unknown_pdf_language_is_refused() -> None:
+    """Only the two languages the grid actually publishes are addressable."""
+    client, _ = _client([(200, b""), (200, _PAGE_HTML), (200, _grid_reply())])
+    client.open_session()
+    entry = client.page(1).entries[0]
+
+    with pytest.raises(GazetteRegisterError):
+        entry.pdf_url("sc")

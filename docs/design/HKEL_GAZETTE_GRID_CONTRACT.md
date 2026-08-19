@@ -128,11 +128,26 @@ plausibly unblocks the locator half of those roles too. That has not been
 verified and should not be assumed.
 
 `ENG_PDF`, `CHI_PDF`, and `BI_PDF` are availability flags, not URLs: `"E"`, `"C"`,
-or `null`. Their `controls` entry is `generatePdf`, so the PDF address is
-constructed client-side from `VIRTUAL_URL` plus the language flag. **The exact
-construction was not observed** — no PDF was fetched during discovery — and it is
-the one piece of this contract still missing. A second discovery run that clicks
-one PDF link would settle it.
+or `null`.
+
+**The PDF address is the locator, a `!`, and the language code.** Read from the
+rendered grid on 2026-08-19:
+
+```html
+<td><a href="/hk/2026/1!en"><img src="/images/icon/pdf.gif" class="pdf-link"></a></td>
+<td><a href="/hk/2026/1!zh-Hant-HK"><img src="/images/icon/pdf.gif"></a></td>
+<td><div>-</div></td>
+```
+
+So `https://www.elegislation.gov.hk/hk/2026/1!en`. There is no server round-trip
+and no separate identifier — `generatePdf` only composes this string. The two
+published languages are `en` and `zh-Hant-HK`. A cell showing a bare `-` means
+that language was never published, and the matching flag is absent; there is no
+address to construct and none should be invented.
+
+Note the marker class `pdf-link` sits on the `<img>`, not on the `<a>`. Two
+discovery attempts filtered anchors by class and found nothing before the row
+markup was dumped and read directly.
 
 `GAZETTE_DATE` is `DD/MM/YYYY`. `GAZETTE_NAME` was `null` on every observed row
 while `GAZETTE_TITLE_ENG` and `GAZETTE_TITLE_CHI` carried the titles, which is why
@@ -140,12 +155,18 @@ the grid's `controls` name a `generateGazetteName` function for that column.
 
 ## 5. What this does not settle
 
-- the PDF address construction from `VIRTUAL_URL` and the language flag
 - whether `lastPage` is stable enough to define completeness, or whether a
   date-bounded query is needed to make a run reproducible
-- whether the inert connector may report `JS_S=true` and `BR=Chrome`, which is
-  section 1's honesty problem and the owner's call
-- POST support in `OfficialHttpConnector`, which is currently `GET`/`HEAD` only
 
-Until those are resolved the role stays disabled. The contract is now written
-down; the remaining work is implementation and one decision.
+Settled since this was written: the project owner decided on 2026-08-19 to assert
+`JS_S=true` and `BR=Chrome`, recorded in `CAPABILITY_CLAIM` with its own note that
+the values are asserted rather than measured. `POST` support went to a separate
+`exchange` surface on the proxied transport rather than into
+`OfficialHttpConnector`, which stays `GET`/`HEAD` so the inert evidence path is
+unchanged.
+
+The contract is complete and implemented in
+`asklegal_source_connectors.hkel_gazette`. What remains is integration: the
+acquisition worker does not yet enumerate the register and fetch the addressed
+PDFs through the inert connector, and the completeness question above is
+unanswered, so the role stays disabled.

@@ -38,6 +38,10 @@ _DEFAULT_PAGE_SIZE = 20
 _MAX_PAGE_SIZE = 100
 _CSRF_PATTERN = re.compile(r'["\']csrfToken["\']\s*:\s*["\']([^"\']+)["\']')
 
+ENGLISH = "en"
+TRADITIONAL_CHINESE = "zh-Hant-HK"
+_PDF_LANGUAGES = (ENGLISH, TRADITIONAL_CHINESE)
+
 CAPABILITY_CLAIM: dict[str, str] = {
     "OS": "Linux",
     "OS_S": "false",
@@ -95,6 +99,34 @@ class GazetteEntry:
     def item_url(self) -> str:
         """Return the absolute legal-item URL this row points at."""
         return f"https://{GAZETTE_HOST}/{self.locator.lstrip('/')}"
+
+    def pdf_url(self, language: str = ENGLISH) -> str | None:
+        """Return the PDF address for one language, or None if none is published.
+
+        Observed in the rendered grid on 2026-08-19: the anchor is
+        `/hk/2026/1!en`, so the address is the locator, a `!`, and the language
+        code. There is no server round-trip and no separate identifier.
+
+        Returns None rather than a guess when the row's flag says that language
+        was never published: the grid shows a bare `-` in that cell, and inventing
+        an address would turn a known absence into a fetch that looks like a
+        broken source.
+        """
+        if language not in _PDF_LANGUAGES:
+            message = f"unsupported PDF language: {language}"
+            raise GazetteRegisterError(message)
+        published = {
+            ENGLISH: self.has_english_pdf,
+            TRADITIONAL_CHINESE: self.has_chinese_pdf,
+        }[language]
+        if not published:
+            return None
+        return f"https://{GAZETTE_HOST}/{self.locator.lstrip('/')}!{language}"
+
+    def published_pdf_urls(self) -> tuple[str, ...]:
+        """Return every PDF address this row actually offers."""
+        found = (self.pdf_url(language) for language in _PDF_LANGUAGES)
+        return tuple(url for url in found if url is not None)
 
 
 @dataclass(frozen=True, slots=True)

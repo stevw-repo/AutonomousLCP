@@ -33,7 +33,7 @@ def test_register_binds_the_complete_14_role_universe_and_stays_fail_closed() ->
     assert register.status == "PARTIALLY_CONFIGURED_FAIL_CLOSED"
     assert register.operationally_admitted is False
     assert register.fingerprint == (
-        "sha256:4339f462769243ac4b391878dc5b373dd7642a193a048279161458f26921d2ee"
+        "sha256:2bbad109451b9b47c63179c8b527934239dac399989087ed74c95a00bbeedf0d"
     )
     assert register.legal_clearance.authority == "ASKLEGAL_LEGAL_TEAM"
     assert register.legal_clearance.reported_by == "PROJECT_USER"
