@@ -33,7 +33,7 @@ def test_register_binds_the_complete_14_role_universe_and_stays_fail_closed() ->
     assert register.status == "PARTIALLY_CONFIGURED_FAIL_CLOSED"
     assert register.operationally_admitted is False
     assert register.fingerprint == (
-        "sha256:e792bc88bc3dca14dee4816927291429d002d73efef18a10b217bd640e0dfc58"
+        "sha256:9e2a083aa12f59cd2417da6906047913e4c738c3c35127919a6fff5a735fa58c"
     )
     assert register.legal_clearance.authority == "ASKLEGAL_LEGAL_TEAM"
     assert register.legal_clearance.reported_by == "PROJECT_USER"
@@ -55,9 +55,8 @@ def test_technically_complete_basic_law_role_joins_the_configured_sources() -> N
         "HK-LEG-HKEL-EDITORIAL-RECORDS",
         "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
         "HK-LEG-HKEL-VERIFIED-COPIES",
-        "HK-LEG-NPC-NATIONAL-LAWS-DATABASE",
-    )
-    assert len(register.blocked_source_ids) == 4
+        )
+    assert len(register.blocked_source_ids) == 2
     configured = {
         item.source_id: item
         for item in register.sources
@@ -100,29 +99,36 @@ def test_every_rss_endpoint_is_discovery_only_and_never_proves_no_change() -> No
     assert all(not item.proves_no_change for item in rss)
 
 
-def test_npc_metadata_api_is_read_only_discovery_and_not_inventory_proof() -> None:
-    register = load_hk_legislation_source_register()
-    endpoints = tuple(
-        item
-        for item in register.endpoints
-        if item.url.endswith("/law-search/search/enumData")
-        or item.url.endswith("/law-search/index/aggregateData")
-        or item.url.endswith("/law-search/index/wjConfig")
-    )
+def test_retired_roles_are_out_of_scope_rather_than_blocked() -> None:
+    """A role we chose not to pursue must not masquerade as one we cannot reach.
 
-    assert len(endpoints) == 3
-    assert all(endpoint.enabled for endpoint in endpoints)
-    assert all(endpoint.signal_use is SignalUse.DISCOVERY_ONLY for endpoint in endpoints)
-    assert all(not endpoint.complete_inventory_required for endpoint in endpoints)
-    assert all(not endpoint.proves_no_change for endpoint in endpoints)
-    application = next(
-        item
-        for item in register.endpoints
-        if item.endpoint_id.endswith("000000000000000000000000000000000000000000000046")
+    The two NPC roles are mainland sources the project does not need, and the
+    Gazette archive needs a physical holding procedure nobody will carry out.
+    Recording these as BLOCKED would imply work is pending; OUT_OF_SCOPE_V1 says
+    the decision was taken.
+    """
+    register = load_hk_legislation_source_register()
+    retired = {
+        item.source_id
+        for item in register.sources
+        if item.operational_state is OfficialSourceState.OUT_OF_SCOPE_V1
+    }
+
+    assert retired == {
+        "HK-LEG-NPC-NATIONAL-LAWS-DATABASE",
+        "HK-LEG-NPC-NPCSC-OFFICIAL-MATERIALS",
+        "HK-LEG-OFFICIAL-GAZETTE-ARCHIVE",
+    }
+    assert all(
+        not endpoint.enabled
+        for endpoint in register.endpoints
+        if endpoint.source_id in retired
     )
-    assert application.url == "https://flk.npc.gov.cn/index"
-    assert application.enabled
-    assert application.signal_use is SignalUse.DISCOVERY_ONLY
+    assert all(
+        item.blockers
+        for item in register.sources
+        if item.operational_state is OfficialSourceState.OUT_OF_SCOPE_V1
+    )
 
 
 def test_verified_copy_inventory_is_direct_but_item_copy_paths_stay_disabled() -> None:

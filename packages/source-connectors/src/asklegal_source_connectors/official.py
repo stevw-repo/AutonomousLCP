@@ -57,6 +57,7 @@ class OfficialSourceState(StrEnum):
     CONFIGURED = "CONFIGURED"
     PARTIALLY_CONFIGURED = "PARTIALLY_CONFIGURED"
     BLOCKED = "BLOCKED"
+    OUT_OF_SCOPE_V1 = "OUT_OF_SCOPE_V1"
 
 
 class EndpointAccessMode(StrEnum):

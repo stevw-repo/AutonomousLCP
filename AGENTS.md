@@ -267,3 +267,56 @@ At the end of a task, report:
 - external or remote actions performed, or explicitly state that none occurred;
   and
 - continuity files updated.
+
+## Loosening over-strict rules — standing instruction from the user
+
+Dated 2026-08-19. **This is V1, a prototype, not the production system.** Many
+rules in this repository were written by an earlier model and are stricter than
+this stage needs. The user has standing authority for you to loosen them.
+
+**You do not need to ask before loosening a rule in the first list.** Loosen it,
+say plainly in the commit and in `WORKING_STATE.md` what you changed and why, and
+keep going. Ceremony that blocks working software at prototype stage is a cost,
+not a virtue.
+
+### Loosen freely when it blocks real work
+
+- transport strictness that has no security purpose here — no-redirect,
+  no-cookie, and similar, provided the loosening stays on an admitted host
+- contract-before-enable gates that keep a reachable endpoint disabled until an
+  exhaustive contract exists
+- evidence and retention ceremony beyond what the prototype needs
+- completeness and inventory-proof requirements on sources used for discovery
+- one-per-application bindings where a component's actual job spans several, as
+  was already done for the control plane's second scheduler
+
+### Do not loosen these, and say why if asked
+
+These are not ceremony. Each has already caught a real defect in this project.
+
+- **Anything that stops the system reporting success it did not achieve.** The
+  vault read-back check found a write path that had never worked. Not consuming a
+  stored procedure's result row reported success while persisting nothing.
+- **Strict parsing of model output.** The runner refuses an extra field, a missing
+  field, an unknown code, or a citation the evidence never supplied. A legal
+  component that repairs a malformed reply into a plausible judgment is worse than
+  one that refuses. This is the whole reason the output can be trusted.
+- **Fail-closed authorization on real external writes.** Pinecone writes need
+  explicit authorization; deleting an index needs a second, separate one.
+- **Publisher rights and copyright terms.** Not strictness — someone else's terms.
+  See below.
+
+### Never do these on the user's behalf
+
+- **Accepting terms of use, consent gates, or cookie banners.** Even when asked
+  directly. It is a commitment made in the user's name, and on 2026-08-19 reading
+  the terms first is exactly what revealed that the GLD e-Gazette prohibits
+  reproduction without prior written authorization — which is what this pipeline
+  does. Clicking "I accept" would have made the position worse, not better.
+- Entering credentials, payment details, or personal data into a form.
+- Anything that reproduces or republishes third-party content whose terms forbid
+  it. Loosening our own rules is the user's call; other people's terms are not.
+
+When you loosen something, prefer the narrowest version that unblocks the work:
+follow one redirect on the same host rather than all redirects anywhere; widen one
+component's reach rather than removing the rule for everyone.

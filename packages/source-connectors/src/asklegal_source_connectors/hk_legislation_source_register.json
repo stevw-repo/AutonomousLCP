@@ -5,7 +5,7 @@
   "register_version": "2026-08-18.2",
   "effective_date": "2026-08-18",
   "status": "PARTIALLY_CONFIGURED_FAIL_CLOSED",
-  "fingerprint": "sha256:e792bc88bc3dca14dee4816927291429d002d73efef18a10b217bd640e0dfc58",
+  "fingerprint": "sha256:9e2a083aa12f59cd2417da6906047913e4c738c3c35127919a6fff5a735fa58c",
   "authorization": {
     "authorized_on": "2026-08-17",
     "scope": "READ_ONLY_OFFICIAL_SOURCE_ACCESS_AND_EVIDENCE_CAPTURE_FOR_ALL_14_HK_LEGISLATION_SOURCE_ROLES",
@@ -341,13 +341,12 @@
         "sep_000000000000000000000000000000000000000000000040"
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
-      "operational_state": "BLOCKED",
+      "operational_state": "OUT_OF_SCOPE_V1",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000005"
       ],
       "blockers": [
-        "CATALOGUE_DISCOVERY_PROCEDURE_REQUIRED",
-        "PHYSICAL_HOLDING_PROCEDURE_REQUIRED"
+        "OUT_OF_SCOPE_V1_PHYSICAL_HOLDING_PROCEDURE_NOT_PURSUED"
       ]
     },
     {
@@ -396,12 +395,12 @@
         "sep_00000000000000000000000000000000000000000000004e"
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
-      "operational_state": "PARTIALLY_CONFIGURED",
+      "operational_state": "OUT_OF_SCOPE_V1",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000006"
       ],
       "blockers": [
-        "DIRECT_SEARCH_API_CONTRACT_REQUIRED"
+        "OUT_OF_SCOPE_V1_MAINLAND_SOURCE_NOT_REQUIRED"
       ]
     },
     {
@@ -413,12 +412,12 @@
         "sep_00000000000000000000000000000000000000000000004a"
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
-      "operational_state": "BLOCKED",
+      "operational_state": "OUT_OF_SCOPE_V1",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000006"
       ],
       "blockers": [
-        "RENDERED_SESSION_TRANSPORT_REQUIRED"
+        "OUT_OF_SCOPE_V1_MAINLAND_SOURCE_NOT_REQUIRED"
       ]
     }
   ],
@@ -1951,7 +1950,7 @@
       "signal_use": "DISCOVERY_ONLY",
       "proves_no_change": false,
       "evidence_role": "OFFICIAL_DATABASE_ENTRY",
-      "enabled": true
+      "enabled": false
     },
     {
       "endpoint_id": "sep_000000000000000000000000000000000000000000000047",
@@ -2014,7 +2013,7 @@
       "signal_use": "DISCOVERY_ONLY",
       "proves_no_change": false,
       "evidence_role": "OFFICIAL_DATABASE_ENUMERATION_METADATA",
-      "enabled": true
+      "enabled": false
     },
     {
       "endpoint_id": "sep_00000000000000000000000000000000000000000000004c",
@@ -2035,7 +2034,7 @@
       "signal_use": "DISCOVERY_ONLY",
       "proves_no_change": false,
       "evidence_role": "OFFICIAL_DATABASE_AGGREGATE_METADATA",
-      "enabled": true
+      "enabled": false
     },
     {
       "endpoint_id": "sep_00000000000000000000000000000000000000000000004e",
@@ -2056,7 +2055,7 @@
       "signal_use": "DISCOVERY_ONLY",
       "proves_no_change": false,
       "evidence_role": "OFFICIAL_DATABASE_WEBSITE_CONFIGURATION",
-      "enabled": true
+      "enabled": false
     },
     {
       "endpoint_id": "sep_000000000000000000000000000000000000000000000049",

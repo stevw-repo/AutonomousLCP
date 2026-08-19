@@ -314,13 +314,27 @@ class ProxiedOfficialHttpTransport:
     official source and the proxy sees only the host name. The proxy is a
     constructor argument, never an environment variable, so a worker cannot fall
     back to direct egress when the variable is missing.
+
+    It also follows a bounded number of redirects, which the strict transport
+    refuses. Several Hong Kong government sites answer a plain GET with a 302 to a
+    session or configuration check on the same host and serve the document on the
+    second request; refusing to follow made five otherwise-open endpoints look
+    blocked. The loosening is deliberately narrow: same host only, so a redirect
+    can never move the fetch to a host the register has not admitted, and at most
+    `max_redirects` hops.
     """
 
-    def __init__(self, proxy_host: str, proxy_port: int) -> None:
+    def __init__(
+        self,
+        proxy_host: str,
+        proxy_port: int,
+        max_redirects: int = 3,
+    ) -> None:
         """Create a transport pinned to one proxy with default trust."""
         self._context = ssl.create_default_context()
         self._proxy_host = proxy_host
         self._proxy_port = proxy_port
+        self._max_redirects = max_redirects
 
     def request(
         self,
@@ -330,12 +344,24 @@ class ProxiedOfficialHttpTransport:
         timeout_seconds: int,
     ) -> OfficialTransportResponse:
         """Fetch at most max_bytes plus one sentinel byte through the proxy."""
+        return self._fetch(endpoint, method, timeout_seconds, None, 0)
+
+    def _fetch(
+        self,
+        endpoint: OfficialEndpointContract,
+        method: HttpMethod,
+        timeout_seconds: int,
+        override_target: str | None,
+        depth: int,
+    ) -> OfficialTransportResponse:
         parsed = urlsplit(endpoint.url)
         if parsed.scheme != "https" or parsed.hostname is None:
             raise OfficialTransportFailure("ENDPOINT_SCHEME_INVALID")
         request_target = parsed.path or "/"
         if parsed.query:
             request_target = f"{request_target}?{parsed.query}"
+        if override_target is not None:
+            request_target = override_target
         connection = HTTPSConnection(
             self._proxy_host,
             port=self._proxy_port,
@@ -353,11 +379,33 @@ class ProxiedOfficialHttpTransport:
                 },
             )
             response = connection.getresponse()
-            return _read_response(response, endpoint.url, endpoint.max_bytes)
+            location = response.getheader("Location") if _is_redirect(response.status) else None
+            if location is None:
+                return _read_response(response, endpoint.url, endpoint.max_bytes)
+            response.read()
+            target = _same_host_redirect(location, parsed.hostname)
         except (OSError, TimeoutError) as error:
             raise OfficialTransportFailure("BOUNDED_TRANSPORT_FAILURE") from error
         finally:
             connection.close()
+        if depth >= self._max_redirects:
+            raise OfficialTransportFailure("REDIRECT_LIMIT_EXCEEDED")
+        return self._fetch(endpoint, method, timeout_seconds, target, depth + 1)
+
+
+def _is_redirect(status: int) -> bool:
+    return status in {301, 302, 303, 307, 308}
+
+
+def _same_host_redirect(location: str, host: str) -> str:
+    """Return the redirect target, refusing any move off the admitted host."""
+    parsed = urlsplit(location)
+    if not parsed.netloc:
+        return location if location.startswith("/") else f"/{location}"
+    if parsed.scheme != "https" or parsed.hostname != host:
+        raise OfficialTransportFailure("REDIRECT_LEAVES_ADMITTED_HOST")
+    target = parsed.path or "/"
+    return f"{target}?{parsed.query}" if parsed.query else target
 
 
 def _read_response(
