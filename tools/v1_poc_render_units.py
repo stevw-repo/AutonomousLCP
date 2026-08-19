@@ -103,7 +103,11 @@ def _unit_file(service: dict[str, object], requires: list[str]) -> str:
         "ProtectSystem=strict",
         "ProtectHome=true",
         "PrivateTmp=true",
-        "CapabilityBoundingSet=",
+        # The launcher installs credential files owned by the runtime uid at
+        # 0400. An empty bounding set leaves root unable to chown, which fails
+        # every unit before its container ever starts. These three are what the
+        # preamble actually needs, and nothing else is granted.
+        "CapabilityBoundingSet=CAP_CHOWN CAP_FOWNER CAP_DAC_OVERRIDE",
         # ProtectSystem=strict refuses to build the mount namespace if a
         # ReadWritePaths entry does not exist, so systemd has to create the
         # directory itself. Preserve it: several units share it, and the default
@@ -194,6 +198,10 @@ def _create_arguments(service: dict[str, object]) -> list[str]:
     create.extend(
         f"  -e {_quote(str(entry['variable']))}"
         for entry in _objects(service.get("credential_environment"))
+    )
+    create.extend(
+        f"  --cap-add {_quote(capability)}"
+        for capability in _strings(service.get("capabilities_add"))
     )
     if str(service.get("credential_delivery")) == "DIRECTORY_OWNED_BY_RUNTIME_UID":
         target = f"/run/credentials/{unit_name}"

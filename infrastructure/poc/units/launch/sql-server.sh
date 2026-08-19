@@ -26,6 +26,7 @@ docker create \
   -e 'ACCEPT_EULA=Y' \
   -e 'MSSQL_PID=Developer' \
   -e 'MSSQL_SA_PASSWORD' \
+  --cap-add 'NET_BIND_SERVICE' \
   -v '/srv/asklegal/sql:/var/opt/mssql:rw' \
   -v '/etc/asklegal/tls/sql-server:/etc/asklegal/tls/sql-server:ro' \
   'mcr.microsoft.com/mssql/server@sha256:fa0dcf206087759fe6dad4cc02bfa88d97439085e548fbca9039330519c0cf1d' >/dev/null

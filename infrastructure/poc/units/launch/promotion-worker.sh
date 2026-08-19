@@ -33,6 +33,7 @@ docker create \
   --user "$runtime_uid":"$runtime_uid" \
   --cap-drop ALL \
   --security-opt no-new-privileges \
+  -e 'PROMOTION_WRITE_AUTHORIZED=true' \
   -e 'CREDENTIALS_DIRECTORY=/run/credentials/asklegal-promotion-worker.service' \
   -v "$credential_dir":'/run/credentials/asklegal-promotion-worker.service':ro \
   -v '/etc/asklegal/trust/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro' \

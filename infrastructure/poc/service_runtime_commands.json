@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "status": "RUNTIME_COMMANDS_PROVEN_LOCALLY",
-  "proof_note": "Every command here was executed on docpro-MS-7D99 on 2026-08-19 and the service reached its recorded proven state. This file supplies the value the unit contract left as runtime_command_state=REQUIRED. It does not admit anything: the five application images are still local tags, not digests.",
+  "status": "RUNTIME_COMMANDS_PARTIALLY_PROVEN",
+  "proof_note": "Most commands here were executed on docpro-MS-7D99 on 2026-08-19 and the service reached its recorded proven state. Two were not, and the first real systemd run found them. The sql-server entry recorded --cap-drop ALL with no additions, which cannot work: sqlservr carries cap_net_bind_service=ep as a file capability, and exec fails with EPERM when that capability is outside the container bounding set. The entry now records the NET_BIND_SERVICE addition that was executed and observed to start SQL Server. Separately, every unit rendered CapabilityBoundingSet= empty, which left the root launcher unable to chown credential files into place; the unit template now grants exactly CAP_CHOWN, CAP_FOWNER, and CAP_DAC_OVERRIDE. Treat a recorded command as proven only where the service actually reached its state under it. This file does not admit anything: the five application images are still local tags, not digests.",
   "trust": {
     "system_bundle": "/etc/asklegal/trust/ca-certificates.crt",
     "internal_ca": "/etc/asklegal/tls/internal-ca.crt",
@@ -68,7 +68,10 @@
       ],
       "tmpfs": [],
       "command": [],
-      "read_only_root": false
+      "read_only_root": false,
+      "capabilities_add": [
+        "NET_BIND_SERVICE"
+      ]
     },
     {
       "service_id": "vault-primary",
@@ -132,7 +135,8 @@
         "/vault/sidecar",
         "/vault/objects"
       ],
-      "read_only_root": false
+      "read_only_root": false,
+      "capabilities_add": []
     },
     {
       "service_id": "vault-recovery",
@@ -196,7 +200,8 @@
         "/vault/sidecar",
         "/vault/objects"
       ],
-      "read_only_root": false
+      "read_only_root": false,
+      "capabilities_add": []
     },
     {
       "service_id": "dts-general",
@@ -222,7 +227,8 @@
       "mounts": [],
       "tmpfs": [],
       "command": [],
-      "read_only_root": false
+      "read_only_root": false,
+      "capabilities_add": []
     },
     {
       "service_id": "dts-promotion",
@@ -248,7 +254,8 @@
       "mounts": [],
       "tmpfs": [],
       "command": [],
-      "read_only_root": false
+      "read_only_root": false,
+      "capabilities_add": []
     },
     {
       "service_id": "otel-collector",
@@ -275,7 +282,8 @@
       ],
       "tmpfs": [],
       "command": [],
-      "read_only_root": true
+      "read_only_root": true,
+      "capabilities_add": []
     },
     {
       "service_id": "egress-source",
@@ -320,7 +328,8 @@
         "-f",
         "/etc/squid/squid.conf"
       ],
-      "read_only_root": false
+      "read_only_root": false,
+      "capabilities_add": []
     },
     {
       "service_id": "egress-model",
@@ -365,7 +374,8 @@
         "-f",
         "/etc/squid/squid.conf"
       ],
-      "read_only_root": false
+      "read_only_root": false,
+      "capabilities_add": []
     },
     {
       "service_id": "egress-promotion",
@@ -410,7 +420,8 @@
         "-f",
         "/etc/squid/squid.conf"
       ],
-      "read_only_root": false
+      "read_only_root": false,
+      "capabilities_add": []
     },
     {
       "service_id": "review-api",
@@ -477,7 +488,8 @@
         "-m",
         "asklegal_review_api.v1_service"
       ],
-      "read_only_root": false
+      "read_only_root": false,
+      "capabilities_add": []
     },
     {
       "service_id": "control-plane",
@@ -543,7 +555,8 @@
         "-m",
         "asklegal_control_plane.v1_service"
       ],
-      "read_only_root": false
+      "read_only_root": false,
+      "capabilities_add": []
     },
     {
       "service_id": "acquisition-worker",
@@ -614,7 +627,8 @@
         "-m",
         "asklegal_acquisition_worker.v1_service"
       ],
-      "read_only_root": false
+      "read_only_root": false,
+      "capabilities_add": []
     },
     {
       "service_id": "legal-processing-worker",
@@ -681,7 +695,8 @@
         "-m",
         "asklegal_legal_processing_worker.v1_service"
       ],
-      "read_only_root": false
+      "read_only_root": false,
+      "capabilities_add": []
     },
     {
       "service_id": "promotion-worker",
@@ -725,7 +740,12 @@
         "embedding-provider"
       ],
       "credential_environment": [],
-      "environment": [],
+      "environment": [
+        {
+          "name": "PROMOTION_WRITE_AUTHORIZED",
+          "value": "true"
+        }
+      ],
       "mounts": [
         {
           "source": "/etc/asklegal/trust/ca-certificates.crt",
@@ -754,7 +774,8 @@
         "-m",
         "asklegal_promotion_worker.v1_service"
       ],
-      "read_only_root": false
+      "read_only_root": false,
+      "capabilities_add": []
     }
   ]
 }

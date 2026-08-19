@@ -7,7 +7,21 @@ from enum import StrEnum
 
 from durabletask.azuremanaged.client import DurableTaskSchedulerClient
 from durabletask.azuremanaged.worker import DurableTaskSchedulerWorker
+from durabletask.task import ActivityContext, OrchestrationContext, Task
 from durabletask.worker import ConcurrencyOptions
+
+# Applications may not import durabletask directly; this adapter is the only
+# package allowed to see it. Re-exported so an application can annotate its own
+# orchestrators and activities without reaching past the boundary.
+__all__ = [
+    "ActivityContext",
+    "ConcurrencyOptions",
+    "OrchestrationContext",
+    "Task",
+    "V1SchedulerError",
+    "V1SchedulerErrorCode",
+    "V1SchedulerSettings",
+]
 
 _APPLICATION_SCHEDULERS = {
     "ACQUISITION_WORKER": ("dts-general", "acquisition"),

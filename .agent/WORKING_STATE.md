@@ -1632,3 +1632,64 @@ images, and the TPM device before it changes anything.
 - images stay local tags, not digests, so `ARTIFACT_PINS` stays open
 
 The composite verdict is unchanged: **`V1_POC_NOT_ADMITTED`**.
+
+## First real systemd run — three bugs only a real run could find
+
+The user ran `ROOT_SETUP.sh`. Install, sealing, and enable all succeeded: 25
+credentials sealed to the host TPM, `asklegal.target` enabled. Then every one of
+the fourteen units failed, and the failures were real defects in the rendered
+units, not environment problems.
+
+**1. No unit could start: `226/NAMESPACE`.** Every unit declares
+`ReadWritePaths=/run/asklegal`, and `ProtectSystem=strict` refuses to build the
+mount namespace when that path does not exist. Nothing created it. The template
+now carries `RuntimeDirectory=asklegal` so systemd creates it, and
+`RuntimeDirectoryPreserve=yes` so one unit stopping does not delete it from under
+the others. After this, nine of fourteen units came up.
+
+**2. SQL Server could not exec its own binary: `126`.** The recorded command was
+`--cap-drop ALL` with no additions. `sqlservr` carries `cap_net_bind_service=ep`
+as a file capability, and exec fails with `EPERM` when that capability is outside
+the container bounding set. Reproduced outside systemd, so the recorded command
+had never actually run despite the file's proof note. `capabilities_add` is now
+part of the runtime-command contract, sql-server records `NET_BIND_SERVICE`, and
+SQL Server was observed to start under it.
+
+**3. The four applications could not place their credentials.** The launcher runs
+as root and does `install -o <uid> -m 0400`, but the unit template rendered
+`CapabilityBoundingSet=` empty, leaving root without `CAP_CHOWN`. The template now
+grants exactly `CAP_CHOWN CAP_FOWNER CAP_DAC_OVERRIDE`.
+
+**The proof note is corrected.** `service_runtime_commands.json` claimed every
+command in it had been executed and reached its proven state. That was not true of
+sql-server. Status is now `RUNTIME_COMMANDS_PARTIALLY_PROVEN` and the note says
+which entries were not proven and why.
+
+## Worker loops — the promotion worker now does real work
+
+The loops were not merely missing a function call. `LocalTaskHub` is in-process
+with a fixed queue and no way to enqueue from outside, so the workers had no work
+source at all. The real one is the Durable Task hub, and `durabletask 1.9.0` with
+`grpcio` is already in the pinned wheelhouse.
+
+**A real orchestration ran end to end on the emulator** — scheduled, activity
+executed, `COMPLETED` with the expected output. That is the first time anything
+has gone through a task hub on this project.
+
+`apps/promotion-worker/.../v1_pipeline.py` now holds a real orchestration and two
+activities: embed through Azure OpenAI, then upsert to Pinecone and verify
+retrieval. `v1_service` serves the real hub instead of looping on an empty local
+one. The orchestrator holds no provider call and no clock, because the scheduler
+replays it on every work item; every effect lives in an activity.
+
+Writes require `PROMOTION_WRITE_AUTHORIZED=true`, now set for the promotion worker
+because the user authorised real writes on 2026-08-19. Without it the worker still
+runs the orchestration and fails closed at the upsert.
+
+Applications may not import `durabletask` directly — `python_boundary_check`
+enforces it. The context types are re-exported through `asklegal_durable_task`,
+which is the one package allowed to see the library.
+
+**Not done:** the other three workers still have no work source, and nothing yet
+chains acquisition to processing to promotion. The promotion worker is the pattern,
+not the whole pipeline.
