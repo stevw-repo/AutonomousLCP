@@ -39,7 +39,7 @@ def test_repository_topology_passes_with_exact_summary() -> None:
     assert check_topology(REPOSITORY_ROOT) == TopologyReport(
         services=16,
         networks=10,
-        credentials=25,
+        credentials=26,
         pinned_artifacts=11,
         pins_required=5,
     )

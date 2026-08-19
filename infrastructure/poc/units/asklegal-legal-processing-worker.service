@@ -18,6 +18,7 @@ ReadWritePaths=/run/asklegal
 LoadCredentialEncrypted=sql-processing:/etc/asklegal/credentials/sql-processing.cred
 LoadCredentialEncrypted=vault-primary-processing:/etc/asklegal/credentials/vault-primary-processing.cred
 LoadCredentialEncrypted=model-egress-proxy:/etc/asklegal/credentials/model-egress-proxy.cred
+LoadCredentialEncrypted=model-provider:/etc/asklegal/credentials/model-provider.cred
 ExecStart=/etc/asklegal/launch/legal-processing-worker.sh
 ExecStop=/usr/bin/docker stop --time=30 asklegal-legal-processing-worker
 TimeoutStopSec=45

@@ -619,7 +619,7 @@
     {
       "service_id": "legal-processing-worker",
       "unit_name": "asklegal-legal-processing-worker.service",
-      "image": "asklegal/legal-processing-worker:tls-c",
+      "image": "asklegal/legal-processing-worker:model-cred",
       "image_state": "LOCALLY_BUILT_TAG_PIN_REQUIRED",
       "runtime_uid": 3003,
       "networks": [
@@ -648,7 +648,8 @@
       "credential_names": [
         "sql-processing",
         "vault-primary-processing",
-        "model-egress-proxy"
+        "model-egress-proxy",
+        "model-provider"
       ],
       "credential_environment": [],
       "environment": [],

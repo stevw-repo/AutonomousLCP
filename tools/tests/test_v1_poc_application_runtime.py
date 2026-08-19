@@ -57,7 +57,7 @@ def test_runtime_inputs_are_complete_exact_and_disabled() -> None:
     """Bind all five applications without claiming runtime readiness or admission."""
     assert check_runtime_input_policy(REPOSITORY_ROOT) == RuntimeInputReport(
         applications=5,
-        credentials=19,
+        credentials=20,
         logical_destinations=25,
         blockers=(
             "SYSTEMD_CREDENTIAL_DELIVERY_PROOF",

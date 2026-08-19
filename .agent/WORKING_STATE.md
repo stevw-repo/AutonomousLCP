@@ -1503,3 +1503,58 @@ project, and write authority.
 
 Credentials remain plaintext in ignored `var/run/staging/` and
 `var/run/creds-*/`. Sealing them is `70-credentials.sh`, which needs root.
+
+## Inference credential given a home — executed 2026-08-19
+
+`legal-processing-worker` declared no model-provider credential, so the Azure
+OpenAI inference key that was proved to work in the previous session could not
+be loaded by the application that needs it. It can now.
+
+The name `model-provider` was added to every contract that governs it:
+
+- `infrastructure/poc/topology.json` — `credential_names`, provider before the
+  egress proxy, mirroring how `promotion-worker` lists its two
+- `infrastructure/poc/systemd_unit_inputs.json` — `credential_names`
+- `infrastructure/poc/application_runtime_inputs.json` — `credential_filenames`
+- `infrastructure/poc/service_runtime_commands.json` — `credential_names`, and
+  the recorded image, which is now `asklegal/legal-processing-worker:model-cred`
+- `apps/legal-processing-worker/src/.../v1_infrastructure.py` — a
+  `model_provider_credential` field read in `load_v1_infrastructure`
+
+The handoff had listed four places. There were more: two validators cross-check
+these lists, `tools/v1_poc_application_runtime.py` and
+`tools/v1_poc_systemd_units.py`, each requiring the sorted list to equal the
+topology's, and two tests pin the credential totals, which moved from 25 to 26
+distinct in the topology and 19 to 20 across the application runtime inputs.
+`infrastructure/poc/credential_interface_proof_inputs.json` was not affected;
+its subjects are only the three upstream images.
+
+Re-rendering produced exactly three changed files: the sealing step now seals 25
+credentials rather than 24, the unit gained its fourth `LoadCredentialEncrypted`
+line, and the launcher installs the fourth file at 0400.
+
+**This was executed, not only rendered.** `service_runtime_commands.json` carries
+`RUNTIME_COMMANDS_PROVEN_LOCALLY` and a `proof_note` saying every command in it
+ran on this host, so the entry was only added after the run:
+
+1. All five images rebuilt from the current source as `:model-cred`. The new
+   processing image was checked from the inside for the new source before it was
+   used, because this build has shipped stale code before.
+2. The credential volume was restaged with four files, each 0400 and owned by
+   uid 3003.
+3. The container was recreated on `:model-cred` and reached
+   `LEGAL_PROCESSING_WORKER READY` on all five dependencies.
+
+The other four applications still run `:tls-c` and their records still say
+`:tls-c`, which is what actually ran. Only the processing worker was recreated.
+The `:model-cred` images for the other four exist but were never started, so
+nothing claims they were.
+
+Full suite after the change: **727 passed, 4 skipped**, unchanged from before it.
+All fourteen containers up; all five applications READY.
+
+**What this does not do.** The credential can now be loaded. Nothing reads its
+value and no call is made with it: there is still no Azure OpenAI adapter in this
+workspace. `MODEL_AND_EMBEDDING_ADMISSION` is untouched and the composite verdict
+stays `V1_POC_NOT_ADMITTED`. The local runtime still composes
+`DisabledEffectPort("generative-model")`, which is the seam an adapter would fill.

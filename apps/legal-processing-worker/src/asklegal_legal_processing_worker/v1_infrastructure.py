@@ -30,6 +30,7 @@ class V1LegalProcessingInfrastructure:
     sql: V1MssqlConnectionFactory
     scheduler: V1SchedulerSettings
     primary_vault: S3ImmutableVault
+    model_provider_credential: CredentialMaterial
     model_egress_proxy_credential: CredentialMaterial
 
 
@@ -46,6 +47,7 @@ def load_v1_infrastructure(
         sql=V1MssqlConnectionFactory("asklegal_legal_processing_app", password),
         scheduler=V1SchedulerSettings.for_application("LEGAL_PROCESSING_WORKER"),
         primary_vault=create_exact_v1_s3_vault(VaultName.PRIMARY, primary_credential),
+        model_provider_credential=credentials.read("model-provider"),
         model_egress_proxy_credential=credentials.read("model-egress-proxy"),
     )
 

@@ -1,4 +1,4 @@
-# Handoff — 2026-08-19, end of the "run it all" session
+# Handoff — 2026-08-19, after wiring the inference credential
 
 Read this first, then `WORKING_STATE.md` for the full record. `CONTEXT.md` is the
 glossary and `DECISIONS.md` the decision log; neither changed today.
@@ -50,6 +50,10 @@ Fourteen containers, started by hand, on `/srv/asklegal` (the 3.6 TB SATA disk).
 | Egress | `egress-source`, `egress-model`, `egress-promotion` |
 | Applications | `review-api`, `control-plane`, and the three workers |
 
+`legal-processing-worker` runs `asklegal/legal-processing-worker:model-cred`; the
+other four run `:tls-c`. That is deliberate — only the processing worker needed
+the rebuild, and the records name the image that actually ran.
+
 All five applications report **READY** on every declared dependency.
 
 **None of this survives a reboot.** They are plain `docker run` containers, not
@@ -97,24 +101,19 @@ only), the deployment profile and evaluation behind
 
 ## 4. The obvious next four things
 
-### 4.1 Give the inference credential a home — small, well-defined
+### 4.1 ~~Give the inference credential a home~~ — done, and executed
 
-`legal-processing-worker` declares only `sql-processing`,
-`vault-primary-processing`, and `model-egress-proxy`. There is **no**
-model-provider credential name anywhere in the contracts, so the inference key
-that was proved to work cannot be loaded by the application that needs it.
+`model-provider` is now declared in all four contracts and read by
+`load_v1_infrastructure`. The processing image was rebuilt as `:model-cred`, the
+credential volume restaged with four files, and the container recreated and
+observed **READY**. `service_runtime_commands.json` was only updated after that
+run, so its proof note stays true.
 
-Adding one touches four places, and the last is generated:
+Note for the next change of this shape: the four places named below were not all
+of them. Two validators cross-check the credential lists and two tests pin the
+credential totals. `WORKING_STATE.md` has the full list.
 
-1. `infrastructure/poc/topology.json` — the service's `credential_names`
-2. `infrastructure/poc/systemd_unit_inputs.json` — the same list
-3. `apps/legal-processing-worker/src/.../v1_infrastructure.py` — read it in
-   `load_v1_infrastructure`, alongside `model_egress_proxy_credential`
-4. re-run `python3 tools/v1_poc_render_units.py`
-
-The value is already staged at `var/run/staging/model-provider` with the shape
-`{endpoint, deployment, api_version, api_key}` — a bare Azure key is not usable
-on its own, because the endpoint and the *deployment name* are both needed.
+**The credential can be loaded. Nothing calls with it** — that is 4.3.
 
 ### 4.2 Install the startup files — needs the user, not you
 
@@ -221,26 +220,17 @@ Smaller, but real:
 
 ## 7. Repository state
 
-**Nothing is committed or pushed.** Last commit is `b38c184`; the working tree
-has 40 modified and 25 new paths. Ignored runtime material under `var/` is
-excluded.
+The previous session's work **is** committed, contrary to what this section used
+to say. Last commits are `ef48338` (the V1 POC run and rendered startup files)
+and `3978674` (session record and handoff).
 
-New this session:
-
-- `tools/v1_poc_render_units.py` and `tools/tests/test_v1_poc_units.py`
-- `infrastructure/poc/service_runtime_commands.json` — supplies the value the
-  unit contract had left as `runtime_command_state: REQUIRED`; every command in
-  it was executed on this host
-- `infrastructure/poc/units/` — 33 generated files
-- `infrastructure/poc/config/` — collector and three Squid configurations
-
-Changed: both ASGI service entrypoints, `tools/v1_poc_build_images.py`,
-`tools/dev_test.py`, `tools/python_boundary_check.py`, and `WORKING_STATE.md`.
+Uncommitted right now, from the inference-credential work: the four
+`infrastructure/poc/` contracts, the processing worker's `v1_infrastructure.py`,
+three tests, the three re-rendered files under `infrastructure/poc/units/`, and
+these continuity files. Nothing has been pushed.
 
 The composite verdict is unchanged and should stay that way:
 **`V1_POC_NOT_ADMITTED`.** Static contracts passing is not readiness.
-
----
 
 ## 8. How the user wants to be talked to
 

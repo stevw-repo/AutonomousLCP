@@ -82,7 +82,10 @@ def _processing(environment: dict[str, str]) -> InfrastructureResult:
         infrastructure.sql,
         infrastructure.scheduler.task_hub,
         (infrastructure.primary_vault.vault_name,),
-        (infrastructure.model_egress_proxy_credential,),
+        (
+            infrastructure.model_egress_proxy_credential,
+            infrastructure.model_provider_credential,
+        ),
     )
 
 
@@ -134,7 +137,7 @@ _APPLICATIONS = (
         "asklegal_legal_processing_app",
         "legal-processing",
         ("vault-primary-processing",),
-        ("model-egress-proxy",),
+        ("model-egress-proxy", "model-provider"),
     ),
     _ApplicationCase(
         _promotion,

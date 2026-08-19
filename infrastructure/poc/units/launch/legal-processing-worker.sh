@@ -20,6 +20,7 @@ mkdir -p "$credential_dir"
 install -o "$runtime_uid" -g "$runtime_uid" -m 0400 "$CREDENTIALS_DIRECTORY"/sql-processing "$credential_dir"/sql-processing
 install -o "$runtime_uid" -g "$runtime_uid" -m 0400 "$CREDENTIALS_DIRECTORY"/vault-primary-processing "$credential_dir"/vault-primary-processing
 install -o "$runtime_uid" -g "$runtime_uid" -m 0400 "$CREDENTIALS_DIRECTORY"/model-egress-proxy "$credential_dir"/model-egress-proxy
+install -o "$runtime_uid" -g "$runtime_uid" -m 0400 "$CREDENTIALS_DIRECTORY"/model-provider "$credential_dir"/model-provider
 chown "$runtime_uid":"$runtime_uid" "$credential_dir"
 chmod 0500 "$credential_dir"
 
@@ -36,7 +37,7 @@ docker create \
   -v '/etc/asklegal/trust/vault-primary-ca.pem:/etc/asklegal/trust/vault-primary-ca.pem:ro' \
   -v '/etc/asklegal/trust/vault-recovery-ca.pem:/etc/asklegal/trust/vault-recovery-ca.pem:ro' \
   -v '/etc/asklegal/tls/internal-ca.crt:/etc/asklegal/tls/internal-ca.crt:ro' \
-  'asklegal/legal-processing-worker:tls-c' \
+  'asklegal/legal-processing-worker:model-cred' \
   'python' \
   '-m' \
   'asklegal_legal_processing_worker.v1_service' >/dev/null

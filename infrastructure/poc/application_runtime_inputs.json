@@ -325,6 +325,7 @@
       "outbound_profile": "MODEL_PROVIDER_ONLY",
       "credential_filenames": [
         "model-egress-proxy",
+        "model-provider",
         "sql-processing",
         "vault-primary-processing"
       ],

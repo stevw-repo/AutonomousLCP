@@ -39,6 +39,7 @@ seal() {
 
 seal 'embedding-provider'
 seal 'model-egress-proxy'
+seal 'model-provider'
 seal 'pinecone-poc'
 seal 'promotion-egress-proxy'
 seal 'review-api'
@@ -62,5 +63,5 @@ seal 'vault-recovery-promotion'
 seal 'vault-recovery-root-access'
 seal 'vault-recovery-root-secret'
 
-printf "\n%s credentials sealed under %s\n" 24 '/etc/asklegal/credentials'
+printf "\n%s credentials sealed under %s\n" 25 '/etc/asklegal/credentials'
 printf "Now delete your plaintext staging directory.\n"

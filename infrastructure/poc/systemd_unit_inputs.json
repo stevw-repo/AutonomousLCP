@@ -267,6 +267,7 @@
       "after_targets": [],
       "credential_names": [
         "model-egress-proxy",
+        "model-provider",
         "sql-processing",
         "vault-primary-processing"
       ],
