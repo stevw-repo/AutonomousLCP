@@ -2535,3 +2535,24 @@ on. Retrying forever against a publisher that is refusing us is not politeness.
 Suite is 771. The batch runner keeps its own per-year retry, which now sits above
 a client that already retries per page; the two compose rather than duplicate,
 since a year can still fail for reasons a single page retry cannot fix.
+
+## The listing manifest is proved live
+
+```
+listed 488  retained 295  skipped 193
+manifest: 488 rows, 241029 B, created=True verified=True
+  key poc/source/gazette-listing/01012000-31122000/6a67bf03e29da0…
+read back: kind=HKEL_GAZETTE_REGISTER_LISTING  rows=488
+  rows with no PDF in any language: 193
+    05/05/2000  LS2  Interpretation and General Clauses Ordinance—Resolution
+    12/05/2000  LS2  Security and Guarding Services (Fees) (Amendment) Regulation
+```
+
+Read back out of the vault, not merely written. The 193 entries the publisher
+hosts no file for are now recorded with date, supplement, number, both titles, and
+locator. They are real instruments — resolutions under the Interpretation and
+General Clauses Ordinance, Security and Guarding Services regulations — so the gap
+was worth closing: without the manifest their existence was invisible.
+
+The same run confirmed the client-level retry works against the live service. The
+previous attempt died on page 9; this one completed the same window.
