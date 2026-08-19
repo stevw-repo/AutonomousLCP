@@ -2434,3 +2434,54 @@ Still true: `lastPage` was 1415, so the register is far larger than any window
 captured here, and the role stays `PARTIALLY_CONFIGURED` with
 `COMPLETE_INVENTORY_RULE_IS_DATE_WINDOWED_NOT_WHOLE_REGISTER`. A windowed capture
 is reproducible and now demonstrably works; it is not a claim to hold the register.
+
+## The gazette register is captured for 2000-2026
+
+```
+years 27   listed 7644   retained 7274   skipped 370   failed-years 0
+retention 95.2%   vault 9.7 GB
+```
+
+Every year from 2000 to 2026 completed. The 2003 window needed all three attempts
+before it went through.
+
+**Why the range stops at 2000.** The PDFs were sampled before choosing it: 1960,
+1985, 1990 and 1995 are scanned images with image objects and no fonts, while 2003
+and 2005 carry 35 fonts and no images. The crossover sits between 1995 and 2003,
+so everything earlier needs OCR before an embedding pipeline can read a word of
+it. Capturing it would have cost most of a day and several gigabytes for material
+the pipeline cannot use. `run_gazette_capture.sh 1955 1999` remains available if
+OCR ever exists.
+
+**The 370 skips are honest absences, not failures.** 2000 alone accounted for 193
+of them, which looked like a defect until it was checked: those entries carry no
+PDF flag in either language, so the publisher hosts no file for them. Real
+ordinances are among them — the Electronic Transactions Ordinance, the Arbitration
+(Amendment) Ordinance 2000 — and 2000 sits right at the digitisation boundary. By
+contrast 2001 and 2005 are 100 per cent English. `pdf_url()` returned `None` and
+the activity recorded `NOT_PUBLISHED` rather than constructing an address that
+would have fetched nothing.
+
+**A gap worth naming:** those 193 entries still have real metadata — title, date,
+gazette number, supplement — and none of it is retained, because only PDFs are
+captured. The register listing is itself a manifest of what exists, and keeping it
+would record that a document was gazetted even where no artifact is published.
+That is unbuilt.
+
+### Two defects in the runner, both found by running it
+
+**Failed years were recorded as done.** The first pass had eleven transport
+failures, and the second run printed `already done: {'error': ...}` for every one
+and skipped them. Recording an error as completion defeats the entire point of a
+resumable runner: the failures would have needed the progress file deleted to
+retry. A year with an error is now retried, and only successes are skipped.
+
+**There was no retry within a run.** The failures cluster in consecutive years,
+which reads as the publisher throttling under sustained load rather than as broken
+years — the same eleven years all succeeded on the retry. Each year now gets three
+attempts with escalating backoff and a rebuilt session, since an expired session
+fails in exactly the same shape.
+
+The progress file lives on a Docker volume rather than in `var/run`, because the
+container runs as the service uid and `var/run` belongs to the host user; the
+first version would have failed its first save, after a year of work.
