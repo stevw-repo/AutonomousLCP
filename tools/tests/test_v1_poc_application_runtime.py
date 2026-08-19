@@ -5,7 +5,10 @@ from copy import deepcopy
 from pathlib import Path
 
 import pytest
-from asklegal_application_runtime import required_v1_dependencies
+from asklegal_application_runtime import (
+    V1_LOGICAL_DESTINATIONS,
+    required_v1_dependencies,
+)
 
 from tools.v1_poc_application_runtime import (
     RUNTIME_POLICY_PATH,
@@ -57,10 +60,7 @@ def test_runtime_inputs_are_complete_exact_and_disabled() -> None:
         credentials=19,
         logical_destinations=25,
         blockers=(
-            "LOGICAL_DESTINATION_RESOLUTION",
             "SYSTEMD_CREDENTIAL_DELIVERY_PROOF",
-            "REAL_ADAPTER_COMPOSITION",
-            "BOUNDED_READINESS_PROBES",
             "SQL_SERVER_CERTIFICATE_TRUST",
             "VAULT_SERVER_CERTIFICATE_TRUST",
             "UBUNTU_RUNTIME_PROOF",
@@ -128,9 +128,7 @@ def test_runtime_input_drift_fails_closed(mutation: str, expected_code: RuntimeI
 def test_runtime_readiness_dependency_drift_fails_closed() -> None:
     """Do not silently remove a mandatory application dependency probe."""
     policy = deepcopy(_policy())
-    _application(policy, "control-plane")["readiness_dependency_codes"] = [
-        "MANAGEMENT_REGISTER"
-    ]
+    _application(policy, "control-plane")["readiness_dependency_codes"] = ["MANAGEMENT_REGISTER"]
     assert RuntimeInputCode.READINESS in _codes(policy)
 
 
@@ -157,3 +155,80 @@ def test_topology_identity_network_listener_and_scheduler_drift_fail_closed() ->
     )
     general["task_hubs"] = ["control", "legal-processing"]
     assert RuntimeInputCode.TASK_HUB in _codes(_policy(), topology)
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "missing",
+        "extra",
+        "wrong_host",
+        "wrong_port",
+        "wrong_scheme",
+        "unshared_network",
+        "extra_field",
+    ],
+)
+def test_logical_destination_drift_fails_closed(mutation: str) -> None:
+    """Every destination must equal the one the accepted topology implies."""
+    policy = deepcopy(_policy())
+    application = _application(policy, "control-plane")
+    destinations = application["logical_destinations"]
+    assert isinstance(destinations, list)
+    first = destinations[0]
+    assert isinstance(first, dict)
+    if mutation == "missing":
+        destinations.pop()
+    elif mutation == "extra":
+        destinations.append(deepcopy(first))
+    elif mutation == "wrong_host":
+        first["host"] = "127.0.0.1"
+    elif mutation == "wrong_port":
+        first["port"] = 9999
+    elif mutation == "wrong_scheme":
+        first["scheme"] = "HTTP"
+    elif mutation == "unshared_network":
+        first["network"] = "asklegal-vault-recovery"
+    else:
+        first["unexpected"] = "field"
+    assert RuntimeInputCode.DESTINATION in _codes(policy)
+
+
+def test_destinations_follow_the_topology_rather_than_a_local_copy() -> None:
+    """Changing a topology listener must invalidate the resolution, not be ignored."""
+    topology = deepcopy(_object(REPOSITORY_ROOT / TOPOLOGY_PATH))
+    services = topology["services"]
+    assert isinstance(services, list)
+    for service in services:
+        if isinstance(service, dict) and service.get("service_id") == "sql-server":
+            listeners = service["listeners"]
+            assert isinstance(listeners, list)
+            first = listeners[0]
+            assert isinstance(first, dict)
+            first["port"] = 14330
+    assert RuntimeInputCode.DESTINATION in _codes(_policy(), topology)
+
+
+def test_destination_table_matches_the_runtime_contract_exactly() -> None:
+    """The package table and the checked-in contract are one fact, not two."""
+    policy = _policy()
+    applications = policy["applications"]
+    assert isinstance(applications, list)
+    assert len(applications) == len(V1_LOGICAL_DESTINATIONS)
+    for application in applications:
+        assert isinstance(application, dict)
+        code = application["application_code"]
+        assert isinstance(code, str)
+        destinations = application["logical_destinations"]
+        assert isinstance(destinations, list)
+        dependencies = application["readiness_dependency_codes"]
+        assert isinstance(dependencies, list)
+        table = V1_LOGICAL_DESTINATIONS[code]
+        assert tuple(item.value for item in table) == tuple(dependencies)
+        contract = {
+            str(item["service_id"]): (str(item["host"]), int(str(item["port"])))
+            for item in destinations
+            if isinstance(item, dict)
+        }
+        for host, port in table.values():
+            assert contract[host] == (host, port)

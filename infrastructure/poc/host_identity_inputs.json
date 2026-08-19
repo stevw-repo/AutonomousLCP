@@ -13,25 +13,225 @@
     "home_directory": "/nonexistent",
     "supplementary_groups": [],
     "shared_identity_forbidden": true,
-    "numeric_uid_gid_state": "HOST_ALLOCATION_REQUIRED",
-    "created": false
+    "numeric_uid_gid_state": "ALLOCATED",
+    "created": false,
+    "allocated_uid_gid_range": [
+      3000,
+      3014
+    ]
+  },
+  "container_identity_rule": {
+    "credential_file_owner_must_equal_runtime_uid": true,
+    "root_runtime_uid_forbidden": true,
+    "shared_runtime_uid_forbidden": true,
+    "measured_reason": "LoadCredential writes a 0400 file owned by the unit account, so a container running under a different numeric UID cannot read its own credential."
   },
   "required_blockers": [
-    "COLLISION_FREE_UID_GID_ALLOCATION",
-    "CONTAINER_UID_GID_MAPPING",
     "PATH_OWNERSHIP_PROOF",
     "UBUNTU_IDENTITY_PROOF"
   ],
   "identities": [
-    {"service_id":"control-plane","identity":"asklegal-control","owned_write_paths":["/var/lib/asklegal/control"],"uid":null,"gid":null,"created":false},
-    {"service_id":"review-api","identity":"asklegal-review","owned_write_paths":["/var/lib/asklegal/review"],"uid":null,"gid":null,"created":false},
-    {"service_id":"acquisition-worker","identity":"asklegal-acquisition","owned_write_paths":["/var/lib/asklegal/acquisition"],"uid":null,"gid":null,"created":false},
-    {"service_id":"legal-processing-worker","identity":"asklegal-processing","owned_write_paths":["/var/lib/asklegal/processing"],"uid":null,"gid":null,"created":false},
-    {"service_id":"promotion-worker","identity":"asklegal-promotion","owned_write_paths":["/var/lib/asklegal/promotion"],"uid":null,"gid":null,"created":false},
-    {"service_id":"vault-primary","identity":"asklegal-vault-primary","owned_write_paths":["/srv/asklegal/vault-primary/objects","/srv/asklegal/vault-primary/versions","/srv/asklegal/vault-primary/sidecar"],"uid":null,"gid":null,"created":false},
-    {"service_id":"vault-recovery","identity":"asklegal-vault-recovery","owned_write_paths":["/srv/asklegal/vault-recovery/objects","/srv/asklegal/vault-recovery/versions","/srv/asklegal/vault-recovery/sidecar"],"uid":null,"gid":null,"created":false},
-    {"service_id":"otel-collector","identity":"asklegal-otelcol","owned_write_paths":["/var/lib/otelcol"],"uid":null,"gid":null,"created":false},
-    {"service_id":"prometheus","identity":"asklegal-prometheus","owned_write_paths":["/var/lib/prometheus"],"uid":null,"gid":null,"created":false},
-    {"service_id":"grafana","identity":"asklegal-grafana","owned_write_paths":["/var/lib/grafana"],"uid":null,"gid":null,"created":false}
+    {
+      "service_id": "control-plane",
+      "identity": "asklegal-control",
+      "owned_write_paths": [
+        "/var/lib/asklegal/control"
+      ],
+      "uid": 3001,
+      "gid": 3001,
+      "created": false
+    },
+    {
+      "service_id": "review-api",
+      "identity": "asklegal-review",
+      "owned_write_paths": [
+        "/var/lib/asklegal/review"
+      ],
+      "uid": 3007,
+      "gid": 3007,
+      "created": false
+    },
+    {
+      "service_id": "acquisition-worker",
+      "identity": "asklegal-acquisition",
+      "owned_write_paths": [
+        "/var/lib/asklegal/acquisition"
+      ],
+      "uid": 3000,
+      "gid": 3000,
+      "created": false
+    },
+    {
+      "service_id": "legal-processing-worker",
+      "identity": "asklegal-processing",
+      "owned_write_paths": [
+        "/var/lib/asklegal/processing"
+      ],
+      "uid": 3003,
+      "gid": 3003,
+      "created": false
+    },
+    {
+      "service_id": "promotion-worker",
+      "identity": "asklegal-promotion",
+      "owned_write_paths": [
+        "/var/lib/asklegal/promotion"
+      ],
+      "uid": 3006,
+      "gid": 3006,
+      "created": false
+    },
+    {
+      "service_id": "vault-primary",
+      "identity": "asklegal-vault-primary",
+      "owned_write_paths": [
+        "/srv/asklegal/vault-primary/objects",
+        "/srv/asklegal/vault-primary/versions",
+        "/srv/asklegal/vault-primary/sidecar"
+      ],
+      "uid": 3008,
+      "gid": 3008,
+      "created": false
+    },
+    {
+      "service_id": "vault-recovery",
+      "identity": "asklegal-vault-recovery",
+      "owned_write_paths": [
+        "/srv/asklegal/vault-recovery/objects",
+        "/srv/asklegal/vault-recovery/versions",
+        "/srv/asklegal/vault-recovery/sidecar"
+      ],
+      "uid": 3009,
+      "gid": 3009,
+      "created": false
+    },
+    {
+      "service_id": "otel-collector",
+      "identity": "asklegal-otelcol",
+      "owned_write_paths": [
+        "/var/lib/otelcol"
+      ],
+      "uid": 3004,
+      "gid": 3004,
+      "created": false
+    },
+    {
+      "service_id": "prometheus",
+      "identity": "asklegal-prometheus",
+      "owned_write_paths": [
+        "/var/lib/prometheus"
+      ],
+      "uid": 3005,
+      "gid": 3005,
+      "created": false
+    },
+    {
+      "service_id": "grafana",
+      "identity": "asklegal-grafana",
+      "owned_write_paths": [
+        "/var/lib/grafana"
+      ],
+      "uid": 3002,
+      "gid": 3002,
+      "created": false
+    }
+  ],
+  "container_identity_map": [
+    {
+      "service_id": "acquisition-worker",
+      "runtime_uid": 3000,
+      "runtime_gid": 3000,
+      "source": "LOCALLY_ALLOCATED"
+    },
+    {
+      "service_id": "control-plane",
+      "runtime_uid": 3001,
+      "runtime_gid": 3001,
+      "source": "LOCALLY_ALLOCATED"
+    },
+    {
+      "service_id": "dts-general",
+      "runtime_uid": 3010,
+      "runtime_gid": 3010,
+      "source": "CONTAINER_ONLY_RESERVED"
+    },
+    {
+      "service_id": "dts-promotion",
+      "runtime_uid": 3011,
+      "runtime_gid": 3011,
+      "source": "CONTAINER_ONLY_RESERVED"
+    },
+    {
+      "service_id": "egress-model",
+      "runtime_uid": 3012,
+      "runtime_gid": 3012,
+      "source": "CONTAINER_ONLY_RESERVED"
+    },
+    {
+      "service_id": "egress-promotion",
+      "runtime_uid": 3013,
+      "runtime_gid": 3013,
+      "source": "CONTAINER_ONLY_RESERVED"
+    },
+    {
+      "service_id": "egress-source",
+      "runtime_uid": 3014,
+      "runtime_gid": 3014,
+      "source": "CONTAINER_ONLY_RESERVED"
+    },
+    {
+      "service_id": "grafana",
+      "runtime_uid": 3002,
+      "runtime_gid": 3002,
+      "source": "LOCALLY_ALLOCATED"
+    },
+    {
+      "service_id": "legal-processing-worker",
+      "runtime_uid": 3003,
+      "runtime_gid": 3003,
+      "source": "LOCALLY_ALLOCATED"
+    },
+    {
+      "service_id": "otel-collector",
+      "runtime_uid": 3004,
+      "runtime_gid": 3004,
+      "source": "LOCALLY_ALLOCATED"
+    },
+    {
+      "service_id": "prometheus",
+      "runtime_uid": 3005,
+      "runtime_gid": 3005,
+      "source": "LOCALLY_ALLOCATED"
+    },
+    {
+      "service_id": "promotion-worker",
+      "runtime_uid": 3006,
+      "runtime_gid": 3006,
+      "source": "LOCALLY_ALLOCATED"
+    },
+    {
+      "service_id": "review-api",
+      "runtime_uid": 3007,
+      "runtime_gid": 3007,
+      "source": "LOCALLY_ALLOCATED"
+    },
+    {
+      "service_id": "sql-server",
+      "runtime_uid": 10001,
+      "runtime_gid": 10001,
+      "source": "IMAGE_DEFINED"
+    },
+    {
+      "service_id": "vault-primary",
+      "runtime_uid": 3008,
+      "runtime_gid": 3008,
+      "source": "LOCALLY_ALLOCATED"
+    },
+    {
+      "service_id": "vault-recovery",
+      "runtime_uid": 3009,
+      "runtime_gid": 3009,
+      "source": "LOCALLY_ALLOCATED"
+    }
   ]
 }

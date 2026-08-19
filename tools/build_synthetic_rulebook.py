@@ -13,10 +13,7 @@ if TYPE_CHECKING:
     from asklegal_contracts.json_types import JsonValue
 
 ROOT = Path(__file__).resolve().parents[1]
-PACKAGE_ROOT = (
-    ROOT
-    / "packages/legal-desks/src/asklegal_legal_desks/_synthetic_package"
-)
+PACKAGE_ROOT = ROOT / "packages/legal-desks/src/asklegal_legal_desks/_synthetic_package"
 
 ROLES = {
     "attestations": "ATTESTATION",

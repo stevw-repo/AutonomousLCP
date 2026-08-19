@@ -34,6 +34,14 @@ from asklegal_application_runtime.local import (
     PageCursor,
     ProposalProjection,
 )
+from asklegal_application_runtime.probes import (
+    V1_INTERNAL_CA_BUNDLE,
+    V1_LOGICAL_DESTINATIONS,
+    CallableProbe,
+    TcpReachabilityProbe,
+    TlsReachabilityProbe,
+    destination_for,
+)
 from asklegal_application_runtime.readiness import (
     DependencyCode,
     ProbeResult,
@@ -46,6 +54,13 @@ from asklegal_application_runtime.readiness import (
     V1ReadinessGate,
     required_v1_dependencies,
 )
+from asklegal_application_runtime.service import (
+    ServeCallable,
+    ServiceExitCode,
+    format_readiness,
+    run_v1_service,
+    unready_dependencies,
+)
 from asklegal_application_runtime.worker import (
     LocalTaskHub,
     WorkerResultCode,
@@ -57,9 +72,12 @@ PACKAGE_ROLE: str = "application-runtime"
 
 __all__ = [
     "PACKAGE_ROLE",
+    "V1_INTERNAL_CA_BUNDLE",
+    "V1_LOGICAL_DESTINATIONS",
     "ApplicationConfiguration",
     "AuthorizationError",
     "AuthorizationErrorCode",
+    "CallableProbe",
     "CommandOutcome",
     "ConfigurationError",
     "ConfigurationErrorCode",
@@ -87,7 +105,11 @@ __all__ = [
     "ReadinessProbeFailure",
     "ReadinessReport",
     "RuntimeLimits",
+    "ServeCallable",
+    "ServiceExitCode",
     "SystemdCredentialDirectory",
+    "TcpReachabilityProbe",
+    "TlsReachabilityProbe",
     "TokenType",
     "V1ReadinessGate",
     "WorkLease",
@@ -96,5 +118,9 @@ __all__ = [
     "authorize",
     "build_local_configuration",
     "default_local_identity",
+    "destination_for",
+    "format_readiness",
     "required_v1_dependencies",
+    "run_v1_service",
+    "unready_dependencies",
 ]

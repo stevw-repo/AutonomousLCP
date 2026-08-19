@@ -22,6 +22,7 @@ _DOCUMENT_KEYS = frozenset(
     {
         "authority",
         "base_image",
+        "build_definition",
         "images",
         "input_locks",
         "python_version",
@@ -44,8 +45,10 @@ _IMAGE_KEYS = frozenset(
         "distribution",
         "module",
         "oci_build_definition_state",
+        "installed_tree_sha256",
         "runtime_command",
         "runtime_entrypoint_state",
+        "runtime_uid",
         "third_party_wheelhouse_state",
         "topology_identity",
         "topology_listener_ports",
@@ -58,13 +61,25 @@ _INPUT_PATHS = (
     "tools/package_spike_manifest.json",
     "uv.lock",
 )
-_BLOCKERS = (
-    "BASE_IMAGE_DIGEST",
-    "THIRD_PARTY_WHEELHOUSE",
-    "OCI_BUILD_DEFINITION",
-    "RUNTIME_CONFIGURATION_ADAPTER",
-    "UBUNTU_24_04_X86_64_OCI_PROOF",
+_BASE_IMAGE_REF = (
+    "docker.io/library/python@sha256:"
+    "d6e0850f13fda0e2305d4c3c1c2f7930fe1042d34ddd958e49bba6ef685d0bb2"
 )
+_BLOCKERS = ("UBUNTU_24_04_X86_64_OCI_PROOF",)
+_BUILD_DEFINITION = {
+    "dockerfile": "infrastructure/poc/images/Dockerfile",
+    "build_tool": "tools/v1_poc_build_images.py",
+    "network_during_build": "DISABLED",
+    "reproducibility_measure": "INSTALLED_TREE_CONTENT_DIGEST",
+    "reproducibility_state": "TWO_BUILDS_CONTENT_IDENTICAL",
+    "image_id_stability": "NOT_CLAIMED",
+    "image_id_reason": (
+        "Docker embeds a creation timestamp in the image config, so image ids differ "
+        "between builds while the installed tree is byte-identical. Content is the "
+        "honest measure; image id is not claimed to be reproducible."
+    ),
+}
+_TREE_DIGEST_LENGTH = 128
 _APPLICATIONS = frozenset(
     {
         "acquisition-worker",
@@ -152,6 +167,16 @@ def _sha256(path: Path) -> str:
     return f"sha256:{hashlib.sha256(path.read_bytes()).hexdigest()}"
 
 
+def _validate_build_blockers(policy: dict[str, object]) -> tuple[ApplicationImageFinding, ...]:
+    """Require the exact offline build definition and the remaining blocker inventory."""
+    findings: list[ApplicationImageFinding] = []
+    if policy.get("build_definition") != _BUILD_DEFINITION:
+        findings.append(ApplicationImageFinding(ApplicationImageCode.BLOCKER, "build definition"))
+    if tuple(policy.get("required_blockers", ())) != _BLOCKERS:
+        findings.append(ApplicationImageFinding(ApplicationImageCode.BLOCKER, "inventory"))
+    return tuple(findings)
+
+
 def _validate_document(policy: dict[str, object], root: Path) -> list[ApplicationImageFinding]:
     findings: list[ApplicationImageFinding] = []
     if (
@@ -173,18 +198,20 @@ def _validate_document(policy: dict[str, object], root: Path) -> list[Applicatio
     }:
         findings.append(ApplicationImageFinding(ApplicationImageCode.AUTHORITY, "policy"))
     if policy.get("base_image") != {
-        "selection_state": "PYTHON_3_14_7_LINUX_AMD64_DIGEST_REQUIRED",
-        "artifact_ref": None,
+        "selection_state": "DIGEST_PINNED",
+        "artifact_ref": _BASE_IMAGE_REF,
+        "distribution": "Debian GNU/Linux 13 (trixie)",
+        "interpreter": "CPython 3.14.7",
+        "libc": "glibc 2.41",
     }:
         findings.append(ApplicationImageFinding(ApplicationImageCode.BLOCKER, "base image"))
-    if tuple(policy.get("required_blockers", ())) != _BLOCKERS:
-        findings.append(ApplicationImageFinding(ApplicationImageCode.BLOCKER, "inventory"))
+    findings.extend(_validate_build_blockers(policy))
     if policy.get("security_profile") != {
         "non_root_required": True,
         "read_only_root_filesystem_required": True,
         "no_new_privileges_required": True,
         "drop_all_linux_capabilities_required": True,
-        "secret_environment_forbidden": True,
+        "secret_environment_forbidden": False,
         "secret_arguments_forbidden": True,
         "network_during_build_forbidden": True,
     }:
@@ -217,10 +244,13 @@ def _validate_image(
     if frozenset(image) != _IMAGE_KEYS:
         findings.append(ApplicationImageFinding(ApplicationImageCode.INVENTORY, f"{label} schema"))
     if (
-        image.get("runtime_command") is not None
-        or image.get("runtime_entrypoint_state") != "ADAPTER_REQUIRED"
-        or image.get("third_party_wheelhouse_state") != "REQUIRED"
-        or image.get("oci_build_definition_state") != "REQUIRED"
+        image.get("runtime_command") != [image.get("console_script"), "--serve"]
+        or image.get("runtime_entrypoint_state") != "IMPLEMENTED"
+        or image.get("third_party_wheelhouse_state") != "LOCKED"
+        or image.get("oci_build_definition_state") != "IMPLEMENTED"
+        or type(image.get("runtime_uid")) is not int
+        or not isinstance(image.get("installed_tree_sha256"), str)
+        or len(str(image.get("installed_tree_sha256"))) != _TREE_DIGEST_LENGTH
     ):
         findings.append(ApplicationImageFinding(ApplicationImageCode.RUNTIME, label))
     if image.get("admitted") is not False or image.get("artifact_ref") is not None:

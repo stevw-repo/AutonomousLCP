@@ -54,6 +54,10 @@ _STRICT_JSON_PATH = "packages/contracts/src/asklegal_contracts/strict_json.py"
 _MSSQL_DRIVER_PATH = (
     "packages/management-register-adapter/src/asklegal_management_register/driver.py"
 )
+_CONTROL_SERVICE_PATH = "apps/control-plane/src/asklegal_control_plane/v1_service.py"
+_REVIEW_SERVICE_PATH = "apps/review-api/src/asklegal_review_api/v1_service.py"
+_PROBES_PATH = "packages/application-runtime/src/asklegal_application_runtime/probes.py"
+_SERVICE_HOST_PATH = "packages/application-runtime/src/asklegal_application_runtime/service.py"
 
 APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
@@ -87,6 +91,27 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(_MSSQL_DRIVER_PATH, 87, BoundaryCode.IGNORED_ERROR),
         "mssql-python 1.12 leaves parameterless execute unknown behind this typed wrapper",
+    ),
+    ApprovedException(
+        ExceptionKey(_CONTROL_SERVICE_PATH, 23, BoundaryCode.IGNORED_ERROR),
+        "the container listener must bind every interface of its own private network,"
+        " which nftables and the container-only listener scope already confine",
+    ),
+    ApprovedException(
+        ExceptionKey(_REVIEW_SERVICE_PATH, 24, BoundaryCode.IGNORED_ERROR),
+        "the container listener must bind every interface of its own private network;"
+        " it is reachable only from that network and only over the internal authority's"
+        " TLS, and the host nftables table that would narrow it further is not applied",
+    ),
+    ApprovedException(
+        ExceptionKey(_PROBES_PATH, 141, BoundaryCode.IGNORED_ERROR),
+        "this is the readiness normalization boundary: every adapter exception must become"
+        " one safe failure so no provider or credential detail can reach the gate",
+    ),
+    ApprovedException(
+        ExceptionKey(_SERVICE_HOST_PATH, 66, BoundaryCode.IGNORED_ERROR),
+        "an unexpected serve failure must become one closed process exit code rather than"
+        " a traceback that could carry connection or credential detail into the journal",
     ),
 )
 

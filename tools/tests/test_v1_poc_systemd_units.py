@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 
 from tools.v1_poc_systemd_units import (
+    HOST_POLICY_PATH,
     SYSTEMD_POLICY_PATH,
     TOPOLOGY_PATH,
     SystemdInputCode,
@@ -32,6 +33,10 @@ def _topology() -> dict[str, object]:
     return _object(REPOSITORY_ROOT / TOPOLOGY_PATH)
 
 
+def _host_policy() -> dict[str, object]:
+    return _object(REPOSITORY_ROOT / HOST_POLICY_PATH)
+
+
 def _service(policy: dict[str, object], service_id: str) -> dict[str, object]:
     services = policy["service_units"]
     assert isinstance(services, list)
@@ -41,10 +46,15 @@ def _service(policy: dict[str, object], service_id: str) -> dict[str, object]:
 
 
 def _codes(
-    policy: dict[str, object], topology: dict[str, object] | None = None
+    policy: dict[str, object],
+    topology: dict[str, object] | None = None,
+    host_policy: dict[str, object] | None = None,
 ) -> set[SystemdInputCode]:
     return {
-        finding.code for finding in validate_systemd_input_policy(policy, topology or _topology())
+        finding.code
+        for finding in validate_systemd_input_policy(
+            policy, topology or _topology(), host_policy or _host_policy()
+        )
     }
 
 
@@ -52,14 +62,11 @@ def test_systemd_unit_inputs_are_complete_hardened_and_disabled() -> None:
     """Bind every service/bootstrap/timer without installing or enabling it."""
     assert check_systemd_input_policy(REPOSITORY_ROOT) == SystemdInputReport(
         services=16,
-        bootstrap_units=2,
+        bootstrap_units=3,
+        networks=10,
         timers=5,
         blockers=(
             "ARTIFACT_PINS",
-            "CONTAINER_CREDENTIAL_BRIDGE",
-            "CREDENTIAL_INTERFACE_PROOF",
-            "PRIVATE_SUBNETS",
-            "RUNTIME_COMMANDS",
             "UBUNTU_SYSTEMD_PROOF",
         ),
         enabled=0,
@@ -111,7 +118,7 @@ def test_authority_hardening_and_credential_transport_drift_fail_closed() -> Non
     policy = deepcopy(_policy())
     transport = policy["credential_transport"]
     assert isinstance(transport, dict)
-    transport["secret_environment_forbidden"] = False
+    transport["secret_arguments_forbidden"] = False
     assert SystemdInputCode.CREDENTIAL in _codes(policy)
 
 
@@ -148,3 +155,40 @@ def test_topology_and_embedded_secret_drift_fail_closed() -> None:
     policy = deepcopy(_policy())
     policy["api_key"] = "sk-forbidden"
     assert SystemdInputCode.SECRET in _codes(policy)
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    ["missing", "extra", "subnet_drift", "public_facing", "wrong_owner", "already_created"],
+)
+def test_container_network_drift_fails_closed(mutation: str) -> None:
+    """The unit graph must create exactly the subnets host admission allocated."""
+    policy = deepcopy(_policy())
+    networks = policy["container_networks"]
+    assert isinstance(networks, list)
+    first = networks[0]
+    assert isinstance(first, dict)
+    if mutation == "missing":
+        networks.pop()
+    elif mutation == "extra":
+        networks.append(dict(first, network_id="asklegal-extra", subnet="10.90.20.0/24"))
+    elif mutation == "subnet_drift":
+        first["subnet"] = "10.99.0.0/24"
+    elif mutation == "public_facing":
+        first["internal"] = not first["internal"]
+    elif mutation == "wrong_owner":
+        first["created_by_unit"] = "asklegal-control-plane.service"
+    else:
+        first["created"] = True
+    assert SystemdInputCode.NETWORK in _codes(policy)
+
+
+def test_network_subnets_follow_the_host_allocation_rather_than_a_local_copy() -> None:
+    """Changing the host allocation must invalidate the unit graph, not be ignored."""
+    host_policy = deepcopy(_host_policy())
+    runtime = host_policy["runtime"]
+    assert isinstance(runtime, dict)
+    subnets = runtime["selected_private_subnets"]
+    assert isinstance(subnets, dict)
+    subnets["asklegal-register"] = "10.91.0.0/24"
+    assert SystemdInputCode.NETWORK in _codes(_policy(), host_policy=host_policy)

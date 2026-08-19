@@ -14,8 +14,11 @@ from tools.v1_poc_artifacts import check_artifact_policy
 from tools.v1_poc_credential_interface import check_credential_interface_policy
 from tools.v1_poc_host_admission import check_policy
 from tools.v1_poc_host_identities import check_host_identity_policy
+from tools.v1_poc_render_provisioning import check as check_provisioning
+from tools.v1_poc_render_units import check as check_units
 from tools.v1_poc_systemd_units import check_systemd_input_policy
 from tools.v1_poc_topology import check_topology
+from tools.v1_poc_wheelhouse import check_wheelhouse
 
 _EXPECTED_UV_VERSION = "0.12.5"
 _EXPECTED_NODE_VERSION = "v24.19.0"
@@ -44,6 +47,22 @@ def _run(
     )
 
 
+def _require_current_provisioning(root: Path) -> None:
+    """Reject rendered provisioning scripts that no longer match the contracts."""
+    drifted = check_provisioning(root)
+    if drifted:
+        message = f"PROVISIONING_SCRIPTS_STALE:{','.join(drifted)}"
+        raise DeveloperTestFailure(message)
+
+
+def _require_current_units(root: Path) -> None:
+    """Reject rendered units that no longer match the contracts."""
+    drifted = check_units(root)
+    if drifted:
+        message = f"SYSTEMD_UNITS_STALE:{','.join(drifted)}"
+        raise DeveloperTestFailure(message)
+
+
 def _workspace_source_path(root: Path) -> str:
     manifest = load_manifest(root / "tools/package_spike_manifest.json")
     source_paths: list[str] = []
@@ -64,6 +83,9 @@ def run(uv_path: Path, node_path: Path, pytest_arguments: list[str]) -> None:
         check_artifact_policy(root)
         check_credential_interface_policy(root)
         check_application_image_policy(root)
+        check_wheelhouse(root)
+        _require_current_provisioning(root)
+        _require_current_units(root)
         check_runtime_input_policy(root)
         check_systemd_input_policy(root)
         check_host_identity_policy(root)

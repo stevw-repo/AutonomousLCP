@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "status": "INTERNAL_POC_TLS_ISSUED",
+  "scope": "V1_POC_HOST_ONLY",
+  "authority": {
+    "common_name": "AskLegal V1 POC Internal CA",
+    "serial_number": "3622f4e465afd65a47282ac5827388251cd78dcc",
+    "not_before": "2026-08-17T23:23:11+00:00",
+    "not_after": "2031-08-17T23:23:11+00:00",
+    "sha256_fingerprint": "e81f976d2ca5ffb423e33ceede7ab7989af6697b9bd37daedc5e0fdf686c4341",
+    "key_bits": 4096,
+    "path_length": 0
+  },
+  "host_trust_bundle": "/etc/asklegal/tls/internal-ca.crt",
+  "staging_path": "var/tls",
+  "private_keys_tracked_in_git": false,
+  "public_trust_authority": false,
+  "certificates": [
+    {
+      "name": "sql-server",
+      "owner_uid": 10001,
+      "subject_common_name": "sql-server",
+      "serial_number": "1b11087990743e54e5890110c6d3be3ca2daf9ad",
+      "not_before": "2026-08-17T23:23:11+00:00",
+      "not_after": "2027-09-19T23:23:11+00:00",
+      "sha256_fingerprint": "c0133909f1d8e8c8d4abb201548122d762ed564ebdc2605eae88395140593a52",
+      "key_bits": 2048
+    },
+    {
+      "name": "vault-primary",
+      "owner_uid": 3008,
+      "subject_common_name": "vault-primary",
+      "serial_number": "3e6e63c93792930d47c13a38e513f3d7a1427ee6",
+      "not_before": "2026-08-17T23:23:11+00:00",
+      "not_after": "2027-09-19T23:23:11+00:00",
+      "sha256_fingerprint": "c34b0fc7ab44a521daab1990ae8d148884bbdb17c163d6a7a20bbe82d9cd786d",
+      "key_bits": 2048
+    },
+    {
+      "name": "vault-recovery",
+      "owner_uid": 3009,
+      "subject_common_name": "vault-recovery",
+      "serial_number": "643bc12c7fab543445cf0211e8bafcb9fcc8c005",
+      "not_before": "2026-08-17T23:23:11+00:00",
+      "not_after": "2027-09-19T23:23:11+00:00",
+      "sha256_fingerprint": "1f54229d4f1a0e65437c120ed40d4aca021d875ffa53dc6393b7d766cf382a84",
+      "key_bits": 2048
+    },
+    {
+      "name": "review-api",
+      "owner_uid": 3007,
+      "subject_common_name": "review-api",
+      "serial_number": "547eda84237553cfddc63a3478c49c39f759a777",
+      "not_before": "2026-08-17T23:23:11+00:00",
+      "not_after": "2027-09-19T23:23:11+00:00",
+      "sha256_fingerprint": "bd5e13f6ceb5b1be4a5d196043afc69f5dc530ea11884423e753888752ae9d87",
+      "key_bits": 2048
+    }
+  ]
+}

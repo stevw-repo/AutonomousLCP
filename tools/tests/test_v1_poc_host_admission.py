@@ -72,8 +72,32 @@ def _facts() -> dict[str, object]:
             "service_manager": "systemd",
             "docker_group_non_root_members": ["docpro"],
         },
-        "host_packages": {},
-        "private_subnets": {},
+        "host_packages": {
+            "ca-certificates": "20260601~24.04.1",
+            "containerd.io": "2.3.3-1~ubuntu.24.04~noble",
+            "docker-ce": "5:29.7.2-1~ubuntu.24.04~noble",
+            "docker-ce-cli": "5:29.7.2-1~ubuntu.24.04~noble",
+            "e2fsprogs": "1.47.0-2.4~exp1ubuntu4.1",
+            "nftables": "1.0.9-1ubuntu0.1",
+            "systemd": "255.4-1ubuntu8.17",
+            "systemd-timesyncd": "255.4-1ubuntu8.17",
+            "util-linux": "2.39.3-9ubuntu6.5",
+        },
+        "private_subnets": {
+            "declared": {
+                "asklegal-register": "10.90.0.0/24",
+                "asklegal-scheduler-general": "10.90.1.0/24",
+                "asklegal-scheduler-promotion": "10.90.2.0/24",
+                "asklegal-vault-primary": "10.90.3.0/24",
+                "asklegal-vault-recovery": "10.90.4.0/24",
+                "asklegal-review": "10.90.5.0/24",
+                "asklegal-telemetry": "10.90.6.0/24",
+                "asklegal-egress-source": "10.90.7.0/24",
+                "asklegal-egress-model": "10.90.8.0/24",
+                "asklegal-egress-promotion": "10.90.9.0/24",
+            },
+            "foreign": ["10.2.0.2/32", "172.17.0.1/16", "192.168.9.126/22"],
+        },
     }
 
 
@@ -85,10 +109,7 @@ def test_repository_policy_is_valid_but_not_ready() -> None:
     """Keep missing admission work explicit instead of inventing defaults."""
     assert check_policy(REPOSITORY_ROOT) == HostPolicyReport(
         required_paths=3,
-        blockers=(
-            "CREDENTIAL_INTERFACE_PROOF",
-            "HOST_PACKAGE_LOCKS",
-        ),
+        blockers=("CREDENTIAL_INTERFACE_PROOF",),
         host_mutation_authorized=False,
     )
 
@@ -125,7 +146,7 @@ def test_conforming_synthetic_facts_do_not_override_blockers() -> None:
     assert result.facts_conform is True
     assert result.admitted is False
     assert result.findings == ()
-    assert len(result.blockers) == 2
+    assert len(result.blockers) == 1
 
 
 @pytest.mark.parametrize(
@@ -213,3 +234,64 @@ def test_authority_cannot_be_enabled_in_policy() -> None:
     assert isinstance(authority, dict)
     authority["host_mutation_authorized"] = True
     assert HostCode.AUTHORITY in {finding.code for finding in validate_policy(policy)}
+
+
+@pytest.mark.parametrize("mutation", ["missing", "extra", "empty", "wildcard", "not_a_mapping"])
+def test_host_package_locks_fail_closed(mutation: str) -> None:
+    """Require one exact installed version for every locked host package."""
+    policy = deepcopy(_policy())
+    runtime = policy["runtime"]
+    assert isinstance(runtime, dict)
+    locks = runtime["host_package_locks"]
+    assert isinstance(locks, dict)
+    if mutation == "missing":
+        del locks["systemd"]
+    elif mutation == "extra":
+        locks["unexpected-package"] = "1.0"
+    elif mutation == "empty":
+        locks["systemd"] = ""
+    elif mutation == "wildcard":
+        locks["systemd"] = "255.*"
+    else:
+        runtime["host_package_locks"] = []
+    assert HostCode.POLICY in {finding.code for finding in validate_policy(policy)}
+
+
+@pytest.mark.parametrize("mutation", ["drift", "missing", "not_installed"])
+def test_installed_host_packages_must_equal_the_locks(mutation: str) -> None:
+    """An upgraded, absent, or uninstalled host package is not the admitted host."""
+    facts = deepcopy(_facts())
+    packages = facts["host_packages"]
+    assert isinstance(packages, dict)
+    if mutation == "drift":
+        packages["systemd"] = "255.4-1ubuntu8.18"
+    elif mutation == "missing":
+        del packages["nftables"]
+    else:
+        packages["nftables"] = "NOT_INSTALLED"
+    assert HostCode.PACKAGE in _codes(facts)
+
+
+@pytest.mark.parametrize(
+    "mutation", ["unprovisioned", "wrong_subnet", "host_collision", "malformed", "shape"]
+)
+def test_observed_networks_fail_closed(mutation: str) -> None:
+    """The ten declared networks must exist exactly and never collide with a host network."""
+    facts = deepcopy(_facts())
+    networks = facts["private_subnets"]
+    assert isinstance(networks, dict)
+    declared = networks["declared"]
+    assert isinstance(declared, dict)
+    foreign = networks["foreign"]
+    assert isinstance(foreign, list)
+    if mutation == "unprovisioned":
+        networks["declared"] = {}
+    elif mutation == "wrong_subnet":
+        declared["asklegal-register"] = "10.91.0.0/24"
+    elif mutation == "host_collision":
+        foreign.append("10.90.5.1/24")
+    elif mutation == "malformed":
+        foreign.append("not-a-network")
+    else:
+        del networks["foreign"]
+    assert HostCode.NETWORK in _codes(facts)

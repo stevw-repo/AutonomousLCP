@@ -80,12 +80,12 @@ _TARGET_HOST = {
     "service_manager": "systemd",
 }
 _SECRET_RULE = {
-    "delivery": "SYSTEMD_CREDS_LOAD_CREDENTIAL_ENCRYPTED",
-    "plaintext_runtime_location": "READ_ONLY_CREDENTIAL_FILE_ONLY",
+    "delivery": "SYSTEMD_CREDS_AT_REST_ENVIRONMENT_DELIVERY",
+    "plaintext_runtime_location": "PROCESS_ENVIRONMENT_OR_CREDENTIAL_FILE",
     "credential_values_in_evidence_forbidden": True,
     "persisted_canary_forbidden": True,
     "arguments_forbidden": True,
-    "environment_forbidden": True,
+    "environment_forbidden": False,
     "logs_forbidden": True,
     "image_metadata_forbidden": True,
     "persistent_files_forbidden": True,

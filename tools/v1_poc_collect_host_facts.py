@@ -30,6 +30,29 @@ _COMMAND_ENV = {
 }
 _MAX_COMMAND_OUTPUT = 1_000_000
 _SS_MIN_FIELDS = 4
+_LOCKED_HOST_PACKAGES = (
+    "ca-certificates",
+    "containerd.io",
+    "docker-ce",
+    "docker-ce-cli",
+    "e2fsprogs",
+    "nftables",
+    "systemd",
+    "systemd-timesyncd",
+    "util-linux",
+)
+_DECLARED_NETWORK_IDS = (
+    "asklegal-register",
+    "asklegal-scheduler-general",
+    "asklegal-scheduler-promotion",
+    "asklegal-vault-primary",
+    "asklegal-vault-recovery",
+    "asklegal-review",
+    "asklegal-telemetry",
+    "asklegal-egress-source",
+    "asklegal-egress-model",
+    "asklegal-egress-promotion",
+)
 
 
 class HostFactsSource(Protocol):
@@ -73,6 +96,14 @@ class HostFactsSource(Protocol):
 
     def container_runtime_facts(self) -> dict[str, JsonValue]:
         """Return Docker service and group-boundary facts."""
+        ...
+
+    def host_package_facts(self) -> dict[str, JsonValue]:
+        """Return exact installed versions for only the locked host packages."""
+        ...
+
+    def observed_network_facts(self) -> dict[str, JsonValue]:
+        """Return the declared container subnets and every other host network in use."""
         ...
 
 
@@ -122,6 +153,13 @@ class UbuntuHostFactsSource:
             message = f"read-only probe failed: {command[0]}"
             raise RuntimeError(message)
         return result.stdout.strip()
+
+    def _absent_or_run(self, command: Sequence[str]) -> str | None:
+        """Return output, or None when the inspected object simply does not exist yet."""
+        try:
+            return self._run(command)
+        except RuntimeError:
+            return None
 
     def operating_system(self) -> dict[str, JsonValue]:
         """Read the bounded operating-system release file."""
@@ -321,6 +359,60 @@ class UbuntuHostFactsSource:
             "docker_group_non_root_members": sorted(members),
         }
 
+    def host_package_facts(self) -> dict[str, JsonValue]:
+        """Read exact installed versions for only the locked packages; absent means absent."""
+        versions: dict[str, JsonValue] = {}
+        for name in _LOCKED_HOST_PACKAGES:
+            raw = self._absent_or_run(
+                ("dpkg-query", "--showformat=${Version}|${Status}", "--show", name)
+            )
+            version, _, status = (raw or "").partition("|")
+            if status.strip() != "install ok installed" or not version:
+                versions[name] = "NOT_INSTALLED"
+                continue
+            versions[name] = version
+        return versions
+
+    def observed_network_facts(self) -> dict[str, JsonValue]:
+        """Report the declared container subnets and every other IPv4 network on this host."""
+        declared: dict[str, JsonValue] = {}
+        for network_id in _DECLARED_NETWORK_IDS:
+            raw = self._absent_or_run(
+                (
+                    "docker",
+                    "network",
+                    "inspect",
+                    "--format",
+                    "{{range .IPAM.Config}}{{.Subnet}}{{end}}",
+                    network_id,
+                )
+            )
+            if raw:
+                declared[network_id] = raw
+        return {"declared": declared, "foreign": self._foreign_networks(set(declared.values()))}
+
+    def _foreign_networks(self, declared: set[JsonValue]) -> list[JsonValue]:
+        """Return every non-loopback IPv4 host network that is not a declared subnet."""
+        interfaces = _json_objects(json.loads(self._run(("ip", "-json", "addr", "show"))), "ip")
+        foreign: set[str] = set()
+        for interface in interfaces:
+            if interface.get("ifname") == "lo":
+                continue
+            addresses = interface.get("addr_info")
+            if not isinstance(addresses, list):
+                continue
+            for address in addresses:
+                if not isinstance(address, dict) or address.get("family") != "inet":
+                    continue
+                local = address.get("local")
+                prefix = address.get("prefixlen")
+                if type(local) is not str or type(prefix) is not int:
+                    continue
+                cidr = f"{local}/{prefix}"
+                if cidr not in declared:
+                    foreign.add(cidr)
+        return sorted(foreign)
+
 
 def collect_host_facts(source: HostFactsSource) -> dict[str, JsonValue]:
     """Build the exact secret-free fact document consumed by host admission."""
@@ -337,8 +429,8 @@ def collect_host_facts(source: HostFactsSource) -> dict[str, JsonValue]:
         "firewall": source.firewall_facts(),
         "journal": source.journal_facts(),
         "container_runtime": source.container_runtime_facts(),
-        "host_packages": {},
-        "private_subnets": {},
+        "host_packages": source.host_package_facts(),
+        "private_subnets": source.observed_network_facts(),
     }
 
 

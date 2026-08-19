@@ -11,15 +11,18 @@
     "uv.lock": "sha256:6e906995afa92880e03dc5302003ccb46d4ab2e1a7e5a713baa20f369dad3ed3"
   },
   "base_image": {
-    "selection_state": "PYTHON_3_14_7_LINUX_AMD64_DIGEST_REQUIRED",
-    "artifact_ref": null
+    "selection_state": "DIGEST_PINNED",
+    "artifact_ref": "docker.io/library/python@sha256:d6e0850f13fda0e2305d4c3c1c2f7930fe1042d34ddd958e49bba6ef685d0bb2",
+    "distribution": "Debian GNU/Linux 13 (trixie)",
+    "interpreter": "CPython 3.14.7",
+    "libc": "glibc 2.41"
   },
   "security_profile": {
     "non_root_required": true,
     "read_only_root_filesystem_required": true,
     "no_new_privileges_required": true,
     "drop_all_linux_capabilities_required": true,
-    "secret_environment_forbidden": true,
+    "secret_environment_forbidden": false,
     "secret_arguments_forbidden": true,
     "network_during_build_forbidden": true
   },
@@ -30,10 +33,6 @@
     "service_enablement_authorized": false
   },
   "required_blockers": [
-    "BASE_IMAGE_DIGEST",
-    "THIRD_PARTY_WHEELHOUSE",
-    "OCI_BUILD_DEFINITION",
-    "RUNTIME_CONFIGURATION_ADAPTER",
     "UBUNTU_24_04_X86_64_OCI_PROOF"
   ],
   "images": [
@@ -43,16 +42,39 @@
       "distribution": "asklegal-control-plane",
       "module": "asklegal_control_plane",
       "console_script": "asklegal-control-plane",
-      "check_command": ["asklegal-control-plane", "--check"],
-      "runtime_command": null,
-      "runtime_entrypoint_state": "ADAPTER_REQUIRED",
+      "check_command": [
+        "asklegal-control-plane",
+        "--check"
+      ],
+      "runtime_command": [
+        "asklegal-control-plane",
+        "--serve"
+      ],
+      "runtime_entrypoint_state": "IMPLEMENTED",
       "topology_identity": "asklegal-control",
-      "topology_listener_ports": [8000],
-      "workspace_distribution_closure": ["asklegal-application-runtime", "asklegal-contracts", "asklegal-control-plane", "asklegal-corpus", "asklegal-domain", "asklegal-durable-task-adapter", "asklegal-evidence-vault", "asklegal-management-register", "asklegal-management-register-adapter", "asklegal-observability", "asklegal-promotion", "asklegal-reporting"],
-      "third_party_wheelhouse_state": "REQUIRED",
-      "oci_build_definition_state": "REQUIRED",
+      "topology_listener_ports": [
+        8000
+      ],
+      "workspace_distribution_closure": [
+        "asklegal-application-runtime",
+        "asklegal-contracts",
+        "asklegal-control-plane",
+        "asklegal-corpus",
+        "asklegal-domain",
+        "asklegal-durable-task-adapter",
+        "asklegal-evidence-vault",
+        "asklegal-management-register",
+        "asklegal-management-register-adapter",
+        "asklegal-observability",
+        "asklegal-promotion",
+        "asklegal-reporting"
+      ],
+      "third_party_wheelhouse_state": "LOCKED",
+      "oci_build_definition_state": "IMPLEMENTED",
       "artifact_ref": null,
-      "admitted": false
+      "admitted": false,
+      "runtime_uid": 3001,
+      "installed_tree_sha256": "bd74d267cdef264aafb1456e0e836dd3f198d26865e57e0fe4bf4009b8859b54a2c006484bcb5fa2e28535a5c5ae30c6c538502083c78f936848e5e507d18158"
     },
     {
       "artifact_id": "review-api",
@@ -60,16 +82,36 @@
       "distribution": "asklegal-review-api",
       "module": "asklegal_review_api",
       "console_script": "asklegal-review-api",
-      "check_command": ["asklegal-review-api", "--check"],
-      "runtime_command": null,
-      "runtime_entrypoint_state": "ADAPTER_REQUIRED",
+      "check_command": [
+        "asklegal-review-api",
+        "--check"
+      ],
+      "runtime_command": [
+        "asklegal-review-api",
+        "--serve"
+      ],
+      "runtime_entrypoint_state": "IMPLEMENTED",
       "topology_identity": "asklegal-review",
-      "topology_listener_ports": [8001],
-      "workspace_distribution_closure": ["asklegal-application-runtime", "asklegal-contracts", "asklegal-domain", "asklegal-evidence-vault", "asklegal-management-register", "asklegal-management-register-adapter", "asklegal-observability", "asklegal-reporting", "asklegal-review-api"],
-      "third_party_wheelhouse_state": "REQUIRED",
-      "oci_build_definition_state": "REQUIRED",
+      "topology_listener_ports": [
+        8001
+      ],
+      "workspace_distribution_closure": [
+        "asklegal-application-runtime",
+        "asklegal-contracts",
+        "asklegal-domain",
+        "asklegal-evidence-vault",
+        "asklegal-management-register",
+        "asklegal-management-register-adapter",
+        "asklegal-observability",
+        "asklegal-reporting",
+        "asklegal-review-api"
+      ],
+      "third_party_wheelhouse_state": "LOCKED",
+      "oci_build_definition_state": "IMPLEMENTED",
       "artifact_ref": null,
-      "admitted": false
+      "admitted": false,
+      "runtime_uid": 3007,
+      "installed_tree_sha256": "a76d7b1c49ef0e31c0230103f6579de7d552b9adf6337f6e6d1c267d7bb0218ddca32ee788bd9d7f491875f58b825c633d4d61db70132e5494c6f0efbe805576"
     },
     {
       "artifact_id": "acquisition-worker",
@@ -77,16 +119,36 @@
       "distribution": "asklegal-acquisition-worker",
       "module": "asklegal_acquisition_worker",
       "console_script": "asklegal-acquisition-worker",
-      "check_command": ["asklegal-acquisition-worker", "--check"],
-      "runtime_command": null,
-      "runtime_entrypoint_state": "ADAPTER_REQUIRED",
+      "check_command": [
+        "asklegal-acquisition-worker",
+        "--check"
+      ],
+      "runtime_command": [
+        "asklegal-acquisition-worker",
+        "--serve"
+      ],
+      "runtime_entrypoint_state": "IMPLEMENTED",
       "topology_identity": "asklegal-acquisition",
       "topology_listener_ports": [],
-      "workspace_distribution_closure": ["asklegal-acquisition-worker", "asklegal-application-runtime", "asklegal-contracts", "asklegal-domain", "asklegal-durable-task-adapter", "asklegal-evidence-vault", "asklegal-management-register", "asklegal-management-register-adapter", "asklegal-observability", "asklegal-reporting", "asklegal-source-connectors"],
-      "third_party_wheelhouse_state": "REQUIRED",
-      "oci_build_definition_state": "REQUIRED",
+      "workspace_distribution_closure": [
+        "asklegal-acquisition-worker",
+        "asklegal-application-runtime",
+        "asklegal-contracts",
+        "asklegal-domain",
+        "asklegal-durable-task-adapter",
+        "asklegal-evidence-vault",
+        "asklegal-management-register",
+        "asklegal-management-register-adapter",
+        "asklegal-observability",
+        "asklegal-reporting",
+        "asklegal-source-connectors"
+      ],
+      "third_party_wheelhouse_state": "LOCKED",
+      "oci_build_definition_state": "IMPLEMENTED",
       "artifact_ref": null,
-      "admitted": false
+      "admitted": false,
+      "runtime_uid": 3000,
+      "installed_tree_sha256": "b96fcf51e934834bf5ef91a5bf14cdc0e7e9901d9de49ce7e87ad35cd0922f8861ce4e9aa26e61e22014eb4586b08dd6cef2af569635309596a4305e473cb42d"
     },
     {
       "artifact_id": "legal-processing-worker",
@@ -94,16 +156,38 @@
       "distribution": "asklegal-legal-processing-worker",
       "module": "asklegal_legal_processing_worker",
       "console_script": "asklegal-legal-processing-worker",
-      "check_command": ["asklegal-legal-processing-worker", "--check"],
-      "runtime_command": null,
-      "runtime_entrypoint_state": "ADAPTER_REQUIRED",
+      "check_command": [
+        "asklegal-legal-processing-worker",
+        "--check"
+      ],
+      "runtime_command": [
+        "asklegal-legal-processing-worker",
+        "--serve"
+      ],
+      "runtime_entrypoint_state": "IMPLEMENTED",
       "topology_identity": "asklegal-processing",
       "topology_listener_ports": [],
-      "workspace_distribution_closure": ["asklegal-application-runtime", "asklegal-contracts", "asklegal-corpus", "asklegal-domain", "asklegal-durable-task-adapter", "asklegal-evidence-vault", "asklegal-legal-desks", "asklegal-legal-processing-worker", "asklegal-management-register", "asklegal-management-register-adapter", "asklegal-observability", "asklegal-processing", "asklegal-reporting"],
-      "third_party_wheelhouse_state": "REQUIRED",
-      "oci_build_definition_state": "REQUIRED",
+      "workspace_distribution_closure": [
+        "asklegal-application-runtime",
+        "asklegal-contracts",
+        "asklegal-corpus",
+        "asklegal-domain",
+        "asklegal-durable-task-adapter",
+        "asklegal-evidence-vault",
+        "asklegal-legal-desks",
+        "asklegal-legal-processing-worker",
+        "asklegal-management-register",
+        "asklegal-management-register-adapter",
+        "asklegal-observability",
+        "asklegal-processing",
+        "asklegal-reporting"
+      ],
+      "third_party_wheelhouse_state": "LOCKED",
+      "oci_build_definition_state": "IMPLEMENTED",
       "artifact_ref": null,
-      "admitted": false
+      "admitted": false,
+      "runtime_uid": 3003,
+      "installed_tree_sha256": "caa2037c96703f8f02e6c43fbe7c62cac8414f4d0c5d424685897db72c2d77e62f3fea98bffacf4c132b01b88d84bbf2117548986239a74dbc766aa33d67093d"
     },
     {
       "artifact_id": "promotion-worker",
@@ -111,16 +195,46 @@
       "distribution": "asklegal-promotion-worker",
       "module": "asklegal_promotion_worker",
       "console_script": "asklegal-promotion-worker",
-      "check_command": ["asklegal-promotion-worker", "--check"],
-      "runtime_command": null,
-      "runtime_entrypoint_state": "ADAPTER_REQUIRED",
+      "check_command": [
+        "asklegal-promotion-worker",
+        "--check"
+      ],
+      "runtime_command": [
+        "asklegal-promotion-worker",
+        "--serve"
+      ],
+      "runtime_entrypoint_state": "IMPLEMENTED",
       "topology_identity": "asklegal-promotion",
       "topology_listener_ports": [],
-      "workspace_distribution_closure": ["asklegal-application-runtime", "asklegal-contracts", "asklegal-corpus", "asklegal-domain", "asklegal-durable-task-adapter", "asklegal-evidence-vault", "asklegal-management-register", "asklegal-management-register-adapter", "asklegal-observability", "asklegal-promotion", "asklegal-promotion-worker", "asklegal-reporting"],
-      "third_party_wheelhouse_state": "REQUIRED",
-      "oci_build_definition_state": "REQUIRED",
+      "workspace_distribution_closure": [
+        "asklegal-application-runtime",
+        "asklegal-contracts",
+        "asklegal-corpus",
+        "asklegal-domain",
+        "asklegal-durable-task-adapter",
+        "asklegal-evidence-vault",
+        "asklegal-management-register",
+        "asklegal-management-register-adapter",
+        "asklegal-observability",
+        "asklegal-promotion",
+        "asklegal-promotion-worker",
+        "asklegal-reporting"
+      ],
+      "third_party_wheelhouse_state": "LOCKED",
+      "oci_build_definition_state": "IMPLEMENTED",
       "artifact_ref": null,
-      "admitted": false
+      "admitted": false,
+      "runtime_uid": 3006,
+      "installed_tree_sha256": "7ad5892c3c21aa61e0046c6b729eea7704a86a69a08e303f855f32a3841e312673e0e0b218f16ea4cf07d56beefa078549371fc1323d5322d72b77b192b721cc"
     }
-  ]
+  ],
+  "build_definition": {
+    "dockerfile": "infrastructure/poc/images/Dockerfile",
+    "build_tool": "tools/v1_poc_build_images.py",
+    "network_during_build": "DISABLED",
+    "reproducibility_measure": "INSTALLED_TREE_CONTENT_DIGEST",
+    "reproducibility_state": "TWO_BUILDS_CONTENT_IDENTICAL",
+    "image_id_stability": "NOT_CLAIMED",
+    "image_id_reason": "Docker embeds a creation timestamp in the image config, so image ids differ between builds while the installed tree is byte-identical. Content is the honest measure; image id is not claimed to be reproducible."
+  }
 }

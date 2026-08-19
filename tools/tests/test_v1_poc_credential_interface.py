@@ -113,8 +113,8 @@ def test_credential_interface_record_is_executed_but_not_ready() -> None:
             "MANIFEST_LAST_EVIDENCE_PACKAGE",
         ),
         executed=6,
-        exceptions=1,
-        findings=2,
+        exceptions=0,
+        findings=3,
         ready=False,
     )
 
@@ -142,11 +142,26 @@ def test_credential_interface_record_drift_fails_closed(
     policy = deepcopy(_policy())
     _nested(policy, "authority")["host_mutation_authorized"] = mutation == "authority"
     if mutation == "secret_rule":
-        _nested(policy, "secret_rule")["environment_forbidden"] = False
+        _nested(policy, "secret_rule")["arguments_forbidden"] = False
     if mutation == "isolation":
         _nested(policy, "isolation_rule")["real_credentials_forbidden"] = False
     _MUTATIONS.get(mutation, lambda _: None)(policy)
     assert expected in _codes(policy)
+
+
+def _synthetic_exception() -> dict[str, object]:
+    """One well-formed exception, so the mechanism stays tested after the real one retired."""
+    return {
+        "exception_id": "SYNTHETIC_TEST_EXCEPTION",
+        "subjects": ["vault-primary"],
+        "relaxed_rules": ["logs_forbidden"],
+        "permitted_delivery": "ENVIRONMENT_ONLY",
+        "forbidden_delivery": "ARGUMENTS",
+        "reason": "synthetic exception used only to prove the mechanism still fails closed",
+        "residual_risk": "none; this exception exists only inside this test",
+        "bounded_by": ["TEST_ONLY"],
+        "retirement_path": "DELETE_THIS_TEST_FIXTURE",
+    }
 
 
 @pytest.mark.parametrize(
@@ -164,11 +179,12 @@ def test_credential_interface_record_drift_fails_closed(
 def test_exception_mechanism_cannot_be_abused(mutation: str) -> None:
     """Keep every accepted relaxation named, bounded, and tied to a real subject."""
     policy = deepcopy(_policy())
+    policy["accepted_exceptions"] = [_synthetic_exception()]
     if mutation == "unbacked_exception":
         _subject(policy, "sql-server")["result"] = "EXCEPTION_ACCEPTED"
         _subject(policy, "sql-server")["exception_id"] = "INVENTED_EXCEPTION"
     elif mutation == "unused_exception":
-        _subject(policy, "sql-server")["exception_id"] = "VERSITY_ROOT_BOOTSTRAP_ENVIRONMENT"
+        _subject(policy, "sql-server")["exception_id"] = "SYNTHETIC_TEST_EXCEPTION"
     elif mutation == "unrelaxable_rule":
         _first(policy, "accepted_exceptions")["relaxed_rules"] = ["arguments_forbidden"]
     elif mutation == "unknown_rule":

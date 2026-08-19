@@ -15,12 +15,12 @@ _DOCUMENT_TOO_LARGE = "host identity document too large"
 _DOCUMENT_ROOT = "host identity document root"
 _OBJECT_LIST = "host identity object list"
 _STRING_LIST = "host identity string list"
-_SECRET_VALUE = re.compile(
-    r"(?:^sk-[A-Za-z0-9]|BEGIN [A-Z ]*PRIVATE KEY|://[^/\s:]+:[^/@\s]+@)"
-)
+_SECRET_VALUE = re.compile(r"(?:^sk-[A-Za-z0-9]|BEGIN [A-Z ]*PRIVATE KEY|://[^/\s:]+:[^/@\s]+@)")
 _DOCUMENT_KEYS = frozenset(
     {
         "authority",
+        "container_identity_map",
+        "container_identity_rule",
         "identities",
         "identity_profile",
         "required_blockers",
@@ -28,9 +28,25 @@ _DOCUMENT_KEYS = frozenset(
         "status",
     }
 )
-_IDENTITY_KEYS = frozenset(
-    {"created", "gid", "identity", "owned_write_paths", "service_id", "uid"}
+_MAP_KEYS = frozenset({"runtime_gid", "runtime_uid", "service_id", "source"})
+_ALLOCATED_UID_MIN = 3000
+_ALLOCATED_UID_MAX = 3014
+_IMAGE_DEFINED_SQL_UID = 10001
+_MAP_SOURCES = frozenset({"CONTAINER_ONLY_RESERVED", "IMAGE_DEFINED", "LOCALLY_ALLOCATED"})
+_CONTAINER_ONLY_SERVICES = frozenset(
+    {"dts-general", "dts-promotion", "egress-model", "egress-promotion", "egress-source"}
 )
+_IMAGE_DEFINED_SERVICES = frozenset({"sql-server"})
+_CONTAINER_IDENTITY_RULE = {
+    "credential_file_owner_must_equal_runtime_uid": True,
+    "root_runtime_uid_forbidden": True,
+    "shared_runtime_uid_forbidden": True,
+    "measured_reason": (
+        "LoadCredential writes a 0400 file owned by the unit account, so a container "
+        "running under a different numeric UID cannot read its own credential."
+    ),
+}
+_IDENTITY_KEYS = frozenset({"created", "gid", "identity", "owned_write_paths", "service_id", "uid"})
 _AUTHORITY = {
     "identity_creation_authorized": False,
     "path_ownership_change_authorized": False,
@@ -43,12 +59,11 @@ _PROFILE = {
     "home_directory": "/nonexistent",
     "supplementary_groups": [],
     "shared_identity_forbidden": True,
-    "numeric_uid_gid_state": "HOST_ALLOCATION_REQUIRED",
+    "numeric_uid_gid_state": "ALLOCATED",
+    "allocated_uid_gid_range": [_ALLOCATED_UID_MIN, _ALLOCATED_UID_MAX],
     "created": False,
 }
 _BLOCKERS = (
-    "COLLISION_FREE_UID_GID_ALLOCATION",
-    "CONTAINER_UID_GID_MAPPING",
     "PATH_OWNERSHIP_PROOF",
     "UBUNTU_IDENTITY_PROOF",
 )
@@ -95,6 +110,7 @@ class HostIdentityReport:
 
     identities: int
     owned_paths: int
+    container_identities: int
     blockers: tuple[str, ...]
     created: int
 
@@ -158,9 +174,13 @@ def _validate_identity(
         return (HostIdentityFinding(HostIdentityCode.OWNERSHIP, label),)
     if owned_paths != topology_paths:
         findings.append(HostIdentityFinding(HostIdentityCode.OWNERSHIP, label))
+    uid = identity.get("uid")
+    gid = identity.get("gid")
     if (
-        identity.get("uid") is not None
-        or identity.get("gid") is not None
+        type(uid) is not int
+        or type(gid) is not int
+        or uid != gid
+        or not _ALLOCATED_UID_MIN <= uid <= _ALLOCATED_UID_MAX
         or identity.get("created") is not False
     ):
         findings.append(HostIdentityFinding(HostIdentityCode.STATE, label))
@@ -187,10 +207,7 @@ def validate_host_identity_policy(
     identities = _objects(policy.get("identities"))
     service_ids = tuple(item.get("service_id") for item in identities)
     names = tuple(item.get("identity") for item in identities)
-    if (
-        len(service_ids) != len(set(service_ids))
-        or frozenset(service_ids) != _EXPECTED_SERVICES
-    ):
+    if len(service_ids) != len(set(service_ids)) or frozenset(service_ids) != _EXPECTED_SERVICES:
         findings.append(HostIdentityFinding(HostIdentityCode.INVENTORY, "services"))
     if len(names) != len(set(names)) or any(name in {"mssql", "root"} for name in names):
         findings.append(HostIdentityFinding(HostIdentityCode.DUPLICATE, "identity"))
@@ -203,7 +220,77 @@ def validate_host_identity_policy(
                 topology_services.get(service_id) if isinstance(service_id, str) else None,
             )
         )
+    findings.extend(
+        _validate_container_identity_map(
+            policy.get("container_identity_map"),
+            policy.get("container_identity_rule"),
+            identities,
+            frozenset(topology_services),
+        )
+    )
     return tuple(findings)
+
+
+def _validate_container_identity_map(
+    value: object,
+    rule: object,
+    identities: tuple[dict[str, object], ...],
+    topology_service_ids: frozenset[str],
+) -> tuple[HostIdentityFinding, ...]:
+    """Bind every container to one exact non-root numeric identity it alone runs as."""
+    if rule != _CONTAINER_IDENTITY_RULE:
+        return (HostIdentityFinding(HostIdentityCode.PROFILE, "container identity rule"),)
+    try:
+        entries = _objects(value)
+    except TypeError:
+        return (HostIdentityFinding(HostIdentityCode.INVENTORY, "container identity map"),)
+    service_ids = tuple(entry.get("service_id") for entry in entries)
+    if len(service_ids) != len(set(service_ids)) or frozenset(service_ids) != topology_service_ids:
+        return (HostIdentityFinding(HostIdentityCode.INVENTORY, "container identity coverage"),)
+    host_uid = {
+        entry.get("service_id"): entry.get("uid")
+        for entry in identities
+        if isinstance(entry.get("service_id"), str)
+    }
+    findings: list[HostIdentityFinding] = []
+    seen: set[int] = set()
+    for entry in entries:
+        service_id = entry.get("service_id")
+        label = service_id if isinstance(service_id, str) else "unknown"
+        uid = entry.get("runtime_uid")
+        if (
+            frozenset(entry) != _MAP_KEYS
+            or type(uid) is not int
+            or entry.get("runtime_gid") != uid
+            or uid <= 0
+            or entry.get("source") not in _MAP_SOURCES
+        ):
+            findings.append(HostIdentityFinding(HostIdentityCode.INVENTORY, label))
+            continue
+        if uid in seen:
+            findings.append(HostIdentityFinding(HostIdentityCode.DUPLICATE, label))
+        seen.add(uid)
+        findings.extend(_validate_map_source(entry, uid, label, host_uid))
+    return tuple(findings)
+
+
+def _validate_map_source(
+    entry: dict[str, object], uid: int, label: str, host_uid: dict[object, object]
+) -> tuple[HostIdentityFinding, ...]:
+    """Require each runtime identity to match the source that actually defines it."""
+    source = entry.get("source")
+    service_id = entry.get("service_id")
+    if source == "IMAGE_DEFINED":
+        expected = service_id in _IMAGE_DEFINED_SERVICES and uid == _IMAGE_DEFINED_SQL_UID
+    elif source == "CONTAINER_ONLY_RESERVED":
+        expected = (
+            service_id in _CONTAINER_ONLY_SERVICES
+            and _ALLOCATED_UID_MIN <= uid <= _ALLOCATED_UID_MAX
+            and service_id not in host_uid
+        )
+    else:
+        expected = host_uid.get(service_id) == uid
+    return () if expected else (HostIdentityFinding(HostIdentityCode.STATE, label),)
 
 
 def check_host_identity_policy(root: Path) -> HostIdentityReport:
@@ -217,6 +304,7 @@ def check_host_identity_policy(root: Path) -> HostIdentityReport:
     return HostIdentityReport(
         identities=len(identities),
         owned_paths=sum(len(_strings(item["owned_write_paths"])) for item in identities),
+        container_identities=len(_objects(policy["container_identity_map"])),
         blockers=_BLOCKERS,
         created=sum(item.get("created") is True for item in identities),
     )
@@ -229,6 +317,7 @@ def main() -> None:
     print(  # noqa: T201
         "PASS V1 POC host identity inputs; NOT_READY: "
         f"{report.identities} identities, {report.owned_paths} owned paths, "
+        f"{report.container_identities} container identities, "
         f"{len(report.blockers)} blockers, created={report.created}"
     )
 

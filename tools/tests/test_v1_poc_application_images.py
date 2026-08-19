@@ -63,13 +63,7 @@ def test_repository_application_image_inputs_are_complete_but_disabled() -> None
     assert check_application_image_policy(REPOSITORY_ROOT) == ApplicationImageReport(
         images=5,
         workspace_distributions=19,
-        blockers=(
-            "BASE_IMAGE_DIGEST",
-            "THIRD_PARTY_WHEELHOUSE",
-            "OCI_BUILD_DEFINITION",
-            "RUNTIME_CONFIGURATION_ADAPTER",
-            "UBUNTU_24_04_X86_64_OCI_PROOF",
-        ),
+        blockers=("UBUNTU_24_04_X86_64_OCI_PROOF",),
         admitted=0,
     )
 
@@ -140,3 +134,59 @@ def test_artifact_registry_and_topology_drift_fail_closed() -> None:
     )
     review["identity"] = "shared-identity-forbidden"
     assert ApplicationImageCode.TOPOLOGY in _codes(_policy(), topology=topology)
+
+
+@pytest.mark.parametrize(
+    "mutation", ["mutable_tag", "wrong_state", "missing_digest", "unrecorded_distribution"]
+)
+def test_base_image_pin_cannot_be_loosened(mutation: str) -> None:
+    """A base image without an immutable digest cannot be reproducibly rebuilt."""
+    policy = deepcopy(_policy())
+    base = policy["base_image"]
+    assert isinstance(base, dict)
+    if mutation == "mutable_tag":
+        base["artifact_ref"] = "docker.io/library/python:3.14.7-slim-trixie"
+    elif mutation == "wrong_state":
+        base["selection_state"] = "DIGEST_REQUIRED"
+    elif mutation == "missing_digest":
+        base["artifact_ref"] = None
+    else:
+        base["distribution"] = "Ubuntu 24.04"
+    assert ApplicationImageCode.BLOCKER in _codes(policy)
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    ["network_enabled", "false_image_id_claim", "weaker_measure", "missing_tool"],
+)
+def test_build_definition_cannot_overclaim(mutation: str) -> None:
+    """The build must stay offline and must not claim reproducibility it lacks."""
+    policy = deepcopy(_policy())
+    definition = policy["build_definition"]
+    assert isinstance(definition, dict)
+    if mutation == "network_enabled":
+        definition["network_during_build"] = "ENABLED"
+    elif mutation == "false_image_id_claim":
+        definition["image_id_stability"] = "BYTE_IDENTICAL"
+    elif mutation == "weaker_measure":
+        definition["reproducibility_measure"] = "BEST_EFFORT"
+    else:
+        del definition["build_tool"]
+    assert ApplicationImageCode.BLOCKER in _codes(policy)
+
+
+@pytest.mark.parametrize("mutation", ["root_uid", "missing_digest", "short_digest"])
+def test_built_image_identity_and_content_must_be_recorded(mutation: str) -> None:
+    """A recorded image needs its exact runtime identity and installed-tree digest."""
+    policy = deepcopy(_policy())
+    images = policy["images"]
+    assert isinstance(images, list)
+    first = images[0]
+    assert isinstance(first, dict)
+    if mutation == "root_uid":
+        first["runtime_uid"] = None
+    elif mutation == "missing_digest":
+        first["installed_tree_sha256"] = None
+    else:
+        first["installed_tree_sha256"] = "abc"
+    assert ApplicationImageCode.RUNTIME in _codes(policy)

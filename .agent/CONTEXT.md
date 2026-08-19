@@ -2945,3 +2945,21 @@ _Avoid_: Withholding, retirement, deletion, verified-current refresh
   carries forward only the affected jurisdiction-and-source scope without
   authority-note change, withholding, retirement, or further updates under ADRs
   0015, 0017, and 0050.
+
+## V1 runtime vocabulary — added 2026-08-18
+
+- **V1 service entrypoint** — the continuous `--serve` mode of an application's
+  console script. It is not the local `--check` boundary: it loads systemd
+  credentials, composes only its own adapters, proves readiness, and serves.
+- **Bounded readiness probe** — one non-mutating dependency check with a hard
+  deadline. An *adapter* probe asks the real service a harmless question (SQL
+  `SELECT 1`; a vault's versioning and Object Lock state). A *transport* probe
+  only opens and closes a connection, and proves reachability, not health.
+- **Container-only reservation** — a numeric UID/GID held so nothing else can
+  take it, for a service that owns no host path and therefore gets no host
+  account. Distinct from an allocated host account and from an image-defined
+  identity such as SQL Server's 10001.
+- **Installed-tree content digest** — the reproducibility measure for the
+  application images: a digest over every file's path, mode, size, and bytes
+  under `/opt/asklegal`. Docker image ids are deliberately not claimed to be
+  reproducible, because Docker stamps a creation time into the image config.

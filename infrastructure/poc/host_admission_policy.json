@@ -22,27 +22,40 @@
     "recovery_class": "LOGICALLY_SEPARATE_POC_RECOVERY"
   },
   "security": {
-    "credential_delivery": "SYSTEMD_CREDS_LOAD_CREDENTIAL_ENCRYPTED",
+    "credential_delivery": "SYSTEMD_CREDS_AT_REST_ENVIRONMENT_DELIVERY",
     "allowed_credential_protection_modes": [
       "TPM2_PLUS_HOST_KEY",
       "HOST_KEY_ONLY"
     ],
     "encrypted_credential_blob_mode": "0400",
     "persistent_plaintext_credentials_forbidden": true,
-    "permitted_docker_group_members": ["docpro"],
+    "permitted_docker_group_members": [
+      "docpro"
+    ],
     "nftables_input_default": "DROP",
     "nftables_forward_default": "DROP",
     "direct_container_egress_default": "DROP",
     "public_tcp_ports": [],
     "persistent_journal_required": true,
     "forward_secure_sealing_required": true,
-    "time_synchronization_required": true
+    "time_synchronization_required": true,
+    "secret_environment_permitted": true
   },
   "runtime": {
     "service_manager": "systemd",
     "container_runtime": "docker",
     "exact_host_package_locks_required": true,
-    "host_package_locks": {},
+    "host_package_locks": {
+      "ca-certificates": "20260601~24.04.1",
+      "containerd.io": "2.3.3-1~ubuntu.24.04~noble",
+      "docker-ce": "5:29.7.2-1~ubuntu.24.04~noble",
+      "docker-ce-cli": "5:29.7.2-1~ubuntu.24.04~noble",
+      "e2fsprogs": "1.47.0-2.4~exp1ubuntu4.1",
+      "nftables": "1.0.9-1ubuntu0.1",
+      "systemd": "255.4-1ubuntu8.17",
+      "systemd-timesyncd": "255.4-1ubuntu8.17",
+      "util-linux": "2.39.3-9ubuntu6.5"
+    },
     "collision_free_private_subnets_required": true,
     "selected_private_subnets": {
       "asklegal-register": "10.90.0.0/24",
@@ -55,7 +68,8 @@
       "asklegal-egress-source": "10.90.7.0/24",
       "asklegal-egress-model": "10.90.8.0/24",
       "asklegal-egress-promotion": "10.90.9.0/24"
-    }
+    },
+    "host_package_architecture": "amd64"
   },
   "authority": {
     "host_mutation_authorized": false,
@@ -63,7 +77,6 @@
     "external_write_authorized": false
   },
   "admission_blockers": [
-    "CREDENTIAL_INTERFACE_PROOF",
-    "HOST_PACKAGE_LOCKS"
+    "CREDENTIAL_INTERFACE_PROOF"
   ]
 }

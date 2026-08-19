@@ -36,10 +36,7 @@ def _component(policy: dict[str, object], component_id: str) -> dict[str, object
 
 
 def _codes(policy: dict[str, object]) -> set[V1AdmissionCode]:
-    return {
-        finding.code
-        for finding in validate_v1_admission_policy(policy, REPOSITORY_ROOT)
-    }
+    return {finding.code for finding in validate_v1_admission_policy(policy, REPOSITORY_ROOT)}
 
 
 def test_composite_gate_reports_static_validation_without_v1_admission() -> None:
@@ -86,9 +83,7 @@ def test_authority_expansion_fails_closed() -> None:
         ("evidence", "NOT_CREATED"),
     ],
 )
-def test_component_state_blocker_or_evidence_drift_fails_closed(
-    field: str, value: object
-) -> None:
+def test_component_state_blocker_or_evidence_drift_fails_closed(field: str, value: object) -> None:
     """Require the exact ordered component inventory and evidence binding."""
     policy = deepcopy(_policy())
     _component(policy, "STATIC_TOPOLOGY")[field] = value

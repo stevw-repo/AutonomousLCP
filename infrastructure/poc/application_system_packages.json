@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "status": "LOCKED_OFFLINE_SYSTEM_PACKAGES",
+  "target_platform": "linux/amd64",
+  "base_image_ref": "docker.io/library/python@sha256:d6e0850f13fda0e2305d4c3c1c2f7930fe1042d34ddd958e49bba6ef685d0bb2",
+  "reason": "The mssql-python wheel bundles libmsodbcsql, which links against Kerberos and libltdl. The slim base image has neither, so importing the package succeeds while opening a connection fails with 'Failed to load the driver'.",
+  "staging_path": "var/debs",
+  "tracked_in_git": false,
+  "network_during_build_forbidden": true,
+  "package_count": 7,
+  "packages": [
+    {
+      "filename": "libcom-err2_1.47.2-3+b11_amd64.deb",
+      "size_bytes": 25036,
+      "sha256": "e1feff126b3e8b3a7b18087e88681469b70d8f6d1b7c4e4b89d98577e1a2fdd7"
+    },
+    {
+      "filename": "libgssapi-krb5-2_1.21.3-5+deb13u1_amd64.deb",
+      "size_bytes": 138356,
+      "sha256": "30847c1fde4240567d7ed3aeab4f655dd591203758b857e85e824045aae70299"
+    },
+    {
+      "filename": "libk5crypto3_1.21.3-5+deb13u1_amd64.deb",
+      "size_bytes": 81152,
+      "sha256": "7da07ee674b47f1f0be7cc89317c25310086a1f1761217d0f72e6ae2c5a69b84"
+    },
+    {
+      "filename": "libkeyutils1_1.6.3-6_amd64.deb",
+      "size_bytes": 9456,
+      "sha256": "0b11ad17be0300b63ad4eeb4c6450fed24d34b7b740f23e5363dcb29ee6d5eba"
+    },
+    {
+      "filename": "libkrb5-3_1.21.3-5+deb13u1_amd64.deb",
+      "size_bytes": 326056,
+      "sha256": "47d71d6a7f2e59b9bae5f89602397594805113b95889ad18fa703cd53abafc97"
+    },
+    {
+      "filename": "libkrb5support0_1.21.3-5+deb13u1_amd64.deb",
+      "size_bytes": 33124,
+      "sha256": "3a0acd8b37955c0e102c756b52c97df2a31f67b96453c35dab70df218d309117"
+    },
+    {
+      "filename": "libltdl7_2.5.4-4_amd64.deb",
+      "size_bytes": 415648,
+      "sha256": "ab38167fc5aba8d133309fa98ca0a8b4e8b3c31588214ea70803a2bf3c6aa5ba"
+    }
+  ]
+}

@@ -10,6 +10,7 @@ from pathlib import Path
 
 SYSTEMD_POLICY_PATH = Path("infrastructure/poc/systemd_unit_inputs.json")
 TOPOLOGY_PATH = Path("infrastructure/poc/topology.json")
+HOST_POLICY_PATH = Path("infrastructure/poc/host_admission_policy.json")
 _MAX_DOCUMENT_BYTES = 1_000_000
 _DOCUMENT_TOO_LARGE = "systemd input document too large"
 _DOCUMENT_ROOT = "systemd input document root"
@@ -20,6 +21,7 @@ _DOCUMENT_KEYS = frozenset(
     {
         "authority",
         "bootstrap_units",
+        "container_networks",
         "credential_transport",
         "hardening_profile",
         "required_blockers",
@@ -52,8 +54,8 @@ _AUTHORITY = {
 _CREDENTIAL_TRANSPORT = {
     "systemd_directive": "LoadCredentialEncrypted",
     "runtime_directory_variable": "CREDENTIALS_DIRECTORY",
-    "container_bridge_state": "PROOF_REQUIRED",
-    "secret_environment_forbidden": True,
+    "container_bridge_state": "ENVIRONMENT_FROM_LOADED_CREDENTIAL",
+    "secret_environment_forbidden": False,
     "secret_arguments_forbidden": True,
     "persistent_plaintext_forbidden": True,
 }
@@ -69,12 +71,10 @@ _HARDENING = {
 }
 _BLOCKERS = (
     "ARTIFACT_PINS",
-    "CONTAINER_CREDENTIAL_BRIDGE",
-    "CREDENTIAL_INTERFACE_PROOF",
-    "PRIVATE_SUBNETS",
-    "RUNTIME_COMMANDS",
     "UBUNTU_SYSTEMD_PROOF",
 )
+_NETWORK_KEYS = frozenset({"created", "created_by_unit", "internal", "network_id", "subnet"})
+_NETWORK_UNIT_NAME = "asklegal-networks.service"
 _UNIT_NAMES = {
     "acquisition-worker": "asklegal-acquisition-worker.service",
     "control-plane": "asklegal-control-plane.service",
@@ -141,6 +141,15 @@ _REQUIRES = {
 _FILESYSTEM_SERVICES = frozenset({"sql-server", "vault-primary", "vault-recovery"})
 _BOOTSTRAP_UNITS = (
     {
+        "unit_name": _NETWORK_UNIT_NAME,
+        "kind": "ONESHOT",
+        "requires": [],
+        "credential_names": [],
+        "disable_after_verified_success": False,
+        "runtime_command_state": "REQUIRED",
+        "enabled": False,
+    },
+    {
         "unit_name": "asklegal-register-migrate.service",
         "kind": "ONESHOT",
         "requires": ["asklegal-sql-server.service"],
@@ -206,6 +215,7 @@ class SystemdInputCode(StrEnum):
 
     AUTHORITY = "AUTHORITY"
     BOOTSTRAP = "BOOTSTRAP"
+    NETWORK = "NETWORK"
     CREDENTIAL = "CREDENTIAL"
     DEPENDENCY = "DEPENDENCY"
     HARDENING = "HARDENING"
@@ -230,6 +240,7 @@ class SystemdInputReport:
 
     services: int
     bootstrap_units: int
+    networks: int
     timers: int
     blockers: tuple[str, ...]
     enabled: int
@@ -312,8 +323,44 @@ def _validate_service_unit(
     return tuple(findings)
 
 
+def _validate_container_networks(
+    value: object, host_policy: dict[str, object], topology: dict[str, object]
+) -> tuple[SystemdInputFinding, ...]:
+    """Require the unit graph to create exactly the subnets host admission allocated."""
+    runtime = host_policy.get("runtime")
+    allocation = runtime.get("selected_private_subnets") if isinstance(runtime, dict) else None
+    if not isinstance(allocation, dict):
+        return (SystemdInputFinding(SystemdInputCode.NETWORK, "host allocation"),)
+    try:
+        networks = _objects(value)
+    except TypeError:
+        return (SystemdInputFinding(SystemdInputCode.NETWORK, "inventory"),)
+    declared_topology = _objects(topology.get("networks"))
+    isolation = {
+        network_id: item.get("internal")
+        for item in declared_topology
+        if isinstance((network_id := item.get("network_id")), str)
+    }
+    network_ids = tuple(item.get("network_id") for item in networks)
+    if len(network_ids) != len(set(network_ids)) or frozenset(network_ids) != frozenset(allocation):
+        return (SystemdInputFinding(SystemdInputCode.NETWORK, "coverage"),)
+    findings: list[SystemdInputFinding] = []
+    for network in networks:
+        network_id = network.get("network_id")
+        label = network_id if isinstance(network_id, str) else "unknown"
+        if (
+            frozenset(network) != _NETWORK_KEYS
+            or network.get("subnet") != allocation.get(network_id)
+            or network.get("internal") is not isolation.get(network_id)
+            or network.get("created_by_unit") != _NETWORK_UNIT_NAME
+            or network.get("created") is not False
+        ):
+            findings.append(SystemdInputFinding(SystemdInputCode.NETWORK, label))
+    return tuple(findings)
+
+
 def validate_systemd_input_policy(
-    policy: dict[str, object], topology: dict[str, object]
+    policy: dict[str, object], topology: dict[str, object], host_policy: dict[str, object]
 ) -> tuple[SystemdInputFinding, ...]:
     """Return every drift; empty proves only one disabled unit-input contract."""
     findings = list(_secret_findings(policy))
@@ -346,6 +393,9 @@ def validate_systemd_input_policy(
                 topology_services.get(service_id) if isinstance(service_id, str) else None,
             )
         )
+    findings.extend(
+        _validate_container_networks(policy.get("container_networks"), host_policy, topology)
+    )
     if _objects(policy.get("bootstrap_units")) != _BOOTSTRAP_UNITS:
         findings.append(SystemdInputFinding(SystemdInputCode.BOOTSTRAP, "units"))
     if _objects(policy.get("timer_units")) != _TIMER_UNITS:
@@ -356,7 +406,11 @@ def validate_systemd_input_policy(
 def check_systemd_input_policy(root: Path) -> SystemdInputReport:
     """Validate exact disabled unit inputs without reading or changing systemd."""
     policy = _read_object(root / SYSTEMD_POLICY_PATH)
-    findings = validate_systemd_input_policy(policy, _read_object(root / TOPOLOGY_PATH))
+    findings = validate_systemd_input_policy(
+        policy,
+        _read_object(root / TOPOLOGY_PATH),
+        _read_object(root / HOST_POLICY_PATH),
+    )
     if findings:
         detail = ", ".join(f"{item.code.value}:{item.detail}" for item in findings)
         raise ValueError(detail)
@@ -366,6 +420,7 @@ def check_systemd_input_policy(root: Path) -> SystemdInputReport:
     return SystemdInputReport(
         services=len(service_units),
         bootstrap_units=len(bootstrap_units),
+        networks=len(_objects(policy["container_networks"])),
         timers=len(timer_units),
         blockers=_BLOCKERS,
         enabled=sum(item.get("enabled") is True for item in (*service_units, *timer_units)),
@@ -379,6 +434,7 @@ def main() -> None:
     print(  # noqa: T201
         "PASS V1 POC systemd unit inputs; NOT_READY: "
         f"{report.services} services, {report.bootstrap_units} bootstrap units, "
+        f"{report.networks} networks, "
         f"{report.timers} timers, {len(report.blockers)} blockers, "
         f"enabled={report.enabled}"
     )

@@ -3,7 +3,18 @@
 from collections.abc import Mapping
 from dataclasses import dataclass
 
-from asklegal_application_runtime import CredentialMaterial, SystemdCredentialDirectory
+from asklegal_application_runtime import (
+    V1_INTERNAL_CA_BUNDLE,
+    CallableProbe,
+    CredentialMaterial,
+    DependencyCode,
+    ReadinessProbe,
+    SystemdCredentialDirectory,
+    TcpReachabilityProbe,
+    TlsReachabilityProbe,
+    V1ReadinessGate,
+    destination_for,
+)
 from asklegal_durable_task import V1SchedulerSettings
 from asklegal_evidence_vault import (
     S3AccessCredential,
@@ -37,3 +48,35 @@ def load_v1_infrastructure(environment: Mapping[str, str]) -> V1ControlInfrastru
         primary_vault=create_exact_v1_s3_vault(VaultName.PRIMARY, primary_credential),
         review_client_credential=credentials.read("review-client"),
     )
+
+
+def readiness_probes(infrastructure: V1ControlInfrastructure) -> tuple[ReadinessProbe, ...]:
+    """Build the exact ordered dependency probes this application must prove.
+
+    The order is the accepted readiness dependency order for CONTROL_PLANE. A transport
+    probe proves only that the declared destination accepts a bounded connection;
+    the scheduler emulator, collector, and egress proxies publish no non-mutating
+    health operation, and inventing one would be a false readiness signal.
+    """
+    return (
+        CallableProbe(DependencyCode.MANAGEMENT_REGISTER, infrastructure.sql.check_readiness),
+        TcpReachabilityProbe(
+            DependencyCode.TASK_SCHEDULER_GENERAL,
+            *destination_for("CONTROL_PLANE", DependencyCode.TASK_SCHEDULER_GENERAL),
+        ),
+        CallableProbe(DependencyCode.PRIMARY_VAULT, infrastructure.primary_vault.check_readiness),
+        TcpReachabilityProbe(
+            DependencyCode.TELEMETRY,
+            *destination_for("CONTROL_PLANE", DependencyCode.TELEMETRY),
+        ),
+        TlsReachabilityProbe(
+            DependencyCode.REVIEW_API,
+            *destination_for("CONTROL_PLANE", DependencyCode.REVIEW_API),
+            V1_INTERNAL_CA_BUNDLE,
+        ),
+    )
+
+
+def readiness_gate(infrastructure: V1ControlInfrastructure) -> V1ReadinessGate:
+    """Return the fail-closed gate for this application's complete dependency set."""
+    return V1ReadinessGate("CONTROL_PLANE", readiness_probes(infrastructure))

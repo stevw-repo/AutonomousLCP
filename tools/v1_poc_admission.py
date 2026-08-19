@@ -22,9 +22,7 @@ _MAX_DOCUMENT_BYTES = 1_000_000
 _DOCUMENT_TOO_LARGE = "V1 admission document too large"
 _DOCUMENT_ROOT = "V1 admission document root"
 _OBJECT_LIST = "V1 admission component list"
-_SECRET_VALUE = re.compile(
-    r"(?:^sk-[A-Za-z0-9]|BEGIN [A-Z ]*PRIVATE KEY|://[^/\s:]+:[^/@\s]+@)"
-)
+_SECRET_VALUE = re.compile(r"(?:^sk-[A-Za-z0-9]|BEGIN [A-Z ]*PRIVATE KEY|://[^/\s:]+:[^/@\s]+@)")
 _DOCUMENT_KEYS = frozenset(
     {
         "admission_statement",
@@ -35,9 +33,7 @@ _DOCUMENT_KEYS = frozenset(
         "status",
     }
 )
-_COMPONENT_KEYS = frozenset(
-    {"admission_blocker", "component_id", "evidence", "state"}
-)
+_COMPONENT_KEYS = frozenset({"admission_blocker", "component_id", "evidence", "state"})
 _AUTHORITY = {
     "credential_creation_authorized": False,
     "external_access_authorized": False,

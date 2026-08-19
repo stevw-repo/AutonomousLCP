@@ -651,7 +651,23 @@ Exit gate:
 1. **M1–M7 local platform — COMPLETE:** the engineering foundation, domain and
    register, five application boundaries, acquisition/evidence, executable ZZZ
    processing, Review/Approval/promotion, and all 32 end-to-end scenarios pass.
-2. **V1 POC topology — STATIC CONTRACTS COMPLETE; ADMISSION NOT READY:** the
+2. **V1 POC topology — RUNTIME AND IMAGES BUILT; HOST PROVISIONING AND
+   CERTIFICATES OUTSTANDING:** as of 2026-08-18 the host package locks, private
+   subnets, numeric UID/GID allocation and container identity map, base-image
+   digest, offline wheelhouse, 25 logical destinations, five real application
+   service entrypoints, bounded readiness probes, and reproducible offline image
+   builds are all complete and checked. What remains is (a) the internal
+   certificate authority for SQL, both vaults, and Review; (b) host provisioning,
+   which needs root and is the user's step: paths, the ten accounts, the ten
+   networks, nftables, sealed journal, and system units; (c) the encrypted
+   `systemd-creds` reproof at system level; and (d) the live register, vault,
+   scheduler, application, and observability slices that depend on (a) and (b).
+   The composite gate still reports `V1_POC_NOT_ADMITTED`; contract validation is
+   not readiness. Preserve the exact `LOGICALLY_SEPARATE_POC_RECOVERY` limitation.
+   The implementation baseline and incremental proof plan are in
+   `docs/design/V1_POC_UBUNTU_TOPOLOGY.md`.
+
+2b. **Superseded static-contract summary — STATIC CONTRACTS COMPLETE:** the
    exact disabled service/network/vault/scheduler/authority inventory, complete
    12-artifact-to-16-service mapping, read-only Ubuntu host-facts policy, five-
    image build-input inventory, five-application runtime-input inventory, and

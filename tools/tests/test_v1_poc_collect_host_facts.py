@@ -97,6 +97,38 @@ class _FakeSource:
             "docker_group_non_root_members": ["docpro"],
         }
 
+    def host_package_facts(self) -> dict[str, JsonValue]:
+        self._called("host_package_facts")
+        return {
+            "ca-certificates": "20260601~24.04.1",
+            "containerd.io": "2.3.3-1~ubuntu.24.04~noble",
+            "docker-ce": "5:29.7.2-1~ubuntu.24.04~noble",
+            "docker-ce-cli": "5:29.7.2-1~ubuntu.24.04~noble",
+            "e2fsprogs": "1.47.0-2.4~exp1ubuntu4.1",
+            "nftables": "1.0.9-1ubuntu0.1",
+            "systemd": "255.4-1ubuntu8.17",
+            "systemd-timesyncd": "255.4-1ubuntu8.17",
+            "util-linux": "2.39.3-9ubuntu6.5",
+        }
+
+    def observed_network_facts(self) -> dict[str, JsonValue]:
+        self._called("observed_network_facts")
+        return {
+            "declared": {
+                "asklegal-register": "10.90.0.0/24",
+                "asklegal-scheduler-general": "10.90.1.0/24",
+                "asklegal-scheduler-promotion": "10.90.2.0/24",
+                "asklegal-vault-primary": "10.90.3.0/24",
+                "asklegal-vault-recovery": "10.90.4.0/24",
+                "asklegal-review": "10.90.5.0/24",
+                "asklegal-telemetry": "10.90.6.0/24",
+                "asklegal-egress-source": "10.90.7.0/24",
+                "asklegal-egress-model": "10.90.8.0/24",
+                "asklegal-egress-promotion": "10.90.9.0/24",
+            },
+            "foreign": ["172.17.0.1/16", "192.168.9.126/22", "10.2.0.2/32"],
+        }
+
 
 def test_collected_facts_match_the_exact_admission_boundary_but_do_not_admit() -> None:
     """Generate every declared fact once without clearing durable blockers."""
@@ -119,10 +151,16 @@ def test_collected_facts_match_the_exact_admission_boundary_but_do_not_admit() -
             "firewall_facts": 1,
             "journal_facts": 1,
             "container_runtime_facts": 1,
+            "host_package_facts": 1,
+            "observed_network_facts": 1,
         }
     )
-    assert facts["host_packages"] == {}
-    assert facts["private_subnets"] == {}
+    packages = facts["host_packages"]
+    assert isinstance(packages, dict)
+    assert packages["systemd"] == "255.4-1ubuntu8.17"
+    networks = facts["private_subnets"]
+    assert isinstance(networks, dict)
+    assert set(networks) == {"declared", "foreign"}
 
 
 def test_os_release_parser_is_bounded_to_declared_key_value_facts() -> None:

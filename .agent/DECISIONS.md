@@ -3,6 +3,219 @@
 Only settled decisions belong here. Recommendations and unresolved choices stay
 in the design brief and `WORKING_STATE.md` until the user decides them.
 
+## 2026-08-19 — Register slice is live; HostNameInCertificate is ignored under Encrypt=Strict
+
+SQL Server 2025 now runs as a real service on this host: on the
+`asklegal-register` network as `sql-server`, as uid 10001, with its data on the
+4.0 TB disk at `/srv/asklegal/sql`, and using the internal certificate installed
+at `/etc/asklegal/tls/sql-server/`. It reports TLS 1.2 only and
+`forceencryption = 1`.
+
+The application's own strict-TLS factory connects to it: `SELECT 1` returns 1 and
+`sys.dm_exec_connections` reports `encrypt_option = TRUE`. Removing the internal
+CA from the client refuses the connection with "unable to get local issuer
+certificate", so validation is genuinely enforced rather than assumed.
+
+**`HostNameInCertificate` is ignored when `Encrypt=Strict`.** Measured: a bogus
+value is accepted, omitting it entirely is accepted, and connecting by IP is
+refused with "subject name does not match host name". Hostname validation happens
+against the server name used to connect, not against the override.
+
+The security property holds, and holds slightly more strongly than intended,
+because the override cannot be used to weaken validation. But
+`V1MssqlConnectionFactory` treats `HostNameInCertificate` as the mechanism that
+enforces the hostname, and that description is wrong. The parameter is harmless
+and stays; the claim about what enforces validation must be corrected to name the
+connection server name instead.
+
+Two ordering facts that are easy to get wrong and cost time here. A prepared
+`mssql.conf` cannot be mounted over `/var/opt/mssql/mssql.conf` before first
+start, because setup writes its own configuration there; TLS settings must be
+applied to the initialised instance and the service restarted. And the
+certificate and key must be readable by the numeric identity the container runs
+as, which is why they are installed under `/etc/asklegal/tls/<service>/` owned
+`root:<service-gid>` with the key at `0640` rather than left in the repository
+tree.
+
+## 2026-08-19 — Remove the file-only secret rule; deliver credentials by environment
+
+The user removed the accepted file-only secret rule and authorised environment
+variables for every credential the POC needs. This supersedes
+`SYSTEMD_CREDS_LOAD_CREDENTIAL_ENCRYPTED` as a delivery requirement.
+
+The rule is replaced rather than deleted. `SYSTEMD_CREDS_AT_REST_ENVIRONMENT_DELIVERY`
+keeps the parts the user did not ask to lose: credentials are still stored on the
+host encrypted by `systemd-creds` and sealed to the TPM, still never written to a
+persistent plaintext file, and still never passed as command arguments. What
+changes is the last hop — the unit decrypts its credential and hands it to the
+service as an environment variable. Arguments stay forbidden because they are
+readable by any local user through `ps`, while the environment is readable only
+by the same user and root; that distinction was measured earlier and still holds.
+
+Two consequences follow immediately. SQL Server is unblocked: environment
+delivery is the one method proved to actually set the SA password, so its subject
+returns to `PASSED_WITH_FINDINGS` and `SQL_CREDENTIAL_DELIVERY_DECISION` is
+closed. The Versity exception is retired, because environment delivery is no
+longer an exception to anything; its bounded-exception record is removed while
+the exception *mechanism* stays implemented and tested against a synthetic
+fixture, so a future relaxation still has to be named, scoped, and justified.
+
+The residual risk is now uniform and worth stating plainly: any process running
+as a service account can read that service's credentials from its own process
+environment, and any process running as `docpro` can read every container's
+environment through the Docker socket. The vaults' immutability protections are
+independent of key possession, so preserved evidence still cannot be silently
+rewritten by someone holding the keys.
+
+The five repository applications keep their existing file-based credential
+loader. Nothing forces them to change, it already works and is proved, and
+rewriting it would be churn without benefit. They can be moved to environment
+delivery if uniformity is later preferred.
+
+## 2026-08-19 — Correction: SQL Server does not honour MSSQL_SA_PASSWORD_FILE
+
+The 2026-08-18 entry below records that "SQL Server **passes the accepted rule
+unchanged**" because the pinned 2025 image "supports `MSSQL_SA_PASSWORD_FILE`".
+**That conclusion is wrong and is withdrawn.**
+
+Measured, same pinned image, two fresh instances, the identical password value
+`Str0ng!Passw0rd#2026`, empty data directories, nothing else different:
+
+- delivered as `MSSQL_SA_PASSWORD` — `SELECT 1` returns 1, login succeeds;
+- delivered as `MSSQL_SA_PASSWORD_FILE` — `Login failed for user 'sa'`, from
+  `sqlcmd` inside the container as well as from the application image.
+
+Both instances start and log "SQL Server is now ready for client connections".
+The earlier proof inferred success from that message and from surviving a
+restart. Neither shows the SA password was taken from the file. It never
+authenticated with the value, so it never tested the property it claimed.
+
+This is the same failure shape as the rotation finding recorded below: the
+service looks healthy while the security property does not hold. Two out of the
+three executed SQL conclusions have now turned out to be reported rather than
+measured, which is a reason to re-examine any remaining claim resting on a log
+line instead of an observed effect.
+
+The SQL subject moves from `PASSED_WITH_FINDINGS` to `FAILED`, and
+`SQL_CREDENTIAL_DELIVERY_DECISION` is a new blocker. The accepted file-only rule
+is **not** being silently relaxed. The choice is the user's, and the options are:
+
+1. **In-database bootstrap.** Initialise with a throwaway value, then immediately
+   set the real password from the systemd credential file with
+   `ALTER LOGIN sa WITH PASSWORD`, which the rotation work already proved works.
+   The throwaway still passes through the environment once, but the real
+   credential never does. This is the recommendation.
+2. **A bounded exception** for the SA bootstrap password only, matching the one
+   already granted to the Versity root keys, delivered by environment and never
+   as a command argument.
+3. **Neither**, and SQL Server is reconsidered as the register product.
+
+Nothing was decided here and no rule was changed.
+
+## 2026-08-19 — Issue an internal certificate authority for the V1 POC host
+
+One offline authority, valid on this host only, signs one server certificate
+each for `sql-server`, `vault-primary`, `vault-recovery`, and `review-api`. The
+authority is 4096-bit and valid five years with `pathLen:0`; the server keys are
+2048-bit and valid 397 days, each carrying exactly one DNS name.
+
+Verified rather than assumed. For all four names: a handshake against the
+authority succeeds, a wrong hostname is rejected, and an unknown authority is
+rejected — twelve checks, all passing. SQL Server then loaded its certificate
+and reported "Successfully initialized the TLS configuration" with
+`forceencryption = 1`.
+
+Start times are backdated one day. The first issue failed every handshake with
+"certificate is not yet valid": this host runs on Hong Kong time, so a
+certificate starting at midnight UTC is not yet valid locally that morning.
+
+Private keys live under the ignored `var/tls` tree, are never printed or logged,
+and appear in no manifest. `infrastructure/poc/tls_material.json` records only
+public facts and fingerprints.
+
+Two mistakes worth keeping. Mounting a prepared `mssql.conf` read-only over
+`/var/opt/mssql/mssql.conf` breaks first-time setup, because the server writes
+its own configuration there during initialisation; TLS settings must be applied
+after the instance exists. And the slim base image lacks the Kerberos and
+`libltdl` libraries that the bundled ODBC driver links against — importing
+`mssql_python` succeeds while opening a connection fails with "Failed to load
+the driver". Seven Debian packages are now pinned by hash in
+`application_system_packages.json` and installed offline during the build.
+
+## 2026-08-18 — Keep the static gates parseable by the host's own python3
+
+`ruff format` rewrote `except (A, B, C):` into PEP 758's unparenthesised
+`except A, B, C:`. That is correct for the repository's declared
+`target-version = "py314"` and runs fine under the pinned Python 3.14.7. It is a
+**syntax error** under the Ubuntu host's system Python 3.12, which is the
+interpreter the documented developer command `python3 -m tools.dev_test` uses.
+
+Commit `b38c184` shipped exactly that in `tools/v1_poc_host_admission.py`. Every
+static V1 gate and the whole developer suite failed to import. The commit was
+made without the suite passing.
+
+Two rules follow. First, `tools/` code that the host interpreter must import
+avoids constructs newer than Python 3.12; where a multi-type `except` is wanted,
+prefer the single common base class, which is both equivalent and immune to the
+formatter. Second, `tools/tests/test_system_python_entrypoints.py` now parses
+every `tools/v1_poc_*.py`, `tools/dev_test.py`, and `tools/python_boundary_check.py`
+with `ast.parse(..., feature_version=(3, 12))`, so the next occurrence fails at
+test time rather than at the next person's first command.
+
+This is not a ruff defect and the formatter is not being switched off. It is a
+real gap between the repository's target interpreter and its documented
+entrypoint interpreter, and the guard names that gap instead of hiding it.
+
+## 2026-08-18 — Allocate static UID/GIDs 3000-3014 and align every container to them
+
+The credential proof established that `LoadCredential` writes a `0400` file owned
+by the unit account, so a container under a different numeric UID cannot read its
+own credential. Numeric identity is therefore a constraint, not a preference.
+
+Ten host accounts take UID/GID 3000-3009, one number each, verified free on this
+machine against `/etc/passwd` and `/etc/group`. Five pathless container services
+— both scheduler emulators and the three egress proxies — take 3010-3014 as
+**container-only reservations**: the numbers are held so nothing else can take
+them, but no host account is created, because those services own no host path.
+SQL Server keeps its image-defined `10001`, which is a measured fact read from
+the pinned image, not a choice.
+
+The range sits above the login user (1000) and Ubuntu's system range, below
+`UID_MAX` (60000), and clear of Docker's subuid base (100000). The checker now
+rejects a root runtime UID, a shared UID, a split UID/GID, a source that does not
+match the service, and any widening of the range that could reach a real account.
+
+Accounts remain uncreated; creation needs root and is the user's step.
+
+## 2026-08-18 — Resolve the 25 logical destinations from the topology, not by hand
+
+Each application's destinations are now bound to an exact host, port, scheme, and
+shared network. The checker derives the expected value from `topology.json` and
+compares, so changing a listener in the topology invalidates the resolution
+rather than silently leaving a stale address behind.
+
+Review is resolved as `HTTPS` rather than plain HTTP. Control carries a
+`review-client` credential to it, and sending that over a plaintext link — even
+on a private container network — is not defensible when an internal CA is being
+created for SQL and both vaults anyway. The Durable Task emulators stay
+`GRPC_PRIVATE_NO_TLS`, which the accepted topology already records: their
+authority rests entirely on network isolation.
+
+## 2026-08-18 — Prove image reproducibility by installed content, not image id
+
+The five application images build offline from the digest-pinned base image, the
+hash-locked wheelhouse, and the exact workspace wheels, with `--network none`.
+
+Two builds from a cleared builder cache produce **byte-identical installed
+trees** for all five images: the digest covers every file's path, mode, size, and
+contents under `/opt/asklegal`. The Docker **image ids differ**, because Docker
+embeds a creation timestamp in the image config.
+
+The contract records exactly that: `reproducibility_state` is
+`TWO_BUILDS_CONTENT_IDENTICAL` and `image_id_stability` is `NOT_CLAIMED`, with
+the reason stored beside it. Claiming byte-identical images would be false, and
+the checker now rejects that claim if someone writes it in.
+
 ## 2026-08-18 — Select the remaining upstream products and allocate the private subnets
 
 The four unselected upstream products are chosen and pinned by linux/amd64

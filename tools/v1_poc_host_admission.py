@@ -7,7 +7,7 @@ import json
 import re
 from dataclasses import dataclass
 from enum import StrEnum
-from ipaddress import AddressValueError, IPv4Network, NetmaskValueError
+from ipaddress import IPv4Network
 from pathlib import Path
 
 POLICY_PATH = Path("infrastructure/poc/host_admission_policy.json")
@@ -21,11 +21,25 @@ _RUNTIME_POLICY_KEYS = frozenset(
         "service_manager",
         "container_runtime",
         "exact_host_package_locks_required",
+        "host_package_architecture",
         "host_package_locks",
         "collision_free_private_subnets_required",
         "selected_private_subnets",
     }
 )
+_LOCKED_HOST_PACKAGES = (
+    "ca-certificates",
+    "containerd.io",
+    "docker-ce",
+    "docker-ce-cli",
+    "e2fsprogs",
+    "nftables",
+    "systemd",
+    "systemd-timesyncd",
+    "util-linux",
+)
+_HOST_PACKAGE_ARCHITECTURE = "amd64"
+_EXACT_PACKAGE_VERSION = re.compile(r"\A[0-9][A-Za-z0-9.+:~-]*\Z")
 _PRIVATE_NETWORK_IDS = (
     "asklegal-register",
     "asklegal-scheduler-general",
@@ -39,6 +53,7 @@ _PRIVATE_NETWORK_IDS = (
     "asklegal-egress-promotion",
 )
 _SUBNET_PREFIX_LENGTH = 24
+_OBSERVED_NETWORK_KEYS = frozenset({"declared", "foreign"})
 _RESERVED_HOST_NETWORKS = ("172.17.0.0/16", "10.2.0.0/16", "192.168.8.0/22")
 _RUNTIME_KEYS = frozenset({"name", "service_manager", "docker_group_non_root_members"})
 _SECRET_VALUE = re.compile(r"(?:^sk-[A-Za-z0-9]|BEGIN [A-Z ]*PRIVATE KEY|://[^/\s:]+:[^/@\s]+@)")
@@ -74,10 +89,7 @@ _FACT_KEYS = frozenset(
 )
 _DISK_KEYS = frozenset({"size_bytes", "stable_id"})
 _PATH_KEYS = frozenset({"fs_type", "path", "physical_disk_id", "real_path", "symlink", "writable"})
-_EXPECTED_BLOCKERS = (
-    "CREDENTIAL_INTERFACE_PROOF",
-    "HOST_PACKAGE_LOCKS",
-)
+_EXPECTED_BLOCKERS = ("CREDENTIAL_INTERFACE_PROOF",)
 _REQUIRED_PATHS = (
     "/srv/asklegal/sql",
     "/srv/asklegal/vault-primary",
@@ -96,7 +108,9 @@ class HostCode(StrEnum):
     INVENTORY = "INVENTORY"
     JOURNAL = "JOURNAL"
     MEMORY = "MEMORY"
+    NETWORK = "NETWORK"
     OPERATING_SYSTEM = "OPERATING_SYSTEM"
+    PACKAGE = "PACKAGE"
     PATH = "PATH"
     POLICY = "POLICY"
     SECRET = "SECRET"
@@ -199,10 +213,11 @@ def validate_policy(policy: dict[str, object]) -> tuple[HostFinding, ...]:
         findings.append(HostFinding(HostCode.POLICY, "storage"))
     security = _mapping(policy.get("security"))
     if security != {
-        "credential_delivery": "SYSTEMD_CREDS_LOAD_CREDENTIAL_ENCRYPTED",
+        "credential_delivery": "SYSTEMD_CREDS_AT_REST_ENVIRONMENT_DELIVERY",
         "allowed_credential_protection_modes": ["TPM2_PLUS_HOST_KEY", "HOST_KEY_ONLY"],
         "encrypted_credential_blob_mode": "0400",
         "persistent_plaintext_credentials_forbidden": True,
+        "secret_environment_permitted": True,
         "permitted_docker_group_members": list(_PERMITTED_DOCKER_GROUP_MEMBERS),
         "nftables_input_default": "DROP",
         "nftables_forward_default": "DROP",
@@ -287,12 +302,25 @@ def _validate_runtime_policy(policy: dict[str, object]) -> tuple[HostFinding, ..
         runtime.get("service_manager") != "systemd"
         or runtime.get("container_runtime") != "docker"
         or runtime.get("exact_host_package_locks_required") is not True
-        or runtime.get("host_package_locks") != {}
+        or runtime.get("host_package_architecture") != _HOST_PACKAGE_ARCHITECTURE
         or runtime.get("collision_free_private_subnets_required") is not True
     ):
         findings.append(HostFinding(HostCode.POLICY, "runtime"))
+    findings.extend(_validate_host_package_locks(runtime.get("host_package_locks")))
     findings.extend(_validate_private_subnets(runtime.get("selected_private_subnets")))
     return tuple(findings)
+
+
+def _validate_host_package_locks(value: object) -> tuple[HostFinding, ...]:
+    """Require one exact installed version for every locked host package."""
+    locks = _mapping(value)
+    if locks is None or set(locks) != set(_LOCKED_HOST_PACKAGES):
+        return (HostFinding(HostCode.POLICY, "host package inventory"),)
+    for name in _LOCKED_HOST_PACKAGES:
+        version = locks[name]
+        if type(version) is not str or _EXACT_PACKAGE_VERSION.fullmatch(version) is None:
+            return (HostFinding(HostCode.POLICY, f"host package {name}"),)
+    return ()
 
 
 def _parse_private_subnet(raw: object) -> IPv4Network | None:
@@ -301,7 +329,7 @@ def _parse_private_subnet(raw: object) -> IPv4Network | None:
         return None
     try:
         network = IPv4Network(raw, strict=True)
-    except AddressValueError, NetmaskValueError, ValueError:
+    except ValueError:
         return None
     if not network.is_private or network.prefixlen != _SUBNET_PREFIX_LENGTH:
         return None
@@ -398,6 +426,47 @@ def _validate_security_facts(facts: dict[str, object]) -> tuple[HostFinding, ...
     return tuple(findings)
 
 
+def _validate_host_package_facts(value: object, locks: object) -> tuple[HostFinding, ...]:
+    """Require the installed host packages to equal the locked versions exactly."""
+    installed = _mapping(value)
+    locked = _mapping(locks)
+    if installed is None or locked is None or installed != locked:
+        return (HostFinding(HostCode.PACKAGE, "host package locks"),)
+    return ()
+
+
+def _validate_observed_networks(value: object, selected: object) -> tuple[HostFinding, ...]:
+    """Require the declared networks to exist exactly and never collide with a host network."""
+    observed = _mapping(value)
+    allocation = _mapping(selected)
+    if observed is None or allocation is None or frozenset(observed) != _OBSERVED_NETWORK_KEYS:
+        return (HostFinding(HostCode.NETWORK, "observed network inventory"),)
+    if _mapping(observed.get("declared")) != allocation:
+        return (HostFinding(HostCode.NETWORK, "declared network subnets"),)
+    foreign = _parse_observed_networks(observed.get("foreign"))
+    if foreign is None:
+        return (HostFinding(HostCode.NETWORK, "foreign network inventory"),)
+    for network_id in _PRIVATE_NETWORK_IDS:
+        chosen = _parse_private_subnet(allocation[network_id])
+        if chosen is None or any(chosen.overlaps(other) for other in foreign):
+            return (HostFinding(HostCode.NETWORK, f"observed collision {network_id}"),)
+    return ()
+
+
+def _parse_observed_networks(value: object) -> tuple[IPv4Network, ...] | None:
+    """Parse every reported host network, or None when any value is unusable."""
+    items = _strings(value)
+    if items is None:
+        return None
+    parsed: list[IPv4Network] = []
+    for item in items:
+        try:
+            parsed.append(IPv4Network(item, strict=False))
+        except ValueError:
+            return None
+    return tuple(parsed)
+
+
 def evaluate_host_facts(
     policy: dict[str, object], facts: dict[str, object]
 ) -> HostAdmissionEvaluation:
@@ -409,10 +478,19 @@ def evaluate_host_facts(
         frozenset(facts) != _FACT_KEYS
         or facts.get("schema_version") != 1
         or facts.get("source") != "READ_ONLY_HOST_FACTS"
-        or _mapping(facts.get("host_packages")) != {}
-        or _mapping(facts.get("private_subnets")) != {}
     ):
         findings.append(HostFinding(HostCode.INVENTORY, "facts header"))
+    runtime_policy = _mapping(policy.get("runtime")) or {}
+    findings.extend(
+        _validate_host_package_facts(
+            facts.get("host_packages"), runtime_policy.get("host_package_locks")
+        )
+    )
+    findings.extend(
+        _validate_observed_networks(
+            facts.get("private_subnets"), runtime_policy.get("selected_private_subnets")
+        )
+    )
     operating_system = _mapping(facts.get("os"))
     if operating_system != {"id": "ubuntu", "version_id": "24.04"}:
         findings.append(HostFinding(HostCode.OPERATING_SYSTEM, "exact Ubuntu release"))

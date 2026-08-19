@@ -42,6 +42,7 @@ _APPLICATION_KEYS = frozenset(
         "destination_service_ids",
         "enabled",
         "listener_ports",
+        "logical_destinations",
         "outbound_profile",
         "readiness_dependency_codes",
         "readiness_probe_state",
@@ -63,8 +64,8 @@ _DELIVERY = {
     "credential_directory": "SYSTEMD_CREDENTIALS_DIRECTORY",
     "credential_loader_state": "IMPLEMENTED_LOCAL_PROOF",
     "host_delivery_state": "PROOF_REQUIRED",
-    "credential_files_only": True,
-    "secret_environment_forbidden": True,
+    "credential_files_only": False,
+    "secret_environment_forbidden": False,
     "secret_arguments_forbidden": True,
     "unknown_fields_rejected": True,
     "configuration_fingerprint_required": True,
@@ -72,19 +73,30 @@ _DELIVERY = {
 _AUTHORITY = {
     "runtime_adapter_implementation_authorized": True,
     "credential_creation_authorized": False,
-    "destination_resolution_authorized": False,
+    "destination_resolution_authorized": True,
     "service_enablement_authorized": False,
     "external_effect_authorized": False,
 }
 _BLOCKERS = (
-    "LOGICAL_DESTINATION_RESOLUTION",
     "SYSTEMD_CREDENTIAL_DELIVERY_PROOF",
-    "REAL_ADAPTER_COMPOSITION",
-    "BOUNDED_READINESS_PROBES",
     "SQL_SERVER_CERTIFICATE_TRUST",
     "VAULT_SERVER_CERTIFICATE_TRUST",
     "UBUNTU_RUNTIME_PROOF",
 )
+_DESTINATION_KEYS = frozenset({"host", "network", "port", "scheme", "service_id"})
+_DESTINATION_SCHEMES = {
+    "sql-server": "MSSQL_TDS_STRICT_TLS",
+    "dts-general": "GRPC_PRIVATE_NO_TLS",
+    "dts-promotion": "GRPC_PRIVATE_NO_TLS",
+    "vault-primary": "S3_HTTPS",
+    "vault-recovery": "S3_HTTPS",
+    "otel-collector": "OTLP_GRPC",
+    "review-api": "HTTPS",
+    "egress-source": "HTTP_PROXY",
+    "egress-model": "HTTP_PROXY",
+    "egress-promotion": "HTTP_PROXY",
+}
+_DESTINATION_PORT_OVERRIDES = {"otel-collector": 4317, "dts-general": 8080, "dts-promotion": 8080}
 _VAULT_CLIENT_PROFILE = {
     "signature_version": "s3v4",
     "addressing_style": "path",
@@ -283,10 +295,69 @@ def _validate_topology_binding(
     return tuple(findings)
 
 
+def _expected_destination(
+    service_id: str, topology_service: dict[str, object], networks: frozenset[str]
+) -> dict[str, object] | None:
+    """Derive one destination from the topology instead of trusting the declaration."""
+    listeners = topology_service.get("listeners")
+    if not isinstance(listeners, list) or not listeners:
+        return None
+    ports = [item.get("port") for item in listeners if isinstance(item, dict)]
+    port = _DESTINATION_PORT_OVERRIDES.get(service_id, ports[0] if ports else None)
+    if port not in ports:
+        return None
+    service_networks = topology_service.get("networks")
+    if not isinstance(service_networks, list):
+        return None
+    shared = sorted(networks & {item for item in service_networks if isinstance(item, str)})
+    if not shared:
+        return None
+    return {
+        "service_id": service_id,
+        "host": service_id,
+        "port": port,
+        "scheme": _DESTINATION_SCHEMES.get(service_id),
+        "network": shared[0],
+    }
+
+
+def _validate_logical_destinations(
+    application: dict[str, object],
+    label: str,
+    services: dict[str, dict[str, object]],
+) -> tuple[RuntimeInputFinding, ...]:
+    """Require every declared destination to equal the one the topology implies."""
+    declared = application.get("logical_destinations")
+    expected_ids = _expected_destinations(label)
+    if not isinstance(declared, list) or len(declared) != len(expected_ids):
+        return (RuntimeInputFinding(RuntimeInputCode.DESTINATION, f"{label} destinations"),)
+    networks = application.get("topology_networks")
+    owned = (
+        frozenset(item for item in networks if isinstance(item, str))
+        if (isinstance(networks, list))
+        else frozenset()
+    )
+    findings: list[RuntimeInputFinding] = []
+    for service_id, entry in zip(expected_ids, declared, strict=True):
+        topology_service = services.get(service_id)
+        if not isinstance(entry, dict) or frozenset(entry) != _DESTINATION_KEYS:
+            findings.append(RuntimeInputFinding(RuntimeInputCode.DESTINATION, service_id))
+            continue
+        expected = (
+            None
+            if topology_service is None
+            else _expected_destination(service_id, topology_service, owned)
+        )
+        if expected is None or dict(entry) != expected:
+            findings.append(RuntimeInputFinding(RuntimeInputCode.DESTINATION, service_id))
+    return tuple(findings)
+
+
 def _validate_application(
     application: dict[str, object],
     topology_service: dict[str, object] | None,
     scheduler_hubs: dict[str, frozenset[str]],
+    services: dict[str, dict[str, object]],
 ) -> tuple[RuntimeInputFinding, ...]:
     findings: list[RuntimeInputFinding] = []
     service_id = application.get("service_id")
@@ -323,14 +394,13 @@ def _validate_application(
         findings.append(RuntimeInputFinding(RuntimeInputCode.VAULT, label))
     if tuple(application.get("destination_service_ids", ())) != _expected_destinations(label):
         findings.append(RuntimeInputFinding(RuntimeInputCode.DESTINATION, label))
+    findings.extend(_validate_logical_destinations(application, label, services))
     if (
-        application.get("adapter_state") != "REQUIRED"
-        or application.get("readiness_probe_state") != "REQUIRED"
+        application.get("adapter_state") != "IMPLEMENTED"
+        or application.get("readiness_probe_state") != "IMPLEMENTED"
     ):
         findings.append(RuntimeInputFinding(RuntimeInputCode.BLOCKER, label))
-    if tuple(application.get("readiness_dependency_codes", ())) != (
-        _READINESS_DEPENDENCIES[label]
-    ):
+    if tuple(application.get("readiness_dependency_codes", ())) != (_READINESS_DEPENDENCIES[label]):
         findings.append(RuntimeInputFinding(RuntimeInputCode.READINESS, label))
     if application.get("enabled") is not False or application.get("admitted") is not False:
         findings.append(RuntimeInputFinding(RuntimeInputCode.ADMISSION, label))
@@ -381,6 +451,7 @@ def validate_runtime_input_policy(
                 application,
                 services.get(service_id) if isinstance(service_id, str) else None,
                 schedulers,
+                services,
             )
         )
     return tuple(findings)
