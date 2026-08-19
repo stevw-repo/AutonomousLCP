@@ -57,6 +57,7 @@
       ],
       "destination_service_ids": [
         "dts-general",
+        "dts-promotion",
         "otel-collector",
         "review-api",
         "sql-server",
@@ -66,6 +67,7 @@
         "asklegal-register",
         "asklegal-review",
         "asklegal-scheduler-general",
+        "asklegal-scheduler-promotion",
         "asklegal-telemetry",
         "asklegal-vault-primary"
       ],
@@ -83,6 +85,7 @@
       "readiness_dependency_codes": [
         "MANAGEMENT_REGISTER",
         "TASK_SCHEDULER_GENERAL",
+        "TASK_SCHEDULER_PROMOTION",
         "PRIMARY_VAULT",
         "TELEMETRY",
         "REVIEW_API"
@@ -96,6 +99,13 @@
           "port": 8080,
           "scheme": "GRPC_PRIVATE_NO_TLS",
           "network": "asklegal-scheduler-general"
+        },
+        {
+          "service_id": "dts-promotion",
+          "host": "dts-promotion",
+          "port": 8080,
+          "scheme": "GRPC_PRIVATE_NO_TLS",
+          "network": "asklegal-scheduler-promotion"
         },
         {
           "service_id": "otel-collector",

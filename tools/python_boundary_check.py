@@ -104,7 +104,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
         " TLS, and the host nftables table that would narrow it further is not applied",
     ),
     ApprovedException(
-        ExceptionKey(_PROBES_PATH, 141, BoundaryCode.IGNORED_ERROR),
+        ExceptionKey(_PROBES_PATH, 144, BoundaryCode.IGNORED_ERROR),
         "this is the readiness normalization boundary: every adapter exception must become"
         " one safe failure so no provider or credential detail can reach the gate",
     ),

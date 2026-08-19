@@ -192,6 +192,7 @@
       "runtime_identity": "asklegal-control",
       "requires": [
         "asklegal-dts-general.service",
+        "asklegal-dts-promotion.service",
         "asklegal-otel-collector.service",
         "asklegal-register-migrate.service",
         "asklegal-vault-bootstrap.service"

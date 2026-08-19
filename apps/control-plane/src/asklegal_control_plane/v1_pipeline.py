@@ -6,16 +6,16 @@ them because `dts-general` is already one of its declared destinations and hosts
 the acquisition, control, and legal-processing hubs; nothing here widens the
 network or amends the one-hub-per-application binding.
 
-Promotion is not triggered from here, and the reason is worth stating because it
-was learned the hard way. The promotion hub is on `dts-promotion`, unreachable
-from this network. The register refuses the alternative too: `commit_command_v1`
-rejects any command whose `owning_application` is not the caller, with
-`REJECTED_UNAUTHORIZED`. Both the scheduler and the register enforce the same
-rule — **an application may not create work for another application.**
+All three stages run from here, including promotion. That required a deliberate
+amendment: the original rule bound every application to exactly one scheduler, and
+the register enforced the same thing from the other side by rejecting any command
+whose `owning_application` was not the caller. Under that rule a sequencing
+component could not exist at all.
 
-So a push-based chain has no legal form here. The intended shape is pull: each
-stage records what it did, and the next stage notices and creates its own work.
-Making promotion notice needs a readable signal it owns, which does not exist yet.
+The amendment is narrow. The control plane alone declares a second scheduler
+destination and reaches the promotion hub; the four workers still bind to one hub
+each and still cannot reach one another. The isolation that matters — a worker
+cannot start another worker's work — is intact.
 
 Each stage is an activity, because scheduling another orchestration and waiting on
 it is an effect. The orchestrator holds no client and no clock.
@@ -66,7 +66,7 @@ def _run_stage(application: str, orchestration: str, payload: object) -> object:
 
 
 class ControlActivities:
-    """The control plane's two sequencing effects, bound to one infrastructure."""
+    """The control plane's three sequencing effects, bound to one infrastructure."""
 
     def __init__(self, infrastructure: V1ControlInfrastructure) -> None:
         """Hold the infrastructure this application is allowed to act through."""
@@ -90,19 +90,41 @@ class ControlActivities:
             _LOGGER.info("CONTROL_PLANE analysed to %s", result.get("decision_code"))
         return result
 
+    def start_promotion(self, _context: ActivityContext, payload: object) -> object:
+        """Serve one decision on the promotion hub and return the write result."""
+        if not isinstance(payload, dict):
+            message = "start_promotion needs the evidence and decision"
+            raise ControlPipelineError(message)
+        evidence = payload.get("evidence")
+        decision = payload.get("decision")
+        if not isinstance(evidence, dict) or not isinstance(decision, dict):
+            message = "start_promotion needs both evidence and decision"
+            raise ControlPipelineError(message)
+        fingerprint = str(decision.get("output_fingerprint", "")).removeprefix("sha256:")
+        records = [
+            {
+                "record_id": f"chain_{fingerprint[:16]}",
+                "text": (
+                    f"Source {evidence.get('source_id')} "
+                    f"endpoint {evidence.get('endpoint_id')}. "
+                    f"Decision {decision.get('decision_code')}. "
+                    + " ".join(decision.get("unresolved_facts") or [])[:1200]
+                ),
+            }
+        ]
+        result = _run_stage("PROMOTION_WORKER", "promote_records", records)
+        _LOGGER.info("CONTROL_PLANE promoted: %s", result)
+        return result
+
 
 def run_source_pipeline(
     context: OrchestrationContext,
     payload: object,
 ) -> Generator[Task[object], object, object]:
-    """Chain acquisition and analysis for one endpoint, in order, once."""
+    """Chain all three stages for one endpoint, in order, once."""
     evidence = yield context.call_activity("start_acquisition", input=payload)
     decision = yield context.call_activity("start_analysis", input=evidence)
-    return {
-        "evidence": evidence,
-        "decision": decision,
-        # Not "not implemented": the register and the scheduler both refuse a
-        # cross-application push. Promotion has to pull, and the signal it would
-        # pull on does not exist yet.
-        "promotion": "REQUIRES_PULL_BY_PROMOTION_WORKER",
-    }
+    promotion = yield context.call_activity(
+        "start_promotion", input={"evidence": evidence, "decision": decision}
+    )
+    return {"evidence": evidence, "decision": decision, "promotion": promotion}

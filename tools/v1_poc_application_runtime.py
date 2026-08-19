@@ -142,6 +142,7 @@ _READINESS_DEPENDENCIES = {
     "control-plane": (
         "MANAGEMENT_REGISTER",
         "TASK_SCHEDULER_GENERAL",
+        "TASK_SCHEDULER_PROMOTION",
         "PRIMARY_VAULT",
         "TELEMETRY",
         "REVIEW_API",
@@ -248,6 +249,9 @@ def _expected_destinations(service_id: str) -> tuple[str, ...]:
     base.update(_VAULTS[service_id])
     if service_id == "control-plane":
         base.add("review-api")
+        # The control plane sequences the other stages, so it alone reaches
+        # a second scheduler.
+        base.add("dts-promotion")
     elif service_id == "acquisition-worker":
         base.add("egress-source")
     elif service_id == "legal-processing-worker":

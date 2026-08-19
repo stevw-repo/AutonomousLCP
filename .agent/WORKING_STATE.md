@@ -1905,3 +1905,66 @@ The four blocked roles cannot be finished from this repository: they need a
 rendered session transport, an exact HKeL grid pagination and artifact-locator
 contract, an NPC direct-search API contract, a catalogue discovery procedure, and
 a physical holding procedure for the Gazette archive.
+
+## The one-hub rule was amended, and the chain now runs end to end
+
+The user authorised changing the rule. The amendment is narrow and deliberate:
+**the control plane alone may reach a second scheduler.** The four workers still
+bind to one hub each and still cannot reach one another, so the isolation that
+matters — a worker cannot start another worker's work — is intact. What changed is
+that a sequencing component is now expressible at all; under the original rule it
+was not.
+
+Amended in seven places, all of which had to agree: the logical destination table
+and readiness order in `application-runtime`, `_expected_destinations` and
+`_READINESS_DEPENDENCIES` in the runtime validator, `_REQUIRES` in the systemd
+validator, the topology's network membership, and the four `infrastructure/poc`
+contracts. The destination count moved from 25 to 26.
+
+**Executed, through one control-plane orchestration:**
+
+```
+STAGE 1 retained 141373 bytes from HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS
+STAGE 2 decision INSUFFICIENT_EVIDENCE
+STAGE 3 promotion {'written': 1, 'verified': True, 'index': 'testing-index-1'}
+```
+
+The control plane reports `TASK_SCHEDULER_PROMOTION=READY` alongside its own hub.
+
+The register's `EffectHandoffStore` remains, correct and usable by an application
+recording intents it owns. It is no longer on the critical path, and the pull
+design it was built for is still the better long-term shape if the control plane
+should ever stop being a single point of sequencing.
+
+## The blocked Hong Kong endpoints, re-examined against reality
+
+An earlier claim in this file — that five roles "need a real browser" — was wrong,
+and fetching the disabled URLs directly proved it:
+
+| URL | Result |
+|---|---|
+| `elegislation.gov.hk/importantnotices` | **200**, 59,600 bytes, no script shell |
+| `grs.gov.hk/.../gazette.html` | **200**, 8,628 bytes |
+| `search.grs.gov.hk/en/search.xhtml?q=gazette` | **200**, 56,167 bytes |
+| `elegislation.gov.hk/copyright`, `/editorialrecord`, `/gazette` | **302** to `checkClientConfig.jsp` |
+| `egazette.gld.gov.hk/en/list-of-gazette`, `/search-gazette` | **302** to `terms-acceptance` |
+| `www.npc.gov.cn/` | TLS handshake failure |
+
+So the real blockers are four different things, none of which is "needs a browser":
+
+1. **The connector does not follow redirects**, by deliberate design. That alone
+   accounts for five endpoints. Following one redirect within the same admitted
+   host would unblock them.
+2. **The GLD e-Gazette requires accepting terms of use.** That is a consent gate
+   and belongs to the user, not to an agent.
+3. **`www.npc.gov.cn` fails the TLS handshake** — an old or restricted cipher
+   configuration, not a contract problem.
+4. **Template URLs need a locator first** — `{legal_item_locator}`,
+   `{verified_copy_locator}`, `{assisted_copy_locator}`,
+   `{issued_artifact_locator}`, `{official_material_locator}`. These need the
+   search or list step that produces the locator, which is the genuine
+   rulebook-shaped gap.
+
+Notably the **Gazette archive catalogue is online and fetchable** (56 KB of
+results). The physical-holding procedure applies only to material that exists
+solely on paper, not to the catalogue.

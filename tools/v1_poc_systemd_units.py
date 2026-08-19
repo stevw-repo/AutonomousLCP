@@ -103,6 +103,9 @@ _REQUIRES = {
     ),
     "control-plane": (
         "asklegal-dts-general.service",
+        # The control plane sequences all three stages, so it waits on both
+        # schedulers. The four workers still each wait on exactly one.
+        "asklegal-dts-promotion.service",
         "asklegal-otel-collector.service",
         "asklegal-register-migrate.service",
         "asklegal-vault-bootstrap.service",

@@ -56,6 +56,7 @@ async def _serve_with(
     activities = ControlActivities(infrastructure)
     worker.add_activity(activities.start_acquisition)
     worker.add_activity(activities.start_analysis)
+    worker.add_activity(activities.start_promotion)
     worker.add_orchestrator(run_source_pipeline)
     worker.start()
     _LOGGER.info("CONTROL_PLANE serving hub=%s", scheduler.task_hub)

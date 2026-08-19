@@ -513,6 +513,10 @@
         {
           "network": "asklegal-vault-primary",
           "alias": "control-plane"
+        },
+        {
+          "network": "asklegal-scheduler-promotion",
+          "alias": "control-plane"
         }
       ],
       "credential_delivery": "DIRECTORY_OWNED_BY_RUNTIME_UID",

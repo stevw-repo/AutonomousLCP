@@ -64,6 +64,12 @@ def readiness_probes(infrastructure: V1ControlInfrastructure) -> tuple[Readiness
             DependencyCode.TASK_SCHEDULER_GENERAL,
             *destination_for("CONTROL_PLANE", DependencyCode.TASK_SCHEDULER_GENERAL),
         ),
+        # The control plane sequences the other stages, so it is the one
+        # application that reaches a second scheduler.
+        TcpReachabilityProbe(
+            DependencyCode.TASK_SCHEDULER_PROMOTION,
+            *destination_for("CONTROL_PLANE", DependencyCode.TASK_SCHEDULER_PROMOTION),
+        ),
         CallableProbe(DependencyCode.PRIMARY_VAULT, infrastructure.primary_vault.check_readiness),
         TcpReachabilityProbe(
             DependencyCode.TELEMETRY,

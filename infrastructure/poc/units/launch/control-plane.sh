@@ -44,6 +44,7 @@ docker network connect --alias 'control-plane' 'asklegal-scheduler-general' "$co
 docker network connect --alias 'control-plane' 'asklegal-review' "$container"
 docker network connect --alias 'control-plane' 'asklegal-telemetry' "$container"
 docker network connect --alias 'control-plane' 'asklegal-vault-primary' "$container"
+docker network connect --alias 'control-plane' 'asklegal-scheduler-promotion' "$container"
 
 # `docker start --attach` keeps this script in the foreground so systemd can
 # supervise it; ExecStop stops the container itself.

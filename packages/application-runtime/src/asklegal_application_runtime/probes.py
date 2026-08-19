@@ -41,6 +41,9 @@ V1_LOGICAL_DESTINATIONS: dict[str, dict[DependencyCode, tuple[str, int]]] = {
     "CONTROL_PLANE": {
         DependencyCode.MANAGEMENT_REGISTER: ("sql-server", 1433),
         DependencyCode.TASK_SCHEDULER_GENERAL: ("dts-general", 8080),
+        # The control plane sequences all three stages, so it alone reaches a
+        # second scheduler. The four workers still reach exactly one each.
+        DependencyCode.TASK_SCHEDULER_PROMOTION: ("dts-promotion", 8080),
         DependencyCode.PRIMARY_VAULT: ("vault-primary", 7070),
         DependencyCode.TELEMETRY: ("otel-collector", 4317),
         DependencyCode.REVIEW_API: ("review-api", 8001),
