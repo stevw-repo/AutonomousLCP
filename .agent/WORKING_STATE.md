@@ -2511,3 +2511,27 @@ vault adopts it rather than writing a second copy.
 re-captures one year and reads the manifest back out of the vault to confirm the
 no-PDF rows are in it. It is slow because it re-fetches that year's PDFs, so it is
 the user's to run rather than something to poll from here.
+
+## Retry belonged in the client, not in the batch runner
+
+The verify script failed on page 9 with `SSLEOFError` inside
+`BOUNDED_TRANSPORT_FAILURE` — the same throttling the whole-register run had hit.
+It failed because retry had been built into `capture_gazette_all.py` and nowhere
+else, so the batch runner survived the publisher's behaviour and every other
+caller did not. That is the wrong layer: dropped connections under sustained
+paging are a property of talking to this publisher, not of one job.
+
+`HkelGazetteRegisterClient` now retries a dropped grid call itself — three
+attempts by default with escalating backoff, rebuilding the session before each
+retry because an expired token fails in exactly the same shape and the error alone
+cannot tell them apart. Every caller inherits it: the batch runner, the verify
+script, the acquisition activity, and anything written later.
+
+Two tests cover it, using a transport that drops early grid calls the way the live
+service does: one proves a page survives two drops and takes three grid calls, the
+other proves retries stay bounded and the failure is reported rather than looped
+on. Retrying forever against a publisher that is refusing us is not politeness.
+
+Suite is 771. The batch runner keeps its own per-year retry, which now sits above
+a client that already retries per page; the two compose rather than duplicate,
+since a year can still fail for reasons a single page retry cannot fix.

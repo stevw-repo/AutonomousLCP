@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import json
 import re
+import time
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Protocol
 from urllib.parse import urlencode
@@ -48,6 +49,8 @@ ENGLISH = "en"
 TRADITIONAL_CHINESE = "zh-Hant-HK"
 _PDF_LANGUAGES = (ENGLISH, TRADITIONAL_CHINESE)
 _DATE_PATTERN = re.compile(r"\d{2}/\d{2}/\d{4}")
+_DEFAULT_ATTEMPTS = 3
+_DEFAULT_BACKOFF_SECONDS = 20.0
 
 CAPABILITY_CLAIM: dict[str, str] = {
     "OS": "Linux",
@@ -203,13 +206,26 @@ class HkelGazetteRegisterClient:
         transport: PublisherExchange,
         *,
         page_size: int = _DEFAULT_PAGE_SIZE,
+        attempts: int = _DEFAULT_ATTEMPTS,
+        backoff_seconds: float = _DEFAULT_BACKOFF_SECONDS,
     ) -> None:
-        """Bind the client to one proxied transport and a bounded page size."""
+        """Bind the client to one proxied transport and a bounded page size.
+
+        Retry lives here rather than in a caller. This publisher drops
+        connections under sustained paging, and every caller meets the same
+        behaviour, so a batch runner that retried while a one-off script did not
+        was the wrong shape — the one-off simply failed where the batch survived.
+        """
         if not 1 <= page_size <= _MAX_PAGE_SIZE:
             message = f"page_size must be between 1 and {_MAX_PAGE_SIZE}"
             raise GazetteRegisterError(message)
+        if attempts < 1:
+            message = "attempts must be at least one"
+            raise GazetteRegisterError(message)
         self._transport = transport
         self._page_size = page_size
+        self._attempts = attempts
+        self._backoff_seconds = backoff_seconds
         self._cookies: dict[str, str] = {}
         self._csrf: str | None = None
 
@@ -318,20 +334,7 @@ class HkelGazetteRegisterClient:
             if value and _DATE_PATTERN.fullmatch(value) is None:
                 message = f"{label} must be DD/MM/YYYY"
                 raise GazetteRegisterError(message)
-        try:
-            status, body, cookies = self._transport.exchange(
-                PublisherCall(
-                    GAZETTE_HOST,
-                    "POST",
-                    GRID_PATH,
-                    body=self._grid_body(page_number, date_from, date_to),
-                    content_type="application/json",
-                ),
-                self._cookies,
-            )
-        except OfficialTransportFailure as error:
-            message = f"grid transport failed on page {page_number}"
-            raise GazetteRegisterError(message) from error
+        status, body, cookies = self._grid_exchange(page_number, date_from, date_to)
         self._cookies = cookies
         if status != 200:
             message = f"grid returned HTTP {status} on page {page_number}"
@@ -347,6 +350,43 @@ class HkelGazetteRegisterClient:
             last_page=int(payload.get("lastPage", 1) or 1),
             row_offset=int(payload.get("rowOffset", 0) or 0),
         )
+
+    def _grid_exchange(
+        self,
+        page_number: int,
+        date_from: str,
+        date_to: str,
+    ) -> tuple[int, bytes, dict[str, str]]:
+        """Call the grid, retrying a dropped connection with a fresh session.
+
+        A dropped connection here is almost always the publisher throttling, and
+        the same page succeeds on a later attempt. The session is rebuilt before
+        each retry because an expired token fails in exactly the same shape and
+        the two are indistinguishable from the error alone.
+        """
+        last: OfficialTransportFailure | None = None
+        for attempt in range(1, self._attempts + 1):
+            try:
+                return self._transport.exchange(
+                    PublisherCall(
+                        GAZETTE_HOST,
+                        "POST",
+                        GRID_PATH,
+                        body=self._grid_body(page_number, date_from, date_to),
+                        content_type="application/json",
+                    ),
+                    self._cookies,
+                )
+            except OfficialTransportFailure as error:
+                last = error
+                if attempt == self._attempts:
+                    break
+                time.sleep(self._backoff_seconds * attempt)
+                self._cookies = {}
+                self._csrf = None
+                self.open_session()
+        message = f"grid transport failed on page {page_number} after {self._attempts} attempts"
+        raise GazetteRegisterError(message) from last
 
     def iter_entries(
         self,

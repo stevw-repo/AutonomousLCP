@@ -14,10 +14,12 @@ import json
 import pytest
 from asklegal_source_connectors.hkel_gazette import (
     CAPABILITY_CLAIM,
+    GRID_PATH,
     GazetteRegisterError,
     HkelGazetteRegisterClient,
 )
 from asklegal_source_connectors.official_http import (
+    OfficialTransportFailure,
     ProxiedOfficialHttpTransport,
     PublisherCall,
 )
@@ -296,3 +298,62 @@ def test_a_session_transport_sends_its_session_on_both_surfaces() -> None:
     Recorder.exchange(bound, PublisherCall("h", "GET", "/x"))
 
     assert seen == ["JSTP1=abc"]
+
+
+class FlakyTransport(StubTransport):
+    """Fails the first `failures` grid calls the way a throttled publisher does."""
+
+    def __init__(self, replies: list[tuple[int, bytes]], failures: int) -> None:
+        """Queue replies and the number of grid calls that should drop."""
+        super().__init__(replies)
+        self.remaining_failures = failures
+        self.grid_calls = 0
+
+    def exchange(
+        self,
+        call: PublisherCall,
+        cookies: dict[str, str] | None = None,
+    ) -> tuple[int, bytes, dict[str, str]]:
+        """Drop the connection on early grid calls, then behave."""
+        if call.path == GRID_PATH:
+            self.grid_calls += 1
+            if self.remaining_failures > 0:
+                self.remaining_failures -= 1
+                dropped = "BOUNDED_TRANSPORT_FAILURE"
+                raise OfficialTransportFailure(dropped)
+        return super().exchange(call, cookies)
+
+
+def _gate_replies(count: int) -> list[tuple[int, bytes]]:
+    return [(200, b""), (200, _PAGE_HTML)] * count
+
+
+def test_a_dropped_grid_connection_is_retried_with_a_fresh_session() -> None:
+    """The publisher drops connections under sustained paging; the page survives.
+
+    Retry belongs to the client, not to a caller. A batch runner that retried
+    while a one-off script did not meant the same throttling broke one and not
+    the other, which is how the verify script failed on page 9.
+    """
+    replies = [*_gate_replies(3), (200, _grid_reply(last_page=1))]
+    transport = FlakyTransport(replies, failures=2)
+    client = HkelGazetteRegisterClient(transport, attempts=3, backoff_seconds=0)
+    client.open_session()
+
+    page = client.page(1)
+
+    assert len(page.entries) == 1
+    assert transport.grid_calls == 3
+
+
+def test_retries_are_bounded_and_the_failure_is_reported() -> None:
+    """Retrying forever against a publisher that is refusing us is not politeness."""
+    transport = FlakyTransport(_gate_replies(4), failures=99)
+    client = HkelGazetteRegisterClient(transport, attempts=2, backoff_seconds=0)
+    client.open_session()
+
+    with pytest.raises(GazetteRegisterError) as error:
+        client.page(1)
+
+    assert "after 2 attempts" in str(error.value)
+    assert transport.grid_calls == 2
