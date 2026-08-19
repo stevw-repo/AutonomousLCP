@@ -44,12 +44,6 @@ Each Patchright policy requires:
 - a sanitized deterministic request-map summary instead of executable rendered
   HTML as the connector result.
 
-Patchright must not solve or evade a CAPTCHA, defeat an access control, accept
-publisher terms without an authorized source-specific contract, authenticate,
-or create a durable publisher-side session. A challenge, unsupported TLS
-configuration, unexpected redirect, or undeclared request remains a visible
-technical blocker.
-
 The first reviewed policies cover the NPC National Laws Database application
 and HKeL Gazette discovery handshake. The NPC application is operationally
 enabled at its observed stable `/index` route. HKeL Gazette remains blocked

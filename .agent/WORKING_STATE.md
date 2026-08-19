@@ -2097,3 +2097,61 @@ Both are correct, both are kept, and several government endpoints use ordinary
 redirects. Neither opened the three HKeL config-gated pages, which need an
 applet-era client check, and those are recommended as not worth pursuing: they are
 index and notice pages, not legislation.
+
+## The HKeL gazette rulebook was not built, and robots.txt is why
+
+The user asked for the `/grid` contract behind `https://www.elegislation.gov.hk/gazette`.
+Discovery was legitimate here — no CAPTCHA, and ADR 0100 permits Patchright for
+exactly this kind of non-controlling contract discovery. Two things stopped it,
+and only the second is decisive.
+
+**Patchright cannot run in this image.** No Chromium binary; the build is offline
+by design and installing a browser needs network plus root, which was refused.
+That is a solvable packaging problem, not a blocker of principle.
+
+**`robots.txt` is the blocker of principle.** HKeL publishes:
+
+```
+User-agent: *
+Allow: /$
+Allow: /sitemap
+Disallow: /
+```
+
+Everything except the root page and `/sitemap` is disallowed for any agent that
+is not separately named. The file then names `Googlebot` and `Bingbot` and grants
+them broad access. Our acquisition worker is neither.
+
+So `/gazette`, `/grid`, and every artifact locator behind them are paths the
+operator has explicitly asked non-search-engine automation not to fetch. Building
+the rulebook means building a crawler for exactly those paths. That is not a rule
+of ours to loosen; it is the publisher's instruction, machine-readable and
+unambiguous.
+
+What was learned along the way, and is worth keeping:
+
+- `/grid` exists as a top-level route and answers `405` to `GET`, so it is
+  `POST`-only. The contract is discoverable in principle.
+- `/sitemap.xml` is explicitly allowed and returns 2,914 entries. It contains
+  exactly one gazette entry — `https://www.elegislation.gov.hk/gazette` itself —
+  and no artifact locators, so the permitted route does not carry the data.
+- The three config-gated pages sit behind the same `Disallow: /`.
+
+**The pattern across both publishers is consistent.** GLD e-Gazette put Turnstile
+in front of acceptance; HKeL disallows non-search-engine crawling. Both are saying
+the same thing in different dialects: do not automate against the web front end.
+
+**And both point at the same sanctioned channel.** The 9 GB already captured came
+from `data.gov.hk` and `resource.data.one.gov.hk`, which are open-data
+distribution points published for reuse and carry no such restriction. That is
+the difference between what was collected and what was refused, and it is a real
+distinction rather than a convenient one.
+
+`data.gov.hk` was searched for gazette datasets: one result, unrelated (Treasury
+quarterly accounts). The gazette artefacts are not currently published there.
+
+**Recommendation unchanged and now better evidenced:** ship V1 on the consolidated
+legislation, which is the operative law and is already in hand. If the gazette
+artefacts are genuinely wanted, ask the Department of Justice to publish them
+through data.gov.hk, which is the channel their own robots.txt and open-data
+programme point to.
