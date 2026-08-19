@@ -16,9 +16,15 @@ from collections.abc import Mapping
 
 import uvicorn
 from asklegal_application_runtime import CredentialError, ServiceExitCode, run_v1_service
+from asklegal_durable_task import ConcurrencyOptions, V1SchedulerSettings
 
 from asklegal_control_plane.api import create_app, local_dependencies
 from asklegal_control_plane.v1_infrastructure import load_v1_infrastructure, readiness_gate
+from asklegal_control_plane.v1_pipeline import (
+    run_source_pipeline,
+    start_acquisition,
+    start_analysis,
+)
 
 _LISTEN_ADDRESS = "0.0.0.0"  # noqa: S104 - container-only listener on a private network
 _LISTEN_PORT = 8000
@@ -39,6 +45,15 @@ async def _serve(shutdown: asyncio.Event) -> None:
         )
     )
     server.install_signal_handlers = lambda: None
+    # The control plane both serves its API and sequences the other stages, so it
+    # runs a scheduler worker beside the ASGI server on its own hub.
+    scheduler = V1SchedulerSettings.for_application("CONTROL_PLANE")
+    worker = scheduler.create_worker(concurrency_options=ConcurrencyOptions())
+    worker.add_activity(start_acquisition)
+    worker.add_activity(start_analysis)
+    worker.add_orchestrator(run_source_pipeline)
+    worker.start()
+    _LOGGER.info("CONTROL_PLANE serving hub=%s", scheduler.task_hub)
     serving = asyncio.create_task(server.serve())
     waiting = asyncio.create_task(shutdown.wait())
     # Waiting only on `shutdown` hides a server that failed to start: the task holds
@@ -46,10 +61,12 @@ async def _serve(shutdown: asyncio.Event) -> None:
     finished, _ = await asyncio.wait({serving, waiting}, return_when=asyncio.FIRST_COMPLETED)
     if serving in finished:
         waiting.cancel()
+        await asyncio.to_thread(worker.stop)
         await serving
         return
     _LOGGER.info("CONTROL_PLANE shutdown requested")
     server.should_exit = True
+    await asyncio.to_thread(worker.stop)
     await serving
 
 

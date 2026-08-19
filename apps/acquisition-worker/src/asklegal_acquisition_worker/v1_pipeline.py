@@ -21,6 +21,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 from urllib.parse import urlsplit
 
+from asklegal_durable_task import TaskFailedError
 from asklegal_evidence_vault import RetentionProfile
 from asklegal_source_connectors import (
     HttpMethod,
@@ -173,6 +174,45 @@ def acquire_endpoint(
     """Orchestrate one capture, keeping the document body out of the history."""
     captured = yield context.call_activity("capture_endpoint", input=payload)
     return captured
+
+
+def acquire_endpoints(
+    context: OrchestrationContext,
+    payload: object,
+) -> Generator[Task[object], object, object]:
+    """Capture many endpoints in sequence, surviving individual failures.
+
+    Sequential rather than fanned out on purpose. Several of these endpoints carry
+    ceilings in the hundreds of megabytes, and the connector holds a response in
+    memory while it classifies it; running them in parallel would multiply peak
+    memory by the width of the fan-out for no useful gain.
+
+    One endpoint failing must not lose the rest of the run, so each capture is
+    caught and recorded. The failures are part of the result, not an exception:
+    a source that refuses admission is a finding worth reporting, not an error.
+    """
+    endpoint_ids = payload if isinstance(payload, list) else []
+    captured: list[object] = []
+    failed: list[object] = []
+    for endpoint_id in endpoint_ids:
+        try:
+            result = yield context.call_activity(
+                "capture_endpoint", input={"endpoint_id": endpoint_id}
+            )
+        except TaskFailedError as error:
+            failed.append({"endpoint_id": endpoint_id, "reason": str(error)[:300]})
+            continue
+        captured.append(result)
+    return {
+        "requested": len(endpoint_ids),
+        "captured": len(captured),
+        "failed": len(failed),
+        "bytes_retained": sum(
+            int(item["byte_length"]) for item in captured if isinstance(item, dict)
+        ),
+        "results": captured,
+        "failures": failed,
+    }
 
 
 def build_activities(

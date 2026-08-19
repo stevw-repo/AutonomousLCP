@@ -29,7 +29,11 @@ from asklegal_application_runtime import (
 from asklegal_durable_task import ConcurrencyOptions
 
 from asklegal_acquisition_worker.v1_infrastructure import load_v1_infrastructure, readiness_gate
-from asklegal_acquisition_worker.v1_pipeline import acquire_endpoint, build_activities
+from asklegal_acquisition_worker.v1_pipeline import (
+    acquire_endpoint,
+    acquire_endpoints,
+    build_activities,
+)
 
 if TYPE_CHECKING:
     from asklegal_acquisition_worker.v1_infrastructure import V1AcquisitionInfrastructure
@@ -52,6 +56,7 @@ def _build_serve(
         )
         worker.add_activity(activities.capture_endpoint)
         worker.add_orchestrator(acquire_endpoint)
+        worker.add_orchestrator(acquire_endpoints)
         worker.start()
         _LOGGER.info(
             "ACQUISITION_WORKER serving hub=%s vault=%s",

@@ -1791,3 +1791,57 @@ manufacture a judgment from a table of contents.
 - Nothing schedules this chain on its own. A driver script ran the three stages in
   order; no orchestration chains them, and the control plane does not yet start
   anything. That is the remaining piece between "it works" and "it runs itself".
+
+## Automatic chaining, and the boundary that shapes it
+
+**The architecture forbids the obvious approach.** Each application binds to
+exactly one task hub: `_APPLICATION_SCHEDULERS` in the durable-task adapter,
+`_TASK_HUBS` and `_expected_destinations` in the runtime validator, and the
+container networks all say the same thing. The control plane is not on
+`asklegal-scheduler-promotion` and cannot reach the promotion hub.
+
+`dts-general` hosts three hubs — acquisition, control, and legal-processing — and
+the control plane already declares `dts-general` as a destination and sits on that
+network. So chaining acquisition to analysis needs no contract change at all, and
+that is what `apps/control-plane/.../v1_pipeline.py` now does: an orchestration on
+the control hub whose two activities schedule and await the other stages.
+
+`asklegal-promotion-worker` remains unreachable from there. The options were
+weighed with the user: amend the one-hub rule across the validator, four
+contracts, and the tests, or hand off through the register. The register already
+carries `effect_intent_fact`, `effect_claim_current`, `effect_attempt_fact`, and
+`effect_receipt_fact` — precisely the "one component records an intended effect,
+another claims and performs it" mechanism — so the register is the right path and
+no rule needs amending. It is **not built**: `ManagementRegisterStore` exposes only
+`consume_approval` and `resolve_command`, so the effect-intent tables have no
+access code yet. The orchestration returns
+`promotion: NOT_SCHEDULED_FROM_CONTROL_PLANE` rather than pretending otherwise.
+
+Promotion's isolation looks deliberate: it is the one stage that changes what
+users see. That is why it was not traded away for a shortcut.
+
+## All open Hong Kong sources
+
+Of the fourteen roles, **five are fully configured, five partly, and four
+blocked**. The blockers are not code: a rendered session transport, an exact HKeL
+grid pagination and artifact-locator contract, an NPC direct-search API contract,
+a catalogue discovery procedure, and — for the Gazette archive — a *physical
+holding* procedure. None can be invented here, and four roles have no enabled
+endpoint at all.
+
+What is open is **59 enabled endpoints across 10 roles**, and those were captured
+through the real pipeline: each one fetched through the source proxy, classified,
+and retained in the Primary vault under Object Lock with a verified read-back.
+
+`acquire_endpoints` was added to the acquisition worker for batch capture, and it
+is sequential on purpose: several endpoints carry ceilings in the hundreds of
+megabytes and the connector holds a response in memory while classifying it, so a
+fan-out would multiply peak memory for no gain. Individual failures are recorded
+in the result rather than raised, because a source refusing admission is a finding
+worth reporting.
+
+The batch run had to be driven per endpoint instead, because the systemd-managed
+worker still runs an older image, claimed the batch orchestration, and failed it
+with `A 'acquire_endpoints' orchestrator was not registered`. Both workers know
+`acquire_endpoint`, so the driver used that. Re-running `ROOT_SETUP.sh` puts
+systemd on the current build and removes the need.

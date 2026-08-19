@@ -7,7 +7,12 @@ from enum import StrEnum
 
 from durabletask.azuremanaged.client import DurableTaskSchedulerClient
 from durabletask.azuremanaged.worker import DurableTaskSchedulerWorker
-from durabletask.task import ActivityContext, OrchestrationContext, Task
+from durabletask.task import (
+    ActivityContext,
+    OrchestrationContext,
+    Task,
+    TaskFailedError,
+)
 from durabletask.worker import ConcurrencyOptions
 
 # Applications may not import durabletask directly; this adapter is the only
@@ -18,6 +23,7 @@ __all__ = [
     "ConcurrencyOptions",
     "OrchestrationContext",
     "Task",
+    "TaskFailedError",
     "V1SchedulerError",
     "V1SchedulerErrorCode",
     "V1SchedulerSettings",
