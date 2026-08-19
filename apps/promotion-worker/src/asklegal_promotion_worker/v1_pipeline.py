@@ -22,9 +22,11 @@ import json
 import logging
 from collections.abc import Mapping
 from dataclasses import dataclass
+from hashlib import sha256
 from typing import TYPE_CHECKING
 from urllib.parse import urlsplit
 
+from asklegal_management_register import EffectHandoffStore
 from asklegal_promotion import (
     AzureOpenAIConfig,
     AzureOpenAIEmbeddingAdapter,
@@ -32,6 +34,7 @@ from asklegal_promotion import (
     EmbeddingRequest,
     PineconeConfig,
     PineconeServingTargetStore,
+    PromotionError,
     ProviderTransport,
     TargetRecord,
 )
@@ -48,6 +51,8 @@ _WRITE_AUTHORIZED_VARIABLE = "PROMOTION_WRITE_AUTHORIZED"
 _EMBEDDING_DIMENSIONS = 1536
 _EMBEDDING_MODEL = "text-embedding-3-small"
 _MAX_BATCH = 100
+_PROMOTION_EFFECT = "SERVING_TARGET_UPSERT"
+_CLAIM_LEASE_SECONDS = 900
 
 
 class PromotionPipelineError(RuntimeError):
@@ -239,3 +244,63 @@ def promote_records(
     embedded = yield context.call_activity("embed_records", input=payload)
     written = yield context.call_activity("upsert_records", input=embedded)
     return written
+
+
+class PromotionHandoff:
+    """Claim promotion intents the control plane recorded, and serve them.
+
+    The control plane cannot schedule on this worker's hub, so it records what
+    should be served and this claims it. The claim carries a fencing token and a
+    lease: two workers cannot hold one intent, and a worker that dies without a
+    receipt loses the claim when the lease expires rather than stranding the work.
+    """
+
+    def __init__(
+        self,
+        infrastructure: V1PromotionInfrastructure,
+        activities: PromotionActivities,
+    ) -> None:
+        """Bind the handoff to this worker's register connection and activities."""
+        self._store = EffectHandoffStore(infrastructure.sql)
+        self._activities = activities
+        self._claimant = "promotion-worker"
+
+    def poll_once(self) -> dict[str, object] | None:
+        """Claim at most one intent, serve it, and record its terminal receipt."""
+        claimed = self._store.claim_next(
+            owning_application="PROMOTION_WORKER",
+            effect_type=_PROMOTION_EFFECT,
+            claimant_id=self._claimant,
+            lease_seconds=_CLAIM_LEASE_SECONDS,
+        )
+        if claimed is None:
+            return None
+        _LOGGER.info("PROMOTION_WORKER claimed intent %s", claimed.effect_intent_id)
+        status = "SUCCEEDED"
+        try:
+            intent = json.loads(claimed.intent_bytes)
+            records = intent.get("records") if isinstance(intent, dict) else None
+            embedded = self._activities.embed_records(None, records or [])
+            result = self._activities.upsert_records(None, embedded)
+        except (PromotionPipelineError, PromotionError, ValueError, KeyError) as error:
+            # The outcome is recorded either way. An intent that failed must not
+            # look unclaimed, or the next poll would repeat a real provider write.
+            status = "FAILED_FINAL"
+            result = {"error": str(error)[:300]}
+            _LOGGER.warning(
+                "PROMOTION_WORKER intent %s failed: %s", claimed.effect_intent_id, error
+            )
+        receipt_bytes = json.dumps(result, sort_keys=True, default=str).encode()
+        self._store.record_receipt(
+            effect_receipt_id=f"erc_{sha256(receipt_bytes).hexdigest()[:40]}",
+            effect_intent_id=claimed.effect_intent_id,
+            terminal_status=status,
+            attempt_count=1,
+            receipt_bytes=receipt_bytes,
+            receipt_fingerprint=sha256(receipt_bytes).digest(),
+            fencing_token=claimed.fencing_token,
+        )
+        _LOGGER.info(
+            "PROMOTION_WORKER recorded %s for intent %s", status, claimed.effect_intent_id
+        )
+        return {"effect_intent_id": claimed.effect_intent_id, "status": status}

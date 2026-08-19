@@ -33,12 +33,17 @@ from asklegal_application_runtime import (
 from asklegal_durable_task import ConcurrencyOptions
 
 from asklegal_promotion_worker.v1_infrastructure import load_v1_infrastructure, readiness_gate
-from asklegal_promotion_worker.v1_pipeline import PromotionActivities, promote_records
+from asklegal_promotion_worker.v1_pipeline import (
+    PromotionActivities,
+    PromotionHandoff,
+    promote_records,
+)
 
 if TYPE_CHECKING:
     from asklegal_promotion_worker.v1_infrastructure import V1PromotionInfrastructure
 
 _ORCHESTRATION_VERSION = "1.0.0"
+_HANDOFF_POLL_SECONDS = 10.0
 _LOGGER = logging.getLogger("asklegal_promotion_worker.v1_service")
 
 
@@ -64,8 +69,23 @@ def _build_serve(
             activities.index,
             "AUTHORIZED" if activities.authorized else "REFUSED",
         )
+        # The control plane cannot schedule on this hub, so it records promotion
+        # intents in the register instead. Poll for them beside the hub worker.
+        handoff = PromotionHandoff(infrastructure, activities)
         try:
-            await shutdown.wait()
+            while not shutdown.is_set():
+                try:
+                    while await asyncio.to_thread(handoff.poll_once) is not None:
+                        pass
+                except OSError as error:
+                    # A register blip must not kill the worker; the hub side is
+                    # still serving and the next poll retries.
+                    _LOGGER.warning("PROMOTION_WORKER handoff poll failed: %s", error)
+                try:
+                    async with asyncio.timeout(_HANDOFF_POLL_SECONDS):
+                        await shutdown.wait()
+                except TimeoutError:
+                    continue
         finally:
             _LOGGER.info("PROMOTION_WORKER shutdown requested")
             await asyncio.to_thread(worker.stop)

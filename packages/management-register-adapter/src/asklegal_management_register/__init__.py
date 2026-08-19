@@ -8,8 +8,10 @@ from asklegal_management_register.driver import (
 )
 from asklegal_management_register.store import (
     AmbiguousCommit,
+    ClaimedEffect,
     CommandFingerprintMismatch,
     CommandResult,
+    EffectHandoffStore,
     ManagementRegisterStore,
 )
 
@@ -18,8 +20,10 @@ PACKAGE_ROLE: str = "management-register-adapter"
 __all__ = [
     "PACKAGE_ROLE",
     "AmbiguousCommit",
+    "ClaimedEffect",
     "CommandFingerprintMismatch",
     "CommandResult",
+    "EffectHandoffStore",
     "ManagementRegisterStore",
     "SqlCredentialError",
     "SqlCredentialErrorCode",

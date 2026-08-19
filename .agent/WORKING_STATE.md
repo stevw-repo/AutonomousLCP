@@ -1845,3 +1845,63 @@ worker still runs an older image, claimed the batch orchestration, and failed it
 with `A 'acquire_endpoints' orchestrator was not registered`. Both workers know
 `acquire_endpoint`, so the driver used that. Re-running `ROOT_SETUP.sh` puts
 systemd on the current build and removes the need.
+
+## The architecture forbids one application creating work for another
+
+This was learned by executing, and it reframes "automatic chaining" entirely.
+
+**The scheduler side.** Each application binds to exactly one task hub
+(`_APPLICATION_SCHEDULERS`, `_TASK_HUBS`, `_expected_destinations`, and the
+container networks). `dts-general` happens to host three hubs, so the control
+plane can reach acquisition and legal-processing; `dts-promotion` it cannot.
+
+**The register side, which was the surprise.** The obvious fallback was to record
+a promotion intent in the register and let the promotion worker claim it. The
+register refuses:
+
+```
+IF @caller_application IS NULL OR @caller_application <> @owning_application
+    SET @result_code = 'REJECTED_UNAUTHORIZED';
+```
+
+`commit_command_v1` rejects any command whose `owning_application` is not the
+caller. Both mechanisms enforce the same rule from opposite sides: **an
+application may not create work for another application.** A push-based chain has
+no legal form in this system.
+
+The intended shape is therefore pull: each stage records what it did, and the next
+stage notices and creates its own work. Making promotion notice requires a
+readable signal that promotion owns, and no such signal exists yet. That is the
+real remaining piece, and it is a design question rather than a coding one.
+
+Four wrong turns preceded that finding, each caught by running:
+
+- direct table DML — the register grants `EXECUTE` on procedures and `SELECT` on
+  views, and explicitly `DENY`s INSERT/UPDATE/DELETE on the schema
+- `DATEADD(...)` inside an `EXEC` parameter — EXEC parameters must be values
+- `guard_result_code` outside the closed set, and an `APPLIED` command with no
+  event: a command that applied must carry the event it produced
+- not consuming the procedure's result row. `commit_command_v1` selects its result
+  and only then commits, so closing without reading silently loses the command.
+  This one reported success while persisting nothing, which is the worst kind.
+
+### What is built and correct
+
+`EffectHandoffStore` speaks the register's own procedures and view, and works —
+for an application recording intents **it owns**. Its docstring now says so, so
+the mistake is not repeated. The control-plane orchestration chains acquisition
+and analysis and returns `promotion: REQUIRES_PULL_BY_PROMOTION_WORKER`, which
+states the constraint rather than implying an unfinished switch.
+
+## Open Hong Kong sources — capture in progress
+
+Running through all 59 enabled endpoints. Roughly 3.3 GB retained by endpoint 34,
+with individual archives up to 402 MB. The Hong Kong servers deliver at about
+500 KB/s, so the largest `PAST-DATA` and `CURRENT-DATA` archives exceed the
+600-second per-orchestration timeout and are recorded as failures rather than
+retained. Raising that ceiling, or capturing those few overnight, is what remains.
+
+The four blocked roles cannot be finished from this repository: they need a
+rendered session transport, an exact HKeL grid pagination and artifact-locator
+contract, an NPC direct-search API contract, a catalogue discovery procedure, and
+a physical holding procedure for the Gazette archive.

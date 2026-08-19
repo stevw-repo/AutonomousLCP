@@ -13,6 +13,8 @@ import logging
 import os
 import sys
 from collections.abc import Mapping
+from functools import partial
+from typing import TYPE_CHECKING
 
 import uvicorn
 from asklegal_application_runtime import CredentialError, ServiceExitCode, run_v1_service
@@ -20,11 +22,10 @@ from asklegal_durable_task import ConcurrencyOptions, V1SchedulerSettings
 
 from asklegal_control_plane.api import create_app, local_dependencies
 from asklegal_control_plane.v1_infrastructure import load_v1_infrastructure, readiness_gate
-from asklegal_control_plane.v1_pipeline import (
-    run_source_pipeline,
-    start_acquisition,
-    start_analysis,
-)
+from asklegal_control_plane.v1_pipeline import ControlActivities, run_source_pipeline
+
+if TYPE_CHECKING:
+    from asklegal_control_plane.v1_infrastructure import V1ControlInfrastructure
 
 _LISTEN_ADDRESS = "0.0.0.0"  # noqa: S104 - container-only listener on a private network
 _LISTEN_PORT = 8000
@@ -32,7 +33,10 @@ _SHUTDOWN_GRACE_SECONDS = 30
 _LOGGER = logging.getLogger("asklegal_control_plane.v1_service")
 
 
-async def _serve(shutdown: asyncio.Event) -> None:
+async def _serve_with(
+    infrastructure: V1ControlInfrastructure,
+    shutdown: asyncio.Event,
+) -> None:
     """Run the ASGI server until cooperative shutdown completes."""
     server = uvicorn.Server(
         uvicorn.Config(
@@ -49,8 +53,9 @@ async def _serve(shutdown: asyncio.Event) -> None:
     # runs a scheduler worker beside the ASGI server on its own hub.
     scheduler = V1SchedulerSettings.for_application("CONTROL_PLANE")
     worker = scheduler.create_worker(concurrency_options=ConcurrencyOptions())
-    worker.add_activity(start_acquisition)
-    worker.add_activity(start_analysis)
+    activities = ControlActivities(infrastructure)
+    worker.add_activity(activities.start_acquisition)
+    worker.add_activity(activities.start_analysis)
     worker.add_orchestrator(run_source_pipeline)
     worker.start()
     _LOGGER.info("CONTROL_PLANE serving hub=%s", scheduler.task_hub)
@@ -76,7 +81,11 @@ async def _run(environment: Mapping[str, str]) -> ServiceExitCode:
     except CredentialError as error:
         _LOGGER.critical("credentials unavailable: %s", error.code.value)
         return ServiceExitCode.NOT_READY
-    return await run_v1_service(readiness_gate(infrastructure), _serve, report_line=_LOGGER.info)
+    return await run_v1_service(
+        readiness_gate(infrastructure),
+        partial(_serve_with, infrastructure),
+        report_line=_LOGGER.info,
+    )
 
 
 def run() -> int:

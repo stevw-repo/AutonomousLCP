@@ -93,7 +93,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
         "mssql-python 1.12 leaves parameterless execute unknown behind this typed wrapper",
     ),
     ApprovedException(
-        ExceptionKey(_CONTROL_SERVICE_PATH, 29, BoundaryCode.IGNORED_ERROR),
+        ExceptionKey(_CONTROL_SERVICE_PATH, 30, BoundaryCode.IGNORED_ERROR),
         "the container listener must bind every interface of its own private network,"
         " which nftables and the container-only listener scope already confine",
     ),
