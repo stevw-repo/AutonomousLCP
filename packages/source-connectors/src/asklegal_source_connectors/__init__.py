@@ -6,6 +6,13 @@ from .admission import (
     admit_response,
     classify_content,
 )
+from .hkel_gazette import (
+    CAPABILITY_CLAIM,
+    GazetteEntry,
+    GazettePage,
+    GazetteRegisterError,
+    HkelGazetteRegisterClient,
+)
 from .model import (
     AcquisitionArtifact,
     AcquisitionConsequence,
@@ -52,6 +59,7 @@ from .official_http import (
     OfficialTransportFailure,
     OfficialTransportResponse,
     ProxiedOfficialHttpTransport,
+    PublisherCall,
     StdlibOfficialHttpTransport,
 )
 from .official_inventory import (

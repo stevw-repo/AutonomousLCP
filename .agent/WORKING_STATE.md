@@ -2343,3 +2343,46 @@ stubbed transports, and the grid contract itself came from live discovery, but n
 gazette PDF has been fetched and retained end to end. That run needs the rebuilt
 acquisition image under systemd, and it is the next thing to do rather than
 something already done.
+
+## The live gazette capture is NOT proved, and here is exactly where it stopped
+
+Three attempts, three distinct outcomes. None of them was a successful capture.
+
+**1. A real defect the suite could not see.** `HkelGazetteRegisterClient` and
+`PublisherCall` were listed in `__all__` without ever being imported into
+`__init__.py`. Every test passed because they import the submodule directly, so
+the gap only appeared when the built image started and the acquisition worker
+died with `ImportError: cannot import name 'HkelGazetteRegisterClient'`.
+
+Fixed, and `tests/test_package_exports.py` now asserts that every `__all__` name
+is importable from the package root and that no public name is missing from it.
+That class of bug cannot recur silently.
+
+**2. The orchestration was claimed by the stale systemd worker**, which runs an
+older image and does not know `acquire_gazette_window`. Same conflict as the batch
+capture earlier. Re-running `ROOT_SETUP.sh` puts systemd on the current build.
+
+**3. The capture itself failed on `gazette page issued no csrfToken`.** This is a
+real unknown, not a passing error. The capability gate was satisfied — no
+transport failure — but the inertly fetched page did not contain a token matching
+`_CSRF_PATTERN`. The token seen during discovery came from the *rendered* page in
+the grid request body. The plausible explanation is that the raw HTML carries it
+in a different shape, or that JavaScript injects it, in which case an inert client
+cannot obtain it at all and the design needs revisiting.
+
+**That question is unanswered because the site stopped responding.** The
+diagnostic probe failed with `SSLEOFError: UNEXPECTED_EOF_WHILE_READING`, which
+after a day of discovery runs and a 9 GB capture reads as rate limiting. Hitting
+it again would be both unproductive and rude. Wait, then run the probe in
+`var/run/` that searches the inert page for the token.
+
+**So the honest status of the gazette work:** contract observed and documented,
+client implemented, template resolution built and guarded, activity wired,
+767 tests green — and **no gazette PDF has been retained**. The role's
+`PARTIALLY_CONFIGURED` state with an explicit blocker is correct and should not be
+advanced until a real artifact lands in the vault.
+
+If the token turns out to be JavaScript-injected, the options are: keep a
+discovery step that reads the token and hands it to the inert fetch, or ask the
+DoJ for a documented interface. That is a design decision and it should be made
+knowingly rather than by patching a regex until something passes.
