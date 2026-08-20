@@ -1,10 +1,12 @@
 # AskLegal Legal Database Pipeline — Working State
 
-Updated: 2026-08-19 — docpro-MS-7D99 (Ubuntu 24.04.4 LTS, x86-64)
+Updated: 2026-08-20 — docpro-MS-7D99 (Ubuntu 24.04.4 LTS, x86-64), branch `main`
 
-**Starting a new session? Read `.agent/HANDOFF.md` first.** It is the short
-orientation for this state: where to stand up, what is running, the next four
-pieces of work, and the traps that have already cost time.
+**Starting a new session? Read `.agent/HANDOFF.md` first.** This file is now
+2,500 lines of session diary and is the wrong place to start. The handoff is the
+short orientation: where to stand, what was verified today, what the system
+actually does, where these records had drifted, and the traps that have already
+cost time.
 
 ## Latest session — V1 infrastructure push
 
