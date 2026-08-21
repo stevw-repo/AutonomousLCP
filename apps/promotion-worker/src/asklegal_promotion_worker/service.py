@@ -176,6 +176,11 @@ class PromotionService:
                     desired.content_fingerprint,
                     embedded.values,
                     desired.record.text,
+                    desired.record.country,
+                    desired.record.jurisdiction,
+                    desired.record.material_type,
+                    desired.record.source,
+                    desired.record.authority_note,
                 )
                 batch_records.append(target_record)
                 expected_target_records.append(target_record)

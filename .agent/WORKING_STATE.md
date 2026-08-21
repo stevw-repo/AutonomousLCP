@@ -2558,3 +2558,89 @@ was worth closing: without the manifest their existence was invisible.
 
 The same run confirmed the client-level retry works against the live service. The
 previous attempt died on page 9; this one completed the same window.
+
+## 2026-08-20 — Complete pre-V1 audit (session: Codex desktop on docpro-MS-7D99)
+
+**Objective:** diagnose stale state, defects, security/operational hazards, and
+remaining V1 gates. No implementation fix, deployment, destructive cleanup, or
+external provider/source mutation was authorized or performed.
+
+**Verified baseline:** `main` at `f4128dc` is one commit ahead of and not behind
+`origin/main` after fetch. The pre-existing promotion six-field changes and new
+test remain unstaged. Full developer suite and exact repeat both passed with 785
+tests and four skips. The 19-package offline proof, contract validator, boundary
+checker, Ruff lint, lock check, syntax/link checks, and Git object check passed.
+OSV found no vulnerability in 69 locked Python packages and npm audit found none.
+
+**Failed or incomplete gates:** strict Pyright reports 902 errors, including 715
+in 52 tracked files; the developer suite does not run Pyright or Ruff and no CI
+configuration exists. Ruff format check reports 17 drifted files, but automatic
+formatting remains unsafe for system Python 3.12 launchers. A fresh
+`asklegal-local prove --all` aborts on existing `run-a`; no destructive reset was
+performed. The dedicated SQL, Durable Task emulator, and image-admission proofs
+were not rerun.
+
+**P0 correctness findings:** the live control chain sends every model result
+straight to promotion without frozen release/desired state, Review, Approval,
+coverage, backup, routing, or rollback gates; it has promoted an
+`INSUFFICIENT_EVIDENCE` result. Its two-field payload is incompatible with the
+active six-field fix. The promotion unit permanently authorizes writes. Pinecone
+upsert acknowledgement is ignored and verification checks record IDs only, not
+the vector or complete serving payload. The active reconstruction recomputes a
+fingerprint from received fields instead of comparing an approved fingerprint.
+Ambiguous provider failures are recorded `FAILED_FINAL` instead of outcome
+unknown pending reconciliation.
+
+**P1 operational findings:** all five systemd application containers are ready
+but run image IDs older than current tags/source. `acq-batch` and `cp-test` are
+long-running stale containers outside systemd on privileged pipeline networks.
+No AskLegal timers are installed, application telemetry is absent, and only the
+OTel collector—not Prometheus/Grafana—is deployed. Ignored `var/run/` retains
+plaintext credential duplicates; values were not read. The tracked local Claude
+permission file grants broad `Bash(sg docker *)` execution.
+
+**Stale records reconciled here:** the official register has 79 endpoints, 56
+enabled, with five configured roles, five partial, one blocked, and three outside
+V1. `HANDOFF.md`, the relevant `CONTEXT.md` source-boundary facts, this roadmap's
+current summary/queue, and this working state now carry the audit result. README,
+the V1 topology design, and formal admission JSON still need deliberate
+reconciliation after the release-safety decisions are implemented.
+
+**Exact next steps:** freeze real promotion writes and investigate the two orphan
+containers; make the release/review/approval/manifest/fingerprint/full-read-back
+boundary executable; align control and promotion on one versioned six-field
+contract; restore enforced Pyright/Ruff/CI gates; rotate staged credentials;
+rebuild and reconcile host images; add timers and telemetry; then refresh formal
+admission evidence and run acceptance/recovery/rollback before declaring V1.
+
+## 2026-08-20 — Hong Kong source-connector audit follow-up
+
+**Verified state:** the exact source register loads with fingerprint
+`sha256:40e1918882a78a4ef29a095b426cdf20105f77968beee0f0c9ce49689daa0669`:
+14 roles, 79 endpoints, 56 enabled; five roles configured, five partial, one
+blocked, and three outside V1. The build report has 63 technically ready and 16
+blocked endpoint procedures. All source-connector and acquisition-worker tests
+pass: 89 passed in 1.46 seconds.
+
+**Runtime boundary:** the V1 acquisition worker registers only direct endpoint,
+multi-endpoint, and HKeL Gazette-window work. The generic rendered-session,
+complete-inventory, and Patchright implementations exist and are tested but are
+not schedulable service activities. Five configured roles are operationally
+callable; the Gazette special path has live evidence but remains partial because
+its completeness unit is one closed date window.
+
+**New defects:** `capture_gazette_window` always passes `max_pages=50`, while
+`iter_entries` silently returns when that limit is reached. A probe with a
+publisher-declared page 51 returned 50 rows and no incomplete signal, so a large
+window can be falsely represented as complete. The publisher-API `exchange`
+redirect path recursively follows same-host redirects without enforcing
+`max_redirects`. A focused strict-Pyright run over these packages failed with 45
+errors: 23 in `hkel_gazette.py`, 20 in `v1_pipeline.py`, and one each in
+`v1_infrastructure.py` and `official_http.py`.
+
+**Source work before V1:** make page-limit exhaustion an explicit incomplete
+outcome; bound publisher-API redirects; wire or explicitly defer every required
+rendered/inventory procedure; clear the 45 type errors; reconcile the stale
+acquisition service description and deployed image; then capture admission
+evidence for the exact V1 source subset without treating the three out-of-scope
+roles as missing V1 coverage.

@@ -28,6 +28,7 @@ class PromotionErrorCode(StrEnum):
     PROFILE_INVALID = "PROFILE_INVALID"
     RETRIEVAL_GATE_FAILED = "RETRIEVAL_GATE_FAILED"
     ROUTING_COMPARE_AND_SET_LOST = "ROUTING_COMPARE_AND_SET_LOST"
+    SERVING_PAYLOAD_INVALID = "SERVING_PAYLOAD_INVALID"
     SWAP_PREFLIGHT_FAILED = "SWAP_PREFLIGHT_FAILED"
     TARGET_COLLISION = "TARGET_COLLISION"
     UNKNOWN_REMOTE_RECORD = "UNKNOWN_REMOTE_RECORD"
@@ -159,12 +160,24 @@ class PromotionManifest:
 
 @dataclass(frozen=True, slots=True)
 class TargetRecord:
-    """One record stored in a replacement serving target."""
+    """One record stored in a replacement serving target.
+
+    `metadata_text` and the five fields after it are the closed six-property
+    serving payload ADR 0078 defines, and they travel to the target together. A
+    record that reaches the index carrying only its text is one whose authority
+    note was silently dropped, so a reconstructed provision comes back looking
+    like the publisher's own version.
+    """
 
     record_id: str
     content_fingerprint: str
     vector: tuple[float, ...]
     metadata_text: str
+    country: str
+    jurisdiction: str
+    material_type: str
+    source: str
+    authority_note: str
 
 
 @dataclass(frozen=True, slots=True)

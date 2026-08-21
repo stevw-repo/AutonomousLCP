@@ -17,14 +17,72 @@ from .model import (
     PromotionErrorCode,
     PromotionManifest,
     PromotionPlan,
+    TargetRecord,
 )
 
 _INDEX_NAME_LIMIT = 40
 _PROJECT_INDEX_NAME_LIMIT = 52
 
+SERVING_METADATA_KEYS = (
+    "authority_note",
+    "country",
+    "jurisdiction",
+    "source",
+    "text",
+    "type",
+)
+"""The exact closed property set of the serving payload, in canonical order."""
+
+_SERVING_METADATA_LIMIT = 40_000
+"""The target rejects a metadata object above 40 KB. Refusing beats truncating a warning."""
+
 
 def _fingerprint(raw: bytes) -> str:
     return f"sha256:{sha256(raw).hexdigest()}"
+
+
+def _canonical(value: object) -> bytes:
+    return canonicalize(checked_json_value(value))
+
+
+def serving_metadata(record: TargetRecord) -> dict[str, str]:
+    """Build exactly the six-property serving payload one record must carry.
+
+    Built from the contract rather than from the caller, so a field the caller
+    forgot is a refused write rather than a record that lands without it.
+    """
+    payload = {
+        "authority_note": record.authority_note,
+        "country": record.country,
+        "jurisdiction": record.jurisdiction,
+        "source": record.source,
+        "text": record.metadata_text,
+        "type": record.material_type,
+    }
+    empty = sorted(key for key, value in payload.items() if not value)
+    if empty:
+        message = f"record {record.record_id} carries no {', '.join(empty)}"
+        raise PromotionError(PromotionErrorCode.SERVING_PAYLOAD_INVALID, message)
+    encoded = _canonical(payload)
+    if len(encoded) > _SERVING_METADATA_LIMIT:
+        message = (
+            f"record {record.record_id} payload is {len(encoded)} bytes, "
+            f"over the {_SERVING_METADATA_LIMIT} limit"
+        )
+        raise PromotionError(PromotionErrorCode.SERVING_PAYLOAD_INVALID, message)
+    return payload
+
+
+def serving_metadata_fingerprint(payload: dict[str, str]) -> str:
+    """Fingerprint exactly the six-field payload, as the corpus release does.
+
+    The same bytes over the same closed key set, so a fingerprint computed here
+    equals the `serving_payload_fingerprint` the approved release carries.
+    """
+    if set(payload) != set(SERVING_METADATA_KEYS):
+        message = f"payload keys {sorted(payload)} are not the six serving fields"
+        raise PromotionError(PromotionErrorCode.SERVING_PAYLOAD_INVALID, message)
+    return _fingerprint(_canonical(dict(payload)))
 
 
 def _embedding_profile_body(profile: EmbeddingProfile) -> dict[str, object]:

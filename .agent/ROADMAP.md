@@ -1,6 +1,6 @@
 # AskLegal Legal Database Pipeline — Delivery Roadmap
 
-Updated: 2026-08-18
+Updated: 2026-08-20
 
 ## Purpose
 
@@ -85,7 +85,7 @@ and a working call is not a deployment profile or an evaluation.
 | Area | Current state | Evidence or remaining gap |
 |---|---|---|
 | Overall design and architecture | **DESIGN ACCEPTED** | Architecture and implementation-facing design are accepted through ADR 0099, including all six M2–M7 protocols |
-| Hong Kong legal-policy design | Complete ordinary offline path and expanding official-source boundary implemented; real scopes `NOT_READY` | The package binds 14 source roles and all three scopes; 27 offline rules cover first-baseline, ordinary current update through complete release accounting, and missing-consolidation event routing in 127 exact synthetic cases. The strict source register binds 78 endpoints and records legal-team clearance for all roles; five roles are configured, five partially configured, and four technically blocked. Technical reporting accounts for all roles, item URL binding is implemented, bilingual inventories are atomic, and bounded direct plus isolated Patchright discovery is proved. Inert evidence, catalogue, physical, direct-search, adjudicated-evaluation, complete-universe, and activation evidence remain |
+| Hong Kong legal-policy design | Complete ordinary offline path and expanding official-source boundary implemented; real scopes `NOT_READY` | The package binds 14 source roles and all three scopes; 27 offline rules cover first-baseline, ordinary current update through complete release accounting, and missing-consolidation event routing in 127 exact synthetic cases. The strict source register binds 79 endpoints and records legal-team clearance for all roles; five roles are configured, five partially configured, one is technically blocked, and three are outside V1 scope. Technical reporting accounts for all roles, item URL binding is implemented, bilingual inventories are atomic, and bounded direct plus isolated Patchright discovery is proved. Inert evidence, catalogue, physical, direct-search, adjudicated-evaluation, complete-universe, and activation evidence remain |
 | Normative machine contracts | Foundation through M6 contracts complete | Repository-owned Draft 2020-12 package 1.5.0 covers 74 shared objects and 27 cross-cutting fixtures, adding proposal-package and exact embedding profile/request/receipt contracts |
 | Python and Management Register foundations | All seven M1 checkpoints complete | Python 3.14.7 contract/type/package/architecture gates, synthetic image admission, the independent Node oracle, and separate real SQL Server and Durable Task emulator proofs pass |
 | Domain kernel and Management Register | **M2 COMPLETE** | Five lifecycle machines, operation objects, re-entry, typed store/fake, exact SQL prefix, procedures, ledger, recovery, and conformance proofs pass |
@@ -94,9 +94,9 @@ and a working call is not a deployment profile or an evaluation.
 | Legal processing and executable packages | **M5 COMPLETE (LOCAL/SYNTHETIC); HK READINESS IN PROGRESS** | The loader now admits honest non-executable `NOT_READY` inventories; the frozen HK Legislation checkpoint selects Ordinances first while all real scopes remain blocked and no real jurisdiction or model is admitted |
 | Review, Approval, corpus, and promotion | **M6 COMPLETE (LOCAL/SYNTHETIC)** | Exact releases/desired state/coverage/proposals, real local Review governance, single-use Approval, replacement target, embedding, backup, routing, rollback, coverage cache, and retirement-denial proofs pass; all remote adapters remain disabled |
 | Local end-to-end pipeline | **M7 COMPLETE (LOCAL/SYNTHETIC)** | Stable reset/named/all CLI; 32 expected-result scenarios; golden acquisition-to-recovery flow; failure/retry/restart/hostility/Approval/promotion/recovery/deletion proofs; network denial; and path-distinct reproducibility pass |
-| V1 operating environment | **RUNNING UNDER SYSTEMD ON THE TARGET HOST; ADMISSION NOT READY** | Closed contracts prove 16 disabled services, 10 networks, 25 credential references, 12 artifact mappings, all five exact application package closures and runtime profiles, every application-owned credential file, strict-TLS SQL factories, exact two-emulator scheduler factories, a locked explicit-credential S3/Versity client with exact immutable versions, 16 service-unit inputs, two bootstrap one-shots, five unresolved timers, ten uncreated non-login host identities with 14 owned paths, the exact three-subject/six-step credential-interface proof plan, authority boundaries, and a runnable read-only Ubuntu facts collector. Remaining executable readiness/continuous-runtime work, seven runtime blockers, five app-image blockers, six systemd blockers, four identity blockers, upstream product/digest selections, executable credential-interface evidence, package locks, subnets, real host facts, and deployment proof remain. **Superseded in part on 2026-08-20:** the host is provisioned, all fourteen units are installed, and `asklegal.target` is enabled and active, so the "disabled" and "uncreated" language above describes the contract stage rather than the host. What remains is that the deployed images lag `main` by three commits, and that the composite gate still reports `V1_POC_NOT_ADMITTED` |
+| V1 operating environment | **RUNNING UNDER SYSTEMD ON THE TARGET HOST; ADMISSION NOT READY** | Fourteen services are running, all five application logs report ready, ten host identities and the owned storage paths exist, and installed generated units match the repository. The five running application images are older than the current local tags/source; `acq-batch` and `cp-test` run outside systemd; no recurring timers are installed; application telemetry and Prometheus/Grafana are absent; and the composite gate still reports `V1_POC_NOT_ADMITTED`. Its 14 blockers are a fail-closed static baseline and do not yet model the live host/provider evidence. |
 | Azure infrastructure and delivery | Post-V1/deferred unless separately restored to V1 scope | Azure SQL, Container Apps, Scheduler, Blob, ACR, Application Gateway, Azure Pipelines, and Azure Monitor remain accepted future architecture, but no Bicep, pipelines, or cloud resources exist |
-| Real-source, model, embedding, and Pinecone operation | **ALL FOUR PATHS EXERCISED LIVE; FORMAL ADMISSION NOT STARTED** | Legal admission is clear for all 14 roles. Build reporting identifies 62 endpoint procedures ready and 16 needing inert evidence, catalogue, or physical procedures; five roles are fully operationally callable, five partially configured, and four technically blocked. Patchright proved the NPC application and HKeL Gazette discovery handshakes; the NPC metadata APIs and HKeL verified-copy inventory passed bounded in-memory captures. **Superseded on 2026-08-20:** Azure embeddings, Azure `gpt-5.4` inference, Pinecone writes to `testing-index-1`, and live Hong Kong source capture have each been executed and verified, and 7,274 gazette PDFs for 2000-2026 are retained under Object Lock. `MODEL_AND_EMBEDDING_ADMISSION` and `PINECONE_ADMISSION` remain `NOT_STARTED` in the admission gate, which is a statement about missing deployment profiles and evaluation, not about whether the calls work. No production activation occurred |
+| Real-source, model, embedding, and Pinecone operation | **ALL FOUR PATHS EXERCISED LIVE; FORMAL ADMISSION NOT STARTED** | Legal admission is clear for all 14 roles. The current source report accounts for 79 endpoints, 56 enabled, with five roles configured, five partially configured, one blocked, and three outside V1 scope. Azure embeddings, Azure `gpt-5.4` inference, Pinecone writes to `testing-index-1`, and live Hong Kong source capture have each been exercised, and 7,274 gazette PDFs for 2000–2026 are retained under Object Lock. `MODEL_AND_EMBEDDING_ADMISSION` and `PINECONE_ADMISSION` remain `NOT_STARTED` in the static admission gate because deployment profiles, evaluation, exact approval/read-back, recovery, and rollback evidence are missing. No production activation occurred. |
 | Production admission and activation | Not started | Security, recovery, quality, operational, and human-approval proofs remain |
 | Ask.Legal admin-portal integration | Intentionally deferred | M7 now satisfies the complete-pipeline prerequisite, but integration remains deferred by explicit direction |
 
@@ -656,25 +656,16 @@ Exit gate:
 1. **M1–M7 local platform — COMPLETE:** the engineering foundation, domain and
    register, five application boundaries, acquisition/evidence, executable ZZZ
    processing, Review/Approval/promotion, and all 32 end-to-end scenarios pass.
-2. **V1 POC topology — PROVISIONED AND RUNNING; ADMISSION EVIDENCE
-   OUTSTANDING:** as of 2026-08-18 the host package locks, private
-   subnets, numeric UID/GID allocation and container identity map, base-image
-   digest, offline wheelhouse, 25 logical destinations, five real application
-   service entrypoints, bounded readiness probes, and reproducible offline image
-   builds are all complete and checked. What remains is (a) the internal
-   certificate authority for SQL, both vaults, and Review; (b) host provisioning,
-   which needs root and is the user's step: paths, the ten accounts, the ten
-   networks, nftables, sealed journal, and system units; (c) the encrypted
-   `systemd-creds` reproof at system level; and (d) the live register, vault,
-   scheduler, application, and observability slices that depend on (a) and (b).
-   **Items (a) to (d) were closed on 2026-08-19.** The user ran `ROOT_SETUP.sh`:
-   certificates were issued, the host was provisioned, 25 credentials were sealed
-   to the host TPM, and `asklegal.target` was enabled. The first real run found
-   three defects in the rendered units, all since fixed. What remains is the
-   admission evidence, not the plumbing: the deployed images lag `main` by three
-   commits, the egress proxy is still a convention rather than an enforced
-   boundary, and the composite gate still reports `V1_POC_NOT_ADMITTED`; contract
-   validation is not readiness. Preserve the exact
+2. **V1 POC topology — PROVISIONED AND RUNNING; RELEASE SAFETY AND ADMISSION
+   OUTSTANDING:** the host, identities, networks, sealed systemd credentials,
+   certificates, storage, and fourteen services are present. The current work is
+   not routine plumbing: (a) freeze the unsafe direct promotion path; (b) reconcile
+   five stale running application images and two orphan containers; (c) rotate
+   every credential copied through plaintext staging; (d) install the intended
+   timers and observable health/telemetry; and (e) replace the static admission
+   snapshot with evidence that represents the live host and provider profiles.
+   The egress proxy remains a convention rather than an enforced boundary and the
+   composite gate remains `V1_POC_NOT_ADMITTED`. Preserve the exact
    `LOGICALLY_SEPARATE_POC_RECOVERY` limitation.
    The implementation baseline and incremental proof plan are in
    `docs/design/V1_POC_UBUNTU_TOPOLOGY.md`.
@@ -703,9 +694,12 @@ Exit gate:
    package admission work needs real endpoint/source/right evidence,
    adjudicated truth, complete conformance scope, and named ownership. Those
    inputs require separate external authorization.
-4. **V1 admission work:** real source packages, hosted model and embedding
-   deployments, Pinecone serving, recovery, and application dependencies
-   remain separate evidence gates; none is implied by local fake success.
+4. **V1 admission work:** first close the live promotion trust-chain defects and
+   enforce the documented type/lint shipping gates. Then admit the exact real
+   source package, model and embedding profiles, Pinecone serving target,
+   recovery, and application dependencies. Prior successful calls prove
+   connectivity only; they do not supply frozen profiles, evaluation, approval,
+   full read-back, recovery, or rollback evidence.
 5. **Azure M8 — POST-V1/DEFERRED:** retain the accepted cloud design, but do not
    treat Azure resource creation as a V1 prerequisite without a new decision.
 6. **External-effect gate:** Pinecone belongs to the POC design, but credentials,

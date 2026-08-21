@@ -21,7 +21,7 @@ from __future__ import annotations
 import json
 import logging
 from collections.abc import Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from hashlib import sha256
 from typing import TYPE_CHECKING
 from urllib.parse import urlsplit
@@ -37,6 +37,8 @@ from asklegal_promotion import (
     PromotionError,
     ProviderTransport,
     TargetRecord,
+    serving_metadata,
+    serving_metadata_fingerprint,
 )
 
 if TYPE_CHECKING:
@@ -61,10 +63,21 @@ class PromotionPipelineError(RuntimeError):
 
 @dataclass(frozen=True, slots=True)
 class PromotionRecordInput:
-    """One record the orchestration is asked to embed and serve."""
+    """One record the orchestration is asked to embed and serve.
+
+    All six serving fields are required, the authority note included. A record
+    that arrives without its note cannot be served honestly: the warning is the
+    only thing distinguishing a reconstruction from the published text, or an
+    overruled proposition from good law.
+    """
 
     record_id: str
     text: str
+    country: str
+    jurisdiction: str
+    material_type: str
+    source: str
+    authority_note: str
 
     @classmethod
     def from_json(cls, value: object) -> PromotionRecordInput:
@@ -73,14 +86,37 @@ class PromotionRecordInput:
             message = "promotion record must be an object"
             raise PromotionPipelineError(message)
         record_id = value.get("record_id")
-        text = value.get("text")
         if not isinstance(record_id, str) or not record_id:
             message = "promotion record needs a record_id"
             raise PromotionPipelineError(message)
-        if not isinstance(text, str) or not text:
-            message = f"promotion record {record_id} needs text"
-            raise PromotionPipelineError(message)
-        return cls(record_id, text)
+        fields = {}
+        for key in ("text", "country", "jurisdiction", "type", "source", "authority_note"):
+            field = value.get(key)
+            if not isinstance(field, str) or not field:
+                message = f"promotion record {record_id} needs {key}"
+                raise PromotionPipelineError(message)
+            fields[key] = field
+        return cls(
+            record_id,
+            fields["text"],
+            fields["country"],
+            fields["jurisdiction"],
+            fields["type"],
+            fields["source"],
+            fields["authority_note"],
+        )
+
+    def to_json(self) -> dict[str, str]:
+        """Render the six serving fields for the next activity to read."""
+        return {
+            "record_id": self.record_id,
+            "text": self.text,
+            "country": self.country,
+            "jurisdiction": self.jurisdiction,
+            "type": self.material_type,
+            "source": self.source,
+            "authority_note": self.authority_note,
+        }
 
 
 def write_authorized(environment: Mapping[str, str]) -> bool:
@@ -185,8 +221,7 @@ class PromotionActivities:
             vector = self._embedding.embed(self._profile, request)
             embedded.append(
                 {
-                    "record_id": record.record_id,
-                    "text": record.text,
+                    **record.to_json(),
                     "vector": list(vector.values),
                     "vector_fingerprint": vector.receipt.vector_fingerprint,
                     "input_tokens": vector.receipt.input_tokens,
@@ -197,17 +232,15 @@ class PromotionActivities:
         return embedded
 
     def upsert_records(self, _context: ActivityContext, payload: object) -> object:
-        """Write the embedded records to the serving target and verify retrieval."""
+        """Write the embedded records to the serving target and verify retrieval.
+
+        The six serving fields are carried through the durable payload from the
+        embed activity. They were dropped here once, and the records reached the
+        index with their authority notes missing.
+        """
         embedded = list(_sequence(payload))
         records = tuple(
-            TargetRecord(
-                str(item["record_id"]),
-                str(item["vector_fingerprint"]),
-                tuple(float(value) for value in _sequence(item["vector"])),
-                str(item["text"]),
-            )
-            for item in embedded
-            if isinstance(item, dict)
+            _target_record(item) for item in embedded if isinstance(item, dict)
         )
         if not records:
             return {"written": 0, "verified": False, "index": self.index}
@@ -220,6 +253,23 @@ class PromotionActivities:
             self.index,
         )
         return {"written": len(records), "verified": True, "index": self.index}
+
+
+def _target_record(item: dict[str, object]) -> TargetRecord:
+    """Rebuild one target record, fingerprinting the payload it actually carries."""
+    record = TargetRecord(
+        str(item["record_id"]),
+        "",
+        tuple(float(value) for value in _sequence(item["vector"])),
+        str(item["text"]),
+        str(item["country"]),
+        str(item["jurisdiction"]),
+        str(item["type"]),
+        str(item["source"]),
+        str(item["authority_note"]),
+    )
+    fingerprint = serving_metadata_fingerprint(serving_metadata(record))
+    return replace(record, content_fingerprint=fingerprint)
 
 
 def _sequence(value: object) -> list[object]:

@@ -10,8 +10,8 @@ pipeline. Architecture and policy decisions belong in `DECISIONS.md` and
 hk_legislation_source_register.json` is the repository-owned operational
 register for the fourteen frozen Hong Kong Legislation source roles. Its
 current fingerprint is
-`sha256:e792bc88bc3dca14dee4816927291429d002d73efef18a10b217bd640e0dfc58`.
-It contains 78 exact endpoint contracts, seven publisher-rights evidence
+`sha256:40e1918882a78a4ef29a095b426cdf20105f77968beee0f0c9ce49689daa0669`.
+It contains 79 exact endpoint contracts, seven publisher-rights evidence
 entries, and the project user's dated report of the AskLegal legal team's
 clearance for all fourteen roles. The loader rejects missing roles, unknown
 values, identifier or endpoint drift, and a mismatched fingerprint.
@@ -20,10 +20,10 @@ Five roles are technically complete and configured for bounded credential-free
 read-only access: the four DATA.GOV.HK current/past inventory/data roles and
 the Basic Law portal. Five roles are partially configured: HKeL Editorial
 Records, HKeL publication specifications, HKeL verified copies, GLD
-e-Gazette, and the NPC National Laws Database. Four roles remain technically
-blocked. Legal admission is no longer a blocker, but disabled endpoints remain
-inaccessible until their exact rendered, catalogue, physical-holding, or
-direct-search procedure exists.
+e-Gazette, and HKeL Gazette backcapture. One role, HKeL assisted copies, remains
+technically blocked; three roles are outside V1 scope. Legal admission is no
+longer a blocker, but disabled endpoints remain inaccessible until their exact
+rendered, catalogue, physical-holding, or direct-search procedure exists.
 
 `official_http.py` is a deliberately narrow source transport: direct HTTPS,
 certificate and hostname verification, no proxy, cookies, redirects, ambient
@@ -32,7 +32,7 @@ types, and content admission before a capture result. RSS endpoints always
 produce discovery-signal results; they cannot produce a legal no-change result.
 
 Technical implementation readiness and source admission are separate facts.
-`official_planning.py` accounts for all fourteen roles and all 78 endpoints
+`official_planning.py` accounts for all fourteen roles and all 79 endpoints
 without treating legal clearance as technical readiness. `official_binding.py`
 binds the six item-specific URL templates without allowing scheme, authority,
 credential, query, fragment, or traversal injection. `official_inventory.py`
@@ -44,9 +44,18 @@ returns a sanitized request map, never rendered executable HTML as evidence;
 all legal bytes still require inert re-fetch. The NPC application's stable
 `/index` route and its `enumData`, `aggregateData`, and `wjConfig` APIs are
 enabled as discovery metadata only and cannot prove a complete inventory or no
-change. The HKeL Gazette handshake is technically observed through exact
-same-host paths, but the role stays blocked until `/grid` pagination,
-completeness, and artifact locators are exact.
+change. The HKeL Gazette grid, date-window pagination, artifact locators,
+session-bound inert PDF fetch, and canonical listing manifest have been exercised
+live. The role remains `PARTIALLY_CONFIGURED` because a closed date window is the
+implemented completeness unit; it is not a complete whole-register inventory.
+
+The current V1 acquisition service schedules only exact direct-HTTP endpoint
+capture, sequential multi-endpoint capture, and the special date-windowed HKeL
+Gazette capture. Rendered-session, complete-inventory, and Patchright discovery
+implementations exist and are locally tested, but—with the exception of the
+Gazette-specific client—are not registered as worker activities or
+orchestrations. Library existence is therefore not evidence that those source
+procedures operate continuously on the V1 host.
 
 ## Collaboration and decision-escalation preference
 

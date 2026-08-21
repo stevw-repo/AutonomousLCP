@@ -8,7 +8,10 @@ matching authorization, and reads back what the provider actually returned.
 
 from __future__ import annotations
 
+from dataclasses import replace
+
 import pytest
+from asklegal_promotion.builder import serving_metadata, serving_metadata_fingerprint
 from asklegal_promotion.model import (
     EmbeddingProfile,
     EmbeddingRequest,
@@ -38,6 +41,7 @@ class StubTransport:
         """Queue the replies this transport will return."""
         self._replies = list(replies)
         self.calls: list[tuple[str, str]] = []
+        self.bodies: list[dict[str, object]] = []
 
     def send(
         self,
@@ -46,9 +50,11 @@ class StubTransport:
         headers: dict[str, str],
         body: object | None = None,
     ) -> ProviderResponse:
-        """Return the next queued reply and record the call."""
-        del headers, body
+        """Return the next queued reply, recording the call and what it carried."""
+        del headers
         self.calls.append((method, url))
+        if isinstance(body, dict):
+            self.bodies.append(body)
         payload = self._replies.pop(0) if self._replies else {}
         return ProviderResponse(200, payload, "stub-request-id", 7)
 
@@ -158,8 +164,21 @@ def _index_listing() -> dict[str, object]:
     }
 
 
-def _record() -> TargetRecord:
-    return TargetRecord("rec_1", "sha256:" + "3" * 64, (0.1, 0.2, 0.3, 0.4), "text")
+def _record(**overrides: str) -> TargetRecord:
+    fields = {
+        "metadata_text": "text",
+        "country": "HK",
+        "jurisdiction": "HKSAR",
+        "material_type": "ORDINANCE",
+        "source": "HKEL",
+        "authority_note": "WARNING: reconstructed, not the published consolidation",
+    }
+    fields.update(overrides)
+    record = TargetRecord("rec_1", "", (0.1, 0.2, 0.3, 0.4), **fields)
+    if not all(fields.values()):
+        return record
+    fingerprint = serving_metadata_fingerprint(serving_metadata(record))
+    return replace(record, content_fingerprint=fingerprint)
 
 
 def test_serving_target_refuses_to_write_without_authorization() -> None:
@@ -256,3 +275,100 @@ def test_retrieval_gate_fails_when_an_expected_record_is_missing() -> None:
         store.verify_queries(_INDEX, ("rec_1",))
 
     assert error.value.code is PromotionErrorCode.RETRIEVAL_GATE_FAILED
+
+
+def test_the_whole_six_field_payload_reaches_the_target() -> None:
+    """Every contract field must be written, and nothing outside the closed set.
+
+    This is the defect this test exists for: the write once carried `text` and
+    `content_fingerprint` only, so `authority_note` never reached the index and a
+    reconstructed provision came back looking like the published text.
+    """
+    transport = StubTransport([_index_listing(), {"upsertedCount": 1}])
+    store = PineconeServingTargetStore(_pinecone(), transport, write_authorized=True)
+
+    store.upsert_batch(_INDEX, (_record(),))
+
+    written = transport.bodies[-1]["vectors"][0]["metadata"]
+    assert set(written) == {
+        "authority_note",
+        "country",
+        "jurisdiction",
+        "source",
+        "text",
+        "type",
+    }
+    assert written["authority_note"] == "WARNING: reconstructed, not the published consolidation"
+    assert "content_fingerprint" not in written
+
+
+def test_a_record_missing_its_authority_note_is_refused() -> None:
+    """A warning that is absent must stop the write, not travel as an empty string."""
+    transport = StubTransport([_index_listing(), {"upsertedCount": 1}])
+    store = PineconeServingTargetStore(_pinecone(), transport, write_authorized=True)
+
+    with pytest.raises(PromotionError) as error:
+        store.upsert_batch(_INDEX, (_record(authority_note=""),))
+
+    assert error.value.code is PromotionErrorCode.SERVING_PAYLOAD_INVALID
+    assert "authority_note" in error.value.detail
+
+
+def test_a_payload_that_does_not_match_its_fingerprint_is_refused() -> None:
+    """The bytes written must be the bytes that were approved."""
+    transport = StubTransport([_index_listing(), {"upsertedCount": 1}])
+    store = PineconeServingTargetStore(_pinecone(), transport, write_authorized=True)
+    tampered = replace(_record(), metadata_text="something else entirely")
+
+    with pytest.raises(PromotionError) as error:
+        store.upsert_batch(_INDEX, (tampered,))
+
+    assert error.value.code is PromotionErrorCode.SERVING_PAYLOAD_INVALID
+
+
+def test_reading_back_returns_all_six_fields_and_derives_the_fingerprint() -> None:
+    """What the target holds must round-trip, fingerprint included."""
+    stored = serving_metadata(_record())
+    transport = StubTransport(
+        [
+            _index_listing(),
+            {"vectors": [{"id": "rec_1"}], "pagination": {}},
+            {"vectors": {"rec_1": {"values": [0.1, 0.2, 0.3, 0.4], "metadata": stored}}},
+        ]
+    )
+    store = PineconeServingTargetStore(_pinecone(), transport)
+
+    read_back = store.enumerate(_INDEX)
+
+    assert len(read_back) == 1
+    assert read_back[0] == _record()
+
+
+def test_a_legacy_record_without_the_payload_reports_no_fingerprint() -> None:
+    """Records written before the fix must reconcile as wrong, not as unknown-but-fine."""
+    transport = StubTransport(
+        [
+            _index_listing(),
+            {"vectors": [{"id": "rec_1"}], "pagination": {}},
+            {"vectors": {"rec_1": {"values": [0.1], "metadata": {"text": "text"}}}},
+        ]
+    )
+    store = PineconeServingTargetStore(_pinecone(), transport)
+
+    read_back = store.enumerate(_INDEX)
+
+    assert read_back[0].content_fingerprint == ""
+    assert read_back[0].authority_note == ""
+
+
+def test_a_record_carrying_no_fingerprint_at_all_is_refused() -> None:
+    """An unfingerprinted record cannot be shown to be the one that was approved."""
+    transport = StubTransport([_index_listing(), {"upsertedCount": 1}])
+    store = PineconeServingTargetStore(_pinecone(), transport, write_authorized=True)
+    unfingerprinted = replace(_record(), content_fingerprint="")
+
+    with pytest.raises(PromotionError) as error:
+        store.upsert_batch(_INDEX, (unfingerprinted,))
+
+    assert error.value.code is PromotionErrorCode.SERVING_PAYLOAD_INVALID
+    assert "nothing" in error.value.detail

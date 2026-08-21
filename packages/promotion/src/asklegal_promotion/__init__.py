@@ -1,10 +1,13 @@
 """Approval-bound serving promotion rules and local conformance adapters."""
 
 from .builder import (
+    SERVING_METADATA_KEYS,
     embedding_request,
     freeze_embedding_profile,
     freeze_promotion_manifest,
     pinecone_index_name,
+    serving_metadata,
+    serving_metadata_fingerprint,
     verify_embedding_profile,
     verify_promotion_manifest,
 )
@@ -51,6 +54,7 @@ PACKAGE_ROLE: str = "promotion"
 __all__ = [
     "AZURE_OPENAI_PROVIDER",
     "PACKAGE_ROLE",
+    "SERVING_METADATA_KEYS",
     "AzureOpenAIConfig",
     "AzureOpenAIEmbeddingAdapter",
     "AzureOpenAIGenerativeAdapter",
@@ -88,6 +92,8 @@ __all__ = [
     "freeze_embedding_profile",
     "freeze_promotion_manifest",
     "pinecone_index_name",
+    "serving_metadata",
+    "serving_metadata_fingerprint",
     "target_state_fingerprint",
     "verify_embedding_profile",
     "verify_promotion_manifest",

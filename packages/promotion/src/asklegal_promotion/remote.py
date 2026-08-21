@@ -24,6 +24,11 @@ from http.client import HTTPSConnection
 from typing import TYPE_CHECKING, Protocol
 from urllib.parse import urlsplit
 
+from .builder import (
+    SERVING_METADATA_KEYS,
+    serving_metadata,
+    serving_metadata_fingerprint,
+)
 from .model import (
     EmbeddedVector,
     EmbeddingReceipt,
@@ -479,15 +484,31 @@ class PineconeServingTargetStore:
                     {
                         "id": record.record_id,
                         "values": list(record.vector),
-                        "metadata": {
-                            "content_fingerprint": record.content_fingerprint,
-                            "text": record.metadata_text,
-                        },
+                        "metadata": self._checked_metadata(record),
                     }
                     for record in records
                 ],
             },
         )
+
+    @staticmethod
+    def _checked_metadata(record: TargetRecord) -> dict[str, str]:
+        """Build the six-field payload and refuse one that is not what was approved.
+
+        `content_fingerprint` is deliberately not among the six: the payload is a
+        closed object, so identity-adjacent values have no place inside it. It is
+        derived from the stored payload again on read.
+        """
+        payload = serving_metadata(record)
+        actual = serving_metadata_fingerprint(payload)
+        if record.content_fingerprint != actual:
+            claimed = record.content_fingerprint or "nothing"
+            message = (
+                f"record {record.record_id} claims {claimed} "
+                f"but its payload fingerprints as {actual}"
+            )
+            raise PromotionError(PromotionErrorCode.SERVING_PAYLOAD_INVALID, message)
+        return payload
 
     @staticmethod
     def _namespace_of(records: tuple[TargetRecord, ...]) -> str:
@@ -541,13 +562,19 @@ class PineconeServingTargetStore:
                 continue
             metadata = raw.get("metadata")
             fields = metadata if isinstance(metadata, dict) else {}
+            payload = {key: str(fields.get(key, "")) for key in SERVING_METADATA_KEYS}
             values = raw.get("values")
             records.append(
                 TargetRecord(
                     str(identifier),
-                    str(fields.get("content_fingerprint", "")),
+                    serving_metadata_fingerprint(payload) if all(payload.values()) else "",
                     tuple(float(value) for value in values) if isinstance(values, list) else (),
-                    str(fields.get("text", "")),
+                    payload["text"],
+                    payload["country"],
+                    payload["jurisdiction"],
+                    payload["type"],
+                    payload["source"],
+                    payload["authority_note"],
                 )
             )
         return records

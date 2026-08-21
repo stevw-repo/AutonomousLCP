@@ -127,6 +127,11 @@ class LocalServingTargetStore:
                 "sha256:" + "f" * 64,
                 (0.0,),
                 "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
             )
         return tuple(target[key] for key in sorted(target))
 
