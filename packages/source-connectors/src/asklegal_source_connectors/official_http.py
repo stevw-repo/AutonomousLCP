@@ -21,6 +21,7 @@ from .official import (
     OfficialEndpointContract,
     SignalUse,
 )
+from .official_binding import bind_official_endpoint_locator
 
 _SHA256 = re.compile(r"^sha256:[0-9a-f]{64}$")
 
@@ -363,6 +364,8 @@ class ProxiedOfficialHttpTransport:
         redirects only on the same host. It carries a session; it does not create
         one.
         """
+        if type(max_redirects) is not int or max_redirects < 0:
+            raise ValueError("max_redirects must be a non-negative exact integer")
         self._context = ssl.create_default_context()
         self._proxy_host = proxy_host
         self._proxy_port = proxy_port
@@ -416,39 +419,54 @@ class ProxiedOfficialHttpTransport:
         caller is responsible for having resolved it from an admitted endpoint.
         """
         jar = dict(cookies) if cookies is not None else dict(self._session_cookies)
-        connection = HTTPSConnection(
-            self._proxy_host,
-            port=self._proxy_port,
-            timeout=call.timeout_seconds,
-            context=self._context,
-        )
-        headers = {
-            "User-Agent": "AskLegal-Official-Source-Acquisition/1.0",
-            "Accept": "application/json, text/html, */*",
-        }
-        if call.content_type:
-            headers["Content-Type"] = call.content_type
-        if jar:
-            headers["Cookie"] = "; ".join(f"{k}={v}" for k, v in jar.items())
-        try:
-            connection.set_tunnel(call.host, 443)
-            connection.request(call.method, call.path, body=call.body, headers=headers)
-            response = connection.getresponse()
-            for name, value in response.getheaders():
-                if name.lower() == "set-cookie":
-                    _collect_cookies(value, jar)
-            payload = response.read(call.max_bytes)
-            status = response.status
-            location = response.getheader("Location")
-        except (OSError, TimeoutError) as error:
-            raise OfficialTransportFailure("BOUNDED_TRANSPORT_FAILURE") from error
-        finally:
-            connection.close()
-        if _is_redirect(status) and location:
-            target = _same_host_redirect(location, call.host)
-            follow = replace(call, method="GET", path=target, body=None, content_type=None)
-            return self.exchange(follow, jar)
-        return (status, payload, jar)
+        current_call = call
+        for redirect_count in range(self._max_redirects + 1):
+            connection = HTTPSConnection(
+                self._proxy_host,
+                port=self._proxy_port,
+                timeout=current_call.timeout_seconds,
+                context=self._context,
+            )
+            headers = {
+                "User-Agent": "AskLegal-Official-Source-Acquisition/1.0",
+                "Accept": "application/json, text/html, */*",
+            }
+            if current_call.content_type:
+                headers["Content-Type"] = current_call.content_type
+            if jar:
+                headers["Cookie"] = "; ".join(f"{k}={v}" for k, v in jar.items())
+            try:
+                connection.set_tunnel(current_call.host, 443)
+                connection.request(
+                    current_call.method,
+                    current_call.path,
+                    body=current_call.body,
+                    headers=headers,
+                )
+                response = connection.getresponse()
+                for name, value in response.getheaders():
+                    if name.lower() == "set-cookie":
+                        _collect_cookies(value, jar)
+                payload = response.read(current_call.max_bytes)
+                status = response.status
+                location = response.getheader("Location")
+            except (OSError, TimeoutError) as error:
+                raise OfficialTransportFailure("BOUNDED_TRANSPORT_FAILURE") from error
+            finally:
+                connection.close()
+            if not (_is_redirect(status) and location):
+                return (status, payload, jar)
+            if redirect_count >= self._max_redirects:
+                raise OfficialTransportFailure("REDIRECT_LIMIT_EXCEEDED")
+            target = _same_host_redirect(location, current_call.host)
+            current_call = replace(
+                current_call,
+                method="GET",
+                path=target,
+                body=None,
+                content_type=None,
+            )
+        raise OfficialTransportFailure("REDIRECT_LIMIT_EXCEEDED")
 
     def _fetch(
         self,
@@ -516,13 +534,18 @@ class PublisherCall:
     max_bytes: int = 8_000_000
 
 
+def _empty_cookie_jar() -> dict[str, str]:
+    """Create one independently typed redirect cookie jar."""
+    return {}
+
+
 @dataclass(slots=True)
 class _FetchState:
     """Mutable state carried across the redirect hops of one fetch."""
 
     target: str | None = None
     depth: int = 0
-    cookies: dict[str, str] = field(default_factory=dict)
+    cookies: dict[str, str] = field(default_factory=_empty_cookie_jar)
 
 
 def _collect_cookies(header: str | None, jar: dict[str, str]) -> None:
@@ -550,30 +573,23 @@ def _resolve_template(
     endpoint: OfficialEndpointContract,
     substitutions: tuple[tuple[str, str], ...],
 ) -> OfficialEndpointContract:
-    """Fill a templated endpoint URL, refusing anything that moves the target.
-
-    The resolved URL must still begin with the template's own fixed prefix — the
-    part before its first placeholder. A value carrying a scheme, a host, or a
-    parent traversal therefore cannot redirect the fetch, because it would break
-    that prefix. Substituted values arrive from a publisher listing and are
-    treated as data throughout.
-    """
+    """Bind the one exact declared locator through the shared strict contract."""
     if not substitutions:
+        if "{" in endpoint.url or "}" in endpoint.url:
+            raise PermissionError("templated endpoints require one exact locator substitution")
         return endpoint
-    if "{" not in endpoint.url:
-        raise PermissionError("substitutions supplied for a non-templated endpoint")
-    prefix = endpoint.url.split("{", 1)[0]
-    resolved = endpoint.url
-    for placeholder, value in substitutions:
-        token = "{" + placeholder + "}"
-        if token not in resolved:
-            raise PermissionError("substitution names no placeholder in this endpoint")
-        if any(fragment in value for fragment in ("://", "..", "\\")):
-            raise PermissionError("substitution value may not carry a scheme or traversal")
-        resolved = resolved.replace(token, value)
-    if not resolved.startswith(prefix):
-        raise PermissionError("resolved URL left the endpoint's fixed prefix")
-    return replace(endpoint, url=resolved)
+    if len(substitutions) != 1:
+        raise PermissionError("templated endpoints require one exact locator substitution")
+    placeholder, locator = substitutions[0]
+    try:
+        bound = bind_official_endpoint_locator(
+            endpoint,
+            placeholder=placeholder,
+            locator=locator,
+        )
+    except (TypeError, ValueError) as error:
+        raise PermissionError("endpoint locator violates the bounded template contract") from error
+    return replace(endpoint, url=bound.url)
 
 
 def _is_redirect(status: int) -> bool:

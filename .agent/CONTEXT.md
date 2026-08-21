@@ -10,11 +10,16 @@ pipeline. Architecture and policy decisions belong in `DECISIONS.md` and
 hk_legislation_source_register.json` is the repository-owned operational
 register for the fourteen frozen Hong Kong Legislation source roles. Its
 current fingerprint is
-`sha256:40e1918882a78a4ef29a095b426cdf20105f77968beee0f0c9ce49689daa0669`.
+`sha256:93944064e78d314670476758ec4cde7cd042caca2f285858dc906bfb108794b4`.
 It contains 79 exact endpoint contracts, seven publisher-rights evidence
 entries, and the project user's dated report of the AskLegal legal team's
 clearance for all fourteen roles. The loader rejects missing roles, unknown
-values, identifier or endpoint drift, and a mismatched fingerprint.
+values, identifier or endpoint drift, and a mismatched fingerprint. Every role
+also carries its exact ADR 0032 outage consequence: `RELEASE_BLOCKING`,
+`AFFECTED_WORK_BLOCKING`, or `NONBLOCKING`.
+The current register revision is `2026-08-21.1`, effective 2026-08-21. Adding
+the executable outage policy advanced the register schema and all fourteen
+source-profile versions to `1.1.0`; the 79 endpoint contracts remain `1.0.0`.
 
 Five roles are technically complete and configured for bounded credential-free
 read-only access: the four DATA.GOV.HK current/past inventory/data roles and
@@ -48,14 +53,77 @@ change. The HKeL Gazette grid, date-window pagination, artifact locators,
 session-bound inert PDF fetch, and canonical listing manifest have been exercised
 live. The role remains `PARTIALLY_CONFIGURED` because a closed date window is the
 implemented completeness unit; it is not a complete whole-register inventory.
+The iterator fails explicitly if the publisher's `lastPage` exceeds the
+operational page cap or an intermediate page is empty, and the acquisition
+activity completes enumeration before retaining any addressed artifact or
+listing manifest. The publisher-API transport also enforces its declared
+same-host redirect limit.
 
-The current V1 acquisition service schedules only exact direct-HTTP endpoint
-capture, sequential multi-endpoint capture, and the special date-windowed HKeL
-Gazette capture. Rendered-session, complete-inventory, and Patchright discovery
-implementations exist and are locally tested, but—with the exception of the
-Gazette-specific client—are not registered as worker activities or
-orchestrations. Library existence is therefore not evidence that those source
-procedures operate continuously on the V1 host.
+Every item-specific official endpoint now uses the one shared bounded-locator
+contract: exactly one declared path placeholder and one relative locator, with
+no missing or extra substitution, authority change, query, fragment, slash
+ambiguity, traversal segment, backslash, or template syntax. Publisher-provided
+percent escapes are encoded as data. The Gazette activity validates its exact
+past-date window and language before constructing the publisher client, reports
+register failures with closed codes, and reports every listed artifact as one of
+`RETAINED`, `NOT_PUBLISHED`, `SOURCE_UNAVAILABLE`,
+`SOURCE_CONTRACT_CHANGED`, or `UNSAFE_RESPONSE`. A completely enumerated listing
+with any absent or failed selected-language artifact is `PARTIAL_CAPTURE`, not a
+complete capture; an incomplete register walk writes no listing manifest or
+addressed artifact. Every terminal HKeL Gazette result now retains one canonical
+source-coverage report with exact counts, failure codes, source-policy version,
+cutoff, observation-manifest reference when available, disposition, and blocking
+flags. The HKeL backcapture role remains `NONBLOCKING`; its gaps are visible but
+cannot satisfy or replace the `RELEASE_BLOCKING` GLD e-Gazette observation.
+
+`asklegal_reporting.source_coverage` provides deterministic source-report and
+complete due-source-cycle contracts. The cycle rejects source policy/version
+drift, reports missing/duplicate/gap source identities, and blocks a missing or
+failed `RELEASE_BLOCKING` role. It is not yet assembled across every V1 source
+activity or bound into the final Coverage Status Manifest.
+
+The current V1 acquisition service schedules exact direct-HTTP endpoint capture,
+sequential multi-endpoint capture, complete-inventory capture, and the special
+date-windowed HKeL Gazette capture. The complete-inventory scheduler accepts only
+a registered source, exact cutoff, and optional prior member fingerprints; the
+worker derives the exact member/version set from the active register. For the
+release-blocking current HKeL inventory that set is the English and Traditional
+Chinese XML members. It retains admitted members, isolates response-bearing
+failures, writes complete attempt accounting last, and emits the source-policy-
+bound coverage result. A missing, changed, or unsafe required member therefore
+produces an incomplete manifest and blocks release; it cannot become complete or
+no-change. The service also registers one closed ADR 0100 rendered-discovery
+activity. It accepts only an enabled, fixed, `DISCOVERY_ONLY` browser endpoint
+with an exact reviewed Patchright policy and cutoff; callers cannot supply a URL,
+host, browser policy, or request path. It retains only the sanitized deterministic
+request map and a manifest-last attempt report, both explicitly carrying no
+controlling-evidence, completeness, no-change, coverage-satisfaction, or
+processing authority. Browser user-info, query strings, fragments, headers,
+cookies, and bodies are never retained; exceeding the request ceiling fails
+closed. The current reviewed HKeL and NPC endpoints remain disabled or outside
+V1, so service registration makes no browser source presently callable. The sole
+`CATALOGUE_DISCOVERY` endpoint belongs to the out-of-scope official Gazette
+archive. Required HKeL verified-copy, Editorial Record, publication-specification,
+and GLD browser products still need inert source-evidence procedures; Patchright
+cannot satisfy those gates. Service registration is executable code, not proof
+that any procedure is scheduled or running on the current host.
+
+The settled 2026-08-21 V1 direction retains direct GLD e-Gazette as the
+originating/current-publication source and earliest official Gazette feed. GLD
+is the Gazette publisher; its official Important Notices say selected legal
+supplements are *also* available on HKeL “for information”. HKeL Gazette
+therefore remains complementary backcapture, recovery, reconciliation, and
+gap-detection evidence rather than an upstream replacement. GLD's Cloudflare
+Turnstile acceptance path is still a technical admission blocker and must not
+be bypassed. The checked-in register's `PARTIALLY_CONFIGURED` GLD role, counts,
+and fingerprint above remain executable truth; V1 source readiness requires a
+lawful repeatable or explicitly approved bounded manual acquisition procedure
+with exact completeness and no-change evidence.
+
+`v1-poc-runtime-proven` and `demo/expo-source-transformation` are disposable
+visual branches. They may supply informational discovery leads only. All code,
+contracts, fixtures, and tests are independently built and verified on `main`;
+nothing is imported or cherry-picked from either branch.
 
 ## Collaboration and decision-escalation preference
 
@@ -2972,3 +3040,19 @@ _Avoid_: Withholding, retirement, deletion, verified-current refresh
   application images: a digest over every file's path, mode, size, and bytes
   under `/opt/asklegal`. Docker image ids are deliberately not claimed to be
   reproducible, because Docker stamps a creation time into the image config.
+
+## V1 official-source cycle vocabulary — added 2026-08-21
+
+- **Official monitoring tier** — the source-role-owned daily-current-law,
+  weekly-supporting, monthly-crosscheck, or on-demand cadence. The cycle planner
+  derives due work from the active source register and cannot admit an
+  `OUT_OF_SCOPE_V1` role.
+- **Source coverage cycle** — one cutoff-bound set of all due official source
+  roles. Every due role must have exactly one immutable terminal source report,
+  including an explicit gap report when its procedure is not implemented.
+  Omission is not no-change.
+- **Source coverage cycle binding** — the exact Primary Vault name, logical key,
+  version, fingerprint, byte length, cutoff, accounting result, release-blocking
+  result, and missing/duplicate/gap IDs carried into the V1 Coverage Status
+  Manifest. V1 release and promotion freeze fail closed when the binding is
+  absent, incomplete, or release-blocking.

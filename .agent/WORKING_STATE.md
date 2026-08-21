@@ -1,6 +1,6 @@
 # AskLegal Legal Database Pipeline — Working State
 
-Updated: 2026-08-20 — docpro-MS-7D99 (Ubuntu 24.04.4 LTS, x86-64), branch `main`
+Updated: 2026-08-21 — docpro-MS-7D99 (Ubuntu 24.04.4 LTS, x86-64), branch `main`
 
 **Starting a new session? Read `.agent/HANDOFF.md` first.** This file is now
 2,500 lines of session diary and is the wrong place to start. The handoff is the
@@ -2629,18 +2629,343 @@ not schedulable service activities. Five configured roles are operationally
 callable; the Gazette special path has live evidence but remains partial because
 its completeness unit is one closed date window.
 
-**New defects:** `capture_gazette_window` always passes `max_pages=50`, while
-`iter_entries` silently returns when that limit is reached. A probe with a
-publisher-declared page 51 returned 50 rows and no incomplete signal, so a large
-window can be falsely represented as complete. The publisher-API `exchange`
-redirect path recursively follows same-host redirects without enforcing
-`max_redirects`. A focused strict-Pyright run over these packages failed with 45
-errors: 23 in `hkel_gazette.py`, 20 in `v1_pipeline.py`, and one each in
-`v1_infrastructure.py` and `official_http.py`.
+**Defects found by the audit and resolved on 2026-08-21:**
+`capture_gazette_window` still has an operational `max_pages=50`, but
+`iter_entries` now rejects a publisher-declared later page and an empty
+intermediate page as explicit incomplete results. The worker completes the
+bounded listing before retaining artifacts or its manifest. The publisher-API
+`exchange` path now enforces `max_redirects` iteratively. A focused strict-
+Pyright run over this area now fails with 40 errors after the second slice.
 
-**Source work before V1:** make page-limit exhaustion an explicit incomplete
-outcome; bound publisher-API redirects; wire or explicitly defer every required
-rendered/inventory procedure; clear the 45 type errors; reconcile the stale
+**Source work before V1:** wire or explicitly defer every required
+rendered/inventory procedure; clear the 40 focused type errors; reconcile the stale
 acquisition service description and deployed image; then capture admission
 evidence for the exact V1 source subset without treating the three out-of-scope
 roles as missing V1 coverage.
+
+## 2026-08-21 — Disposable-branch review, GLD retained, and full HK V1 plan
+
+**User correction and constraint:** `v1-poc-runtime-proven` was a disposable
+visual demonstration, not an implementation source. No code may be imported;
+all implementation is independently built on `main`. Informational discovery
+facts may be considered only after current verification. The same treatment is
+recorded for `demo/expo-source-transformation`.
+
+**Branch evidence:** without switching branches, Git shows
+`v1-poc-runtime-proven` at `3978674`, an ancestor of current `main` with no
+unique commits and 28 `main` commits after it. Its old handoff is superseded.
+Useful source discovery is already preserved in current history and design:
+GLD acceptance is Cloudflare Turnstile-gated; the HKeL Gazette capability/CSRF
+handshake, `/grid` request, page protocol, `VIRTUAL_URL`, language address
+construction, date-window rule, retries, and live archive/manifest evidence are
+on `main`. No branch code was copied, merged, or cherry-picked.
+
+**Settled source decision, corrected later on 2026-08-21:** direct
+`HK-LEG-GLD-EGAZETTE` remains inside V1 as the originating/current-publication
+source and earliest official Gazette feed. GLD's official Important Notices
+identify GLD as publisher of all Gazette parts and describe selected legal
+supplements as *also* available on HKeL “for information”. HKeL Gazette remains
+complementary backcapture, recovery, reconciliation, and gap-detection evidence,
+not an upstream replacement. This supersedes the earlier same-day retirement
+decision. GLD remains technically partial because the Cloudflare Turnstile gate
+must not be bypassed; V1 needs a lawful repeatable or explicitly approved bounded
+manual procedure with completeness/no-change proof. The current `main` register
+is therefore already directionally correct and remains executable truth at 79
+endpoints, 56 enabled, 5 configured, 5 partial, 1 blocked, and 3 outside V1.
+
+**Full-jurisdiction interpretation:** the complete Hong Kong V1 uses the
+accepted four-family scope—three Hong Kong Legislation scopes, proposition-level
+binding-court Hong Kong Cases, HKEX Main/GEM Regulatory Materials, and selected
+licensed Hong Kong Principles. Only Hong Kong Legislation has a real package
+skeleton/checkpoints, and all its scopes remain `NOT_READY`. Cases, Regulatory
+Materials, and Principles have no executable real package. If Principles is not
+selected/licensed, the release must be named as complete primary-law,
+binding-cases, and HKEX coverage rather than complete Hong Kong jurisdiction.
+
+**Fresh validation:** current `main`/local `origin/main` ref is `c4b3ba2`; the
+working tree was clean before continuity edits. The ordinary full suite now
+passes with 845 tests and four skips after the fifth acquisition slice; the
+exact developer bootstrap last passed before those fixes at 785 tests and four
+skips. Strict Pyright still fails with 904 errors, including an unchanged 713
+across 52 tracked files; the other 191 errors are in ignored local runtime files
+under `var/`.
+`asklegal.target` is enabled/active with no failed
+unit and no AskLegal timer. All five running application image IDs differ from
+the current tags; `acq-batch` and `cp-test` remain outside systemd.
+
+**Durable plan:** `.agent/ROADMAP.md` now contains milestones HKV1-0 through
+HKV1-10 with exact checkboxes and exit gates for scope/source authority,
+engineering gates, acquisition, Legislation, Cases, HKEX Regulatory Materials,
+Principles, model/embedding/target admission, real Review/promotion, local host
+operation, and complete baseline/acceptance. The dependency-critical first work
+is: admit the retained GLD current-publication path and complementary HKeL
+backcapture/recovery path honestly; close
+promotion trust-chain defects; restore shipping gates; then make source/package
+families ready before attempting the complete baseline.
+
+No implementation, source/provider request, credential access, Pinecone
+mutation, container stop, deployment, commit, push, merge, or cherry-pick was
+performed in this planning task.
+
+### First HKV1-2 implementation slice
+
+Implementation is now in progress on `main`, independently of both disposable
+visual branches. The HKeL Gazette iterator no longer returns a short success
+when the publisher reports more pages than the operational cap or when an empty
+page appears before `lastPage`. The acquisition activity enumerates the complete
+bounded window before retaining an addressed PDF or canonical listing manifest,
+and it binds the artifact connector only after enumeration so a refreshed grid
+session is carried forward. The publisher-API transport now follows redirects
+iteratively and enforces the same configured limit as its inert fetch surface;
+a same-host loop ends with `REDIRECT_LIMIT_EXCEEDED`.
+
+Validation on 2026-08-21: 22 focused HKeL/transport tests and the ordinary full
+suite passed, the latter with 789 tests and four skips. Focused Ruff lint, the
+repository boundary checker, contract validator, and `git diff --check` passed.
+Strict Pyright still reports the same 45 focused errors already recorded for
+this area; this slice did not claim to clear them. Focused Ruff formatting still
+reports the already-recorded drift in `v1_pipeline.py` and
+`test_hkel_gazette_register.py`; it was not auto-formatted under the current
+format-policy blocker.
+
+No official source, credential, provider, Pinecone target, container, or other
+external system was accessed or changed. No commit, push, merge, or cherry-pick
+was performed.
+
+### Second HKV1-2 implementation slice
+
+All item-specific official endpoint fetches now delegate template resolution to
+the shared exact bounded-locator contract. A templated endpoint cannot run with
+a missing, extra, or wrong substitution; publisher locators cannot change the
+authority, add query/fragment/template syntax, traverse, or exploit ambiguous
+slashes/backslashes. Percent-encoded input is encoded as data. An HKeL grid row
+outside the declared `hk/` locator shape becomes durable
+`SOURCE_CONTRACT_CHANGED` rather than an index error or unintended fetch.
+
+The Gazette register client now raises one of four closed codes:
+`INVALID_REQUEST`, `SOURCE_UNAVAILABLE`, `SOURCE_CONTRACT_CHANGED`, or
+`INCOMPLETE_OBSERVATION`. It checks both capability/page responses, converts
+transport and malformed JSON/paging failures, and preserves the explicit
+incomplete-window signal. The worker validates exact `DD/MM/YYYY` calendar
+dates, ordering, and `en`/`zh-Hant-HK` before constructing the publisher client.
+It checkpoints closed window outcomes and exact per-artifact outcomes for
+retained, not published, unavailable, contract-drift, and hostile responses.
+An absent or failed selected-language artifact produces `PARTIAL_CAPTURE`; an
+incomplete register walk writes neither listing manifest nor artifact.
+
+Validation on 2026-08-21: the connector/acquisition surface passed 113 tests;
+the ordinary full suite passed with 809 tests and four skips. Focused Ruff lint
+and the repository boundary checker passed. The exact focused strict-Pyright run
+now reports 40 errors: 22 in `hkel_gazette.py`, 17 in `v1_pipeline.py`, one in
+`v1_infrastructure.py`, and zero in `official_http.py`, down from 45. Contract
+validation and final whitespace validation passed after this checkpoint.
+The pre-existing focused Ruff formatting drift was not auto-formatted.
+
+No official source, credential, provider, Pinecone target, container, or other
+external system was accessed or changed. No commit, push, merge, or cherry-pick
+was performed.
+
+### Third HKV1-2 implementation slice
+
+The official 14-role source profile now carries the exact ADR 0032 outage
+consequence as executable policy. Register revision `2026-08-21.1` is effective
+2026-08-21 with fingerprint
+`sha256:93944064e78d314670476758ec4cde7cd042caca2f285858dc906bfb108794b4`.
+GLD e-Gazette and the current HKeL inventory are `RELEASE_BLOCKING`; HKeL Gazette
+backcapture is `NONBLOCKING`; the remaining roles preserve their accepted exact
+consequences.
+
+Because this is a material source-policy contract addition, the register schema
+and all fourteen source-profile versions advanced from `1.0.0` to `1.1.0`.
+The 79 transport endpoint versions remain `1.0.0`; their endpoint contracts did
+not change in this slice.
+
+The reporting boundary now freezes canonical per-source coverage reports and
+complete due-source cycle reports. Source reports preserve exact counts,
+observation-manifest reference, failure codes, source policy/version, cutoff,
+deterministic
+disposition, and release/affected-work blocking flags. Cycle reports reject
+unexpected sources and source-policy drift, name every missing, duplicate, and
+gap source, and release-block missing or failed `RELEASE_BLOCKING` roles plus
+ambiguous duplicate accounting. A missing or failed `NONBLOCKING` discovery role
+remains visible without gaining release authority.
+
+The HKeL Gazette activity retains one such report for every terminal window.
+Complete, partial, unavailable, contract-changed, incomplete, and unsafe paths
+are covered; a partial artifact set preserves its strongest consequence in the
+report. Every HKeL gap is visible but remains nonblocking and cannot satisfy or
+replace the separately due GLD report. Full service assembly over every due V1
+source and propagation into the final Coverage Status Manifest remain open.
+
+During the slice, one test file was initially addressed to the misspelled empty
+sibling `AskLegal-LgalDBPipeline`. The exact file was moved into this repository
+with patches, and only the resulting empty directories were removed with
+`rmdir`; no project or user data was deleted.
+
+Validation on 2026-08-21: the ordinary suite passed with 820 tests and four
+dedicated-environment skips; the combined acquisition/domain/reporting/source-
+connector surface passed 169 tests. Repository-wide Ruff lint, the 168-file
+Python boundary check with its 12 existing reviewed exceptions, contract
+validation, lock validation, and whitespace validation passed. The new domain,
+reporting, and source-profile files pass strict Pyright with zero errors. The
+existing focused connector/acquisition debt remains exactly 40 errors, and the
+tracked repository baseline remains 713 errors in 52 files. Full Ruff format
+check still fails on 15 previously drifting files; the files materially edited
+for this slice are formatted.
+
+No official source, credential, provider, Pinecone target, container, or other
+external system was accessed or changed. No commit, push, merge, or cherry-pick
+was performed.
+
+### Fourth HKV1-2 implementation slice
+
+The existing complete-inventory connector is now a schedulable acquisition
+activity and orchestration. Its input deliberately cannot select a member
+subset: the scheduler supplies only a registered source, a canonical UTC
+observation cutoff, and optional prior member fingerprints. The worker derives
+the exact required endpoint/version set from the active register. For
+`HK-LEG-HKEL-CURRENT-INVENTORY`, this is exactly the English and Traditional
+Chinese XML inventory pair, and the source's `RELEASE_BLOCKING` policy applies.
+
+Every admitted member is retained under its content fingerprint. A
+response-bearing contract or hostile-content failure is retained in the
+isolated response class; an unavailable response invents no bytes. Only after
+all required members have a terminal outcome does the activity write a
+canonical observation manifest. Complete and exact-prior no-change captures
+record `complete=true` and an aggregate inventory fingerprint. Missing,
+contract-changed, or unsafe required members record `complete=false`, carry no
+aggregate fingerprint, and produce a release-blocking Coverage Gap, Source
+Contract Review, or Quarantine result. No raw response body is returned through
+the scheduler result.
+
+The source-coverage report contract now names its generic
+`observation_manifest_ref`, so the same fail-closed accounting applies to both
+Gazette listings and complete inventories. Full due-source cycle assembly and
+propagation into the Coverage Status Manifest remain open, as do the
+rendered-session, catalogue, and Patchright schedulable procedures. This slice
+is executable wiring and deterministic local proof; no current host timer or
+deployment was changed and no official HKeL capture was performed.
+
+Validation on 2026-08-21: 36 focused inventory/Gazette/reporting/connector tests
+passed; the ordinary suite passed with 831 tests and four dedicated-environment
+skips. Repository-wide Ruff lint, the 169-file Python boundary check with its 12
+existing reviewed exceptions, contract validation, lock validation, and
+whitespace validation passed. The new inventory proof, reporting, and service
+registration surfaces pass strict Pyright with zero errors. Full Pyright remains
+at 904 errors, including an unchanged 713 across 52 tracked files; the focused
+source/acquisition debt remains 40. Ruff format drift decreased from 15 to 14
+files because the materially edited acquisition service is now formatted.
+
+No official source, credential, provider, Pinecone target, container, or other
+external system was accessed or changed. No commit, push, merge, or cherry-pick
+was performed.
+
+### Fifth HKV1-2 implementation slice
+
+ADR 0100's rendered browser discovery is now a schedulable acquisition activity
+and orchestration, without upgrading browser output into source evidence. Its
+closed instruction accepts only an endpoint ID, exact endpoint version, and
+canonical UTC cutoff. It accepts no URL, locator, host, request, browser policy,
+credential, or completeness claim. Before constructing a browser transport, the
+activity requires an enabled, fixed, `BROWSER_SESSION`/`DISCOVERY_ONLY` endpoint
+with an exact reviewed Patchright policy and a configured or partially configured
+source.
+
+The activity retains only the connector's sanitized request-map summary under a
+report prefix, or response-bearing failure diagnostics under an isolation prefix,
+then writes a canonical terminal attempt report last. Every scheduler result and
+attempt report fixes `controlling_evidence`, `completeness_supported`,
+`no_change_supported`, `coverage_satisfied`, and `processing_authorized` to
+false. It emits no source-coverage report and returns no rendered HTML, cookie,
+header, request body, or raw browser state. Exact replay adopts the existing
+summary and report but still cannot claim no-change.
+
+Two fail-closed defects in the existing Patchright adapter were repaired before
+registration. Sanitization now strips URL user-info as well as query and fragment
+data, including on denied requests. Exceeding the observed-request ceiling now
+aborts excess requests and marks the discovery truncated, so content admission
+returns `UNSAFE_RESPONSE` instead of a successful discovery signal. Sanitized
+request rows are sorted before summary serialization for deterministic output.
+
+This wiring does not make a real browser source callable. Both currently reviewed
+policies target endpoints that remain disabled or outside V1: HKeL Gazette uses
+its separate admitted date-window/grid workflow, and both NPC roles are outside
+V1. The only `CATALOGUE_DISCOVERY` endpoint belongs to the out-of-scope official
+Gazette archive. Required verified/assisted-copy, Editorial Record,
+publication-specification, and GLD Gazette browser products are legal-source
+evidence, not discovery signals; they still need inert source-evidence procedures
+and Patchright cannot satisfy them. Chromium/runtime supply-chain and Ubuntu host
+admission also remain open.
+
+Validation on 2026-08-21: 55 focused rendered-discovery/Patchright/rendered-
+connector/inventory/Gazette/reporting tests passed; the ordinary suite passed
+with 845 tests and four dedicated-environment skips. Repository-wide Ruff lint,
+the 170-file Python boundary check with its 12 existing reviewed exceptions,
+contract validation, and lock validation passed. The new rendered-discovery
+proof, Patchright adapter, and service registration surfaces pass strict Pyright
+with zero errors. Existing repository type and format debt remains separately
+tracked.
+
+No official source, credential, browser, provider, Pinecone target, container,
+host service, or other external system was accessed or changed. No commit, push,
+merge, or cherry-pick was performed.
+
+### Sixth HKV1-2 implementation slice
+
+The acquisition worker now plans one exact periodic source cycle from the
+active Hong Kong official-source register. The accepted daily, weekly,
+monthly, and on-demand monitoring assignments are executable policy; an
+`OUT_OF_SCOPE_V1` role cannot become due. The current full periodic cycle names
+exactly Basic Law, direct GLD e-Gazette, the complete current HKeL inventory,
+HKeL Editorial Records, and HKeL publication specifications.
+
+Every due role receives a terminal, immutable source-coverage report. The
+current HKeL inventory executes its admitted complete-inventory procedure. A
+due role whose legal-source evidence procedure is not yet implemented records
+an explicit `INCOMPLETE_OBSERVATION` with its exact blocker and outage
+consequence; it is never represented as a source call, successful no-change, or
+omitted work. Cycle assembly reads each report back from the Primary Vault by
+exact version and fingerprint, reparses its canonical bytes, validates cutoff
+and register policy, and writes the cycle report last. Missing, duplicate,
+unexpected, or altered reports fail closed.
+
+The corpus boundary now carries an exact `SourceCoverageCycleBinding` in the V1
+Coverage Status Manifest. Incomplete accounting or any release-blocking source
+gap forces every V1 scope to `NOT_READY`; the V1-specific promotion freeze gate
+rejects the release before a Promotion Manifest can be frozen. The existing M6
+synthetic route retains its legacy generic freeze function, so this addition
+does not pretend the incomplete real Hong Kong package is already wired into a
+candidate release. Full runtime candidate-flow integration remains HKV1-3 and
+HKV1-8 work.
+
+The HKeL Editorial Record evidence path remains an explicit source gap. Local
+inspection and informational review of `v1-poc-runtime-proven` found no exact
+request contract or connector to reuse; the rendered page still leads through
+the publisher's legacy client-capability warning flow. No request contract was
+guessed and no disposable-branch code was imported.
+
+The previously recorded focused type debt is cleared: 22 HKeL Gazette errors,
+17 acquisition-pipeline errors, and one readiness-infrastructure error are now
+zero. The readiness protocol exposes probe metadata as read-only properties,
+matching immutable concrete probes while retaining runtime structural
+validation.
+
+Validation on 2026-08-21: 109 focused tests passed; the complete local suite
+passed with 856 tests and four dedicated-environment skips. All 30 changed
+Python files pass Ruff lint and format checks. The exact focused Pyright run
+passes with zero errors; the Python boundary checker passes for 173 files with
+12 existing reviewed exceptions; contract validation, reproducible contract
+package fingerprint
+`sha256:7bd2858bd0099271bc5be1e8d5c380521d81fb15bee8a4110de8fe6629d3094e`,
+lock validation, and whitespace validation pass. Repository-wide strict
+Pyright remains a release blocker at 856 errors total: 665 in tracked Python
+and 191 in ignored local `var/` scripts. Repository-wide Ruff format debt is
+down from 14 to 13 files.
+
+No official source, credential, browser, model/embedding provider, Pinecone
+target, container, host service, or deployment was accessed or changed. The
+user authorized committing and pushing this verified checkpoint to
+`origin/main`. After that checkpoint, the exact next implementation work is the
+remaining Gazette duplicate/moving-page/throttling/restart/manifest-adoption
+proof set, followed by source-specific rate, retry, timeout, and outage
+profiles.

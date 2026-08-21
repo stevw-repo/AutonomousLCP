@@ -6,7 +6,10 @@ from .builder import (
     freeze_corpus_release,
     freeze_coverage_status,
     freeze_proposal_package,
+    freeze_v1_coverage_status,
     serving_payload_fingerprint,
+    source_coverage_cycle_binding_from_json,
+    verify_v1_coverage_release_gate,
 )
 from .model import (
     CorpusError,
@@ -24,6 +27,7 @@ from .model import (
     ProposalPackageInput,
     ReleaseRecordEntry,
     ServingRecord,
+    SourceCoverageCycleBinding,
 )
 
 PACKAGE_ROLE: str = "corpus"
@@ -46,9 +50,13 @@ __all__ = [
     "ProposalPackageInput",
     "ReleaseRecordEntry",
     "ServingRecord",
+    "SourceCoverageCycleBinding",
     "compose_desired_state",
     "freeze_corpus_release",
     "freeze_coverage_status",
     "freeze_proposal_package",
+    "freeze_v1_coverage_status",
     "serving_payload_fingerprint",
+    "source_coverage_cycle_binding_from_json",
+    "verify_v1_coverage_release_gate",
 ]

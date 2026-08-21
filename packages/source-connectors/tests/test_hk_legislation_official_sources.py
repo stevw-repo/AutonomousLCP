@@ -11,6 +11,7 @@ from asklegal_source_connectors import (
     OfficialSourceState,
     PublisherRightsState,
     SignalUse,
+    SourceOutageImpact,
     load_hk_legislation_source_register,
 )
 
@@ -30,14 +31,43 @@ def test_register_binds_the_complete_14_role_universe_and_stays_fail_closed() ->
     assert {item.source_id for item in register.sources} == HK_LEGISLATION_SOURCE_IDS
     assert set(register.authorization.source_ids) == HK_LEGISLATION_SOURCE_IDS
     assert register.authorization.rss_policy == "DISCOVERY_OR_CHANGE_SIGNAL_ONLY"
+    assert register.schema_version == "1.1.0"
+    assert register.register_version == "2026-08-21.1"
+    assert register.effective_date == "2026-08-21"
     assert register.status == "PARTIALLY_CONFIGURED_FAIL_CLOSED"
     assert register.operationally_admitted is False
     assert register.fingerprint == (
-        "sha256:40e1918882a78a4ef29a095b426cdf20105f77968beee0f0c9ce49689daa0669"
+        "sha256:93944064e78d314670476758ec4cde7cd042caca2f285858dc906bfb108794b4"
     )
     assert register.legal_clearance.authority == "ASKLEGAL_LEGAL_TEAM"
     assert register.legal_clearance.reported_by == "PROJECT_USER"
     assert set(register.legal_clearance.source_ids) == HK_LEGISLATION_SOURCE_IDS
+    assert {item.version for item in register.sources} == {"1.1.0"}
+    assert {item.version for item in register.endpoints} == {"1.0.0"}
+
+
+def test_every_source_preserves_its_normalized_outage_impact() -> None:
+    """Bind every role to its ADR 0032 base impact without upgrading discovery."""
+    actual = {
+        item.source_id: item.outage_impact for item in load_hk_legislation_source_register().sources
+    }
+
+    assert actual == {
+        "HK-LEG-BASIC-LAW-PORTAL": SourceOutageImpact.NONBLOCKING,
+        "HK-LEG-GLD-EGAZETTE": SourceOutageImpact.RELEASE_BLOCKING,
+        "HK-LEG-HKEL-ASSISTED-COPIES": SourceOutageImpact.AFFECTED_WORK_BLOCKING,
+        "HK-LEG-HKEL-CURRENT-DATA": SourceOutageImpact.AFFECTED_WORK_BLOCKING,
+        "HK-LEG-HKEL-CURRENT-INVENTORY": SourceOutageImpact.RELEASE_BLOCKING,
+        "HK-LEG-HKEL-EDITORIAL-RECORDS": SourceOutageImpact.AFFECTED_WORK_BLOCKING,
+        "HK-LEG-HKEL-GAZETTE-BACKCAPTURE": SourceOutageImpact.NONBLOCKING,
+        "HK-LEG-HKEL-PAST-DATA": SourceOutageImpact.AFFECTED_WORK_BLOCKING,
+        "HK-LEG-HKEL-PAST-INVENTORY": SourceOutageImpact.AFFECTED_WORK_BLOCKING,
+        "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS": (SourceOutageImpact.AFFECTED_WORK_BLOCKING),
+        "HK-LEG-HKEL-VERIFIED-COPIES": SourceOutageImpact.AFFECTED_WORK_BLOCKING,
+        "HK-LEG-NPC-NATIONAL-LAWS-DATABASE": SourceOutageImpact.AFFECTED_WORK_BLOCKING,
+        "HK-LEG-NPC-NPCSC-OFFICIAL-MATERIALS": (SourceOutageImpact.AFFECTED_WORK_BLOCKING),
+        "HK-LEG-OFFICIAL-GAZETTE-ARCHIVE": SourceOutageImpact.AFFECTED_WORK_BLOCKING,
+    }
 
 
 def test_technically_complete_basic_law_role_joins_the_configured_sources() -> None:
@@ -59,7 +89,7 @@ def test_technically_complete_basic_law_role_joins_the_configured_sources() -> N
         "HK-LEG-HKEL-GAZETTE-BACKCAPTURE",
         "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
         "HK-LEG-HKEL-VERIFIED-COPIES",
-        )
+    )
     assert len(register.blocked_source_ids) == 1
     configured = {
         item.source_id: item
@@ -124,9 +154,7 @@ def test_retired_roles_are_out_of_scope_rather_than_blocked() -> None:
         "HK-LEG-OFFICIAL-GAZETTE-ARCHIVE",
     }
     assert all(
-        not endpoint.enabled
-        for endpoint in register.endpoints
-        if endpoint.source_id in retired
+        not endpoint.enabled for endpoint in register.endpoints if endpoint.source_id in retired
     )
     assert all(
         item.blockers

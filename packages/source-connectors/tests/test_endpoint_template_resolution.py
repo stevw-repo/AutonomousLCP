@@ -82,6 +82,37 @@ def test_a_substitution_cannot_traverse_out_of_the_path_root() -> None:
         _connector(transport).fetch(_request("../../etc/passwd"))
 
 
+@pytest.mark.parametrize(
+    "locator",
+    [
+        "/absolute",
+        "trailing/",
+        "double//segment",
+        "item?secret=value",
+        "item#fragment",
+        "item\\child",
+        "{other}",
+    ],
+)
+def test_connector_uses_the_exact_bounded_locator_contract(locator: str) -> None:
+    """Publisher data cannot reinterpret path, query, fragment, or template syntax."""
+    transport = RecordingTransport()
+
+    with pytest.raises(PermissionError, match="bounded template contract"):
+        _connector(transport).fetch(_request(locator))
+
+    assert transport.url == ""
+
+
+def test_preencoded_traversal_is_encoded_as_data_not_reinterpreted() -> None:
+    """A percent sign from publisher data is encoded, so downstream decoding is inert."""
+    transport = RecordingTransport()
+
+    _connector(transport).fetch(_request("2026/%2e%2e/1!en"))
+
+    assert transport.url == "https://www.elegislation.gov.hk/hk/2026/%252e%252e/1!en"
+
+
 def test_a_substitution_naming_no_placeholder_is_refused() -> None:
     """Silently ignoring it would leave an unresolved template to fail later."""
     register = load_hk_legislation_source_register()
@@ -96,4 +127,43 @@ def test_a_substitution_naming_no_placeholder_is_refused() -> None:
     )
 
     with pytest.raises(PermissionError):
+        _connector(RecordingTransport()).fetch(request)
+
+
+def test_a_templated_endpoint_cannot_be_fetched_without_its_locator() -> None:
+    """An unresolved template is never permitted to reach the transport."""
+    register = load_hk_legislation_source_register()
+    endpoint = next(e for e in register.endpoints if e.endpoint_id == _GAZETTE_ARTIFACT)
+    request = OfficialFetchRequest(
+        endpoint_id=endpoint.endpoint_id,
+        endpoint_version=endpoint.version,
+        method=HttpMethod.GET,
+        prior_fingerprint=None,
+        timeout_seconds=30,
+    )
+    transport = RecordingTransport()
+
+    with pytest.raises(PermissionError, match="one exact locator"):
+        _connector(transport).fetch(request)
+
+    assert transport.url == ""
+
+
+def test_multiple_substitutions_are_refused_even_if_one_name_is_correct() -> None:
+    """The register declares one locator; extra values cannot create a second channel."""
+    register = load_hk_legislation_source_register()
+    endpoint = next(e for e in register.endpoints if e.endpoint_id == _GAZETTE_ARTIFACT)
+    request = OfficialFetchRequest(
+        endpoint_id=endpoint.endpoint_id,
+        endpoint_version=endpoint.version,
+        method=HttpMethod.GET,
+        prior_fingerprint=None,
+        timeout_seconds=30,
+        substitutions=(
+            ("gazette_artifact_locator", "2026/1!en"),
+            ("gazette_artifact_locator", "2026/2!en"),
+        ),
+    )
+
+    with pytest.raises(PermissionError, match="one exact locator"):
         _connector(RecordingTransport()).fetch(request)

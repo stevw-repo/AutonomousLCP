@@ -11,11 +11,13 @@ from __future__ import annotations
 
 import json
 
+import asklegal_source_connectors.official_http as official_http_module
 import pytest
 from asklegal_source_connectors.hkel_gazette import (
     CAPABILITY_CLAIM,
     GRID_PATH,
     GazetteRegisterError,
+    GazetteRegisterFailureCode,
     HkelGazetteRegisterClient,
 )
 from asklegal_source_connectors.official_http import (
@@ -25,14 +27,36 @@ from asklegal_source_connectors.official_http import (
 )
 
 _COLUMNS = [
-    "GAZETTE_ID", "YEAR", "GAZETTE_SUPPLEMENT_NO", "DISP_GAZETTE_NO", "GAZETTE_NO",
-    "GAZETTE_NAME", "GAZETTE_TITLE_ENG", "GAZETTE_TITLE_CHI",
-    "ENG_PDF", "CHI_PDF", "BI_PDF", "GZ_NO", "VIRTUAL_URL", "GAZETTE_DATE",
+    "GAZETTE_ID",
+    "YEAR",
+    "GAZETTE_SUPPLEMENT_NO",
+    "DISP_GAZETTE_NO",
+    "GAZETTE_NO",
+    "GAZETTE_NAME",
+    "GAZETTE_TITLE_ENG",
+    "GAZETTE_TITLE_CHI",
+    "ENG_PDF",
+    "CHI_PDF",
+    "BI_PDF",
+    "GZ_NO",
+    "VIRTUAL_URL",
+    "GAZETTE_DATE",
 ]
 _ROW = [
-    "30056", "2026", "Legal Supplement No. 1", "1 of 2026", "1 of 2026", None,
-    "Appropriation Ordinance 2026", "《2026年撥款條例》",
-    "E", "C", None, "1", "hk/2026/1", "08/05/2026",
+    "30056",
+    "2026",
+    "Legal Supplement No. 1",
+    "1 of 2026",
+    "1 of 2026",
+    None,
+    "Appropriation Ordinance 2026",
+    "《2026年撥款條例》",
+    "E",
+    "C",
+    None,
+    "1",
+    "hk/2026/1",
+    "08/05/2026",
 ]
 # Shaped like the real served page: the token is a hidden form input.
 _PAGE_HTML = (
@@ -166,14 +190,43 @@ def test_paging_follows_last_page_and_ignores_total_records() -> None:
     assert pages == ["1", "2", "3"]
 
 
-def test_paging_stops_when_a_page_returns_nothing() -> None:
-    """An empty page ends the walk rather than looping to lastPage regardless."""
+def test_an_empty_intermediate_page_is_incomplete() -> None:
+    """An empty page cannot silently hide every row the publisher says follows."""
     replies = [(200, b""), (200, _PAGE_HTML)]
     replies += [(200, _grid_reply(last_page=9, rows=1)), (200, _grid_reply(last_page=9, rows=0))]
     client, _ = _client(replies)
     client.open_session()
 
-    assert len(list(client.iter_entries())) == 1
+    with pytest.raises(GazetteRegisterError, match=r"page 2.*empty.*last page 9") as error:
+        list(client.iter_entries())
+    assert error.value.code is GazetteRegisterFailureCode.INCOMPLETE_OBSERVATION
+
+
+def test_page_limit_exhaustion_is_incomplete_not_a_short_success() -> None:
+    """A safety cap cannot turn the first part of a larger result into a manifest."""
+    client, transport = _client(
+        [(200, b""), (200, _PAGE_HTML), (200, _grid_reply(last_page=3, rows=2))]
+    )
+    client.open_session()
+
+    with pytest.raises(GazetteRegisterError, match=r"page limit 2.*last page 3") as error:
+        list(client.iter_entries(max_pages=2))
+    assert error.value.code is GazetteRegisterFailureCode.INCOMPLETE_OBSERVATION
+
+    pages = [call for call in transport.calls if call.path == GRID_PATH]
+    assert len(pages) == 1
+
+
+@pytest.mark.parametrize("max_pages", [0, -1])
+def test_invalid_page_limits_fail_before_the_grid_call(max_pages: int) -> None:
+    """Zero and negative limits are not meaningful completeness boundaries."""
+    client, transport = _client([(200, b""), (200, _PAGE_HTML)])
+    client.open_session()
+
+    with pytest.raises(GazetteRegisterError, match="positive exact integer"):
+        list(client.iter_entries(max_pages=max_pages))
+
+    assert all(call.path != GRID_PATH for call in transport.calls)
 
 
 def test_a_reply_missing_its_columns_fails_rather_than_guessing() -> None:
@@ -191,8 +244,9 @@ def test_a_failing_grid_status_is_reported_not_swallowed() -> None:
     client, _ = _client([(200, b""), (200, _PAGE_HTML), (403, b"denied")])
     client.open_session()
 
-    with pytest.raises(GazetteRegisterError):
+    with pytest.raises(GazetteRegisterError) as error:
         client.page(1)
+    assert error.value.code is GazetteRegisterFailureCode.SOURCE_CONTRACT_CHANGED
 
 
 def test_pdf_address_is_the_locator_a_bang_and_the_language() -> None:
@@ -264,7 +318,7 @@ def test_the_token_is_read_from_the_hidden_form_input() -> None:
         b'<form name="proj_form" method="post" action="/gazette">'
         b'<input type="hidden" name="MODE" value="1" />'
         b'<input type="hidden" name="_CSRF_TOKEN" value="WM4YN6Pw73wVEn8Z/qvt0reo==" />'
-        b'</form>'
+        b"</form>"
     )
     client, _ = _client([(200, b""), (200, served)])
 
@@ -298,6 +352,55 @@ def test_a_session_transport_sends_its_session_on_both_surfaces() -> None:
     Recorder.exchange(bound, PublisherCall("h", "GET", "/x"))
 
     assert seen == ["JSTP1=abc"]
+
+
+def test_publisher_exchange_enforces_its_redirect_limit(monkeypatch: pytest.MonkeyPatch) -> None:
+    """The publisher API must not recurse forever through a same-host loop."""
+    requested_paths: list[str] = []
+
+    class RedirectResponse:
+        status = 302
+
+        def getheaders(self) -> list[tuple[str, str]]:
+            return []
+
+        def read(self, _limit: int) -> bytes:
+            return b""
+
+        def getheader(self, name: str) -> str | None:
+            return "/loop" if name == "Location" else None
+
+    class RedirectConnection:
+        def __init__(self, *_args: object, **_kwargs: object) -> None:
+            pass
+
+        def set_tunnel(self, _host: str, _port: int) -> None:
+            pass
+
+        def request(
+            self,
+            _method: str,
+            path: str,
+            *,
+            body: bytes | None,
+            headers: dict[str, str],
+        ) -> None:
+            del body, headers
+            requested_paths.append(path)
+
+        def getresponse(self) -> RedirectResponse:
+            return RedirectResponse()
+
+        def close(self) -> None:
+            pass
+
+    monkeypatch.setattr(official_http_module, "HTTPSConnection", RedirectConnection)
+    transport = ProxiedOfficialHttpTransport("proxy", 3128, max_redirects=2)
+
+    with pytest.raises(OfficialTransportFailure, match="REDIRECT_LIMIT_EXCEEDED"):
+        transport.exchange(PublisherCall("publisher.invalid", "POST", "/start"))
+
+    assert requested_paths == ["/start", "/loop", "/loop"]
 
 
 class FlakyTransport(StubTransport):
@@ -356,4 +459,5 @@ def test_retries_are_bounded_and_the_failure_is_reported() -> None:
         client.page(1)
 
     assert "after 2 attempts" in str(error.value)
+    assert error.value.code is GazetteRegisterFailureCode.SOURCE_UNAVAILABLE
     assert transport.grid_calls == 2

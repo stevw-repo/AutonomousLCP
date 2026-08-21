@@ -102,8 +102,15 @@ class ReadinessProbeFailure(RuntimeError):
 class ReadinessProbe(Protocol):
     """One explicitly bounded, non-mutating dependency check."""
 
-    dependency: DependencyCode
-    timeout_milliseconds: int
+    @property
+    def dependency(self) -> DependencyCode:
+        """Return the dependency this probe checks."""
+        ...
+
+    @property
+    def timeout_milliseconds(self) -> int:
+        """Return the maximum duration permitted for the probe."""
+        ...
 
     async def check(self) -> None:
         """Return only on success and otherwise raise a safe or provider error."""
@@ -138,12 +145,13 @@ def required_v1_dependencies(application_code: str) -> tuple[DependencyCode, ...
 class V1ReadinessGate:
     """Run every exact dependency probe once with a hard response deadline."""
 
-    def __init__(self, application_code: str, probes: tuple[ReadinessProbe, ...]) -> None:
+    def __init__(self, application_code: str, probes: tuple[object, ...]) -> None:
         """Reject missing, duplicate, extra, mutable, or unbounded probes."""
         expected = required_v1_dependencies(application_code)
         if type(probes) is not tuple:
             raise ReadinessError(ReadinessErrorCode.PROBE_SET)
         dependencies: list[DependencyCode] = []
+        validated_probes: list[ReadinessProbe] = []
         for probe in probes:
             if (
                 not isinstance(probe, ReadinessProbe)
@@ -153,10 +161,11 @@ class V1ReadinessGate:
             ):
                 raise ReadinessError(ReadinessErrorCode.PROBE)
             dependencies.append(probe.dependency)
+            validated_probes.append(probe)
         if tuple(dependencies) != expected or len(dependencies) != len(set(dependencies)):
             raise ReadinessError(ReadinessErrorCode.PROBE_SET)
         self._application_code = application_code
-        self._probes = probes
+        self._probes = tuple(validated_probes)
 
     async def check(self) -> ReadinessReport:
         """Run all probes in stable order and fail closed without leaking errors."""

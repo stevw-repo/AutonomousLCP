@@ -1,5 +1,7 @@
 """Closed deterministic source-fact acquisition boundary."""
 
+from asklegal_domain import SourceOutageImpact
+
 from .admission import (
     ContentAdmissionInput,
     ResponseAdmissionPolicy,
@@ -11,6 +13,7 @@ from .hkel_gazette import (
     GazetteEntry,
     GazettePage,
     GazetteRegisterError,
+    GazetteRegisterFailureCode,
     HkelGazetteRegisterClient,
 )
 from .model import (
@@ -68,6 +71,14 @@ from .official_inventory import (
     OfficialInventoryRequest,
     OfficialInventoryResult,
 )
+from .official_monitoring import (
+    HK_LEGISLATION_MONITORING_ASSIGNMENTS,
+    OfficialCoverageCycle,
+    OfficialMonitoringAssignment,
+    OfficialMonitoringTier,
+    due_official_source_ids,
+    due_official_source_profiles,
+)
 from .official_planning import (
     OfficialEndpointBuildAssessment,
     OfficialSourceBuildAssessment,
@@ -85,6 +96,7 @@ PACKAGE_ROLE: str = "source-connectors"
 
 __all__ = [
     "CAPABILITY_CLAIM",
+    "HK_LEGISLATION_MONITORING_ASSIGNMENTS",
     "HK_LEGISLATION_SOURCE_IDS",
     "PACKAGE_ROLE",
     "AcquisitionArtifact",
@@ -101,12 +113,14 @@ __all__ = [
     "GazetteEntry",
     "GazettePage",
     "GazetteRegisterError",
+    "GazetteRegisterFailureCode",
     "HkelGazetteRegisterClient",
     "HongKongLegislationSourceRegister",
     "HttpMethod",
     "LegalClearanceAttestation",
     "ObservationDisposition",
     "OfficialAccessAuthorization",
+    "OfficialCoverageCycle",
     "OfficialEndpointBuildAssessment",
     "OfficialEndpointContract",
     "OfficialFetchCode",
@@ -118,6 +132,8 @@ __all__ = [
     "OfficialInventoryConnector",
     "OfficialInventoryRequest",
     "OfficialInventoryResult",
+    "OfficialMonitoringAssignment",
+    "OfficialMonitoringTier",
     "OfficialRenderedFetchRequest",
     "OfficialRenderedSessionConnector",
     "OfficialRenderedSessionTransport",
@@ -137,6 +153,7 @@ __all__ = [
     "ScraperResult",
     "ScraperResultCode",
     "SignalUse",
+    "SourceOutageImpact",
     "SourcePolicyState",
     "SourceRegistry",
     "StdlibOfficialHttpTransport",
@@ -149,5 +166,7 @@ __all__ = [
     "assess_official_source_build",
     "bind_official_endpoint_locator",
     "classify_content",
+    "due_official_source_ids",
+    "due_official_source_profiles",
     "load_hk_legislation_source_register",
 ]

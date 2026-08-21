@@ -128,6 +128,16 @@ and termination proof. A changing inventory during capture triggers a bounded
 clean restart; repeated instability becomes incomplete, never a best-effort
 snapshot.
 
+For a registered complete-inventory source, the scheduler supplies the source
+identity, observation cutoff, and optional prior member fingerprints; it does
+not select the member set. The acquisition worker derives all required member
+identities and versions from the active source register, resolves every member,
+and writes the canonical observation manifest last. A failed member may leave
+isolated response evidence and an explicit incomplete observation manifest, but
+that manifest records `complete=false` and cannot commit or imply a complete
+source package. Only the exact required set with every member admitted may carry
+the complete inventory fingerprint or support no-change.
+
 Redirects cross no unregistered host or scheme. Evidence capture never executes
 active content. ADR 0100 permits a separate isolated Patchright session to
 execute active content for non-controlling locator and request discovery only;

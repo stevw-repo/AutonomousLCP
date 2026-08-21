@@ -63,6 +63,7 @@ class FakeRunner:
             FakeRequest("POST", "xhr", f"{url}search"),
             FakeRequest("GET", "script", "https://outside.invalid/app.js"),
             FakeRequest("GET", "websocket", f"{url}socket"),
+            FakeRequest("GET", "script", "https://user:secret@flk.npc.gov.cn/private"),
         ):
             route = FakeRoute(request)
             route_handler(route)
@@ -100,8 +101,10 @@ def test_patchright_discovery_is_ephemeral_bounded_and_sanitized() -> None:
     assert response.final_url == endpoint.url
     assert b"observed_requests" in response.body
     assert b"token" not in response.body
+    assert b"user" not in response.body
+    assert b"secret" not in response.body
     assert runner.closed
-    assert [route.continued for route in runner.routes] == [True, False, False, False]
+    assert [route.continued for route in runner.routes] == [True, False, False, False, False]
     discovery = transport.last_discovery
     assert discovery is not None
     assert discovery.rendered_html == b"<html><body>rendered</body></html>"
@@ -122,7 +125,28 @@ def test_only_an_exact_declared_post_path_can_leave_the_browser() -> None:
 
     transport.capture(endpoint=endpoint, url=endpoint.url, timeout_seconds=20)
 
-    assert [route.continued for route in runner.routes] == [True, True, False, False]
+    assert [route.continued for route in runner.routes] == [True, True, False, False, False]
+
+
+def test_observed_request_ceiling_fails_closed() -> None:
+    endpoint = _discovery_endpoint()
+    runner = FakeRunner()
+    transport = PatchrightDiscoveryTransport(
+        PatchrightDiscoveryPolicy(
+            ("flk.npc.gov.cn",),
+            max_observed_requests=2,
+        ),
+        runner=runner,
+    )
+
+    response = transport.capture(endpoint=endpoint, url=endpoint.url, timeout_seconds=20)
+
+    assert response.truncated is True
+    assert b"&quot;truncated&quot;:true" in response.body
+    discovery = transport.last_discovery
+    assert discovery is not None
+    assert len(discovery.observed_requests) == 2
+    assert [route.continued for route in runner.routes] == [True, False, False, False, False]
 
 
 def test_non_discovery_endpoint_fails_before_browser_start() -> None:

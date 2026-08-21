@@ -7,6 +7,7 @@ from hashlib import sha256
 
 from asklegal_contracts import canonicalize
 from asklegal_contracts.json_types import checked_json_value
+from asklegal_corpus import verify_v1_coverage_release_gate
 
 from .model import (
     EmbeddingProfile,
@@ -226,6 +227,12 @@ def freeze_promotion_manifest(plan: PromotionPlan) -> PromotionManifest:
         plan.exact_retirement_target_ids,
         plan.capability_enabled,
     )
+
+
+def freeze_v1_promotion_manifest(plan: PromotionPlan) -> PromotionManifest:
+    """Freeze a V1 promotion only after exact source-cycle release eligibility."""
+    verify_v1_coverage_release_gate(plan.coverage_status)
+    return freeze_promotion_manifest(plan)
 
 
 def verify_promotion_manifest(manifest: PromotionManifest) -> None:

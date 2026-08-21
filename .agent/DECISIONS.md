@@ -3,6 +3,70 @@
 Only settled decisions belong here. Recommendations and unresolved choices stay
 in the design brief and `WORKING_STATE.md` until the user decides them.
 
+## 2026-08-21 — Retain GLD e-Gazette as the V1 current-publication source
+
+The direct `HK-LEG-GLD-EGAZETTE` role remains inside V1 and remains the
+release-blocking source for the earliest official Hong Kong Gazette
+publication. This supersedes the retirement decision immediately below. The
+Government Logistics Department is the Gazette publisher and describes its
+eGazette as the site carrying the Main Gazette, Legal Supplements, Special
+Supplements, Supplement No. 6, and Gazette Extraordinary. Its official notice
+also says the selected legal supplements are *also* available on HKeL “for
+information”; HKeL is therefore not the upstream or earliest-publication source.
+Verified official references on 2026-08-21:
+`https://egazette.gld.gov.hk/en/important-notices` and
+`https://egazette.gld.gov.hk/`.
+
+HKeL Gazette remains in scope as independently captured backcapture, recovery,
+reconciliation, and gap-detection evidence. It must not replace GLD merely
+because it is easier to automate, and its narrower Gazette catalogue must not
+be described as the complete current publication feed.
+
+Scope does not waive the source's technical gate. The Cloudflare Turnstile
+acceptance path must not be bypassed, and V1 is not source-ready until a lawful,
+repeatable acquisition procedure or an explicitly approved bounded manual
+procedure is admitted with completeness and no-change proofs. The existing
+`main` register correctly keeps GLD visible as `PARTIALLY_CONFIGURED`; no code
+from either disposable visual branch is authorized or needed for this decision.
+
+## 2026-08-21 — Retire direct GLD e-Gazette access from V1 — SUPERSEDED
+
+Superseded later on 2026-08-21 by the decision above after distinguishing the
+originating/current-publication source from an archival mirror.
+
+The direct `HK-LEG-GLD-EGAZETTE` connector is outside V1. Its Cloudflare
+Turnstile-gated acceptance path will not be automated, bypassed, or treated as
+a rendered-transport problem. The stable role remains in the source universe as
+`OUT_OF_SCOPE_V1` so its identity and the reason for exclusion stay explicit;
+its endpoints must be disabled in the current `main` implementation.
+
+V1 will use exact Gazette artifacts hosted by HKeL instead of acquiring them
+directly from GLD. This source choice does not by itself prove equivalent legal
+fact authority or complete coverage. Before the HKeL artifacts can replace the
+release-blocking event-evidence role assigned to GLD by ADRs 0025 and 0032, the
+current branch must independently prove the exact artifact relationship and a
+complete reproducible inventory for every Gazette class V1 relies on, including
+ordinary and Extraordinary publications and any required Main Gazette notices.
+The accepted Gazette ADRs and source rulebook must then be amended on `main`.
+Until that proof passes, HKeL Gazette remains discovery/backcapture evidence and
+the full Hong Kong Legislation package remains `NOT_READY`.
+
+## 2026-08-21 — Disposable visual branches are informational only
+
+`v1-poc-runtime-proven` was used only for visual demonstrations and is not an
+implementation source. No code, patch, fixture, contract, or configuration may
+be imported or cherry-picked from it. Independently useful discovery
+observations may be considered only as non-authoritative information and must be
+re-derived, implemented, and verified on `main`.
+
+The same rule applies to the disposable `demo/expo-source-transformation`
+detour. Its existing GLD-retirement diff is evidence of the intended decision,
+now superseded by the retained-source decision above, and is not reusable
+implementation. Verified on 2026-08-21: the local
+`v1-poc-runtime-proven` ref is an ancestor of `main`, has no unique commits, and
+is 28 commits behind; its durable useful findings are already preserved in
+current history or continuity records.
+
 ## 2026-08-19 — Register slice is live; HostNameInCertificate is ignored under Encrypt=Strict
 
 SQL Server 2025 now runs as a real service on this host: on the

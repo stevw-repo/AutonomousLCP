@@ -13,6 +13,7 @@ from urllib.parse import urlsplit
 
 from asklegal_contracts import canonicalize, parse_json_bytes
 from asklegal_contracts.json_types import checked_json_value
+from asklegal_domain import SourceOutageImpact
 
 from .model import HttpMethod, exact_identifier, exact_string_tuple, exact_text
 
@@ -208,6 +209,7 @@ class OfficialSourceProfile:
     endpoint_ids: tuple[str, ...]
     rights_state: PublisherRightsState
     operational_state: OfficialSourceState
+    outage_impact: SourceOutageImpact
     rights_evidence_ids: tuple[str, ...]
     blockers: tuple[str, ...]
 
@@ -222,6 +224,8 @@ class OfficialSourceProfile:
             raise TypeError("rights_state must be an exact PublisherRightsState")
         if type(self.operational_state) is not OfficialSourceState:
             raise TypeError("operational_state must be an exact OfficialSourceState")
+        if type(self.outage_impact) is not SourceOutageImpact:
+            raise TypeError("outage_impact must be an exact SourceOutageImpact")
         exact_string_tuple(self.rights_evidence_ids, "rights_evidence_ids")
         if type(self.blockers) is not tuple or any(
             type(item) is not str or not item for item in self.blockers
@@ -505,6 +509,7 @@ def _parse_source(document: dict[str, JsonValue]) -> OfficialSourceProfile:
                 "endpoint_ids",
                 "rights_state",
                 "operational_state",
+                "outage_impact",
                 "rights_evidence_ids",
                 "blockers",
             }
@@ -518,6 +523,7 @@ def _parse_source(document: dict[str, JsonValue]) -> OfficialSourceProfile:
         _strings(document["endpoint_ids"], "endpoint_ids"),
         PublisherRightsState(_string(document["rights_state"], "rights_state")),
         OfficialSourceState(_string(document["operational_state"], "operational_state")),
+        SourceOutageImpact(_string(document["outage_impact"], "outage_impact")),
         _strings(document["rights_evidence_ids"], "rights_evidence_ids"),
         _optional_strings(document["blockers"], "blockers"),
     )

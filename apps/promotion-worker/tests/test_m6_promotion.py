@@ -9,14 +9,17 @@ import pytest
 from asklegal_contracts import SchemaRegistry, fingerprint
 from asklegal_contracts.json_types import checked_json_value
 from asklegal_corpus import (
+    CorpusError,
     CorpusReleaseInput,
     CoverageScopeStatus,
     CoverageState,
     CoverageWarning,
     ServingRecord,
+    SourceCoverageCycleBinding,
     compose_desired_state,
     freeze_corpus_release,
     freeze_coverage_status,
+    freeze_v1_coverage_status,
 )
 from asklegal_management_register_ports import (
     ApprovalError,
@@ -47,6 +50,7 @@ from asklegal_promotion import (
     embedding_request,
     freeze_embedding_profile,
     freeze_promotion_manifest,
+    freeze_v1_promotion_manifest,
     pinecone_index_name,
 )
 from asklegal_promotion_worker import (
@@ -144,6 +148,67 @@ def _manifest(
             capability_enabled=True,
         )
     )
+
+
+def _plan_from_manifest(manifest: PromotionManifest) -> PromotionPlan:
+    """Rebuild one immutable plan so the alternate V1 freeze can be exercised."""
+    return PromotionPlan(
+        manifest.environment,
+        manifest.jurisdiction,
+        manifest.freeze_date,
+        manifest.valid_from,
+        manifest.valid_until,
+        manifest.base_serving_state_id,
+        manifest.candidate_serving_state_id,
+        manifest.candidate_serving_state_fingerprint,
+        manifest.rollback_serving_state_id,
+        manifest.desired_state,
+        manifest.coverage_status,
+        manifest.embedding_profile,
+        manifest.validity_predicates,
+        manifest.batch_size,
+        manifest.project_id,
+        manifest.action_ids,
+        manifest.exact_retirement_target_ids,
+        manifest.capability_enabled,
+    )
+
+
+def test_v1_manifest_freeze_requires_complete_nonblocking_source_cycle() -> None:
+    """The V1 promotion envelope cannot omit or bypass source-cycle eligibility."""
+    legacy = _manifest()
+    with pytest.raises(CorpusError, match="source cycle missing"):
+        freeze_v1_promotion_manifest(_plan_from_manifest(legacy))
+
+    cycle = SourceCoverageCycleBinding(
+        vault="PRIMARY",
+        logical_key="poc/report/source-coverage-cycle/full_periodic/" + "a" * 64,
+        version_id="v" + "b" * 64,
+        fingerprint="sha256:" + "a" * 64,
+        byte_length=1024,
+        observation_cutoff=_NOW,
+        accounting_complete=True,
+        release_blocking=False,
+        missing_source_ids=(),
+        duplicate_source_ids=(),
+        gap_source_ids=(),
+    )
+    coverage = freeze_v1_coverage_status(
+        _CANDIDATE,
+        _NOW,
+        ("scope-a",),
+        (
+            CoverageScopeStatus(
+                "scope-a", CoverageState.CURRENT, _NOW, (), (), (), CoverageWarning.NONE
+            ),
+        ),
+        cycle,
+    )
+    frozen = freeze_v1_promotion_manifest(
+        replace(_plan_from_manifest(legacy), coverage_status=coverage)
+    )
+
+    assert frozen.coverage_status.source_cycle == cycle
 
 
 def _approval(

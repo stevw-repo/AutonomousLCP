@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+import re
 from collections.abc import Mapping, Sequence
 from hashlib import sha256
 
-from asklegal_contracts import canonicalize
-from asklegal_contracts.json_types import checked_json_value
+from asklegal_contracts import ContractViolation, canonicalize
+from asklegal_contracts.json_types import JsonValue, checked_json_value
 
 from .model import (
     CorpusError,
@@ -24,6 +25,7 @@ from .model import (
     ProposalPackageInput,
     ReleaseRecordEntry,
     ServingRecord,
+    SourceCoverageCycleBinding,
 )
 
 PROPOSAL_ROLE_PATHS: dict[str, str] = {
@@ -214,6 +216,8 @@ def freeze_coverage_status(
     observation_cutoff: str,
     expected_scope_ids: tuple[str, ...],
     statuses: Sequence[CoverageScopeStatus],
+    *,
+    source_cycle: SourceCoverageCycleBinding | None = None,
 ) -> CoverageStatusManifest:
     """Freeze complete fail-visible coverage for every required scope."""
     ordered = tuple(sorted(statuses, key=lambda item: item.scope_id))
@@ -229,7 +233,9 @@ def freeze_coverage_status(
             or (item.status is not CoverageState.CURRENT and evidence_count == 0)
         ):
             raise CorpusError(CorpusErrorCode.COVERAGE_INCOMPLETE, item.scope_id)
-    body = {
+    if source_cycle is not None:
+        _validate_source_cycle_binding(source_cycle, observation_cutoff)
+    body: dict[str, object] = {
         "observation_cutoff": observation_cutoff,
         "scopes": [
             {
@@ -245,6 +251,8 @@ def freeze_coverage_status(
         ],
         "serving_state_id": serving_state_id,
     }
+    if source_cycle is not None:
+        body["source_cycle"] = _source_cycle_body(source_cycle)
     content = _canonical(body)
     fingerprint = _fingerprint(content)
     return CoverageStatusManifest(
@@ -252,9 +260,180 @@ def freeze_coverage_status(
         serving_state_id,
         observation_cutoff,
         ordered,
+        source_cycle,
         content,
         fingerprint,
     )
+
+
+def freeze_v1_coverage_status(
+    serving_state_id: str,
+    observation_cutoff: str,
+    expected_scope_ids: tuple[str, ...],
+    statuses: Sequence[CoverageScopeStatus],
+    source_cycle: SourceCoverageCycleBinding,
+) -> CoverageStatusManifest:
+    """Freeze V1 coverage while surfacing a blocking or incomplete source cycle."""
+    _validate_source_cycle_binding(source_cycle, observation_cutoff)
+    source_blocked = not source_cycle.accounting_complete or source_cycle.release_blocking
+    normalized = tuple(statuses)
+    if source_blocked:
+        source_reference = _source_cycle_reference(source_cycle)
+        normalized = tuple(
+            CoverageScopeStatus(
+                scope_id=status.scope_id,
+                status=CoverageState.NOT_READY,
+                last_verified_at=status.last_verified_at,
+                gap_refs=status.gap_refs,
+                quarantine_refs=status.quarantine_refs,
+                source_failure_refs=tuple(sorted({*status.source_failure_refs, source_reference})),
+                warning=CoverageWarning.NOT_READY,
+            )
+            for status in statuses
+        )
+    return freeze_coverage_status(
+        serving_state_id,
+        observation_cutoff,
+        expected_scope_ids,
+        normalized,
+        source_cycle=source_cycle,
+    )
+
+
+def verify_v1_coverage_release_gate(manifest: CoverageStatusManifest) -> None:
+    """Reject release activation without one complete nonblocking exact source cycle."""
+    if type(manifest) is not CoverageStatusManifest or manifest.source_cycle is None:
+        raise CorpusError(CorpusErrorCode.COVERAGE_INCOMPLETE, "source cycle missing")
+    _validate_source_cycle_binding(manifest.source_cycle, manifest.observation_cutoff)
+    if not manifest.source_cycle.accounting_complete:
+        raise CorpusError(CorpusErrorCode.COVERAGE_INCOMPLETE, "source cycle accounting")
+    if manifest.source_cycle.release_blocking:
+        raise CorpusError(CorpusErrorCode.COVERAGE_INCOMPLETE, "source cycle blocking")
+
+
+def _validate_source_cycle_binding(
+    source_cycle: SourceCoverageCycleBinding,
+    observation_cutoff: str,
+) -> None:
+    if type(source_cycle) is not SourceCoverageCycleBinding:
+        raise CorpusError(CorpusErrorCode.COVERAGE_INCOMPLETE, "source cycle type")
+    if (
+        source_cycle.vault != "PRIMARY"
+        or not source_cycle.logical_key.startswith("poc/report/source-coverage-cycle/")
+        or not source_cycle.version_id
+        or re.fullmatch(r"sha256:[0-9a-f]{64}", source_cycle.fingerprint) is None
+        or source_cycle.byte_length < 1
+        or source_cycle.observation_cutoff != observation_cutoff
+        or type(source_cycle.accounting_complete) is not bool
+        or type(source_cycle.release_blocking) is not bool
+    ):
+        raise CorpusError(CorpusErrorCode.COVERAGE_INCOMPLETE, "source cycle identity")
+    for values in (
+        source_cycle.missing_source_ids,
+        source_cycle.duplicate_source_ids,
+        source_cycle.gap_source_ids,
+    ):
+        if (
+            type(values) is not tuple
+            or values != tuple(sorted(set(values)))
+            or any(type(value) is not str or not value for value in values)
+        ):
+            raise CorpusError(CorpusErrorCode.COVERAGE_INCOMPLETE, "source cycle sources")
+    incomplete_ids = source_cycle.missing_source_ids + source_cycle.duplicate_source_ids
+    if source_cycle.accounting_complete == bool(incomplete_ids):
+        raise CorpusError(CorpusErrorCode.COVERAGE_INCOMPLETE, "source cycle accounting drift")
+
+
+def _source_cycle_body(source_cycle: SourceCoverageCycleBinding) -> dict[str, object]:
+    return {
+        "accounting_complete": source_cycle.accounting_complete,
+        "byte_length": source_cycle.byte_length,
+        "duplicate_source_ids": list(source_cycle.duplicate_source_ids),
+        "fingerprint": source_cycle.fingerprint,
+        "gap_source_ids": list(source_cycle.gap_source_ids),
+        "logical_key": source_cycle.logical_key,
+        "missing_source_ids": list(source_cycle.missing_source_ids),
+        "observation_cutoff": source_cycle.observation_cutoff,
+        "release_blocking": source_cycle.release_blocking,
+        "vault": source_cycle.vault,
+        "version_id": source_cycle.version_id,
+    }
+
+
+def _source_cycle_reference(source_cycle: SourceCoverageCycleBinding) -> str:
+    return (
+        f"{source_cycle.vault}:{source_cycle.logical_key}@{source_cycle.version_id}"
+        f"#{source_cycle.fingerprint}:{source_cycle.byte_length}"
+    )
+
+
+def source_coverage_cycle_binding_from_json(value: object) -> SourceCoverageCycleBinding:
+    """Parse the exact acquisition-worker handoff into the corpus boundary type."""
+    try:
+        document = checked_json_value(value)
+    except ContractViolation as error:
+        raise CorpusError(
+            CorpusErrorCode.COVERAGE_INCOMPLETE,
+            "source cycle handoff",
+        ) from error
+    expected = {
+        "accounting_complete",
+        "byte_length",
+        "duplicate_source_ids",
+        "fingerprint",
+        "gap_source_ids",
+        "logical_key",
+        "missing_source_ids",
+        "observation_cutoff",
+        "release_blocking",
+        "vault",
+        "version_id",
+    }
+    if not isinstance(document, dict) or set(document) != expected:
+        raise CorpusError(CorpusErrorCode.COVERAGE_INCOMPLETE, "source cycle handoff")
+    binding = SourceCoverageCycleBinding(
+        _json_text(document, "vault"),
+        _json_text(document, "logical_key"),
+        _json_text(document, "version_id"),
+        _json_text(document, "fingerprint"),
+        _json_integer(document, "byte_length"),
+        _json_text(document, "observation_cutoff"),
+        _json_boolean(document, "accounting_complete"),
+        _json_boolean(document, "release_blocking"),
+        _json_strings(document, "missing_source_ids"),
+        _json_strings(document, "duplicate_source_ids"),
+        _json_strings(document, "gap_source_ids"),
+    )
+    _validate_source_cycle_binding(binding, binding.observation_cutoff)
+    return binding
+
+
+def _json_text(document: dict[str, JsonValue], field: str) -> str:
+    value = document.get(field)
+    if type(value) is not str or not value:
+        raise CorpusError(CorpusErrorCode.COVERAGE_INCOMPLETE, field)
+    return value
+
+
+def _json_integer(document: dict[str, JsonValue], field: str) -> int:
+    value = document.get(field)
+    if type(value) is not int:
+        raise CorpusError(CorpusErrorCode.COVERAGE_INCOMPLETE, field)
+    return value
+
+
+def _json_boolean(document: dict[str, JsonValue], field: str) -> bool:
+    value = document.get(field)
+    if type(value) is not bool:
+        raise CorpusError(CorpusErrorCode.COVERAGE_INCOMPLETE, field)
+    return value
+
+
+def _json_strings(document: dict[str, JsonValue], field: str) -> tuple[str, ...]:
+    value = document.get(field)
+    if not isinstance(value, list) or any(type(item) is not str for item in value):
+        raise CorpusError(CorpusErrorCode.COVERAGE_INCOMPLETE, field)
+    return tuple(item for item in value if type(item) is str)
 
 
 def freeze_proposal_package(

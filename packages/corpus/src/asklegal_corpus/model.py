@@ -123,6 +123,23 @@ class CoverageScopeStatus:
 
 
 @dataclass(frozen=True, slots=True)
+class SourceCoverageCycleBinding:
+    """Exact acquired source-cycle result bound into V1 coverage authority."""
+
+    vault: str
+    logical_key: str
+    version_id: str
+    fingerprint: str
+    byte_length: int
+    observation_cutoff: str
+    accounting_complete: bool
+    release_blocking: bool
+    missing_source_ids: tuple[str, ...]
+    duplicate_source_ids: tuple[str, ...]
+    gap_source_ids: tuple[str, ...]
+
+
+@dataclass(frozen=True, slots=True)
 class CoverageStatusManifest:
     """Complete coverage state bound into one Serving State."""
 
@@ -130,6 +147,7 @@ class CoverageStatusManifest:
     serving_state_id: str
     observation_cutoff: str
     scopes: tuple[CoverageScopeStatus, ...]
+    source_cycle: SourceCoverageCycleBinding | None
     canonical_bytes: bytes
     fingerprint: str
 

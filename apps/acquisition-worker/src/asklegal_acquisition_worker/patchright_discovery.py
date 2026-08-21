@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from html import escape
 from json import dumps
 from typing import Protocol
-from urllib.parse import urlsplit
+from urllib.parse import SplitResult, urlsplit
 
 from asklegal_source_connectors import (
     EndpointAccessMode,
@@ -261,8 +261,10 @@ class PatchrightDiscoveryTransport:
         """Execute one exact discovery page without persisting browser state."""
         _validate_discovery_request(endpoint, url, timeout_seconds, self.policy)
         observations: list[PatchrightObservedRequest] = []
+        observation_limit_exceeded = False
 
         def handle_route(route: _Route) -> None:
+            nonlocal observation_limit_exceeded
             request = route.request
             allowed = _browser_request_allowed(request, self.policy)
             if len(observations) < self.policy.max_observed_requests:
@@ -275,6 +277,7 @@ class PatchrightDiscoveryTransport:
                     )
                 )
             else:
+                observation_limit_exceeded = True
                 allowed = False
             if allowed:
                 route.continue_()
@@ -294,7 +297,7 @@ class PatchrightDiscoveryTransport:
                 final_url,
                 body,
                 tuple(observations),
-                truncated,
+                truncated or observation_limit_exceeded,
             )
         except OfficialTransportFailure:
             raise
@@ -337,7 +340,7 @@ def _validate_discovery_request(
     if (
         parsed.scheme != "https"
         or parsed.hostname not in policy.allowed_hosts
-        or parsed.port not in {None, 443}
+        or _safe_port(parsed) not in {None, 443}
         or parsed.username
         or parsed.password
         or parsed.fragment
@@ -357,7 +360,7 @@ def _browser_request_allowed(
         method_allowed
         and parsed.scheme == "https"
         and parsed.hostname in policy.allowed_hosts
-        and parsed.port in {None, 443}
+        and _safe_port(parsed) in {None, 443}
         and not parsed.username
         and not parsed.password
         and not parsed.fragment
@@ -367,10 +370,28 @@ def _browser_request_allowed(
 
 def _sanitized_url(url: str) -> str:
     parsed = urlsplit(url)
-    return parsed._replace(query="", fragment="").geturl()
+    host = parsed.hostname
+    port = _safe_port(parsed)
+    if host is None or port == -1:
+        return ""
+    authority = host if port is None else f"{host}:{port}"
+    return parsed._replace(netloc=authority, query="", fragment="").geturl()
+
+
+def _safe_port(parsed: SplitResult) -> int | None:
+    try:
+        return parsed.port
+    except ValueError:
+        return -1
 
 
 def _discovery_summary(discovery: PatchrightDiscovery) -> bytes:
+    observed_requests = tuple(
+        sorted(
+            discovery.observed_requests,
+            key=lambda item: (item.method, item.url, item.resource_type, item.allowed),
+        )
+    )
     payload = dumps(
         {
             "final_url": _sanitized_url(discovery.final_url),
@@ -381,9 +402,10 @@ def _discovery_summary(discovery: PatchrightDiscovery) -> bytes:
                     "resource_type": item.resource_type,
                     "url": item.url,
                 }
-                for item in discovery.observed_requests
+                for item in observed_requests
             ],
             "status_code": discovery.status_code,
+            "truncated": discovery.truncated,
         },
         ensure_ascii=True,
         separators=(",", ":"),

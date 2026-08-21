@@ -21,13 +21,18 @@ import json
 import re
 import time
 from dataclasses import dataclass
+from enum import StrEnum
 from typing import TYPE_CHECKING, Protocol
 from urllib.parse import urlencode
+
+from asklegal_contracts import ContractViolation, parse_json_bytes
 
 from .official_http import OfficialTransportFailure, PublisherCall
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
+
+    from asklegal_contracts.json_types import JsonValue
 
 GAZETTE_HOST = "www.elegislation.gov.hk"
 GAZETTE_PATH = "/gazette"
@@ -51,6 +56,7 @@ _PDF_LANGUAGES = (ENGLISH, TRADITIONAL_CHINESE)
 _DATE_PATTERN = re.compile(r"\d{2}/\d{2}/\d{4}")
 _DEFAULT_ATTEMPTS = 3
 _DEFAULT_BACKOFF_SECONDS = 20.0
+_MAX_GRID_REPLY_BYTES = 5_000_000
 
 CAPABILITY_CLAIM: dict[str, str] = {
     "OS": "Linux",
@@ -85,8 +91,31 @@ class PublisherExchange(Protocol):
         ...
 
 
+class GazetteRegisterFailureCode(StrEnum):
+    """Closed failure outcomes for one Gazette register operation."""
+
+    INVALID_REQUEST = "INVALID_REQUEST"
+    SOURCE_UNAVAILABLE = "SOURCE_UNAVAILABLE"
+    SOURCE_CONTRACT_CHANGED = "SOURCE_CONTRACT_CHANGED"
+    INCOMPLETE_OBSERVATION = "INCOMPLETE_OBSERVATION"
+
+
 class GazetteRegisterError(RuntimeError):
-    """One exact gazette-register failure, safe to log."""
+    """One coded gazette-register failure, safe to persist and log."""
+
+    def __init__(self, code: GazetteRegisterFailureCode, message: str) -> None:
+        """Bind one closed failure code to a sanitized diagnostic message."""
+        if type(code) is not GazetteRegisterFailureCode:
+            raise TypeError("code must be an exact GazetteRegisterFailureCode")
+        self.code = code
+        super().__init__(message)
+
+
+def _reply_failure_code(status: int) -> GazetteRegisterFailureCode:
+    """Distinguish a transient publisher outage from contract/access drift."""
+    if 500 <= status <= 599:
+        return GazetteRegisterFailureCode.SOURCE_UNAVAILABLE
+    return GazetteRegisterFailureCode.SOURCE_CONTRACT_CHANGED
 
 
 @dataclass(frozen=True, slots=True)
@@ -124,7 +153,7 @@ class GazetteEntry:
         """
         if language not in _PDF_LANGUAGES:
             message = f"unsupported PDF language: {language}"
-            raise GazetteRegisterError(message)
+            raise GazetteRegisterError(GazetteRegisterFailureCode.INVALID_REQUEST, message)
         published = {
             ENGLISH: self.has_english_pdf,
             TRADITIONAL_CHINESE: self.has_chinese_pdf,
@@ -155,20 +184,24 @@ class GazettePage:
         return self.page_number < self.last_page
 
 
-def _rows_to_entries(payload: dict[str, object]) -> tuple[GazetteEntry, ...]:
+def _rows_to_entries(payload: dict[str, JsonValue]) -> tuple[GazetteEntry, ...]:
     columns = payload.get("columns")
     rows = payload.get("rowData")
-    if not isinstance(columns, list) or not isinstance(rows, list):
+    if (
+        not isinstance(columns, list)
+        or any(type(name) is not str for name in columns)
+        or not isinstance(rows, list)
+    ):
         message = "grid reply has no columns or rowData"
-        raise GazetteRegisterError(message)
-    index = {str(name): position for position, name in enumerate(columns)}
+        raise GazetteRegisterError(GazetteRegisterFailureCode.SOURCE_CONTRACT_CHANGED, message)
+    index = {name: position for position, name in enumerate(columns) if type(name) is str}
     required = ("GAZETTE_ID", "VIRTUAL_URL", "GAZETTE_DATE")
     missing = [name for name in required if name not in index]
     if missing:
         message = f"grid reply is missing columns: {', '.join(missing)}"
-        raise GazetteRegisterError(message)
+        raise GazetteRegisterError(GazetteRegisterFailureCode.SOURCE_CONTRACT_CHANGED, message)
 
-    def cell(row: list[object], name: str) -> str:
+    def cell(row: list[JsonValue], name: str) -> str:
         position = index.get(name)
         if position is None or position >= len(row):
             return ""
@@ -198,6 +231,15 @@ def _rows_to_entries(payload: dict[str, object]) -> tuple[GazetteEntry, ...]:
     return tuple(entries)
 
 
+def _paging_integer(payload: dict[str, JsonValue], field: str, default: int) -> int:
+    """Read one exact integer paging field without accepting coercible values."""
+    value = payload.get(field, default)
+    if type(value) is not int:
+        message = f"grid reply {field} must be an exact integer"
+        raise GazetteRegisterError(GazetteRegisterFailureCode.SOURCE_CONTRACT_CHANGED, message)
+    return value
+
+
 class HkelGazetteRegisterClient:
     """Read the gazette register through its own grid API."""
 
@@ -218,10 +260,10 @@ class HkelGazetteRegisterClient:
         """
         if not 1 <= page_size <= _MAX_PAGE_SIZE:
             message = f"page_size must be between 1 and {_MAX_PAGE_SIZE}"
-            raise GazetteRegisterError(message)
+            raise GazetteRegisterError(GazetteRegisterFailureCode.INVALID_REQUEST, message)
         if attempts < 1:
             message = "attempts must be at least one"
-            raise GazetteRegisterError(message)
+            raise GazetteRegisterError(GazetteRegisterFailureCode.INVALID_REQUEST, message)
         self._transport = transport
         self._page_size = page_size
         self._attempts = attempts
@@ -237,25 +279,43 @@ class HkelGazetteRegisterClient:
         without the one its own page issued.
         """
         query = urlencode(CAPABILITY_CLAIM)
-        status, _, cookies = self._transport.exchange(
-            PublisherCall(GAZETTE_HOST, "GET", f"{CLIENT_CHECK_PATH}?{query}"),
-            self._cookies,
-        )
+        try:
+            status, _, cookies = self._transport.exchange(
+                PublisherCall(GAZETTE_HOST, "GET", f"{CLIENT_CHECK_PATH}?{query}"),
+                self._cookies,
+            )
+        except OfficialTransportFailure as error:
+            message = "client check transport failed"
+            raise GazetteRegisterError(
+                GazetteRegisterFailureCode.SOURCE_UNAVAILABLE,
+                message,
+            ) from error
         self._cookies = cookies
-        status, body, cookies = self._transport.exchange(
-            PublisherCall(GAZETTE_HOST, "GET", f"{GAZETTE_PATH}?{query}"),
-            self._cookies,
-        )
+        if status != 200:
+            message = f"client check returned HTTP {status}"
+            raise GazetteRegisterError(_reply_failure_code(status), message)
+        try:
+            status, body, cookies = self._transport.exchange(
+                PublisherCall(GAZETTE_HOST, "GET", f"{GAZETTE_PATH}?{query}"),
+                self._cookies,
+            )
+        except OfficialTransportFailure as error:
+            message = "gazette page transport failed"
+            raise GazetteRegisterError(
+                GazetteRegisterFailureCode.SOURCE_UNAVAILABLE,
+                message,
+            ) from error
         self._cookies = cookies
         if status != 200:
             message = f"gazette page returned HTTP {status}"
-            raise GazetteRegisterError(message)
+            raise GazetteRegisterError(_reply_failure_code(status), message)
         found = _CSRF_PATTERN.search(body.decode("utf-8", "replace"))
         if found is None:
             message = "gazette page issued no csrfToken"
-            raise GazetteRegisterError(message)
-        self._csrf = found.group(1)
-        return self._csrf
+            raise GazetteRegisterError(GazetteRegisterFailureCode.SOURCE_CONTRACT_CHANGED, message)
+        token = found.group(1)
+        self._csrf = token
+        return token
 
     @property
     def session_cookies(self) -> dict[str, str]:
@@ -275,7 +335,7 @@ class HkelGazetteRegisterClient:
     ) -> bytes:
         if self._csrf is None:
             message = "open_session must run before the grid is called"
-            raise GazetteRegisterError(message)
+            raise GazetteRegisterError(GazetteRegisterFailureCode.INVALID_REQUEST, message)
         return json.dumps(
             {
                 "gridId": "GAZETTE_REGISTER_LIST",
@@ -329,27 +389,50 @@ class HkelGazetteRegisterClient:
         """Read one page of the register, optionally bounded by gazettal date."""
         if page_number < 1:
             message = "page_number starts at 1"
-            raise GazetteRegisterError(message)
+            raise GazetteRegisterError(GazetteRegisterFailureCode.INVALID_REQUEST, message)
         for label, value in (("date_from", date_from), ("date_to", date_to)):
             if value and _DATE_PATTERN.fullmatch(value) is None:
                 message = f"{label} must be DD/MM/YYYY"
-                raise GazetteRegisterError(message)
+                raise GazetteRegisterError(GazetteRegisterFailureCode.INVALID_REQUEST, message)
         status, body, cookies = self._grid_exchange(page_number, date_from, date_to)
         self._cookies = cookies
         if status != 200:
             message = f"grid returned HTTP {status} on page {page_number}"
-            raise GazetteRegisterError(message)
-        payload = json.loads(body)
+            raise GazetteRegisterError(_reply_failure_code(status), message)
+        try:
+            payload = parse_json_bytes(body, max_bytes=_MAX_GRID_REPLY_BYTES)
+        except ContractViolation as error:
+            message = "grid reply was not valid JSON"
+            raise GazetteRegisterError(
+                GazetteRegisterFailureCode.SOURCE_CONTRACT_CHANGED,
+                message,
+            ) from error
         if not isinstance(payload, dict):
             message = "grid reply was not a JSON object"
-            raise GazetteRegisterError(message)
-        return GazettePage(
-            entries=_rows_to_entries(payload),
-            page_number=page_number,
-            first_page=int(payload.get("firstPage", 1) or 1),
-            last_page=int(payload.get("lastPage", 1) or 1),
-            row_offset=int(payload.get("rowOffset", 0) or 0),
-        )
+            raise GazetteRegisterError(GazetteRegisterFailureCode.SOURCE_CONTRACT_CHANGED, message)
+        try:
+            first_page = _paging_integer(payload, "firstPage", 1)
+            last_page = _paging_integer(payload, "lastPage", 1)
+            row_offset = _paging_integer(payload, "rowOffset", 0)
+            if first_page < 1 or last_page < first_page or row_offset < 0:
+                message = "grid reply has out-of-range paging fields"
+                raise GazetteRegisterError(
+                    GazetteRegisterFailureCode.SOURCE_CONTRACT_CHANGED,
+                    message,
+                )
+            return GazettePage(
+                entries=_rows_to_entries(payload),
+                page_number=page_number,
+                first_page=first_page,
+                last_page=last_page,
+                row_offset=row_offset,
+            )
+        except (TypeError, ValueError) as error:
+            message = "grid reply has invalid paging fields"
+            raise GazetteRegisterError(
+                GazetteRegisterFailureCode.SOURCE_CONTRACT_CHANGED,
+                message,
+            ) from error
 
     def _grid_exchange(
         self,
@@ -386,7 +469,10 @@ class HkelGazetteRegisterClient:
                 self._csrf = None
                 self.open_session()
         message = f"grid transport failed on page {page_number} after {self._attempts} attempts"
-        raise GazetteRegisterError(message) from last
+        raise GazetteRegisterError(
+            GazetteRegisterFailureCode.SOURCE_UNAVAILABLE,
+            message,
+        ) from last
 
     def iter_entries(
         self,
@@ -407,12 +493,39 @@ class HkelGazetteRegisterClient:
         past dates returns the same rows every time, which is what makes a capture
         repeatable and a completeness claim meaningful.
         """
+        if max_pages is not None and (type(max_pages) is not int or max_pages < 1):
+            message = "max_pages must be a positive exact integer or None"
+            raise GazetteRegisterError(GazetteRegisterFailureCode.INVALID_REQUEST, message)
         page_number = 1
         while True:
             page = self.page(page_number, date_from, date_to)
+            if max_pages is not None and page.last_page > max_pages:
+                message = (
+                    "gazette grid incomplete: "
+                    f"page limit {max_pages} is below publisher last page {page.last_page}"
+                )
+                raise GazetteRegisterError(
+                    GazetteRegisterFailureCode.INCOMPLETE_OBSERVATION,
+                    message,
+                )
             yield from page.entries
-            if not page.entries or not page.has_more:
+            if not page.entries:
+                if page.has_more:
+                    message = (
+                        "gazette grid incomplete: "
+                        f"page {page.page_number} was empty before last page {page.last_page}"
+                    )
+                    raise GazetteRegisterError(
+                        GazetteRegisterFailureCode.INCOMPLETE_OBSERVATION,
+                        message,
+                    )
+                return
+            if not page.has_more:
                 return
             page_number += 1
             if max_pages is not None and page_number > max_pages:
-                return
+                message = f"gazette grid incomplete: page limit {max_pages} was exhausted"
+                raise GazetteRegisterError(
+                    GazetteRegisterFailureCode.INCOMPLETE_OBSERVATION,
+                    message,
+                )

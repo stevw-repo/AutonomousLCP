@@ -101,6 +101,13 @@ paging.
 
 Twenty `pkValues` were returned for `pageSize: 20`, so the page size is honoured.
 
+The implemented iterator accepts an operational `max_pages` safety cap, but the
+cap is not a completeness boundary. If the publisher reports a later page beyond
+that cap, enumeration fails explicitly before the first page's rows are yielded;
+it never returns a short successful result. The acquisition activity materializes
+the complete bounded listing before retaining any addressed PDF or writing the
+canonical listing manifest.
+
 ## 4. The artifact locator
 
 Row data is positional, described by the response's own `columns`:
@@ -153,10 +160,29 @@ markup was dumped and read directly.
 while `GAZETTE_TITLE_ENG` and `GAZETTE_TITLE_CHI` carried the titles, which is why
 the grid's `controls` name a `generateGazetteName` function for that column.
 
-## 5. What this does not settle
+### Artifact binding boundary
 
-- whether `lastPage` is stable enough to define completeness, or whether a
-  date-bounded query is needed to make a run reproducible
+The grid's `VIRTUAL_URL` remains publisher data, not trusted URL syntax. The
+worker accepts only the declared `hk/` shape and supplies the suffix after that
+prefix to the endpoint's single `{gazette_artifact_locator}` placeholder. The
+ordinary inert connector then uses the repository's shared bounded-locator
+contract. It requires exactly one declared placeholder and one relative locator;
+it rejects a missing/extra substitution, absolute or empty path, leading or
+trailing slash, empty or traversal segment, query, fragment, backslash, braces,
+credentials, and any scheme/host/port change. Percent escapes in publisher data
+are encoded again so they remain data rather than downstream path syntax.
+
+An out-of-shape publisher locator is durable `SOURCE_CONTRACT_CHANGED` and is
+never fetched. This validation is part of artifact addressing; it does not turn
+the grid response itself into evidence.
+
+## 5. Completeness boundary
+
+An unbounded walk is not reproducible because the register grows at the front.
+The implemented completeness unit is one closed past-date window. Every page
+from `firstPage` through the moving `lastPage` must arrive within the operational
+cap; an empty intermediate page, transport failure, or cap exhaustion is not a
+complete result.
 
 Settled since this was written: the project owner decided on 2026-08-19 to assert
 `JS_S=true` and `BR=Chrome`, recorded in `CAPABILITY_CLAIM` with its own note that
@@ -165,8 +191,61 @@ the values are asserted rather than measured. `POST` support went to a separate
 `OfficialHttpConnector`, which stays `GET`/`HEAD` so the inert evidence path is
 unchanged.
 
-The contract is complete and implemented in
-`asklegal_source_connectors.hkel_gazette`. What remains is integration: the
-acquisition worker does not yet enumerate the register and fetch the addressed
-PDFs through the inert connector, and the completeness question above is
-unanswered, so the role stays disabled.
+The contract and date-window acquisition activity are implemented. The role
+remains partial rather than complete because a closed window is the unit proved;
+the repository does not yet have a whole-register coverage policy or scheduled
+operational admission evidence.
+
+## 6. Durable activity outcomes
+
+The worker validates exact `DD/MM/YYYY` calendar dates, `date_from <= date_to`,
+and the selected `en` or `zh-Hant-HK` language before constructing the publisher
+client. Invalid activity input is a task error and has no publisher effect.
+
+Register failures are closed as `SOURCE_UNAVAILABLE`,
+`SOURCE_CONTRACT_CHANGED`, or `INCOMPLETE_OBSERVATION`; the register client also
+has `INVALID_REQUEST`, which the validated worker treats as a task-contract
+error. All three durable register-failure results have no listing manifest and
+no artifacts because complete enumeration precedes retention.
+
+For a completely enumerated listing, every row has one selected-language
+artifact outcome:
+
+| Outcome | Meaning |
+|---|---|
+| `RETAINED` | The admitted inert bytes were retained and read-back verified. |
+| `NOT_PUBLISHED` | The grid's language flag says the publisher issued no artifact in that language. |
+| `SOURCE_UNAVAILABLE` | The addressed source could not be reached within its bounded procedure. |
+| `SOURCE_CONTRACT_CHANGED` | The locator, endpoint, response, or fetch result no longer matches the admitted contract. |
+| `UNSAFE_RESPONSE` | Hostile or disallowed content classification rejected the response. |
+
+The window is `COMPLETE` only when every listed row's selected-language artifact
+is `RETAINED`. Any `NOT_PUBLISHED` or failed artifact makes the window
+`PARTIAL_CAPTURE`, while the complete canonical listing manifest is still
+retained for exact source accounting. Infrastructure/vault failures remain
+fail-closed task failures rather than being mislabeled as publisher outcomes.
+
+## 7. Coverage accounting and outage consequence
+
+Every terminal window result now produces a canonical, fingerprinted source-
+coverage report retained in the Primary evidence vault. The report binds the
+source and source-policy version, exact endpoint set, date/language observation
+key, cutoff, listing-manifest reference where enumeration completed, complete
+row counts, normalized outcome, exact failure codes, and the source's registered
+outage consequence. A partial window preserves the strongest consequence among
+its artifact results: hostile response becomes `QUARANTINE`, contract drift
+becomes `SOURCE_CONTRACT_REVIEW`, and unavailable, incomplete, or merely absent
+selected-language material becomes a visible `COVERAGE_GAP`.
+
+ADR 0032 makes the HKeL Gazette backcapture role `NONBLOCKING`. Its failed or
+partial report therefore does **not** by itself block a fresh release, but the
+gap remains explicit and cannot be converted to `COMPLETE` or no-change. The
+same report machinery applies `RELEASE_BLOCKING` to GLD e-Gazette, which remains
+the originating/current-publication Gazette role. An HKeL report never satisfies
+or substitutes for the due GLD report.
+
+The reporting package can freeze a complete due-source cycle and blocks a
+missing or failed `RELEASE_BLOCKING` source, policy/version drift, or duplicate
+ambiguous accounting. That cycle contract is not yet assembled over every V1
+source activity or carried into the final Coverage Status Manifest; those remain
+explicit HKV1-2/HKV1-8 work.

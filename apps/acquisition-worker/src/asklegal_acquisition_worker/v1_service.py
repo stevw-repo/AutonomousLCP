@@ -33,6 +33,9 @@ from asklegal_acquisition_worker.v1_pipeline import (
     acquire_endpoint,
     acquire_endpoints,
     acquire_gazette_window,
+    acquire_inventory,
+    acquire_rendered_discovery,
+    acquire_source_cycle,
     build_activities,
 )
 
@@ -52,14 +55,20 @@ def _build_serve(
     async def _serve(shutdown: asyncio.Event) -> None:
         """Serve the real task hub until systemd asks the process to stop."""
         activities = build_activities(infrastructure, environment)
-        worker = infrastructure.scheduler.create_worker(
-            concurrency_options=ConcurrencyOptions()
-        )
+        worker = infrastructure.scheduler.create_worker(concurrency_options=ConcurrencyOptions())
         worker.add_activity(activities.capture_endpoint)
         worker.add_activity(activities.capture_gazette_window)
+        worker.add_activity(activities.capture_inventory)
+        worker.add_activity(activities.capture_rendered_discovery)
+        worker.add_activity(activities.plan_source_cycle)
+        worker.add_activity(activities.capture_due_source)
+        worker.add_activity(activities.assemble_source_cycle)
         worker.add_orchestrator(acquire_endpoint)
         worker.add_orchestrator(acquire_endpoints)
         worker.add_orchestrator(acquire_gazette_window)
+        worker.add_orchestrator(acquire_inventory)
+        worker.add_orchestrator(acquire_rendered_discovery)
+        worker.add_orchestrator(acquire_source_cycle)
         worker.start()
         _LOGGER.info(
             "ACQUISITION_WORKER serving hub=%s vault=%s",

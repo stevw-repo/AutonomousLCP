@@ -1,4 +1,4 @@
-# Where the project stands — 2026-08-20
+# Where the project stands — 2026-08-21
 
 Read this first. It is the current short handoff. `WORKING_STATE.md` contains
 the detailed history; `ROADMAP.md` contains the durable delivery sequence.
@@ -7,19 +7,22 @@ the detailed history; `ROADMAP.md` contains the durable delivery sequence.
 
 - Root: `/home/docpro/Desktop/Ask.Legal Database/AskLegal-LegalDBPipeline`
 - Host: `docpro-MS-7D99`, Ubuntu 24.04.4 LTS, x86-64.
-- Branch: `main` at `f4128dc`, one local commit ahead of `origin/main` and not
-  behind after a 2026-08-20 fetch.
+- Branch: `main`; the verified pre-checkpoint base was `c4b3ba2`, equal to the
+  refreshed `origin/main` ref. The 2026-08-21 checkpoint contains the audit,
+  continuity reconciliation, and first six independently built HKV1-2
+  acquisition slices described below.
 - Docker commands in the current login session need `sg docker -c '...'`.
 - `uv` and `node` are under `/home/docpro/.local/bin`.
 
-The working tree was already dirty when the V1 audit began. Preserve this
-active six-field serving-payload fix:
+Commit `c4b3ba2` contains the independently built six-field serving-payload
+change. It is now committed on `main`; the running promotion image is older and
+does not prove that source. The control-plane two-field payload remains
+incompatible with the current promotion source.
 
-- `apps/promotion-worker/src/asklegal_promotion_worker/service.py`
-- `apps/promotion-worker/src/asklegal_promotion_worker/v1_pipeline.py`
-- `packages/promotion/src/asklegal_promotion/{__init__,builder,local,model,remote}.py`
-- `packages/promotion/tests/test_remote_adapters.py`
-- untracked `apps/promotion-worker/tests/test_v1_serving_payload.py`
+`v1-poc-runtime-proven` and `demo/expo-source-transformation` are disposable
+visual branches. Inspect them only for informational discovery leads. Never
+import or cherry-pick their code. The former is an ancestor of `main`, has no
+unique commits, and was 28 commits behind when inspected on 2026-08-21.
 
 ## Fresh audit baseline
 
@@ -28,13 +31,13 @@ the live host.
 
 | Check | Verified result |
 |---|---|
-| Full developer suite | 785 passed, 4 skipped; repeated directly with the same result |
+| Full ordinary pytest suite | 856 passed, 4 skipped after the sixth HKV1-2 slice |
 | Locked package spike | Passed for all 19 workspace packages |
 | Contract validator | Passed; reproducible package fingerprint `sha256:7bd2858bd0099271bc5be1e8d5c380521d81fb15bee8a4110de8fe6629d3094e` |
 | Ruff lint | Passed |
-| Ruff format check | Failed: 17 files would be reformatted; do not auto-format under the current Python 3.12 launcher constraint |
-| Strict Pyright | Failed: 902 errors total; 715 errors are in 52 tracked files |
-| Boundary checker | Passed: 164 files, 12 registered exceptions |
+| Ruff format check | Failed: 13 files would be reformatted; do not broadly auto-format under the current Python 3.12 launcher constraint |
+| Strict Pyright | Failed: 856 errors total; 665 are in tracked Python and 191 are in ignored local runtime files under `var/`; the focused acquisition/Gazette/readiness surface is clean |
+| Boundary checker | Passed: 173 files, 12 registered exceptions |
 | Lock validation | `uv lock --check` passed |
 | Dependency audit | No npm or OSV findings in the locked dependencies |
 | JSON/TOML/shell syntax and Markdown local links | Passed |
@@ -97,7 +100,7 @@ audit. The other three were not re-proved in their dedicated environments.
 
 ### P1 — shipping gates and operational safety
 
-- Strict Pyright is documented as a development boundary but has 715 tracked
+- Strict Pyright is documented as a development boundary but has 713 tracked
   errors, up from the historical 370-error debt, and `tools/dev_test.py` does
   not run Pyright or Ruff. There is no repository CI configuration.
 - Model/embedding requests use zero placeholder prompt, package, profile,
@@ -114,38 +117,79 @@ audit. The other three were not re-proved in their dedicated environments.
 - `.claude/settings.local.json` is tracked and grants broad
   `Bash(sg docker *)` permission. It is machine-local policy and should not be
   part of the shared repository without an explicit decision.
-- The HKeL Gazette acquisition activity caps every request at 50 pages but does
-  not report when the publisher says more pages exist. A sufficiently large date
-  window can therefore produce a partial manifest that looks complete.
-- The publisher-API `exchange` redirect path is recursive without enforcing the
-  transport's declared redirect limit. A same-host redirect loop can run until a
-  Python recursion failure instead of returning a bounded source failure.
+- The HKeL Gazette iterator now rejects page-cap exhaustion and an empty
+  intermediate page as explicit incomplete results. The worker materializes the
+  complete bounded listing before retaining any addressed PDF or listing
+  manifest, so these failures cannot create a short successful window.
+- The publisher-API `exchange` surface now enforces the transport's declared
+  redirect limit and returns `REDIRECT_LIMIT_EXCEEDED` for a same-host loop.
+- Item-specific endpoint templates now require the shared exact bounded-locator
+  contract, including a required single substitution and rejection of authority,
+  query, fragment, traversal, slash, backslash, and template ambiguity.
+- Gazette invalid input fails before publisher-client construction. Register
+  failures and every listed artifact now have closed durable outcomes; a missing
+  selected-language publication or failed artifact makes the window
+  `PARTIAL_CAPTURE`, while an incomplete register walk writes no manifest or
+  artifact.
+- Every terminal HKeL Gazette result now retains a canonical, fingerprinted
+  source-coverage report with exact source policy, cutoff, counts, manifest
+  reference, failure codes, disposition, and blocking consequence. HKeL
+  backcapture gaps remain visible `NONBLOCKING` results and never satisfy the
+  separate `RELEASE_BLOCKING` GLD role.
+- The source-cycle orchestrator derives the exact due roles from the active
+  register, records one immutable terminal report per due role, reads every
+  report back by exact vault reference, and writes the complete cycle report
+  last. Its exact binding now enters the V1 Coverage Status Manifest and blocks
+  release/promotion freeze if accounting is incomplete or a release-blocking
+  role has a gap.
 
 ### P2 — stale records and incomplete readiness
 
 - The source register now contains 79 endpoints, 56 enabled: five configured,
   five partially configured, one blocked, and three out of V1 scope. Older
   references to 78 endpoints and four blocked roles are stale.
+- Direct GLD e-Gazette is retained inside V1 as the originating/current-
+  publication source and earliest official Gazette feed. HKeL Gazette is
+  complementary backcapture, recovery, reconciliation, and gap-detection
+  evidence, not the upstream replacement. GLD remains
+  `PARTIALLY_CONFIGURED`: its Cloudflare Turnstile acceptance path must not be
+  bypassed, and a lawful repeatable or explicitly approved bounded manual
+  procedure still needs completeness and no-change admission evidence.
 - All three executable Hong Kong legal-package scopes remain `NOT_READY`.
-- Of 79 endpoint contracts, 63 have a technical procedure and 16 do not. Only
-  direct HTTP capture and the special HKeL Gazette workflow are wired into the
-  V1 service; the rendered-session, complete-inventory, and Patchright components
-  otherwise remain library/test boundaries rather than schedulable activities.
-- A focused strict-Pyright run over source connectors and the acquisition worker
-  reports 45 errors: 23 in `hkel_gazette.py`, 20 in the V1 acquisition pipeline,
-  one in its infrastructure, and one in `official_http.py`.
+- Of 79 endpoint contracts, 63 have a technical procedure and 16 do not. Direct
+  HTTP, exact complete-inventory, special HKeL Gazette, and reviewed Patchright
+  discovery workflows are wired into the V1 service. The sole catalogue endpoint
+  belongs to the out-of-scope Gazette archive. Required browser-session legal-
+  evidence procedures otherwise remain unwired.
+- Complete-inventory scheduling cannot accept a caller-selected subset. It
+  derives the exact member/version set from the active register, retains admitted
+  members, isolates response-bearing failures, writes attempt accounting last,
+  and emits the source-policy-bound coverage result. Current HKeL inventory means
+  exactly its English and Traditional Chinese XML pair; any failed member is
+  release-blocking. This is deterministic local proof, not a live HKeL capture or
+  evidence that a host timer currently schedules the activity.
+- Rendered discovery accepts no caller URL or browser-policy override and retains
+  only a sanitized request map plus attempt report. Request user-info is removed,
+  and request-count overflow now fails closed. Every result says explicitly that
+  it proves no evidence, completeness, no-change, coverage satisfaction, or
+  processing authority. Current reviewed HKeL/NPC endpoints remain disabled or
+  out of V1, so no browser source became callable and no host Chromium admission
+  was established.
+- The exact focused strict-Pyright run over HKeL Gazette, the acquisition
+  pipeline/infrastructure, and the readiness protocol now reports zero errors,
+  clearing the previously recorded 40-error slice.
 - The README, V1 topology document, formal admission JSON, and parts of the
   roadmap describe the earlier static-contract phase. They must be reconciled
   before being used as V1 operating instructions.
 - `asklegal-local prove --all` is intentionally clean-state-only, but its CLI
   does not explain that reset is required and fails with an unhandled
   `FileExistsError` on a normal second run.
-- Seventeen files have formatting drift. Automatic Ruff formatting remains
+- Thirteen files have formatting drift. Broad automatic Ruff formatting remains
   unsafe while system launchers must parse under Python 3.12.
 
 ## Healthy foundation worth preserving
 
-- The 785-test suite, architecture/boundary checks, package isolation, locked
+- The 856-test suite, architecture/boundary checks, package isolation, locked
   builds, schemas/contracts, and dependency hygiene are healthy.
 - No tracked secrets, corpus dumps, or large runtime artifacts were found.
 - Real source, Azure model/embedding, and Pinecone connectivity were previously
@@ -153,6 +197,11 @@ audit. The other three were not re-proved in their dedicated environments.
   admission or release correctness.
 - The Gazette archive holds 7,274 PDFs for 2000–2026 plus a canonical listing
   manifest; pre-2000 OCR remains deliberately unbuilt.
+- The complete local Hong Kong V1 defined by the accepted design contains four
+  material families: Legislation, binding-court Cases, HKEX Regulatory
+  Materials, and selected licensed Hong Kong Principles. Only the Legislation
+  package has implementation checkpoints; it remains `NOT_READY`. Cases,
+  Regulatory Materials, and Principles have no executable real package today.
 
 ## Recommended dependency order to V1
 

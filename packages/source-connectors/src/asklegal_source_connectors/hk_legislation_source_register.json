@@ -1,11 +1,11 @@
 {
   "schema_id": "https://contracts.asklegal.local/v1/hk-legislation-source-register.schema.json",
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "register_id": "hsr_000000000000000000000000000000000000000000000001",
-  "register_version": "2026-08-18.2",
-  "effective_date": "2026-08-18",
+  "register_version": "2026-08-21.1",
+  "effective_date": "2026-08-21",
   "status": "PARTIALLY_CONFIGURED_FAIL_CLOSED",
-  "fingerprint": "sha256:40e1918882a78a4ef29a095b426cdf20105f77968beee0f0c9ce49689daa0669",
+  "fingerprint": "sha256:93944064e78d314670476758ec4cde7cd042caca2f285858dc906bfb108794b4",
   "authorization": {
     "authorized_on": "2026-08-17",
     "scope": "READ_ONLY_OFFICIAL_SOURCE_ACCESS_AND_EVIDENCE_CAPTURE_FOR_ALL_14_HK_LEGISLATION_SOURCE_ROLES",
@@ -145,7 +145,7 @@
     {
       "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
       "registered_source_id": "src_000000000000000000000000000000000000000000000001",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "endpoint_ids": [
         "sep_000000000000000000000000000000000000000000000001",
         "sep_000000000000000000000000000000000000000000000002",
@@ -158,6 +158,7 @@
       ],
       "rights_state": "PUBLISHED_TERMS_PERMIT",
       "operational_state": "CONFIGURED",
+      "outage_impact": "RELEASE_BLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000001"
       ],
@@ -166,7 +167,7 @@
     {
       "source_id": "HK-LEG-HKEL-CURRENT-DATA",
       "registered_source_id": "src_000000000000000000000000000000000000000000000002",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "endpoint_ids": [
         "sep_000000000000000000000000000000000000000000000009",
         "sep_00000000000000000000000000000000000000000000000a",
@@ -184,6 +185,7 @@
       ],
       "rights_state": "PUBLISHED_TERMS_PERMIT",
       "operational_state": "CONFIGURED",
+      "outage_impact": "AFFECTED_WORK_BLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000001"
       ],
@@ -192,7 +194,7 @@
     {
       "source_id": "HK-LEG-HKEL-VERIFIED-COPIES",
       "registered_source_id": "src_000000000000000000000000000000000000000000000003",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "endpoint_ids": [
         "sep_000000000000000000000000000000000000000000000016",
         "sep_000000000000000000000000000000000000000000000017",
@@ -201,6 +203,7 @@
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
       "operational_state": "PARTIALLY_CONFIGURED",
+      "outage_impact": "AFFECTED_WORK_BLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000002"
       ],
@@ -211,7 +214,7 @@
     {
       "source_id": "HK-LEG-HKEL-ASSISTED-COPIES",
       "registered_source_id": "src_000000000000000000000000000000000000000000000004",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "endpoint_ids": [
         "sep_000000000000000000000000000000000000000000000019",
         "sep_00000000000000000000000000000000000000000000001a",
@@ -219,6 +222,7 @@
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
       "operational_state": "BLOCKED",
+      "outage_impact": "AFFECTED_WORK_BLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000002"
       ],
@@ -229,7 +233,7 @@
     {
       "source_id": "HK-LEG-HKEL-PAST-INVENTORY",
       "registered_source_id": "src_000000000000000000000000000000000000000000000005",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "endpoint_ids": [
         "sep_00000000000000000000000000000000000000000000001c",
         "sep_00000000000000000000000000000000000000000000001d",
@@ -241,6 +245,7 @@
       ],
       "rights_state": "PUBLISHED_TERMS_PERMIT",
       "operational_state": "CONFIGURED",
+      "outage_impact": "AFFECTED_WORK_BLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000001"
       ],
@@ -249,7 +254,7 @@
     {
       "source_id": "HK-LEG-HKEL-PAST-DATA",
       "registered_source_id": "src_000000000000000000000000000000000000000000000006",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "endpoint_ids": [
         "sep_000000000000000000000000000000000000000000000023",
         "sep_000000000000000000000000000000000000000000000024",
@@ -270,6 +275,7 @@
       ],
       "rights_state": "PUBLISHED_TERMS_PERMIT",
       "operational_state": "CONFIGURED",
+      "outage_impact": "AFFECTED_WORK_BLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000001"
       ],
@@ -278,13 +284,14 @@
     {
       "source_id": "HK-LEG-HKEL-EDITORIAL-RECORDS",
       "registered_source_id": "src_000000000000000000000000000000000000000000000007",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "endpoint_ids": [
         "sep_000000000000000000000000000000000000000000000033",
         "sep_000000000000000000000000000000000000000000000034"
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
       "operational_state": "PARTIALLY_CONFIGURED",
+      "outage_impact": "AFFECTED_WORK_BLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000002"
       ],
@@ -295,7 +302,7 @@
     {
       "source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
       "registered_source_id": "src_000000000000000000000000000000000000000000000008",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "endpoint_ids": [
         "sep_000000000000000000000000000000000000000000000035",
         "sep_000000000000000000000000000000000000000000000036",
@@ -306,6 +313,7 @@
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
       "operational_state": "PARTIALLY_CONFIGURED",
+      "outage_impact": "AFFECTED_WORK_BLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000007"
       ],
@@ -316,7 +324,7 @@
     {
       "source_id": "HK-LEG-GLD-EGAZETTE",
       "registered_source_id": "src_000000000000000000000000000000000000000000000009",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "endpoint_ids": [
         "sep_00000000000000000000000000000000000000000000003b",
         "sep_00000000000000000000000000000000000000000000003c",
@@ -325,6 +333,7 @@
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
       "operational_state": "PARTIALLY_CONFIGURED",
+      "outage_impact": "RELEASE_BLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000003"
       ],
@@ -335,13 +344,14 @@
     {
       "source_id": "HK-LEG-OFFICIAL-GAZETTE-ARCHIVE",
       "registered_source_id": "src_00000000000000000000000000000000000000000000000a",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "endpoint_ids": [
         "sep_00000000000000000000000000000000000000000000003f",
         "sep_000000000000000000000000000000000000000000000040"
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
       "operational_state": "OUT_OF_SCOPE_V1",
+      "outage_impact": "AFFECTED_WORK_BLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000005"
       ],
@@ -352,13 +362,14 @@
     {
       "source_id": "HK-LEG-HKEL-GAZETTE-BACKCAPTURE",
       "registered_source_id": "src_00000000000000000000000000000000000000000000000b",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "endpoint_ids": [
         "sep_000000000000000000000000000000000000000000000041",
         "sep_00000000000000000000000000000000000000000000004f"
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
       "operational_state": "PARTIALLY_CONFIGURED",
+      "outage_impact": "NONBLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000002"
       ],
@@ -369,7 +380,7 @@
     {
       "source_id": "HK-LEG-BASIC-LAW-PORTAL",
       "registered_source_id": "src_00000000000000000000000000000000000000000000000c",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "endpoint_ids": [
         "sep_000000000000000000000000000000000000000000000042",
         "sep_000000000000000000000000000000000000000000000043",
@@ -378,6 +389,7 @@
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
       "operational_state": "CONFIGURED",
+      "outage_impact": "NONBLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000004"
       ],
@@ -386,7 +398,7 @@
     {
       "source_id": "HK-LEG-NPC-NATIONAL-LAWS-DATABASE",
       "registered_source_id": "src_00000000000000000000000000000000000000000000000d",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "endpoint_ids": [
         "sep_000000000000000000000000000000000000000000000046",
         "sep_000000000000000000000000000000000000000000000047",
@@ -397,6 +409,7 @@
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
       "operational_state": "OUT_OF_SCOPE_V1",
+      "outage_impact": "AFFECTED_WORK_BLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000006"
       ],
@@ -407,13 +420,14 @@
     {
       "source_id": "HK-LEG-NPC-NPCSC-OFFICIAL-MATERIALS",
       "registered_source_id": "src_00000000000000000000000000000000000000000000000e",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "endpoint_ids": [
         "sep_000000000000000000000000000000000000000000000049",
         "sep_00000000000000000000000000000000000000000000004a"
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
       "operational_state": "OUT_OF_SCOPE_V1",
+      "outage_impact": "AFFECTED_WORK_BLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000006"
       ],

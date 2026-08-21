@@ -1,6 +1,6 @@
 # AskLegal Legal Database Pipeline — Delivery Roadmap
 
-Updated: 2026-08-20
+Updated: 2026-08-21
 
 ## Purpose
 
@@ -40,6 +40,347 @@ implementation work. Azure M8 is post-V1/deferred. This direction authorizes no
 deployment or external effect; explicit authorization is required before the
 first real Pinecone write.
 
+## Full Hong Kong local V1 exit checklist
+
+This is the dependency-ordered checklist for the user's 2026-08-21 target: one
+working Hong Kong jurisdiction on the local Ubuntu host. “Full Hong Kong” uses
+the accepted project scope, not every document produced by every Hong Kong body:
+
+- **Hong Kong Legislation:** the three accepted complete scopes—Ordinances,
+  Subsidiary Legislation, and Constitutional and Other Instruments;
+- **Hong Kong Cases:** proposition-level coverage for the accepted binding-court
+  families and separately accountable accepted historical courts;
+- **Hong Kong Regulatory Materials:** current HKEX Main Board and GEM Listing
+  Rules, excluding general guidance and policy; and
+- **Hong Kong Principles:** only complete publisher-backed scopes with selected
+  sources and continuing rights.
+
+If Hong Kong Principles is omitted because no publisher/source/licence is
+selected, the result may be called a complete primary-law, binding-cases, and
+HKEX V1, but not the complete Hong Kong jurisdiction defined by this design.
+Azure application hosting and the Ask.Legal admin portal remain outside this
+local V1. The five applications, SQL, schedulers, vault gateways, and monitoring
+run locally; approved official sources, Azure model/embedding deployments, and
+the isolated Pinecone POC target remain external dependencies.
+
+### HKV1-0 — Freeze scope and source authority — IN PROGRESS
+
+- [x] Preserve the accepted four Hong Kong material families and their existing
+  coverage boundaries.
+- [x] Retain direct GLD e-Gazette as V1's originating and earliest official
+  Gazette publication source; retain HKeL Gazette as backcapture, recovery,
+  reconciliation, and gap-detection evidence.
+- [x] Preserve the rule that Cloudflare Turnstile, CAPTCHA, and terms gates will
+  not be bypassed. Source inclusion is not technical admission.
+- [ ] Admit a lawful repeatable GLD acquisition procedure, or an explicitly
+  approved bounded manual procedure, with exact artifact, completeness,
+  no-change, retry, and failure evidence for every required Gazette class.
+- [ ] Prove complete reproducible HKeL inventory coverage for its declared
+  recovery/backcapture classes and make every mismatch or missing expected GLD
+  artifact a release-blocking gap; do not claim HKeL is the complete current
+  Gazette feed.
+- [ ] Reconcile ADRs 0025 and 0032, the overall design, source rulebook,
+  monitoring cadence, and coverage semantics with the retained GLD primary role
+  and HKeL recovery/backcapture role.
+- [ ] Freeze one explicit baseline cutoff and earliest supported historical
+  boundary for each material family and Release Scope.
+- [ ] Freeze every deliberate V1 exclusion and the exact report wording that
+  prevents “full Hong Kong” from overstating coverage.
+
+Exit gate: one fingerprinted Hong Kong coverage matrix names every Release
+Scope, source role, fact authority, cutoff, owner, admission state, and explicit
+exclusion, with an admitted GLD current-publication path and no assumed HKeL
+substitution.
+
+### HKV1-1 — Restore trustworthy engineering gates — NOT READY
+
+- [x] Locked Python 3.14.7, Node 24.19.0, uv 0.12.5, workspace packages,
+  architecture rules, and ordinary tests exist.
+- [x] Current ordinary developer suite passes: 856 passed, 4 skipped on
+  2026-08-21.
+- [ ] Clear strict Pyright or replace debt with a narrow reviewed exception
+  register that cannot grow silently; current result is 856 errors, including
+  665 across tracked Python files. The other 191 are ignored local runtime
+  files under `var/`.
+- [ ] Resolve the 13-file formatting drift without introducing Python 3.14-only
+  syntax into Python 3.12 host entrypoints.
+- [ ] Make the ordinary shipping command run strict Pyright, Ruff lint, safe
+  formatting/grammar checks, architecture/boundary checks, generated-file drift,
+  contracts, and the full suite.
+- [ ] Add repository CI for the same locked gates; a local green run must not be
+  the only release protection.
+- [ ] Make `asklegal-local prove --all` safely rerunnable or fail with an explicit
+  reset-required result rather than an unhandled `FileExistsError`.
+- [ ] Re-run the dedicated SQL Server, Durable Task emulator, package, and image-
+  admission proofs in their intended environments.
+
+Exit gate: a clean checkout passes one documented complete shipping command and
+CI reproduces it with no unregistered type, lint, format, contract, architecture,
+test, package, or image-admission failure.
+
+### HKV1-2 — Close live source-acquisition defects — NOT READY
+
+- [x] Exact versioned direct-HTTP endpoint contracts, TLS validation, byte/media
+  limits, hostile-content classification, and immutable vault retention exist.
+- [x] HKeL Gazette discovery, session establishment, locator construction,
+  inert PDF capture, listing manifest, retry, and 2000–2026 archive have live
+  evidence.
+- [x] Gazette page-limit exhaustion and an empty intermediate page are explicit
+  incomplete results; the worker enumerates the complete bounded listing before
+  retaining artifacts or writing its manifest.
+- [x] Enforce the redirect limit on the publisher-API `exchange` surface and
+  prove a same-host loop stops with `REDIRECT_LIMIT_EXCEEDED`.
+- [x] Replace weak template substitution with the exact bounded-locator contract
+  everywhere publisher data contributes an artifact path.
+- [x] Wire the exact registered complete-inventory procedure into a schedulable
+  acquisition activity that derives its required member set, retains or isolates
+  every response, writes attempt accounting last, and emits policy-bound coverage.
+- [x] Wire ADR 0100's reviewed Patchright discovery into a schedulable activity
+  that accepts no URL/policy override, retains only a sanitized request map and
+  attempt report, and mechanically denies evidence, completeness, no-change,
+  coverage-satisfaction, and processing authority.
+- [x] Keep the sole `CATALOGUE_DISCOVERY` endpoint disabled with its owning
+  official Gazette archive explicitly `OUT_OF_SCOPE_V1`.
+- [ ] Wire every required browser-session source-evidence procedure for HKeL
+  verified/assisted copies, Editorial Records, publication specifications, and
+  GLD Gazette, or explicitly remove the corresponding material from V1. Patchright
+  discovery cannot satisfy this item.
+- [x] Separate `NOT_PUBLISHED`, source unavailability, contract drift, hostile
+  response, and incomplete window in durable acquisition outcomes.
+- [x] Retain canonical per-source coverage reports for every HKeL Gazette
+  terminal result, and provide complete due-source cycle accounting that blocks
+  missing or failed `RELEASE_BLOCKING` roles without upgrading `NONBLOCKING`
+  discovery roles.
+- [x] Wire the cycle report over every due V1 source activity and carry its exact
+  references and release-blocking result into the final Coverage Status Manifest
+  and release gate.
+- [x] Clear the 40 focused connector/acquisition strict-type failures recorded
+  after the second slice; the exact Gazette/acquisition/readiness surface now
+  passes strict Pyright with zero errors.
+- [ ] Complete duplicate-row, moving-`lastPage`, throttling, activity restart,
+  lost-acknowledgement, and manifest-adoption proofs. Page 51, redirect-loop,
+  bounded-locator, incomplete-window, and partial-publication outcomes are
+  already covered.
+- [ ] Prove source-specific polite rate, retry, timeout, and outage profiles
+  against bounded observations without treating an outage as no change.
+
+Exit gate: every enabled endpoint has one schedulable, bounded, evidence-
+preserving procedure; every complete-inventory claim detects partial traversal;
+and a full source cycle produces exact durable coverage accounting.
+
+### HKV1-3 — Admit the Hong Kong Legislation package — NOT READY
+
+- [x] Three non-overlapping scopes, 27 offline rules, strict package loader, and
+  synthetic baseline/current-update fixtures exist.
+- [ ] Complete and admit the exact current/past HKeL inventory/data, verified or
+  assisted copy, Editorial Record, publication-specification, Basic Law, Annex
+  III, and Instruments & Others evidence paths required by each scope.
+- [ ] Complete bilingual XML/PDF identity, language/version matching, structural
+  parsing, canonical rendering, official-location splitting, and real tokenizer
+  measurement.
+- [ ] Implement exact enactment, commencement, partial commencement, amendment,
+  repeal/revocation/expiry/revival, correction, and editorial-event handling
+  against preserved real evidence.
+- [ ] Implement the accepted reconstruction and known-stale analytical fallback
+  gates without presenting either as HKeL current official text.
+- [ ] Build complete-universe baseline, ordinary update, no-change, quarantine,
+  withholding, Waiting Room, identity continuity, disposition, release
+  accounting, and Coverage Gap fixtures from adjudicated real reference truth.
+- [ ] Freeze source-rulebook, deterministic renderer, semantic profiles/prompts,
+  evaluations, owners, attestations, and activation fingerprint.
+- [ ] Change all three scopes from `NOT_READY` only after their exact package
+  admission checks pass.
+
+Exit gate: all three Hong Kong Legislation Corpus Releases account for every
+item at the frozen cutoff, contain only supported operative bilingual records,
+and reproduce byte-identically from retained evidence.
+
+### HKV1-4 — Build and admit Hong Kong Cases — NOT STARTED
+
+- [ ] Create an executable Hong Kong Cases package; none exists today.
+- [ ] Implement the official Judiciary judgment-listing source register and prove
+  complete enumeration for CFA, CA, CFI, Competition Tribunal, and the accepted
+  pre-1997 superior/Privy Council historical scopes.
+- [ ] Preserve every listing, decision, official artifact, correction/reissue,
+  alias, proceeding number, language, and official translation with exact
+  accounting; use HKLII only as the accepted non-controlling cross-check.
+- [ ] Implement deterministic identity, court/opinion structure, citations,
+  passages, dossiers, duplicates, translations, and zero-proposition outcomes.
+- [ ] Implement the admitted two-pass Case Proposition workflow and the separate
+  later-treatment workflow with exact supporting passages, attribution,
+  plurality/dissent handling, uncertainty, challenge, and legal review.
+- [ ] Build the current-authority treatment graph, authority-note selection,
+  exact retirement/reselection behavior, Quarantine, Coverage Ledger, and
+  corpus-wide later-treatment reconciliation.
+- [ ] Create protected evaluation suites, reference proposition maps, blinded
+  adjudication, multilingual/cross-language retrieval tests, workflow profiles,
+  repeated runs, and dual Legal Desk/system-owner attestations.
+- [ ] Build and approve the first complete current-authority baseline; every due
+  in-scope official listing must have an acquisition and processing disposition,
+  even when it creates no Search Record.
+
+Exit gate: every official listing in every promised court/year scope is
+accounted for, every searchable proposition is supported by exact judgment
+passages and current treatment evidence, and the Cases package is `READY`.
+
+### HKV1-5 — Build and admit HKEX Regulatory Materials — NOT STARTED
+
+- [ ] Create the executable Hong Kong Regulatory Materials package; none exists
+  today.
+- [ ] Implement and admit the accepted lean five-role HKEX source register and
+  source-specific connectors without broad website crawling.
+- [ ] Freeze complete Main Board and GEM Rule Component Inventories covering
+  Chapters, rules, notes, appendices, Practice Notes, Regulatory Forms, Fees
+  Rules, and explicit exclusions.
+- [ ] Implement exact branch-level effective state, transitional/future material,
+  publication evidence, approval inference, movement/renumbering, structure,
+  identity, and component ownership.
+- [ ] Implement deterministic English serving records, controlled authority
+  notes, source traceability, scope isolation, Quarantine, and complete release
+  accounting.
+- [ ] Prove Traditional Chinese and cross-language query quality for the selected
+  multilingual retrieval/answer workflow even though serving text is English.
+- [ ] Freeze evaluations, model/embedding profiles, owners, legal/system
+  attestations, and activate both Main Board and GEM scopes.
+
+Exit gate: Main Board and GEM releases each completely account for their frozen
+component universe and the Regulatory Materials package is `READY`.
+
+### HKV1-6 — Select, build, and admit Hong Kong Principles — BLOCKED ON SCOPE
+
+- [ ] Select the exact publisher-backed Hong Kong Principles titles and editions
+  that define V1 coverage; no executable package or selected source universe
+  exists today.
+- [ ] Obtain and record continuing licence/rights terms, access method, update
+  evidence, currency signals, and freeze-on-expiry behavior for each title.
+- [ ] Create source registers/connectors and preserve complete publisher editions
+  or rolling states with paragraph identity, moves, splits, merges, corrections,
+  and edition continuity.
+- [ ] Create the executable source rulebook, deterministic source-faithful
+  renderer, complete scopes, fixtures, evaluations, owners, attestations, and
+  activation package.
+- [ ] Keep Principles separate from case-derived propositions and serve only
+  publisher-supported `type: principle` records.
+
+Exit gate: every selected publisher title is completely accounted for under a
+current licence and the Hong Kong Principles package is `READY`. If no scope is
+selected, rename the V1 claim rather than marking this milestone passed.
+
+### HKV1-7 — Admit model, embedding, and retrieval profiles — NOT READY
+
+- [x] Azure inference, Azure embedding, and the isolated Pinecone POC endpoints
+  have passed bounded connectivity calls.
+- [ ] Replace all zero/placeholder prompt, package, profile, serving-payload, and
+  text fingerprints with exact immutable admitted values.
+- [ ] Route only the accepted task allocations to models: deterministic handling
+  by default, with separately admitted Gazette/reconstruction and Cases semantic
+  workflows.
+- [ ] Freeze exact Azure deployment/model versions, API contracts, prompts,
+  schemas, tokenizers, budgets, retries, data handling, region, quota, cost, and
+  expiry; reject aliases or runtime drift.
+- [ ] Build protected legal-semantic evaluation packages and pass every critical,
+  language, material, uncertainty, evidence, and adversarial slice.
+- [ ] Measure the exact embedding tokenizer and pass English, Traditional Chinese,
+  bilingual, cross-language, case-original-language, HKEX, long-record, split-
+  record, and authority-note-aware end-to-end retrieval/answer tests.
+- [ ] Admit exact Pinecone project/index geometry, metadata schema, backup,
+  namespace/index naming, capacity, cost, and outage profiles.
+
+Exit gate: exact fingerprinted model, embedding, and target profiles are
+`ADMITTED`, reproducibly evaluated, and the workers refuse any unapproved drift.
+
+### HKV1-8 — Make the real Review and promotion trust chain executable — NOT READY
+
+- [x] The complete M6 release, Approval, desired-state, backup, routing, rollback,
+  and retirement behavior passes with deterministic local fakes.
+- [x] Six-field serving metadata is now carried in the current source branch.
+- [ ] Remove the direct control-plane path that promotes an arbitrary model
+  decision or `INSUFFICIENT_EVIDENCE` result.
+- [ ] Require immutable Corpus Releases, complete Desired-State Inventory,
+  Coverage Status Manifest, Promotion Manifest, named-human Review decision, and
+  one exact unconsumed Approval before any embedding or target write.
+- [ ] Bind write authority to the approved command/manifest instead of permanent
+  `PROMOTION_WRITE_AUTHORIZED=true` deployment state.
+- [ ] Carry and compare approved serving/text/profile fingerprints across every
+  durable hop; never authenticate a received payload by recomputing its claim.
+- [ ] Validate provider upsert acknowledgement, enumerate the complete target,
+  and compare every ID, vector fingerprint, and six-field metadata payload.
+- [ ] Reconcile ambiguous/lost acknowledgements as `OUTCOME_UNKNOWN` before retry
+  or terminal failure.
+- [ ] Create and independently verify provider-native and separate recovery
+  backups before cutover; keep the predecessor protected.
+- [ ] Make Review client authentication, current-role validation, revocation,
+  approval invalidation, coverage retrieval/cache, cutover, reverse-swap, and
+  exact retirement work against the real local services.
+
+Exit gate: an unapproved payload cannot call embeddings or mutate Pinecone; one
+exact approved complete Hong Kong manifest builds a byte/fingerprint-equal
+replacement target, verifies backup, cuts over once, and rolls back exactly.
+
+### HKV1-9 — Reconcile and operate the local host — NOT READY
+
+- [x] `asklegal.target`, fourteen services, ten identities, SQL, two schedulers,
+  two vault gateways, three egress proxies, and the five applications run under
+  systemd on the intended Ubuntu host.
+- [ ] Stop and account for `acq-batch` and `cp-test`; no pipeline process may run
+  outside the declared supervisor.
+- [ ] Rebuild and deliberately deploy all five current application images by
+  immutable admitted identifiers; all five running image IDs currently differ
+  from the current tags.
+- [ ] Rotate every credential exposed through plaintext `var/run/` staging,
+  verify sealed/current delivery, remove obsolete duplicates, and prove old
+  values fail.
+- [ ] Install the five intended timers with exact cadence, overlap, catch-up,
+  shutdown, and missed-run behavior; no AskLegal timer exists today.
+- [ ] Emit application metrics/traces/audit events, deploy the selected local
+  monitoring views and alerts, and prove useful source/provider/workflow/coverage
+  failure visibility.
+- [ ] Enforce or explicitly accept the residual V1 network risks: proxy bypass,
+  broad `asklegal-register` east-west access, shared vault credentials, mutable
+  local tags, and Docker-socket authority.
+- [ ] Prove local Review authentication, resource ceilings, disk growth,
+  retention, vault restore, SQL backup/restore, scheduler replacement, reboot
+  survival, clock/time sync, and no-secret logging.
+- [ ] Replace the static admission snapshot with evidence that represents the
+  live identities, units, images, source profiles, providers, target, and real
+  acceptance results.
+
+Exit gate: a reboot returns one current, supervised, observable, scheduled stack
+with no orphan process, stale image, plaintext credential duplicate, failed unit,
+unexplained admission blocker, or untested recovery path.
+
+### HKV1-10 — Build, approve, and prove the complete baseline — NOT STARTED
+
+- [ ] Freeze one common Hong Kong baseline cutoff and complete source observations
+  for every due scope and source role.
+- [ ] Preserve exact Primary and Recovery evidence manifests before processing.
+- [ ] Build all Legislation, Cases, Regulatory Materials, and Principles Corpus
+  Releases; resolve or explicitly disposition every item, zero-record result,
+  Quarantine, Waiting Room entry, and Coverage Gap.
+- [ ] Compose one complete Hong Kong Desired-State Inventory and traceability map
+  with the exact six-field payload and embedding fingerprint for every record.
+- [ ] Pass deterministic/legal-semantic validation and English, Traditional
+  Chinese, bilingual, cross-language, material-filter, authority-note, stale-law,
+  case-treatment, and HKEX retrieval/answer acceptance suites.
+- [ ] Review and approve the exact frozen proposal through the named-human Review
+  path; any changed input must invalidate it.
+- [ ] Build, fully read back, back up, and activate one replacement Hong Kong
+  Pinecone generation; verify the coverage manifest and answer path.
+- [ ] Prove reverse-swap rollback, restore, lost-ack reconciliation, duplicate,
+  restart, source outage, model outage, Pinecone outage, hostile input, and
+  partial-scope failure without false success.
+- [ ] Run one scheduled no-change cycle and one scheduled controlled-change cycle
+  end to end after a reboot.
+- [ ] Reconcile README, topology, ADRs, admission files, runbooks, continuity
+  files, dependency inventory, credentials, and operator commands to the proved
+  system.
+
+Exit gate — working Hong Kong V1: the formal gate says `V1_ADMITTED`; every
+promised scope has complete current coverage or an exact visible non-overstating
+limitation; the local stack autonomously rebuilds and reports; Ask.Legal's POC
+route serves only the exact approved generation; and an independently verified
+rollback can restore the predecessor without data loss or broad deletion.
+
 ## Honest progress summary
 
 The project is **advanced in design with the local synthetic platform complete
@@ -67,9 +408,11 @@ evidence-bound cause rules against 97 exact synthetic cases without
 fabricated real-source proof;
 every real scope remains `NOT_READY`. The repository now also has a strict
 fourteen-role official-source register and bounded HTTPS connector. The legal
-team has cleared all fourteen roles. Five roles are technically complete, five
-are partially configured, and four remain technically blocked; legal clearance
-has not been converted into false technical readiness.
+team has cleared all fourteen roles. Current executable `main` records five
+configured roles, five partially configured, one blocked, and three outside V1;
+GLD remains one of the partial roles because it is retained for V1 but its
+Turnstile-gated acquisition procedure is not technically admitted. Legal
+clearance has not been converted into false technical readiness.
 M6 is complete with local corpus/proposal construction, Review-backed Approval,
 and a fully checked fake replacement-target promotion and rollback. M7 is
 complete: all 32 accepted offline scenarios connect the real local boundaries
@@ -688,12 +1031,15 @@ Exit gate:
    before any service can be enabled.
    The implementation baseline and incremental proof plan are in
    `docs/design/V1_POC_UBUNTU_TOPOLOGY.md`.
-3. **Hong Kong package work:** the stable first-baseline set and complete
-   ordinary current-update path are implemented locally through
-   `HKLEG-CURRENT-REL-001`. All three scopes remain `NOT_READY`; the next
-   package admission work needs real endpoint/source/right evidence,
-   adjudicated truth, complete conformance scope, and named ownership. Those
-   inputs require separate external authorization.
+3. **Full Hong Kong package work:** execute HKV1-0 through HKV1-10 above in
+   dependency order. First admit the retained GLD current-publication path and
+   prove the complementary HKeL backcapture/recovery role without treating it
+   as an upstream substitute. The stable
+   Hong Kong Legislation baseline/current-update checkpoints exist but all three
+   scopes remain `NOT_READY`. Hong Kong Cases, HKEX Regulatory Materials, and
+   Hong Kong Principles have no executable real package; the Principles scope
+   additionally needs publisher/source/licence selection before “full Hong Kong
+   jurisdiction” is an honest release claim.
 4. **V1 admission work:** first close the live promotion trust-chain defects and
    enforce the documented type/lint shipping gates. Then admit the exact real
    source package, model and embedding profiles, Pinecone serving target,

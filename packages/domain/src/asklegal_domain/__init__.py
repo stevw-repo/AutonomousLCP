@@ -48,6 +48,11 @@ from .operations import (
     RetryClass,
     StopCondition,
 )
+from .source_coverage import (
+    SourceCoverageDisposition,
+    SourceCoverageOutcomeCode,
+    SourceOutageImpact,
+)
 
 PACKAGE_ROLE: str = "domain"
 
@@ -91,6 +96,9 @@ __all__ = [
     "ReprocessingAdmission",
     "RetryClass",
     "SourceContractReviewState",
+    "SourceCoverageDisposition",
+    "SourceCoverageOutcomeCode",
+    "SourceOutageImpact",
     "StateMachine",
     "StopCondition",
     "TransitionResult",
