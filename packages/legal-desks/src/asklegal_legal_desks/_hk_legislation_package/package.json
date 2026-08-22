@@ -2,8 +2,8 @@
   "schema_id": "asklegal.executable-source-rulebook-package",
   "schema_version": "1.0.0",
   "package_id": "rbp_866fd2858e653370aec45ffa71b551942fbc33e1b8c440ca",
-  "package_version": "0.21.0",
-  "package_fingerprint": "sha256:61d58fca4b695a466dbaaa73353c066614ba47df3be7cf5f3c89aa5389a1e978",
+  "package_version": "0.27.0",
+  "package_fingerprint": "sha256:f5eabc5748274e0cb1301ab1d10a7251f3c307bfe375808a6d5b5db253e0cbe7",
   "jurisdiction": "HK",
   "environment": "PRODUCTION",
   "material_family": "LEGISLATION",
@@ -35,7 +35,7 @@
   "unresolved_policy_codes": [
     "HKLEG_INSTRUMENTS_AND_OTHERS_REVIEW_REQUIRED"
   ],
-  "impact_declaration": "FROZEN_PARTIAL_BASELINE_OBSERVATION_INVENTORY_EVIDENCE_STATE_LIMIT_IDENTITY_DISPOSITION_RECORD_RELEASE_ACCOUNTING_TARGETED_REVIEW_AND_HISTORY_POST_CUTOFF_CHANGE_ORDINARY_CURRENT_OBSERVATION_ORDINARY_CURRENT_RECORD_ORDINARY_CURRENT_RELEASE_ACCOUNTING_ORDINARY_CURRENT_EVIDENCE_ORDINARY_CURRENT_DIFFERENCE_ORDINARY_CURRENT_DISPOSITION_ORDINARY_CURRENT_CAUSE_ORDINARY_CURRENT_EVENT_CONFORMANCE_ONLY_NO_PROCESSING_ACTIVATION_OR_PRODUCTION_AUTHORITY",
+  "impact_declaration": "FROZEN_PARTIAL_BASELINE_OBSERVATION_INVENTORY_EVIDENCE_STATE_LIMIT_IDENTITY_DISPOSITION_RECORD_RELEASE_ACCOUNTING_TARGETED_REVIEW_AND_HISTORY_POST_CUTOFF_CHANGE_ORDINARY_CURRENT_OBSERVATION_ORDINARY_CURRENT_RECORD_ORDINARY_CURRENT_RELEASE_ACCOUNTING_ORDINARY_CURRENT_EVIDENCE_ORDINARY_CURRENT_DIFFERENCE_ORDINARY_CURRENT_DISPOSITION_ORDINARY_CURRENT_CAUSE_ORDINARY_CURRENT_COMMENCEMENT_ORDINARY_CURRENT_CESSATION_AND_REVIVAL_ORDINARY_CURRENT_PUBLICATION_AND_ENACTMENT_ORDINARY_CURRENT_TEXT_CHANGING_EVENT_ORDINARY_CURRENT_EVENT_RECONSTRUCTION_PLAN_SEMANTIC_DECISION_AND_CHALLENGE_DETERMINISTIC_RECONSTRUCTION_PLAN_VALIDATION_CONFORMANCE_ONLY_NO_PROCESSING_ACTIVATION_OR_PRODUCTION_AUTHORITY",
   "minimum_engine_version": "1.0.0",
   "files": [
     {
@@ -237,6 +237,30 @@
       "role": "CATALOGUE"
     },
     {
+      "byte_size": 6388,
+      "fingerprint": "sha256:beeab1cd860249c727ab7e780f53c99ba007e1bfd3ac47352ee3a2b9e4a7e8ef",
+      "path": "catalogues/current-cessation-fixtures.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 2388,
+      "fingerprint": "sha256:56ec6c95e4b20ee38817e6b4e155fd231a1fee24e7e50bc74a3de8623026c8ae",
+      "path": "catalogues/current-cessation-reason-codes.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 5505,
+      "fingerprint": "sha256:7972f6a0915a0c4a4c91e4c5e0836837b070a268a2df72968c44267c118e189f",
+      "path": "catalogues/current-commencement-fixtures.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 2591,
+      "fingerprint": "sha256:505a9c4fe68bb42a493c1e89f634633e2a2e6e0101860d576bf37b676930dae6",
+      "path": "catalogues/current-commencement-reason-codes.json",
+      "role": "CATALOGUE"
+    },
+    {
       "byte_size": 3190,
       "fingerprint": "sha256:46e312a1aa12c93b0ee9fd36b6b9294698d70675d48c109c54f232d9a7ca71d3",
       "path": "catalogues/current-difference-fixtures.json",
@@ -297,6 +321,18 @@
       "role": "CATALOGUE"
     },
     {
+      "byte_size": 5739,
+      "fingerprint": "sha256:6c7974e105e045645af125317aa5a8712e9d1677ef2701bc8ceb698d224c01b4",
+      "path": "catalogues/current-publication-fixtures.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 2262,
+      "fingerprint": "sha256:32231852f0441df7e0d00cceb2987fed1f487ffb0aa42a1aae348d99b5341c4c",
+      "path": "catalogues/current-publication-reason-codes.json",
+      "role": "CATALOGUE"
+    },
+    {
       "byte_size": 3559,
       "fingerprint": "sha256:7cb7b6b1b558ab4122589371a0baf94976c814d8b1ed0a012e2949c038fb5c32",
       "path": "catalogues/current-record-fixtures.json",
@@ -321,14 +357,50 @@
       "role": "CATALOGUE"
     },
     {
+      "byte_size": 7339,
+      "fingerprint": "sha256:37592d1f46e726095d9f4c3d7801a6740032fa43a80c0ccad0bd11bd509a6b22",
+      "path": "catalogues/current-text-event-fixtures.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 3597,
+      "fingerprint": "sha256:75c8e1218ac0cde58938b477d00fa057df072eb0993b0b9e8ada16546b4c8a63",
+      "path": "catalogues/current-text-event-reason-codes.json",
+      "role": "CATALOGUE"
+    },
+    {
       "byte_size": 2143,
       "fingerprint": "sha256:8fcd90c6b8591085c760cbcf8326d107ec0ec66621900c9ecb018a536306eb30",
       "path": "catalogues/readiness-blockers.json",
       "role": "CATALOGUE"
     },
     {
-      "byte_size": 2560,
-      "fingerprint": "sha256:c49bc4b4fa85f929f4ee418c6fcc7160e562bd61919e322f10688922b9b00f42",
+      "byte_size": 5982,
+      "fingerprint": "sha256:5122fc2b4e86a18e122edde7260af6b366d4c1605b73aef2b64a4c7a5cc18dd0",
+      "path": "catalogues/reconstruction-plan-semantic-fixtures.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 2665,
+      "fingerprint": "sha256:6c51c020ea72f3dc4eae60316ae92c7a933942ed53061864f2a0dc0c69483823",
+      "path": "catalogues/reconstruction-plan-semantic-reason-codes.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 9586,
+      "fingerprint": "sha256:a9af3064c1b5acdc298d2a7861bc8a14d175a119cab24a47e637a07b532317ec",
+      "path": "catalogues/reconstruction-plan-validation-fixtures.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 4275,
+      "fingerprint": "sha256:5e036272351577830b5ebb09ffa97fe65ec0c65a901cbfa176cb6e819f7e063c",
+      "path": "catalogues/reconstruction-plan-validation-reason-codes.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 8787,
+      "fingerprint": "sha256:a515dd6a70a3c9974fec3e4700d304dd0c8fe99c0798453c0a62b9d34b61a187",
       "path": "contracts/readiness-contract.json",
       "role": "CONTRACT"
     },
@@ -411,6 +483,18 @@
       "role": "CONTRACT"
     },
     {
+      "byte_size": 10719,
+      "fingerprint": "sha256:f24580ef7bfefe0fa6ae568ff583eee8adf63a0800eb49ec11c549b7042391de",
+      "path": "contracts/schemas/current-cessation.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 11580,
+      "fingerprint": "sha256:36978c3c92b4fb4db3782e5be48f567cf51ea68eb05414ac6aaa1d5eb9483b2b",
+      "path": "contracts/schemas/current-commencement.schema.json",
+      "role": "CONTRACT"
+    },
+    {
       "byte_size": 7272,
       "fingerprint": "sha256:d250c9b42550cd99a9f0425b441923277d814a62b707e2b2ce83054cb4ba292c",
       "path": "contracts/schemas/current-difference.schema.json",
@@ -441,6 +525,12 @@
       "role": "CONTRACT"
     },
     {
+      "byte_size": 10809,
+      "fingerprint": "sha256:585100a43f0b213f9ff1f4a6ed9eab0808e4dbfab4d89cc61ad3a14a2cf77926",
+      "path": "contracts/schemas/current-publication.schema.json",
+      "role": "CONTRACT"
+    },
+    {
       "byte_size": 6713,
       "fingerprint": "sha256:1cf8ca9b849583bfc0e47d63acc41f0223183e2dadc194975a0cd5ad6356c3db",
       "path": "contracts/schemas/current-record.schema.json",
@@ -450,6 +540,24 @@
       "byte_size": 6569,
       "fingerprint": "sha256:9b6214a26221fc821c4807e28e81128e508797015930291e96fb8cb40f55ecb7",
       "path": "contracts/schemas/current-release-accounting.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 12069,
+      "fingerprint": "sha256:2c71da5a73570248afee4d8bebc3b2228e038808f738da0afc6fcb2638b61ae3",
+      "path": "contracts/schemas/current-text-event.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 9720,
+      "fingerprint": "sha256:6bd9e4c3b11ee59fb18bb59b08bfa48c7d90676c40305c63a14886883b177a8f",
+      "path": "contracts/schemas/reconstruction-plan-semantic.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 40841,
+      "fingerprint": "sha256:bceb43e27a87373e3751792a99e909070d368a4db2b141dd173ed693c796669e",
+      "path": "contracts/schemas/reconstruction-plan-validation.schema.json",
       "role": "CONTRACT"
     },
     {
@@ -909,6 +1017,162 @@
       "role": "EXPECTED_ARTIFACT"
     },
     {
+      "byte_size": 1236,
+      "fingerprint": "sha256:a8d0d83ea0169fe46eaf2cfb67523de1f3c5616742dab782bb5deac077517957",
+      "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1260,
+      "fingerprint": "sha256:8ceedbbe133dcad3e47eeaad1067d0516c006f0f0f2bbf37f0bb569caf8e98ef",
+      "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-002.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1212,
+      "fingerprint": "sha256:dfd2d1850aee048051c9b69baa0b28b914ef96f71b1317d684b235a34cbcfeed",
+      "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-003.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1256,
+      "fingerprint": "sha256:5bb8cb4a8622a80009f3b20895cd0b6cb3e2ea3fb78a67808a3d583df64ecd62",
+      "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-004.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1214,
+      "fingerprint": "sha256:84f85a63cda808040f14fe7753f375d5e73fe765773228419109e570e5cc75ae",
+      "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-005.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1260,
+      "fingerprint": "sha256:6065ad654224fbb226769023f1b89b2aa7b87c0af8add2deb6061a5cd4f290ef",
+      "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-006.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1226,
+      "fingerprint": "sha256:c598716a25be559232dabb5da3411001431c981abec6626afa119aaa44daf112",
+      "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1250,
+      "fingerprint": "sha256:404b872c08550e6ea817e0c67a55009a04e3e9a29fe71530d8148a3fe0917f3e",
+      "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-008.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1249,
+      "fingerprint": "sha256:5bbb80427e020c7441b7fbb2c44c95dc6961abb1ed86cfc091a35e0e3a31a589",
+      "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-009.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1207,
+      "fingerprint": "sha256:b6923942c3ef468f412ea0d686e4e4ccda5652518f105dd5cff1731654bdefe2",
+      "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-010.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1196,
+      "fingerprint": "sha256:34a10f77fb7de28c6beabe20f2878354b023907e44389018b9498621191ec49e",
+      "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-011.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1092,
+      "fingerprint": "sha256:3be9d058394e67740fc75b4a4341617d69e61b2d0f0c282cb6de2cd60023e46b",
+      "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-012.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1186,
+      "fingerprint": "sha256:795f3634819a09272722f277f53c84026aee8e77bf5ccabf298c461587f8f88c",
+      "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-013.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1186,
+      "fingerprint": "sha256:f7ccd8b588e9b2651591361bd67b1c1ca6fd959a57a7382e8cedbabae15e95e8",
+      "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-014.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1195,
+      "fingerprint": "sha256:aa564264bb02c8d1720f8b784fdfb327d4fa396de8c96007e0dc37423825274a",
+      "path": "expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1210,
+      "fingerprint": "sha256:402c43a32de48046ff9d04613dd0f8ff52a22f8d530c84a07286b91a356e76ac",
+      "path": "expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-002.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1162,
+      "fingerprint": "sha256:2d2f64f3c6ce537c27a8a04acdc2889e8912ca22ae622903441296be8b13ceb5",
+      "path": "expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-003.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1206,
+      "fingerprint": "sha256:754c3e6391a76019f342a50143eafc886dcb430fb668bb2469aac3eb1447b6ba",
+      "path": "expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-004.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1184,
+      "fingerprint": "sha256:9962518460bf0b75e51497931a112e330f1d72bdea6239de89ce22003fb78faf",
+      "path": "expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-005.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1190,
+      "fingerprint": "sha256:3143daf3e2bbe0ba2264e57e845e55d05bd6dc9798d1a130cff8cf000719fce3",
+      "path": "expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-006.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1158,
+      "fingerprint": "sha256:9adc39f3ef4f1bcb1d6857c409f76bee6f9a3ff1d8ed79422cbe24079eb65ad6",
+      "path": "expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1210,
+      "fingerprint": "sha256:a762f2703fb99a896b142793ebe5cb59f9916d83b5a37d68ae70bfcb537fa9b2",
+      "path": "expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-008.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1200,
+      "fingerprint": "sha256:695e601c7f832ba73043acb1e36e9677f3506b9c4b6027a44de6a62e2eefa3ee",
+      "path": "expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-009.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1052,
+      "fingerprint": "sha256:67522f7d85782116486e3cb81790271d391b0b0610c97630b738878e789be7d9",
+      "path": "expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-010.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1149,
+      "fingerprint": "sha256:be47899451750368811b46d88528e9e0929a56a649a0125e5861b4f08d004744",
+      "path": "expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-011.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1136,
+      "fingerprint": "sha256:1a7425aba611dcc14b91363def15f456abebe6d318b991cb6a87cd6a24590628",
+      "path": "expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-012.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
       "byte_size": 631,
       "fingerprint": "sha256:16a474c85bb4f5d8bacb753d0f4fe98bdd89f2df870bc75385b7095420483279",
       "path": "expected/current-difference/HKLEG-CURRENT-DIFF-FIX-001.json",
@@ -1131,6 +1395,84 @@
       "role": "EXPECTED_ARTIFACT"
     },
     {
+      "byte_size": 1511,
+      "fingerprint": "sha256:1ee5c5d9ffc2a6138b199ebd4a9d7e4f43b4d005fb6e99b43ca9f61f5cf625dd",
+      "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1550,
+      "fingerprint": "sha256:a50858b2b4532ae27e0fcafe4f8ed29ace87af8437a4beba60e25fd4b5fc9c26",
+      "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-002.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1513,
+      "fingerprint": "sha256:f3c4f44ce66a8ea25e9061185707de1305c1077d5da1a89d6dfa90dc4ac30b3e",
+      "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-003.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1466,
+      "fingerprint": "sha256:0cdff94ffecf9f5e18e1c74a5403fa39b550c51a4813891ec08ce5755c95bfee",
+      "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-004.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1538,
+      "fingerprint": "sha256:0943214bc62c96ba9acd1af1f95a4413757b0f6d0eedda9268d6758def16be46",
+      "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-005.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1358,
+      "fingerprint": "sha256:c302f097bfb151643444f48ae50a23cc7a27714f842f5def6998cad54ea51843",
+      "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-006.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1352,
+      "fingerprint": "sha256:71b66dbabee5801447522c986449a0411bc0d7d12c90c59f1be2692b96f92788",
+      "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1457,
+      "fingerprint": "sha256:2deccefc10ac7bd59f03a2a772eb8017cfb16be132ebf7089d82a53540f9f7d2",
+      "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-008.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1408,
+      "fingerprint": "sha256:9992ede50b526b75bcb2bf5bd8c4013076c092bccc1ad02f0b77dfa8a6ad8556",
+      "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-009.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1327,
+      "fingerprint": "sha256:8b049193ee75cfc5129b2ed8c5cd2cfff8709f6c55fd45a6f6c87abc2c758296",
+      "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-010.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1450,
+      "fingerprint": "sha256:e19030044aab34665f16b0bd21af31aca82982aaba723958e7dcc5ece8fccd55",
+      "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-011.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1460,
+      "fingerprint": "sha256:8d07844d9b01c0a8a0c2825826e1c2e260eb5bae17740df2dbfdccb491c491c8",
+      "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-012.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1450,
+      "fingerprint": "sha256:4083b17400026325d2a0ea58bddcf1b65ff1e1084ce379315da41a156784e09e",
+      "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-013.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
       "byte_size": 901,
       "fingerprint": "sha256:c3a822a73bddaebd26d25e79df7ffe64366e3f14a3d949c105c191fd465cf24c",
       "path": "expected/current-record/HKLEG-CURRENT-REC-FIX-001.json",
@@ -1218,6 +1560,306 @@
       "byte_size": 730,
       "fingerprint": "sha256:0bb4e05ebe9f088367a8f20422baa08807cb57d8f71f67125a4a2f07bae93bbb",
       "path": "expected/current-release-accounting/HKLEG-CURRENT-REL-FIX-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1506,
+      "fingerprint": "sha256:7919df9dd9d835a7f1fe6dd5c32d1322843ffa50ce4659deec68b75fc16b42ae",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1524,
+      "fingerprint": "sha256:3eb96fa75adf1029057c7069d259caf9f9374fcc8253cbbd4149878b1772995f",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-002.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1468,
+      "fingerprint": "sha256:9beabc8327f01cd2770f0fc11da1351efb5496ed51aef1a03b48824abbf18cda",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-003.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1511,
+      "fingerprint": "sha256:c4ce99c010ba2b2679305d4545eadc70b0a7375164dfa128779d734abfc0882c",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-004.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1526,
+      "fingerprint": "sha256:4a6f3ed84ef8e897859af417027158aef472de0133465483be38a1fb46f77fe8",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-005.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1544,
+      "fingerprint": "sha256:f66f6c43a866c580b79e3e20f06f562dd36cc0d91481d512347448c9df8b3499",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-006.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1534,
+      "fingerprint": "sha256:cd334799e15d33af057bc472c517b194c12e4ac44802687e320671c15176d6bc",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1552,
+      "fingerprint": "sha256:510ca5bbc03afddef928b59506a614224318e357ef9fdab643f92bea46014d27",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-008.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1471,
+      "fingerprint": "sha256:e282b11769f762e93a089f2ef74ecb3a22e81eae487446a9f44b8ee24c66f3a7",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-009.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1485,
+      "fingerprint": "sha256:85dc6130ce5ab3e597ce206696dbac462d5312609422a15ef90ed120b36c8d1e",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-010.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1466,
+      "fingerprint": "sha256:d7510c5bb18b0dcc75f9bad9017b335eb70a0b7e0bb9ca0a3430c366ce1a8c2e",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-011.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1463,
+      "fingerprint": "sha256:a25137c19704ccf6b54abd2d7fe3db7ab5cf3807055ac527dd9b73f232aa30e4",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-012.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1465,
+      "fingerprint": "sha256:47ab861a759def0d43157488510100b18e13b48099a48a77eff16b1f9f1bfade",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-013.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1460,
+      "fingerprint": "sha256:9b6430ec657ced1cb3745816245690a82b6f36448d14bbb4f00452579fd7c0ae",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-014.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1488,
+      "fingerprint": "sha256:3bbf01617d9a3fb650788efcfed36a2f67fab0ed849eb9eb08b97f42cbd38cc1",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-015.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1496,
+      "fingerprint": "sha256:7d1492bd71e914db30596c9d48f144316c84e1d27a763717d07a99bb7fb62789",
+      "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-016.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1736,
+      "fingerprint": "sha256:7c341a69a3dc50d1eb8eba547773234c43318c3a53e5ca9e4cd5ade87465d5f7",
+      "path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1569,
+      "fingerprint": "sha256:a1d98b0dcc80409c74ea55a5a48b2880357fc5eb7e08b27d432d3bdd540db890",
+      "path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-002.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1644,
+      "fingerprint": "sha256:430961e0d2cad3975410203e309ec986a80e0b29c3dfa14b7a637395184eb89f",
+      "path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-003.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1646,
+      "fingerprint": "sha256:1e0171bba102d9de3302f483d74bc1dfde530668b0b6e912b42153eb4cf7312f",
+      "path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-004.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1716,
+      "fingerprint": "sha256:a13f6763317893c2fcf8835083b3703c456f71eaa9e667ff1f5bd4e26ba4a9f9",
+      "path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-005.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1718,
+      "fingerprint": "sha256:c6778b07914412f9d3f294201b2d9fa7f337b764cda08a47b7a336d3715da851",
+      "path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-006.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1721,
+      "fingerprint": "sha256:88b802f9a9e51603bd12c1f3ad6e0e7437e961335205499146d27414c6228e34",
+      "path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1722,
+      "fingerprint": "sha256:08413f5c132f3986c401da4a1dfb055d83d4de644fb292a80e573e33b6e4a597",
+      "path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-008.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1706,
+      "fingerprint": "sha256:26978d79e4ea3d64e83b60cb01fcbc04f4d46895f1af8506945b51229b903c48",
+      "path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-009.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1714,
+      "fingerprint": "sha256:f8e27a97ea5560b19fee0ad1dfd336d616a287636ad319e2315f1546b381c243",
+      "path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-010.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1721,
+      "fingerprint": "sha256:be07d304a3d0e0e6b2adbc2d9937bf5bebeb8e25d4715c53c5afd97058a5be2d",
+      "path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-011.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1711,
+      "fingerprint": "sha256:179bd0a0c585102b2029d887f247d1c17a28de218a9ffc3c3e301a6a85c74e9c",
+      "path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-012.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1718,
+      "fingerprint": "sha256:12e3c5de7a6ced9191a0b0ce00b83a010b62f32fbaeaeea8e8495dfbdb715612",
+      "path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-013.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 946,
+      "fingerprint": "sha256:1f940cc5aa0d29cc3a3270dd7e02476bf0d7bb9ac4a80d7a505629640cc489a1",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 946,
+      "fingerprint": "sha256:4d7d8f4a36eb3f1d29b33f1c3539561ae3c224f7520fa883d625742292c89082",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-002.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 759,
+      "fingerprint": "sha256:564946f8b785de5718cb4aed2b94669403e80d09f41fca2c794a4b43eaf7a4f5",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-003.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 825,
+      "fingerprint": "sha256:b3ca4612388f65c67956d1b5f4bb1dd97cf74bb32c84260e22a7b0810da1893d",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-004.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 824,
+      "fingerprint": "sha256:ced885813e37c951d0068d489d2ace7bd676f6e6dac52fe68cbcab000577f9fd",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-005.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 836,
+      "fingerprint": "sha256:6f54b06dc6e82a9335a51c23af855a534ddffb3bf3b3d36960957caf5cbadcf9",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-006.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 838,
+      "fingerprint": "sha256:82436957e0217400d9f8254d1bd261b928e6cd1b4278fd5f223c87fe223754b7",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 822,
+      "fingerprint": "sha256:344f22ae02b87a8cc8baa9fc23f9cd8279f54c7634ac1bb869329502bb68795b",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-008.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 817,
+      "fingerprint": "sha256:f1b25b962d55abff32591738ff99433ab69125bb667a96b3bc2a3567fbf3146b",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-009.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 822,
+      "fingerprint": "sha256:00ca7f3a72ae48aec8f3ff4a7297762e08059e8449d3a2e74fe6e8b828616302",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-010.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 826,
+      "fingerprint": "sha256:238a659acec192858314945c9c7e8e240ce93f5ceb40ef20eac8363bbaede499",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-011.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 837,
+      "fingerprint": "sha256:96b671ea1ddeb1d4566fc587652f1c5889483315688a9cad3935ca7a5a3584a4",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-012.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 814,
+      "fingerprint": "sha256:cb6b16a3ba9b53c58186d75f9ec4d192765a77b4a68ed2591d2b8a11e48dd696",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-013.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 843,
+      "fingerprint": "sha256:3ecf208a64a91aacbdd8876251f29466e517504828a58955fe47b99cb345b953",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-014.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 830,
+      "fingerprint": "sha256:adb096e3d994eb672b3490a5d95423210a0833b8637822329beb79273409c661",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-015.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 836,
+      "fingerprint": "sha256:6cb3e4c49892f15578da9b7fdfc3ba65c781ade7710bb5c5461cfda4ce27065a",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-016.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 835,
+      "fingerprint": "sha256:6484428d11f949f6bb080f8d4eb9e1e82df71c435cefb6dd5ed24936c37e9062",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-017.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 848,
+      "fingerprint": "sha256:a5c54728abc26812f79304123c6f195421b902d9c120ae71d94f238359774d46",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-018.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 825,
+      "fingerprint": "sha256:ff8088450a2b6c63f73f4a0a4b63eac62b7b07ea3f3602214a51470de85873b4",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-019.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 820,
+      "fingerprint": "sha256:3c5590175fdbbb704f58a222de51b55685da320a75946c86bfbd739a956d08b4",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-020.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 853,
+      "fingerprint": "sha256:31d2db091e14f48ab6c34c473d252ada1348fb34ffe10e8da5e8e1776e6e580e",
+      "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-021.json",
       "role": "EXPECTED_ARTIFACT"
     },
     {
@@ -1671,6 +2313,162 @@
       "role": "DETERMINISTIC_FIXTURE"
     },
     {
+      "byte_size": 1592,
+      "fingerprint": "sha256:58c73ee3878c31a12b6d1eecafca7cb55b6fe96013bcb05e22c52fd976d7d5f7",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-001.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1617,
+      "fingerprint": "sha256:b5146a015c8c9417208311c765aad80853747e6bd2fe2311cb38e18eda543bbb",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-002.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1530,
+      "fingerprint": "sha256:6bcf6d5637ef44d6b41184188b05afe59152359dccc351f313d7f0e7e60ad4c7",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-003.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1624,
+      "fingerprint": "sha256:8f08b187048a554c48a4b599adb09a205416bf8fe2bf6318c2771b114c38a6be",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-004.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1544,
+      "fingerprint": "sha256:f930efc8f7d5045aa2aed7f1aa3c9682cd36da084622261e9233ae5910e29846",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-005.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1617,
+      "fingerprint": "sha256:5c940db3c9eb768a12774445446fb96eecb4b37f32648bf77e630b02c2f6da93",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-006.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1568,
+      "fingerprint": "sha256:2a48f9f7245499b528cea7bc5d27fa0c46934148fe361829edfc5c9937bda623",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-007.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1607,
+      "fingerprint": "sha256:8610391801864a5168605bae6b3351077a75d241ce9428ffa88685d3bd921c72",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-008.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1630,
+      "fingerprint": "sha256:0d4c5735df3aaadd42a4088dbac3be3d42b706ba21c4f689b704f6b59b448775",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-009.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1534,
+      "fingerprint": "sha256:cac6714c07443982781aa4fdd8273f335d105159bf7e39cc1d05e5c954ba0b2c",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-010.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1541,
+      "fingerprint": "sha256:3cd71b3e41348c23f3be3eb3de821ad58ea03cf61e5a1261add7b6ce39f4fee4",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-011.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1441,
+      "fingerprint": "sha256:7d328bb80e7ad71312b4cea0f73f2193274b67e6c52ae7e6b24273757b3d0abf",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-012.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1531,
+      "fingerprint": "sha256:8e157b1fa9d9f4961003fad91beda1d85ad43810c7dd1a85851c024021daeaad",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-013.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1599,
+      "fingerprint": "sha256:d4461cfe29fad450b33e512131bc7d56ff3620ead3a4b29e25854b690b954429",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-014.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1488,
+      "fingerprint": "sha256:234609c0e665901fc35709c0597e534e12fb0441803784bfd0f3c9e70e0a8db3",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-COMMENCE-FIX-001.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1501,
+      "fingerprint": "sha256:dc85ad121f2e1e6354222e4d6bd006a073d8f8ac07271d6b0ce8678a64c52a3a",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-COMMENCE-FIX-002.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1453,
+      "fingerprint": "sha256:d15a7ced3da2ab7c8c1e77c7d05ddaff50dec3c782de45418ddedf69dd44fe4d",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-COMMENCE-FIX-003.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1492,
+      "fingerprint": "sha256:84f9d92a5f41ded29be47941ff45a6b8b21ba0d84f6c57b22f95290d5937accc",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-COMMENCE-FIX-004.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1495,
+      "fingerprint": "sha256:0afee5507083e98dd61a0a1953f12c30236adb84b749605d28983d8514442b50",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-COMMENCE-FIX-005.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1469,
+      "fingerprint": "sha256:3ad0d40d8142e65259b2b0d3f665563e1ed9145eace8eee9b92c89e7f09809b8",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-COMMENCE-FIX-006.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1464,
+      "fingerprint": "sha256:783213bcda10c62300b7c0a8dc44718a504bebffa7ecddd2304ace02829b66a7",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-COMMENCE-FIX-007.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1519,
+      "fingerprint": "sha256:1c734b563d9ff792dbb9d1a0022f5ce94a54ef6f60a806a514841659d36d10e3",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-COMMENCE-FIX-008.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1526,
+      "fingerprint": "sha256:ca56f48c182505f38003e6a4f188263d96a3cc895d306e72104354b21a0ecca5",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-COMMENCE-FIX-009.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1359,
+      "fingerprint": "sha256:c11084f8e0e75336c0a4a0c5da0f7139a17537df2bb394a6b960292ab7e01e93",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-COMMENCE-FIX-010.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1456,
+      "fingerprint": "sha256:c7179872b5470efde93d3e30059a6580205786e11cc1f2efcbf9c63ea7ca096b",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-COMMENCE-FIX-011.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1505,
+      "fingerprint": "sha256:29560742869d356049a348b0561d79bc69110f6bf9a6cd6228efc5099bd0e60a",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-COMMENCE-FIX-012.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
       "byte_size": 1526,
       "fingerprint": "sha256:2e9fbc895be31cd4f27bc51544ec756c710295e9aaaa1e229442d8799505d78c",
       "path": "fixtures/deterministic/HKLEG-CURRENT-DIFF-FIX-001.json",
@@ -1893,6 +2691,84 @@
       "role": "DETERMINISTIC_FIXTURE"
     },
     {
+      "byte_size": 1634,
+      "fingerprint": "sha256:af0b3e06f3daf8486cd3604a1d2b0cb0b8f1fdaaa0a235bc0c949ccb30d49e25",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-PUB-FIX-001.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1668,
+      "fingerprint": "sha256:538f3847299aded1f5a39e5e02bc9e96d3b4723180c4b19cd289b91b17e5f2c8",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-PUB-FIX-002.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1624,
+      "fingerprint": "sha256:23428e701c03738aa73cd7b7b62ba4aeaba045231a299be84b1c0c011ede5d20",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-PUB-FIX-003.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1619,
+      "fingerprint": "sha256:ec81b1c1dfea5dca65dd472915e21dea49621d4b5073a046dd9aa1549818de49",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-PUB-FIX-004.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1687,
+      "fingerprint": "sha256:527ceeda902de7a02c9f85d6bb3a085e30033de389a43d5dce5bc4ff6df3191d",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-PUB-FIX-005.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1476,
+      "fingerprint": "sha256:c587432746cf6e9a981037c5df4eb510189512566eaab1ed91faa15e67dec30b",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-PUB-FIX-006.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1472,
+      "fingerprint": "sha256:eeea786bc1af9f021b42c48b549692f7544f2d21ce08ee8285011c554103750b",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-PUB-FIX-007.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1614,
+      "fingerprint": "sha256:6418f71e21a31fdf34fba5feadddf31941a9b080063088fbdbf56c3d86fec78b",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-PUB-FIX-008.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1565,
+      "fingerprint": "sha256:653acb69525cfc36af27b59050dbdacd9955d6c762c3f8724875c29b47b2cff9",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-PUB-FIX-009.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1475,
+      "fingerprint": "sha256:6375cc8ccdd359ab5ac6fe8a2b2420dfe0ebc96493499760d9b202ee7c6ef68b",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-PUB-FIX-010.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1621,
+      "fingerprint": "sha256:78cbe0e005d78948f3b44dafe90d3bdd19bbc54385a04b02beaf2884599e18a3",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-PUB-FIX-011.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1619,
+      "fingerprint": "sha256:fe1bde8d6c014d49af97c5ea88ba1c32f7b2d1822a6ba1766db2156fe85aca5d",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-PUB-FIX-012.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1612,
+      "fingerprint": "sha256:7ffa2c30af9697de01468f049864173dd7baf6b063f7ee3e912a718740f4a09b",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-PUB-FIX-013.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
       "byte_size": 1463,
       "fingerprint": "sha256:aaf1fd5fa435a9db62b6de4b5828af5a31844360a1e62cf3430a9372ae271334",
       "path": "fixtures/deterministic/HKLEG-CURRENT-REC-FIX-001.json",
@@ -1980,6 +2856,306 @@
       "byte_size": 1480,
       "fingerprint": "sha256:86dce2216bdedd2788d4ecad1ed09c050e7a230e39fe9a4c37c520205f39dc49",
       "path": "fixtures/deterministic/HKLEG-CURRENT-REL-FIX-007.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1885,
+      "fingerprint": "sha256:4693e374ad21ba302580e9b30268dafe7ef391fb9a3e841065f4f89614c5ad06",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-001.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1891,
+      "fingerprint": "sha256:2e570a756e91beaa8f2166d436b7ae0fd08c3d130c0674f31f3af624af6fac98",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-002.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1887,
+      "fingerprint": "sha256:9a1b10e799e578dc70beafc0b88366354fd314b02e8638628209af24deb1c708",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-003.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1882,
+      "fingerprint": "sha256:db47bb93ab4c1172839e1ded14d7a5f92d7f3c9c32e42d53ce570cf67fc9b22b",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-004.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1895,
+      "fingerprint": "sha256:e224f34c36cbef52ec5ea4dc289a447b1cb716f0400233d45a2f2690906cd5bb",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-005.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1901,
+      "fingerprint": "sha256:baf7654bc93c302bf1aff2c7bb46d9e5c0ec66e11042e3d4c5d32fb5bcae8f69",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-006.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1913,
+      "fingerprint": "sha256:13bd67cd355c02447e7d040937dcad2396acfbcb0bd456eecd1d0725814fe481",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-007.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1919,
+      "fingerprint": "sha256:ad44525c06a2dc46658b665ca8fc9c626d6912aec7433cc4a345d826559f03c6",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-008.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1883,
+      "fingerprint": "sha256:9f41fa2eee58c2bb0692854eab341710a89a3fe9f9f7a8e986a5f1b2431f0235",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-009.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1882,
+      "fingerprint": "sha256:1b59828303bd5d49bf0c5eebcc7cc30d9fca29f112155c5f1c40faca4f53bf42",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-010.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1888,
+      "fingerprint": "sha256:89397f2b6502cccf3fc6e03b7e654768aca3e26147118949d1415f0385f357be",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-011.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1884,
+      "fingerprint": "sha256:7f43952549464c3f80873ba0442ab4f2806c90a44274a8dc45a36388059c7402",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-012.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1878,
+      "fingerprint": "sha256:8e25250588767ea2ec93cc78bd2cad1178f9a2c4d255e0a554f96759e9754ea4",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-013.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1887,
+      "fingerprint": "sha256:0f5d45116f264bf760b21154e8f910a17d6211451f0ce4accb849e9992cc9b2a",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-014.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1907,
+      "fingerprint": "sha256:7ab18b58fb0da78dc63de4b995858f82acca163c58fd23400e4c8f4dad66702d",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-015.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1922,
+      "fingerprint": "sha256:3ab35d9ae1214e7e05ad9097c8d126908292692bce75484d37fc997298cf4e79",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-016.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2174,
+      "fingerprint": "sha256:deb5ef0dc9d273b12922341e536ee87dadb2a2d3af4e8caa1d61084352d81e82",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-001.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2012,
+      "fingerprint": "sha256:43fac57829568b23bee81a77a2c6a249f591e322ca03dd76ed715fe0f794ef25",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-002.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2080,
+      "fingerprint": "sha256:671678606fa5bdaa51c96f68208c542064daf4515c3a169e09076ae7f4bfc489",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-003.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2081,
+      "fingerprint": "sha256:2d8e3b01330bc4a8bc102e34b01e1425694afad9ade2e916b3e3db9e2479230d",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-004.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2149,
+      "fingerprint": "sha256:a667eee55692624679329d70154a59b23ae4a9befa5040c20d2b1877a69fc6ed",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-005.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2157,
+      "fingerprint": "sha256:c3b0bdc3c2cf1ac5e0bc1e832d14d5af1ab48c0bd1b64f9edf1484313bfcf3a4",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-006.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2153,
+      "fingerprint": "sha256:c8c455cf27c47d2d233fac6c228c3f5ffaf811e5e144a6d837ad15cf0a9f27fe",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-007.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2153,
+      "fingerprint": "sha256:74599f0150f2dd9b7ce7701623060d4d323020036d3d7e8ec1c9c744622d74d8",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-008.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2163,
+      "fingerprint": "sha256:5cc72a3be80cae55e3897dd12b0e47d7afc9d7a7474a514b13d323205a3cc303",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-009.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2149,
+      "fingerprint": "sha256:01bc1c286d9bfff2ec191dd0276a249020f2f66a89064afab035f4a34435c306",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-010.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2162,
+      "fingerprint": "sha256:8d248084bcbbbefcd68b6fa9b02232d77f8c5195c4186ba7b9f7686de9ffa5bd",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-011.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2144,
+      "fingerprint": "sha256:99d9a90535dfec320fdcc1d7d2a8165b6f7955b9cc75035e8ac022fa727d9fb4",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-012.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2156,
+      "fingerprint": "sha256:27bbbb6ec8d1302c36e40fe339aff76da0fe35b0af3f4f436b4cf2d64d3db75f",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-013.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30459,
+      "fingerprint": "sha256:e820e5507626108aefe11f6e932fb16085e9ea48c65386ba8672a6d1c0bebe33",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-001.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 25066,
+      "fingerprint": "sha256:37a5f4054c0a050f997df95c04497fd673fe55592dc78e0ba83a633cb4258ab8",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-002.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 4694,
+      "fingerprint": "sha256:699b8eca4b1c9ca267af0e255981e0bf015bdfcd8de83aee4fce388e89426617",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-003.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30490,
+      "fingerprint": "sha256:221a9eb995d599ab7ae93c808dd32453799e3def3284faecdd3947ba4f11e5a1",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-004.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30453,
+      "fingerprint": "sha256:fe5b6b76f3afbd38ae5b6b41a69558f19e940bc7f583d6a3ade11902a6b5154b",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-005.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30448,
+      "fingerprint": "sha256:d6ed6ae8d5e8875c40cef92c6059ba6e1276c3ea47c63f85e015ed9a1794e38c",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-006.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30435,
+      "fingerprint": "sha256:bd7ca9bea7123811c79e9242d873413a89eb2d960d86169a5f6be3c4df0e95cc",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-007.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30420,
+      "fingerprint": "sha256:3d9a4fc00b4f0854bd8756ed8a97abdcc6990b488135d58dc39d89ed5ac653a9",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-008.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30432,
+      "fingerprint": "sha256:89513895550b3e3e9a47a1895d8af70dfa04b0b57eb65e036941dfd9a1fbfeba",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-009.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30422,
+      "fingerprint": "sha256:c66534c94278172f7a0b19524436af10e1761c697288a015708977f0a65e26ee",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-010.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30431,
+      "fingerprint": "sha256:670db49c5eb23d3ce5ff2980756b347cc2831b201310602871f16afb6da64eff",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-011.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30429,
+      "fingerprint": "sha256:43a654043c550729e30620a1018673ceca708bfb0efdac0852074aa37b772865",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-012.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30435,
+      "fingerprint": "sha256:56cbff1b2bfef04b404e052b300058ca7e03ae81241e911dd5b59309c6337fde",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-013.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30432,
+      "fingerprint": "sha256:bb13869a80aec6010a76a3e4664ce3b179fc33acd7bec5843746776e9c45992a",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-014.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30438,
+      "fingerprint": "sha256:22b5dd2a1893e799ee70fce44b6f9b90a13cea570f7df1e0a842388758662d8d",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-015.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30436,
+      "fingerprint": "sha256:2dc50a65d5d558e13da0120dd5c9c4f6057daa99fb0830b5cf807835d5809bab",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-016.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30432,
+      "fingerprint": "sha256:69060a608890c3ec4717669b041e5765006b56aa1a48d186030034098e7ef9b1",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-017.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30437,
+      "fingerprint": "sha256:02a135afd6852546c6f38f54b14fc23ffc99f8a6746670930b32f79378416a4c",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-018.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30423,
+      "fingerprint": "sha256:43999a095d2e588db92858c94d73bcc7551c528f9c999824ec0bb063e8e9e1b1",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-019.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30429,
+      "fingerprint": "sha256:8a2c3774e6bcd8120d8f0d6dde75478f95e80958c17971935c05e98721d086c7",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-020.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 30446,
+      "fingerprint": "sha256:753abd356a4cc5a811e81fd193a6a5eab5c0fe6ff2d96b8c546384e83c81ec55",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-021.json",
       "role": "DETERMINISTIC_FIXTURE"
     },
     {
@@ -2085,6 +3261,18 @@
       "role": "RULES"
     },
     {
+      "byte_size": 374,
+      "fingerprint": "sha256:95ad34ec6babe73bea08a37940a9df36c6ddfe0fc6ef406cc43bd5ca8337f437",
+      "path": "rules/HKLEG-CURRENT-CESSATION-001.json",
+      "role": "RULES"
+    },
+    {
+      "byte_size": 356,
+      "fingerprint": "sha256:17b08d593ad85c2c4c472cee9674fb5d206fa72a9e4a610f91480b4986896194",
+      "path": "rules/HKLEG-CURRENT-COMMENCEMENT-001.json",
+      "role": "RULES"
+    },
+    {
       "byte_size": 240,
       "fingerprint": "sha256:efc242b96246e2e8a15a69a3ea9725285fb3a7fc850575b6ad5a63cd4c61e4c1",
       "path": "rules/HKLEG-CURRENT-DIFF-001.json",
@@ -2151,6 +3339,12 @@
       "role": "RULES"
     },
     {
+      "byte_size": 504,
+      "fingerprint": "sha256:4d514174d259ccc064de464c5b9348b0f2c505bf36e2fa32ebf61b80d3520e04",
+      "path": "rules/HKLEG-CURRENT-PUBLICATION-001.json",
+      "role": "RULES"
+    },
+    {
       "byte_size": 350,
       "fingerprint": "sha256:25ecc542bf83b6b4c1aecdb0a6a5302642b7cccb62300f16f3c2716237a27a86",
       "path": "rules/HKLEG-CURRENT-REC-001.json",
@@ -2160,6 +3354,24 @@
       "byte_size": 333,
       "fingerprint": "sha256:dc8980e8957a7c44151a02245be32b7d4c63a306f5bb5fe39d2db830695e381c",
       "path": "rules/HKLEG-CURRENT-REL-001.json",
+      "role": "RULES"
+    },
+    {
+      "byte_size": 561,
+      "fingerprint": "sha256:52d6a7e61d81c9af7d658a2b747d033c2d1054a4501062cfbcc880484aac6969",
+      "path": "rules/HKLEG-CURRENT-TEXT-EVENT-001.json",
+      "role": "RULES"
+    },
+    {
+      "byte_size": 513,
+      "fingerprint": "sha256:c71b6f46e4b099da8bf2e408448eaf5428f4e2aef2178a55bbcc608c9e3b0ffe",
+      "path": "rules/HKLEG-RECON-PLAN-001.json",
+      "role": "RULES"
+    },
+    {
+      "byte_size": 384,
+      "fingerprint": "sha256:51ebd92f4abebe774527606102d8dbb26c57e7952fb6e57e0024133799cb073b",
+      "path": "rules/HKLEG-RECON-PLAN-SEMANTIC-001.json",
       "role": "RULES"
     },
     {

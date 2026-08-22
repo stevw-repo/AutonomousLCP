@@ -18,8 +18,12 @@ from pathlib import Path
 import uvicorn
 from asklegal_application_runtime import CredentialError, ServiceExitCode, run_v1_service
 
-from asklegal_review_api.api import create_app, local_dependencies
-from asklegal_review_api.v1_infrastructure import load_v1_infrastructure, readiness_gate
+from asklegal_review_api.api import ReviewDependencies, create_app
+from asklegal_review_api.v1_infrastructure import (
+    load_v1_infrastructure,
+    readiness_gate,
+    v1_dependencies,
+)
 
 _LISTEN_ADDRESS = "0.0.0.0"  # noqa: S104 - container-only listener on a private network
 _LISTEN_PORT = 8001
@@ -35,17 +39,26 @@ _TLS_CERTIFICATE = Path("/etc/asklegal/tls/review-api/tls.crt")
 _TLS_PRIVATE_KEY = Path("/etc/asklegal/tls/review-api/tls.key")
 
 
+class _CooperativeServer(uvicorn.Server):
+    """Uvicorn server whose signal lifecycle remains owned by the V1 runner."""
+
+    def install_signal_handlers(self) -> None:
+        """Leave SIGTERM handling to `run_v1_service`."""
+        return
+
+
 def _server_material_present() -> bool:
     """Report whether this service can read its own issued server material."""
-    return all(path.is_file() and os.access(path, os.R_OK)
-               for path in (_TLS_CERTIFICATE, _TLS_PRIVATE_KEY))
+    return all(
+        path.is_file() and os.access(path, os.R_OK) for path in (_TLS_CERTIFICATE, _TLS_PRIVATE_KEY)
+    )
 
 
-async def _serve(shutdown: asyncio.Event) -> None:
+async def _serve(shutdown: asyncio.Event, dependencies: ReviewDependencies) -> None:
     """Run the ASGI server until cooperative shutdown completes."""
-    server = uvicorn.Server(
+    server = _CooperativeServer(
         uvicorn.Config(
-            create_app(local_dependencies()),
+            create_app(dependencies),
             host=_LISTEN_ADDRESS,
             port=_LISTEN_PORT,
             log_level="info",
@@ -55,7 +68,6 @@ async def _serve(shutdown: asyncio.Event) -> None:
             ssl_keyfile=str(_TLS_PRIVATE_KEY),
         )
     )
-    server.install_signal_handlers = lambda: None
     serving = asyncio.create_task(server.serve())
     waiting = asyncio.create_task(shutdown.wait())
     # Waiting only on `shutdown` hides a server that failed to start: the task holds
@@ -79,7 +91,12 @@ async def _run(environment: Mapping[str, str]) -> ServiceExitCode:
     if not _server_material_present():
         _LOGGER.critical("server material unavailable: TLS_MATERIAL_UNREADABLE")
         return ServiceExitCode.NOT_READY
-    return await run_v1_service(readiness_gate(infrastructure), _serve, report_line=_LOGGER.info)
+    dependencies = v1_dependencies(infrastructure)
+
+    async def serve(shutdown: asyncio.Event) -> None:
+        await _serve(shutdown, dependencies)
+
+    return await run_v1_service(readiness_gate(infrastructure), serve, report_line=_LOGGER.info)
 
 
 def run() -> int:

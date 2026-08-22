@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from tools.image_admission_spike import (
+    FIXTURE_PATH,
     MANIFEST_PATH,
     ImageAdmissionFailure,
     JsonValue,
@@ -104,6 +105,33 @@ def test_policy_is_repository_scoped_and_test_trust_cannot_become_production_tru
         "signature_artifact_type": "application/vnd.asklegal.test-signature.v1+json",
         "trust_capability": "LOCAL_TEST_ONLY",
     }
+
+
+def test_synthetic_busybox_package_evidence_is_tracked_with_the_fixture() -> None:
+    """Keep the package database needed for complete ordinary SBOM discovery."""
+    status = (REPOSITORY_ROOT / FIXTURE_PATH / "rootfs/var/lib/dpkg/status").read_text(
+        encoding="utf-8"
+    )
+    assert "Package: busybox-static\n" in status
+    assert "Status: install ok installed\n" in status
+    assert "Version: 1:1.36.1-6ubuntu3.1\n" in status
+
+
+def test_runtime_policy_binds_the_named_builder_image_and_database_source() -> None:
+    """Prevent version-only builder checks or an unrecoverable database snapshot."""
+    policy = load_policy(REPOSITORY_ROOT)
+    runtime = policy["runtime"]
+    assert isinstance(runtime, dict)
+    assert runtime["buildkit_builder_name"] == "asklegal-image-admission-v0262"
+    assert runtime["buildkit_image_ref"] == (
+        "moby/buildkit@sha256:de10faf919fc71ba4eb1dd7bd6449566d012b0c9436b1c61bfee21d621b009aa"
+    )
+    database = policy["vulnerability_database"]
+    assert isinstance(database, dict)
+    assert str(database["source_archive_url"]).startswith("https://grype.anchore.io/")
+    assert database["source_archive_sha256"] == (
+        "dca26dd65bd0c4ba626af404a2e60d983d9302863eabdd8a7e7d42008fb4da3c"
+    )
 
 
 def test_normalizers_remove_only_declared_observation_fields() -> None:
@@ -368,13 +396,13 @@ def test_complete_local_image_admission_spike(tmp_path: Path) -> None:
         pytest.fail(f"missing image-admission tool paths: {', '.join(missing)}")
     paths = ToolPaths(
         buildx=Path(str(values["BUILDX"])),
-        docker=Path("/usr/bin/docker"),
+        docker=Path(os.environ.get("ASKLEGAL_DOCKER", "/usr/bin/docker")),
         grype=Path(str(values["GRYPE"])),
         grype_db=Path(str(values["GRYPE_DB"])),
         notation=Path(str(values["NOTATION"])),
         openssl=Path("/usr/bin/openssl"),
         oras=Path(str(values["ORAS"])),
-        sudo=Path("/usr/bin/sudo"),
+        sudo=Path(os.environ.get("ASKLEGAL_PRIVILEGE_RUNNER", "/usr/bin/sudo")),
         syft=Path(str(values["SYFT"])),
     )
     report = run_spike(REPOSITORY_ROOT, paths, tmp_path)

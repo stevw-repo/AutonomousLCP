@@ -1,232 +1,219 @@
-# Where the project stands — 2026-08-21
+# Where the project stands — 2026-08-22
 
-Read this first. It is the current short handoff. `WORKING_STATE.md` contains
-the detailed history; `ROADMAP.md` contains the durable delivery sequence.
+Read this first, then `.agent/ROADMAP.md` and `.agent/WORKING_STATE.md`.
 
-## Repository and host
+## Repository checkpoint
 
 - Root: `/home/docpro/Desktop/Ask.Legal Database/AskLegal-LegalDBPipeline`
-- Host: `docpro-MS-7D99`, Ubuntu 24.04.4 LTS, x86-64.
-- Branch: `main`; the verified pre-checkpoint base was `c4b3ba2`, equal to the
-  refreshed `origin/main` ref. The 2026-08-21 checkpoint contains the audit,
-  continuity reconciliation, and first six independently built HKV1-2
-  acquisition slices described below.
-- Docker commands in the current login session need `sg docker -c '...'`.
-- `uv` and `node` are under `/home/docpro/.local/bin`.
+- Host: `docpro-MS-7D99`, Ubuntu 24.04.4 LTS, x86-64
+- Branch: `main`; local tracking was `0` ahead / `0` behind at the start of the
+  checkpoint. The last pushed commit is `3f340c7`.
+- The working tree intentionally contains the accumulated V1 implementation
+  after `3f340c7`; it is not committed. Preserve all unrelated changes.
+- The disposable branches `v1-poc-runtime-proven` and
+  `demo/expo-source-transformation` are informational only. Do not import or
+  cherry-pick their code.
+- Docker commands in this login session require `sg docker -c '...'`.
+- Exact local tools: `/home/docpro/.local/bin/uv` 0.12.5,
+  `/home/docpro/.local/bin/node` 24.19.0, workspace Python 3.14.7.
 
-Commit `c4b3ba2` contains the independently built six-field serving-payload
-change. It is now committed on `main`; the running promotion image is older and
-does not prove that source. The control-plane two-field payload remains
-incompatible with the current promotion source.
+## Verified engineering state
 
-`v1-poc-runtime-proven` and `demo/expo-source-transformation` are disposable
-visual branches. Inspect them only for informational discovery leads. Never
-import or cherry-pick their code. The former is an ancestor of `main`, has no
-unique commits, and was 28 commits behind when inspected on 2026-08-21.
+The complete shipping command passed on 2026-08-22:
 
-## Fresh audit baseline
+```sh
+.venv/bin/python -m tools.dev_test \
+  --uv /home/docpro/.local/bin/uv \
+  --node /home/docpro/.local/bin/node
+```
 
-The complete audit was run on 2026-08-20 without changing implementation or
-the live host.
+Verified result:
 
-| Check | Verified result |
-|---|---|
-| Full ordinary pytest suite | 856 passed, 4 skipped after the sixth HKV1-2 slice |
-| Locked package spike | Passed for all 19 workspace packages |
-| Contract validator | Passed; reproducible package fingerprint `sha256:7bd2858bd0099271bc5be1e8d5c380521d81fb15bee8a4110de8fe6629d3094e` |
-| Ruff lint | Passed |
-| Ruff format check | Failed: 13 files would be reformatted; do not broadly auto-format under the current Python 3.12 launcher constraint |
-| Strict Pyright | Failed: 856 errors total; 665 are in tracked Python and 191 are in ignored local runtime files under `var/`; the focused acquisition/Gazette/readiness surface is clean |
-| Boundary checker | Passed: 173 files, 12 registered exceptions |
-| Lock validation | `uv lock --check` passed |
-| Dependency audit | No npm or OSV findings in the locked dependencies |
-| JSON/TOML/shell syntax and Markdown local links | Passed |
-| Git object integrity | Passed; only ordinary dangling unreachable objects reported |
-| M7 fresh rerun | Not rerunnable without reset: `prove --all` found existing `run-a`; no reset was performed |
+- strict Pyright: 0 errors, warnings, or information messages;
+- Ruff lint: clean;
+- Ruff format: all 375 Python files formatted;
+- Python boundary: 187 files, the same 12 exact reviewed exceptions;
+- architecture: 5 applications, 14 packages, 80 dependency edges, 31
+  capability ports;
+- contracts: reproducible package fingerprint
+  `sha256:7bd2858bd0099271bc5be1e8d5c380521d81fb15bee8a4110de8fe6629d3094e`;
+- ordinary suite: 959 passed, 4 skipped.
 
-Four skipped tests still need their dedicated environments: Durable Task
-emulator integration, real SQL Server integration, image-admission spike, and
-package spike. The package spike was run separately and passed during the
-audit. The other three were not re-proved in their dedicated environments.
+The four skipped tests are the intended opt-in gates. All four were run
+separately and passed:
 
-## Live host state
+- package spike: 5 passed, including path-distinct builds and clean locked
+  network-disabled installs for all 19 workspace packages;
+- SQL Server: 1 passed against a new digest-pinned disposable SQL Server. The
+  proof applies migrations `000001` through `000007`, commits real Review-ready
+  and decided proposals, proves Review/Promotion projection reads, consumption,
+  revocation, invalidation, no-effect execution authorization, replay/lost-ack
+  recovery, permission isolation, tamper and changed-lineage rejection, one
+  concurrent terminal winner, and denial of direct fact-table access;
+- Durable Task: 1 passed against a new digest-pinned disposable emulator;
+- image admission: full opt-in proof passed. Two canonical executions reproduced
+  image digest
+  `sha256:52bd434d68d024291a83e44c5c0c8c360880001f98dfd36954bad501241c462c`
+  and all unsigned evidence fingerprints. Ephemeral signed graph hashes differed
+  as designed; recovery equalled the signed graph within each execution.
 
-- `asklegal.target` is enabled and active.
-- Fourteen service containers are running; `asklegal-networks` is exited by
-  design. No unit is failed and the five application logs report `READY`.
-- No AskLegal timers are installed or active. The system therefore does not
-  autonomously start its five declared recurring workflows.
-- All five running application containers use image IDs older than the current
-  local `:v1` tags. Source, tags, and deployed runtime are three different
-  states until the host is deliberately reconciled.
-- `acq-batch` and `cp-test` are long-running containers outside systemd using
-  stale images and privileged pipeline networks. They can contend for work and
-  must be investigated/stopped deliberately; the audit did not remove them.
-- `/srv/asklegal` uses about 11 GB of 3.6 TB and its primary/recovery/SQL
-  ownership is correct.
-- Installed systemd units and launch scripts are byte-identical to the current
-  generated repository copies.
-- The composite gate still reports `V1_POC_NOT_ADMITTED`: 14 components, 8
-  static contracts valid, 14 blockers. Its evidence model is not capable of
-  representing the already-created identities, enabled services, or exercised
-  providers, so it is a fail-closed static baseline, not a current admission
-  ledger.
+Every disposable SQL, Durable Task, and BuildKit proof container/builder was
+removed. Their downloaded digest-pinned images and ignored `/tmp` input caches
+may remain.
 
-## V1 release blockers
+M7 was explicitly reset and rerun under authorization: all 32 scenarios passed,
+with report marker `local synthetic platform proved`. The report content digest
+printed by the CLI was
+`sha256:9d4f00dfb43ac73634cec69f0311d23b819637830161ce0b51ee7699b712de38`;
+the report file SHA-256 is
+`9bc2dec2b642444b4fd84728ac8458d918085d9cd6e772e71f50eb0eb80b4dbf`.
+A normal second run returned exactly `SYNTHETIC_STATE_RESET_REQUIRED`.
 
-### P0 — promotion trust and correctness
+## CI state
 
-1. `ControlActivities.start_promotion` converts every model decision directly
-   into a serving record and schedules promotion. It does not require a frozen
-   release, desired-state inventory, Review decision, exact Approval, coverage
-   manifest, backup, routing, or rollback proof. It has already promoted an
-   `INSUFFICIENT_EVIDENCE` decision in the live chain.
-2. The active six-field fix makes the promotion worker reject the control
-   plane's current two-field payload. Deploying only that fix breaks the live
-   chain rather than making it safe.
-3. The promotion launcher permanently sets
-   `PROMOTION_WRITE_AUTHORIZED=true`. Authorization is deployment-wide rather
-   than bound to one approved immutable command.
-4. The real Pinecone adapter ignores the upsert acknowledgement and verifies
-   only that record IDs can be fetched. An older same-ID record can make a
-   failed/no-op write look successful; vector and six-field metadata equality
-   are not proved.
-5. The active payload reconstruction computes a new fingerprint from the
-   received payload rather than comparing it to an approved fingerprint. A
-   changed payload therefore authenticates itself.
-6. A provider error after an upsert is recorded `FAILED_FINAL`, even where the
-   outcome is unknown and requires reconciliation before retry or terminal
-   failure.
+`azure-pipelines.yml` now runs the same complete shipping gate on a fresh
+unprivileged Ubuntu 24.04 Microsoft-hosted agent. `tools/ci/bootstrap.sh`
+downloads and verifies exact uv 0.12.5 and Node 24.19.0 archives, installs
+Python 3.14.7 with `--no-bin`, and writes no profile/home executable. A clean
+bootstrap run completed on 2026-08-22. The pipeline contains no service
+connection, private pool, deployment environment, provider credential, or
+production authority.
 
-### P1 — shipping gates and operational safety
+No hosted pipeline run has occurred because the CI files are not committed or
+pushed. HKV1-1 remains `IN PROGRESS` for that single remote observation.
 
-- Strict Pyright is documented as a development boundary but has 713 tracked
-  errors, up from the historical 370-error debt, and `tools/dev_test.py` does
-  not run Pyright or Ruff. There is no repository CI configuration.
-- Model/embedding requests use zero placeholder prompt, package, profile,
-  serving-payload, and text fingerprints. The live legal-processing path labels
-  arbitrary captured endpoints as `HK_LATER_TREATMENT`; the live promotion
-  path estimates tokens with `len(text.split())` despite pinned real tokenizers.
-- Plaintext duplicates of SQL, vault, provider, Pinecone, and application
-  credentials remain in ignored `var/run/` staging paths. Values were not read.
-  Rotate every credential that has existed there, then remove the duplicates
-  after confirming the sealed systemd copies; this needs explicit user/root
-  action.
-- Application telemetry is effectively absent. Prometheus and Grafana are not
-  deployed, and only the OTel collector container exists.
-- `.claude/settings.local.json` is tracked and grants broad
-  `Bash(sg docker *)` permission. It is machine-local policy and should not be
-  part of the shared repository without an explicit decision.
-- The HKeL Gazette iterator now rejects page-cap exhaustion and an empty
-  intermediate page as explicit incomplete results. The worker materializes the
-  complete bounded listing before retaining any addressed PDF or listing
-  manifest, so these failures cannot create a short successful window.
-- The publisher-API `exchange` surface now enforces the transport's declared
-  redirect limit and returns `REDIRECT_LIMIT_EXCEEDED` for a same-host loop.
-- Item-specific endpoint templates now require the shared exact bounded-locator
-  contract, including a required single substitution and rejection of authority,
-  query, fragment, traversal, slash, backslash, and template ambiguity.
-- Gazette invalid input fails before publisher-client construction. Register
-  failures and every listed artifact now have closed durable outcomes; a missing
-  selected-language publication or failed artifact makes the window
-  `PARTIAL_CAPTURE`, while an incomplete register walk writes no manifest or
-  artifact.
-- Every terminal HKeL Gazette result now retains a canonical, fingerprinted
-  source-coverage report with exact source policy, cutoff, counts, manifest
-  reference, failure codes, disposition, and blocking consequence. HKeL
-  backcapture gaps remain visible `NONBLOCKING` results and never satisfy the
-  separate `RELEASE_BLOCKING` GLD role.
-- The source-cycle orchestrator derives the exact due roles from the active
-  register, records one immutable terminal report per due role, reads every
-  report back by exact vault reference, and writes the complete cycle report
-  last. Its exact binding now enters the V1 Coverage Status Manifest and blocks
-  release/promotion freeze if accounting is incomplete or a release-blocking
-  role has a gap.
+## Image-proof corrections
 
-### P2 — stale records and incomplete readiness
+The authorized rerun found and fixed two genuine reproducibility defects:
 
-- The source register now contains 79 endpoints, 56 enabled: five configured,
-  five partially configured, one blocked, and three out of V1 scope. Older
-  references to 78 endpoints and four blocked roles are stale.
-- Direct GLD e-Gazette is retained inside V1 as the originating/current-
-  publication source and earliest official Gazette feed. HKeL Gazette is
-  complementary backcapture, recovery, reconciliation, and gap-detection
-  evidence, not the upstream replacement. GLD remains
-  `PARTIALLY_CONFIGURED`: its Cloudflare Turnstile acceptance path must not be
-  bypassed, and a lawful repeatable or explicitly approved bounded manual
-  procedure still needs completeness and no-change admission evidence.
-- All three executable Hong Kong legal-package scopes remain `NOT_READY`.
-- Of 79 endpoint contracts, 63 have a technical procedure and 16 do not. Direct
-  HTTP, exact complete-inventory, special HKeL Gazette, and reviewed Patchright
-  discovery workflows are wired into the V1 service. The sole catalogue endpoint
-  belongs to the out-of-scope Gazette archive. Required browser-session legal-
-  evidence procedures otherwise remain unwired.
-- Complete-inventory scheduling cannot accept a caller-selected subset. It
-  derives the exact member/version set from the active register, retains admitted
-  members, isolates response-bearing failures, writes attempt accounting last,
-  and emits the source-policy-bound coverage result. Current HKeL inventory means
-  exactly its English and Traditional Chinese XML pair; any failed member is
-  release-blocking. This is deterministic local proof, not a live HKeL capture or
-  evidence that a host timer currently schedules the activity.
-- Rendered discovery accepts no caller URL or browser-policy override and retains
-  only a sanitized request map plus attempt report. Request user-info is removed,
-  and request-count overflow now fails closed. Every result says explicitly that
-  it proves no evidence, completeness, no-change, coverage satisfaction, or
-  processing authority. Current reviewed HKeL/NPC endpoints remain disabled or
-  out of V1, so no browser source became callable and no host Chromium admission
-  was established.
-- The exact focused strict-Pyright run over HKeL Gazette, the acquisition
-  pipeline/infrastructure, and the readiness protocol now reports zero errors,
-  clearing the previously recorded 40-error slice.
-- The README, V1 topology document, formal admission JSON, and parts of the
-  roadmap describe the earlier static-contract phase. They must be reconciled
-  before being used as V1 operating instructions.
-- `asklegal-local prove --all` is intentionally clean-state-only, but its CLI
-  does not explain that reset is required and fails with an unhandled
-  `FileExistsError` on a normal second run.
-- Thirteen files have formatting drift. Broad automatic Ruff formatting remains
-  unsafe while system launchers must parse under Python 3.12.
+1. the old gate checked that some BuildKit v0.26.2 node existed but hardcoded
+   actual builds to mutable builder `default` (currently v0.32.2);
+2. the tracked synthetic image fixture lacked the dpkg status record required
+   for Syft to inventory the declared BusyBox package.
 
-## Healthy foundation worth preserving
+The policy now binds named builder `asklegal-image-admission-v0262`, BuildKit
+image digest
+`sha256:de10faf919fc71ba4eb1dd7bd6449566d012b0c9436b1c61bfee21d621b009aa`,
+Docker 29.7.2, and Grype database build `2026-08-21T06:17:24Z` with exact
+archive/database hashes. `tools/image_admission_bootstrap.py` is the verified
+reproduction path. `tools/image_admission_direct_runner.sh` is a non-elevating,
+Docker/Buildx-only adapter for a shell that already has Docker permission.
 
-- The 856-test suite, architecture/boundary checks, package isolation, locked
-  builds, schemas/contracts, and dependency hygiene are healthy.
-- No tracked secrets, corpus dumps, or large runtime artifacts were found.
-- Real source, Azure model/embedding, and Pinecone connectivity were previously
-  exercised from their owning workers. That is connectivity evidence, not
-  admission or release correctness.
-- The Gazette archive holds 7,274 PDFs for 2000–2026 plus a canonical listing
-  manifest; pre-2000 OCR remains deliberately unbuilt.
-- The complete local Hong Kong V1 defined by the accepted design contains four
-  material families: Legislation, binding-court Cases, HKEX Regulatory
-  Materials, and selected licensed Hong Kong Principles. Only the Legislation
-  package has implementation checkpoints; it remains `NOT_READY`. Cases,
-  Regulatory Materials, and Principles have no executable real package today.
+## Current V1 position
 
-## Recommended dependency order to V1
+HKV1-0 and HKV1-2 remain acquisition/scope work. Direct GLD e-Gazette is the
+earliest originating official Gazette source and remains in V1, but its lawful
+Turnstile-gated acquisition procedure is not admitted. HKeL Gazette remains
+complementary backcapture, recovery, reconciliation, and gap evidence. The
+repository has 79 endpoint contracts, 56 enabled; five source roles are
+configured, five partially configured, one technically blocked, and three out
+of V1 scope.
 
-1. Freeze external writes and stop/investigate the two orphan containers.
-2. Repair the promotion trust chain end to end: release → desired state → named
-   Review/Approval → exact manifest/fingerprints → acknowledged write → full
-   read-back → backup/routing/rollback evidence.
-3. Bring the control-plane payload and active six-field promotion fix onto one
-   versioned contract and prove rejection, replay, lost-ack, and tamper cases.
-4. Re-establish enforced shipping gates: Pyright debt to zero or a narrowly
-   registered exception baseline, Ruff policy that preserves Python 3.12
-   launcher compatibility, and CI that runs them.
-5. Rotate staged credentials, rebuild/reconcile the five images deliberately,
-   remove runtime drift, and add health/telemetry and timer-driven operation.
-6. Replace the static admission snapshot with evidence that can express actual
-   host/provider state, admit the intended legal package/model/embedding/target,
-   and run the acceptance, recovery, and rollback proofs.
-7. Reconcile README, topology, roadmap, and admission documents, then cut V1.
+HKV1-3 through HKV1-6 remain the largest product gaps:
 
-Accepted V1 risks still need to be named at release: the egress proxy is a
-convention rather than an enforced boundary; `asklegal-register` permits broad
-east-west access; Review client authentication and shared vault credentials are
-relaxed; local image tags are mutable. These were conscious POC relaxations,
-not newly discovered defects, but none should be described as production-grade.
+- all three Hong Kong Legislation scopes remain `NOT_READY`. Frozen package
+  `0.27.0` now contains 33 rules and 216 deterministic fixtures. The
+  commencement rule covers exact default, fixed, appointed, conditional, and
+  progressive partial commencement and produces exact operative/pending
+  locations without inferring effect from publication or HKeL `InEffect` alone.
+  A second rule covers exact whole/partial and future/operative repeal,
+  revocation, expiry, and continuity-proved revival, binding pre/post state and
+  append-only event history without creating versions, successors, or records.
+  The readiness contract is generated from the complete actual rule/fixture
+  inventory rather than the former stale baseline-only list. A third rule
+  classifies operative/future amendments, express corrections, and Editorial
+  Record events, routes matching bundles to ordinary evidence validation and
+  missing consolidation to a Coverage Gap, and never constructs text, an
+  Official Version, or a Search Record;
+  a fourth rule classifies ordinary/Extraordinary Gazette publication and
+  enactment facts across Legal Supplement Nos. 1–3, Main Gazette notices, and
+  other supplements without inferring commencement, current law, identity,
+  continuity, an Official Version, or a Search Record;
+  a fifth bounded pre-Plan semantic rule covers all 13 terminal
+  decision/challenge outcomes. Even its successful exact confirmed result is
+  only an untrusted structured candidate for the full deterministic ADR 0084
+  Plan validator; it creates no Plan identity, executes no operation, authors
+  no text, emits no record, and performs no provider or external effect;
+  a sixth deterministic rule validates the complete ADR 0084 Plan contract,
+  authority, latest base, event chain, dependency/evidence closure, authentic
+  bilingual streams, closed operations, event bindings, atomic groups, and
+  revalidation across 21 cases. It binds only the existing candidate identity
+  and fingerprint and executes no operation or artifact construction;
+- no executable real Hong Kong Cases package exists;
+- no executable HKEX Regulatory package exists;
+- Principles still needs publisher/title/licence selection. If omitted, the
+  release cannot honestly be called the complete Hong Kong jurisdiction defined
+  by the accepted design.
 
-No commit, push, deployment, source fetch, model/embedding call, Pinecone
-mutation, credential rotation, container stop, or destructive reset was
-performed by this audit.
+HKV1-8's next `BEGIN`/Effect Intent slice is intentionally closed until the
+Promotion Manifest owns exact per-action effect/capability authority and
+HKV1-7 admits the referenced profiles. Proposal packages are
+manifest-last and restart-safe; Control registers a fully reread receipt through
+the atomic command protocol. Review now re-reads and displays all 11 exact
+members, validates the executable Promotion Manifest, and records a schema-valid
+named-human approve/reject event with no effect intent. Migration `000004`
+projects the optional decision to Review/Promotion. Promotion now reconstructs
+the approved candidate after restart by rereading all twelve objects and
+validating the exact Approval/manifest/base/predicate/authority bindings.
+Migration `000005` adds a Promotion-only atomic single-use consumption command,
+exact replay, competing-lineage denial, and explicit denial of the generic
+writer; it emits no Effect Intent. Migration `000006` adds named-human Review
+revocation and objective Promotion invalidation under the same terminal lock and
+winner as consumption. Replay, later-consumption denial, app-specific
+permissions, and a concurrent revoke/invalidate race pass on the real engine.
+Migration `000007` adds a Promotion-only no-effect execution authorization after
+it independently matches the exact consumed proposal, decision, manifest,
+`exe_` lineage/fingerprint, worker identity, and validation evidence. Replay and
+lost acknowledgement recover exactly; no Effect Intent or handler is created.
+Migrations `000003` through `000007` pass the fresh least-privilege proof. A
+pinned shared semantic contract now validates all eleven member roles and their
+cross-member authority bindings after exact-version reads; Review invokes the
+same contract independently. Correctly hashed placeholders, failed gates, and
+release/coverage/traceability/recovery/report drift remain invisible. A
+pinned-key Entra v2 verifier also
+passes local signature/claim/role/token-kind tests but remains unwired pending
+exact admitted tenant/client/key/current-authority inputs. Still missing are
+current-state/authority service composition, the guarded `BEGIN` plus first
+Effect Intent,
+backup/cutover, and
+rollback through the real local service boundaries.
+
+The next independent safe priority is exact validated-Plan-to-operation
+execution plus immutable Reconstruction Report/artifact validation, followed by
+fallback-selection contracts. None may activate a real scope or provider.
+
+HKV1-9 also remains incomplete. The last read-only host inspection showed the
+declared stack plus orphan `acq-batch` and `cp-test`; application images are
+older than current source/tags, timers and useful application telemetry are
+absent, and plaintext credential staging duplicates need rotation/removal.
+Those host mutations require their own exact authority and are not implied by
+the local proof authorization.
+
+## Authorization and side effects
+
+The user authorized continued V1 work plus the repository CI implementation,
+deletion/recreation only of the exact marked `var/local-conformance/` state, and
+isolated local Docker/host proof services. The migration `000007` proof used a
+new disposable database and removed its exact container; its generated
+credential existed only in process memory.
+
+No external legal source, Azure model/embedding deployment, Pinecone target,
+Ask.Legal route, production system, live host SQL database, credential, or
+deployed application was accessed or mutated during this checkpoint. Public
+downloads were limited to the exact SHA-verified CI/image-proof tools,
+BuildKit image, and Grype database. No commit or push was performed after
+`3f340c7`; do not commit or push without new exact authorization.
+
+## Exact next work
+
+1. Define the exact admitted capability/profile inputs for the separately
+   guarded `EXECUTION_AUTHORIZED -> EXECUTION_RUNNING` `BEGIN` transition and
+   first atomic Effect Intent, without inventing unset HKV1-7 values.
+2. Compose exact admitted Entra/current-authority/current-state readers once
+   their real local inputs exist.
+3. Implement the `BEGIN` contract in fail-closed disabled composition, but keep
+   every provider handler disabled until HKV1-7 target/profile admission is
+   complete.
+4. Implement exact Plan-to-operation execution and immutable Reconstruction
+   Report/artifact validation behind `HKLEG-RECON-PLAN-001`; keep all real
+   scopes inactive and all provider effects disabled.

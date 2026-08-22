@@ -1,0 +1,38 @@
+{
+  "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-002",
+  "title": "Unadmitted task profiles block semantic plan use",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:215c54ed35010d78ccf244f77cdab50e17975261de45e945497de2609287e23c",
+  "input": {
+    "decision_task": "RECONSTRUCTION_PLAN_DECISION",
+    "challenge_task": "RECONSTRUCTION_PLAN_CHALLENGE",
+    "evidence_bundle_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "operation_registry_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "plan_contract_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "decision_profile_fingerprint": null,
+    "challenge_profile_fingerprint": null,
+    "decision_result_fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+    "challenge_result_fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+    "candidate_mapping_fingerprint": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+    "task_profiles_admitted": false,
+    "decision_result_contract_valid": true,
+    "challenge_result_contract_valid": true,
+    "decision_evidence_bindings_complete": true,
+    "challenge_evidence_bindings_complete": true,
+    "candidate_operations_closed_registry_only": true,
+    "candidate_source_spans_complete": true,
+    "candidate_contains_final_text": false,
+    "challenge_outcome": "CONFIRMED",
+    "semantic_result_conflicts": false,
+    "event_chain_mapping_complete": true,
+    "applicability_mapping_complete": true,
+    "dependency_mapping_complete": true,
+    "bilingual_stream_mapping_complete": true,
+    "deterministic_prechecks_passed": true
+  },
+  "expected_artifact": {
+    "path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-002.json",
+    "fingerprint": "sha256:a1d98b0dcc80409c74ea55a5a48b2880357fc5eb7e08b27d432d3bdd540db890"
+  }
+}

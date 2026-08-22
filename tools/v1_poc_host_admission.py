@@ -9,6 +9,7 @@ from dataclasses import dataclass
 from enum import StrEnum
 from ipaddress import IPv4Network
 from pathlib import Path
+from typing import cast
 
 POLICY_PATH = Path("infrastructure/poc/host_admission_policy.json")
 _MAX_DOCUMENT_BYTES = 1_000_000
@@ -146,27 +147,48 @@ class HostAdmissionEvaluation:
 
 
 def _mapping(value: object) -> dict[str, object] | None:
-    return value if isinstance(value, dict) else None
+    if not isinstance(value, dict):
+        return None
+    candidate = cast("dict[object, object]", value)
+    if not all(type(key) is str for key in candidate):
+        return None
+    return cast("dict[str, object]", candidate)
 
 
 def _mappings(value: object) -> tuple[dict[str, object], ...] | None:
-    if not isinstance(value, list) or not all(isinstance(item, dict) for item in value):
+    if not isinstance(value, list):
         return None
-    return tuple(item for item in value if isinstance(item, dict))
+    items = cast("list[object]", value)
+    result: list[dict[str, object]] = []
+    for item in items:
+        document = _mapping(item)
+        if document is None:
+            return None
+        result.append(document)
+    return tuple(result)
 
 
 def _strings(value: object) -> tuple[str, ...] | None:
-    if not isinstance(value, list) or not all(type(item) is str and item for item in value):
+    if not isinstance(value, list):
         return None
-    return tuple(item for item in value if isinstance(item, str))
+    items = cast("list[object]", value)
+    result: list[str] = []
+    for item in items:
+        if type(item) is not str or not item:
+            return None
+        result.append(item)
+    return tuple(result)
 
 
 def _has_secret(value: object) -> bool:
-    if isinstance(value, dict):
+    document = _mapping(value)
+    if document is not None:
         forbidden = {"api_key", "password", "private_key", "secret", "token"}
-        return any(key.lower() in forbidden or _has_secret(child) for key, child in value.items())
+        return any(
+            key.lower() in forbidden or _has_secret(child) for key, child in document.items()
+        )
     if isinstance(value, list):
-        return any(_has_secret(child) for child in value)
+        return any(_has_secret(child) for child in cast("list[object]", value))
     return isinstance(value, str) and _SECRET_VALUE.search(value) is not None
 
 
@@ -175,11 +197,12 @@ def _read_object(path: Path) -> dict[str, object]:
     if len(raw) > _MAX_DOCUMENT_BYTES:
         message = "host admission document too large"
         raise ValueError(message)
-    value = json.loads(raw)
-    if not isinstance(value, dict):
+    value: object = json.loads(raw)
+    document = _mapping(value)
+    if document is None:
         message = "host admission document root"
         raise TypeError(message)
-    return value
+    return document
 
 
 def validate_policy(policy: dict[str, object]) -> tuple[HostFinding, ...]:
@@ -236,7 +259,7 @@ def validate_policy(policy: dict[str, object]) -> tuple[HostFinding, ...]:
         "external_write_authorized": False,
     }:
         findings.append(HostFinding(HostCode.AUTHORITY, "policy"))
-    if tuple(policy.get("admission_blockers", ())) != _EXPECTED_BLOCKERS:
+    if _strings(policy.get("admission_blockers")) != _EXPECTED_BLOCKERS:
         findings.append(HostFinding(HostCode.POLICY, "blockers"))
     return tuple(findings)
 
@@ -338,11 +361,12 @@ def _parse_private_subnet(raw: object) -> IPv4Network | None:
 
 def _validate_private_subnets(value: object) -> tuple[HostFinding, ...]:
     """Require one distinct, private, non-overlapping subnet per declared network."""
-    if not isinstance(value, dict) or set(value) != set(_PRIVATE_NETWORK_IDS):
+    allocation = _mapping(value)
+    if allocation is None or set(allocation) != set(_PRIVATE_NETWORK_IDS):
         return (HostFinding(HostCode.POLICY, "private subnet inventory"),)
     networks: list[IPv4Network] = []
     for network_id in _PRIVATE_NETWORK_IDS:
-        network = _parse_private_subnet(value[network_id])
+        network = _parse_private_subnet(allocation[network_id])
         if network is None:
             return (HostFinding(HostCode.POLICY, f"private subnet {network_id}"),)
         networks.append(network)

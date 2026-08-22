@@ -9,13 +9,16 @@ crashed on start with an ImportError.
 
 from __future__ import annotations
 
+from types import ModuleType
+
 import asklegal_source_connectors
 
 
 def test_every_exported_name_is_importable() -> None:
     """`__all__` is a promise about the package root, not a wish list."""
     missing = [
-        name for name in asklegal_source_connectors.__all__
+        name
+        for name in asklegal_source_connectors.__all__
         if not hasattr(asklegal_source_connectors, name)
     ]
 
@@ -25,12 +28,11 @@ def test_every_exported_name_is_importable() -> None:
 def test_nothing_public_is_left_out_of_all() -> None:
     """A public name absent from `__all__` is invisible to `from … import *`."""
     exported = set(asklegal_source_connectors.__all__)
-    module_type = type(asklegal_source_connectors)
     public = {
         name
         for name in vars(asklegal_source_connectors)
         if not name.startswith("_")
-        and not isinstance(getattr(asklegal_source_connectors, name), module_type)
+        and not isinstance(getattr(asklegal_source_connectors, name), ModuleType)
     }
 
     assert public - exported == set()

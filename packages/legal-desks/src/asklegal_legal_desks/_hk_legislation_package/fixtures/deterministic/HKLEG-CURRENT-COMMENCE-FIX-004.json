@@ -1,0 +1,39 @@
+{
+  "fixture_id": "HKLEG-CURRENT-COMMENCE-FIX-004",
+  "title": "Current appointed date before cutoff is operative",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:05d50862892fdb17c0fcb3b827b12dc63ce4b9e6eda1aae1a1ce3fa95752e703",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.commence-004",
+    "commencement_mode": "APPOINTED_DATE",
+    "operative_provision_fingerprint": "sha256:4040404040404040404040404040404040404040404040404040404040404040",
+    "event_evidence_fingerprints": [
+      "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+    ],
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "controlling_notice_state": "CURRENT",
+    "publication_date": "2026-08-04T00:00:00Z",
+    "effective_date": "2026-08-12T00:00:00Z",
+    "condition_exact": false,
+    "condition_satisfied_at_cutoff": false,
+    "all_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "affected_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "pre_event_operative_location_ids": [],
+    "affected_location_scope": "WHOLE_INSTRUMENT"
+  },
+  "expected_artifact": {
+    "path": "expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-004.json",
+    "fingerprint": "sha256:754c3e6391a76019f342a50143eafc886dcb430fb668bb2469aac3eb1447b6ba"
+  }
+}

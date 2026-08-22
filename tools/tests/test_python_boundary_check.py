@@ -124,6 +124,13 @@ def test_pyright_configuration_is_strict_and_repository_wide() -> None:
     assert re.search(r'typeCheckingMode\s*=\s*"strict"', configuration) is not None
     assert re.search(r'pythonVersion\s*=\s*"3\.14"', configuration) is not None
     assert re.search(r'include\s*=\s*\[\s*"\."\s*,?\s*\]', configuration) is not None
+    assert (
+        re.search(
+            r'exclude\s*=\s*\[\s*"\.venv"\s*,\s*"node_modules"\s*,\s*"var"\s*,?\s*\]',
+            configuration,
+        )
+        is not None
+    )
     assert 'reportMissingTypeStubs = "error"' in configuration
     assert 'reportUnnecessaryTypeIgnoreComment = "error"' in configuration
 

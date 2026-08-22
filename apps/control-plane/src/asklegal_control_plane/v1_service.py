@@ -22,7 +22,7 @@ from asklegal_durable_task import ConcurrencyOptions, V1SchedulerSettings
 
 from asklegal_control_plane.api import create_app, local_dependencies
 from asklegal_control_plane.v1_infrastructure import load_v1_infrastructure, readiness_gate
-from asklegal_control_plane.v1_pipeline import ControlActivities, run_source_pipeline
+from asklegal_control_plane.v1_pipeline import ControlActivities, observe_source_endpoint
 
 if TYPE_CHECKING:
     from asklegal_control_plane.v1_infrastructure import V1ControlInfrastructure
@@ -48,7 +48,6 @@ async def _serve_with(
             access_log=False,
         )
     )
-    server.install_signal_handlers = lambda: None
     # The control plane both serves its API and sequences the other stages, so it
     # runs a scheduler worker beside the ASGI server on its own hub.
     scheduler = V1SchedulerSettings.for_application("CONTROL_PLANE")
@@ -56,8 +55,7 @@ async def _serve_with(
     activities = ControlActivities(infrastructure)
     worker.add_activity(activities.start_acquisition)
     worker.add_activity(activities.start_analysis)
-    worker.add_activity(activities.start_promotion)
-    worker.add_orchestrator(run_source_pipeline)
+    worker.add_orchestrator(observe_source_endpoint)
     worker.start()
     _LOGGER.info("CONTROL_PLANE serving hub=%s", scheduler.task_hub)
     serving = asyncio.create_task(server.serve())

@@ -7,20 +7,21 @@ import re
 from dataclasses import dataclass
 from enum import StrEnum
 from importlib.resources import files
-from typing import Annotated, Literal, Never
+from typing import Annotated, Literal, Never, Protocol
 
 from asklegal_application_runtime import (
     ApplicationConfiguration,
     AuthorizationError,
     AuthorizationErrorCode,
+    IdentityVerifier,
     LocalAdapterError,
     LocalAdapterErrorCode,
     LocalCommandRegister,
     LocalConfigurationSource,
-    LocalIdentityVerifier,
     LocalPaginationStore,
     LocalReviewProjectionStore,
     Principal,
+    ProposalDetailProjection,
     ProposalProjection,
     authorize,
     build_local_configuration,
@@ -40,7 +41,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse, Response
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from asklegal_review_api.governance import ReviewCommand, ReviewGovernanceService
+from asklegal_review_api.governance import ReviewCommand, ReviewGovernance, ReviewGovernanceService
 
 _COMMAND_ID = re.compile(r"^cmd_[0-9a-f]{48}$")
 _FORGED_HEADERS = frozenset(
@@ -81,6 +82,7 @@ class ProposalSummary(BaseModel):
     manifest_fingerprint: str
     status: str
     title: str
+    review_version: int
 
 
 class ProposalPage(BaseModel):
@@ -93,21 +95,52 @@ class ProposalPage(BaseModel):
     continuation_token: str | None
 
 
+class ProposalArtifactSummary(BaseModel):
+    """One immutable package member safe for Review display."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True, strict=True)
+
+    role: str
+    path: str
+    media_type: str
+    fingerprint: str
+    byte_length: int
+
+
+class ProposalDecisionSummary(BaseModel):
+    """One immutable named-human decision safe for Review display."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True, strict=True)
+
+    approval_id: str
+    decision: str
+    decision_time: str
+    reviewer_identity_id: str
+    reviewer_identity_fingerprint: str
+    authority_evidence_id: str
+    authority_evidence_fingerprint: str
+    reason: str
+    event_fingerprint: str
+
+
 class ProposalDetail(BaseModel):
     """Closed exact proposal review projection."""
 
     model_config = ConfigDict(extra="forbid", frozen=True, strict=True)
 
     proposal: ProposalSummary
-    machine_manifest_ref: str
-    diff_ref: str
-    evidence_inventory_ref: str
-    coverage_gap_ref: str
-    recovery_proof_ref: str
-    validation_ref: str
-    cost_ref: str
-    ordered_actions_ref: str
-    report_ref: str
+    package_fingerprint: str
+    promotion_manifest_id: str
+    observation_cutoff: str
+    valid_from: str
+    valid_until: str
+    validity_predicates: tuple[tuple[str, str, str], ...]
+    base_serving_state_id: str
+    base_serving_state_fingerprint: str
+    candidate_serving_state_id: str
+    candidate_serving_state_fingerprint: str
+    artifacts: tuple[ProposalArtifactSummary, ...]
+    decision: ProposalDecisionSummary | None
 
 
 class CommentRequest(BaseModel):
@@ -166,17 +199,41 @@ class HistoryResponse(BaseModel):
     events: tuple[str, ...]
 
 
+class ReviewProjectionStore(Protocol):
+    """Exact immutable proposal projection surface consumed by Review routes."""
+
+    def load(self) -> tuple[str, tuple[ProposalProjection, ...]]:
+        """Return one internally consistent projection generation."""
+        ...
+
+    def get(self, proposal_id: str) -> ProposalProjection | None:
+        """Return one exact proposal from a verified generation, if present."""
+        ...
+
+    def detail(self, proposal_id: str) -> ProposalDetailProjection | None:
+        """Return one fully reread immutable proposal package, if present."""
+        ...
+
+    def check(self) -> bool:
+        """Perform a bounded non-mutating readiness check."""
+        ...
+
+    def record_evidence_read(self, *, subject: str, evidence_id: str) -> None:
+        """Record or explicitly refuse one sanitized evidence-read audit fact."""
+        ...
+
+
 @dataclass(frozen=True, slots=True)
 class ReviewDependencies:
     """Injected Review adapters with no implicit external success."""
 
     configuration: ApplicationConfiguration
     configuration_source: LocalConfigurationSource
-    identity: LocalIdentityVerifier
+    identity: IdentityVerifier
     register: LocalCommandRegister
-    projections: LocalReviewProjectionStore
+    projections: ReviewProjectionStore
     pagination: LocalPaginationStore
-    governance: ReviewGovernanceService | None = None
+    governance: ReviewGovernance | None = None
 
 
 def local_dependencies() -> ReviewDependencies:
@@ -195,7 +252,7 @@ def local_dependencies() -> ReviewDependencies:
             "srv_" + "a" * 48,
             "2026-08-15T00:00:00Z",
             "2026-08-17T00:00:00Z",
-            (("configuration", "sha256:" + "c" * 64),),
+            (("configuration", "1.0.0", "sha256:" + "c" * 64),),
         )
         for index, proposal in enumerate(projections.proposals, start=1)
     }
@@ -285,25 +342,27 @@ def create_app(dependencies: ReviewDependencies | None = None) -> FastAPI:
         limit: Annotated[int, Query(ge=1, le=100)] = 2,
         continuation: Annotated[str | None, Query(max_length=80)] = None,
     ) -> JSONResponse:
+        snapshot, generation = deps.projections.load()
+        proposals = tuple(item for item in generation if item.status == status)
         filters = (("status", status),)
         offset = 0
         cursor = None
         if continuation is not None:
             cursor = deps.pagination.resolve(
                 continuation,
-                snapshot=deps.projections.snapshot,
+                snapshot=snapshot,
                 filters=filters,
                 sort="proposal_id",
                 subject=principal.subject,
             )
             offset = cursor.offset
-        items = deps.projections.page(offset=offset, limit=limit)
+        items = proposals[offset : offset + limit]
         next_offset = offset + len(items)
         next_token = None
-        if next_offset < len(deps.projections.proposals):
+        if next_offset < len(proposals):
             next_cursor = (
                 deps.pagination.next_cursor(
-                    snapshot=deps.projections.snapshot,
+                    snapshot=snapshot,
                     filters=filters,
                     sort="proposal_id",
                     subject=principal.subject,
@@ -314,13 +373,11 @@ def create_app(dependencies: ReviewDependencies | None = None) -> FastAPI:
             )
             next_token = deps.pagination.issue(next_cursor)
         page = ProposalPage(
-            snapshot=deps.projections.snapshot,
+            snapshot=snapshot,
             items=tuple(_proposal_summary(item) for item in items),
             continuation_token=next_token,
         )
-        return JSONResponse(
-            page.model_dump(mode="json"), headers={"ETag": f'"{deps.projections.snapshot}"'}
-        )
+        return JSONResponse(page.model_dump(mode="json"), headers={"ETag": f'"{snapshot}"'})
 
     @app.get(
         "/api/v1/proposal-packages/{proposal_id}",
@@ -330,23 +387,55 @@ def create_app(dependencies: ReviewDependencies | None = None) -> FastAPI:
     async def _get_proposal(
         proposal_id: str, _principal: Annotated[Principal, Depends(reviewer)]
     ) -> JSONResponse:
-        proposal = deps.projections.get(proposal_id)
-        if proposal is None:
+        projection = deps.projections.detail(proposal_id)
+        if projection is None:
             _raise_http("PROPOSAL_NOT_FOUND", status=404)
-        prefix = proposal.manifest_fingerprint
         detail = ProposalDetail(
-            proposal=_proposal_summary(proposal),
-            machine_manifest_ref=prefix,
-            diff_ref=prefix,
-            evidence_inventory_ref=prefix,
-            coverage_gap_ref=prefix,
-            recovery_proof_ref=prefix,
-            validation_ref=prefix,
-            cost_ref=prefix,
-            ordered_actions_ref=prefix,
-            report_ref=prefix,
+            proposal=_proposal_summary(projection.proposal),
+            package_fingerprint=projection.package_fingerprint,
+            promotion_manifest_id=projection.promotion_manifest_id,
+            observation_cutoff=projection.observation_cutoff,
+            valid_from=projection.valid_from,
+            valid_until=projection.valid_until,
+            validity_predicates=projection.validity_predicates,
+            base_serving_state_id=projection.base_serving_state_id,
+            base_serving_state_fingerprint=projection.base_serving_state_fingerprint,
+            candidate_serving_state_id=projection.candidate_serving_state_id,
+            candidate_serving_state_fingerprint=(projection.candidate_serving_state_fingerprint),
+            artifacts=tuple(
+                ProposalArtifactSummary(
+                    role=item.role,
+                    path=item.path,
+                    media_type=item.media_type,
+                    fingerprint=item.fingerprint,
+                    byte_length=item.byte_length,
+                )
+                for item in projection.artifacts
+            ),
+            decision=(
+                None
+                if projection.decision is None
+                else ProposalDecisionSummary(
+                    approval_id=projection.decision.approval_id,
+                    decision=projection.decision.decision,
+                    decision_time=projection.decision.decision_time,
+                    reviewer_identity_id=projection.decision.reviewer_identity_id,
+                    reviewer_identity_fingerprint=(
+                        projection.decision.reviewer_identity_fingerprint
+                    ),
+                    authority_evidence_id=projection.decision.authority_evidence_id,
+                    authority_evidence_fingerprint=(
+                        projection.decision.authority_evidence_fingerprint
+                    ),
+                    reason=projection.decision.reason,
+                    event_fingerprint=projection.decision.event_fingerprint,
+                )
+            ),
         )
-        return JSONResponse(detail.model_dump(mode="json"), headers={"ETag": f'"{prefix}"'})
+        return JSONResponse(
+            detail.model_dump(mode="json"),
+            headers={"ETag": f'"v{projection.proposal.review_version}"'},
+        )
 
     @app.get("/api/v1/evidence/{evidence_id}", operation_id="streamEvidence")
     async def _evidence(
@@ -423,8 +512,16 @@ def create_app(dependencies: ReviewDependencies | None = None) -> FastAPI:
     async def _history(
         proposal_id: str, _principal: Annotated[Principal, Depends(reviewer)]
     ) -> JSONResponse:
+        projection = deps.projections.detail(proposal_id)
+        if projection is None:
+            _raise_http("PROPOSAL_NOT_FOUND", status=404)
+        decision = projection.decision
         result = HistoryResponse(
-            proposal_id=proposal_id, snapshot_ref="sha256:" + "d" * 64, events=("REVIEW_READY",)
+            proposal_id=proposal_id,
+            snapshot_ref=(
+                projection.package_fingerprint if decision is None else decision.event_fingerprint
+            ),
+            events=("REVIEW_READY",) if decision is None else ("REVIEW_READY", decision.decision),
         )
         return JSONResponse(
             result.model_dump(mode="json"), headers={"ETag": f'"{result.snapshot_ref}"'}
@@ -499,6 +596,7 @@ def _proposal_summary(proposal: ProposalProjection) -> ProposalSummary:
         manifest_fingerprint=proposal.manifest_fingerprint,
         status=proposal.status,
         title=proposal.title,
+        review_version=proposal.review_version,
     )
 
 
@@ -533,17 +631,10 @@ async def _submit(
         _raise_http("APPROVAL_REFERENCE_MISMATCH")
     body = model.model_dump(mode="json")
     json_body: dict[str, JsonValue] = dict(body)
-    outcome = (
-        dependencies.governance.submit(
-            ReviewCommand(command_id, target, expected_version, json_body, principal)
-        )
-        if dependencies.governance is not None
-        else dependencies.register.submit(
-            command_id=command_id,
-            target=target,
-            expected_version=expected_version,
-            body=json_body,
-        )
+    if dependencies.governance is None:
+        raise LocalAdapterError(LocalAdapterErrorCode.DISABLED)
+    outcome = dependencies.governance.submit(
+        ReviewCommand(command_id, target, expected_version, json_body, principal)
     )
     return CommandResponse(
         command_id=outcome.command_id,

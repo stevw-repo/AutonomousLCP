@@ -14,6 +14,7 @@ from .hkel_gazette import (
     GazettePage,
     GazetteRegisterError,
     GazetteRegisterFailureCode,
+    GazetteRequestTiming,
     HkelGazetteRegisterClient,
 )
 from .model import (
@@ -59,8 +60,10 @@ from .official_http import (
     OfficialFetchResult,
     OfficialHttpConnector,
     OfficialHttpTransport,
+    OfficialObservationGate,
     OfficialTransportFailure,
     OfficialTransportResponse,
+    PolicyBoundOfficialHttpTransport,
     ProxiedOfficialHttpTransport,
     PublisherCall,
     StdlibOfficialHttpTransport,
@@ -76,8 +79,10 @@ from .official_monitoring import (
     OfficialCoverageCycle,
     OfficialMonitoringAssignment,
     OfficialMonitoringTier,
+    OfficialObservationProfile,
     due_official_source_ids,
     due_official_source_profiles,
+    official_observation_profile,
 )
 from .official_planning import (
     OfficialEndpointBuildAssessment,
@@ -114,6 +119,7 @@ __all__ = [
     "GazettePage",
     "GazetteRegisterError",
     "GazetteRegisterFailureCode",
+    "GazetteRequestTiming",
     "HkelGazetteRegisterClient",
     "HongKongLegislationSourceRegister",
     "HttpMethod",
@@ -134,6 +140,8 @@ __all__ = [
     "OfficialInventoryResult",
     "OfficialMonitoringAssignment",
     "OfficialMonitoringTier",
+    "OfficialObservationGate",
+    "OfficialObservationProfile",
     "OfficialRenderedFetchRequest",
     "OfficialRenderedSessionConnector",
     "OfficialRenderedSessionTransport",
@@ -143,6 +151,7 @@ __all__ = [
     "OfficialSourceState",
     "OfficialTransportFailure",
     "OfficialTransportResponse",
+    "PolicyBoundOfficialHttpTransport",
     "ProxiedOfficialHttpTransport",
     "PublisherCall",
     "PublisherRightsEvidence",
@@ -169,4 +178,5 @@ __all__ = [
     "due_official_source_ids",
     "due_official_source_profiles",
     "load_hk_legislation_source_register",
+    "official_observation_profile",
 ]

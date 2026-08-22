@@ -9,6 +9,7 @@ import tomllib
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
+from typing import cast
 
 APPLICATION_IMAGE_POLICY_PATH = Path("infrastructure/poc/application_image_inputs.json")
 ARTIFACT_POLICY_PATH = Path("infrastructure/poc/artifact_admission.json")
@@ -129,33 +130,75 @@ def _read_object(path: Path) -> dict[str, object]:
     if len(raw) > _MAX_DOCUMENT_BYTES:
         message = f"application image document too large: {path}"
         raise ValueError(message)
-    value = json.loads(raw)
-    if not isinstance(value, dict):
+    value: object = json.loads(raw)
+    document = _string_object(value)
+    if document is None:
         message = f"application image document root: {path}"
         raise TypeError(message)
-    return value
+    return document
 
 
 def _objects(value: object) -> tuple[dict[str, object], ...]:
-    if not isinstance(value, list) or not all(isinstance(item, dict) for item in value):
+    items = _object_list(value)
+    if items is None:
         message = "application image object list"
         raise TypeError(message)
-    return tuple(item for item in value if isinstance(item, dict))
+    result: list[dict[str, object]] = []
+    for item in items:
+        document = _string_object(item)
+        if document is None:
+            message = "application image object list"
+            raise TypeError(message)
+        result.append(document)
+    return tuple(result)
 
 
 def _strings(value: object) -> tuple[str, ...]:
-    if not isinstance(value, list) or not all(type(item) is str and item for item in value):
+    items = _object_list(value)
+    if items is None:
         message = "application image string list"
         raise TypeError(message)
-    return tuple(item for item in value if isinstance(item, str))
+    result: list[str] = []
+    for item in items:
+        if type(item) is not str or not item:
+            message = "application image string list"
+            raise TypeError(message)
+        result.append(item)
+    return tuple(result)
+
+
+def _string_object(value: object) -> dict[str, object] | None:
+    if not isinstance(value, dict):
+        return None
+    candidate = cast("dict[object, object]", value)
+    if not all(type(key) is str for key in candidate):
+        return None
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object] | None:
+    if not isinstance(value, list):
+        return None
+    return cast("list[object]", value)
+
+
+def _strings_or_empty(value: object) -> tuple[str, ...]:
+    try:
+        return _strings(value)
+    except TypeError:
+        return ()
 
 
 def _has_secret(value: object) -> bool:
-    if isinstance(value, dict):
+    document = _string_object(value)
+    items = _object_list(value)
+    if document is not None:
         forbidden = {"api_key", "password", "private_key", "secret", "token"}
-        return any(key.lower() in forbidden or _has_secret(child) for key, child in value.items())
-    if isinstance(value, list):
-        return any(_has_secret(child) for child in value)
+        return any(
+            key.lower() in forbidden or _has_secret(child) for key, child in document.items()
+        )
+    if items is not None:
+        return any(_has_secret(child) for child in items)
     return isinstance(value, str) and _SECRET_VALUE.search(value) is not None
 
 
@@ -172,7 +215,7 @@ def _validate_build_blockers(policy: dict[str, object]) -> tuple[ApplicationImag
     findings: list[ApplicationImageFinding] = []
     if policy.get("build_definition") != _BUILD_DEFINITION:
         findings.append(ApplicationImageFinding(ApplicationImageCode.BLOCKER, "build definition"))
-    if tuple(policy.get("required_blockers", ())) != _BLOCKERS:
+    if _strings_or_empty(policy.get("required_blockers")) != _BLOCKERS:
         findings.append(ApplicationImageFinding(ApplicationImageCode.BLOCKER, "inventory"))
     return tuple(findings)
 
@@ -216,8 +259,8 @@ def _validate_document(policy: dict[str, object], root: Path) -> list[Applicatio
         "network_during_build_forbidden": True,
     }:
         findings.append(ApplicationImageFinding(ApplicationImageCode.RUNTIME, "security profile"))
-    locks = policy.get("input_locks")
-    if not isinstance(locks, dict) or tuple(locks) != _INPUT_PATHS:
+    locks = _string_object(policy.get("input_locks"))
+    if locks is None or tuple(locks) != _INPUT_PATHS:
         findings.append(ApplicationImageFinding(ApplicationImageCode.INPUT, "lock inventory"))
     else:
         for relative in _INPUT_PATHS:
@@ -229,6 +272,15 @@ def _validate_document(policy: dict[str, object], root: Path) -> list[Applicatio
             ):
                 findings.append(ApplicationImageFinding(ApplicationImageCode.INPUT, relative))
     return findings
+
+
+def _listener_ports(service: dict[str, object] | None) -> list[object] | None:
+    listeners = service.get("listeners") if service is not None else None
+    try:
+        listener_items = _objects(listeners)
+    except TypeError:
+        return None
+    return [item.get("port") for item in listener_items]
 
 
 def _validate_image(
@@ -285,12 +337,7 @@ def _validate_image(
         "credential_interface_gate": False,
     }:
         findings.append(ApplicationImageFinding(ApplicationImageCode.COVERAGE, f"{label} artifact"))
-    listeners = service.get("listeners") if service is not None else None
-    listener_ports = (
-        [item.get("port") for item in listeners if isinstance(item, dict)]
-        if isinstance(listeners, list)
-        else None
-    )
+    listener_ports = _listener_ports(service)
     if service is None or (
         service.get("kind") != "REPOSITORY_IMAGE"
         or service.get("identity") != image.get("topology_identity")
@@ -311,8 +358,14 @@ def validate_application_image_policy(
     """Return all drift; empty proves only a disabled build-input contract."""
     findings = _validate_document(policy, root)
     images = _objects(policy.get("images"))
-    image_ids = tuple(image.get("artifact_id") for image in images)
-    if len(image_ids) != len(set(image_ids)) or frozenset(image_ids) != _APPLICATIONS:
+    image_ids = tuple(
+        image_id for image in images if isinstance((image_id := image.get("artifact_id")), str)
+    )
+    if (
+        len(image_ids) != len(images)
+        or len(image_ids) != len(set(image_ids))
+        or frozenset(image_ids) != _APPLICATIONS
+    ):
         findings.append(ApplicationImageFinding(ApplicationImageCode.COVERAGE, "image ids"))
     members = _by_id(_objects(package_policy.get("members")), "distribution")
     artifacts = _by_id(_objects(artifact_policy.get("artifacts")), "artifact_id")

@@ -7,6 +7,7 @@ import re
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
+from typing import cast
 
 SYSTEMD_POLICY_PATH = Path("infrastructure/poc/systemd_unit_inputs.json")
 TOPOLOGY_PATH = Path("infrastructure/poc/topology.json")
@@ -59,7 +60,7 @@ _CREDENTIAL_TRANSPORT = {
     "secret_arguments_forbidden": True,
     "persistent_plaintext_forbidden": True,
 }
-_HARDENING = {
+_HARDENING: dict[str, object] = {
     "manager_user": "root",
     "restart": "on-failure",
     "no_new_privileges": True,
@@ -142,7 +143,7 @@ _REQUIRES = {
     "vault-recovery": (),
 }
 _FILESYSTEM_SERVICES = frozenset({"sql-server", "vault-primary", "vault-recovery"})
-_BOOTSTRAP_UNITS = (
+_BOOTSTRAP_UNITS: tuple[dict[str, object], ...] = (
     {
         "unit_name": _NETWORK_UNIT_NAME,
         "kind": "ONESHOT",
@@ -179,7 +180,7 @@ _BOOTSTRAP_UNITS = (
         "enabled": False,
     },
 )
-_TIMER_UNITS = (
+_TIMER_UNITS: tuple[dict[str, object], ...] = (
     {
         "timer_id": "audit-archive",
         "unit_name": "asklegal-audit-archive.timer",
@@ -253,34 +254,72 @@ def _read_object(path: Path) -> dict[str, object]:
     raw = path.read_bytes()
     if len(raw) > _MAX_DOCUMENT_BYTES:
         raise ValueError(_DOCUMENT_TOO_LARGE)
-    value = json.loads(raw)
-    if not isinstance(value, dict):
+    value: object = json.loads(raw)
+    document = _string_object(value)
+    if document is None:
         raise TypeError(_DOCUMENT_ROOT)
-    return value
+    return document
 
 
 def _objects(value: object) -> tuple[dict[str, object], ...]:
-    if not isinstance(value, list) or not all(isinstance(item, dict) for item in value):
+    items = _object_list(value)
+    if items is None:
         raise TypeError(_OBJECT_LIST)
-    return tuple(item for item in value if isinstance(item, dict))
+    result: list[dict[str, object]] = []
+    for item in items:
+        document = _string_object(item)
+        if document is None:
+            raise TypeError(_OBJECT_LIST)
+        result.append(document)
+    return tuple(result)
 
 
 def _strings(value: object) -> tuple[str, ...]:
-    if not isinstance(value, list) or not all(type(item) is str and item for item in value):
+    items = _object_list(value)
+    if items is None:
         raise TypeError(_STRING_LIST)
-    return tuple(item for item in value if isinstance(item, str))
+    result: list[str] = []
+    for item in items:
+        if type(item) is not str or not item:
+            raise TypeError(_STRING_LIST)
+        result.append(item)
+    return tuple(result)
+
+
+def _string_object(value: object) -> dict[str, object] | None:
+    if not isinstance(value, dict):
+        return None
+    candidate = cast("dict[object, object]", value)
+    if not all(type(key) is str for key in candidate):
+        return None
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object] | None:
+    if not isinstance(value, list):
+        return None
+    return cast("list[object]", value)
+
+
+def _strings_or_empty(value: object) -> tuple[str, ...]:
+    try:
+        return _strings(value)
+    except TypeError:
+        return ()
 
 
 def _secret_findings(value: object, path: str = "$") -> tuple[SystemdInputFinding, ...]:
     findings: list[SystemdInputFinding] = []
-    if isinstance(value, dict):
+    document = _string_object(value)
+    items = _object_list(value)
+    if document is not None:
         forbidden = {"api_key", "password", "private_key", "secret", "token"}
-        for key, child in value.items():
+        for key, child in document.items():
             if key.lower() in forbidden:
                 findings.append(SystemdInputFinding(SystemdInputCode.SECRET, f"{path}.{key}"))
             findings.extend(_secret_findings(child, f"{path}.{key}"))
-    elif isinstance(value, list):
-        for index, child in enumerate(value):
+    elif items is not None:
+        for index, child in enumerate(items):
             findings.extend(_secret_findings(child, f"{path}[{index}]"))
     elif isinstance(value, str) and _SECRET_VALUE.search(value):
         findings.append(SystemdInputFinding(SystemdInputCode.SECRET, path))
@@ -330,9 +369,11 @@ def _validate_container_networks(
     value: object, host_policy: dict[str, object], topology: dict[str, object]
 ) -> tuple[SystemdInputFinding, ...]:
     """Require the unit graph to create exactly the subnets host admission allocated."""
-    runtime = host_policy.get("runtime")
-    allocation = runtime.get("selected_private_subnets") if isinstance(runtime, dict) else None
-    if not isinstance(allocation, dict):
+    runtime = _string_object(host_policy.get("runtime"))
+    allocation = (
+        None if runtime is None else _string_object(runtime.get("selected_private_subnets"))
+    )
+    if allocation is None:
         return (SystemdInputFinding(SystemdInputCode.NETWORK, "host allocation"),)
     try:
         networks = _objects(value)
@@ -344,8 +385,14 @@ def _validate_container_networks(
         for item in declared_topology
         if isinstance((network_id := item.get("network_id")), str)
     }
-    network_ids = tuple(item.get("network_id") for item in networks)
-    if len(network_ids) != len(set(network_ids)) or frozenset(network_ids) != frozenset(allocation):
+    network_ids = tuple(
+        network_id for item in networks if isinstance((network_id := item.get("network_id")), str)
+    )
+    if (
+        len(network_ids) != len(networks)
+        or len(network_ids) != len(set(network_ids))
+        or frozenset(network_ids) != frozenset(allocation)
+    ):
         return (SystemdInputFinding(SystemdInputCode.NETWORK, "coverage"),)
     findings: list[SystemdInputFinding] = []
     for network in networks:
@@ -353,8 +400,8 @@ def _validate_container_networks(
         label = network_id if isinstance(network_id, str) else "unknown"
         if (
             frozenset(network) != _NETWORK_KEYS
-            or network.get("subnet") != allocation.get(network_id)
-            or network.get("internal") is not isolation.get(network_id)
+            or network.get("subnet") != allocation.get(label)
+            or network.get("internal") is not isolation.get(label)
             or network.get("created_by_unit") != _NETWORK_UNIT_NAME
             or network.get("created") is not False
         ):
@@ -379,12 +426,17 @@ def validate_systemd_input_policy(
         findings.append(SystemdInputFinding(SystemdInputCode.CREDENTIAL, "transport"))
     if policy.get("hardening_profile") != _HARDENING:
         findings.append(SystemdInputFinding(SystemdInputCode.HARDENING, "profile"))
-    if tuple(policy.get("required_blockers", ())) != _BLOCKERS:
+    blockers = _strings_or_empty(policy.get("required_blockers"))
+    if blockers != _BLOCKERS:
         findings.append(SystemdInputFinding(SystemdInputCode.RUNTIME, "blockers"))
     services = _objects(policy.get("service_units"))
-    service_ids = tuple(item.get("service_id") for item in services)
-    if len(service_ids) != len(set(service_ids)) or frozenset(service_ids) != frozenset(
-        _UNIT_NAMES
+    service_ids = tuple(
+        service_id for item in services if isinstance((service_id := item.get("service_id")), str)
+    )
+    if (
+        len(service_ids) != len(services)
+        or len(service_ids) != len(set(service_ids))
+        or frozenset(service_ids) != frozenset(_UNIT_NAMES)
     ):
         findings.append(SystemdInputFinding(SystemdInputCode.INVENTORY, "services"))
     topology_services = _by_id(_objects(topology.get("services")), "service_id")

@@ -1,9 +1,10 @@
 """Small typed surface shielding the adapter from third-party typing gaps."""
 
 from collections.abc import Sequence
+from datetime import datetime
 from typing import Protocol
 
-type SqlParameter = bytes | int | str | None
+type SqlParameter = bytes | datetime | int | str | None
 type SqlParameters = Sequence[SqlParameter]
 
 

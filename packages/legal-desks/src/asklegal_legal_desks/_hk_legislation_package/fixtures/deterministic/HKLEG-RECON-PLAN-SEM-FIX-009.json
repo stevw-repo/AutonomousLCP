@@ -1,0 +1,38 @@
+{
+  "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-009",
+  "title": "Model-authored final text is quarantined as authority overreach",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:f672ba453e4a1e26c20fbe06f8107c19cd7785f30bc4ee4702c573a869137568",
+  "input": {
+    "decision_task": "RECONSTRUCTION_PLAN_DECISION",
+    "challenge_task": "RECONSTRUCTION_PLAN_CHALLENGE",
+    "evidence_bundle_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "operation_registry_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "plan_contract_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "decision_profile_fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+    "challenge_profile_fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+    "decision_result_fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+    "challenge_result_fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+    "candidate_mapping_fingerprint": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+    "task_profiles_admitted": true,
+    "decision_result_contract_valid": true,
+    "challenge_result_contract_valid": true,
+    "decision_evidence_bindings_complete": true,
+    "challenge_evidence_bindings_complete": true,
+    "candidate_operations_closed_registry_only": true,
+    "candidate_source_spans_complete": true,
+    "candidate_contains_final_text": true,
+    "challenge_outcome": "CONFIRMED",
+    "semantic_result_conflicts": false,
+    "event_chain_mapping_complete": true,
+    "applicability_mapping_complete": true,
+    "dependency_mapping_complete": true,
+    "bilingual_stream_mapping_complete": true,
+    "deterministic_prechecks_passed": true
+  },
+  "expected_artifact": {
+    "path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-009.json",
+    "fingerprint": "sha256:26978d79e4ea3d64e83b60cb01fcbc04f4d46895f1af8506945b51229b903c48"
+  }
+}

@@ -2,15 +2,21 @@
 
 from collections.abc import Mapping
 from dataclasses import dataclass
+from hashlib import sha256
 
 from asklegal_application_runtime import (
     CallableProbe,
     CredentialMaterial,
     DependencyCode,
+    LocalCommandRegister,
+    LocalConfigurationSource,
+    LocalIdentityVerifier,
+    LocalPaginationStore,
     ReadinessProbe,
     SystemdCredentialDirectory,
     TcpReachabilityProbe,
     V1ReadinessGate,
+    build_local_configuration,
     destination_for,
 )
 from asklegal_evidence_vault import (
@@ -19,7 +25,14 @@ from asklegal_evidence_vault import (
     VaultName,
     create_exact_v1_s3_vault,
 )
-from asklegal_management_register import SqlServerPassword, V1MssqlConnectionFactory
+from asklegal_management_register import (
+    RegisterEventStore,
+    SqlServerPassword,
+    V1MssqlConnectionFactory,
+)
+
+from asklegal_review_api.api import ReviewDependencies
+from asklegal_review_api.registered_proposals import RegisteredReviewProjectionStore
 
 
 @dataclass(frozen=True, slots=True)
@@ -66,3 +79,33 @@ def readiness_probes(infrastructure: V1ReviewInfrastructure) -> tuple[ReadinessP
 def readiness_gate(infrastructure: V1ReviewInfrastructure) -> V1ReadinessGate:
     """Return the fail-closed gate for this application's complete dependency set."""
     return V1ReadinessGate("REVIEW_API", readiness_probes(infrastructure))
+
+
+def v1_dependencies(infrastructure: V1ReviewInfrastructure) -> ReviewDependencies:
+    """Compose real registered projections while keeping Review writes fail-closed.
+
+    Named-human authentication and durable Approval commands are not yet admitted.
+    An empty verifier therefore refuses the known local proof token, and `None`
+    governance makes every comment, decision, and revocation return `DISABLED`.
+    """
+    configuration = build_local_configuration(
+        "REVIEW_APPLICATION",
+        audience="api://asklegal-review",
+        client="asklegal-review-client",
+        task_hub=None,
+    )
+    pagination_secret = sha256(
+        b"asklegal-review-pagination-v1\x00" + infrastructure.review_api_credential.reveal()
+    ).digest()
+    return ReviewDependencies(
+        configuration=configuration,
+        configuration_source=LocalConfigurationSource(configuration),
+        identity=LocalIdentityVerifier({}),
+        register=LocalCommandRegister(),
+        projections=RegisteredReviewProjectionStore(
+            RegisterEventStore(infrastructure.sql),
+            infrastructure.primary_vault,
+        ),
+        pagination=LocalPaginationStore(secret=pagination_secret),
+        governance=None,
+    )

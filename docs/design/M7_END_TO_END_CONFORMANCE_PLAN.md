@@ -27,6 +27,9 @@ The implementation may choose the executable package location, but these CLI
 semantics and scenario IDs are stable acceptance interfaces. `reset` may
 delete only the exact ignored synthetic test root after checking its marker and
 resolved path; it never targets the repository or home directory.
+`prove` never resets implicitly. If its exact marked root contains prior or
+partial proof output, it returns `SYNTHETIC_STATE_RESET_REQUIRED`; the operator
+must invoke the explicit exact-state reset before retrying.
 
 ## 2. Reproducibility envelope
 

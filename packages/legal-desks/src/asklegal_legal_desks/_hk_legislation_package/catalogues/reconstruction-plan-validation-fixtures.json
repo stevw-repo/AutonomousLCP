@@ -1,0 +1,155 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.reconstruction-plan-validation.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-001.json",
+      "fixture_fingerprint": "sha256:e820e5507626108aefe11f6e932fb16085e9ea48c65386ba8672a6d1c0bebe33",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-001.json",
+      "expected_fingerprint": "sha256:1f940cc5aa0d29cc3a3270dd7e02476bf0d7bb9ac4a80d7a505629640cc489a1"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-002.json",
+      "fixture_fingerprint": "sha256:37a5f4054c0a050f997df95c04497fd673fe55592dc78e0ba83a633cb4258ab8",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-002.json",
+      "expected_fingerprint": "sha256:4d7d8f4a36eb3f1d29b33f1c3539561ae3c224f7520fa883d625742292c89082"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-003.json",
+      "fixture_fingerprint": "sha256:699b8eca4b1c9ca267af0e255981e0bf015bdfcd8de83aee4fce388e89426617",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-003.json",
+      "expected_fingerprint": "sha256:564946f8b785de5718cb4aed2b94669403e80d09f41fca2c794a4b43eaf7a4f5"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-004.json",
+      "fixture_fingerprint": "sha256:221a9eb995d599ab7ae93c808dd32453799e3def3284faecdd3947ba4f11e5a1",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-004.json",
+      "expected_fingerprint": "sha256:b3ca4612388f65c67956d1b5f4bb1dd97cf74bb32c84260e22a7b0810da1893d"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-005.json",
+      "fixture_fingerprint": "sha256:fe5b6b76f3afbd38ae5b6b41a69558f19e940bc7f583d6a3ade11902a6b5154b",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-005.json",
+      "expected_fingerprint": "sha256:ced885813e37c951d0068d489d2ace7bd676f6e6dac52fe68cbcab000577f9fd"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-006",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-006.json",
+      "fixture_fingerprint": "sha256:d6ed6ae8d5e8875c40cef92c6059ba6e1276c3ea47c63f85e015ed9a1794e38c",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-006.json",
+      "expected_fingerprint": "sha256:6f54b06dc6e82a9335a51c23af855a534ddffb3bf3b3d36960957caf5cbadcf9"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-007",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-007.json",
+      "fixture_fingerprint": "sha256:bd7ca9bea7123811c79e9242d873413a89eb2d960d86169a5f6be3c4df0e95cc",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-007.json",
+      "expected_fingerprint": "sha256:82436957e0217400d9f8254d1bd261b928e6cd1b4278fd5f223c87fe223754b7"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-008",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-008.json",
+      "fixture_fingerprint": "sha256:3d9a4fc00b4f0854bd8756ed8a97abdcc6990b488135d58dc39d89ed5ac653a9",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-008.json",
+      "expected_fingerprint": "sha256:344f22ae02b87a8cc8baa9fc23f9cd8279f54c7634ac1bb869329502bb68795b"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-009",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-009.json",
+      "fixture_fingerprint": "sha256:89513895550b3e3e9a47a1895d8af70dfa04b0b57eb65e036941dfd9a1fbfeba",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-009.json",
+      "expected_fingerprint": "sha256:f1b25b962d55abff32591738ff99433ab69125bb667a96b3bc2a3567fbf3146b"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-010",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-010.json",
+      "fixture_fingerprint": "sha256:c66534c94278172f7a0b19524436af10e1761c697288a015708977f0a65e26ee",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-010.json",
+      "expected_fingerprint": "sha256:00ca7f3a72ae48aec8f3ff4a7297762e08059e8449d3a2e74fe6e8b828616302"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-011",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-011.json",
+      "fixture_fingerprint": "sha256:670db49c5eb23d3ce5ff2980756b347cc2831b201310602871f16afb6da64eff",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-011.json",
+      "expected_fingerprint": "sha256:238a659acec192858314945c9c7e8e240ce93f5ceb40ef20eac8363bbaede499"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-012",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-012.json",
+      "fixture_fingerprint": "sha256:43a654043c550729e30620a1018673ceca708bfb0efdac0852074aa37b772865",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-012.json",
+      "expected_fingerprint": "sha256:96b671ea1ddeb1d4566fc587652f1c5889483315688a9cad3935ca7a5a3584a4"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-013",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-013.json",
+      "fixture_fingerprint": "sha256:56cbff1b2bfef04b404e052b300058ca7e03ae81241e911dd5b59309c6337fde",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-013.json",
+      "expected_fingerprint": "sha256:cb6b16a3ba9b53c58186d75f9ec4d192765a77b4a68ed2591d2b8a11e48dd696"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-014",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-014.json",
+      "fixture_fingerprint": "sha256:bb13869a80aec6010a76a3e4664ce3b179fc33acd7bec5843746776e9c45992a",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-014.json",
+      "expected_fingerprint": "sha256:3ecf208a64a91aacbdd8876251f29466e517504828a58955fe47b99cb345b953"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-015",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-015.json",
+      "fixture_fingerprint": "sha256:22b5dd2a1893e799ee70fce44b6f9b90a13cea570f7df1e0a842388758662d8d",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-015.json",
+      "expected_fingerprint": "sha256:adb096e3d994eb672b3490a5d95423210a0833b8637822329beb79273409c661"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-016",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-016.json",
+      "fixture_fingerprint": "sha256:2dc50a65d5d558e13da0120dd5c9c4f6057daa99fb0830b5cf807835d5809bab",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-016.json",
+      "expected_fingerprint": "sha256:6cb3e4c49892f15578da9b7fdfc3ba65c781ade7710bb5c5461cfda4ce27065a"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-017",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-017.json",
+      "fixture_fingerprint": "sha256:69060a608890c3ec4717669b041e5765006b56aa1a48d186030034098e7ef9b1",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-017.json",
+      "expected_fingerprint": "sha256:6484428d11f949f6bb080f8d4eb9e1e82df71c435cefb6dd5ed24936c37e9062"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-018",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-018.json",
+      "fixture_fingerprint": "sha256:02a135afd6852546c6f38f54b14fc23ffc99f8a6746670930b32f79378416a4c",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-018.json",
+      "expected_fingerprint": "sha256:a5c54728abc26812f79304123c6f195421b902d9c120ae71d94f238359774d46"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-019",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-019.json",
+      "fixture_fingerprint": "sha256:43999a095d2e588db92858c94d73bcc7551c528f9c999824ec0bb063e8e9e1b1",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-019.json",
+      "expected_fingerprint": "sha256:ff8088450a2b6c63f73f4a0a4b63eac62b7b07ea3f3602214a51470de85873b4"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-020",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-020.json",
+      "fixture_fingerprint": "sha256:8a2c3774e6bcd8120d8f0d6dde75478f95e80958c17971935c05e98721d086c7",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-020.json",
+      "expected_fingerprint": "sha256:3c5590175fdbbb704f58a222de51b55685da320a75946c86bfbd739a956d08b4"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-021",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-VAL-FIX-021.json",
+      "fixture_fingerprint": "sha256:753abd356a4cc5a811e81fd193a6a5eab5c0fe6ff2d96b8c546384e83c81ec55",
+      "expected_path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-021.json",
+      "expected_fingerprint": "sha256:31d2db091e14f48ab6c34c473d252ada1348fb34ffe10e8da5e8e1776e6e580e"
+    }
+  ]
+}

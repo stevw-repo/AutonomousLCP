@@ -92,7 +92,7 @@ class TcpReachabilityProbe:
         """Open and immediately close one connection without sending any payload."""
         try:
             _, writer = await asyncio.open_connection(self.host, self.port)
-        except (OSError, ValueError):
+        except OSError, ValueError:
             raise ReadinessProbeFailure from None
         writer.close()
         try:
@@ -120,7 +120,7 @@ class TlsReachabilityProbe:
             _, writer = await asyncio.open_connection(
                 self.host, self.port, ssl=context, server_hostname=self.host
             )
-        except (OSError, ValueError, ssl.SSLError):
+        except OSError, ValueError, ssl.SSLError:
             raise ReadinessProbeFailure from None
         writer.close()
         try:

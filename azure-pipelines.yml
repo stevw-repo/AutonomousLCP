@@ -1,0 +1,47 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pr:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: ubuntu-24.04
+
+steps:
+  - checkout: self
+    clean: true
+    fetchDepth: 1
+    persistCredentials: false
+
+  - bash: |
+      set -euo pipefail
+      tools/ci/bootstrap.sh "${ASKLEGAL_CI_TOOLS}"
+    displayName: Bootstrap exact public toolchain
+    env:
+      ASKLEGAL_CI_TOOLS: $(Agent.TempDirectory)/asklegal-ci-tools
+      UV_CACHE_DIR: $(Pipeline.Workspace)/uv-cache
+      UV_PYTHON_INSTALL_DIR: $(Agent.TempDirectory)/asklegal-ci-python
+
+  - bash: |
+      set -euo pipefail
+      "${ASKLEGAL_CI_NODE}" "${ASKLEGAL_CI_NPM}" ci --ignore-scripts --no-audit --no-fund
+    displayName: Install exact Pyright lock
+    env:
+      ASKLEGAL_CI_NODE: $(Agent.TempDirectory)/asklegal-ci-tools/node-v24.19.0-linux-x64/bin/node
+      ASKLEGAL_CI_NPM: $(Agent.TempDirectory)/asklegal-ci-tools/node-v24.19.0-linux-x64/lib/node_modules/npm/bin/npm-cli.js
+
+  - bash: |
+      set -euo pipefail
+      python3 -m tools.dev_test \
+        --uv "${ASKLEGAL_CI_UV}" \
+        --node "${ASKLEGAL_CI_NODE}"
+    displayName: Run complete repository shipping gate
+    env:
+      ASKLEGAL_CI_NODE: $(Agent.TempDirectory)/asklegal-ci-tools/node-v24.19.0-linux-x64/bin/node
+      ASKLEGAL_CI_UV: $(Agent.TempDirectory)/asklegal-ci-tools/uv-x86_64-unknown-linux-gnu/uv
+      UV_CACHE_DIR: $(Pipeline.Workspace)/uv-cache
+      UV_PYTHON_INSTALL_DIR: $(Agent.TempDirectory)/asklegal-ci-python

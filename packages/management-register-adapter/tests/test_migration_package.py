@@ -10,6 +10,17 @@ from asklegal_management_register.migration import MigrationViolation, apply_pac
 
 _PACKAGE = Path(__file__).parents[1] / "migrations" / "000001_management_register_spike"
 _M2_PACKAGE = Path(__file__).parents[1] / "migrations" / "000002_complete_m2_register"
+_V1_REVIEW_PACKAGE = Path(__file__).parents[1] / "migrations" / "000003_review_ready_proposals"
+_V1_DECISION_PACKAGE = Path(__file__).parents[1] / "migrations" / "000004_proposal_decisions"
+_V1_CONSUMPTION_PACKAGE = (
+    Path(__file__).parents[1] / "migrations" / "000005_registered_approval_consumption"
+)
+_V1_TERMINAL_PACKAGE = (
+    Path(__file__).parents[1] / "migrations" / "000006_registered_approval_terminal_lifecycle"
+)
+_V1_EXECUTION_AUTHORIZATION_PACKAGE = (
+    Path(__file__).parents[1] / "migrations" / "000007_registered_execution_authorization"
+)
 
 
 def test_repository_migration_package_is_exact() -> None:
@@ -20,6 +31,21 @@ def test_repository_migration_package_is_exact() -> None:
     complete = load_package(_M2_PACKAGE)
     assert complete.migration_id == "000002"
     assert len(complete.batches) == 9
+    review = load_package(_V1_REVIEW_PACKAGE)
+    assert review.migration_id == "000003"
+    assert len(review.batches) == 1
+    decision = load_package(_V1_DECISION_PACKAGE)
+    assert decision.migration_id == "000004"
+    assert len(decision.batches) == 1
+    consumption = load_package(_V1_CONSUMPTION_PACKAGE)
+    assert consumption.migration_id == "000005"
+    assert len(consumption.batches) == 1
+    terminal = load_package(_V1_TERMINAL_PACKAGE)
+    assert terminal.migration_id == "000006"
+    assert len(terminal.batches) == 2
+    authorization = load_package(_V1_EXECUTION_AUTHORIZATION_PACKAGE)
+    assert authorization.migration_id == "000007"
+    assert len(authorization.batches) == 1
 
 
 def test_changed_batch_is_rejected(tmp_path: Path) -> None:

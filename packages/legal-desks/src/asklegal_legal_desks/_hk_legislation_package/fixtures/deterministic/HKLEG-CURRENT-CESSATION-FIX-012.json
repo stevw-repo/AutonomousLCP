@@ -1,0 +1,37 @@
+{
+  "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-012",
+  "title": "Missing exact effective evidence blocks cessation",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:0b41d61a94b6c840c8ef171a8e9229556d0c66413da27b3ec4cb5f76f55ec2e3",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.cessation-012",
+    "event_type": "REPEAL",
+    "operative_provision_fingerprint": "sha256:c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+    "event_evidence_fingerprints": [],
+    "prior_event_history_fingerprint": "sha256:abababababababababababababababababababababababababababababababab",
+    "event_evidence_complete": false,
+    "event_evidence_authentic": false,
+    "event_evidence_conflicts": false,
+    "controlling_notice_state": "NOT_APPLICABLE",
+    "effective_date": null,
+    "revival_continuity_proved": false,
+    "all_location_ids": [
+      "section-1"
+    ],
+    "affected_location_ids": [
+      "section-1"
+    ],
+    "pre_event_operative_location_ids": [
+      "section-1"
+    ],
+    "pre_event_ceased_location_ids": [],
+    "affected_location_scope": "WHOLE_INSTRUMENT"
+  },
+  "expected_artifact": {
+    "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-012.json",
+    "fingerprint": "sha256:3be9d058394e67740fc75b4a4341617d69e61b2d0f0c282cb6de2cd60023e46b"
+  }
+}

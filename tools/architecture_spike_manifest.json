@@ -42,7 +42,10 @@
       "role": "acquisition-worker"
     },
     {
-      "allowed_external_distributions": [],
+      "allowed_external_distributions": [
+        "cryptography",
+        "pyjwt"
+      ],
       "allowed_internal_distributions": [
         "asklegal-contracts",
         "asklegal-domain"

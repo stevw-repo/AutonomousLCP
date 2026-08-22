@@ -25,7 +25,7 @@ def _manifest(identity: str = "1") -> ManifestSnapshot:
         "srv_" + "a" * 48,
         "2026-08-15T00:00:00Z",
         "2026-08-17T00:00:00Z",
-        (("configuration", "sha256:" + "c" * 64),),
+        (("configuration", "1.0.0", "sha256:" + "c" * 64),),
     )
 
 

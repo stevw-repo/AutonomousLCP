@@ -1,0 +1,44 @@
+{
+  "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-002",
+  "title": "Operative amendment is proved while consolidation is missing",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:f8efeb656f7752b7a569f1ad8051de175ef58124f78aec05eb07e963d7a04a75",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "affected_object_id": "hkleg.synthetic.principal-002",
+    "source_event_object_id": "hkleg.synthetic.amending-002",
+    "event_type": "AMENDMENT",
+    "cause_source_id": "HK-LEG-GLD-EGAZETTE",
+    "publication_date": "2026-07-25T00:00:00Z",
+    "effective_date": "2026-08-01T00:00:00Z",
+    "event_instrument_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "event_evidence_fingerprints": [
+      "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "operation_set_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "operation_mapping_complete": true,
+    "bilingual_operations_aligned": true,
+    "event_operative_at_cutoff": true,
+    "all_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "affected_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "affected_location_scope": "WHOLE_INSTRUMENT",
+    "matching_resulting_hkel_bundle_available": false,
+    "resulting_bundle_reflects_event": false,
+    "prior_event_history_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "expected_artifact": {
+    "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-002.json",
+    "fingerprint": "sha256:3eb96fa75adf1029057c7069d259caf9f9374fcc8253cbbd4149878b1772995f"
+  }
+}

@@ -37,6 +37,31 @@ One immutable proposal fingerprint covers the complete inventory. After
 validation, recovery fact, or base state creates a new package and invalidates
 the old one.
 
+The local implementation persists each proposal member to the Primary Vault by
+one package-ID-and-path-bound single-assignment key, then commits the proposal
+manifest last. Its portable receipt binds every exact vault name, logical key,
+provider version, byte length, and content fingerprint plus the package and
+Promotion Manifest identities. Review or promotion reconstructs the package
+only by re-reading and comparing every exact version; process memory, a current
+object version, or a path alone is never sufficient. Management Register
+registration accepts only a fully reread package and records the canonical
+portable receipt through the atomic command protocol. A dedicated least-
+privilege projection exposes those exact bytes to Review and promotion; Review
+rechecks the row fingerprint, canonical encoding, package and Promotion Manifest
+identities, complete role/path inventory, and every Primary Vault reference
+before listing it. Approval execution remains a separate later gate. The SQL
+projection migration is repository-authored but must be applied and proved in
+the admitted database environment before this path is operational.
+
+The `PROMOTION_MANIFEST` member is the canonical executable manifest body, not
+an identity-only wrapper or report. Its content SHA-256 is the manifest
+fingerprint and deterministically derives the manifest ID. Before registration,
+Control parses those exact bytes and recovers the base and candidate Serving
+States, validity window, and complete invalidation predicates; those values must
+match the proposal root. Control, Review, and Promotion share one exact-version
+package reader that reconstructs all twelve retained objects and checks every
+key, immutable version, length, fingerprint, and root inventory binding.
+
 ## 2. Review projection
 
 The reviewer sees, at minimum:
@@ -162,6 +187,14 @@ Build order:
 Unknown or unowned remote records block. Broad metadata deletion, wildcard
 delete, delete-all, prefix-derived deletion, and runtime-derived retirement are
 not represented by any port.
+
+An upsert is acknowledged only when the provider returns the exact integer count
+for the submitted bounded batch. A transport/provider error after issue, or a
+malformed, missing, or wrong-count acknowledgement, is `OutcomeUnknown`: it must
+not be retried as if no mutation occurred. The worker first enumerates the
+target and compares every attempted record's ID, exact vector, and fingerprinted
+six-field serving payload. Exact equality adopts the committed batch; otherwise
+promotion fails `LOST_ACK_UNRECONCILED` before backup or cutover.
 
 ## 7. Pinecone index naming
 

@@ -1,0 +1,33 @@
+{
+  "fixture_id": "HKLEG-CURRENT-PUB-FIX-004",
+  "title": "Legal Supplement No. 2 proves notice publication but not legal effect",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:03e61b21781daa83a084afaf4924916c66477884d44774801b4711cc4c8b885d",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "source_id": "HK-LEG-GLD-EGAZETTE",
+    "gazette_issue_kind": "ORDINARY",
+    "gazette_material_class": "LEGAL_SUPPLEMENT_2",
+    "publication_claim": "LEGAL_NOTICE",
+    "subject_reference": "hkleg.synthetic.publication-004",
+    "issue_id": "gazette-2026-31",
+    "supplement_or_notice_id": "ls2-2026-31",
+    "instrument_or_notice_number": "L.N. 102 of 2026",
+    "publication_date": "2026-08-01T00:00:00Z",
+    "artifact_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "source_metadata_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "english_material_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "traditional_chinese_material_fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "enabling_authority_fingerprint": null,
+    "evidence_complete": true,
+    "evidence_authentic": true,
+    "evidence_conflicts": false,
+    "bilingual_material_complete": true,
+    "claim_matches_material_class": true
+  },
+  "expected_artifact": {
+    "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-004.json",
+    "fingerprint": "sha256:0cdff94ffecf9f5e18e1c74a5403fa39b550c51a4813891ec08ce5755c95bfee"
+  }
+}

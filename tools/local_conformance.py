@@ -136,6 +136,7 @@ from asklegal_promotion import (
     TargetDefinition,
     freeze_embedding_profile,
     freeze_promotion_manifest,
+    promotion_manifest_bytes,
 )
 from asklegal_promotion_worker import (
     PromotionDependencies,
@@ -169,7 +170,7 @@ _AT = "2026-08-16T01:00:00Z"
 _BASE = "srv_" + "a" * 48
 _CANDIDATE = "srv_" + "b" * 48
 _STATE_FP = "sha256:" + "b" * 64
-_PREDICATES = (("configuration", "sha256:" + "c" * 64),)
+_PREDICATES = (("configuration", "1.0.0", "sha256:" + "c" * 64),)
 _SOURCE_ID = "src_" + "1" * 48
 _ENDPOINT_ID = "sep_" + "2" * 48
 _OBSERVATION_ID = "obs_" + "3" * 48
@@ -826,15 +827,7 @@ def _proposal(manifest: PromotionManifest, release: CorpusRelease) -> ProposalPa
             )
         ),
     }
-    promotion_bytes = canonicalize(
-        checked_json_value(
-            {
-                "candidate_serving_state_id": manifest.candidate_serving_state_id,
-                "manifest_id": manifest.manifest_id,
-                "runtime_fingerprint": manifest.fingerprint,
-            }
-        )
-    )
+    promotion_bytes = promotion_manifest_bytes(manifest)
     contents["PROMOTION_MANIFEST"] = promotion_bytes
     if set(contents) != set(PROPOSAL_ROLE_PATHS):
         raise ConformanceFailure("PROPOSAL_MEMBER_INVENTORY_MISMATCH")
@@ -843,7 +836,7 @@ def _proposal(manifest: PromotionManifest, release: CorpusRelease) -> ProposalPa
         ProposalPackageInput(
             _NOW,
             manifest.manifest_id,
-            f"sha256:{sha256(promotion_bytes).hexdigest()}",
+            manifest.fingerprint,
             _BASE,
             "sha256:" + "a" * 64,
             _CANDIDATE,
@@ -1926,7 +1919,10 @@ def _write_result(root: Path, result: ScenarioResult) -> None:
 
 
 def _prove_once(state_root: Path, scenario_ids: tuple[str, ...]) -> tuple[ScenarioResult, ...]:
-    state_root.mkdir(parents=True, exist_ok=False)
+    try:
+        state_root.mkdir(parents=True, exist_ok=False)
+    except FileExistsError:
+        raise ConformanceFailure("SYNTHETIC_STATE_RESET_REQUIRED") from None
     results: list[ScenarioResult] = []
     with _external_access_denied():
         for scenario_id in scenario_ids:
@@ -1990,8 +1986,12 @@ def prove_scenarios(
 def prove(state_root: Path, scenario_ids: tuple[str, ...]) -> int:
     """Run one named case or two path-distinct complete executions."""
     exact_root = _validate_state_root(state_root)
-    exact_root.mkdir(parents=True, exist_ok=True)
-    (exact_root / _MARKER).write_text("ASKLEGAL_LOCAL_SYNTHETIC_STATE_V1\n", encoding="utf-8")
+    if exact_root.exists():
+        if synthetic_state_requires_reset(exact_root):
+            raise ConformanceFailure("SYNTHETIC_STATE_RESET_REQUIRED")
+    else:
+        exact_root.mkdir(parents=True)
+        (exact_root / _MARKER).write_text("ASKLEGAL_LOCAL_SYNTHETIC_STATE_V1\n", encoding="utf-8")
     profile = _profile_fingerprint()
     if scenario_ids == _SCENARIOS:
         first = _prove_once(exact_root / "run-a", scenario_ids)
@@ -2020,6 +2020,16 @@ def _validate_state_root(root: Path) -> Path:
     if root.is_symlink() or allowed_parent.is_symlink():
         raise ConformanceFailure("STATE_ROOT_SYMLINK_FORBIDDEN")
     return resolved
+
+
+def synthetic_state_requires_reset(state_root: Path) -> bool:
+    """Report whether a marked synthetic root already contains proof output."""
+    marker = state_root / _MARKER
+    if not marker.is_file() or marker.read_text(encoding="utf-8") != (
+        "ASKLEGAL_LOCAL_SYNTHETIC_STATE_V1\n"
+    ):
+        raise ConformanceFailure("SYNTHETIC_STATE_MARKER_MISSING_OR_INVALID")
+    return any(path.name != _MARKER for path in state_root.iterdir())
 
 
 def reset(state_root: Path) -> int:

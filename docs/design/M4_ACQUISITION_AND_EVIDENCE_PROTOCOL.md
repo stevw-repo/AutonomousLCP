@@ -136,7 +136,10 @@ and writes the canonical observation manifest last. A failed member may leave
 isolated response evidence and an explicit incomplete observation manifest, but
 that manifest records `complete=false` and cannot commit or imply a complete
 source package. Only the exact required set with every member admitted may carry
-the complete inventory fingerprint or support no-change.
+the complete inventory fingerprint or support no-change. Provider-local receipt
+facts such as whether an exact conditional create happened on this attempt are
+excluded from the immutable observation manifest; otherwise activity replay
+would change the manifest rather than adopt it.
 
 Redirects cross no unregistered host or scheme. Evidence capture never executes
 active content. ADR 0100 permits a separate isolated Patchright session to
@@ -160,6 +163,18 @@ The retry profile records backoff algorithm, bounded jitter seed policy,
 tests use a deterministic clock and jitter stream. Robots, licence, contract,
 and permitted-use requirements live in the Registered Source profile; an
 unconfigured or expired authorization blocks the connector.
+
+The Hong Kong V1 acquisition composition now binds every one of its fourteen
+official source roles to one exact local operational profile. Per-source
+concurrency is one. HKeL roles use a 45-second request timeout, one-second
+minimum interval, and at most three attempts after 20- and 40-second backoff.
+Direct GLD uses a 60-second timeout, five-second minimum interval, and at most
+two attempts after 60 seconds. Basic Law uses 45/2/2 with one 30-second
+backoff; NPC roles use 60/5/2 with one 60-second backoff; the physical archive
+profile is on-demand, 120/10/1, with no retry. HTTP 408, 425, 429, 500, 502,
+503, and 504 plus bounded transport failure are the only transient classes.
+These are conservative local V1 defaults proved with a deterministic clock,
+not evidence of publisher capacity or authorization to increase traffic.
 
 ## 8. Coverage consequences
 

@@ -1,0 +1,39 @@
+{
+  "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-003",
+  "title": "Future repeal preserves current state",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:331cd5d38cff4a199c401602028dc82f69a84646cc9795971fefdd689de28c8d",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.cessation-003",
+    "event_type": "REPEAL",
+    "operative_provision_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "event_evidence_fingerprints": [
+      "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    ],
+    "prior_event_history_fingerprint": "sha256:abababababababababababababababababababababababababababababababab",
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "controlling_notice_state": "NOT_APPLICABLE",
+    "effective_date": "2026-09-01T00:00:00Z",
+    "revival_continuity_proved": false,
+    "all_location_ids": [
+      "section-1"
+    ],
+    "affected_location_ids": [
+      "section-1"
+    ],
+    "pre_event_operative_location_ids": [
+      "section-1"
+    ],
+    "pre_event_ceased_location_ids": [],
+    "affected_location_scope": "WHOLE_INSTRUMENT"
+  },
+  "expected_artifact": {
+    "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-003.json",
+    "fingerprint": "sha256:dfd2d1850aee048051c9b69baa0b28b914ef96f71b1317d684b235a34cbcfeed"
+  }
+}

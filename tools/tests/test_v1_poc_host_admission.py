@@ -3,6 +3,7 @@
 import json
 from copy import deepcopy
 from pathlib import Path
+from typing import cast
 
 import pytest
 
@@ -18,11 +19,22 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 
 
 def _policy() -> dict[str, object]:
-    value = json.loads(
+    value: object = json.loads(
         (REPOSITORY_ROOT / "infrastructure/poc/host_admission_policy.json").read_bytes()
     )
+    return _object_map(value)
+
+
+def _object_map(value: object) -> dict[str, object]:
     assert isinstance(value, dict)
-    return value
+    candidate = cast("dict[object, object]", value)
+    assert all(type(key) is str for key in candidate)
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object]:
+    assert isinstance(value, list)
+    return cast("list[object]", value)
 
 
 def _facts() -> dict[str, object]:
@@ -121,10 +133,8 @@ def test_repository_policy_is_valid_but_not_ready() -> None:
 def test_private_subnet_selection_fails_closed(mutation: str) -> None:
     """Keep every declared network on a distinct, private, non-colliding subnet."""
     policy = deepcopy(_policy())
-    runtime = policy["runtime"]
-    assert isinstance(runtime, dict)
-    subnets = runtime["selected_private_subnets"]
-    assert isinstance(subnets, dict)
+    runtime = _object_map(policy["runtime"])
+    subnets = _object_map(runtime["selected_private_subnets"])
     if mutation == "missing":
         del subnets["asklegal-register"]
     elif mutation == "overlapping":
@@ -240,10 +250,8 @@ def test_authority_cannot_be_enabled_in_policy() -> None:
 def test_host_package_locks_fail_closed(mutation: str) -> None:
     """Require one exact installed version for every locked host package."""
     policy = deepcopy(_policy())
-    runtime = policy["runtime"]
-    assert isinstance(runtime, dict)
-    locks = runtime["host_package_locks"]
-    assert isinstance(locks, dict)
+    runtime = _object_map(policy["runtime"])
+    locks = _object_map(runtime["host_package_locks"])
     if mutation == "missing":
         del locks["systemd"]
     elif mutation == "extra":
@@ -278,12 +286,9 @@ def test_installed_host_packages_must_equal_the_locks(mutation: str) -> None:
 def test_observed_networks_fail_closed(mutation: str) -> None:
     """The ten declared networks must exist exactly and never collide with a host network."""
     facts = deepcopy(_facts())
-    networks = facts["private_subnets"]
-    assert isinstance(networks, dict)
-    declared = networks["declared"]
-    assert isinstance(declared, dict)
-    foreign = networks["foreign"]
-    assert isinstance(foreign, list)
+    networks = _object_map(facts["private_subnets"])
+    declared = _object_map(networks["declared"])
+    foreign = _object_list(networks["foreign"])
     if mutation == "unprovisioned":
         networks["declared"] = {}
     elif mutation == "wrong_subnet":

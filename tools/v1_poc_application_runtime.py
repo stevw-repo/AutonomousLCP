@@ -7,6 +7,7 @@ import re
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
+from typing import cast
 
 RUNTIME_POLICY_PATH = Path("infrastructure/poc/application_runtime_inputs.json")
 TOPOLOGY_PATH = Path("infrastructure/poc/topology.json")
@@ -210,27 +211,64 @@ class RuntimeInputReport:
 
 
 def _objects(value: object) -> tuple[dict[str, object], ...]:
-    if not isinstance(value, list) or not all(isinstance(item, dict) for item in value):
+    items = _object_list(value)
+    if items is None:
         raise ValueError(_OBJECTS_ERROR)
-    return tuple(item for item in value if isinstance(item, dict))
+    result: list[dict[str, object]] = []
+    for item in items:
+        document = _string_object(item)
+        if document is None:
+            raise ValueError(_OBJECTS_ERROR)
+        result.append(document)
+    return tuple(result)
 
 
 def _strings(value: object) -> tuple[str, ...]:
-    if not isinstance(value, list) or not all(type(item) is str and item for item in value):
+    items = _object_list(value)
+    if items is None:
         raise ValueError(_STRINGS_ERROR)
-    return tuple(item for item in value if isinstance(item, str))
+    result: list[str] = []
+    for item in items:
+        if type(item) is not str or not item:
+            raise ValueError(_STRINGS_ERROR)
+        result.append(item)
+    return tuple(result)
+
+
+def _string_object(value: object) -> dict[str, object] | None:
+    if not isinstance(value, dict):
+        return None
+    candidate = cast("dict[object, object]", value)
+    if not all(type(key) is str for key in candidate):
+        return None
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object] | None:
+    if not isinstance(value, list):
+        return None
+    return cast("list[object]", value)
+
+
+def _strings_or_empty(value: object) -> tuple[str, ...]:
+    try:
+        return _strings(value)
+    except ValueError:
+        return ()
 
 
 def _secret_findings(value: object, path: str = "$") -> tuple[RuntimeInputFinding, ...]:
     findings: list[RuntimeInputFinding] = []
-    if isinstance(value, dict):
+    document = _string_object(value)
+    items = _object_list(value)
+    if document is not None:
         forbidden = {"password", "secret", "token", "api_key", "private_key"}
-        for key, child in value.items():
+        for key, child in document.items():
             if key.lower() in forbidden:
                 findings.append(RuntimeInputFinding(RuntimeInputCode.SECRET, f"{path}.{key}"))
             findings.extend(_secret_findings(child, f"{path}.{key}"))
-    elif isinstance(value, list):
-        for index, child in enumerate(value):
+    elif items is not None:
+        for index, child in enumerate(items):
             findings.extend(_secret_findings(child, f"{path}[{index}]"))
     elif isinstance(value, str) and _SECRET_VALUE.search(value):
         findings.append(RuntimeInputFinding(RuntimeInputCode.SECRET, path))
@@ -269,15 +307,14 @@ def _validate_topology_binding(
     if topology_service is None:
         return (RuntimeInputFinding(RuntimeInputCode.TOPOLOGY, label),)
     topology_listeners = topology_service.get("listeners")
-    listener_ports = (
-        sorted(
-            item.get("port")
-            for item in topology_listeners
-            if isinstance(item, dict) and isinstance(item.get("port"), int)
+    try:
+        listener_items = _objects(topology_listeners)
+    except ValueError:
+        listener_ports = None
+    else:
+        listener_ports = sorted(
+            port for item in listener_items if type(port := item.get("port")) is int
         )
-        if isinstance(topology_listeners, list)
-        else None
-    )
     try:
         credentials = tuple(sorted(_strings(application.get("credential_filenames"))))
         topology_credentials = tuple(sorted(_strings(topology_service.get("credential_names"))))
@@ -304,16 +341,18 @@ def _expected_destination(
 ) -> dict[str, object] | None:
     """Derive one destination from the topology instead of trusting the declaration."""
     listeners = topology_service.get("listeners")
-    if not isinstance(listeners, list) or not listeners:
+    try:
+        listener_items = _objects(listeners)
+    except ValueError:
         return None
-    ports = [item.get("port") for item in listeners if isinstance(item, dict)]
+    if not listener_items:
+        return None
+    ports = [port for item in listener_items if type(port := item.get("port")) is int]
     port = _DESTINATION_PORT_OVERRIDES.get(service_id, ports[0] if ports else None)
     if port not in ports:
         return None
-    service_networks = topology_service.get("networks")
-    if not isinstance(service_networks, list):
-        return None
-    shared = sorted(networks & {item for item in service_networks if isinstance(item, str)})
+    service_networks = frozenset(_strings_or_empty(topology_service.get("networks")))
+    shared = sorted(networks & service_networks)
     if not shared:
         return None
     return {
@@ -333,18 +372,16 @@ def _validate_logical_destinations(
     """Require every declared destination to equal the one the topology implies."""
     declared = application.get("logical_destinations")
     expected_ids = _expected_destinations(label)
-    if not isinstance(declared, list) or len(declared) != len(expected_ids):
+    declared_items = _object_list(declared)
+    if declared_items is None or len(declared_items) != len(expected_ids):
         return (RuntimeInputFinding(RuntimeInputCode.DESTINATION, f"{label} destinations"),)
     networks = application.get("topology_networks")
-    owned = (
-        frozenset(item for item in networks if isinstance(item, str))
-        if (isinstance(networks, list))
-        else frozenset()
-    )
+    owned = frozenset(_strings_or_empty(networks))
     findings: list[RuntimeInputFinding] = []
-    for service_id, entry in zip(expected_ids, declared, strict=True):
+    for service_id, raw_entry in zip(expected_ids, declared_items, strict=True):
         topology_service = services.get(service_id)
-        if not isinstance(entry, dict) or frozenset(entry) != _DESTINATION_KEYS:
+        entry = _string_object(raw_entry)
+        if entry is None or frozenset(entry) != _DESTINATION_KEYS:
             findings.append(RuntimeInputFinding(RuntimeInputCode.DESTINATION, service_id))
             continue
         expected = (
@@ -352,7 +389,7 @@ def _validate_logical_destinations(
             if topology_service is None
             else _expected_destination(service_id, topology_service, owned)
         )
-        if expected is None or dict(entry) != expected:
+        if expected is None or entry != expected:
             findings.append(RuntimeInputFinding(RuntimeInputCode.DESTINATION, service_id))
     return tuple(findings)
 
@@ -394,9 +431,11 @@ def _validate_application(
         or (scheduler is not None and hub not in scheduler_hubs.get(scheduler, frozenset()))
     ):
         findings.append(RuntimeInputFinding(RuntimeInputCode.TASK_HUB, label))
-    if tuple(application.get("vault_service_ids", ())) != _VAULTS[label]:
+    if _strings_or_empty(application.get("vault_service_ids")) != _VAULTS[label]:
         findings.append(RuntimeInputFinding(RuntimeInputCode.VAULT, label))
-    if tuple(application.get("destination_service_ids", ())) != _expected_destinations(label):
+    if _strings_or_empty(application.get("destination_service_ids")) != _expected_destinations(
+        label
+    ):
         findings.append(RuntimeInputFinding(RuntimeInputCode.DESTINATION, label))
     findings.extend(_validate_logical_destinations(application, label, services))
     if (
@@ -404,7 +443,10 @@ def _validate_application(
         or application.get("readiness_probe_state") != "IMPLEMENTED"
     ):
         findings.append(RuntimeInputFinding(RuntimeInputCode.BLOCKER, label))
-    if tuple(application.get("readiness_dependency_codes", ())) != (_READINESS_DEPENDENCIES[label]):
+    if (
+        _strings_or_empty(application.get("readiness_dependency_codes"))
+        != (_READINESS_DEPENDENCIES[label])
+    ):
         findings.append(RuntimeInputFinding(RuntimeInputCode.READINESS, label))
     if application.get("enabled") is not False or application.get("admitted") is not False:
         findings.append(RuntimeInputFinding(RuntimeInputCode.ADMISSION, label))
@@ -433,12 +475,17 @@ def validate_runtime_input_policy(
         findings.append(RuntimeInputFinding(RuntimeInputCode.CREDENTIAL, "delivery"))
     if policy.get("authority") != _AUTHORITY:
         findings.append(RuntimeInputFinding(RuntimeInputCode.AUTHORITY, "authority"))
-    if tuple(policy.get("required_blockers", ())) != _BLOCKERS:
+    if _strings_or_empty(policy.get("required_blockers")) != _BLOCKERS:
         findings.append(RuntimeInputFinding(RuntimeInputCode.BLOCKER, "required blockers"))
     applications = _objects(policy.get("applications"))
-    application_ids = tuple(item.get("service_id") for item in applications)
+    application_ids = tuple(
+        service_id
+        for item in applications
+        if isinstance((service_id := item.get("service_id")), str)
+    )
     if (
-        len(application_ids) != len(set(application_ids))
+        len(application_ids) != len(applications)
+        or len(application_ids) != len(set(application_ids))
         or frozenset(application_ids) != _APPLICATIONS
     ):
         findings.append(RuntimeInputFinding(RuntimeInputCode.INVENTORY, "application ids"))
@@ -462,10 +509,11 @@ def validate_runtime_input_policy(
 
 
 def _read_object(path: Path) -> dict[str, object]:
-    value = json.loads(path.read_bytes())
-    if not isinstance(value, dict):
+    value: object = json.loads(path.read_bytes())
+    document = _string_object(value)
+    if document is None:
         raise TypeError(path)
-    return value
+    return document
 
 
 def check_runtime_input_policy(root: Path) -> RuntimeInputReport:

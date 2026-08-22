@@ -5,6 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import StrEnum
 
+from asklegal_domain import SourceOutageImpact
+
 from .model import exact_text
 from .official import (
     HK_LEGISLATION_SOURCE_IDS,
@@ -45,6 +47,63 @@ class OfficialMonitoringAssignment:
             raise TypeError("tier must be an exact OfficialMonitoringTier")
 
 
+@dataclass(frozen=True, slots=True)
+class OfficialObservationProfile:
+    """One source-specific bounded and polite observation policy."""
+
+    source_id: str
+    timeout_seconds: int
+    attempt_ceiling: int
+    backoff_seconds: tuple[int, ...]
+    minimum_interval_seconds: int
+    concurrency_ceiling: int
+    retryable_http_statuses: tuple[int, ...]
+    outage_impact: SourceOutageImpact
+
+    def __post_init__(self) -> None:
+        exact_text(self.source_id, "source_id")
+        for field in (
+            "timeout_seconds",
+            "attempt_ceiling",
+            "minimum_interval_seconds",
+            "concurrency_ceiling",
+        ):
+            value = getattr(self, field)
+            if type(value) is not int or value < 1:
+                raise TypeError(f"{field} must be a positive exact integer")
+        if self.timeout_seconds > 120:
+            raise ValueError("timeout_seconds must not exceed the transport ceiling")
+        if self.concurrency_ceiling != 1:
+            raise ValueError("official V1 observations must remain serial per source")
+        if (
+            type(self.backoff_seconds) is not tuple
+            or len(self.backoff_seconds) != self.attempt_ceiling - 1
+            or any(type(value) is not int or value < 1 for value in self.backoff_seconds)
+        ):
+            raise TypeError("backoff_seconds must cover every bounded retry exactly")
+        if (
+            type(self.retryable_http_statuses) is not tuple
+            or not self.retryable_http_statuses
+            or self.retryable_http_statuses != tuple(sorted(set(self.retryable_http_statuses)))
+            or any(
+                type(value) is not int or not 400 <= value <= 599
+                for value in self.retryable_http_statuses
+            )
+        ):
+            raise TypeError("retryable_http_statuses must be one sorted exact status tuple")
+        if type(self.outage_impact) is not SourceOutageImpact:
+            raise TypeError("outage_impact must be an exact SourceOutageImpact")
+
+
+@dataclass(frozen=True, slots=True)
+class _ObservationTransportPolicy:
+    timeout_seconds: int
+    attempt_ceiling: int
+    backoff_seconds: tuple[int, ...]
+    minimum_interval_seconds: int
+    retryable_http_statuses: tuple[int, ...]
+
+
 _TIER_BY_SOURCE_ID = {
     "HK-LEG-HKEL-CURRENT-INVENTORY": OfficialMonitoringTier.DAILY_CURRENT_LAW,
     "HK-LEG-HKEL-CURRENT-DATA": OfficialMonitoringTier.ON_DEMAND,
@@ -62,8 +121,45 @@ _TIER_BY_SOURCE_ID = {
     "HK-LEG-NPC-NPCSC-OFFICIAL-MATERIALS": OfficialMonitoringTier.MONTHLY_CROSSCHECK,
 }
 
+_HKEL_POLICY = _ObservationTransportPolicy(
+    45,
+    3,
+    (20, 40),
+    1,
+    (408, 425, 429, 500, 502, 503, 504),
+)
+_GLD_POLICY = _ObservationTransportPolicy(60, 2, (60,), 5, (408, 425, 429, 500, 502, 503, 504))
+_BASIC_LAW_POLICY = _ObservationTransportPolicy(
+    45,
+    2,
+    (30,),
+    2,
+    (408, 425, 429, 500, 502, 503, 504),
+)
+_NPC_POLICY = _ObservationTransportPolicy(60, 2, (60,), 5, (408, 425, 429, 500, 502, 503, 504))
+_ARCHIVE_POLICY = _ObservationTransportPolicy(120, 1, (), 10, (408, 425, 429, 500, 502, 503, 504))
+
+_OBSERVATION_POLICY_BY_SOURCE_ID = {
+    "HK-LEG-HKEL-CURRENT-INVENTORY": _HKEL_POLICY,
+    "HK-LEG-HKEL-CURRENT-DATA": _HKEL_POLICY,
+    "HK-LEG-HKEL-VERIFIED-COPIES": _HKEL_POLICY,
+    "HK-LEG-HKEL-ASSISTED-COPIES": _HKEL_POLICY,
+    "HK-LEG-HKEL-PAST-INVENTORY": _HKEL_POLICY,
+    "HK-LEG-HKEL-PAST-DATA": _HKEL_POLICY,
+    "HK-LEG-HKEL-EDITORIAL-RECORDS": _HKEL_POLICY,
+    "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS": _HKEL_POLICY,
+    "HK-LEG-GLD-EGAZETTE": _GLD_POLICY,
+    "HK-LEG-OFFICIAL-GAZETTE-ARCHIVE": _ARCHIVE_POLICY,
+    "HK-LEG-HKEL-GAZETTE-BACKCAPTURE": _HKEL_POLICY,
+    "HK-LEG-BASIC-LAW-PORTAL": _BASIC_LAW_POLICY,
+    "HK-LEG-NPC-NATIONAL-LAWS-DATABASE": _NPC_POLICY,
+    "HK-LEG-NPC-NPCSC-OFFICIAL-MATERIALS": _NPC_POLICY,
+}
+
 if frozenset(_TIER_BY_SOURCE_ID) != HK_LEGISLATION_SOURCE_IDS:
     raise AssertionError("monitoring assignments must cover the complete source universe")
+if frozenset(_OBSERVATION_POLICY_BY_SOURCE_ID) != HK_LEGISLATION_SOURCE_IDS:
+    raise AssertionError("observation profiles must cover the complete source universe")
 
 HK_LEGISLATION_MONITORING_ASSIGNMENTS = tuple(
     OfficialMonitoringAssignment(source_id, tier)
@@ -124,4 +220,28 @@ def due_official_source_ids(cycle: OfficialCoverageCycle) -> tuple[str, ...]:
     due_tiers = _DUE_TIERS[cycle]
     return tuple(
         source_id for source_id, tier in sorted(_TIER_BY_SOURCE_ID.items()) if tier in due_tiers
+    )
+
+
+def official_observation_profile(
+    register: HongKongLegislationSourceRegister,
+    source_id: str,
+) -> OfficialObservationProfile:
+    """Bind one exact transport policy to the active source's outage consequence."""
+    if type(register) is not HongKongLegislationSourceRegister:
+        raise TypeError("register must be an exact HongKongLegislationSourceRegister")
+    exact_text(source_id, "source_id")
+    source = next((item for item in register.sources if item.source_id == source_id), None)
+    policy = _OBSERVATION_POLICY_BY_SOURCE_ID.get(source_id)
+    if source is None or policy is None:
+        raise LookupError("official observation profile is unavailable")
+    return OfficialObservationProfile(
+        source_id,
+        policy.timeout_seconds,
+        policy.attempt_ceiling,
+        policy.backoff_seconds,
+        policy.minimum_interval_seconds,
+        1,
+        policy.retryable_http_statuses,
+        source.outage_impact,
     )

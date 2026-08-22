@@ -98,7 +98,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
         " which nftables and the container-only listener scope already confine",
     ),
     ApprovedException(
-        ExceptionKey(_REVIEW_SERVICE_PATH, 24, BoundaryCode.IGNORED_ERROR),
+        ExceptionKey(_REVIEW_SERVICE_PATH, 28, BoundaryCode.IGNORED_ERROR),
         "the container listener must bind every interface of its own private network;"
         " it is reachable only from that network and only over the internal authority's"
         " TLS, and the host nftables table that would narrow it further is not applied",
@@ -109,7 +109,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
         " one safe failure so no provider or credential detail can reach the gate",
     ),
     ApprovedException(
-        ExceptionKey(_SERVICE_HOST_PATH, 66, BoundaryCode.IGNORED_ERROR),
+        ExceptionKey(_SERVICE_HOST_PATH, 64, BoundaryCode.IGNORED_ERROR),
         "an unexpected serve failure must become one closed process exit code rather than"
         " a traceback that could carry connection or credential detail into the journal",
     ),

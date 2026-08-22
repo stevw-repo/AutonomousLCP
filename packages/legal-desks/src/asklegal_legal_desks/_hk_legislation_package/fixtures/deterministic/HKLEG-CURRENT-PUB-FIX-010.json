@@ -1,0 +1,33 @@
+{
+  "fixture_id": "HKLEG-CURRENT-PUB-FIX-010",
+  "title": "Legal Supplement No. 3 cannot prove Ordinance enactment",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:5604926fcd3bd5c9ec77f39ede51db139b111ad31af782097002cfd5409b1d95",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "source_id": "HK-LEG-GLD-EGAZETTE",
+    "gazette_issue_kind": "ORDINARY",
+    "gazette_material_class": "LEGAL_SUPPLEMENT_3",
+    "publication_claim": "ORDINANCE_ENACTMENT",
+    "subject_reference": "hkleg.synthetic.publication-010",
+    "issue_id": "gazette-2026-31",
+    "supplement_or_notice_id": "ls3-2026-31",
+    "instrument_or_notice_number": "Bill 10 of 2026",
+    "publication_date": "2026-08-01T00:00:00Z",
+    "artifact_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "source_metadata_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "english_material_fingerprint": null,
+    "traditional_chinese_material_fingerprint": null,
+    "enabling_authority_fingerprint": null,
+    "evidence_complete": true,
+    "evidence_authentic": true,
+    "evidence_conflicts": false,
+    "bilingual_material_complete": false,
+    "claim_matches_material_class": false
+  },
+  "expected_artifact": {
+    "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-010.json",
+    "fingerprint": "sha256:8b049193ee75cfc5129b2ed8c5cd2cfff8709f6c55fd45a6f6c87abc2c758296"
+  }
+}

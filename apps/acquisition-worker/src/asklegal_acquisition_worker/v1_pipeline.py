@@ -48,6 +48,7 @@ from asklegal_source_connectors import (
     GazetteEntry,
     GazetteRegisterError,
     GazetteRegisterFailureCode,
+    GazetteRequestTiming,
     HkelGazetteRegisterClient,
     HttpMethod,
     OfficialCoverageCycle,
@@ -60,14 +61,17 @@ from asklegal_source_connectors import (
     OfficialInventoryConnector,
     OfficialInventoryRequest,
     OfficialInventoryResult,
+    OfficialObservationGate,
     OfficialRenderedFetchRequest,
     OfficialRenderedSessionConnector,
     OfficialRenderedSessionTransport,
     OfficialSourceState,
+    PolicyBoundOfficialHttpTransport,
     ProxiedOfficialHttpTransport,
     SignalUse,
     due_official_source_profiles,
     load_hk_legislation_source_register,
+    official_observation_profile,
 )
 
 from asklegal_acquisition_worker.patchright_discovery import (
@@ -90,7 +94,6 @@ _RETENTION_PROFILE = "poc-source-evidence"
 # makes the same bytes collide with themselves on a later run. This is a POC
 # retention horizon and nothing more.
 _RETENTION_UNTIL = "2027-01-01T00:00:00Z"
-_FETCH_TIMEOUT_SECONDS = 45
 _GAZETTE_SOURCE_ID = "HK-LEG-HKEL-GAZETTE-BACKCAPTURE"
 _GAZETTE_ARTIFACT_ENDPOINT = "sep_00000000000000000000000000000000000000000000004f"
 _GAZETTE_LOCATOR_PLACEHOLDER = "gazette_artifact_locator"
@@ -277,6 +280,30 @@ def _response_fingerprint(result: OfficialFetchResult) -> str:
     if not result.body:
         return ""
     return f"sha256:{sha256(result.body).hexdigest()}"
+
+
+def _stable_inventory_member_outcomes(
+    member_outcomes: list[dict[str, object]],
+) -> list[dict[str, object]]:
+    """Remove replay-local creation facts from immutable source accounting."""
+    stable: list[dict[str, object]] = []
+    for member in member_outcomes:
+        normalized = dict(member)
+        for field in ("evidence", "isolated_response"):
+            reference = normalized.get(field)
+            if reference is None:
+                continue
+            try:
+                exact_reference = checked_json_value(reference)
+            except ContractViolation as error:
+                _fail_pipeline("inventory member storage reference must be exact JSON", error)
+            if not isinstance(exact_reference, dict):
+                _fail_pipeline("inventory member storage reference must be an exact object")
+            normalized[field] = {
+                key: value for key, value in exact_reference.items() if key != "created"
+            }
+        stable.append(normalized)
+    return stable
 
 
 def _gazette_artifact_plan(
@@ -710,14 +737,19 @@ class AcquisitionActivities:
         """Compose the bounded connector and the vault this worker writes to."""
         host, port = _proxy(infrastructure)
         self._register = load_hk_legislation_source_register()
+        self._transport = ProxiedOfficialHttpTransport(host, port)
+        self._observation_gate = OfficialObservationGate()
         self._connector = OfficialHttpConnector(
             self._register,
-            ProxiedOfficialHttpTransport(host, port),
+            PolicyBoundOfficialHttpTransport(
+                self._register,
+                self._transport,
+                self._observation_gate,
+            ),
         )
         self._endpoints = {item.endpoint_id: item for item in self._register.endpoints}
         self._sources = {item.source_id: item for item in self._register.sources}
         self._vault = infrastructure.primary_vault
-        self._transport = ProxiedOfficialHttpTransport(host, port)
         self._discovery_transport_for_endpoint = _patchright_transport_for_endpoint
 
     def capture_rendered_discovery(
@@ -759,7 +791,10 @@ class AcquisitionActivities:
                     endpoint.version,
                     HttpMethod.GET,
                     None,
-                    _FETCH_TIMEOUT_SECONDS,
+                    official_observation_profile(
+                        self._register,
+                        source.source_id,
+                    ).timeout_seconds,
                 ),
                 None,
             )
@@ -915,7 +950,10 @@ class AcquisitionActivities:
                 source.source_id,
                 endpoint_versions,
                 instruction.prior_fingerprints,
-                _FETCH_TIMEOUT_SECONDS,
+                official_observation_profile(
+                    self._register,
+                    source.source_id,
+                ).timeout_seconds,
             )
         )
         return self._retain_inventory_result(instruction, inventory)
@@ -1271,7 +1309,7 @@ class AcquisitionActivities:
                     "complete": inventory.code in _COMPLETE_INVENTORY_CODES,
                     "inventory_code": inventory.code.value,
                     "inventory_fingerprint": inventory.inventory_fingerprint,
-                    "members": member_outcomes,
+                    "members": _stable_inventory_member_outcomes(member_outcomes),
                     "observation_cutoff": instruction.observation_cutoff,
                     "schema_id": "asklegal.official-inventory-observation-manifest",
                     "schema_version": "1.0.0",
@@ -1321,7 +1359,13 @@ class AcquisitionActivities:
         last_date = request.last_date
         language = request.language
 
-        client = HkelGazetteRegisterClient(self._transport)
+        profile = official_observation_profile(self._register, _GAZETTE_SOURCE_ID)
+        client = HkelGazetteRegisterClient(
+            self._transport,
+            attempts=profile.attempt_ceiling,
+            backoff_seconds=float(profile.backoff_seconds[0]),
+            timing=GazetteRequestTiming(float(profile.minimum_interval_seconds)),
+        )
         try:
             client.open_session()
             # Finish the bounded listing before retaining any addressed artifact.
@@ -1369,7 +1413,11 @@ class AcquisitionActivities:
         # publisher session.
         session_connector = OfficialHttpConnector(
             self._register,
-            self._transport.with_session(client.session_cookies),
+            PolicyBoundOfficialHttpTransport(
+                self._register,
+                self._transport.with_session(client.session_cookies),
+                self._observation_gate,
+            ),
         )
         listed = 0
         retained: list[dict[str, object]] = []
@@ -1610,7 +1658,10 @@ class AcquisitionActivities:
                     endpoint_version=endpoint.version,
                     method=HttpMethod.GET,
                     prior_fingerprint=None,
-                    timeout_seconds=_FETCH_TIMEOUT_SECONDS,
+                    timeout_seconds=official_observation_profile(
+                        self._register,
+                        endpoint.source_id,
+                    ).timeout_seconds,
                     substitutions=((_GAZETTE_LOCATOR_PLACEHOLDER, locator),),
                 )
             )
@@ -1678,7 +1729,10 @@ class AcquisitionActivities:
                 endpoint_version=endpoint.version,
                 method=HttpMethod.GET,
                 prior_fingerprint=None,
-                timeout_seconds=_FETCH_TIMEOUT_SECONDS,
+                timeout_seconds=official_observation_profile(
+                    self._register,
+                    endpoint.source_id,
+                ).timeout_seconds,
             )
         )
         if result.failure_code is not None:

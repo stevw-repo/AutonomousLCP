@@ -2,6 +2,7 @@
 
 from copy import deepcopy
 from pathlib import Path
+from typing import cast
 
 import pytest
 
@@ -21,13 +22,23 @@ def _document() -> dict[str, object]:
 
 
 def _service(document: dict[str, object], service_id: str) -> dict[str, object]:
-    services = document["services"]
-    assert isinstance(services, list)
-    return next(
-        service
-        for service in services
-        if isinstance(service, dict) and service.get("service_id") == service_id
-    )
+    for raw_service in _object_list(document["services"]):
+        service = _object_map(raw_service)
+        if service.get("service_id") == service_id:
+            return service
+    raise AssertionError(service_id)
+
+
+def _object_map(value: object) -> dict[str, object]:
+    assert isinstance(value, dict)
+    candidate = cast("dict[object, object]", value)
+    assert all(type(key) is str for key in candidate)
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object]:
+    assert isinstance(value, list)
+    return cast("list[object]", value)
 
 
 def _codes(document: dict[str, object]) -> set[TopologyCode]:
@@ -71,32 +82,23 @@ def test_authority_and_isolation_regressions_fail_closed(
         service["artifact_state"] = "PINNED"
         service["artifact_ref"] = "asklegal/control-plane:latest"
     elif mutation == "public":
-        listeners = _service(document, "review-api")["listeners"]
-        assert isinstance(listeners, list)
-        assert isinstance(listeners[0], dict)
-        listeners[0]["scope"] = "PUBLIC"
+        listeners = _object_list(_service(document, "review-api")["listeners"])
+        _object_map(listeners[0])["scope"] = "PUBLIC"
     elif mutation == "secret":
         document["api_key"] = "do-not-store-secret-values"
     elif mutation == "network":
-        networks = document["networks"]
-        assert isinstance(networks, list)
-        assert isinstance(networks[0], dict)
-        members = networks[0]["members"]
-        assert isinstance(members, list)
+        networks = _object_list(document["networks"])
+        members = _object_list(_object_map(networks[0])["members"])
         members.pop()
     elif mutation == "vault":
-        vaults = document["vaults"]
-        assert isinstance(vaults, list)
-        assert all(isinstance(vault, dict) for vault in vaults)
-        vaults[1]["root"] = vaults[0]["root"]
+        vaults = _object_list(document["vaults"])
+        first_vault = _object_map(vaults[0])
+        _object_map(vaults[1])["root"] = first_vault["root"]
     elif mutation == "scheduler":
-        schedulers = document["scheduler_instances"]
-        assert isinstance(schedulers, list)
-        assert isinstance(schedulers[0], dict)
-        schedulers[0]["loss_result"] = "RESUMED"
+        schedulers = _object_list(document["scheduler_instances"])
+        _object_map(schedulers[0])["loss_result"] = "RESUMED"
     elif mutation == "pinecone":
-        pinecone = document["pinecone"]
-        assert isinstance(pinecone, dict)
+        pinecone = _object_map(document["pinecone"])
         pinecone["real_write_authorized"] = True
     else:
         document["unexpected"] = "field"

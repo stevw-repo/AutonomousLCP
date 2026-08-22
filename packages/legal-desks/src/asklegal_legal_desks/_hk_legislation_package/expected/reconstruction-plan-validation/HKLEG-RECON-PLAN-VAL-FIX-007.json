@@ -1,0 +1,24 @@
+{
+  "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-007",
+  "rule_id": "HKLEG-RECON-PLAN-001",
+  "processing_outcome": "BLOCK",
+  "legal_disposition": "NOT_APPLICABLE",
+  "coverage_effect": "COVERAGE_GAP",
+  "source_contract_review_required": false,
+  "reason_codes": [
+    "HKLEG_RECON_PLAN_LEGAL_DESK_DECISION_NOT_ACCEPTED"
+  ],
+  "rule_trace": [
+    "HKLEG-RECON-PLAN-001"
+  ],
+  "candidate_plan_fingerprint": "sha256:6931cdb06bc03acd269072134373a05b9b5ab8170c0663fce3c15556b5f22726",
+  "plan_validation_result": "NONE",
+  "validated_reconstruction_plan_id": null,
+  "validated_reconstruction_plan_fingerprint": null,
+  "validated_operation_count": 0,
+  "operation_execution": "NONE",
+  "reconstructed_text_output": "NONE",
+  "record_output": "NONE",
+  "external_effects": "NONE",
+  "next_action": "OBTAIN_ACCEPTED_LEGAL_DESK_PLAN_DECISION"
+}

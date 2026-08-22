@@ -1,0 +1,99 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.reconstruction-plan-semantic.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-001.json",
+      "fixture_fingerprint": "sha256:deb5ef0dc9d273b12922341e536ee87dadb2a2d3af4e8caa1d61084352d81e82",
+      "expected_path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-001.json",
+      "expected_fingerprint": "sha256:7c341a69a3dc50d1eb8eba547773234c43318c3a53e5ca9e4cd5ade87465d5f7"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-002.json",
+      "fixture_fingerprint": "sha256:43fac57829568b23bee81a77a2c6a249f591e322ca03dd76ed715fe0f794ef25",
+      "expected_path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-002.json",
+      "expected_fingerprint": "sha256:a1d98b0dcc80409c74ea55a5a48b2880357fc5eb7e08b27d432d3bdd540db890"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-003.json",
+      "fixture_fingerprint": "sha256:671678606fa5bdaa51c96f68208c542064daf4515c3a169e09076ae7f4bfc489",
+      "expected_path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-003.json",
+      "expected_fingerprint": "sha256:430961e0d2cad3975410203e309ec986a80e0b29c3dfa14b7a637395184eb89f"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-004.json",
+      "fixture_fingerprint": "sha256:2d8e3b01330bc4a8bc102e34b01e1425694afad9ade2e916b3e3db9e2479230d",
+      "expected_path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-004.json",
+      "expected_fingerprint": "sha256:1e0171bba102d9de3302f483d74bc1dfde530668b0b6e912b42153eb4cf7312f"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-005.json",
+      "fixture_fingerprint": "sha256:a667eee55692624679329d70154a59b23ae4a9befa5040c20d2b1877a69fc6ed",
+      "expected_path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-005.json",
+      "expected_fingerprint": "sha256:a13f6763317893c2fcf8835083b3703c456f71eaa9e667ff1f5bd4e26ba4a9f9"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-006",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-006.json",
+      "fixture_fingerprint": "sha256:c3b0bdc3c2cf1ac5e0bc1e832d14d5af1ab48c0bd1b64f9edf1484313bfcf3a4",
+      "expected_path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-006.json",
+      "expected_fingerprint": "sha256:c6778b07914412f9d3f294201b2d9fa7f337b764cda08a47b7a336d3715da851"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-007",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-007.json",
+      "fixture_fingerprint": "sha256:c8c455cf27c47d2d233fac6c228c3f5ffaf811e5e144a6d837ad15cf0a9f27fe",
+      "expected_path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-007.json",
+      "expected_fingerprint": "sha256:88b802f9a9e51603bd12c1f3ad6e0e7437e961335205499146d27414c6228e34"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-008",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-008.json",
+      "fixture_fingerprint": "sha256:74599f0150f2dd9b7ce7701623060d4d323020036d3d7e8ec1c9c744622d74d8",
+      "expected_path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-008.json",
+      "expected_fingerprint": "sha256:08413f5c132f3986c401da4a1dfb055d83d4de644fb292a80e573e33b6e4a597"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-009",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-009.json",
+      "fixture_fingerprint": "sha256:5cc72a3be80cae55e3897dd12b0e47d7afc9d7a7474a514b13d323205a3cc303",
+      "expected_path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-009.json",
+      "expected_fingerprint": "sha256:26978d79e4ea3d64e83b60cb01fcbc04f4d46895f1af8506945b51229b903c48"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-010",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-010.json",
+      "fixture_fingerprint": "sha256:01bc1c286d9bfff2ec191dd0276a249020f2f66a89064afab035f4a34435c306",
+      "expected_path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-010.json",
+      "expected_fingerprint": "sha256:f8e27a97ea5560b19fee0ad1dfd336d616a287636ad319e2315f1546b381c243"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-011",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-011.json",
+      "fixture_fingerprint": "sha256:8d248084bcbbbefcd68b6fa9b02232d77f8c5195c4186ba7b9f7686de9ffa5bd",
+      "expected_path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-011.json",
+      "expected_fingerprint": "sha256:be07d304a3d0e0e6b2adbc2d9937bf5bebeb8e25d4715c53c5afd97058a5be2d"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-012",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-012.json",
+      "fixture_fingerprint": "sha256:99d9a90535dfec320fdcc1d7d2a8165b6f7955b9cc75035e8ac022fa727d9fb4",
+      "expected_path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-012.json",
+      "expected_fingerprint": "sha256:179bd0a0c585102b2029d887f247d1c17a28de218a9ffc3c3e301a6a85c74e9c"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-013",
+      "path": "fixtures/deterministic/HKLEG-RECON-PLAN-SEM-FIX-013.json",
+      "fixture_fingerprint": "sha256:27bbbb6ec8d1302c36e40fe339aff76da0fe35b0af3f4f436b4cf2d64d3db75f",
+      "expected_path": "expected/reconstruction-plan-semantic/HKLEG-RECON-PLAN-SEM-FIX-013.json",
+      "expected_fingerprint": "sha256:12e3c5de7a6ced9191a0b0ce00b83a010b62f32fbaeaeea8e8495dfbdb715612"
+    }
+  ]
+}

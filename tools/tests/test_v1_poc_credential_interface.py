@@ -4,6 +4,7 @@ import json
 from collections.abc import Callable
 from copy import deepcopy
 from pathlib import Path
+from typing import cast
 
 import pytest
 
@@ -21,9 +22,28 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 
 
 def _object(path: Path) -> dict[str, object]:
-    value = json.loads(path.read_bytes())
+    value: object = json.loads(path.read_bytes())
+    return _object_map(value)
+
+
+def _object_map(value: object) -> dict[str, object]:
     assert isinstance(value, dict)
-    return value
+    candidate = cast("dict[object, object]", value)
+    assert all(type(key) is str for key in candidate)
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object]:
+    assert isinstance(value, list)
+    return cast("list[object]", value)
+
+
+def _item_by_id(value: object, field: str, expected: str) -> dict[str, object]:
+    for raw_item in _object_list(value):
+        item = _object_map(raw_item)
+        if item.get(field) == expected:
+            return item
+    raise AssertionError(expected)
 
 
 def _policy() -> dict[str, object]:
@@ -39,33 +59,27 @@ def _systemd() -> dict[str, object]:
 
 
 def _subject(policy: dict[str, object], service_id: str) -> dict[str, object]:
-    subjects = policy["subjects"]
-    assert isinstance(subjects, list)
-    return next(
-        item for item in subjects if isinstance(item, dict) and item.get("service_id") == service_id
-    )
+    return _item_by_id(policy["subjects"], "service_id", service_id)
 
 
 def _list(policy: dict[str, object], key: str) -> list[object]:
-    value = policy[key]
-    assert isinstance(value, list)
-    return value
+    return _object_list(policy[key])
 
 
 def _first(policy: dict[str, object], key: str) -> dict[str, object]:
-    entry = _list(policy, key)[0]
-    assert isinstance(entry, dict)
-    return entry
+    return _object_map(_list(policy, key)[0])
 
 
 def _nested(policy: dict[str, object], key: str) -> dict[str, object]:
-    value = policy[key]
-    assert isinstance(value, dict)
-    return value
+    return _object_map(policy[key])
 
 
 def _claim_ready(policy: dict[str, object]) -> None:
     policy["ready"] = True
+
+
+def _pop_last(policy: dict[str, object], key: str) -> None:
+    _list(policy, key).pop()
 
 
 _MUTATIONS: dict[str, Callable[[dict[str, object]], None]] = {
@@ -79,8 +93,8 @@ _MUTATIONS: dict[str, Callable[[dict[str, object]], None]] = {
     "unknown_step_evidence": lambda policy: _first(policy, "required_steps").__setitem__(
         "evidence_refs", ["INVENTED_EVIDENCE"]
     ),
-    "evidence_inventory": lambda policy: _list(policy, "required_evidence").pop(),
-    "blocker": lambda policy: _list(policy, "blockers").pop(),
+    "evidence_inventory": lambda policy: _pop_last(policy, "required_evidence"),
+    "blocker": lambda policy: _pop_last(policy, "blockers"),
     "unevidenced_subject": lambda policy: _subject(policy, "sql-server").__setitem__(
         "evidence_refs", []
     ),
@@ -216,22 +230,15 @@ def test_ready_is_allowed_only_when_every_step_passed_and_nothing_blocks() -> No
     policy = deepcopy(_policy())
     policy["ready"] = True
     policy["blockers"] = []
-    for step in _list(policy, "required_steps"):
-        assert isinstance(step, dict)
-        step["state"] = "PASSED"
+    for raw_step in _list(policy, "required_steps"):
+        _object_map(raw_step)["state"] = "PASSED"
     assert CredentialInterfaceCode.ADMISSION not in _codes(policy)
 
 
 def test_artifact_selection_and_digest_drift_fail_closed() -> None:
     """Bind each subject to the current credential-gated artifact selection."""
     artifacts = deepcopy(_artifacts())
-    entries = artifacts["artifacts"]
-    assert isinstance(entries, list)
-    sql = next(
-        item
-        for item in entries
-        if isinstance(item, dict) and item.get("artifact_id") == "sql-server"
-    )
+    sql = _item_by_id(artifacts["artifacts"], "artifact_id", "sql-server")
     sql["artifact_ref"] = "mcr.microsoft.com/mssql/server@sha256:" + ("0" * 64)
     assert CredentialInterfaceCode.ARTIFACT in _codes(_policy(), artifacts=artifacts)
 
@@ -239,12 +246,6 @@ def test_artifact_selection_and_digest_drift_fail_closed() -> None:
 def test_systemd_credential_inventory_drift_fails_closed() -> None:
     """Use exactly the credential files assigned to each product unit."""
     systemd = deepcopy(_systemd())
-    units = systemd["service_units"]
-    assert isinstance(units, list)
-    primary = next(
-        item
-        for item in units
-        if isinstance(item, dict) and item.get("service_id") == "vault-primary"
-    )
+    primary = _item_by_id(systemd["service_units"], "service_id", "vault-primary")
     primary["credential_names"] = ["vault-primary-root-access"]
     assert CredentialInterfaceCode.SYSTEMD in _codes(_policy(), systemd=systemd)

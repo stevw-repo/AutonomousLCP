@@ -17,6 +17,7 @@ from .model import (
     EmbeddingProfile,
     EmbeddingReceipt,
     EmbeddingRequest,
+    OutcomeUnknown,
     PromotionError,
     PromotionErrorCode,
     TargetDefinition,
@@ -30,10 +31,6 @@ def _fingerprint(raw: bytes) -> str:
 
 def _stable_id(prefix: str, *values: str) -> str:
     return f"{prefix}_{sha256(chr(31).join(values).encode()).hexdigest()[:48]}"
-
-
-class OutcomeUnknown(RuntimeError):
-    """Synthetic transport lost acknowledgement after a committed write."""
 
 
 @dataclass(frozen=True, slots=True)

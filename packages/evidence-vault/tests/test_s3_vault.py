@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import base64
+import importlib
 from collections.abc import Mapping
 from datetime import datetime
 from hashlib import sha256
+from typing import Protocol, TypeIs, runtime_checkable
 
-import boto3
 import pytest
 from asklegal_contracts import canonicalize
 from asklegal_evidence_vault import (
@@ -30,8 +31,54 @@ from asklegal_evidence_vault import (
     create_v1_s3_client,
     s3_version_reference,
 )
-from botocore.client import Config
-from botocore.exceptions import ClientError
+
+
+class _SessionNamespace(Protocol):
+    Session: object
+
+
+@runtime_checkable
+class _Boto3Module(Protocol):
+    session: _SessionNamespace
+
+
+@runtime_checkable
+class _ConfigView(Protocol):
+    signature_version: str
+    retries: Mapping[str, object]
+    s3: Mapping[str, object]
+    connect_timeout: int
+    read_timeout: int
+
+
+class _ClientErrorFactory(Protocol):
+    def __call__(self, response: dict[str, object], operation: str) -> object:
+        """Create one provider exception."""
+        ...
+
+
+def _load_boto3() -> _Boto3Module:
+    module = importlib.import_module("boto3")
+    if not isinstance(module, _Boto3Module):
+        message = "boto3 module does not expose the required session boundary"
+        raise TypeError(message)
+    return module
+
+
+def _is_client_error_factory(value: object) -> TypeIs[_ClientErrorFactory]:
+    return callable(value)
+
+
+def _load_client_error_factory() -> _ClientErrorFactory:
+    value = vars(importlib.import_module("botocore.exceptions")).get("ClientError")
+    if not _is_client_error_factory(value):
+        message = "botocore ClientError factory is unavailable"
+        raise RuntimeError(message)
+    return value
+
+
+boto3 = _load_boto3()
+ClientError = _load_client_error_factory()
 
 _RETENTION = RetentionProfile("source-evidence", "2030-01-01T00:00:00Z")
 _CONNECT_TIMEOUT_SECONDS = 4
@@ -77,12 +124,12 @@ class _FakeS3Client:
         if identity in self._current:
             raise _client_error(_PRECONDITION_CODE, _PROVIDER_DETAIL, "PutObject")
         content = kwargs.get("Body")
-        metadata = kwargs.get("Metadata")
+        metadata = _string_object_dict(kwargs.get("Metadata"))
         retain_until = kwargs.get("ObjectLockRetainUntilDate")
         hold = kwargs.get("ObjectLockLegalHoldStatus")
         if (
             type(content) is not bytes
-            or not isinstance(metadata, dict)
+            or metadata is None
             or type(retain_until) is not datetime
             or hold not in {"ON", "OFF"}
         ):
@@ -170,8 +217,27 @@ def _bytes_record(record: dict[str, object], name: str) -> bytes:
     return value
 
 
-def _client_error(code: str, message: str, operation: str) -> ClientError:
-    return ClientError({"Error": {"Code": code, "Message": message}}, operation)
+def _string_object_dict(value: object) -> dict[str, object] | None:
+    if not _is_object_dict(value):
+        return None
+    result: dict[str, object] = {}
+    for key, item in value.items():
+        if type(key) is not str:
+            return None
+        result[key] = item
+    return result
+
+
+def _is_object_dict(value: object) -> TypeIs[dict[object, object]]:
+    return isinstance(value, dict)
+
+
+def _client_error(code: str, message: str, operation: str) -> Exception:
+    error = ClientError({"Error": {"Code": code, "Message": message}}, operation)
+    if not isinstance(error, Exception):
+        message = "botocore ClientError factory returned a non-exception"
+        raise TypeError(message)
+    return error
 
 
 def _credential() -> S3AccessCredential:
@@ -276,7 +342,7 @@ def test_boto3_client_factory_uses_only_explicit_values(
     assert arguments["endpoint_url"] == "https://vault-primary:7070"
     assert arguments["verify"] == "/etc/asklegal/trust/vault-primary-ca.pem"
     config = arguments["config"]
-    assert isinstance(config, Config)
+    assert isinstance(config, _ConfigView)
     assert config.signature_version == "s3v4"
     assert config.retries == {"mode": "standard", "total_max_attempts": 3}
     assert config.s3 == {"addressing_style": "path"}
@@ -286,7 +352,7 @@ def test_boto3_client_factory_uses_only_explicit_values(
     exact_vault = create_exact_v1_s3_vault(VaultName.PRIMARY, _credential())
     assert exact_vault.vault_name is VaultName.PRIMARY
     exact_config = client_calls[1][1]["config"]
-    assert isinstance(exact_config, Config)
+    assert isinstance(exact_config, _ConfigView)
     assert exact_config.retries == {"mode": "standard", "total_max_attempts": 3}
     assert exact_config.connect_timeout == _V1_CONNECT_TIMEOUT_SECONDS
     assert exact_config.read_timeout == _V1_READ_TIMEOUT_SECONDS

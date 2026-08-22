@@ -1,0 +1,106 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.current-cessation.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-001.json",
+      "fixture_fingerprint": "sha256:58c73ee3878c31a12b6d1eecafca7cb55b6fe96013bcb05e22c52fd976d7d5f7",
+      "expected_path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-001.json",
+      "expected_fingerprint": "sha256:a8d0d83ea0169fe46eaf2cfb67523de1f3c5616742dab782bb5deac077517957"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-002.json",
+      "fixture_fingerprint": "sha256:b5146a015c8c9417208311c765aad80853747e6bd2fe2311cb38e18eda543bbb",
+      "expected_path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-002.json",
+      "expected_fingerprint": "sha256:8ceedbbe133dcad3e47eeaad1067d0516c006f0f0f2bbf37f0bb569caf8e98ef"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-003.json",
+      "fixture_fingerprint": "sha256:6bcf6d5637ef44d6b41184188b05afe59152359dccc351f313d7f0e7e60ad4c7",
+      "expected_path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-003.json",
+      "expected_fingerprint": "sha256:dfd2d1850aee048051c9b69baa0b28b914ef96f71b1317d684b235a34cbcfeed"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-004.json",
+      "fixture_fingerprint": "sha256:8f08b187048a554c48a4b599adb09a205416bf8fe2bf6318c2771b114c38a6be",
+      "expected_path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-004.json",
+      "expected_fingerprint": "sha256:5bb8cb4a8622a80009f3b20895cd0b6cb3e2ea3fb78a67808a3d583df64ecd62"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-005.json",
+      "fixture_fingerprint": "sha256:f930efc8f7d5045aa2aed7f1aa3c9682cd36da084622261e9233ae5910e29846",
+      "expected_path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-005.json",
+      "expected_fingerprint": "sha256:84f85a63cda808040f14fe7753f375d5e73fe765773228419109e570e5cc75ae"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-006",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-006.json",
+      "fixture_fingerprint": "sha256:5c940db3c9eb768a12774445446fb96eecb4b37f32648bf77e630b02c2f6da93",
+      "expected_path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-006.json",
+      "expected_fingerprint": "sha256:6065ad654224fbb226769023f1b89b2aa7b87c0af8add2deb6061a5cd4f290ef"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-007",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-007.json",
+      "fixture_fingerprint": "sha256:2a48f9f7245499b528cea7bc5d27fa0c46934148fe361829edfc5c9937bda623",
+      "expected_path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-007.json",
+      "expected_fingerprint": "sha256:c598716a25be559232dabb5da3411001431c981abec6626afa119aaa44daf112"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-008",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-008.json",
+      "fixture_fingerprint": "sha256:8610391801864a5168605bae6b3351077a75d241ce9428ffa88685d3bd921c72",
+      "expected_path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-008.json",
+      "expected_fingerprint": "sha256:404b872c08550e6ea817e0c67a55009a04e3e9a29fe71530d8148a3fe0917f3e"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-009",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-009.json",
+      "fixture_fingerprint": "sha256:0d4c5735df3aaadd42a4088dbac3be3d42b706ba21c4f689b704f6b59b448775",
+      "expected_path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-009.json",
+      "expected_fingerprint": "sha256:5bbb80427e020c7441b7fbb2c44c95dc6961abb1ed86cfc091a35e0e3a31a589"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-010",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-010.json",
+      "fixture_fingerprint": "sha256:cac6714c07443982781aa4fdd8273f335d105159bf7e39cc1d05e5c954ba0b2c",
+      "expected_path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-010.json",
+      "expected_fingerprint": "sha256:b6923942c3ef468f412ea0d686e4e4ccda5652518f105dd5cff1731654bdefe2"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-011",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-011.json",
+      "fixture_fingerprint": "sha256:3cd71b3e41348c23f3be3eb3de821ad58ea03cf61e5a1261add7b6ce39f4fee4",
+      "expected_path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-011.json",
+      "expected_fingerprint": "sha256:34a10f77fb7de28c6beabe20f2878354b023907e44389018b9498621191ec49e"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-012",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-012.json",
+      "fixture_fingerprint": "sha256:7d328bb80e7ad71312b4cea0f73f2193274b67e6c52ae7e6b24273757b3d0abf",
+      "expected_path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-012.json",
+      "expected_fingerprint": "sha256:3be9d058394e67740fc75b4a4341617d69e61b2d0f0c282cb6de2cd60023e46b"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-013",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-013.json",
+      "fixture_fingerprint": "sha256:8e157b1fa9d9f4961003fad91beda1d85ad43810c7dd1a85851c024021daeaad",
+      "expected_path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-013.json",
+      "expected_fingerprint": "sha256:795f3634819a09272722f277f53c84026aee8e77bf5ccabf298c461587f8f88c"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-014",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-014.json",
+      "fixture_fingerprint": "sha256:d4461cfe29fad450b33e512131bc7d56ff3620ead3a4b29e25854b690b954429",
+      "expected_path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-014.json",
+      "expected_fingerprint": "sha256:f7ccd8b588e9b2651591361bd67b1c1ca6fd959a57a7382e8cedbabae15e95e8"
+    }
+  ]
+}

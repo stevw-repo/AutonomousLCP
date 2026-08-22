@@ -38,6 +38,7 @@ def _empty_calls() -> list[str]:
 class _Vault:
     def __init__(self) -> None:
         self.writes: dict[str, bytes] = {}
+        self.versions: dict[str, str] = {}
 
     def conditional_create(
         self,
@@ -50,13 +51,14 @@ class _Vault:
             assert existing == content
         else:
             self.writes[logical_key] = content
+            self.versions[logical_key] = f"version-{len(self.writes)}"
         return SimpleNamespace(
             created=existing is None,
             read_back_verified=True,
             reference=SimpleNamespace(
                 byte_length=len(content),
                 vault=VaultName.PRIMARY,
-                version_id=f"version-{len(self.writes)}",
+                version_id=self.versions[logical_key],
             ),
         )
 
@@ -85,7 +87,7 @@ class _InventoryTransport:
         if endpoint.endpoint_id == self.unsafe_endpoint:
             body = b"<!DOCTYPE x [<!ENTITY e SYSTEM 'file:///etc/passwd'>]><x>&e;</x>"
         return OfficialTransportResponse(
-            status_code=503 if endpoint.endpoint_id == self.changed_endpoint else 200,
+            status_code=404 if endpoint.endpoint_id == self.changed_endpoint else 200,
             final_url=endpoint.url,
             media_type="application/xml",
             character_encoding="utf-8",
@@ -200,6 +202,23 @@ def test_identical_inventory_is_complete_and_adopts_member_evidence() -> None:
     assert _coverage(repeated)["release_blocking"] is False
     repeated_members = _objects(repeated["members"])
     assert all(_object(member["evidence"])["created"] is False for member in repeated_members)
+
+
+def test_activity_restart_adopts_inventory_evidence_manifest_and_coverage() -> None:
+    """Replaying one checkpoint-lost activity does not create parallel accounting."""
+    transport = _InventoryTransport()
+    activities, _vault = _activities(transport)
+
+    first = _capture(activities, _payload())
+    replayed = _capture(activities, _payload())
+
+    assert first["code"] == OfficialInventoryCode.COMPLETE_CAPTURED.value
+    assert replayed["code"] == OfficialInventoryCode.COMPLETE_CAPTURED.value
+    assert all(
+        _object(member["evidence"])["created"] is False for member in _objects(replayed["members"])
+    )
+    assert _object(replayed["observation_manifest"])["created"] is False
+    assert _object(replayed["coverage_report"])["created"] is False
 
 
 @pytest.mark.parametrize(

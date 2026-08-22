@@ -3,6 +3,7 @@
 import json
 from copy import deepcopy
 from pathlib import Path
+from typing import cast
 
 import pytest
 
@@ -19,9 +20,28 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 
 
 def _object(path: Path) -> dict[str, object]:
-    value = json.loads(path.read_bytes())
+    value: object = json.loads(path.read_bytes())
+    return _object_map(value)
+
+
+def _object_map(value: object) -> dict[str, object]:
     assert isinstance(value, dict)
-    return value
+    candidate = cast("dict[object, object]", value)
+    assert all(type(key) is str for key in candidate)
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object]:
+    assert isinstance(value, list)
+    return cast("list[object]", value)
+
+
+def _item_by_id(value: object, service_id: str) -> dict[str, object]:
+    for raw_item in _object_list(value):
+        item = _object_map(raw_item)
+        if item.get("service_id") == service_id:
+            return item
+    raise AssertionError(service_id)
 
 
 def _policy() -> dict[str, object]:
@@ -33,13 +53,7 @@ def _topology() -> dict[str, object]:
 
 
 def _identity(policy: dict[str, object], service_id: str) -> dict[str, object]:
-    identities = policy["identities"]
-    assert isinstance(identities, list)
-    return next(
-        item
-        for item in identities
-        if isinstance(item, dict) and item.get("service_id") == service_id
-    )
+    return _item_by_id(policy["identities"], service_id)
 
 
 def _codes(
@@ -88,8 +102,7 @@ def test_identity_name_ownership_and_allocation_drift_fail_closed(
 def test_missing_or_duplicate_identity_fails_closed() -> None:
     """Require one unique host identity for each topology service with host paths."""
     policy = deepcopy(_policy())
-    identities = policy["identities"]
-    assert isinstance(identities, list)
+    identities = _object_list(policy["identities"])
     identities[-1] = deepcopy(identities[0])
     codes = _codes(policy)
     assert HostIdentityCode.INVENTORY in codes
@@ -99,14 +112,12 @@ def test_missing_or_duplicate_identity_fails_closed() -> None:
 def test_authority_and_login_profile_drift_fail_closed() -> None:
     """Reject host mutation authority or an interactive account profile."""
     policy = deepcopy(_policy())
-    authority = policy["authority"]
-    assert isinstance(authority, dict)
+    authority = _object_map(policy["authority"])
     authority["identity_creation_authorized"] = True
     assert HostIdentityCode.AUTHORITY in _codes(policy)
 
     policy = deepcopy(_policy())
-    profile = policy["identity_profile"]
-    assert isinstance(profile, dict)
+    profile = _object_map(policy["identity_profile"])
     profile["login_shell"] = "/bin/bash"
     assert HostIdentityCode.PROFILE in _codes(policy)
 
@@ -114,13 +125,7 @@ def test_authority_and_login_profile_drift_fail_closed() -> None:
 def test_topology_and_embedded_secret_drift_fail_closed() -> None:
     """Bind identities to topology and keep the contract secret-free."""
     topology = _topology()
-    services = topology["services"]
-    assert isinstance(services, list)
-    control = next(
-        item
-        for item in services
-        if isinstance(item, dict) and item.get("service_id") == "control-plane"
-    )
+    control = _item_by_id(topology["services"], "control-plane")
     control["identity"] = "changed-identity"
     assert HostIdentityCode.TOPOLOGY in _codes(_policy(), topology)
 
@@ -130,11 +135,7 @@ def test_topology_and_embedded_secret_drift_fail_closed() -> None:
 
 
 def _map_entry(policy: dict[str, object], service_id: str) -> dict[str, object]:
-    entries = policy["container_identity_map"]
-    assert isinstance(entries, list)
-    return next(
-        item for item in entries if isinstance(item, dict) and item.get("service_id") == service_id
-    )
+    return _item_by_id(policy["container_identity_map"], service_id)
 
 
 @pytest.mark.parametrize(
@@ -155,8 +156,7 @@ def _map_entry(policy: dict[str, object], service_id: str) -> dict[str, object]:
 def test_container_identity_map_fails_closed(mutation: str, expected: HostIdentityCode) -> None:
     """Every container must run as one exact, non-root, unshared numeric identity."""
     policy = deepcopy(_policy())
-    entries = policy["container_identity_map"]
-    assert isinstance(entries, list)
+    entries = _object_list(policy["container_identity_map"])
     control = _map_entry(policy, "control-plane")
     if mutation == "root_uid":
         control["runtime_uid"] = 0
@@ -205,8 +205,7 @@ def test_container_identity_map_fails_closed(mutation: str, expected: HostIdenti
 def test_container_identity_rule_cannot_be_weakened(field: str) -> None:
     """The credential-delivery constraint is measured evidence, not a preference."""
     policy = deepcopy(_policy())
-    rule = policy["container_identity_rule"]
-    assert isinstance(rule, dict)
+    rule = _object_map(policy["container_identity_rule"])
     rule[field] = False
     assert HostIdentityCode.PROFILE in _codes(policy)
 
@@ -214,7 +213,6 @@ def test_container_identity_rule_cannot_be_weakened(field: str) -> None:
 def test_allocated_range_cannot_be_widened_to_reach_a_real_account() -> None:
     """A widened range would let an application account collide with the login user."""
     policy = deepcopy(_policy())
-    profile = policy["identity_profile"]
-    assert isinstance(profile, dict)
+    profile = _object_map(policy["identity_profile"])
     profile["allocated_uid_gid_range"] = [1000, 3014]
     assert HostIdentityCode.PROFILE in _codes(policy)

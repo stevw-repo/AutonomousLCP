@@ -1,0 +1,33 @@
+{
+  "fixture_id": "HKLEG-CURRENT-PUB-FIX-003",
+  "title": "Legal Supplement No. 2 proves subsidiary legislation publication",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:48c874da746150300c8b509f6bf3b7a3eba977029aa70393d969cea7df29e4f6",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "source_id": "HK-LEG-GLD-EGAZETTE",
+    "gazette_issue_kind": "ORDINARY",
+    "gazette_material_class": "LEGAL_SUPPLEMENT_2",
+    "publication_claim": "SUBSIDIARY_LEGISLATION",
+    "subject_reference": "hkleg.synthetic.publication-003",
+    "issue_id": "gazette-2026-31",
+    "supplement_or_notice_id": "ls2-2026-31",
+    "instrument_or_notice_number": "L.N. 101 of 2026",
+    "publication_date": "2026-08-01T00:00:00Z",
+    "artifact_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "source_metadata_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "english_material_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "traditional_chinese_material_fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "enabling_authority_fingerprint": null,
+    "evidence_complete": true,
+    "evidence_authentic": true,
+    "evidence_conflicts": false,
+    "bilingual_material_complete": true,
+    "claim_matches_material_class": true
+  },
+  "expected_artifact": {
+    "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-003.json",
+    "fingerprint": "sha256:f3c4f44ce66a8ea25e9061185707de1305c1077d5da1a89d6dfa90dc4ac30b3e"
+  }
+}

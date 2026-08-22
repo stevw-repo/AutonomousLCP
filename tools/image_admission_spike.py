@@ -193,12 +193,27 @@ def verify_toolchain(
     ).stdout.strip()
     if docker_version != _json_string(runtime["docker_engine_version"], "docker"):
         raise ImageAdmissionFailure("IMAGE_DOCKER_VERSION_MISMATCH")
-    buildx_nodes = _run(
-        (str(paths.sudo), "-n", str(paths.buildx), "ls"), cwd=paths.buildx.parent
-    ).stdout
     buildkit_version = _json_string(runtime["buildkit_version"], "buildkit")
-    if buildkit_version not in buildx_nodes:
+    buildkit_builder_name = _json_string(runtime["buildkit_builder_name"], "builder name")
+    buildkit_image_ref = _json_string(runtime["buildkit_image_ref"], "buildkit image")
+    buildx_inspection = _run(
+        (
+            str(paths.sudo),
+            "-n",
+            str(paths.buildx),
+            "inspect",
+            buildkit_builder_name,
+            "--bootstrap",
+        ),
+        cwd=paths.buildx.parent,
+    ).stdout
+    if (
+        "Driver:        docker-container" not in buildx_inspection
+        or f"BuildKit version:      {buildkit_version}" not in buildx_inspection
+    ):
         raise ImageAdmissionFailure("IMAGE_BUILDKIT_VERSION_MISMATCH")
+    if f'image="{buildkit_image_ref}"' not in buildx_inspection:
+        raise ImageAdmissionFailure("IMAGE_BUILDKIT_IMAGE_MISMATCH")
     openssl_version = _run((str(paths.openssl), "version"), cwd=paths.openssl.parent).stdout.strip()
     if not openssl_version.startswith(_json_string(runtime["openssl_version_prefix"], "openssl")):
         raise ImageAdmissionFailure("IMAGE_OPENSSL_VERSION_MISMATCH")
@@ -515,6 +530,8 @@ def run_spike(
     policy = load_policy(root)
     validation_time = datetime.now(UTC) if now is None else now
     versions, database = verify_toolchain(policy, paths, validation_time)
+    runtime = _json_mapping(policy["runtime"], "runtime")
+    builder_name = _json_string(runtime["buildkit_builder_name"], "builder name")
     source_epoch = _json_integer(policy["source_date_epoch"], "source epoch")
     image_policy = _json_mapping(policy["image"], "image")
     busybox = Path(_json_string(image_policy["busybox_path"], "busybox path"))
@@ -530,7 +547,7 @@ def run_spike(
         _create_context(root, context, busybox, source_epoch)
     archives = [work_root / "image-a.tar", work_root / "image-b.tar"]
     for context, archive in zip(contexts, archives, strict=True):
-        _build_image(paths, context, archive, source_epoch)
+        _build_image(paths, context, archive, source_epoch, builder_name)
     layouts = [work_root / "layout-a", work_root / "layout-b"]
     for archive, layout in zip(archives, layouts, strict=True):
         _safe_extract_tar(archive, layout)
@@ -653,7 +670,7 @@ def run_spike(
     if recovery_graph != signed_release_graph:
         raise ImageAdmissionFailure("IMAGE_RECOVERY_GRAPH_MISMATCH")
 
-    _prove_read_only_runtime(paths, contexts[0], source_epoch)
+    _prove_read_only_runtime(paths, contexts[0], source_epoch, builder_name)
     return ImageAdmissionReport(
         image_digest=first.image_descriptor.digest,
         image_graph_sha256=_graph_hash(first.image_graph),
@@ -757,7 +774,9 @@ def _create_context(root: Path, destination: Path, busybox: Path, epoch: int) ->
     os.utime(destination, (epoch, epoch), follow_symlinks=False)
 
 
-def _build_image(paths: ToolPaths, context: Path, output: Path, epoch: int) -> None:
+def _build_image(
+    paths: ToolPaths, context: Path, output: Path, epoch: int, builder_name: str
+) -> None:
     _run(
         (
             str(paths.sudo),
@@ -765,7 +784,7 @@ def _build_image(paths: ToolPaths, context: Path, output: Path, epoch: int) -> N
             str(paths.buildx),
             "build",
             "--builder",
-            "default",
+            builder_name,
             "--network=none",
             "--no-cache",
             "--build-arg",
@@ -1129,7 +1148,9 @@ def _validate_sealed_record(
         raise ImageAdmissionFailure("IMAGE_RELEASE_NOT_SEALED")
 
 
-def _prove_read_only_runtime(paths: ToolPaths, context: Path, epoch: int) -> None:
+def _prove_read_only_runtime(
+    paths: ToolPaths, context: Path, epoch: int, builder_name: str
+) -> None:
     tag = "asklegal-image-admission-fixture:spike"
     try:
         _run(
@@ -1139,7 +1160,7 @@ def _prove_read_only_runtime(paths: ToolPaths, context: Path, epoch: int) -> Non
                 str(paths.buildx),
                 "build",
                 "--builder",
-                "default",
+                builder_name,
                 "--network=none",
                 "--no-cache",
                 "--build-arg",

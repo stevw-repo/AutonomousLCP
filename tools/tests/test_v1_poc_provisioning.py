@@ -4,6 +4,7 @@ import json
 import subprocess
 from copy import deepcopy
 from pathlib import Path
+from typing import cast
 
 import pytest
 
@@ -78,9 +79,10 @@ def test_identities_match_the_allocation_exactly() -> None:
     script = render(REPOSITORY_ROOT)["30-identities.sh"]
     identities = policy["identities"]
     assert isinstance(identities, list)
-    for entry in identities:
+    typed_identities = cast("list[dict[str, object]]", identities)
+    for entry in typed_identities:
         assert f'create_identity "{entry["identity"]}" {entry["uid"]}' in script
-    assert script.count('create_identity "') == len(identities)
+    assert script.count('create_identity "') == len(typed_identities)
 
 
 def test_networks_match_the_topology_isolation_exactly() -> None:

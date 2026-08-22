@@ -1,20 +1,33 @@
 """Tests for the bounded read-only Ubuntu host-fact collector."""
 
+import json
 from collections import Counter
-from typing import TYPE_CHECKING
+from pathlib import Path
+from typing import TYPE_CHECKING, cast
 
 import pytest
 
-from tools.tests.test_v1_poc_host_admission import _policy
 from tools.v1_poc_collect_host_facts import (
     UbuntuHostFactsSource,
-    _parse_os_release,
     collect_host_facts,
+    parse_os_release,
 )
 from tools.v1_poc_host_admission import evaluate_host_facts
 
 if TYPE_CHECKING:
     from asklegal_contracts.json_types import JsonValue
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+
+
+def _policy() -> dict[str, object]:
+    value: object = json.loads(
+        (REPOSITORY_ROOT / "infrastructure/poc/host_admission_policy.json").read_bytes()
+    )
+    assert isinstance(value, dict)
+    candidate = cast("dict[object, object]", value)
+    assert all(type(key) is str for key in candidate)
+    return cast("dict[str, object]", candidate)
 
 
 class _FakeSource:
@@ -165,7 +178,7 @@ def test_collected_facts_match_the_exact_admission_boundary_but_do_not_admit() -
 
 def test_os_release_parser_is_bounded_to_declared_key_value_facts() -> None:
     """Ignore comments and preserve quoted Ubuntu identity fields exactly."""
-    assert _parse_os_release('# comment\nID="ubuntu"\nVERSION_ID="24.04"\n') == {
+    assert parse_os_release('# comment\nID="ubuntu"\nVERSION_ID="24.04"\n') == {
         "ID": "ubuntu",
         "VERSION_ID": "24.04",
     }

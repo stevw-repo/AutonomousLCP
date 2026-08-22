@@ -3,6 +3,7 @@
 import json
 from copy import deepcopy
 from pathlib import Path
+from typing import cast
 
 import pytest
 
@@ -20,9 +21,28 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 
 
 def _object(path: Path) -> dict[str, object]:
-    value = json.loads(path.read_bytes())
+    value: object = json.loads(path.read_bytes())
+    return _object_map(value)
+
+
+def _object_map(value: object) -> dict[str, object]:
     assert isinstance(value, dict)
-    return value
+    candidate = cast("dict[object, object]", value)
+    assert all(type(key) is str for key in candidate)
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object]:
+    assert isinstance(value, list)
+    return cast("list[object]", value)
+
+
+def _item_by_id(value: object, service_id: str) -> dict[str, object]:
+    for raw_item in _object_list(value):
+        item = _object_map(raw_item)
+        if item.get("service_id") == service_id:
+            return item
+    raise AssertionError(service_id)
 
 
 def _policy() -> dict[str, object]:
@@ -38,11 +58,7 @@ def _host_policy() -> dict[str, object]:
 
 
 def _service(policy: dict[str, object], service_id: str) -> dict[str, object]:
-    services = policy["service_units"]
-    assert isinstance(services, list)
-    return next(
-        item for item in services if isinstance(item, dict) and item.get("service_id") == service_id
-    )
+    return _item_by_id(policy["service_units"], service_id)
 
 
 def _codes(
@@ -95,8 +111,7 @@ def test_service_identity_credentials_dependencies_and_runtime_drift_fail_closed
 def test_missing_or_duplicate_service_unit_fails_closed() -> None:
     """Require exactly one unit input for every topology service."""
     policy = deepcopy(_policy())
-    units = policy["service_units"]
-    assert isinstance(units, list)
+    units = _object_list(policy["service_units"])
     units[-1] = deepcopy(units[0])
     assert SystemdInputCode.INVENTORY in _codes(policy)
 
@@ -104,20 +119,17 @@ def test_missing_or_duplicate_service_unit_fails_closed() -> None:
 def test_authority_hardening_and_credential_transport_drift_fail_closed() -> None:
     """Reject host mutation authority, weaker hardening, or secret transport drift."""
     policy = deepcopy(_policy())
-    authority = policy["authority"]
-    assert isinstance(authority, dict)
+    authority = _object_map(policy["authority"])
     authority["unit_installation_authorized"] = True
     assert SystemdInputCode.AUTHORITY in _codes(policy)
 
     policy = deepcopy(_policy())
-    hardening = policy["hardening_profile"]
-    assert isinstance(hardening, dict)
+    hardening = _object_map(policy["hardening_profile"])
     hardening["no_new_privileges"] = False
     assert SystemdInputCode.HARDENING in _codes(policy)
 
     policy = deepcopy(_policy())
-    transport = policy["credential_transport"]
-    assert isinstance(transport, dict)
+    transport = _object_map(policy["credential_transport"])
     transport["secret_arguments_forbidden"] = False
     assert SystemdInputCode.CREDENTIAL in _codes(policy)
 
@@ -125,30 +137,20 @@ def test_authority_hardening_and_credential_transport_drift_fail_closed() -> Non
 def test_bootstrap_and_timer_drift_fail_closed() -> None:
     """Keep privileged one-shots disabled and timer cadences unresolved."""
     policy = deepcopy(_policy())
-    bootstrap = policy["bootstrap_units"]
-    assert isinstance(bootstrap, list)
-    assert isinstance(bootstrap[0], dict)
-    bootstrap[0]["enabled"] = True
+    bootstrap = _object_list(policy["bootstrap_units"])
+    _object_map(bootstrap[0])["enabled"] = True
     assert SystemdInputCode.BOOTSTRAP in _codes(policy)
 
     policy = deepcopy(_policy())
-    timers = policy["timer_units"]
-    assert isinstance(timers, list)
-    assert isinstance(timers[0], dict)
-    timers[0]["cadence_state"] = "INVENTED_DAILY_DEFAULT"
+    timers = _object_list(policy["timer_units"])
+    _object_map(timers[0])["cadence_state"] = "INVENTED_DAILY_DEFAULT"
     assert SystemdInputCode.TIMER in _codes(policy)
 
 
 def test_topology_and_embedded_secret_drift_fail_closed() -> None:
     """Bind unit inputs to topology and reject secret-bearing additions."""
     topology = _topology()
-    services = topology["services"]
-    assert isinstance(services, list)
-    control = next(
-        item
-        for item in services
-        if isinstance(item, dict) and item.get("service_id") == "control-plane"
-    )
+    control = _item_by_id(topology["services"], "control-plane")
     control["identity"] = "changed-identity"
     assert SystemdInputCode.TOPOLOGY in _codes(_policy(), topology)
 
@@ -164,10 +166,8 @@ def test_topology_and_embedded_secret_drift_fail_closed() -> None:
 def test_container_network_drift_fails_closed(mutation: str) -> None:
     """The unit graph must create exactly the subnets host admission allocated."""
     policy = deepcopy(_policy())
-    networks = policy["container_networks"]
-    assert isinstance(networks, list)
-    first = networks[0]
-    assert isinstance(first, dict)
+    networks = _object_list(policy["container_networks"])
+    first = _object_map(networks[0])
     if mutation == "missing":
         networks.pop()
     elif mutation == "extra":
@@ -186,9 +186,7 @@ def test_container_network_drift_fails_closed(mutation: str) -> None:
 def test_network_subnets_follow_the_host_allocation_rather_than_a_local_copy() -> None:
     """Changing the host allocation must invalidate the unit graph, not be ignored."""
     host_policy = deepcopy(_host_policy())
-    runtime = host_policy["runtime"]
-    assert isinstance(runtime, dict)
-    subnets = runtime["selected_private_subnets"]
-    assert isinstance(subnets, dict)
+    runtime = _object_map(host_policy["runtime"])
+    subnets = _object_map(runtime["selected_private_subnets"])
     subnets["asklegal-register"] = "10.91.0.0/24"
     assert SystemdInputCode.NETWORK in _codes(_policy(), host_policy=host_policy)

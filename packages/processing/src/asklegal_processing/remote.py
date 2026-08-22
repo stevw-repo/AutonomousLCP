@@ -16,7 +16,6 @@ legal judgment.
 
 from __future__ import annotations
 
-import json
 import ssl
 from dataclasses import dataclass
 from hashlib import sha256
@@ -24,8 +23,8 @@ from http.client import HTTPSConnection
 from typing import TYPE_CHECKING, Literal, Protocol
 from urllib.parse import urlsplit
 
-from asklegal_contracts import canonicalize
-from asklegal_contracts.json_types import checked_json_value
+from asklegal_contracts import ContractViolation, canonicalize, parse_json_bytes
+from asklegal_contracts.json_types import JsonValue, checked_json_value
 
 from .model import ProcessingError, SemanticDecision
 
@@ -40,6 +39,7 @@ AZURE_OPENAI_PROVIDER = "AZURE_OPENAI"
 _DEFAULT_TIMEOUT_SECONDS = 90
 _HTTP_BAD_REQUEST = 400
 _MAX_REPLY_BYTES = 1_000_000
+_MAX_CREDENTIAL_BYTES = 65_536
 _MAX_EVIDENCE_CHARACTERS = 24_000
 _DECISION_KEYS = frozenset(
     {"decision_code", "supporting_evidence_refs", "unresolved_facts", "challenge_code"}
@@ -70,19 +70,18 @@ class AzureDeployment:
     @classmethod
     def from_credential_json(cls, raw: bytes) -> AzureDeployment:
         """Parse the four-field credential this repository stages for Azure."""
-        parsed = json.loads(raw)
-        if not isinstance(parsed, dict):
-            message = "MODEL_CREDENTIAL_INVALID"
-            raise ProcessingError(message)
-        missing = {"endpoint", "deployment", "api_version", "api_key"} - set(parsed)
-        if missing:
-            message = "MODEL_CREDENTIAL_INCOMPLETE"
+        parsed = _object(
+            _parse_json(raw, "MODEL_CREDENTIAL_INVALID", max_bytes=_MAX_CREDENTIAL_BYTES),
+            "MODEL_CREDENTIAL_INVALID",
+        )
+        if set(parsed) != {"endpoint", "deployment", "api_version", "api_key"}:
+            message = "MODEL_CREDENTIAL_FIELDS_INVALID"
             raise ProcessingError(message)
         return cls(
-            str(parsed["endpoint"]).rstrip("/"),
-            str(parsed["deployment"]),
-            str(parsed["api_version"]),
-            str(parsed["api_key"]),
+            _text(parsed, "endpoint", "MODEL_CREDENTIAL_ENDPOINT_INVALID").rstrip("/"),
+            _text(parsed, "deployment", "MODEL_CREDENTIAL_DEPLOYMENT_INVALID"),
+            _text(parsed, "api_version", "MODEL_CREDENTIAL_VERSION_INVALID"),
+            _text(parsed, "api_key", "MODEL_CREDENTIAL_KEY_INVALID"),
         )
 
     def completions_url(self) -> str:
@@ -96,7 +95,7 @@ class AzureDeployment:
 class ModelCall(Protocol):
     """The transport surface the runner needs, so a test can supply its own."""
 
-    def post_json(self, url: str, headers: dict[str, str], body: object) -> dict[str, object]:
+    def post_json(self, url: str, headers: dict[str, str], body: JsonValue) -> dict[str, JsonValue]:
         """Send one request and return its decoded reply."""
         ...
 
@@ -122,7 +121,7 @@ class BoundedModelTransport:
         self._timeout = timeout_seconds
         self._context = ssl.create_default_context()
 
-    def post_json(self, url: str, headers: dict[str, str], body: object) -> dict[str, object]:
+    def post_json(self, url: str, headers: dict[str, str], body: JsonValue) -> dict[str, JsonValue]:
         """Send one bounded POST through the proxy and return its JSON object."""
         parsed = urlsplit(url)
         if parsed.scheme != "https" or parsed.hostname is None:
@@ -142,11 +141,14 @@ class BoundedModelTransport:
             connection.request(
                 "POST",
                 target,
-                body=json.dumps(body).encode(),
+                body=canonicalize(body),
                 headers={**headers, "Content-Type": "application/json"},
             )
             response = connection.getresponse()
-            raw = response.read(_MAX_REPLY_BYTES)
+            raw = response.read(_MAX_REPLY_BYTES + 1)
+            if len(raw) > _MAX_REPLY_BYTES:
+                message = "MODEL_REPLY_TOO_LARGE"
+                raise ProcessingError(message)
             if response.status >= _HTTP_BAD_REQUEST:
                 message = f"MODEL_HTTP_{response.status}"
                 raise ProcessingError(message)
@@ -155,11 +157,9 @@ class BoundedModelTransport:
             raise ProcessingError(message) from error
         finally:
             connection.close()
-        decoded = json.loads(raw) if raw else {}
-        if not isinstance(decoded, dict):
-            message = "MODEL_REPLY_NOT_OBJECT"
-            raise ProcessingError(message)
-        return decoded
+        if not raw:
+            return {}
+        return _object(_parse_json(raw, "MODEL_REPLY_NOT_JSON"), "MODEL_REPLY_NOT_OBJECT")
 
 
 class AzureSemanticTaskRunner:
@@ -238,19 +238,13 @@ def _prompt(request: SemanticTaskRequest) -> str:
     )
 
 
-def _content(reply: dict[str, object]) -> str:
+def _content(reply: dict[str, JsonValue]) -> str:
     choices = reply.get("choices")
     if not isinstance(choices, list) or not choices:
         message = "MODEL_NO_CHOICES"
         raise ProcessingError(message)
-    first = choices[0]
-    if not isinstance(first, dict):
-        message = "MODEL_CHOICE_INVALID"
-        raise ProcessingError(message)
-    message_body = first.get("message")
-    if not isinstance(message_body, dict):
-        message = "MODEL_MESSAGE_INVALID"
-        raise ProcessingError(message)
+    first = _object(choices[0], "MODEL_CHOICE_INVALID")
+    message_body = _object(first.get("message"), "MODEL_MESSAGE_INVALID")
     content = message_body.get("content")
     if not isinstance(content, str) or not content.strip():
         message = "MODEL_CONTENT_EMPTY"
@@ -262,39 +256,68 @@ def _strict_fields(
     content: str,
     request: SemanticTaskRequest,
 ) -> tuple[str, tuple[str, ...], tuple[str, ...], str]:
-    try:
-        parsed = json.loads(content)
-    except ValueError as error:
-        message = "MODEL_OUTPUT_NOT_JSON"
-        raise ProcessingError(message) from error
-    if not isinstance(parsed, dict):
-        message = "MODEL_OUTPUT_NOT_OBJECT"
-        raise ProcessingError(message)
-    if set(parsed) != _DECISION_KEYS:
+    parsed = _object(
+        _parse_json(content.encode(), "MODEL_OUTPUT_NOT_JSON"),
+        "MODEL_OUTPUT_NOT_OBJECT",
+    )
+    if frozenset(parsed) != _DECISION_KEYS:
         message = "MODEL_OUTPUT_FIELDS_UNEXPECTED"
         raise ProcessingError(message)
     decision_code = parsed["decision_code"]
     refs = parsed["supporting_evidence_refs"]
     unresolved = parsed["unresolved_facts"]
     challenge = parsed["challenge_code"]
-    if not isinstance(decision_code, str) or not decision_code:
-        message = "MODEL_DECISION_CODE_INVALID"
-        raise ProcessingError(message)
-    if not isinstance(refs, list) or not all(isinstance(item, str) for item in refs):
-        message = "MODEL_EVIDENCE_REFS_INVALID"
-        raise ProcessingError(message)
-    if not isinstance(unresolved, list) or not all(isinstance(item, str) for item in unresolved):
-        message = "MODEL_UNRESOLVED_FACTS_INVALID"
-        raise ProcessingError(message)
-    if not isinstance(challenge, str) or challenge not in _CHALLENGE_CODES:
+    decision = _exact_text(decision_code, "MODEL_DECISION_CODE_INVALID")
+    evidence_refs = _text_tuple(refs, "MODEL_EVIDENCE_REFS_INVALID")
+    unresolved_facts = _text_tuple(unresolved, "MODEL_UNRESOLVED_FACTS_INVALID")
+    if type(challenge) is not str or challenge not in _CHALLENGE_CODES:
         message = "MODEL_CHALLENGE_CODE_INVALID"
         raise ProcessingError(message)
     # A citation the evidence never offered is a fabrication, not a judgment.
-    unknown = [item for item in refs if item not in request.evidence_refs]
+    unknown = [item for item in evidence_refs if item not in request.evidence_refs]
     if unknown:
         message = "MODEL_CITED_UNSUPPLIED_EVIDENCE"
         raise ProcessingError(message)
-    return (decision_code, tuple(refs), tuple(unresolved), challenge)
+    return (decision, evidence_refs, unresolved_facts, challenge)
+
+
+def _parse_json(
+    raw: bytes,
+    error_code: str,
+    *,
+    max_bytes: int = _MAX_REPLY_BYTES,
+) -> JsonValue:
+    try:
+        return parse_json_bytes(raw, max_bytes=max_bytes)
+    except ContractViolation:
+        raise ProcessingError(error_code) from None
+
+
+def _object(value: JsonValue, error_code: str) -> dict[str, JsonValue]:
+    if not isinstance(value, dict):
+        raise ProcessingError(error_code)
+    return value
+
+
+def _text(document: dict[str, JsonValue], field: str, error_code: str) -> str:
+    return _exact_text(document.get(field), error_code)
+
+
+def _exact_text(value: JsonValue, error_code: str) -> str:
+    if type(value) is not str or not value:
+        raise ProcessingError(error_code)
+    return value
+
+
+def _text_tuple(value: JsonValue, error_code: str) -> tuple[str, ...]:
+    if not isinstance(value, list):
+        raise ProcessingError(error_code)
+    result: list[str] = []
+    for item in value:
+        if type(item) is not str:
+            raise ProcessingError(error_code)
+        result.append(item)
+    return tuple(result)
 
 
 def _challenge_literal(value: str) -> Literal["NOT_APPLICABLE", "PASS", "FAIL"]:

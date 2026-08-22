@@ -6,6 +6,8 @@ requires-python = "==3.14.7"
 dependencies = [
   "asklegal-contracts",
   "asklegal-domain",
+  "cryptography>=50,<51",
+  "pyjwt[crypto]>=2.13,<3",
 ]
 
 [build-system]

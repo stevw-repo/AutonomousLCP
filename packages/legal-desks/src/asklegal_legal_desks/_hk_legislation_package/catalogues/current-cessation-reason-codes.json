@@ -1,0 +1,19 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.current-cessation.reason-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {"code": "HKLEG_CURRENT_CESSATION_REPEAL_OPERATIVE_PROVED", "meaning": "Exact evidence proves repeal at or before the cutoff.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_CESSATION_REPEAL_PENDING", "meaning": "Exact repeal is scheduled after the cutoff and does not yet change operative state.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_CESSATION_REVOCATION_OPERATIVE_PROVED", "meaning": "A current exact revocation instrument is effective at or before the cutoff.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_CESSATION_REVOCATION_PENDING", "meaning": "A current exact revocation instrument takes effect after the cutoff.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_CESSATION_EXPIRY_OPERATIVE_PROVED", "meaning": "An exact express sunset or expiry is effective at or before the cutoff.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_CESSATION_EXPIRY_PENDING", "meaning": "An exact express sunset or expiry is after the cutoff.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_CESSATION_REVIVAL_OPERATIVE_PROVED", "meaning": "Exact evidence and identity continuity revive the same locations at or before the cutoff.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_CESSATION_REVIVAL_PENDING", "meaning": "Exact revival with proved continuity takes effect after the cutoff.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_CESSATION_REVIVAL_CONTINUITY_UNPROVED", "meaning": "Revival cannot reuse an identity without exact official continuity evidence.", "processing_outcome": "QUARANTINE"},
+    {"code": "HKLEG_CURRENT_CESSATION_EVIDENCE_INCOMPLETE", "meaning": "The exact operative provision, authentic event evidence, effective date, or current revocation notice is incomplete.", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_CURRENT_CESSATION_EVIDENCE_CONFLICT", "meaning": "Cessation or revival evidence conflicts or the controlling notice chain is unresolved.", "processing_outcome": "QUARANTINE"},
+    {"code": "HKLEG_CURRENT_CESSATION_AFFECTED_STATE_INVALID", "meaning": "The affected set is inconsistent with the exact pre-event operative and ceased partition.", "processing_outcome": "QUARANTINE"}
+  ]
+}

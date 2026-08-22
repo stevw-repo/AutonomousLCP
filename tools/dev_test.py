@@ -1,6 +1,7 @@
-"""Bootstrap the exact locked workspace and run its ordinary local test suite."""
+"""Bootstrap the exact locked workspace and run its complete shipping gate."""
 
 import argparse
+import ast
 import os
 import subprocess
 import sys
@@ -24,6 +25,8 @@ _EXPECTED_UV_VERSION = "0.12.5"
 _EXPECTED_NODE_VERSION = "v24.19.0"
 _EXPECTED_PYTHON_VERSION = "Python 3.14.7"
 _UV_VERSION_FIELD_COUNT = 3
+_HOST_PYTHON_FEATURE_VERSION = (3, 12)
+_MINIMUM_HOST_ENTRYPOINTS = 10
 
 
 class DeveloperTestFailure(RuntimeError):
@@ -74,9 +77,63 @@ def _workspace_source_path(root: Path) -> str:
     return os.pathsep.join(source_paths)
 
 
-def run(uv_path: Path, node_path: Path, pytest_arguments: list[str]) -> None:
-    """Validate the toolchain, sync the lock, and run ordinary local tests."""
-    root = Path(__file__).resolve().parents[1]
+def require_host_entrypoint_grammar(root: Path) -> None:
+    """Keep every system-Python gate importable on the Ubuntu 24.04 host."""
+    entrypoints = sorted(
+        [
+            *(root / "tools").glob("v1_poc_*.py"),
+            root / "tools/dev_test.py",
+            root / "tools/python_boundary_check.py",
+        ]
+    )
+    if len(entrypoints) < _MINIMUM_HOST_ENTRYPOINTS:
+        raise DeveloperTestFailure("HOST_ENTRYPOINT_INVENTORY_INVALID")
+    for path in entrypoints:
+        try:
+            ast.parse(
+                path.read_text(encoding="utf-8"),
+                filename=str(path),
+                feature_version=_HOST_PYTHON_FEATURE_VERSION,
+            )
+        except (OSError, SyntaxError) as error:
+            raise DeveloperTestFailure(f"HOST_ENTRYPOINT_GRAMMAR_FAILED:{path.name}") from error
+
+
+def shipping_gate_commands(
+    root: Path,
+    node_path: Path,
+    workspace_python: Path,
+) -> tuple[tuple[str, tuple[str, ...]], ...]:
+    """Return the exact locked, repository-wide gates that precede pytest."""
+    return (
+        (
+            "STRICT_PYRIGHT_FAILED",
+            (
+                str(node_path),
+                str(root / "node_modules/pyright/index.js"),
+            ),
+        ),
+        ("RUFF_LINT_FAILED", (str(workspace_python), "-m", "ruff", "check", ".")),
+        (
+            "RUFF_FORMAT_FAILED",
+            (str(workspace_python), "-m", "ruff", "format", "--check", "."),
+        ),
+        (
+            "PYTHON_BOUNDARY_FAILED",
+            (str(workspace_python), "tools/python_boundary_check.py"),
+        ),
+        (
+            "ARCHITECTURE_BOUNDARY_FAILED",
+            (str(workspace_python), "tools/architecture_spike.py"),
+        ),
+        (
+            "CONTRACT_VALIDATION_FAILED",
+            (str(node_path), "tools/validate-contracts.mjs"),
+        ),
+    )
+
+
+def _require_v1_static_admission(root: Path) -> None:
     try:
         check_topology(root)
         check_policy(root)
@@ -92,6 +149,14 @@ def run(uv_path: Path, node_path: Path, pytest_arguments: list[str]) -> None:
         check_v1_admission(root)
     except (OSError, TypeError, ValueError) as error:
         raise DeveloperTestFailure("V1_POC_STATIC_ADMISSION_FAILED") from error
+
+
+def _prepare_locked_workspace(
+    root: Path,
+    uv_path: Path,
+    node_path: Path,
+) -> tuple[Path, Path]:
+    """Validate exact tools, validate the lock, sync, and return the pinned Python."""
     exact_uv = uv_path.expanduser().resolve()
     if not exact_uv.is_file() or not os.access(exact_uv, os.X_OK):
         raise DeveloperTestFailure("UV_EXECUTABLE_MISSING_OR_NOT_EXECUTABLE")
@@ -112,6 +177,10 @@ def run(uv_path: Path, node_path: Path, pytest_arguments: list[str]) -> None:
     if node_version.returncode != 0 or node_version.stdout.strip() != _EXPECTED_NODE_VERSION:
         raise DeveloperTestFailure("NODE_VERSION_MISMATCH")
 
+    lock_check = _run([str(exact_uv), "lock", "--check"], root=root)
+    if lock_check.returncode != 0:
+        raise DeveloperTestFailure("WORKSPACE_LOCK_INVALID")
+
     sync = _run(
         [str(exact_uv), "sync", "--frozen", "--all-packages"],
         root=root,
@@ -127,11 +196,33 @@ def run(uv_path: Path, node_path: Path, pytest_arguments: list[str]) -> None:
     )
     if python_version.returncode != 0 or python_version.stdout.strip() != _EXPECTED_PYTHON_VERSION:
         raise DeveloperTestFailure("PYTHON_VERSION_MISMATCH")
+    return exact_node, workspace_python
+
+
+def _require_shipping_gates(
+    root: Path,
+    exact_node: Path,
+    workspace_python: Path,
+    environment: dict[str, str],
+) -> None:
+    for failure, command in shipping_gate_commands(root, exact_node, workspace_python):
+        gate = _run(list(command), root=root, environment=environment)
+        if gate.returncode != 0:
+            raise DeveloperTestFailure(failure)
+
+
+def run(uv_path: Path, node_path: Path, pytest_arguments: list[str]) -> None:
+    """Validate the toolchain, sync the lock, and run the complete shipping gate."""
+    root = Path(__file__).resolve().parents[1]
+    require_host_entrypoint_grammar(root)
+    _require_v1_static_admission(root)
+    exact_node, workspace_python = _prepare_locked_workspace(root, uv_path, node_path)
 
     test_environment = os.environ.copy()
     test_environment["ASKLEGAL_NODE_EXECUTABLE"] = str(exact_node)
     test_environment["PYTEST_DISABLE_PLUGIN_AUTOLOAD"] = "1"
     test_environment["PYTHONPATH"] = _workspace_source_path(root)
+    _require_shipping_gates(root, exact_node, workspace_python, test_environment)
     tests = _run(
         [str(workspace_python), "-m", "pytest", "-q", *pytest_arguments],
         root=root,

@@ -3,6 +3,7 @@
 import json
 from copy import deepcopy
 from pathlib import Path
+from typing import cast
 
 import pytest
 
@@ -21,9 +22,28 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 
 
 def _object(path: Path) -> dict[str, object]:
-    value = json.loads(path.read_bytes())
+    value: object = json.loads(path.read_bytes())
+    return _object_map(value)
+
+
+def _object_map(value: object) -> dict[str, object]:
     assert isinstance(value, dict)
-    return value
+    candidate = cast("dict[object, object]", value)
+    assert all(type(key) is str for key in candidate)
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object]:
+    assert isinstance(value, list)
+    return cast("list[object]", value)
+
+
+def _item_by_id(value: object, field: str, expected: str) -> dict[str, object]:
+    for raw_item in _object_list(value):
+        item = _object_map(raw_item)
+        if item.get(field) == expected:
+            return item
+    raise AssertionError(expected)
 
 
 def _policy() -> dict[str, object]:
@@ -31,13 +51,7 @@ def _policy() -> dict[str, object]:
 
 
 def _image(policy: dict[str, object], artifact_id: str) -> dict[str, object]:
-    images = policy["images"]
-    assert isinstance(images, list)
-    return next(
-        image
-        for image in images
-        if isinstance(image, dict) and image.get("artifact_id") == artifact_id
-    )
+    return _item_by_id(policy["images"], "artifact_id", artifact_id)
 
 
 def _codes(
@@ -87,16 +101,13 @@ def test_application_image_policy_drift_fails_closed(
     """Reject false readiness, authority expansion, secret data, and input drift."""
     policy = deepcopy(_policy())
     if mutation == "authority":
-        authority = policy["authority"]
-        assert isinstance(authority, dict)
+        authority = _object_map(policy["authority"])
         authority["image_build_authorized"] = True
     elif mutation == "base":
-        base = policy["base_image"]
-        assert isinstance(base, dict)
+        base = _object_map(policy["base_image"])
         base["selection_state"] = "SELECTED"
     elif mutation == "input":
-        locks = policy["input_locks"]
-        assert isinstance(locks, dict)
+        locks = _object_map(policy["input_locks"])
         locks["uv.lock"] = "sha256:" + ("0" * 64)
     elif mutation == "admit":
         _image(policy, "control-plane")["admitted"] = True
@@ -114,24 +125,12 @@ def test_application_image_policy_drift_fails_closed(
 def test_artifact_registry_and_topology_drift_fail_closed() -> None:
     """Keep build inputs bound to the exact disabled artifact and service inventories."""
     artifacts = _object(REPOSITORY_ROOT / ARTIFACT_POLICY_PATH)
-    artifact_entries = artifacts["artifacts"]
-    assert isinstance(artifact_entries, list)
-    control_artifact = next(
-        item
-        for item in artifact_entries
-        if isinstance(item, dict) and item.get("artifact_id") == "control-plane"
-    )
+    control_artifact = _item_by_id(artifacts["artifacts"], "artifact_id", "control-plane")
     control_artifact["selection_state"] = "DIGEST_PINNED_REPROOF_REQUIRED"
     assert ApplicationImageCode.COVERAGE in _codes(_policy(), artifacts=artifacts)
 
     topology = _object(REPOSITORY_ROOT / TOPOLOGY_PATH)
-    services = topology["services"]
-    assert isinstance(services, list)
-    review = next(
-        item
-        for item in services
-        if isinstance(item, dict) and item.get("service_id") == "review-api"
-    )
+    review = _item_by_id(topology["services"], "service_id", "review-api")
     review["identity"] = "shared-identity-forbidden"
     assert ApplicationImageCode.TOPOLOGY in _codes(_policy(), topology=topology)
 
@@ -142,8 +141,7 @@ def test_artifact_registry_and_topology_drift_fail_closed() -> None:
 def test_base_image_pin_cannot_be_loosened(mutation: str) -> None:
     """A base image without an immutable digest cannot be reproducibly rebuilt."""
     policy = deepcopy(_policy())
-    base = policy["base_image"]
-    assert isinstance(base, dict)
+    base = _object_map(policy["base_image"])
     if mutation == "mutable_tag":
         base["artifact_ref"] = "docker.io/library/python:3.14.7-slim-trixie"
     elif mutation == "wrong_state":
@@ -162,8 +160,7 @@ def test_base_image_pin_cannot_be_loosened(mutation: str) -> None:
 def test_build_definition_cannot_overclaim(mutation: str) -> None:
     """The build must stay offline and must not claim reproducibility it lacks."""
     policy = deepcopy(_policy())
-    definition = policy["build_definition"]
-    assert isinstance(definition, dict)
+    definition = _object_map(policy["build_definition"])
     if mutation == "network_enabled":
         definition["network_during_build"] = "ENABLED"
     elif mutation == "false_image_id_claim":
@@ -179,10 +176,8 @@ def test_build_definition_cannot_overclaim(mutation: str) -> None:
 def test_built_image_identity_and_content_must_be_recorded(mutation: str) -> None:
     """A recorded image needs its exact runtime identity and installed-tree digest."""
     policy = deepcopy(_policy())
-    images = policy["images"]
-    assert isinstance(images, list)
-    first = images[0]
-    assert isinstance(first, dict)
+    images = _object_list(policy["images"])
+    first = _object_map(images[0])
     if mutation == "root_uid":
         first["runtime_uid"] = None
     elif mutation == "missing_digest":

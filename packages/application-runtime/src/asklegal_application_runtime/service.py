@@ -32,9 +32,7 @@ class ServiceExitCode(IntEnum):
 
 def format_readiness(report: ReadinessReport) -> str:
     """Render one secret-free readiness line safe for the journal."""
-    results = " ".join(
-        f"{item.dependency.value}={item.status.value}" for item in report.results
-    )
+    results = " ".join(f"{item.dependency.value}={item.status.value}" for item in report.results)
     verdict = "READY" if report.ready else "NOT_READY"
     return f"{report.application_code} {verdict} {results}"
 
@@ -56,7 +54,7 @@ async def run_v1_service(
     for received in (signal.SIGINT, signal.SIGTERM):
         try:
             loop.add_signal_handler(received, shutdown.set)
-        except (NotImplementedError, RuntimeError, ValueError):
+        except NotImplementedError, RuntimeError, ValueError:
             continue
         installed.append(received)
     try:
@@ -74,7 +72,5 @@ async def run_v1_service(
 def unready_dependencies(report: ReadinessReport) -> tuple[str, ...]:
     """Return only the dependency codes that did not reach READY."""
     return tuple(
-        item.dependency.value
-        for item in report.results
-        if item.status is not ProbeStatus.READY
+        item.dependency.value for item in report.results if item.status is not ProbeStatus.READY
     )

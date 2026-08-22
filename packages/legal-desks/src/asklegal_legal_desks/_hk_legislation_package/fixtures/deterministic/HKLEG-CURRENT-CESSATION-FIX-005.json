@@ -1,0 +1,39 @@
+{
+  "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-005",
+  "title": "Amended current revocation after cutoff remains pending",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:3ff463dc48592724a4df5fc53f0d29bcdcc6985180be1f9a62532371226b15c5",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_1cdf5a558e8286dadf84f819de1d48168d455cd457fcf30e",
+    "object_id": "hkleg.synthetic.cessation-005",
+    "event_type": "REVOCATION",
+    "operative_provision_fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+    "event_evidence_fingerprints": [
+      "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    ],
+    "prior_event_history_fingerprint": "sha256:abababababababababababababababababababababababababababababababab",
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "controlling_notice_state": "AMENDED_CURRENT",
+    "effective_date": "2026-09-05T00:00:00Z",
+    "revival_continuity_proved": false,
+    "all_location_ids": [
+      "rule-1"
+    ],
+    "affected_location_ids": [
+      "rule-1"
+    ],
+    "pre_event_operative_location_ids": [
+      "rule-1"
+    ],
+    "pre_event_ceased_location_ids": [],
+    "affected_location_scope": "WHOLE_INSTRUMENT"
+  },
+  "expected_artifact": {
+    "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-005.json",
+    "fingerprint": "sha256:84f85a63cda808040f14fe7753f375d5e73fe765773228419109e570e5cc75ae"
+  }
+}

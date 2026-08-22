@@ -20,6 +20,7 @@ from __future__ import annotations
 import json
 import re
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
 from enum import StrEnum
 from typing import TYPE_CHECKING, Protocol
@@ -57,6 +58,7 @@ _DATE_PATTERN = re.compile(r"\d{2}/\d{2}/\d{4}")
 _DEFAULT_ATTEMPTS = 3
 _DEFAULT_BACKOFF_SECONDS = 20.0
 _MAX_GRID_REPLY_BYTES = 5_000_000
+_RETRYABLE_GRID_STATUSES = frozenset({429})
 
 CAPABILITY_CLAIM: dict[str, str] = {
     "OS": "Linux",
@@ -113,7 +115,7 @@ class GazetteRegisterError(RuntimeError):
 
 def _reply_failure_code(status: int) -> GazetteRegisterFailureCode:
     """Distinguish a transient publisher outage from contract/access drift."""
-    if 500 <= status <= 599:
+    if status == 429 or 500 <= status <= 599:
         return GazetteRegisterFailureCode.SOURCE_UNAVAILABLE
     return GazetteRegisterFailureCode.SOURCE_CONTRACT_CHANGED
 
@@ -184,6 +186,22 @@ class GazettePage:
         return self.page_number < self.last_page
 
 
+@dataclass(frozen=True, slots=True)
+class GazetteRequestTiming:
+    """Injectable minimum interval and deterministic time boundaries."""
+
+    minimum_interval_seconds: float = 0.0
+    monotonic: Callable[[], float] = time.monotonic
+    sleep: Callable[[float], None] = time.sleep
+
+    def __post_init__(self) -> None:
+        if (
+            type(self.minimum_interval_seconds) not in {int, float}
+            or self.minimum_interval_seconds < 0
+        ):
+            raise TypeError("minimum_interval_seconds must be one non-negative number")
+
+
 def _rows_to_entries(payload: dict[str, JsonValue]) -> tuple[GazetteEntry, ...]:
     columns = payload.get("columns")
     rows = payload.get("rowData")
@@ -250,6 +268,7 @@ class HkelGazetteRegisterClient:
         page_size: int = _DEFAULT_PAGE_SIZE,
         attempts: int = _DEFAULT_ATTEMPTS,
         backoff_seconds: float = _DEFAULT_BACKOFF_SECONDS,
+        timing: GazetteRequestTiming | None = None,
     ) -> None:
         """Bind the client to one proxied transport and a bounded page size.
 
@@ -264,10 +283,18 @@ class HkelGazetteRegisterClient:
         if attempts < 1:
             message = "attempts must be at least one"
             raise GazetteRegisterError(GazetteRegisterFailureCode.INVALID_REQUEST, message)
+        selected_timing = timing or GazetteRequestTiming()
+        if type(selected_timing) is not GazetteRequestTiming:
+            message = "timing must be an exact GazetteRequestTiming"
+            raise GazetteRegisterError(GazetteRegisterFailureCode.INVALID_REQUEST, message)
         self._transport = transport
         self._page_size = page_size
         self._attempts = attempts
         self._backoff_seconds = backoff_seconds
+        self._minimum_interval_seconds = float(selected_timing.minimum_interval_seconds)
+        self._monotonic = selected_timing.monotonic
+        self._sleep = selected_timing.sleep
+        self._next_grid_start = 0.0
         self._cookies: dict[str, str] = {}
         self._csrf: str | None = None
 
@@ -449,8 +476,13 @@ class HkelGazetteRegisterClient:
         """
         last: OfficialTransportFailure | None = None
         for attempt in range(1, self._attempts + 1):
+            now = self._monotonic()
+            delay = max(0.0, self._next_grid_start - now)
+            if delay:
+                self._sleep(delay)
+            self._next_grid_start = self._monotonic() + self._minimum_interval_seconds
             try:
-                return self._transport.exchange(
+                reply = self._transport.exchange(
                     PublisherCall(
                         GAZETTE_HOST,
                         "POST",
@@ -464,10 +496,13 @@ class HkelGazetteRegisterClient:
                 last = error
                 if attempt == self._attempts:
                     break
-                time.sleep(self._backoff_seconds * attempt)
-                self._cookies = {}
-                self._csrf = None
-                self.open_session()
+            else:
+                if reply[0] not in _RETRYABLE_GRID_STATUSES or attempt == self._attempts:
+                    return reply
+            self._sleep(self._backoff_seconds * attempt)
+            self._cookies = {}
+            self._csrf = None
+            self.open_session()
         message = f"grid transport failed on page {page_number} after {self._attempts} attempts"
         raise GazetteRegisterError(
             GazetteRegisterFailureCode.SOURCE_UNAVAILABLE,
@@ -485,7 +520,8 @@ class HkelGazetteRegisterClient:
 
         `totalRecords` is not used and must not be: it reported 100 against a
         `lastPage` of 1415, so it is not a row count. `lastPage` is re-read on
-        every page because it can move while paging.
+        every page and the traversal fails incomplete if it moves: a changing
+        page boundary means the observed set was not one stable inventory.
 
         **Bound the window.** An unbounded walk is not reproducible: the register
         grows at the front, so page 1 shifts as gazettes are published and two
@@ -497,8 +533,22 @@ class HkelGazetteRegisterClient:
             message = "max_pages must be a positive exact integer or None"
             raise GazetteRegisterError(GazetteRegisterFailureCode.INVALID_REQUEST, message)
         page_number = 1
+        expected_last_page: int | None = None
+        seen_gazette_ids: set[str] = set()
         while True:
             page = self.page(page_number, date_from, date_to)
+            if expected_last_page is None:
+                expected_last_page = page.last_page
+            elif page.last_page != expected_last_page:
+                message = (
+                    "gazette grid incomplete: "
+                    f"last page moved from {expected_last_page} to {page.last_page} "
+                    f"while reading page {page.page_number}"
+                )
+                raise GazetteRegisterError(
+                    GazetteRegisterFailureCode.INCOMPLETE_OBSERVATION,
+                    message,
+                )
             if max_pages is not None and page.last_page > max_pages:
                 message = (
                     "gazette grid incomplete: "
@@ -508,7 +558,25 @@ class HkelGazetteRegisterClient:
                     GazetteRegisterFailureCode.INCOMPLETE_OBSERVATION,
                     message,
                 )
-            yield from page.entries
+            for entry in page.entries:
+                if not entry.gazette_id:
+                    message = "gazette grid reply contains an empty primary gazette id"
+                    raise GazetteRegisterError(
+                        GazetteRegisterFailureCode.SOURCE_CONTRACT_CHANGED,
+                        message,
+                    )
+                if entry.gazette_id in seen_gazette_ids:
+                    message = (
+                        "gazette grid incomplete: "
+                        f"duplicate gazette id {entry.gazette_id} appeared by page "
+                        f"{page.page_number}"
+                    )
+                    raise GazetteRegisterError(
+                        GazetteRegisterFailureCode.INCOMPLETE_OBSERVATION,
+                        message,
+                    )
+                seen_gazette_ids.add(entry.gazette_id)
+                yield entry
             if not page.entries:
                 if page.has_more:
                     message = (

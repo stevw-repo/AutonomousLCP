@@ -1,0 +1,42 @@
+{
+  "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-004",
+  "title": "Current revocation instrument ceases subsidiary legislation",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:c808a785930baaeff47924bff2940167d20e42b836992c1670142652a25dc0e3",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_1cdf5a558e8286dadf84f819de1d48168d455cd457fcf30e",
+    "object_id": "hkleg.synthetic.cessation-004",
+    "event_type": "REVOCATION",
+    "operative_provision_fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+    "event_evidence_fingerprints": [
+      "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    ],
+    "prior_event_history_fingerprint": "sha256:abababababababababababababababababababababababababababababababab",
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "controlling_notice_state": "CURRENT",
+    "effective_date": "2026-08-04T00:00:00Z",
+    "revival_continuity_proved": false,
+    "all_location_ids": [
+      "regulation-1",
+      "regulation-2"
+    ],
+    "affected_location_ids": [
+      "regulation-1",
+      "regulation-2"
+    ],
+    "pre_event_operative_location_ids": [
+      "regulation-1",
+      "regulation-2"
+    ],
+    "pre_event_ceased_location_ids": [],
+    "affected_location_scope": "WHOLE_INSTRUMENT"
+  },
+  "expected_artifact": {
+    "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-004.json",
+    "fingerprint": "sha256:5bb8cb4a8622a80009f3b20895cd0b6cb3e2ea3fb78a67808a3d583df64ecd62"
+  }
+}

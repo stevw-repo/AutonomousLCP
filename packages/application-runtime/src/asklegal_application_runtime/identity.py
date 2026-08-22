@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 from enum import StrEnum
+from typing import Protocol
 
 
 class TokenType(StrEnum):
@@ -44,6 +45,14 @@ class Principal:
     client: str
     roles: frozenset[str]
     token_type: TokenType
+
+
+class IdentityVerifier(Protocol):
+    """Injected access-token verification boundary."""
+
+    def verify(self, authorization: str | None) -> Principal:
+        """Verify one authorization value and return trusted claims."""
+        ...
 
 
 class LocalIdentityVerifier:

@@ -24,6 +24,8 @@ from http.client import HTTPSConnection
 from typing import TYPE_CHECKING, Protocol
 from urllib.parse import urlsplit
 
+from asklegal_contracts import ContractViolation, parse_json_bytes
+
 from .builder import (
     SERVING_METADATA_KEYS,
     serving_metadata,
@@ -32,6 +34,7 @@ from .builder import (
 from .model import (
     EmbeddedVector,
     EmbeddingReceipt,
+    OutcomeUnknown,
     PromotionError,
     PromotionErrorCode,
     TargetDefinition,
@@ -39,6 +42,8 @@ from .model import (
 )
 
 if TYPE_CHECKING:
+    from asklegal_contracts.json_types import JsonValue
+
     from .model import EmbeddingProfile, EmbeddingRequest
 
 AZURE_OPENAI_PROVIDER = "AZURE_OPENAI"
@@ -52,6 +57,8 @@ _UPSERT_BATCH_LIMIT = 100
 _LIST_PAGE_LIMIT = 100
 _FETCH_BATCH_LIMIT = 100
 _MAX_ERROR_BODY_BYTES = 600
+_MAX_PROVIDER_BODY_BYTES = 10_000_000
+_MAX_CREDENTIAL_BYTES = 65_536
 _HTTP_BAD_REQUEST = 400
 
 
@@ -72,7 +79,7 @@ class ProviderResponse:
     """One decoded provider reply and the accounting the caller needs."""
 
     status: int
-    payload: object
+    payload: JsonValue
     request_id: str
     latency_milliseconds: int
 
@@ -85,7 +92,7 @@ class ProviderCall(Protocol):
         method: str,
         url: str,
         headers: dict[str, str],
-        body: object | None = None,
+        body: JsonValue | None = None,
     ) -> ProviderResponse:
         """Send one request and return its decoded reply."""
         ...
@@ -117,7 +124,7 @@ class ProviderTransport:
         method: str,
         url: str,
         headers: dict[str, str],
-        body: object | None = None,
+        body: JsonValue | None = None,
     ) -> ProviderResponse:
         """Send one bounded request through the proxy and decode its JSON reply."""
         parsed = urlsplit(url)
@@ -143,7 +150,12 @@ class ProviderTransport:
             connection.set_tunnel(parsed.hostname, parsed.port or 443)
             connection.request(method, target, body=encoded, headers=sent)
             response = connection.getresponse()
-            raw = response.read()
+            raw = response.read(_MAX_PROVIDER_BODY_BYTES + 1)
+            if len(raw) > _MAX_PROVIDER_BODY_BYTES:
+                raise PromotionError(
+                    PromotionErrorCode.PROFILE_INVALID,
+                    "provider response exceeds the byte limit",
+                )
             status = response.status
             request_id = _request_id(response.getheader)
             if status >= _HTTP_BAD_REQUEST:
@@ -156,7 +168,7 @@ class ProviderTransport:
         finally:
             connection.close()
         elapsed = int((time.monotonic() - started) * 1000)
-        payload = json.loads(raw) if raw else {}
+        payload = _parse_json(raw, "provider reply is not bounded JSON") if raw else {}
         return ProviderResponse(status, payload, request_id, elapsed)
 
 
@@ -168,10 +180,42 @@ def _request_id(getheader: Callable[[str], str | None]) -> str:
     return "unreported"
 
 
-def _object(payload: object, detail: str) -> dict[str, object]:
+def _parse_json(raw: bytes, detail: str, *, max_bytes: int = _MAX_PROVIDER_BODY_BYTES) -> JsonValue:
+    try:
+        return parse_json_bytes(raw, max_bytes=max_bytes)
+    except ContractViolation as error:
+        raise PromotionError(PromotionErrorCode.PROFILE_INVALID, detail) from error
+
+
+def _object(payload: JsonValue, detail: str) -> dict[str, JsonValue]:
     if not isinstance(payload, dict):
         raise PromotionError(PromotionErrorCode.PROFILE_INVALID, detail)
     return payload
+
+
+def _text(document: dict[str, JsonValue], field: str) -> str:
+    value = document.get(field)
+    if type(value) is not str or not value:
+        message = f"{field} must be one exact non-empty string"
+        raise PromotionError(PromotionErrorCode.PROFILE_INVALID, message)
+    return value
+
+
+def _integer(document: dict[str, JsonValue], field: str, *, minimum: int = 0) -> int:
+    value = document.get(field)
+    if type(value) is not int or value < minimum:
+        message = f"{field} must be one integer at least {minimum}"
+        raise PromotionError(PromotionErrorCode.PROFILE_INVALID, message)
+    return value
+
+
+def _number(value: JsonValue) -> float:
+    if not isinstance(value, int | float) or isinstance(value, bool):
+        raise PromotionError(PromotionErrorCode.VECTOR_INVALID, "vector value is not numeric")
+    result = float(value)
+    if not math.isfinite(result):
+        raise PromotionError(PromotionErrorCode.VECTOR_INVALID, "non-finite vector value")
+    return result
 
 
 @dataclass(frozen=True, slots=True)
@@ -186,16 +230,17 @@ class AzureOpenAIConfig:
     @classmethod
     def from_credential_json(cls, raw: bytes) -> AzureOpenAIConfig:
         """Parse the four-field credential this repository stages for Azure."""
-        parsed = _object(json.loads(raw), "azure credential must be a JSON object")
-        missing = {"endpoint", "deployment", "api_version", "api_key"} - set(parsed)
-        if missing:
-            message = f"azure credential missing: {', '.join(sorted(missing))}"
-            raise PromotionError(PromotionErrorCode.PROFILE_INVALID, message)
+        parsed = _object(
+            _parse_json(raw, "azure credential must be JSON", max_bytes=_MAX_CREDENTIAL_BYTES),
+            "azure credential must be a JSON object",
+        )
+        if set(parsed) != {"endpoint", "deployment", "api_version", "api_key"}:
+            raise PromotionError(PromotionErrorCode.PROFILE_INVALID, "azure credential fields")
         return cls(
-            str(parsed["endpoint"]).rstrip("/"),
-            str(parsed["deployment"]),
-            str(parsed["api_version"]),
-            str(parsed["api_key"]),
+            _text(parsed, "endpoint").rstrip("/"),
+            _text(parsed, "deployment"),
+            _text(parsed, "api_version"),
+            _text(parsed, "api_key"),
         )
 
     def deployment_url(self, path: str) -> str:
@@ -239,8 +284,7 @@ class AzureOpenAIEmbeddingAdapter:
         values = self._extract_vector(response.payload)
         if len(values) != profile.dimensions:
             message = (
-                f"provider returned {len(values)} dimensions, "
-                f"profile declares {profile.dimensions}"
+                f"provider returned {len(values)} dimensions, profile declares {profile.dimensions}"
             )
             raise PromotionError(PromotionErrorCode.VECTOR_INVALID, message)
         if any(not math.isfinite(value) for value in values):
@@ -260,7 +304,7 @@ class AzureOpenAIEmbeddingAdapter:
         return EmbeddedVector(values, receipt)
 
     @staticmethod
-    def _extract_vector(payload: object) -> tuple[float, ...]:
+    def _extract_vector(payload: JsonValue) -> tuple[float, ...]:
         body = _object(payload, "embedding reply must be a JSON object")
         data = body.get("data")
         if not isinstance(data, list) or not data:
@@ -269,10 +313,10 @@ class AzureOpenAIEmbeddingAdapter:
         vector = first.get("embedding")
         if not isinstance(vector, list) or not vector:
             raise PromotionError(PromotionErrorCode.VECTOR_INVALID, "empty embedding")
-        return tuple(float(value) for value in vector)
+        return tuple(_number(value) for value in vector)
 
     @staticmethod
-    def _input_tokens(payload: object, declared: int) -> int:
+    def _input_tokens(payload: JsonValue, declared: int) -> int:
         body = payload if isinstance(payload, dict) else {}
         usage = body.get("usage")
         if isinstance(usage, dict):
@@ -314,7 +358,9 @@ class AzureOpenAIGenerativeAdapter:
         message = _object(first.get("message"), "completion message must be an object")
         content = message.get("content")
         self.calls.append(response.request_id)
-        return ("" if content is None else str(content), response)
+        if type(content) is not str:
+            raise PromotionError(PromotionErrorCode.PROFILE_INVALID, "completion content")
+        return (content, response)
 
 
 @dataclass(frozen=True, slots=True)
@@ -328,15 +374,16 @@ class PineconeConfig:
     @classmethod
     def from_credential_json(cls, raw: bytes) -> PineconeConfig:
         """Parse the credential this repository stages for Pinecone."""
-        parsed = _object(json.loads(raw), "pinecone credential must be a JSON object")
-        missing = {"api_key", "control_plane_host", "index"} - set(parsed)
-        if missing:
-            message = f"pinecone credential missing: {', '.join(sorted(missing))}"
-            raise PromotionError(PromotionErrorCode.PROFILE_INVALID, message)
+        parsed = _object(
+            _parse_json(raw, "pinecone credential must be JSON", max_bytes=_MAX_CREDENTIAL_BYTES),
+            "pinecone credential must be a JSON object",
+        )
+        if set(parsed) != {"api_key", "control_plane_host", "index"}:
+            raise PromotionError(PromotionErrorCode.PROFILE_INVALID, "pinecone credential fields")
         return cls(
-            str(parsed["api_key"]),
-            str(parsed["control_plane_host"]).rstrip("/"),
-            str(parsed["index"]),
+            _text(parsed, "api_key"),
+            _text(parsed, "control_plane_host").rstrip("/"),
+            _text(parsed, "index"),
         )
 
     def headers(self) -> dict[str, str]:
@@ -389,7 +436,7 @@ class PineconeServingTargetStore:
             message = f"{operation} requires explicit write authorization"
             raise PromotionError(PromotionErrorCode.PROFILE_INVALID, message)
 
-    def _indexes(self) -> tuple[dict[str, object], ...]:
+    def _indexes(self) -> tuple[dict[str, JsonValue], ...]:
         response = self._transport.send(
             "GET",
             f"{self._config.control_plane_host}/indexes",
@@ -400,7 +447,7 @@ class PineconeServingTargetStore:
         entries = listed if isinstance(listed, list) else []
         return tuple(entry for entry in entries if isinstance(entry, dict))
 
-    def _index_entry(self, name: str) -> dict[str, object] | None:
+    def _index_entry(self, name: str) -> dict[str, JsonValue] | None:
         for entry in self._indexes():
             if entry.get("name") == name:
                 return entry
@@ -415,7 +462,7 @@ class PineconeServingTargetStore:
             message = f"index {name} does not exist"
             raise PromotionError(PromotionErrorCode.INDEX_NAME_INVALID, message)
         host = entry.get("host")
-        if not host:
+        if type(host) is not str or not host:
             message = f"index {name} reports no data-plane host"
             raise PromotionError(PromotionErrorCode.INDEX_NAME_INVALID, message)
         resolved = f"https://{host}"
@@ -453,10 +500,10 @@ class PineconeServingTargetStore:
         return self._definition_from_entry(entry, "")
 
     @staticmethod
-    def _definition_from_entry(entry: dict[str, object], namespace: str) -> TargetDefinition:
-        name = str(entry.get("name", ""))
-        dimensions = int(entry.get("dimension", 0) or 0)
-        metric = str(entry.get("metric", ""))
+    def _definition_from_entry(entry: dict[str, JsonValue], namespace: str) -> TargetDefinition:
+        name = _text(entry, "name")
+        dimensions = _integer(entry, "dimension", minimum=1)
+        metric = _text(entry, "metric")
         return TargetDefinition(
             name,
             target_state_fingerprint(name, dimensions, metric, namespace),
@@ -474,22 +521,37 @@ class PineconeServingTargetStore:
             message = f"batch of {len(records)} exceeds the {_UPSERT_BATCH_LIMIT} record limit"
             raise PromotionError(PromotionErrorCode.INVENTORY_MISMATCH, message)
         namespace = self._namespace_of(records)
-        self._transport.send(
-            "POST",
-            f"{self._data_plane(name)}/vectors/upsert",
-            self._config.headers(),
-            {
-                "namespace": namespace,
-                "vectors": [
-                    {
-                        "id": record.record_id,
-                        "values": list(record.vector),
-                        "metadata": self._checked_metadata(record),
-                    }
-                    for record in records
-                ],
-            },
-        )
+        vectors: list[JsonValue] = []
+        for record in records:
+            values: list[JsonValue] = []
+            values.extend(record.vector)
+            metadata: dict[str, JsonValue] = {}
+            metadata.update(self._checked_metadata(record))
+            vector: dict[str, JsonValue] = {
+                "id": record.record_id,
+                "values": values,
+                "metadata": metadata,
+            }
+            vectors.append(vector)
+        url = f"{self._data_plane(name)}/vectors/upsert"
+        try:
+            response = self._transport.send(
+                "POST",
+                url,
+                self._config.headers(),
+                {"namespace": namespace, "vectors": vectors},
+            )
+        except PromotionError as error:
+            message = f"upsert acknowledgement unavailable: {error.code.value}"
+            raise OutcomeUnknown(message) from error
+        acknowledgement = response.payload
+        if not isinstance(acknowledgement, dict):
+            message = "upsert acknowledgement is not an object"
+            raise OutcomeUnknown(message)
+        acknowledged = acknowledgement.get("upsertedCount")
+        if type(acknowledged) is not int or acknowledged != len(records):
+            message = "upsert acknowledgement count mismatch"
+            raise OutcomeUnknown(message)
 
     @staticmethod
     def _checked_metadata(record: TargetRecord) -> dict[str, str]:
@@ -535,13 +597,20 @@ class PineconeServingTargetStore:
             body = _object(response.payload, "vector list must be a JSON object")
             listed = body.get("vectors")
             if isinstance(listed, list):
-                identifiers.extend(
-                    str(item["id"]) for item in listed if isinstance(item, dict) and "id" in item
-                )
+                for item in listed:
+                    entry = _object(item, "vector-list entry must be an object")
+                    identifiers.append(_text(entry, "id"))
             pagination = body.get("pagination")
             token = ""
             if isinstance(pagination, dict):
-                token = str(pagination.get("next", "") or "")
+                candidate = pagination.get("next")
+                if candidate is not None:
+                    if type(candidate) is not str:
+                        raise PromotionError(
+                            PromotionErrorCode.PROFILE_INVALID,
+                            "pagination token must be text",
+                        )
+                    token = candidate
             if not token:
                 return identifiers
 
@@ -559,16 +628,21 @@ class PineconeServingTargetStore:
         records: list[TargetRecord] = []
         for identifier, raw in vectors.items():
             if not isinstance(raw, dict):
-                continue
+                raise PromotionError(PromotionErrorCode.VECTOR_INVALID, "vector is not an object")
             metadata = raw.get("metadata")
             fields = metadata if isinstance(metadata, dict) else {}
-            payload = {key: str(fields.get(key, "")) for key in SERVING_METADATA_KEYS}
+            payload: dict[str, str] = {}
+            for key in SERVING_METADATA_KEYS:
+                value = fields.get(key)
+                payload[key] = value if type(value) is str else ""
             values = raw.get("values")
+            if not isinstance(values, list):
+                raise PromotionError(PromotionErrorCode.VECTOR_INVALID, "vector values missing")
             records.append(
                 TargetRecord(
-                    str(identifier),
+                    identifier,
                     serving_metadata_fingerprint(payload) if all(payload.values()) else "",
-                    tuple(float(value) for value in values) if isinstance(values, list) else (),
+                    tuple(_number(value) for value in values),
                     payload["text"],
                     payload["country"],
                     payload["jurisdiction"],
@@ -617,4 +691,7 @@ class PineconeServingTargetStore:
             self._config.headers(),
             {},
         )
-        return _object(response.payload, "index stats must be a JSON object")
+        body = _object(response.payload, "index stats must be a JSON object")
+        result: dict[str, object] = {}
+        result.update(body)
+        return result

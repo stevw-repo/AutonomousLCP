@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "migration_id": "000004",
+  "operation": "expand",
+  "compatible_contract_range": ">=1.2.0,<2.0.0",
+  "batches": [
+    {"path": "001_proposal_decision_projection.sql", "byte_length": 1090, "sha256": "3564fe6a36cf0cf77201a0176574da859235dff17c4af09cd3011889117cb6de"}
+  ],
+  "package_fingerprint": "2bed565ade1b9a3044c94dbb763573d108dfdd04b3d671968fb3aa35c1bfba28"
+}

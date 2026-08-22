@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "migration_id": "000005",
+  "operation": "expand",
+  "compatible_contract_range": ">=1.2.0,<2.0.0",
+  "batches": [
+    {"path": "001_registered_approval_consumption.sql", "byte_length": 7765, "sha256": "b7ccbda08cffaa5333029090a22b727cf6fd38d42123dfac9f9808d2f9879998"}
+  ],
+  "package_fingerprint": "424a4e26ba16a4ff7880553c4c1cff64906a78418f36d9457d55ff0f9f4b5301"
+}

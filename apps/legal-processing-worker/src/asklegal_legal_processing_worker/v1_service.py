@@ -54,9 +54,7 @@ def _build_serve(
     async def _serve(shutdown: asyncio.Event) -> None:
         """Serve the real task hub until systemd asks the process to stop."""
         activities = build_activities(infrastructure, environment)
-        worker = infrastructure.scheduler.create_worker(
-            concurrency_options=ConcurrencyOptions()
-        )
+        worker = infrastructure.scheduler.create_worker(concurrency_options=ConcurrencyOptions())
         worker.add_activity(activities.read_evidence)
         worker.add_activity(activities.analyse_evidence)
         worker.add_orchestrator(analyse_stored_evidence)

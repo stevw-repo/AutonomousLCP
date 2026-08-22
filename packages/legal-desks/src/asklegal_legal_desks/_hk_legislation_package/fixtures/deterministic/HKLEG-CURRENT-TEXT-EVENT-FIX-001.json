@@ -1,0 +1,44 @@
+{
+  "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-001",
+  "title": "Operative amendment has a matching resulting HKeL bundle",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:23e3dced619f35ba9082b0b452e75fa879c345fb0a31d93f55e951cbeacb2b71",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "affected_object_id": "hkleg.synthetic.principal-001",
+    "source_event_object_id": "hkleg.synthetic.amending-001",
+    "event_type": "AMENDMENT",
+    "cause_source_id": "HK-LEG-GLD-EGAZETTE",
+    "publication_date": "2026-07-25T00:00:00Z",
+    "effective_date": "2026-08-01T00:00:00Z",
+    "event_instrument_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "event_evidence_fingerprints": [
+      "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "operation_set_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "operation_mapping_complete": true,
+    "bilingual_operations_aligned": true,
+    "event_operative_at_cutoff": true,
+    "all_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "affected_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "affected_location_scope": "WHOLE_INSTRUMENT",
+    "matching_resulting_hkel_bundle_available": true,
+    "resulting_bundle_reflects_event": true,
+    "prior_event_history_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "expected_artifact": {
+    "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-001.json",
+    "fingerprint": "sha256:7919df9dd9d835a7f1fe6dd5c32d1322843ffa50ce4659deec68b75fc16b42ae"
+  }
+}

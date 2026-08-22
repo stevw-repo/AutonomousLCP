@@ -174,7 +174,11 @@ def test_v1_sql_readiness_is_exact_non_mutating_and_closes_resources(
 ) -> None:
     """Require the exact scalar response and close both cursor and connection."""
     connection = _ReadinessConnection((1,))
-    monkeypatch.setattr(mssql_python, "connect", lambda *_args, **_kwargs: connection)
+
+    def connect(*_args: object, **_kwargs: object) -> _ReadinessConnection:
+        return connection
+
+    monkeypatch.setattr(mssql_python, "connect", connect)
     factory = V1MssqlConnectionFactory(
         "asklegal_control_app", SqlServerPassword.from_bytes(b"synthetic-password")
     )
@@ -190,7 +194,11 @@ def test_v1_sql_readiness_fails_closed_on_wrong_response(
 ) -> None:
     """Do not accept a connection whose readiness query is not exact."""
     connection = _ReadinessConnection((2,))
-    monkeypatch.setattr(mssql_python, "connect", lambda *_args, **_kwargs: connection)
+
+    def connect(*_args: object, **_kwargs: object) -> _ReadinessConnection:
+        return connection
+
+    monkeypatch.setattr(mssql_python, "connect", connect)
     factory = V1MssqlConnectionFactory(
         "asklegal_review_app", SqlServerPassword.from_bytes(b"synthetic-password")
     )

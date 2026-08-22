@@ -1,0 +1,39 @@
+{
+  "fixture_id": "HKLEG-CURRENT-COMMENCE-FIX-002",
+  "title": "Exact fixed date before cutoff is operative",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:55b81740708318a364f1ac0aac4995e655034cc3081003557b093276f6691b1b",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_1cdf5a558e8286dadf84f819de1d48168d455cd457fcf30e",
+    "object_id": "hkleg.synthetic.commence-002",
+    "commencement_mode": "FIXED_DATE",
+    "operative_provision_fingerprint": "sha256:2020202020202020202020202020202020202020202020202020202020202020",
+    "event_evidence_fingerprints": [
+      "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    ],
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "controlling_notice_state": "NOT_APPLICABLE",
+    "publication_date": "2026-08-02T00:00:00Z",
+    "effective_date": "2026-08-10T00:00:00Z",
+    "condition_exact": false,
+    "condition_satisfied_at_cutoff": false,
+    "all_location_ids": [
+      "regulation-1",
+      "regulation-2"
+    ],
+    "affected_location_ids": [
+      "regulation-1",
+      "regulation-2"
+    ],
+    "pre_event_operative_location_ids": [],
+    "affected_location_scope": "WHOLE_INSTRUMENT"
+  },
+  "expected_artifact": {
+    "path": "expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-002.json",
+    "fingerprint": "sha256:402c43a32de48046ff9d04613dd0f8ff52a22f8d530c84a07286b91a356e76ac"
+  }
+}

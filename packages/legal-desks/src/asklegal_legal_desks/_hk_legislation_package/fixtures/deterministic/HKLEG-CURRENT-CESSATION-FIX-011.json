@@ -1,0 +1,39 @@
+{
+  "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-011",
+  "title": "Revival without exact continuity is quarantined",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:f62eb5b70e42d4cff0577ce342bef9230063bd40a8934b699e2d6904ec4b2782",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.cessation-011",
+    "event_type": "REVIVAL",
+    "operative_provision_fingerprint": "sha256:b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+    "event_evidence_fingerprints": [
+      "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    ],
+    "prior_event_history_fingerprint": "sha256:abababababababababababababababababababababababababababababababab",
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "controlling_notice_state": "NOT_APPLICABLE",
+    "effective_date": "2026-08-11T00:00:00Z",
+    "revival_continuity_proved": false,
+    "all_location_ids": [
+      "section-1"
+    ],
+    "affected_location_ids": [
+      "section-1"
+    ],
+    "pre_event_operative_location_ids": [],
+    "pre_event_ceased_location_ids": [
+      "section-1"
+    ],
+    "affected_location_scope": "WHOLE_INSTRUMENT"
+  },
+  "expected_artifact": {
+    "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-011.json",
+    "fingerprint": "sha256:34a10f77fb7de28c6beabe20f2878354b023907e44389018b9498621191ec49e"
+  }
+}

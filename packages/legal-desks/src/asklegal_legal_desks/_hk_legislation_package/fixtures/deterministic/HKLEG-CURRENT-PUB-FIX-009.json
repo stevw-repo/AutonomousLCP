@@ -1,0 +1,33 @@
+{
+  "fixture_id": "HKLEG-CURRENT-PUB-FIX-009",
+  "title": "Incomplete bilingual publication evidence blocks full-text classification",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:86767aaa5b9b969c498e619a2bd7817f3740cbd7507dd0a1ef5cc5c208a40e64",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "source_id": "HK-LEG-GLD-EGAZETTE",
+    "gazette_issue_kind": "ORDINARY",
+    "gazette_material_class": "LEGAL_SUPPLEMENT_1",
+    "publication_claim": "ORDINANCE_ENACTMENT",
+    "subject_reference": "hkleg.synthetic.publication-009",
+    "issue_id": "gazette-2026-31",
+    "supplement_or_notice_id": "ls1-2026-31",
+    "instrument_or_notice_number": "Ordinance 9 of 2026",
+    "publication_date": "2026-08-01T00:00:00Z",
+    "artifact_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "source_metadata_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "english_material_fingerprint": null,
+    "traditional_chinese_material_fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "enabling_authority_fingerprint": null,
+    "evidence_complete": true,
+    "evidence_authentic": true,
+    "evidence_conflicts": false,
+    "bilingual_material_complete": false,
+    "claim_matches_material_class": true
+  },
+  "expected_artifact": {
+    "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-009.json",
+    "fingerprint": "sha256:9992ede50b526b75bcb2bf5bd8c4013076c092bccc1ad02f0b77dfa8a6ad8556"
+  }
+}

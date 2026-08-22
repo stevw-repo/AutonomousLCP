@@ -5,11 +5,13 @@ from collections.abc import Mapping
 
 from asklegal_application_runtime import (
     LocalIdentityVerifier,
+    LocalReviewProjectionStore,
     Principal,
     TokenType,
 )
 from asklegal_contracts import fingerprint
 from asklegal_review_api.api import ReviewDependencies, create_app, local_dependencies
+from asklegal_review_api.governance import ReviewGovernanceService
 from fastapi import FastAPI
 from httpx import ASGITransport, AsyncClient, Response
 
@@ -76,7 +78,7 @@ def test_review_startup_openapi_and_exact_surface() -> None:
     schema = app.openapi()
     assert (
         fingerprint(schema)
-        == "sha256:0e4adbaf3873c2a14e0ab7ba94337d1d12db919ce1681a2a9662d8dd6155ebe7"
+        == "sha256:b4de11eb42d19b0317378f0e630d0ce2ab9721fde7cd26226602ed8047884202"
     )
     paths = schema["paths"]
     assert "/api/v1/proposal-packages" in paths
@@ -85,6 +87,33 @@ def test_review_startup_openapi_and_exact_surface() -> None:
     with LocalClient(app) as client:
         assert client.get("/internal/live").status_code == 200
         assert client.get("/internal/ready").status_code == 200
+
+
+def test_review_detail_exposes_the_exact_package_inventory_without_storage_coordinates() -> None:
+    """Detail fields have distinct meaning and all 11 members are accountable."""
+    with LocalClient(create_app()) as client:
+        response = client.get("/api/v1/proposal-packages/proposal-1", headers=_TOKEN)
+
+    assert response.status_code == 200
+    detail = response.json()
+    assert response.headers["etag"] == '"v0"'
+    assert detail["proposal"]["proposal_id"] == "proposal-1"
+    assert detail["proposal"]["review_version"] == 0
+    assert detail["promotion_manifest_id"].startswith("pmn_")
+    assert detail["valid_from"] < detail["valid_until"]
+    assert detail["validity_predicates"]
+    assert detail["base_serving_state_id"].startswith("srv_")
+    assert detail["candidate_serving_state_id"].startswith("srv_")
+    assert len(detail["artifacts"]) == 11
+    assert [item["role"] for item in detail["artifacts"]] == sorted(
+        item["role"] for item in detail["artifacts"]
+    )
+    assert all(item["media_type"] == "application/json" for item in detail["artifacts"])
+    assert all(item["fingerprint"].startswith("sha256:") for item in detail["artifacts"])
+    serialized = response.text.lower()
+    assert "logical_key" not in serialized
+    assert "version_id" not in serialized
+    assert "vault" not in serialized
 
 
 def test_review_pagination_is_stable_and_caller_bound() -> None:
@@ -213,7 +242,7 @@ def test_review_commands_append_real_governance_facts_and_revoke_exactly() -> No
         )
         assert revocation.status_code == 200
         assert revocation.json()["result_code"] == "REVOKED"
-    assert deps.governance is not None
+    assert isinstance(deps.governance, ReviewGovernanceService)
     assert deps.governance.approvals.get(approval_id).state.value == "APPROVAL_REVOKED"
 
 
@@ -236,6 +265,7 @@ def test_review_origin_proxy_evidence_readiness_and_browser_client() -> None:
         evidence = client.get("/api/v1/evidence/evi_" + "1" * 48, headers=_TOKEN)
         assert evidence.status_code == 200
         assert "vault" not in evidence.text.lower()
+        assert isinstance(deps.projections, LocalReviewProjectionStore)
         assert deps.projections.evidence_reads == [("person-local-1", "evi_" + "1" * 48)]
         preflight = client.request(
             "OPTIONS",

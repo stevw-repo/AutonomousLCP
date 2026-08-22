@@ -52,6 +52,8 @@ from asklegal_promotion import (
     freeze_promotion_manifest,
     freeze_v1_promotion_manifest,
     pinecone_index_name,
+    promotion_approval_snapshot_from_bytes,
+    promotion_manifest_bytes,
 )
 from asklegal_promotion_worker import (
     PromotionDependencies,
@@ -64,7 +66,7 @@ _AT = "2026-08-16T01:00:00Z"
 _BASE = "srv_" + "a" * 48
 _CANDIDATE = "srv_" + "b" * 48
 _STATE_FP = "sha256:" + "b" * 64
-_PREDICATES = (("configuration", "sha256:" + "c" * 64),)
+_PREDICATES = (("configuration", "1.0.0", "sha256:" + "c" * 64),)
 
 
 def _profile(*, cost_limit: int = 10_000) -> EmbeddingProfile:
@@ -172,6 +174,48 @@ def _plan_from_manifest(manifest: PromotionManifest) -> PromotionPlan:
         manifest.exact_retirement_target_ids,
         manifest.capability_enabled,
     )
+
+
+def test_canonical_manifest_bytes_recover_the_exact_approval_snapshot() -> None:
+    """Review facts come from the executable bytes, not an identity-only wrapper."""
+    manifest = _manifest()
+    content = promotion_manifest_bytes(manifest)
+
+    snapshot = promotion_approval_snapshot_from_bytes(
+        content,
+        expected_manifest_id=manifest.manifest_id,
+        expected_fingerprint=manifest.fingerprint,
+    )
+
+    assert snapshot.manifest_id == manifest.manifest_id
+    assert snapshot.fingerprint == manifest.fingerprint
+    assert snapshot.expected_base_serving_state_id == manifest.base_serving_state_id
+    assert snapshot.candidate_serving_state_id == manifest.candidate_serving_state_id
+    assert snapshot.validity_predicates == manifest.validity_predicates
+
+
+@pytest.mark.parametrize("drift", ["BYTES", "IDENTITY", "FINGERPRINT"])
+def test_approval_snapshot_rejects_any_manifest_binding_drift(drift: str) -> None:
+    """No changed bytes, identity, or fingerprint can become Review authority."""
+    manifest = _manifest()
+    content = promotion_manifest_bytes(manifest)
+    expected_id = manifest.manifest_id
+    expected_fingerprint = manifest.fingerprint
+    if drift == "BYTES":
+        content += b"\n"
+    elif drift == "IDENTITY":
+        expected_id = "pmn_" + "0" * 48
+    else:
+        expected_fingerprint = "sha256:" + "0" * 64
+
+    with pytest.raises(PromotionError) as error:
+        promotion_approval_snapshot_from_bytes(
+            content,
+            expected_manifest_id=expected_id,
+            expected_fingerprint=expected_fingerprint,
+        )
+
+    assert error.value.code is PromotionErrorCode.MANIFEST_DRIFT
 
 
 def test_v1_manifest_freeze_requires_complete_nonblocking_source_cycle() -> None:

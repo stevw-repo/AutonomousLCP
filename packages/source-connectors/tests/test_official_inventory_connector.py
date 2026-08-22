@@ -99,7 +99,7 @@ def test_one_failed_member_cannot_produce_a_complete_fingerprint() -> None:
     register = load_hk_legislation_source_register()
     request = _request("HK-LEG-HKEL-CURRENT-INVENTORY")
     failed_endpoint = request.endpoint_versions[1][0]
-    transport = InventoryTransport({failed_endpoint: 503}, [])
+    transport = InventoryTransport({failed_endpoint: 404}, [])
     result = OfficialInventoryConnector(OfficialHttpConnector(register, transport)).capture(request)
 
     assert result.code is OfficialInventoryCode.SOURCE_CONTRACT_CHANGED

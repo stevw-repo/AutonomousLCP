@@ -56,7 +56,7 @@ class PromotionExecutionContext:
     """Current execution facts that must match the frozen manifest."""
 
     base_serving_state_id: str
-    predicates: tuple[tuple[str, str], ...]
+    predicates: tuple[tuple[str, str, str], ...]
     at: str
 
 

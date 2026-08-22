@@ -12,6 +12,7 @@ from tools.local_conformance import (
     prove_scenarios,
     reset,
     scenario_catalogue,
+    synthetic_state_requires_reset,
 )
 
 
@@ -60,6 +61,22 @@ def test_reset_rejects_every_non_exact_target(tmp_path: Path) -> None:
     """Reset cannot be redirected to a broad or caller-chosen filesystem path."""
     with pytest.raises(ConformanceFailure, match="STATE_ROOT_OUTSIDE"):
         reset(tmp_path / "local-conformance")
+
+
+def test_existing_proof_output_requires_an_explicit_reset(tmp_path: Path) -> None:
+    """A second proof must fail with a stable result instead of leaking FileExistsError."""
+    root = tmp_path / "local-conformance"
+    root.mkdir()
+    (root / ".asklegal-local-synthetic-state").write_text(
+        "ASKLEGAL_LOCAL_SYNTHETIC_STATE_V1\n", encoding="utf-8"
+    )
+    assert synthetic_state_requires_reset(root) is False
+
+    (root / "run-a").mkdir()
+
+    assert synthetic_state_requires_reset(root) is True
+    with pytest.raises(ConformanceFailure, match="SYNTHETIC_STATE_RESET_REQUIRED"):
+        prove_scenarios(root / "run-a", ("E2E-002",))
 
 
 def test_runner_never_leaves_network_access_enabled_after_a_scenario(tmp_path: Path) -> None:

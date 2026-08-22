@@ -3,6 +3,7 @@
 import json
 from copy import deepcopy
 from pathlib import Path
+from typing import cast
 
 import pytest
 
@@ -19,9 +20,20 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 
 
 def _object(path: Path) -> dict[str, object]:
-    value = json.loads(path.read_bytes())
+    value: object = json.loads(path.read_bytes())
+    return _object_map(value)
+
+
+def _object_map(value: object) -> dict[str, object]:
     assert isinstance(value, dict)
-    return value
+    candidate = cast("dict[object, object]", value)
+    assert all(type(key) is str for key in candidate)
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object]:
+    assert isinstance(value, list)
+    return cast("list[object]", value)
 
 
 def _policy() -> dict[str, object]:
@@ -30,8 +42,7 @@ def _policy() -> dict[str, object]:
 
 def _base_image_ref() -> object:
     images = _object(REPOSITORY_ROOT / APPLICATION_IMAGE_POLICY_PATH)
-    base = images["base_image"]
-    assert isinstance(base, dict)
+    base = _object_map(images["base_image"])
     return base["artifact_ref"]
 
 
@@ -106,19 +117,16 @@ def test_base_image_drift_invalidates_the_wheelhouse() -> None:
 def test_application_coverage_fails_closed(mutation: str, expected: WheelhouseCode) -> None:
     """Every application needs its own hashed, non-empty requirement export."""
     policy = deepcopy(_policy())
-    applications = policy["applications"]
-    assert isinstance(applications, dict)
+    applications = _object_map(policy["applications"])
     if mutation == "missing_application":
         del applications["asklegal-review-api"]
     elif mutation == "extra_application":
         applications["asklegal-unknown"] = applications["asklegal-review-api"]
     elif mutation == "bad_digest":
-        entry = applications["asklegal-review-api"]
-        assert isinstance(entry, dict)
+        entry = _object_map(applications["asklegal-review-api"])
         entry["requirements_sha256"] = "not-a-digest"
     else:
-        entry = applications["asklegal-review-api"]
-        assert isinstance(entry, dict)
+        entry = _object_map(applications["asklegal-review-api"])
         entry["pinned_distributions"] = 0
     assert expected in _codes(policy)
 
@@ -138,10 +146,8 @@ def test_application_coverage_fails_closed(mutation: str, expected: WheelhouseCo
 def test_wheel_inventory_fails_closed(mutation: str, expected: WheelhouseCode) -> None:
     """A miscounted, duplicated, unhashed, or foreign-platform wheel is not admissible."""
     policy = deepcopy(_policy())
-    wheels = policy["wheels"]
-    assert isinstance(wheels, list)
-    first = wheels[0]
-    assert isinstance(first, dict)
+    wheels = _object_list(policy["wheels"])
+    first = _object_map(wheels[0])
     if mutation == "count_drift":
         policy["wheel_count"] = len(wheels) + 1
     elif mutation == "duplicate":
@@ -170,11 +176,9 @@ def test_wheel_byte_drift_is_rejected(tmp_path: Path) -> None:
     directory = tmp_path / "var/wheelhouse/wheels"
     directory.mkdir(parents=True)
     policy = deepcopy(_policy())
-    wheels = policy["wheels"]
-    assert isinstance(wheels, list)
+    wheels = _object_list(policy["wheels"])
     policy["wheels"] = wheels[:1]
-    first = wheels[0]
-    assert isinstance(first, dict)
+    first = _object_map(wheels[0])
     (directory / str(first["filename"])).write_bytes(b"tampered")
     with pytest.raises(ValueError, match="wheelhouse"):
         verify_wheelhouse_contents(tmp_path, policy)

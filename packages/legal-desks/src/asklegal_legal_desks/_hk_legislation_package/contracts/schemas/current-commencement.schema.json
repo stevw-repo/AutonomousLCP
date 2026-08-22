@@ -1,0 +1,329 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/hk-legislation-current-commencement.schema.json",
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "nullable_text": {
+      "oneOf": [
+        {"type": "string", "minLength": 1},
+        {"type": "null"}
+      ]
+    },
+    "scope_id": {
+      "enum": [
+        "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+        "rsc_1cdf5a558e8286dadf84f819de1d48168d455cd457fcf30e",
+        "rsc_4708261daa351aa91a1511674b94bced0a9c2eaa817770ea"
+      ]
+    },
+    "mode": {
+      "enum": [
+        "DEFAULT_ON_PUBLICATION",
+        "FIXED_DATE",
+        "APPOINTED_DATE",
+        "CONDITIONAL_EVENT",
+        "PARTIAL"
+      ]
+    },
+    "reason_code": {
+      "enum": [
+        "HKLEG_CURRENT_COMMENCEMENT_DEFAULT_OPERATIVE_PROVED",
+        "HKLEG_CURRENT_COMMENCEMENT_FIXED_DATE_OPERATIVE_PROVED",
+        "HKLEG_CURRENT_COMMENCEMENT_FIXED_DATE_PENDING",
+        "HKLEG_CURRENT_COMMENCEMENT_APPOINTED_DATE_OPERATIVE_PROVED",
+        "HKLEG_CURRENT_COMMENCEMENT_APPOINTED_DATE_PENDING",
+        "HKLEG_CURRENT_COMMENCEMENT_CONDITIONAL_EVENT_OPERATIVE_PROVED",
+        "HKLEG_CURRENT_COMMENCEMENT_CONDITIONAL_EVENT_PENDING",
+        "HKLEG_CURRENT_COMMENCEMENT_PARTIAL_OPERATIVE_PROVED",
+        "HKLEG_CURRENT_COMMENCEMENT_PARTIAL_PENDING",
+        "HKLEG_CURRENT_COMMENCEMENT_EVIDENCE_INCOMPLETE",
+        "HKLEG_CURRENT_COMMENCEMENT_EVIDENCE_CONFLICT",
+        "HKLEG_CURRENT_COMMENCEMENT_AFFECTED_SET_INVALID"
+      ]
+    },
+    "reason_code_catalogue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalogue_id", "version", "status", "reason_codes"],
+      "properties": {
+        "catalogue_id": {"const": "asklegal.hk-legislation.current-commencement.reason-codes"},
+        "version": {"const": "1.0.0"},
+        "status": {"const": "FROZEN_PARTIAL"},
+        "reason_codes": {
+          "type": "array",
+          "minItems": 12,
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["code", "meaning", "processing_outcome"],
+            "properties": {
+              "code": {"$ref": "#/$defs/reason_code"},
+              "meaning": {"type": "string", "minLength": 1},
+              "processing_outcome": {"enum": ["PASS", "BLOCK", "QUARANTINE"]}
+            }
+          }
+        }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule_id",
+        "version",
+        "stage",
+        "establishes",
+        "record_output",
+        "evidence_rule",
+        "partial_rule"
+      ],
+      "properties": {
+        "rule_id": {"const": "HKLEG-CURRENT-COMMENCEMENT-001"},
+        "version": {"const": "1.0.0"},
+        "stage": {"const": "COMMENCEMENT_LEGAL_EFFECT"},
+        "establishes": {"const": "EVIDENCE_BOUND_OPERATIVE_AND_PENDING_LOCATIONS"},
+        "record_output": {"const": "NONE"},
+        "evidence_rule": {
+          "const": "NO_COMMENCEMENT_FROM_PUBLICATION_OR_HKEL_IN_EFFECT_ALONE"
+        },
+        "partial_rule": {
+          "const": "ONLY_EXACT_NAMED_LOCATIONS_CHANGE_OPERATIVE_STATE"
+        }
+      }
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cutoff",
+        "scope_id",
+        "object_id",
+        "commencement_mode",
+        "operative_provision_fingerprint",
+        "event_evidence_fingerprints",
+        "event_evidence_complete",
+        "event_evidence_authentic",
+        "event_evidence_conflicts",
+        "controlling_notice_state",
+        "publication_date",
+        "effective_date",
+        "condition_exact",
+        "condition_satisfied_at_cutoff",
+        "all_location_ids",
+        "affected_location_ids",
+        "pre_event_operative_location_ids",
+        "affected_location_scope"
+      ],
+      "properties": {
+        "cutoff": {"const": "2026-08-17T00:00:00Z"},
+        "scope_id": {"$ref": "#/$defs/scope_id"},
+        "object_id": {"type": "string", "minLength": 1},
+        "commencement_mode": {"$ref": "#/$defs/mode"},
+        "operative_provision_fingerprint": {"$ref": "#/$defs/sha256"},
+        "event_evidence_fingerprints": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sha256"}
+        },
+        "event_evidence_complete": {"type": "boolean"},
+        "event_evidence_authentic": {"type": "boolean"},
+        "event_evidence_conflicts": {"type": "boolean"},
+        "controlling_notice_state": {
+          "enum": ["NOT_APPLICABLE", "CURRENT", "AMENDED_CURRENT", "UNRESOLVED"]
+        },
+        "publication_date": {"$ref": "#/$defs/nullable_text"},
+        "effective_date": {"$ref": "#/$defs/nullable_text"},
+        "condition_exact": {"type": "boolean"},
+        "condition_satisfied_at_cutoff": {"type": "boolean"},
+        "all_location_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "affected_location_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "pre_event_operative_location_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "affected_location_scope": {"enum": ["WHOLE_INSTRUMENT", "EXACT_LOCATIONS"]}
+      }
+    },
+    "fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixture_id",
+        "title",
+        "synthetic",
+        "status",
+        "input_fingerprint",
+        "input",
+        "expected_artifact"
+      ],
+      "properties": {
+        "fixture_id": {"type": "string", "pattern": "^HKLEG-CURRENT-COMMENCE-FIX-(00[1-9]|01[0-2])$"},
+        "title": {"type": "string", "minLength": 1},
+        "synthetic": {"const": true},
+        "status": {"const": "FROZEN_PARTIAL"},
+        "input_fingerprint": {"$ref": "#/$defs/sha256"},
+        "input": {"$ref": "#/$defs/input"},
+        "expected_artifact": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "fingerprint"],
+          "properties": {
+            "path": {"type": "string", "pattern": "^expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-(00[1-9]|01[0-2])\\.json$"},
+            "fingerprint": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      }
+    },
+    "fixture_catalogue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalogue_id", "version", "status", "accepted_complete_universe", "fixtures"],
+      "properties": {
+        "catalogue_id": {"const": "asklegal.hk-legislation.current-commencement.fixtures"},
+        "version": {"const": "1.0.0"},
+        "status": {"const": "FROZEN_PARTIAL"},
+        "accepted_complete_universe": {"const": false},
+        "fixtures": {
+          "type": "array",
+          "minItems": 12,
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "fixture_id",
+              "path",
+              "fixture_fingerprint",
+              "expected_path",
+              "expected_fingerprint"
+            ],
+            "properties": {
+              "fixture_id": {"type": "string", "pattern": "^HKLEG-CURRENT-COMMENCE-FIX-(00[1-9]|01[0-2])$"},
+              "path": {"type": "string", "pattern": "^fixtures/deterministic/HKLEG-CURRENT-COMMENCE-FIX-(00[1-9]|01[0-2])\\.json$"},
+              "fixture_fingerprint": {"$ref": "#/$defs/sha256"},
+              "expected_path": {"type": "string", "pattern": "^expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-(00[1-9]|01[0-2])\\.json$"},
+              "expected_fingerprint": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixture_id",
+        "rule_id",
+        "processing_outcome",
+        "legal_disposition",
+        "coverage_effect",
+        "source_contract_review_required",
+        "reason_codes",
+        "rule_trace",
+        "event_fact_output",
+        "commencement_mode",
+        "operative_state",
+        "affected_object_ids",
+        "affected_scope_ids",
+        "publication_date",
+        "effective_date",
+        "operative_provision_fingerprint",
+        "event_evidence_fingerprints",
+        "event_operative_at_cutoff",
+        "affected_location_ids",
+        "operative_location_ids",
+        "pending_location_ids",
+        "record_output",
+        "next_action"
+      ],
+      "properties": {
+        "fixture_id": {"type": "string", "pattern": "^HKLEG-CURRENT-COMMENCE-FIX-(00[1-9]|01[0-2])$"},
+        "rule_id": {"const": "HKLEG-CURRENT-COMMENCEMENT-001"},
+        "processing_outcome": {"enum": ["PASS", "BLOCK", "QUARANTINE"]},
+        "legal_disposition": {"enum": ["NOT_APPLICABLE", "WAITING_ROOM", "QUARANTINE"]},
+        "coverage_effect": {"const": "NONE"},
+        "source_contract_review_required": {"const": false},
+        "reason_codes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {"$ref": "#/$defs/reason_code"}
+        },
+        "rule_trace": {"const": ["HKLEG-CURRENT-COMMENCEMENT-001"]},
+        "event_fact_output": {"enum": ["NONE", "LEGAL_STATUS_EVENT"]},
+        "commencement_mode": {"$ref": "#/$defs/mode"},
+        "operative_state": {"enum": ["OPERATIVE", "NOT_YET_OPERATIVE", "PARTIALLY_OPERATIVE", "UNRESOLVED"]},
+        "affected_object_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "affected_scope_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {"$ref": "#/$defs/scope_id"}
+        },
+        "publication_date": {"$ref": "#/$defs/nullable_text"},
+        "effective_date": {"$ref": "#/$defs/nullable_text"},
+        "operative_provision_fingerprint": {"$ref": "#/$defs/sha256"},
+        "event_evidence_fingerprints": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sha256"}
+        },
+        "event_operative_at_cutoff": {
+          "oneOf": [
+            {"type": "boolean"},
+            {"type": "null"}
+          ]
+        },
+        "affected_location_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "operative_location_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "pending_location_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "record_output": {"const": "NONE"},
+        "next_action": {
+          "enum": [
+            "RUN_HKLEG_CURRENT_EVENT_001",
+            "ASSIGN_WAITING_ROOM",
+            "SPLIT_OPERATIVE_AND_WAITING_LOCATIONS",
+            "RESOLVE_COMMENCEMENT_EVIDENCE",
+            "QUARANTINE_COMMENCEMENT_EVIDENCE",
+            "QUARANTINE_AFFECTED_SET"
+          ]
+        }
+      }
+    }
+  }
+}

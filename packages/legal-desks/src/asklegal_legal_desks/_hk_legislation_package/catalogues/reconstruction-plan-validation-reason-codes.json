@@ -1,0 +1,107 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.reconstruction-plan-validation.reason-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {
+      "code": "HKLEG_RECON_PLAN_VALIDATED",
+      "meaning": "The complete exact Plan contract and every deterministic authority binding pass; only its immutable reference may advance.",
+      "processing_outcome": "PASS"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_CANDIDATE_MISSING",
+      "meaning": "No complete Reconstruction Plan candidate is available.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_CONTRACT_INVALID",
+      "meaning": "The candidate is not the exact closed ADR 0084 Plan contract.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_UNKNOWN_OPERATION",
+      "meaning": "The candidate requests an operation outside the admitted ADR 0082 registry and requires Source Contract Review.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_SEMANTIC_CANDIDATE_MISMATCH",
+      "meaning": "The Plan does not bind the exact untrusted semantic candidate selected for validation.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_LEGAL_DESK_DECISION_NOT_ACCEPTED",
+      "meaning": "No accepted Hong Kong Legislation Legal Desk decision binds this exact Plan.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_BASE_NOT_LATEST_ELIGIBLE",
+      "meaning": "The selected HKeL base is not proved to be the latest eligible applicable bilingual base.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_CHAIN_INCOMPLETE",
+      "meaning": "The event chain does not completely account for every operative event from base to cutoff.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_EVENT_ORDER_UNRESOLVED",
+      "meaning": "The legal execution order is not completely proved.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_APPLICABILITY_UNRESOLVED",
+      "meaning": "The cutoff and applicability branch are not exact.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_DEPENDENCY_CLOSURE_INCOMPLETE",
+      "meaning": "The affected, governing, dependent, or independent-boundary closure is incomplete or inconsistent.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_OVERLAP",
+      "meaning": "Another Plan overlaps this dependency closure at the same cutoff.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_SOURCE_UNIT_OWNERSHIP_INCOMPLETE",
+      "meaning": "Authentic source-unit ownership is incomplete or inconsistent.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_LANGUAGE_EVIDENCE_INCOMPLETE",
+      "meaning": "English and Traditional Chinese authentic-language evidence or stream rules are incomplete.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_BILINGUAL_RESULT_MISMATCH",
+      "meaning": "The two authentic-language streams do not establish one aligned legal result.",
+      "processing_outcome": "QUARANTINE"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_OPERATION_INVENTORY_INVALID",
+      "meaning": "Operation IDs, sequence, selectors, parameters, or closed-registry inventory are inconsistent.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_OPERATION_EVENT_BINDING_INCOMPLETE",
+      "meaning": "An operation or effect-only event lacks its complete event and evidence bindings.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_ATOMIC_GROUP_INCOMPLETE",
+      "meaning": "An atomic group is not dependency closed.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_UNDECLARED_INPUT",
+      "meaning": "The Plan references evidence or input outside its declared immutable inventory.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "HKLEG_RECON_PLAN_DETERMINISTIC_REVALIDATION_FAILED",
+      "meaning": "Final deterministic revalidation failed; no operation may execute.",
+      "processing_outcome": "BLOCK"
+    }
+  ]
+}

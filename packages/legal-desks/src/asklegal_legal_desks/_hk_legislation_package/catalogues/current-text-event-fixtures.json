@@ -1,0 +1,120 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.current-text-event.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-001.json",
+      "fixture_fingerprint": "sha256:4693e374ad21ba302580e9b30268dafe7ef391fb9a3e841065f4f89614c5ad06",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-001.json",
+      "expected_fingerprint": "sha256:7919df9dd9d835a7f1fe6dd5c32d1322843ffa50ce4659deec68b75fc16b42ae"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-002.json",
+      "fixture_fingerprint": "sha256:2e570a756e91beaa8f2166d436b7ae0fd08c3d130c0674f31f3af624af6fac98",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-002.json",
+      "expected_fingerprint": "sha256:3eb96fa75adf1029057c7069d259caf9f9374fcc8253cbbd4149878b1772995f"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-003.json",
+      "fixture_fingerprint": "sha256:9a1b10e799e578dc70beafc0b88366354fd314b02e8638628209af24deb1c708",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-003.json",
+      "expected_fingerprint": "sha256:9beabc8327f01cd2770f0fc11da1351efb5496ed51aef1a03b48824abbf18cda"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-004.json",
+      "fixture_fingerprint": "sha256:db47bb93ab4c1172839e1ded14d7a5f92d7f3c9c32e42d53ce570cf67fc9b22b",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-004.json",
+      "expected_fingerprint": "sha256:c4ce99c010ba2b2679305d4545eadc70b0a7375164dfa128779d734abfc0882c"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-005.json",
+      "fixture_fingerprint": "sha256:e224f34c36cbef52ec5ea4dc289a447b1cb716f0400233d45a2f2690906cd5bb",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-005.json",
+      "expected_fingerprint": "sha256:4a6f3ed84ef8e897859af417027158aef472de0133465483be38a1fb46f77fe8"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-006",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-006.json",
+      "fixture_fingerprint": "sha256:baf7654bc93c302bf1aff2c7bb46d9e5c0ec66e11042e3d4c5d32fb5bcae8f69",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-006.json",
+      "expected_fingerprint": "sha256:f66f6c43a866c580b79e3e20f06f562dd36cc0d91481d512347448c9df8b3499"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-007",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-007.json",
+      "fixture_fingerprint": "sha256:13bd67cd355c02447e7d040937dcad2396acfbcb0bd456eecd1d0725814fe481",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-007.json",
+      "expected_fingerprint": "sha256:cd334799e15d33af057bc472c517b194c12e4ac44802687e320671c15176d6bc"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-008",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-008.json",
+      "fixture_fingerprint": "sha256:ad44525c06a2dc46658b665ca8fc9c626d6912aec7433cc4a345d826559f03c6",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-008.json",
+      "expected_fingerprint": "sha256:510ca5bbc03afddef928b59506a614224318e357ef9fdab643f92bea46014d27"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-009",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-009.json",
+      "fixture_fingerprint": "sha256:9f41fa2eee58c2bb0692854eab341710a89a3fe9f9f7a8e986a5f1b2431f0235",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-009.json",
+      "expected_fingerprint": "sha256:e282b11769f762e93a089f2ef74ecb3a22e81eae487446a9f44b8ee24c66f3a7"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-010",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-010.json",
+      "fixture_fingerprint": "sha256:1b59828303bd5d49bf0c5eebcc7cc30d9fca29f112155c5f1c40faca4f53bf42",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-010.json",
+      "expected_fingerprint": "sha256:85dc6130ce5ab3e597ce206696dbac462d5312609422a15ef90ed120b36c8d1e"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-011",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-011.json",
+      "fixture_fingerprint": "sha256:89397f2b6502cccf3fc6e03b7e654768aca3e26147118949d1415f0385f357be",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-011.json",
+      "expected_fingerprint": "sha256:d7510c5bb18b0dcc75f9bad9017b335eb70a0b7e0bb9ca0a3430c366ce1a8c2e"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-012",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-012.json",
+      "fixture_fingerprint": "sha256:7f43952549464c3f80873ba0442ab4f2806c90a44274a8dc45a36388059c7402",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-012.json",
+      "expected_fingerprint": "sha256:a25137c19704ccf6b54abd2d7fe3db7ab5cf3807055ac527dd9b73f232aa30e4"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-013",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-013.json",
+      "fixture_fingerprint": "sha256:8e25250588767ea2ec93cc78bd2cad1178f9a2c4d255e0a554f96759e9754ea4",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-013.json",
+      "expected_fingerprint": "sha256:47ab861a759def0d43157488510100b18e13b48099a48a77eff16b1f9f1bfade"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-014",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-014.json",
+      "fixture_fingerprint": "sha256:0f5d45116f264bf760b21154e8f910a17d6211451f0ce4accb849e9992cc9b2a",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-014.json",
+      "expected_fingerprint": "sha256:9b6430ec657ced1cb3745816245690a82b6f36448d14bbb4f00452579fd7c0ae"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-015",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-015.json",
+      "fixture_fingerprint": "sha256:7ab18b58fb0da78dc63de4b995858f82acca163c58fd23400e4c8f4dad66702d",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-015.json",
+      "expected_fingerprint": "sha256:3bbf01617d9a3fb650788efcfed36a2f67fab0ed849eb9eb08b97f42cbd38cc1"
+    },
+    {
+      "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-016",
+      "path": "fixtures/deterministic/HKLEG-CURRENT-TEXT-EVENT-FIX-016.json",
+      "fixture_fingerprint": "sha256:3ab35d9ae1214e7e05ad9097c8d126908292692bce75484d37fc997298cf4e79",
+      "expected_path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-016.json",
+      "expected_fingerprint": "sha256:7d1492bd71e914db30596c9d48f144316c84e1d27a763717d07a99bb7fb62789"
+    }
+  ]
+}

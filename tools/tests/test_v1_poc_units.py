@@ -3,6 +3,7 @@
 import json
 import subprocess
 from pathlib import Path
+from typing import cast
 
 import pytest
 
@@ -18,7 +19,7 @@ def _commands() -> dict[str, object]:
 def _services() -> list[dict[str, object]]:
     services = _commands()["services"]
     assert isinstance(services, list)
-    return services
+    return cast("list[dict[str, object]]", services)
 
 
 def _rendered() -> dict[str, str]:
@@ -63,9 +64,9 @@ def test_no_secret_value_is_written_into_any_generated_file() -> None:
     """The whole point of sealing credentials is defeated if one is rendered in."""
     for name, content in _rendered().items():
         assert "PASSWORD=" not in content.replace("MSSQL_SA_PASSWORD=", ""), name
-        assert "SECRET_ACCESS_KEY=" not in content.replace(
-            'ROOT_SECRET_ACCESS_KEY="$(cat', ""
-        ), name
+        assert "SECRET_ACCESS_KEY=" not in content.replace('ROOT_SECRET_ACCESS_KEY="$(cat', ""), (
+            name
+        )
 
 
 @pytest.mark.parametrize("service_id", _service_ids())
@@ -155,7 +156,7 @@ def test_services_that_were_never_run_are_recorded_rather_than_rendered() -> Non
     not_rendered = _commands()["not_rendered"]
     assert isinstance(not_rendered, list)
     rendered = _rendered()
-    for entry in not_rendered:
+    for entry in cast("list[dict[str, object]]", not_rendered):
         service_id = entry["service_id"]
         assert f"asklegal-{service_id}.service" not in rendered
         assert str(entry["reason"])

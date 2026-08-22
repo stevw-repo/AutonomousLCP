@@ -1,0 +1,19 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.current-commencement.reason-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {"code": "HKLEG_CURRENT_COMMENCEMENT_DEFAULT_OPERATIVE_PROVED", "meaning": "An exact operative provision establishes commencement on publication at or before the cutoff.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_COMMENCEMENT_FIXED_DATE_OPERATIVE_PROVED", "meaning": "An exact fixed commencement date is at or before the cutoff.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_COMMENCEMENT_FIXED_DATE_PENDING", "meaning": "An exact fixed commencement date is after the cutoff, so the locations remain in the Waiting Room.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_COMMENCEMENT_APPOINTED_DATE_OPERATIVE_PROVED", "meaning": "A current exact appointment establishes commencement at or before the cutoff.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_COMMENCEMENT_APPOINTED_DATE_PENDING", "meaning": "A current exact appointment names a date after the cutoff.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_COMMENCEMENT_CONDITIONAL_EVENT_OPERATIVE_PROVED", "meaning": "Exact evidence establishes that the commencement condition was satisfied at or before the cutoff.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_COMMENCEMENT_CONDITIONAL_EVENT_PENDING", "meaning": "The exact commencement condition is not satisfied at the cutoff.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_COMMENCEMENT_PARTIAL_OPERATIVE_PROVED", "meaning": "Exact evidence commences only the named Legal Locations at or before the cutoff.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_COMMENCEMENT_PARTIAL_PENDING", "meaning": "An exact partial commencement is scheduled after the cutoff and changes no location yet.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_COMMENCEMENT_EVIDENCE_INCOMPLETE", "meaning": "The exact operative provision, authentic event evidence, publication date, effective date, appointment, or condition proof is incomplete.", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_CURRENT_COMMENCEMENT_EVIDENCE_CONFLICT", "meaning": "The accepted commencement evidence or controlling notice chain conflicts or is unresolved.", "processing_outcome": "QUARANTINE"},
+    {"code": "HKLEG_CURRENT_COMMENCEMENT_AFFECTED_SET_INVALID", "meaning": "The claimed whole or partial affected Legal Location set is not exact, bounded, and consistent with prior operative state.", "processing_outcome": "QUARANTINE"}
+  ]
+}

@@ -96,8 +96,10 @@ Request carries `pageNo` and `pageSize`. The response reports:
 `lastPage` was `1415` at `pageSize: 20`, which implies roughly 28,300 rows. Do not
 use `totalRecords` as a completeness figure. Walk `pageNo` from `firstPage` to
 `lastPage` and count what actually arrives; treat `lastPage × pageSize` as an
-upper bound only, and re-read `lastPage` on every page because it can move while
-paging.
+upper bound only. Pin the first reply's `lastPage` and re-read it on every page;
+if it moves, the observation is incomplete because its membership boundary was
+not stable. `GAZETTE_ID` is the publisher's declared primary key, so an empty or
+duplicate ID also prevents a completeness result.
 
 Twenty `pkValues` were returned for `pageSize: 20`, so the page size is honoured.
 
@@ -180,9 +182,10 @@ the grid response itself into evidence.
 
 An unbounded walk is not reproducible because the register grows at the front.
 The implemented completeness unit is one closed past-date window. Every page
-from `firstPage` through the moving `lastPage` must arrive within the operational
-cap; an empty intermediate page, transport failure, or cap exhaustion is not a
-complete result.
+from `firstPage` through the first reply's fixed `lastPage` must arrive within
+the operational cap. A moving `lastPage`, empty intermediate page, duplicate or
+empty `GAZETTE_ID`, transport failure, or cap exhaustion is not a complete
+result.
 
 Settled since this was written: the project owner decided on 2026-08-19 to assert
 `JS_S=true` and `BR=Chrome`, recorded in `CAPABILITY_CLAIM` with its own note that
@@ -195,6 +198,12 @@ The contract and date-window acquisition activity are implemented. The role
 remains partial rather than complete because a closed window is the unit proved;
 the repository does not yet have a whole-register coverage policy or scheduled
 operational admission evidence.
+
+Grid retry is bounded to three attempts. A dropped transport and explicit HTTP
+429 response use deterministic 20-second then 40-second backoff and rebuild the
+publisher session before retry; persistent refusal ends `SOURCE_UNAVAILABLE`.
+Grid calls also keep the HKeL profile's one-second minimum interval. The retry
+does not convert a failure into no-change or completeness.
 
 ## 6. Durable activity outcomes
 
@@ -244,8 +253,10 @@ same report machinery applies `RELEASE_BLOCKING` to GLD e-Gazette, which remains
 the originating/current-publication Gazette role. An HKeL report never satisfies
 or substitutes for the due GLD report.
 
-The reporting package can freeze a complete due-source cycle and blocks a
-missing or failed `RELEASE_BLOCKING` source, policy/version drift, or duplicate
-ambiguous accounting. That cycle contract is not yet assembled over every V1
-source activity or carried into the final Coverage Status Manifest; those remain
-explicit HKV1-2/HKV1-8 work.
+The acquisition worker now assembles that report over every source due in one
+accepted periodic cycle, reads each exact report version back, and writes the
+cycle report last. Its exact Primary Vault binding enters the V1 Coverage Status
+Manifest. Missing or failed `RELEASE_BLOCKING` roles, policy/version drift,
+duplicate ambiguous accounting, or an incomplete binding prevent the V1-specific
+Promotion Manifest freeze. Real candidate-flow integration remains later
+HKV1-3/HKV1-8 work.

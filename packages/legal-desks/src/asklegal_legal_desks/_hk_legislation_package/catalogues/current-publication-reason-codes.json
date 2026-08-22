@@ -1,0 +1,12 @@
+{"catalogue_id":"asklegal.hk-legislation.current-publication.reason-codes","version":"1.0.0","status":"FROZEN_PARTIAL","reason_codes":[
+  {"code":"HKLEG_CURRENT_PUBLICATION_ORDINANCE_ENACTMENT_PROVED","meaning":"Exact Legal Supplement No. 1 evidence proves Ordinance enactment/publication and routes the candidate item to identity and text-evidence processing.","processing_outcome":"PASS"},
+  {"code":"HKLEG_CURRENT_PUBLICATION_SUBSIDIARY_LEGISLATION_PROVED","meaning":"Exact Legal Supplement No. 2 evidence proves publication of subsidiary legislation and routes the candidate item onward.","processing_outcome":"PASS"},
+  {"code":"HKLEG_CURRENT_PUBLICATION_NOTICE_PROVED","meaning":"Exact Legal Supplement No. 2 or enabling-authority-bound Main Gazette evidence proves publication of a notice, not its legal effect.","processing_outcome":"PASS"},
+  {"code":"HKLEG_CURRENT_PUBLICATION_LEGAL_SUPPLEMENT_3_INVENTORY_ONLY","meaning":"Legal Supplement No. 3 is retained only for complete Gazette inventory and excluded classification.","processing_outcome":"PASS"},
+  {"code":"HKLEG_CURRENT_PUBLICATION_OTHER_SUPPLEMENT_DISCOVERY_ONLY","meaning":"A special or other supplement remains discovery-only without an item-specific accepted authority rule.","processing_outcome":"PASS"},
+  {"code":"HKLEG_CURRENT_PUBLICATION_EVIDENCE_INCOMPLETE","meaning":"Complete authentic artifact, issue, number, publication date, or required enabling authority evidence is unavailable.","processing_outcome":"BLOCK"},
+  {"code":"HKLEG_CURRENT_PUBLICATION_BILINGUAL_EVIDENCE_INCOMPLETE","meaning":"A full-text publication class lacks complete authentic English and Traditional Chinese material.","processing_outcome":"BLOCK"},
+  {"code":"HKLEG_CURRENT_PUBLICATION_SOURCE_CLASS_CONFLICT","meaning":"The asserted publication fact is not legally available from the exact Gazette material class.","processing_outcome":"QUARANTINE"},
+  {"code":"HKLEG_CURRENT_PUBLICATION_AFTER_CUTOFF","meaning":"The claimed publication occurred after the frozen observation cutoff.","processing_outcome":"BLOCK"},
+  {"code":"HKLEG_CURRENT_PUBLICATION_EVIDENCE_CONFLICT","meaning":"Source authority, authenticity, artifact, issue, or publication evidence conflicts.","processing_outcome":"QUARANTINE"}
+]}

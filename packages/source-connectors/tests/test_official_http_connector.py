@@ -9,9 +9,12 @@ from asklegal_source_connectors import (
     OfficialFetchCode,
     OfficialFetchRequest,
     OfficialHttpConnector,
+    OfficialObservationGate,
     OfficialTransportFailure,
     OfficialTransportResponse,
+    PolicyBoundOfficialHttpTransport,
     load_hk_legislation_source_register,
+    official_observation_profile,
 )
 
 
@@ -40,6 +43,47 @@ class FakeTransport:
         if self.response is None:
             raise AssertionError
         return self.response
+
+
+@dataclass(slots=True)
+class FakeClock:
+    """Deterministic monotonic clock and sleeper for polite-rate proof."""
+
+    now: float = 0.0
+    sleeps: list[float] | None = None
+
+    def monotonic(self) -> float:
+        """Return the deterministic current time."""
+        return self.now
+
+    def sleep(self, seconds: float) -> None:
+        """Advance time while recording the exact requested delay."""
+        if self.sleeps is None:
+            self.sleeps = []
+        self.sleeps.append(seconds)
+        self.now += seconds
+
+
+@dataclass(slots=True)
+class SequenceTransport:
+    """Return a bounded sequence of inert replies and record exact timeouts."""
+
+    responses: list[OfficialTransportResponse]
+    timeouts: list[int] | None = None
+
+    def request(
+        self,
+        *,
+        endpoint: OfficialEndpointContract,
+        method: HttpMethod,
+        timeout_seconds: int,
+    ) -> OfficialTransportResponse:
+        """Return the next reply under the exact supplied timeout."""
+        del endpoint, method
+        if self.timeouts is None:
+            self.timeouts = []
+        self.timeouts.append(timeout_seconds)
+        return self.responses.pop(0)
 
 
 def _endpoint(suffix: str) -> OfficialEndpointContract:
@@ -146,9 +190,41 @@ def test_redirect_media_and_status_drift_return_source_contract_changed() -> Non
 
     connector = OfficialHttpConnector(
         load_hk_legislation_source_register(),
-        FakeTransport(replace(original, status_code=503)),
+        FakeTransport(replace(original, status_code=404)),
     )
     assert connector.fetch(_request(endpoint)).code is OfficialFetchCode.SOURCE_CONTRACT_CHANGED
+
+    connector = OfficialHttpConnector(
+        load_hk_legislation_source_register(),
+        FakeTransport(replace(original, status_code=503)),
+    )
+    unavailable = connector.fetch(_request(endpoint))
+    assert unavailable.code is OfficialFetchCode.SOURCE_UNAVAILABLE
+    assert unavailable.transport_response is None
+
+
+def test_policy_bound_transport_enforces_timeout_rate_and_transient_retry() -> None:
+    """One source profile serially retries 429 and paces the next observation."""
+    register = load_hk_legislation_source_register()
+    endpoint = _endpoint("hkel_list_c_all_en.xml")
+    profile = official_observation_profile(register, endpoint.source_id)
+    throttled = replace(_response(endpoint), status_code=429)
+    transport = SequenceTransport([throttled, _response(endpoint), _response(endpoint)])
+    clock = FakeClock()
+    gate = OfficialObservationGate(monotonic=clock.monotonic, sleep=clock.sleep)
+    connector = OfficialHttpConnector(
+        register,
+        PolicyBoundOfficialHttpTransport(register, transport, gate),
+    )
+    request = replace(_request(endpoint), timeout_seconds=profile.timeout_seconds)
+
+    first = connector.fetch(request)
+    second = connector.fetch(request)
+
+    assert first.code is OfficialFetchCode.CAPTURED
+    assert second.code is OfficialFetchCode.CAPTURED
+    assert transport.timeouts == [45, 45, 45]
+    assert clock.sleeps == [20.0, 1.0]
 
 
 def test_active_xml_truncation_and_transport_failure_fail_closed() -> None:

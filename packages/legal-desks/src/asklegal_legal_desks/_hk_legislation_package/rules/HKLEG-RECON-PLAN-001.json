@@ -1,0 +1,11 @@
+{
+  "rule_id": "HKLEG-RECON-PLAN-001",
+  "version": "1.0.0",
+  "stage": "DETERMINISTIC_RECONSTRUCTION_PLAN_VALIDATION",
+  "input_authority": "EXACT_UNTRUSTED_SEMANTIC_CANDIDATE_AND_ACCEPTED_LEGAL_DESK_DECISION",
+  "plan_contract": "asklegal://contracts/hk-legislation/reconstruction-plan/1.0.0",
+  "operation_registry": "HKRECON-OP-001_THROUGH_008_ONLY",
+  "validated_output": "EXACT_PLAN_REFERENCE_ONLY",
+  "operation_execution": "NONE",
+  "provider_rule": "NO_PROVIDER_CALL_OR_PROFILE_ADMISSION_IN_THIS_RULE"
+}

@@ -62,7 +62,7 @@ class ManifestSnapshot:
     expected_base_serving_state_id: str
     valid_from: str
     valid_until: str
-    validity_predicates: tuple[tuple[str, str], ...]
+    validity_predicates: tuple[tuple[str, str, str], ...]
 
 
 @dataclass(frozen=True, slots=True)
@@ -122,7 +122,7 @@ class ApprovalConsumption:
     """Current facts checked while consuming one exact Approval."""
 
     current_base_serving_state_id: str
-    current_predicates: tuple[tuple[str, str], ...]
+    current_predicates: tuple[tuple[str, str, str], ...]
     at: str
 
 

@@ -1,0 +1,33 @@
+{
+  "fixture_id": "HKLEG-RECON-PLAN-SEM-FIX-002",
+  "rule_id": "HKLEG-RECON-PLAN-SEMANTIC-001",
+  "processing_outcome": "BLOCK",
+  "legal_disposition": "NOT_APPLICABLE",
+  "coverage_effect": "COVERAGE_GAP",
+  "source_contract_review_required": false,
+  "reason_codes": [
+    "HKLEG_RECON_PLAN_SEMANTIC_PROFILE_NOT_ADMITTED"
+  ],
+  "rule_trace": [
+    "HKLEG-RECON-PLAN-SEMANTIC-001"
+  ],
+  "decision_task": "RECONSTRUCTION_PLAN_DECISION",
+  "challenge_task": "RECONSTRUCTION_PLAN_CHALLENGE",
+  "candidate_output": "NONE",
+  "challenge_outcome": "CONFIRMED",
+  "evidence_bundle_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "operation_registry_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "plan_contract_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+  "decision_profile_fingerprint": null,
+  "challenge_profile_fingerprint": null,
+  "decision_result_fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+  "challenge_result_fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+  "candidate_mapping_fingerprint": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+  "deterministic_precheck_result": "NOT_PERFORMED",
+  "executable_plan_output": "NONE",
+  "reconstructed_text_output": "NONE",
+  "operation_execution": "NONE",
+  "record_output": "NONE",
+  "external_effects": "NONE",
+  "next_action": "ADMIT_RECONSTRUCTION_PLAN_TASK_PROFILES"
+}

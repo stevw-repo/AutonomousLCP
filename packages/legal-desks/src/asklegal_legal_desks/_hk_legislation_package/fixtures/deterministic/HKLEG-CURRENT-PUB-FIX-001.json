@@ -1,0 +1,33 @@
+{
+  "fixture_id": "HKLEG-CURRENT-PUB-FIX-001",
+  "title": "Ordinary Legal Supplement No. 1 proves Ordinance enactment and publication",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:4d5522eae9c3c2d85edd8851d16b2375a91d42756df8ee74925b12fa58d2c6a5",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "source_id": "HK-LEG-GLD-EGAZETTE",
+    "gazette_issue_kind": "ORDINARY",
+    "gazette_material_class": "LEGAL_SUPPLEMENT_1",
+    "publication_claim": "ORDINANCE_ENACTMENT",
+    "subject_reference": "hkleg.synthetic.publication-001",
+    "issue_id": "gazette-2026-31",
+    "supplement_or_notice_id": "ls1-2026-31",
+    "instrument_or_notice_number": "Ordinance 1 of 2026",
+    "publication_date": "2026-08-01T00:00:00Z",
+    "artifact_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "source_metadata_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "english_material_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "traditional_chinese_material_fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "enabling_authority_fingerprint": null,
+    "evidence_complete": true,
+    "evidence_authentic": true,
+    "evidence_conflicts": false,
+    "bilingual_material_complete": true,
+    "claim_matches_material_class": true
+  },
+  "expected_artifact": {
+    "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-001.json",
+    "fingerprint": "sha256:1ee5c5d9ffc2a6138b199ebd4a9d7e4f43b4d005fb6e99b43ca9f61f5cf625dd"
+  }
+}

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import replace
+from pathlib import Path
 from types import SimpleNamespace
 from typing import TYPE_CHECKING
 
@@ -10,13 +11,20 @@ import asklegal_acquisition_worker.v1_pipeline as pipeline
 import pytest
 from asklegal_acquisition_worker.v1_infrastructure import V1AcquisitionInfrastructure
 from asklegal_application_runtime import CredentialMaterial
+from asklegal_contracts.json_types import JsonValue, checked_json_value
 from asklegal_domain import (
     SourceCoverageDisposition,
     SourceCoverageOutcomeCode,
     SourceOutageImpact,
 )
 from asklegal_durable_task import ActivityContext
-from asklegal_evidence_vault import VaultName
+from asklegal_evidence_vault import (
+    ExactObjectReference,
+    LocalImmutableVault,
+    RetentionProfile,
+    VaultName,
+    VaultWriteReceipt,
+)
 from asklegal_source_connectors import (
     GazetteEntry,
     GazetteRegisterError,
@@ -26,6 +34,8 @@ from asklegal_source_connectors import (
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
+
+type JsonObject = dict[str, JsonValue]
 
 
 _ENTRY = GazetteEntry(
@@ -61,6 +71,31 @@ class _Vault:
         )
 
 
+class _LostAcknowledgementVault:
+    """Commit one exact object, then lose only its first acknowledgement."""
+
+    def __init__(self, root: Path) -> None:
+        self._inner = LocalImmutableVault(root, VaultName.PRIMARY)
+        self.vault_name = VaultName.PRIMARY
+        self._lose_next_acknowledgement = True
+
+    def conditional_create(
+        self,
+        logical_key: str,
+        content: bytes,
+        retention: RetentionProfile,
+    ) -> VaultWriteReceipt:
+        receipt = self._inner.conditional_create(logical_key, content, retention)
+        if self._lose_next_acknowledgement:
+            self._lose_next_acknowledgement = False
+            message = "synthetic lost vault acknowledgement"
+            raise RuntimeError(message)
+        return receipt
+
+    def read_exact(self, reference: ExactObjectReference) -> bytes:
+        return self._inner.read_exact(reference)
+
+
 def _activities() -> pipeline.AcquisitionActivities:
     infrastructure = V1AcquisitionInfrastructure.__new__(V1AcquisitionInfrastructure)
     object.__setattr__(
@@ -76,14 +111,32 @@ def _context() -> ActivityContext:
     return ActivityContext("gazette-test", 1)
 
 
+def _object(value: JsonValue) -> JsonObject:
+    assert isinstance(value, dict)
+    return value
+
+
+def _objects(value: JsonValue) -> list[JsonObject]:
+    assert isinstance(value, list)
+    return [_object(item) for item in value]
+
+
+def _result(value: object) -> JsonObject:
+    return _object(checked_json_value(value))
+
+
+def _text(value: JsonValue) -> str:
+    assert isinstance(value, str)
+    return value
+
+
 def _assert_hkel_coverage(
-    result: dict[str, object],
+    result: JsonObject,
     *,
     outcome: SourceCoverageOutcomeCode,
     disposition: SourceCoverageDisposition,
 ) -> None:
-    coverage = result["coverage_report"]
-    assert isinstance(coverage, dict)
+    coverage = _object(result["coverage_report"])
     assert result["source_id"] == "HK-LEG-HKEL-GAZETTE-BACKCAPTURE"
     assert result["source_version"] == "1.1.0"
     assert coverage["outcome"] == outcome.value
@@ -91,15 +144,15 @@ def _assert_hkel_coverage(
     assert coverage["outage_impact"] == SourceOutageImpact.NONBLOCKING.value
     assert coverage["release_blocking"] is False
     assert coverage["affected_work_blocking"] is False
-    assert str(coverage["logical_key"]).startswith(
+    assert _text(coverage["logical_key"]).startswith(
         "poc/report/source-coverage/hk-leg-hkel-gazette-backcapture/"
     )
-    assert str(coverage["fingerprint"]).startswith("sha256:")
+    assert _text(coverage["fingerprint"]).startswith("sha256:")
     assert coverage["read_back_verified"] is True
 
 
 class _IncompleteClient:
-    def __init__(self, _transport: object) -> None:
+    def __init__(self, _transport: object, **_kwargs: object) -> None:
         pass
 
     def open_session(self) -> str:
@@ -147,12 +200,13 @@ def test_incomplete_window_is_a_durable_result_not_a_generic_task_failure(
     """Incomplete enumeration is checkpointed with an exact closed code."""
     monkeypatch.setattr(pipeline, "HkelGazetteRegisterClient", _IncompleteClient)
 
-    result = _activities().capture_gazette_window(
-        _context(),
-        {"date_from": "01/01/2026", "date_to": "31/01/2026", "language": "en"},
+    result = _result(
+        _activities().capture_gazette_window(
+            _context(),
+            {"date_from": "01/01/2026", "date_to": "31/01/2026", "language": "en"},
+        )
     )
 
-    assert isinstance(result, dict)
     assert result["code"] == pipeline.GazetteWindowOutcomeCode.INCOMPLETE_OBSERVATION.value
     assert result["failure_code"] == GazetteRegisterFailureCode.INCOMPLETE_OBSERVATION.value
     assert result["listing_manifest"] is None
@@ -165,7 +219,7 @@ def test_incomplete_window_is_a_durable_result_not_a_generic_task_failure(
 
 
 class _CompleteClient:
-    def __init__(self, _transport: object) -> None:
+    def __init__(self, _transport: object, **_kwargs: object) -> None:
         pass
 
     def open_session(self) -> str:
@@ -200,17 +254,18 @@ def test_not_published_is_distinct_and_does_not_make_the_listing_incomplete(
     """A publisher-declared absent language is a fact, not outage or drift."""
     monkeypatch.setattr(pipeline, "HkelGazetteRegisterClient", _NotPublishedClient)
 
-    result = _activities().capture_gazette_window(
-        _context(),
-        {"date_from": "01/01/2026", "date_to": "31/01/2026", "language": "en"},
+    result = _result(
+        _activities().capture_gazette_window(
+            _context(),
+            {"date_from": "01/01/2026", "date_to": "31/01/2026", "language": "en"},
+        )
     )
 
-    assert isinstance(result, dict)
     assert result["code"] == pipeline.GazetteWindowOutcomeCode.PARTIAL_CAPTURE.value
     assert result["listing_manifest"] is not None
     assert result["not_published"] == 1
     assert result["failed"] == 0
-    assert result["artifact_outcomes"][0]["code"] == (
+    assert _objects(result["artifact_outcomes"])[0]["code"] == (
         pipeline.GazetteArtifactOutcomeCode.NOT_PUBLISHED.value
     )
     _assert_hkel_coverage(
@@ -238,12 +293,13 @@ def test_out_of_contract_publisher_locator_is_durable_contract_drift(
     activities = _activities()
     monkeypatch.setattr(activities, "_transport", _Transport())
 
-    result = activities.capture_gazette_window(
-        _context(),
-        {"date_from": "01/01/2026", "date_to": "31/01/2026", "language": "en"},
+    result = _result(
+        activities.capture_gazette_window(
+            _context(),
+            {"date_from": "01/01/2026", "date_to": "31/01/2026", "language": "en"},
+        )
     )
 
-    assert isinstance(result, dict)
     assert result["code"] == pipeline.GazetteWindowOutcomeCode.PARTIAL_CAPTURE.value
     assert result["artifact_outcomes"] == [
         {
@@ -283,17 +339,18 @@ def test_retained_artifact_produces_one_complete_window(
     activities = _activities()
     monkeypatch.setattr(activities, "_transport", _Transport())
 
-    result = activities.capture_gazette_window(
-        _context(),
-        {"date_from": "01/01/2026", "date_to": "31/01/2026", "language": "en"},
+    result = _result(
+        activities.capture_gazette_window(
+            _context(),
+            {"date_from": "01/01/2026", "date_to": "31/01/2026", "language": "en"},
+        )
     )
 
-    assert isinstance(result, dict)
     assert result["code"] == pipeline.GazetteWindowOutcomeCode.COMPLETE.value
     assert result["retained"] == 1
     assert result["failed"] == 0
     assert result["not_published"] == 0
-    assert result["artifact_outcomes"][0]["code"] == (
+    assert _objects(result["artifact_outcomes"])[0]["code"] == (
         pipeline.GazetteArtifactOutcomeCode.RETAINED.value
     )
     _assert_hkel_coverage(
@@ -301,6 +358,54 @@ def test_retained_artifact_produces_one_complete_window(
         outcome=SourceCoverageOutcomeCode.COMPLETE,
         disposition=SourceCoverageDisposition.COMPLETE,
     )
+
+
+def test_restart_after_lost_artifact_acknowledgement_adopts_every_manifest(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    """A replay adopts the committed artifact and completes manifest-last accounting."""
+
+    class _Connector:
+        def __init__(self, *_args: object, **_kwargs: object) -> None:
+            pass
+
+        def fetch(self, _request: object) -> SimpleNamespace:
+            return SimpleNamespace(
+                code=OfficialFetchCode.CAPTURED,
+                failure_code=None,
+                fingerprint=f"sha256:{'b' * 64}",
+                classification=SimpleNamespace(admitted=True),
+                body=b"%PDF-1.4 restart-safe",
+            )
+
+    monkeypatch.setattr(pipeline, "HkelGazetteRegisterClient", _CompleteClient)
+    monkeypatch.setattr(pipeline, "OfficialHttpConnector", _Connector)
+    activities = _activities()
+    object.__setattr__(activities, "_transport", _Transport())
+    object.__setattr__(activities, "_vault", _LostAcknowledgementVault(tmp_path / "primary"))
+    payload = {"date_from": "01/01/2026", "date_to": "31/01/2026", "language": "en"}
+
+    with pytest.raises(RuntimeError, match="lost vault acknowledgement"):
+        activities.capture_gazette_window(_context(), payload)
+
+    restarted = _result(activities.capture_gazette_window(_context(), payload))
+    assert restarted["code"] == pipeline.GazetteWindowOutcomeCode.COMPLETE.value
+    restarted_artifacts = _objects(restarted["artifacts"])
+    restarted_manifest = _object(restarted["listing_manifest"])
+    restarted_coverage = _object(restarted["coverage_report"])
+    restarted_artifact = restarted_artifacts[0]
+    assert restarted_artifact["created"] is False
+    assert restarted_manifest["created"] is True
+    assert restarted_coverage["created"] is True
+
+    replayed = _result(activities.capture_gazette_window(_context(), payload))
+    replayed_artifacts = _objects(replayed["artifacts"])
+    replayed_manifest = _object(replayed["listing_manifest"])
+    replayed_coverage = _object(replayed["coverage_report"])
+    assert replayed_artifacts[0]["created"] is False
+    assert replayed_manifest["created"] is False
+    assert replayed_coverage["created"] is False
 
 
 @pytest.mark.parametrize(
@@ -347,12 +452,13 @@ def test_artifact_failures_remain_distinct_in_the_durable_window_result(
     activities = _activities()
     monkeypatch.setattr(activities, "_transport", _Transport())
 
-    result = activities.capture_gazette_window(
-        _context(),
-        {"date_from": "01/01/2026", "date_to": "31/01/2026", "language": "en"},
+    result = _result(
+        activities.capture_gazette_window(
+            _context(),
+            {"date_from": "01/01/2026", "date_to": "31/01/2026", "language": "en"},
+        )
     )
 
-    assert isinstance(result, dict)
     assert result["code"] == pipeline.GazetteWindowOutcomeCode.PARTIAL_CAPTURE.value
     assert result["failed"] == 1
     assert result["artifact_outcomes"] == [

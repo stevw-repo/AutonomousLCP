@@ -109,12 +109,16 @@ source = { editable = "packages/application-runtime" }
 dependencies = [
     { name = "asklegal-contracts" },
     { name = "asklegal-domain" },
+    { name = "cryptography" },
+    { name = "pyjwt", extra = ["crypto"] },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "asklegal-contracts", editable = "packages/contracts" },
     { name = "asklegal-domain", editable = "packages/domain" },
+    { name = "cryptography", specifier = ">=50,<51" },
+    { name = "pyjwt", extras = ["crypto"], specifier = ">=2.13,<3" },
 ]
 
 [[package]]

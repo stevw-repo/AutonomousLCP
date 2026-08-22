@@ -26,6 +26,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+from typing import cast
 
 OUTPUT_ROOT = Path("infrastructure/poc/units")
 RUNTIME_COMMANDS_PATH = Path("infrastructure/poc/service_runtime_commands.json")
@@ -46,23 +47,44 @@ class UnitRenderError(RuntimeError):
 
 def _read(root: Path, path: Path) -> dict[str, object]:
     value = json.loads((root / path).read_bytes())
-    if not isinstance(value, dict):
+    result = _string_object(value)
+    if result is None:
         message = f"unit input root: {path}"
         raise UnitRenderError(message)
-    return value
+    return result
+
+
+def _string_object(value: object) -> dict[str, object] | None:
+    if not isinstance(value, dict):
+        return None
+    candidate = cast("dict[object, object]", value)
+    if not all(type(key) is str for key in candidate):
+        return None
+    return cast("dict[str, object]", candidate)
 
 
 def _objects(value: object) -> list[dict[str, object]]:
     if not isinstance(value, list):
         message = "unit object list"
         raise UnitRenderError(message)
-    return [item for item in value if isinstance(item, dict)]
+    result: list[dict[str, object]] = []
+    for item in cast("list[object]", value):
+        candidate = _string_object(item)
+        if candidate is None:
+            message = "unit object list member"
+            raise UnitRenderError(message)
+        result.append(candidate)
+    return result
 
 
 def _strings(value: object) -> list[str]:
     if not isinstance(value, list):
         return []
-    return [str(item) for item in value]
+    candidate = cast("list[object]", value)
+    if not all(type(item) is str for item in candidate):
+        message = "unit string list member"
+        raise UnitRenderError(message)
+    return cast("list[str]", candidate)
 
 
 def _quote(value: str) -> str:
@@ -155,8 +177,12 @@ def _credential_preamble(service: dict[str, object]) -> list[str]:
             f'"$CREDENTIALS_DIRECTORY"/{name} "$credential_dir"/{name}'
             for name in _strings(service.get("credential_names"))
         )
-        return [*body, 'chown "$runtime_uid":"$runtime_uid" "$credential_dir"',
-                'chmod 0500 "$credential_dir"', ""]
+        return [
+            *body,
+            'chown "$runtime_uid":"$runtime_uid" "$credential_dir"',
+            'chmod 0500 "$credential_dir"',
+            "",
+        ]
     if delivery == "ENVIRONMENT_FROM_LOADED_CREDENTIAL":
         body = [
             "# The secret reaches the container through the environment, never through",

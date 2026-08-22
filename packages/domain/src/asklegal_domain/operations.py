@@ -648,9 +648,7 @@ class EffectIntent:
         )
         if type(self.destination_class) is not DestinationClass:
             _raise_type("destination_class must be a DestinationClass member")
-        allowed_owners, required_capability, destination_class = _EFFECT_BINDINGS[
-            self.effect_type
-        ]
+        allowed_owners, required_capability, destination_class = _EFFECT_BINDINGS[self.effect_type]
         if self.owning_application not in allowed_owners:
             _raise_invariant("effect_type has the wrong owning_application")
         if self.required_capability is not required_capability:

@@ -196,6 +196,17 @@ def test_full_periodic_cycle_accounts_every_due_source_and_blocks_known_gaps(
     assert isinstance(source_reports, list)
     assert len(source_reports) == 5
 
+    replayed = _object(
+        checked_json_value(
+            activities.assemble_source_cycle(
+                _context(),
+                _assemble_payload(plan, references),
+            )
+        )
+    )
+    assert replayed["created"] is False
+    assert replayed["coverage_status_binding"] == cycle["coverage_status_binding"]
+
 
 def test_missing_release_required_report_remains_visible_and_release_blocking(
     tmp_path: Path,

@@ -3,6 +3,7 @@
 import json
 from copy import deepcopy
 from pathlib import Path
+from typing import cast
 
 import pytest
 
@@ -20,19 +21,28 @@ _STATIC_GATE_FAILED = "STATIC_GATE_FAILED"
 
 
 def _policy() -> dict[str, object]:
-    value = json.loads((REPOSITORY_ROOT / ADMISSION_POLICY_PATH).read_bytes())
+    value: object = json.loads((REPOSITORY_ROOT / ADMISSION_POLICY_PATH).read_bytes())
+    return _object_map(value)
+
+
+def _object_map(value: object) -> dict[str, object]:
     assert isinstance(value, dict)
-    return value
+    candidate = cast("dict[object, object]", value)
+    assert all(type(key) is str for key in candidate)
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object]:
+    assert isinstance(value, list)
+    return cast("list[object]", value)
 
 
 def _component(policy: dict[str, object], component_id: str) -> dict[str, object]:
-    components = policy["components"]
-    assert isinstance(components, list)
-    return next(
-        item
-        for item in components
-        if isinstance(item, dict) and item.get("component_id") == component_id
-    )
+    for raw_item in _object_list(policy["components"]):
+        item = _object_map(raw_item)
+        if item.get("component_id") == component_id:
+            return item
+    raise AssertionError(component_id)
 
 
 def _codes(policy: dict[str, object]) -> set[V1AdmissionCode]:
@@ -69,8 +79,7 @@ def test_document_admission_or_status_drift_fails_closed(
 def test_authority_expansion_fails_closed() -> None:
     """Keep host, image, credential, service, and external authority false."""
     policy = deepcopy(_policy())
-    authority = policy["authority"]
-    assert isinstance(authority, dict)
+    authority = _object_map(policy["authority"])
     authority["image_pull_authorized"] = True
     assert V1AdmissionCode.AUTHORITY in _codes(policy)
 
@@ -103,8 +112,7 @@ def test_missing_evidence_file_fails_closed() -> None:
 def test_missing_or_reordered_component_fails_closed() -> None:
     """Require all fourteen admission components in their frozen order."""
     policy = deepcopy(_policy())
-    components = policy["components"]
-    assert isinstance(components, list)
+    components = _object_list(policy["components"])
     components[0], components[1] = components[1], components[0]
     assert V1AdmissionCode.COMPONENT in _codes(policy)
 

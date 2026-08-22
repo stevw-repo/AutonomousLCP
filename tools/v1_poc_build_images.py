@@ -17,6 +17,7 @@ import shutil
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
+from typing import cast
 
 IMAGE_POLICY_PATH = Path("infrastructure/poc/application_image_inputs.json")
 IDENTITY_POLICY_PATH = Path("infrastructure/poc/host_identity_inputs.json")
@@ -46,11 +47,27 @@ class BuiltImage:
 
 
 def _read_object(path: Path) -> dict[str, object]:
-    value = json.loads(path.read_bytes())
-    if not isinstance(value, dict):
+    value: object = json.loads(path.read_bytes())
+    document = _string_object(value)
+    if document is None:
         message = f"image build document root: {path}"
         raise ImageBuildError(message)
-    return value
+    return document
+
+
+def _string_object(value: object) -> dict[str, object] | None:
+    if not isinstance(value, dict):
+        return None
+    candidate = cast("dict[object, object]", value)
+    if not all(type(key) is str for key in candidate):
+        return None
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object] | None:
+    if not isinstance(value, list):
+        return None
+    return cast("list[object]", value)
 
 
 def build_workspace_wheels(root: Path) -> int:
@@ -87,11 +104,13 @@ def build_workspace_wheels(root: Path) -> int:
 
 def _runtime_uid(identities: dict[str, object], service_id: str) -> int:
     entries = identities.get("container_identity_map")
-    if not isinstance(entries, list):
+    entry_items = _object_list(entries)
+    if entry_items is None:
         message = "container identity map missing"
         raise ImageBuildError(message)
-    for entry in entries:
-        if isinstance(entry, dict) and entry.get("service_id") == service_id:
+    for raw_entry in entry_items:
+        entry = _string_object(raw_entry)
+        if entry is not None and entry.get("service_id") == service_id:
             uid = entry.get("runtime_uid")
             if type(uid) is int:
                 return uid
@@ -101,9 +120,9 @@ def _runtime_uid(identities: dict[str, object], service_id: str) -> int:
 
 def prepare_context(root: Path, image: dict[str, object]) -> Path:
     """Assemble the exact, minimal build context for one application."""
-    distribution = str(image["distribution"])
-    closure = image["workspace_distribution_closure"]
-    if not isinstance(closure, list):
+    distribution = image["distribution"]
+    closure = _object_list(image["workspace_distribution_closure"])
+    if type(distribution) is not str or closure is None:
         message = f"workspace closure for {distribution}"
         raise ImageBuildError(message)
     context = root / _BUILD_ROOT / distribution
@@ -123,7 +142,10 @@ def prepare_context(root: Path, image: dict[str, object]) -> Path:
         path.name.split("-")[0]: path for path in (root / WORKSPACE_WHEELS_PATH).glob("*.whl")
     }
     for member in closure:
-        key = str(member).replace("-", "_")
+        if type(member) is not str:
+            message = f"invalid workspace wheel member: {distribution}"
+            raise ImageBuildError(message)
+        key = member.replace("-", "_")
         wheel = available.get(key)
         if wheel is None:
             message = f"missing workspace wheel: {member}"
@@ -184,20 +206,22 @@ def build_all(root: Path, tag_suffix: str) -> tuple[BuiltImage, ...]:
     build_workspace_wheels(root)
     policy = _read_object(root / IMAGE_POLICY_PATH)
     identities = _read_object(root / IDENTITY_POLICY_PATH)
-    base = policy["base_image"]
-    if not isinstance(base, dict):
+    base = _string_object(policy["base_image"])
+    if base is None:
         message = "base image block"
         raise ImageBuildError(message)
-    base_image = str(base["artifact_ref"])
-    images = policy["images"]
-    if not isinstance(images, list):
+    base_image = base["artifact_ref"]
+    images = _object_list(policy["images"])
+    if type(base_image) is not str or images is None:
         message = "image inventory"
         raise ImageBuildError(message)
     built: list[BuiltImage] = []
-    for image in images:
-        if not isinstance(image, dict):
-            continue
-        artifact_id = str(image["artifact_id"])
+    for raw_image in images:
+        image = _string_object(raw_image)
+        if image is None or type(image.get("artifact_id")) is not str:
+            message = "invalid image inventory entry"
+            raise ImageBuildError(message)
+        artifact_id = cast("str", image["artifact_id"])
         tag = f"asklegal/{artifact_id}:{tag_suffix}"
         uid = _runtime_uid(identities, artifact_id)
         built.append(BuiltImage(artifact_id, tag, build_image(root, image, base_image, uid, tag)))

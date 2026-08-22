@@ -1,0 +1,43 @@
+{
+  "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-004",
+  "title": "Partial operative amendment creates an exact-location consolidation gap",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:2caa97fb0c7cb3dda1ebb68ca813209e23a511233351f034150af0128fd0dd19",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "affected_object_id": "hkleg.synthetic.principal-004",
+    "source_event_object_id": "hkleg.synthetic.amending-004",
+    "event_type": "AMENDMENT",
+    "cause_source_id": "HK-LEG-GLD-EGAZETTE",
+    "publication_date": "2026-07-25T00:00:00Z",
+    "effective_date": "2026-08-01T00:00:00Z",
+    "event_instrument_fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+    "event_evidence_fingerprints": [
+      "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "operation_set_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "operation_mapping_complete": true,
+    "bilingual_operations_aligned": true,
+    "event_operative_at_cutoff": true,
+    "all_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "affected_location_ids": [
+      "section-2"
+    ],
+    "affected_location_scope": "EXACT_LOCATIONS",
+    "matching_resulting_hkel_bundle_available": false,
+    "resulting_bundle_reflects_event": false,
+    "prior_event_history_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "expected_artifact": {
+    "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-004.json",
+    "fingerprint": "sha256:c4ce99c010ba2b2679305d4545eadc70b0a7375164dfa128779d734abfc0882c"
+  }
+}

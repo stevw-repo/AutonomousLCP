@@ -1,0 +1,39 @@
+{
+  "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-007",
+  "title": "Future whole-instrument expiry preserves current state",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:ce4fff97386aa46fb9fe54e090afddf3b535039539ee745a0777cf079f8141d8",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_4708261daa351aa91a1511674b94bced0a9c2eaa817770ea",
+    "object_id": "hkleg.synthetic.cessation-007",
+    "event_type": "EXPIRY",
+    "operative_provision_fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+    "event_evidence_fingerprints": [
+      "sha256:0707070707070707070707070707070707070707070707070707070707070707"
+    ],
+    "prior_event_history_fingerprint": "sha256:abababababababababababababababababababababababababababababababab",
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "controlling_notice_state": "NOT_APPLICABLE",
+    "effective_date": "2026-10-01T00:00:00Z",
+    "revival_continuity_proved": false,
+    "all_location_ids": [
+      "whole-instrument"
+    ],
+    "affected_location_ids": [
+      "whole-instrument"
+    ],
+    "pre_event_operative_location_ids": [
+      "whole-instrument"
+    ],
+    "pre_event_ceased_location_ids": [],
+    "affected_location_scope": "WHOLE_INSTRUMENT"
+  },
+  "expected_artifact": {
+    "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-007.json",
+    "fingerprint": "sha256:c598716a25be559232dabb5da3411001431c981abec6626afa119aaa44daf112"
+  }
+}

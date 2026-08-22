@@ -4,11 +4,14 @@ from __future__ import annotations
 
 import re
 import ssl
+import threading
+import time
+from collections.abc import Callable
 from dataclasses import dataclass, field, replace
 from enum import StrEnum
 from hashlib import sha256
 from http.client import HTTPResponse, HTTPSConnection
-from typing import Protocol
+from typing import Protocol, Self
 from urllib.parse import urlsplit
 
 from asklegal_evidence_vault import HostileClassification
@@ -22,6 +25,7 @@ from .official import (
     SignalUse,
 )
 from .official_binding import bind_official_endpoint_locator
+from .official_monitoring import OfficialObservationProfile, official_observation_profile
 
 _SHA256 = re.compile(r"^sha256:[0-9a-f]{64}$")
 
@@ -115,6 +119,97 @@ class OfficialHttpTransport(Protocol):
 
 class OfficialTransportFailure(RuntimeError):
     """Closed transport failure with no ambient exception detail."""
+
+
+class OfficialObservationGate:
+    """Serialize and pace one source while applying its bounded retry profile."""
+
+    def __init__(
+        self,
+        *,
+        monotonic: Callable[[], float] = time.monotonic,
+        sleep: Callable[[float], None] = time.sleep,
+    ) -> None:
+        """Create one gate with injectable deterministic timing boundaries."""
+        self._monotonic = monotonic
+        self._sleep = sleep
+        self._state_lock = threading.Lock()
+        self._source_locks: dict[str, threading.Lock] = {}
+        self._next_start: dict[str, float] = {}
+
+    def execute(
+        self,
+        profile: OfficialObservationProfile,
+        operation: Callable[[], OfficialTransportResponse],
+    ) -> OfficialTransportResponse:
+        """Run one request serially and retry only closed transient outcomes."""
+        if type(profile) is not OfficialObservationProfile:
+            raise TypeError("profile must be an exact OfficialObservationProfile")
+        with self._state_lock:
+            source_lock = self._source_locks.setdefault(profile.source_id, threading.Lock())
+        with source_lock:
+            last_failure: OfficialTransportFailure | None = None
+            for attempt_index in range(profile.attempt_ceiling):
+                now = self._monotonic()
+                delay = max(0.0, self._next_start.get(profile.source_id, now) - now)
+                if attempt_index > 0:
+                    delay = max(delay, float(profile.backoff_seconds[attempt_index - 1]))
+                if delay:
+                    self._sleep(delay)
+                started = self._monotonic()
+                self._next_start[profile.source_id] = started + profile.minimum_interval_seconds
+                try:
+                    response = operation()
+                except OfficialTransportFailure as error:
+                    last_failure = error
+                    if attempt_index + 1 == profile.attempt_ceiling:
+                        raise
+                    continue
+                if (
+                    response.status_code not in profile.retryable_http_statuses
+                    or attempt_index + 1 == profile.attempt_ceiling
+                ):
+                    return response
+            if last_failure is not None:
+                raise last_failure
+        raise AssertionError("bounded observation exhausted without a terminal result")
+
+
+class PolicyBoundOfficialHttpTransport:
+    """Apply active source-specific timeout, serialization, rate, and retry policy."""
+
+    def __init__(
+        self,
+        register: HongKongLegislationSourceRegister,
+        transport: OfficialHttpTransport,
+        gate: OfficialObservationGate | None = None,
+    ) -> None:
+        """Bind one raw inert transport to the active official-source policies."""
+        if type(register) is not HongKongLegislationSourceRegister:
+            raise TypeError("register must be an exact HongKongLegislationSourceRegister")
+        self._register = register
+        self._transport = transport
+        self._gate = gate or OfficialObservationGate()
+
+    def request(
+        self,
+        *,
+        endpoint: OfficialEndpointContract,
+        method: HttpMethod,
+        timeout_seconds: int,
+    ) -> OfficialTransportResponse:
+        """Run one exact endpoint call under its source-owned observation profile."""
+        profile = official_observation_profile(self._register, endpoint.source_id)
+        if timeout_seconds != profile.timeout_seconds:
+            raise ValueError("request timeout drifted from the active source profile")
+        return self._gate.execute(
+            profile,
+            lambda: self._transport.request(
+                endpoint=endpoint,
+                method=method,
+                timeout_seconds=profile.timeout_seconds,
+            ),
+        )
 
 
 @dataclass(frozen=True, slots=True)
@@ -218,6 +313,14 @@ class OfficialHttpConnector:
                 source.source_id,
                 endpoint,
                 "BOUNDED_TRANSPORT_FAILURE",
+            )
+        profile = official_observation_profile(self.register, source.source_id)
+        if response.status_code in profile.retryable_http_statuses:
+            return _failure(
+                OfficialFetchCode.SOURCE_UNAVAILABLE,
+                source.source_id,
+                endpoint,
+                "TRANSIENT_HTTP_STATUS_EXHAUSTED",
             )
         if response.status_code != 200 or response.final_url != endpoint.url:
             return _failure(
@@ -372,9 +475,9 @@ class ProxiedOfficialHttpTransport:
         self._max_redirects = max_redirects
         self._session_cookies = dict(session_cookies or {})
 
-    def with_session(self, cookies: dict[str, str]) -> ProxiedOfficialHttpTransport:
+    def with_session(self, cookies: dict[str, str]) -> Self:
         """Return a transport identical to this one but carrying `cookies`."""
-        return ProxiedOfficialHttpTransport(
+        return type(self)(
             self._proxy_host,
             self._proxy_port,
             self._max_redirects,

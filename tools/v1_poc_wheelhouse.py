@@ -17,6 +17,7 @@ import re
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
+from typing import cast
 
 WHEELHOUSE_PATH = Path("infrastructure/poc/application_wheelhouse.json")
 APPLICATION_IMAGE_POLICY_PATH = Path("infrastructure/poc/application_image_inputs.json")
@@ -87,10 +88,26 @@ def _read_object(path: Path) -> dict[str, object]:
     raw = path.read_bytes()
     if len(raw) > _MAX_DOCUMENT_BYTES:
         raise ValueError(_DOCUMENT_TOO_LARGE)
-    value = json.loads(raw)
-    if not isinstance(value, dict):
+    value: object = json.loads(raw)
+    document = _string_object(value)
+    if document is None:
         raise TypeError(_DOCUMENT_ROOT)
-    return value
+    return document
+
+
+def _string_object(value: object) -> dict[str, object] | None:
+    if not isinstance(value, dict):
+        return None
+    candidate = cast("dict[object, object]", value)
+    if not all(type(key) is str for key in candidate):
+        return None
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object] | None:
+    if not isinstance(value, list):
+        return None
+    return cast("list[object]", value)
 
 
 def _validate_header(
@@ -120,18 +137,23 @@ def _validate_header(
 
 def _validate_applications(value: object) -> tuple[WheelhouseFinding, ...]:
     """Require one hashed requirement export for each of the five applications."""
-    if not isinstance(value, dict) or frozenset(value) != _EXPECTED_APPLICATIONS:
+    applications = _string_object(value)
+    if applications is None or frozenset(applications) != _EXPECTED_APPLICATIONS:
         return (WheelhouseFinding(WheelhouseCode.APPLICATION, "coverage"),)
     findings: list[WheelhouseFinding] = []
-    for name in sorted(value):
-        entry = value[name]
+    for name in sorted(applications):
+        entry = _string_object(applications[name])
+        if entry is None:
+            findings.append(WheelhouseFinding(WheelhouseCode.APPLICATION, name))
+            continue
+        requirements_digest = entry.get("requirements_sha256")
+        pinned_distributions = entry.get("pinned_distributions")
         if (
-            not isinstance(entry, dict)
-            or frozenset(entry) != _APPLICATION_KEYS
-            or not isinstance(entry.get("requirements_sha256"), str)
-            or _SHA256.fullmatch(str(entry.get("requirements_sha256"))) is None
-            or type(entry.get("pinned_distributions")) is not int
-            or int(entry.get("pinned_distributions", 0)) <= 0
+            frozenset(entry) != _APPLICATION_KEYS
+            or type(requirements_digest) is not str
+            or _SHA256.fullmatch(requirements_digest) is None
+            or type(pinned_distributions) is not int
+            or pinned_distributions <= 0
         ):
             findings.append(WheelhouseFinding(WheelhouseCode.APPLICATION, name))
     return tuple(findings)
@@ -139,15 +161,16 @@ def _validate_applications(value: object) -> tuple[WheelhouseFinding, ...]:
 
 def _validate_wheels(policy: dict[str, object]) -> tuple[WheelhouseFinding, ...]:
     """Require a complete, deduplicated, correctly targeted wheel inventory."""
-    wheels = policy.get("wheels")
-    if not isinstance(wheels, list) or not wheels:
+    wheels = _object_list(policy.get("wheels"))
+    if wheels is None or not wheels:
         return (WheelhouseFinding(WheelhouseCode.INVENTORY, "wheels"),)
     if policy.get("wheel_count") != len(wheels):
         return (WheelhouseFinding(WheelhouseCode.INVENTORY, "wheel count"),)
     findings: list[WheelhouseFinding] = []
     names: set[str] = set()
-    for wheel in wheels:
-        if not isinstance(wheel, dict) or frozenset(wheel) != _WHEEL_KEYS:
+    for raw_wheel in wheels:
+        wheel = _string_object(raw_wheel)
+        if wheel is None or frozenset(wheel) != _WHEEL_KEYS:
             findings.append(WheelhouseFinding(WheelhouseCode.INVENTORY, "wheel entry"))
             continue
         filename = wheel.get("filename")
@@ -188,13 +211,22 @@ def verify_wheelhouse_contents(root: Path, policy: dict[str, object]) -> int:
     directory = root / "var/wheelhouse/wheels"
     if not directory.is_dir():
         return 0
-    wheels = policy.get("wheels")
-    if not isinstance(wheels, list):
+    wheels = _object_list(policy.get("wheels"))
+    if wheels is None:
         raise TypeError(_DOCUMENT_ROOT)
-    expected = {str(wheel.get("filename")): wheel for wheel in wheels if isinstance(wheel, dict)}
+    expected: dict[str, dict[str, object]] = {}
+    for raw_wheel in wheels:
+        wheel = _string_object(raw_wheel)
+        if wheel is None:
+            raise TypeError(_DOCUMENT_ROOT)
+        filename = wheel.get("filename")
+        if type(filename) is not str:
+            raise TypeError(_DOCUMENT_ROOT)
+        expected[filename] = wheel
     present = {path.name for path in directory.glob("*.whl")}
-    if present != frozenset(expected):
-        message = f"wheelhouse content drift: {sorted(present ^ frozenset(expected))}"
+    expected_names = set(expected)
+    if present != expected_names:
+        message = f"wheelhouse content drift: {sorted(present ^ expected_names)}"
         raise ValueError(message)
     for filename, wheel in sorted(expected.items()):
         raw = (directory / filename).read_bytes()
@@ -210,15 +242,15 @@ def check_wheelhouse(root: Path) -> WheelhouseReport:
     """Validate the locked wheelhouse contract and any wheels actually present."""
     policy = _read_object(root / WHEELHOUSE_PATH)
     images = _read_object(root / APPLICATION_IMAGE_POLICY_PATH)
-    base_image = images.get("base_image")
-    base_image_ref = base_image.get("artifact_ref") if isinstance(base_image, dict) else None
+    base_image = _string_object(images.get("base_image"))
+    base_image_ref = base_image.get("artifact_ref") if base_image is not None else None
     findings = validate_wheelhouse(policy, base_image_ref)
     if findings:
         detail = ", ".join(f"{item.code.value}:{item.detail}" for item in findings)
         raise ValueError(detail)
-    applications = policy["applications"]
-    wheels = policy["wheels"]
-    if not isinstance(applications, dict) or not isinstance(wheels, list):
+    applications = _string_object(policy["applications"])
+    wheels = _object_list(policy["wheels"])
+    if applications is None or wheels is None:
         raise TypeError(_DOCUMENT_ROOT)
     return WheelhouseReport(
         wheels=len(wheels),

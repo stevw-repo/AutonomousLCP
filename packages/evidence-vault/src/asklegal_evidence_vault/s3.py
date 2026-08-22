@@ -3,18 +3,34 @@
 from __future__ import annotations
 
 import base64
+import importlib
 import re
 from collections.abc import Mapping
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from enum import StrEnum
 from hashlib import sha256
-from typing import Protocol, runtime_checkable
+from typing import TYPE_CHECKING, Protocol, TypeIs, runtime_checkable
 
-import boto3
 from asklegal_contracts import parse_json_bytes
-from botocore.client import Config
-from botocore.exceptions import ClientError
+
+if TYPE_CHECKING:
+
+    class Config:
+        """Static view of the untyped Botocore client configuration."""
+
+        def __init__(self, **kwargs: object) -> None:
+            """Accept the provider configuration values."""
+            ...
+
+    class ClientError(Exception):
+        """Static view of the untyped Botocore provider error."""
+
+        response: object
+
+else:
+    Config = vars(importlib.import_module("botocore.client"))["Config"]
+    ClientError = vars(importlib.import_module("botocore.exceptions"))["ClientError"]
 
 from .model import (
     ArtifactClass,
@@ -55,6 +71,38 @@ _SETTINGS = {
         "/etc/asklegal/trust/vault-recovery-ca.pem",
     ),
 }
+
+
+class _S3Session(Protocol):
+    def client(self, service_name: str, **kwargs: object) -> object:
+        """Create one service client."""
+        ...
+
+
+class _S3SessionFactory(Protocol):
+    def __call__(self, **kwargs: object) -> _S3Session:
+        """Create one explicit provider session."""
+        ...
+
+
+class _S3SessionNamespace(Protocol):
+    Session: _S3SessionFactory
+
+
+@runtime_checkable
+class _Boto3Module(Protocol):
+    session: _S3SessionNamespace
+
+
+def _load_boto3() -> _Boto3Module:
+    module = importlib.import_module("boto3")
+    if not isinstance(module, _Boto3Module):
+        message = "boto3 module does not expose the required session boundary"
+        raise TypeError(message)
+    return module
+
+
+boto3 = _load_boto3()
 
 
 class S3VaultErrorCode(StrEnum):
@@ -111,7 +159,7 @@ class S3AccessCredential:
         return self._access_key_id, self._secret_access_key
 
 
-def _credential_part(value: object) -> bool:
+def _credential_part(value: object) -> TypeIs[str]:
     return (
         type(value) is str
         and bool(value)
@@ -235,7 +283,7 @@ def create_v1_s3_client(
             read_timeout=read_timeout_seconds,
         ),
     )
-    if not isinstance(candidate, S3Client):
+    if not _is_s3_client(candidate):
         raise S3VaultError(S3VaultErrorCode.CLIENT)
     return candidate
 
@@ -263,7 +311,7 @@ class S3ImmutableVault:
 
     def __init__(self, client: S3Client, settings: V1S3VaultSettings) -> None:
         """Bind one already-configured client to exactly one logical vault."""
-        if not isinstance(client, S3Client) or type(settings) is not V1S3VaultSettings:
+        if not _is_s3_client(client) or type(settings) is not V1S3VaultSettings:
             raise S3VaultError(S3VaultErrorCode.CLIENT)
         self._client = client
         self._settings = settings
@@ -406,15 +454,13 @@ class S3ImmutableVault:
         """Verify the bucket's required immutable capabilities without mutation."""
         try:
             versioning = self._client.get_bucket_versioning(Bucket=self._settings.bucket)
-            object_lock = self._client.get_object_lock_configuration(
-                Bucket=self._settings.bucket
-            )
+            object_lock = self._client.get_object_lock_configuration(Bucket=self._settings.bucket)
         except ClientError:
             raise S3VaultError(S3VaultErrorCode.READINESS) from None
-        lock_configuration = object_lock.get("ObjectLockConfiguration")
+        lock_configuration = _string_mapping(object_lock.get("ObjectLockConfiguration"))
         if (
             versioning.get("Status") != "Enabled"
-            or not isinstance(lock_configuration, dict)
+            or lock_configuration is None
             or lock_configuration.get("ObjectLockEnabled") != "Enabled"
         ):
             raise S3VaultError(S3VaultErrorCode.READINESS)
@@ -433,15 +479,16 @@ class S3ImmutableVault:
         except ClientError:
             raise S3VaultError(S3VaultErrorCode.PROVIDER) from None
         hold_response = self._read_legal_hold(arguments)
-        metadata = head.get("Metadata")
-        retention_value = retention_response.get("Retention")
-        hold_value = hold_response.get("LegalHold")
+        metadata = _string_mapping(head.get("Metadata"))
+        retention_value = _string_mapping(retention_response.get("Retention"))
+        hold_value = _string_mapping(hold_response.get("LegalHold"))
+        hold_status = None if hold_value is None else hold_value.get("Status")
         if (
-            not isinstance(metadata, dict)
-            or not isinstance(retention_value, dict)
-            or not isinstance(hold_value, dict)
+            metadata is None
+            or retention_value is None
+            or hold_value is None
             or retention_value.get("Mode") != "COMPLIANCE"
-            or hold_value.get("Status") not in {"ON", "OFF"}
+            or hold_status not in {"ON", "OFF"}
         ):
             raise S3VaultError(S3VaultErrorCode.RETENTION)
         profile_id = metadata.get("asklegal-retention-profile")
@@ -451,7 +498,7 @@ class S3ImmutableVault:
         return RetentionProfile(
             profile_id,
             _canonical_utc(retain_until),
-            legal_hold=hold_value["Status"] == "ON",
+            legal_hold=hold_status == "ON",
         )
 
     def _read_legal_hold(self, arguments: dict[str, str]) -> dict[str, object]:
@@ -467,7 +514,9 @@ class S3ImmutableVault:
         try:
             return dict(self._client.get_object_legal_hold(**arguments))
         except ClientError as error:
-            code = error.response.get("Error", {}).get("Code")
+            response = _string_mapping(error.response)
+            error_value = None if response is None else _string_mapping(response.get("Error"))
+            code = None if error_value is None else error_value.get("Code")
             if code in {"NoSuchObjectLockConfiguration", "ObjectLockConfigurationNotFoundError"}:
                 return {"LegalHold": {"Status": "OFF"}}
             raise S3VaultError(S3VaultErrorCode.PROVIDER) from None
@@ -481,14 +530,33 @@ class S3ImmutableVault:
 
 
 def _client_error_code(error: ClientError) -> str:
-    response: object = error.response
-    if not isinstance(response, dict):
+    response = _string_mapping(error.response)
+    if response is None:
         return "UNKNOWN"
-    error_value = response.get("Error")
-    if not isinstance(error_value, dict):
+    error_value = _string_mapping(response.get("Error"))
+    if error_value is None:
         return "UNKNOWN"
     code = error_value.get("Code")
     return code if isinstance(code, str) else "UNKNOWN"
+
+
+def _is_s3_client(value: object) -> TypeIs[S3Client]:
+    return isinstance(value, S3Client)
+
+
+def _is_object_mapping(value: object) -> TypeIs[Mapping[object, object]]:
+    return isinstance(value, Mapping)
+
+
+def _string_mapping(value: object) -> Mapping[str, object] | None:
+    if not _is_object_mapping(value):
+        return None
+    result: dict[str, object] = {}
+    for key, item in value.items():
+        if type(key) is not str:
+            return None
+        result[key] = item
+    return result
 
 
 def _response_text(response: Mapping[str, object], field: str) -> str:

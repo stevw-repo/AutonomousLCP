@@ -5,8 +5,10 @@ from asklegal_source_connectors import (
     HK_LEGISLATION_SOURCE_IDS,
     OfficialCoverageCycle,
     OfficialMonitoringTier,
+    SourceOutageImpact,
     due_official_source_profiles,
     load_hk_legislation_source_register,
+    official_observation_profile,
 )
 
 
@@ -51,3 +53,24 @@ def test_on_demand_sources_are_never_silently_added_to_periodic_cycles() -> None
     assert "HK-LEG-HKEL-CURRENT-DATA" not in periodic
     assert "HK-LEG-HKEL-VERIFIED-COPIES" not in periodic
     assert "HK-LEG-HKEL-GAZETTE-BACKCAPTURE" not in periodic
+
+
+def test_every_source_has_one_bounded_serial_observation_profile() -> None:
+    """Operational values cover the universe and preserve register outage policy."""
+    register = load_hk_legislation_source_register()
+
+    profiles = {
+        source.source_id: official_observation_profile(register, source.source_id)
+        for source in register.sources
+    }
+
+    assert set(profiles) == set(HK_LEGISLATION_SOURCE_IDS)
+    assert all(profile.concurrency_ceiling == 1 for profile in profiles.values())
+    assert all(profile.attempt_ceiling <= 3 for profile in profiles.values())
+    assert all(profile.timeout_seconds <= 120 for profile in profiles.values())
+    assert all(429 in profile.retryable_http_statuses for profile in profiles.values())
+    assert profiles["HK-LEG-GLD-EGAZETTE"].minimum_interval_seconds == 5
+    assert profiles["HK-LEG-GLD-EGAZETTE"].outage_impact is (SourceOutageImpact.RELEASE_BLOCKING)
+    assert profiles["HK-LEG-HKEL-GAZETTE-BACKCAPTURE"].outage_impact is (
+        SourceOutageImpact.NONBLOCKING
+    )

@@ -1,0 +1,42 @@
+{
+  "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-008",
+  "title": "Exact whole-instrument revival restores proved identities",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:5d502bf163d8f2dc162665147c0d14713ea6e1ec3477818f6366b6d7f13fa28f",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.cessation-008",
+    "event_type": "REVIVAL",
+    "operative_provision_fingerprint": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+    "event_evidence_fingerprints": [
+      "sha256:0808080808080808080808080808080808080808080808080808080808080808"
+    ],
+    "prior_event_history_fingerprint": "sha256:abababababababababababababababababababababababababababababababab",
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "controlling_notice_state": "NOT_APPLICABLE",
+    "effective_date": "2026-08-08T00:00:00Z",
+    "revival_continuity_proved": true,
+    "all_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "affected_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "pre_event_operative_location_ids": [],
+    "pre_event_ceased_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "affected_location_scope": "WHOLE_INSTRUMENT"
+  },
+  "expected_artifact": {
+    "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-008.json",
+    "fingerprint": "sha256:404b872c08550e6ea817e0c67a55009a04e3e9a29fe71530d8148a3fe0917f3e"
+  }
+}

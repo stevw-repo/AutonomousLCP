@@ -2,6 +2,7 @@
 
 from copy import deepcopy
 from pathlib import Path
+from typing import cast
 
 import pytest
 
@@ -27,13 +28,27 @@ def _topology() -> dict[str, object]:
 
 
 def _artifact(policy: dict[str, object], artifact_id: str) -> dict[str, object]:
-    artifacts = policy["artifacts"]
-    assert isinstance(artifacts, list)
-    return next(
-        artifact
-        for artifact in artifacts
-        if isinstance(artifact, dict) and artifact.get("artifact_id") == artifact_id
-    )
+    return _item_by_id(policy["artifacts"], "artifact_id", artifact_id)
+
+
+def _object_map(value: object) -> dict[str, object]:
+    assert isinstance(value, dict)
+    candidate = cast("dict[object, object]", value)
+    assert all(type(key) is str for key in candidate)
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object]:
+    assert isinstance(value, list)
+    return cast("list[object]", value)
+
+
+def _item_by_id(value: object, field: str, expected: str) -> dict[str, object]:
+    for raw_item in _object_list(value):
+        item = _object_map(raw_item)
+        if item.get(field) == expected:
+            return item
+    raise AssertionError(expected)
 
 
 def _codes(
@@ -74,8 +89,7 @@ def test_artifact_policy_regressions_fail_closed(
     if mutation == "admit":
         _artifact(policy, "sql-server")["admitted"] = True
     elif mutation == "authority":
-        authority = policy["authority"]
-        assert isinstance(authority, dict)
+        authority = _object_map(policy["authority"])
         authority["registry_pull_authorized"] = True
     elif mutation == "consumer":
         _artifact(policy, "control-plane")["consumers"] = []
@@ -94,12 +108,6 @@ def test_artifact_policy_regressions_fail_closed(
 def test_topology_pin_drift_fails_closed() -> None:
     """Bind the artifact registry to the exact service topology references."""
     topology = deepcopy(_topology())
-    services = topology["services"]
-    assert isinstance(services, list)
-    sql = next(
-        service
-        for service in services
-        if isinstance(service, dict) and service.get("service_id") == "sql-server"
-    )
+    sql = _item_by_id(topology["services"], "service_id", "sql-server")
     sql["artifact_ref"] = "mcr.microsoft.com/mssql/server@sha256:" + ("0" * 64)
     assert ArtifactCode.PIN in _codes(_policy(), topology)

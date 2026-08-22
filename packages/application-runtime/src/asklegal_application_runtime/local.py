@@ -195,6 +195,7 @@ class ProposalProjection:
     manifest_fingerprint: str
     status: str
     title: str
+    review_version: int = 0
 
     def to_json(self) -> dict[str, JsonValue]:
         """Return a closed JSON projection."""
@@ -203,7 +204,53 @@ class ProposalProjection:
             "proposal_id": self.proposal_id,
             "status": self.status,
             "title": self.title,
+            "review_version": self.review_version,
         }
+
+
+@dataclass(frozen=True, slots=True)
+class ProposalArtifactProjection:
+    """One exact immutable proposal member exposed to Review."""
+
+    role: str
+    path: str
+    media_type: str
+    fingerprint: str
+    byte_length: int
+
+
+@dataclass(frozen=True, slots=True)
+class ProposalDecisionProjection:
+    """One immutable named-human decision over an exact Promotion Manifest."""
+
+    approval_id: str
+    decision: str
+    decision_time: str
+    reviewer_identity_id: str
+    reviewer_identity_fingerprint: str
+    authority_evidence_id: str
+    authority_evidence_fingerprint: str
+    reason: str
+    event_fingerprint: str
+
+
+@dataclass(frozen=True, slots=True)
+class ProposalDetailProjection:
+    """One fully re-read proposal package projection."""
+
+    proposal: ProposalProjection
+    package_fingerprint: str
+    promotion_manifest_id: str
+    observation_cutoff: str
+    valid_from: str
+    valid_until: str
+    validity_predicates: tuple[tuple[str, str, str], ...]
+    base_serving_state_id: str
+    base_serving_state_fingerprint: str
+    candidate_serving_state_id: str
+    candidate_serving_state_fingerprint: str
+    artifacts: tuple[ProposalArtifactProjection, ...]
+    decision: ProposalDecisionProjection | None = None
 
 
 class LocalReviewProjectionStore:
@@ -211,6 +258,7 @@ class LocalReviewProjectionStore:
 
     snapshot: str = "projection-local-1"
     proposals: tuple[ProposalProjection, ...]
+    details: tuple[ProposalDetailProjection, ...]
     evidence_reads: list[tuple[str, str]]
 
     def __init__(
@@ -239,15 +287,27 @@ class LocalReviewProjectionStore:
             raise ValueError("proposal identities must be unique")
         self.snapshot = snapshot
         self.proposals = supplied
+        self.details = tuple(_local_proposal_detail(item) for item in supplied)
         self.evidence_reads = []
 
     def page(self, *, offset: int, limit: int) -> tuple[ProposalProjection, ...]:
         """Read one bounded page from a single immutable generation."""
         return self.proposals[offset : offset + limit]
 
+    def load(self) -> tuple[str, tuple[ProposalProjection, ...]]:
+        """Return one internally consistent immutable projection generation."""
+        return self.snapshot, self.proposals
+
     def get(self, proposal_id: str) -> ProposalProjection | None:
         """Read one proposal without exposing storage coordinates."""
         return next((item for item in self.proposals if item.proposal_id == proposal_id), None)
+
+    def detail(self, proposal_id: str) -> ProposalDetailProjection | None:
+        """Return one complete deterministic local detail projection."""
+        return next(
+            (item for item in self.details if item.proposal.proposal_id == proposal_id),
+            None,
+        )
 
     def check(self) -> bool:
         """Perform a non-mutating local readiness check."""
@@ -277,3 +337,51 @@ def safe_mapping(value: JsonValue) -> dict[str, JsonValue]:
     if type(value) is not dict:
         raise LocalAdapterError(LocalAdapterErrorCode.DISABLED)
     return dict(value)
+
+
+_LOCAL_PROPOSAL_ROLE_PATHS = {
+    "CHANGE_INVENTORY": "change-inventory/change-inventory.json",
+    "CORPUS_RELEASES": "corpus-releases/releases.json",
+    "COST_AND_CAPACITY": "cost-and-capacity/admission.json",
+    "COVERAGE_STATUS": "coverage-status/coverage.json",
+    "DESIRED_STATE_INVENTORIES": "desired-state-inventories/inventories.json",
+    "PROMOTION_MANIFEST": "promotion-manifest/promotion-manifest.json",
+    "RECORD_TRACEABILITY": "record-traceability/lookup.json",
+    "RECOVERY_READINESS": "recovery-readiness/readiness.json",
+    "REVIEW_REPORT": "review-report/report.json",
+    "SERVING_STATE_DEFINITION": "serving-state-definition/definition.json",
+    "VALIDATION": "validation/results.json",
+}
+
+
+def _local_proposal_detail(proposal: ProposalProjection) -> ProposalDetailProjection:
+    artifacts = tuple(
+        ProposalArtifactProjection(
+            role,
+            path,
+            "application/json",
+            "sha256:" + hashlib.sha256(f"{proposal.proposal_id}:{role}".encode()).hexdigest(),
+            len(role.encode()),
+        )
+        for role, path in sorted(_LOCAL_PROPOSAL_ROLE_PATHS.items())
+    )
+    package_fingerprint = (
+        "sha256:" + hashlib.sha256(f"{proposal.proposal_id}:package".encode()).hexdigest()
+    )
+    promotion_manifest_id = (
+        "pmn_" + hashlib.sha256(f"{proposal.proposal_id}:manifest".encode()).hexdigest()[:48]
+    )
+    return ProposalDetailProjection(
+        proposal,
+        package_fingerprint,
+        promotion_manifest_id,
+        "2026-08-16T00:00:00Z",
+        "2026-08-15T00:00:00Z",
+        "2026-08-17T00:00:00Z",
+        (("configuration", "1.0.0", "sha256:" + "e" * 64),),
+        "srv_" + "a" * 48,
+        "sha256:" + "b" * 64,
+        "srv_" + "c" * 48,
+        "sha256:" + "d" * 64,
+        artifacts,
+    )

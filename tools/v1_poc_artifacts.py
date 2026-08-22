@@ -7,6 +7,7 @@ import re
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
+from typing import cast
 
 ARTIFACT_POLICY_PATH = Path("infrastructure/poc/artifact_admission.json")
 TOPOLOGY_PATH = Path("infrastructure/poc/topology.json")
@@ -95,25 +96,59 @@ class ArtifactReport:
 
 
 def _objects(value: object) -> tuple[dict[str, object], ...]:
-    if not isinstance(value, list) or not all(isinstance(item, dict) for item in value):
+    items = _object_list(value)
+    if items is None:
         message = "artifact object list"
         raise TypeError(message)
-    return tuple(item for item in value if isinstance(item, dict))
+    result: list[dict[str, object]] = []
+    for item in items:
+        document = _string_object(item)
+        if document is None:
+            message = "artifact object list"
+            raise TypeError(message)
+        result.append(document)
+    return tuple(result)
 
 
 def _strings(value: object) -> tuple[str, ...]:
-    if not isinstance(value, list) or not all(type(item) is str and item for item in value):
+    items = _object_list(value)
+    if items is None:
         message = "artifact string list"
         raise TypeError(message)
-    return tuple(item for item in value if isinstance(item, str))
+    result: list[str] = []
+    for item in items:
+        if type(item) is not str or not item:
+            message = "artifact string list"
+            raise TypeError(message)
+        result.append(item)
+    return tuple(result)
+
+
+def _string_object(value: object) -> dict[str, object] | None:
+    if not isinstance(value, dict):
+        return None
+    candidate = cast("dict[object, object]", value)
+    if not all(type(key) is str for key in candidate):
+        return None
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object] | None:
+    if not isinstance(value, list):
+        return None
+    return cast("list[object]", value)
 
 
 def _has_secret(value: object) -> bool:
-    if isinstance(value, dict):
+    document = _string_object(value)
+    items = _object_list(value)
+    if document is not None:
         forbidden = {"api_key", "password", "private_key", "secret", "token"}
-        return any(key.lower() in forbidden or _has_secret(child) for key, child in value.items())
-    if isinstance(value, list):
-        return any(_has_secret(child) for child in value)
+        return any(
+            key.lower() in forbidden or _has_secret(child) for key, child in document.items()
+        )
+    if items is not None:
+        return any(_has_secret(child) for child in items)
     return isinstance(value, str) and _SECRET_VALUE.search(value) is not None
 
 
@@ -123,11 +158,12 @@ def load_artifact_policy(path: Path) -> dict[str, object]:
     if len(raw) > _MAX_DOCUMENT_BYTES:
         message = "artifact policy too large"
         raise ValueError(message)
-    value = json.loads(raw)
-    if not isinstance(value, dict):
+    value: object = json.loads(raw)
+    document = _string_object(value)
+    if document is None:
         message = "artifact policy root"
         raise TypeError(message)
-    return value
+    return document
 
 
 def _topology_services(topology: dict[str, object]) -> dict[str, dict[str, object]]:
@@ -214,7 +250,11 @@ def _validate_document(policy: dict[str, object]) -> tuple[ArtifactFinding, ...]
         findings.append(ArtifactFinding(ArtifactCode.INVENTORY, "document"))
     if _has_secret(policy):
         findings.append(ArtifactFinding(ArtifactCode.SECRET, "policy"))
-    if tuple(policy.get("required_evidence", ())) != _REQUIRED_EVIDENCE:
+    try:
+        required_evidence = _strings(policy.get("required_evidence"))
+    except TypeError:
+        required_evidence = ()
+    if required_evidence != _REQUIRED_EVIDENCE:
         findings.append(ArtifactFinding(ArtifactCode.ADMISSION, "evidence"))
     if policy.get("authority") != {
         "image_build_authorized": False,
@@ -232,8 +272,12 @@ def validate_artifact_policy(
     """Return all policy/topology mismatches; empty means inventory conformance only."""
     findings = list(_validate_document(policy))
     artifacts = _objects(policy.get("artifacts"))
-    artifact_ids = tuple(item.get("artifact_id") for item in artifacts)
-    if len(artifact_ids) != len(set(artifact_ids)):
+    artifact_ids = tuple(
+        artifact_id
+        for item in artifacts
+        if isinstance((artifact_id := item.get("artifact_id")), str)
+    )
+    if len(artifact_ids) != len(artifacts) or len(artifact_ids) != len(set(artifact_ids)):
         findings.append(ArtifactFinding(ArtifactCode.DUPLICATE, "artifact id"))
     if frozenset(artifact_ids) != _EXPECTED_ARTIFACTS:
         findings.append(ArtifactFinding(ArtifactCode.INVENTORY, "artifact ids"))

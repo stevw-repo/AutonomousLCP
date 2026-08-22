@@ -19,6 +19,8 @@ import logging
 from typing import TYPE_CHECKING
 from urllib.parse import urlsplit
 
+from asklegal_contracts import ContractViolation
+from asklegal_contracts.json_types import JsonValue, checked_json_value
 from asklegal_evidence_vault import ExactObjectReference, VaultName
 from asklegal_legal_desks import SemanticTaskProfile
 from asklegal_processing import (
@@ -113,15 +115,13 @@ class ProcessingActivities:
 
     def read_evidence(self, _context: ActivityContext, payload: object) -> object:
         """Read exactly one retained evidence version from the Primary vault."""
-        if not isinstance(payload, dict):
-            message = "read_evidence needs the stored-evidence result"
-            raise ProcessingPipelineError(message)
+        document = _payload(payload, "read_evidence")
         reference = ExactObjectReference(
             VaultName.PRIMARY,
-            str(payload["logical_key"]),
-            str(payload["version_id"]),
-            str(payload["fingerprint"]),
-            int(payload["byte_length"]),
+            _text(document, "logical_key"),
+            _text(document, "version_id"),
+            _text(document, "fingerprint"),
+            _integer(document, "byte_length"),
         )
         body = self._vault.read_exact(reference)
         _LOGGER.info(
@@ -133,7 +133,7 @@ class ProcessingActivities:
             "logical_key": reference.logical_key,
             "fingerprint": reference.fingerprint,
             "evidence_ref": f"ev_{reference.fingerprint.removeprefix('sha256:')[:16]}",
-            "subject_id": str(payload.get("endpoint_id", reference.logical_key)),
+            "subject_id": _optional_text(document, "endpoint_id", reference.logical_key),
             # The budget is enforced here as well as in the runner, so an
             # oversized capture is truncated once, visibly, rather than silently.
             "text": body[:_MAX_EVIDENCE_BYTES].decode("utf-8", "replace"),
@@ -142,20 +142,18 @@ class ProcessingActivities:
 
     def analyse_evidence(self, _context: ActivityContext, payload: object) -> object:
         """Ask the admitted deployment for one bounded decision about the evidence."""
-        if not isinstance(payload, dict):
-            message = "analyse_evidence needs the read-evidence result"
-            raise ProcessingPipelineError(message)
-        evidence_ref = str(payload["evidence_ref"])
+        document = _payload(payload, "analyse_evidence")
+        evidence_ref = _text(document, "evidence_ref")
         request = SemanticTaskRequest(
             request_id=f"req_{evidence_ref}",
             task=_TASK,
             phase="DECISION",
             profile_id=self._profile.profile_id,
             package_fingerprint="sha256:" + "0" * 64,
-            subject_id=str(payload["subject_id"]),
+            subject_id=_text(document, "subject_id"),
             evidence_refs=(evidence_ref,),
-            evidence_bytes=str(payload["text"]).encode(),
-            input_fingerprint=str(payload["fingerprint"]),
+            evidence_bytes=_text(document, "text").encode(),
+            input_fingerprint=_text(document, "fingerprint"),
         )
         decision = self._runner.invoke(self._profile, request)
         _LOGGER.info(
@@ -171,7 +169,7 @@ class ProcessingActivities:
             "unresolved_facts": list(decision.unresolved_facts),
             "challenge_code": decision.challenge_code,
             "output_fingerprint": decision.output_fingerprint,
-            "truncated_evidence": bool(payload.get("truncated", False)),
+            "truncated_evidence": _boolean(document, "truncated"),
         }
 
 
@@ -191,3 +189,47 @@ def build_activities(
 ) -> ProcessingActivities:
     """Compose this worker's activities from its own infrastructure."""
     return ProcessingActivities(infrastructure)
+
+
+def _payload(value: object, operation: str) -> dict[str, JsonValue]:
+    try:
+        document = checked_json_value(value)
+    except ContractViolation as error:
+        message = f"{operation} needs one exact JSON object"
+        raise ProcessingPipelineError(message) from error
+    if not isinstance(document, dict):
+        message = f"{operation} needs one exact JSON object"
+        raise ProcessingPipelineError(message)
+    return document
+
+
+def _text(document: Mapping[str, JsonValue], field: str) -> str:
+    value = document.get(field)
+    if type(value) is not str or not value:
+        message = f"{field} must be one exact non-empty string"
+        raise ProcessingPipelineError(message)
+    return value
+
+
+def _optional_text(document: Mapping[str, JsonValue], field: str, default: str) -> str:
+    value = document.get(field, default)
+    if type(value) is not str or not value:
+        message = f"{field} must be one exact non-empty string"
+        raise ProcessingPipelineError(message)
+    return value
+
+
+def _integer(document: Mapping[str, JsonValue], field: str) -> int:
+    value = document.get(field)
+    if type(value) is not int or value < 0:
+        message = f"{field} must be one non-negative integer"
+        raise ProcessingPipelineError(message)
+    return value
+
+
+def _boolean(document: Mapping[str, JsonValue], field: str) -> bool:
+    value = document.get(field)
+    if type(value) is not bool:
+        message = f"{field} must be one exact boolean"
+        raise ProcessingPipelineError(message)
+    return value

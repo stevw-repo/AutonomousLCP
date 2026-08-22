@@ -1,0 +1,39 @@
+{
+  "fixture_id": "HKLEG-CURRENT-CESSATION-FIX-013",
+  "title": "Conflicting event evidence quarantines cessation",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:f1dd016666c160f30f6f384fd49970add5f66f9fa674bd994a040395cc21ddab",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_1cdf5a558e8286dadf84f819de1d48168d455cd457fcf30e",
+    "object_id": "hkleg.synthetic.cessation-013",
+    "event_type": "REVOCATION",
+    "operative_provision_fingerprint": "sha256:d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0",
+    "event_evidence_fingerprints": [
+      "sha256:1313131313131313131313131313131313131313131313131313131313131313"
+    ],
+    "prior_event_history_fingerprint": "sha256:abababababababababababababababababababababababababababababababab",
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": true,
+    "controlling_notice_state": "UNRESOLVED",
+    "effective_date": "2026-08-13T00:00:00Z",
+    "revival_continuity_proved": false,
+    "all_location_ids": [
+      "rule-1"
+    ],
+    "affected_location_ids": [
+      "rule-1"
+    ],
+    "pre_event_operative_location_ids": [
+      "rule-1"
+    ],
+    "pre_event_ceased_location_ids": [],
+    "affected_location_scope": "WHOLE_INSTRUMENT"
+  },
+  "expected_artifact": {
+    "path": "expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-013.json",
+    "fingerprint": "sha256:795f3634819a09272722f277f53c84026aee8e77bf5ccabf298c461587f8f88c"
+  }
+}

@@ -6,9 +6,9 @@
   "source_date_epoch": 315532800,
   "input_locks": {
     ".python-version": "sha256:922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
-    "pyproject.toml": "sha256:71af75597af346d5752018e0fee6e413360c21e4a92150f7476916df0ba2de84",
+    "pyproject.toml": "sha256:7740ecbae1bde629559355e1c953c64e82ed1a5c9c3ed2ce6a8fe2b7e36a36eb",
     "tools/package_spike_manifest.json": "sha256:55f3db8e9dc49dc82c6ff65599cdc570e7d6c512bade6340f24c8d68c565f758",
-    "uv.lock": "sha256:6e906995afa92880e03dc5302003ccb46d4ab2e1a7e5a713baa20f369dad3ed3"
+    "uv.lock": "sha256:836a8b726f2154cf04b0c3e52daa32589923193d4a7c75d6e9cbc0aa04ffc13f"
   },
   "base_image": {
     "selection_state": "DIGEST_PINNED",

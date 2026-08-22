@@ -9,11 +9,16 @@ from __future__ import annotations
 
 import json
 from dataclasses import replace
+from typing import TYPE_CHECKING
 
 import pytest
+from asklegal_contracts import canonicalize
 from asklegal_legal_desks import SemanticTaskProfile
 from asklegal_processing.model import ProcessingError, SemanticTaskRequest
 from asklegal_processing.remote import AzureDeployment, AzureSemanticTaskRunner
+
+if TYPE_CHECKING:
+    from asklegal_contracts.json_types import JsonValue
 
 _EVIDENCE_REFS = ("ev_1", "ev_2")
 
@@ -26,7 +31,7 @@ class StubTransport:
         self._content = content
         self.calls = 0
 
-    def post_json(self, url: str, headers: dict[str, str], body: object) -> dict[str, object]:
+    def post_json(self, url: str, headers: dict[str, str], body: JsonValue) -> dict[str, JsonValue]:
         """Return a chat-completions envelope wrapping the queued content."""
         del url, headers, body
         self.calls += 1
@@ -37,6 +42,43 @@ class StubTransport:
 
 def _deployment() -> AzureDeployment:
     return AzureDeployment("https://example.openai.azure.com", "chat-1", "2024-10-21", "k")
+
+
+def test_azure_credential_is_exact_and_does_not_coerce_values() -> None:
+    """Accept only the four exact non-empty strings at the credential boundary."""
+    raw = canonicalize(
+        {
+            "api_key": "k",
+            "api_version": "2024-10-21",
+            "deployment": "chat-1",
+            "endpoint": "https://example.openai.azure.com/",
+        }
+    )
+    assert AzureDeployment.from_credential_json(raw) == _deployment()
+
+    for invalid in (
+        b"not-json",
+        canonicalize({"endpoint": "https://example.invalid"}),
+        canonicalize(
+            {
+                "api_key": 7,
+                "api_version": "2024-10-21",
+                "deployment": "chat-1",
+                "endpoint": "https://example.openai.azure.com",
+            }
+        ),
+        canonicalize(
+            {
+                "api_key": "k",
+                "api_version": "2024-10-21",
+                "deployment": "chat-1",
+                "endpoint": "https://example.openai.azure.com",
+                "extra": "forbidden",
+            }
+        ),
+    ):
+        with pytest.raises(ProcessingError):
+            AzureDeployment.from_credential_json(invalid)
 
 
 def _profile() -> SemanticTaskProfile:

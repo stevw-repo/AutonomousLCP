@@ -18,6 +18,7 @@ from asklegal_source_connectors.hkel_gazette import (
     GRID_PATH,
     GazetteRegisterError,
     GazetteRegisterFailureCode,
+    GazetteRequestTiming,
     HkelGazetteRegisterClient,
 )
 from asklegal_source_connectors.official_http import (
@@ -86,7 +87,13 @@ class StubTransport:
         return (status, body, dict(cookies or {}))
 
 
-def _grid_reply(*, last_page: int = 3, rows: int = 1) -> bytes:
+def _grid_reply(*, last_page: int = 3, rows: int = 1, first_id: int = 30056) -> bytes:
+    row_data: list[list[str | None]] = []
+    for offset in range(rows):
+        row = list(_ROW)
+        row[0] = str(first_id + offset)
+        row[12] = f"hk/2026/{first_id + offset - 30055}"
+        row_data.append(row)
     return json.dumps(
         {
             "rowOffset": 0,
@@ -96,7 +103,7 @@ def _grid_reply(*, last_page: int = 3, rows: int = 1) -> bytes:
             # reports it. Nothing may rely on this value.
             "totalRecords": 100,
             "columns": _COLUMNS,
-            "rowData": [_ROW for _ in range(rows)],
+            "rowData": row_data,
         }
     ).encode()
 
@@ -179,7 +186,9 @@ def test_pdf_columns_are_read_as_flags_not_urls() -> None:
 def test_paging_follows_last_page_and_ignores_total_records() -> None:
     """Live, totalRecords reported 100 against 1415 pages; it is not a row count."""
     replies = [(200, b""), (200, _PAGE_HTML)]
-    replies += [(200, _grid_reply(last_page=3, rows=2)) for _ in range(3)]
+    replies += [
+        (200, _grid_reply(last_page=3, rows=2, first_id=30056 + page * 2)) for page in range(3)
+    ]
     client, transport = _client(replies)
     client.open_session()
 
@@ -188,6 +197,39 @@ def test_paging_follows_last_page_and_ignores_total_records() -> None:
     assert len(entries) == 6
     pages = [json.loads(c.body or b"{}")["pageNo"] for c in transport.calls if c.path == "/grid"]
     assert pages == ["1", "2", "3"]
+
+
+def test_duplicate_gazette_id_makes_the_traversal_incomplete() -> None:
+    """A page shift cannot make one publisher primary key count twice."""
+    replies = [(200, b""), (200, _PAGE_HTML)]
+    replies += [
+        (200, _grid_reply(last_page=2, first_id=30056)),
+        (200, _grid_reply(last_page=2, first_id=30056)),
+    ]
+    client, _ = _client(replies)
+    client.open_session()
+
+    with pytest.raises(GazetteRegisterError, match="duplicate gazette id 30056") as error:
+        list(client.iter_entries())
+
+    assert error.value.code is GazetteRegisterFailureCode.INCOMPLETE_OBSERVATION
+
+
+@pytest.mark.parametrize("moved_last_page", [1, 3])
+def test_moving_last_page_makes_the_traversal_incomplete(moved_last_page: int) -> None:
+    """A bounded observation cannot adopt a page boundary that changes mid-walk."""
+    replies = [(200, b""), (200, _PAGE_HTML)]
+    replies += [
+        (200, _grid_reply(last_page=2, first_id=30056)),
+        (200, _grid_reply(last_page=moved_last_page, first_id=30057)),
+    ]
+    client, _ = _client(replies)
+    client.open_session()
+
+    with pytest.raises(GazetteRegisterError, match=r"last page moved from 2") as error:
+        list(client.iter_entries())
+
+    assert error.value.code is GazetteRegisterFailureCode.INCOMPLETE_OBSERVATION
 
 
 def test_an_empty_intermediate_page_is_incomplete() -> None:
@@ -349,7 +391,7 @@ def test_a_session_transport_sends_its_session_on_both_surfaces() -> None:
             return (200, b"", jar)
 
     bound = Recorder("proxy", 3128).with_session({"JSTP1": "abc"})
-    Recorder.exchange(bound, PublisherCall("h", "GET", "/x"))
+    bound.exchange(PublisherCall("h", "GET", "/x"))
 
     assert seen == ["JSTP1=abc"]
 
@@ -427,6 +469,31 @@ class FlakyTransport(StubTransport):
         return super().exchange(call, cookies)
 
 
+class ThrottledTransport(StubTransport):
+    """Returns explicit HTTP 429 replies before allowing the grid call."""
+
+    def __init__(self, replies: list[tuple[int, bytes]], throttles: int) -> None:
+        """Queue normal replies and the number of grid throttles."""
+        super().__init__(replies)
+        self.remaining_throttles = throttles
+        self.grid_calls = 0
+
+    def exchange(
+        self,
+        call: PublisherCall,
+        cookies: dict[str, str] | None = None,
+    ) -> tuple[int, bytes, dict[str, str]]:
+        """Return 429 without consuming the later successful grid reply."""
+        if call.path == GRID_PATH:
+            self.calls.append(call)
+            self.grid_calls += 1
+            if self.remaining_throttles > 0:
+                self.remaining_throttles -= 1
+                return (429, b"", dict(cookies or {}))
+            self.calls.pop()
+        return super().exchange(call, cookies)
+
+
 def _gate_replies(count: int) -> list[tuple[int, bytes]]:
     return [(200, b""), (200, _PAGE_HTML)] * count
 
@@ -459,5 +526,65 @@ def test_retries_are_bounded_and_the_failure_is_reported() -> None:
         client.page(1)
 
     assert "after 2 attempts" in str(error.value)
+    assert error.value.code is GazetteRegisterFailureCode.SOURCE_UNAVAILABLE
+    assert transport.grid_calls == 2
+
+
+def test_explicit_grid_throttling_is_bounded_and_refreshes_the_session() -> None:
+    """HTTP 429 follows the same bounded polite backoff as a dropped grid call."""
+    replies = [*_gate_replies(2), (200, _grid_reply(last_page=1))]
+    transport = ThrottledTransport(replies, throttles=1)
+    client = HkelGazetteRegisterClient(transport, attempts=2, backoff_seconds=0)
+    client.open_session()
+
+    page = client.page(1)
+
+    assert len(page.entries) == 1
+    assert transport.grid_calls == 2
+    assert sum(call.path.startswith("/client-check?") for call in transport.calls) == 2
+
+
+def test_grid_calls_observe_the_source_minimum_interval() -> None:
+    """Successive pages cannot exceed the admitted per-source request rate."""
+    current = 0.0
+    sleeps: list[float] = []
+
+    def monotonic() -> float:
+        return current
+
+    def sleep(seconds: float) -> None:
+        nonlocal current
+        sleeps.append(seconds)
+        current += seconds
+
+    transport = StubTransport(
+        [
+            (200, b""),
+            (200, _PAGE_HTML),
+            (200, _grid_reply(last_page=2, first_id=30056)),
+            (200, _grid_reply(last_page=2, first_id=30057)),
+        ]
+    )
+    client = HkelGazetteRegisterClient(
+        transport,
+        timing=GazetteRequestTiming(2, monotonic, sleep),
+    )
+    client.open_session()
+
+    client.page(1)
+    client.page(2)
+
+    assert sleeps == [2.0]
+
+
+def test_persistent_grid_throttling_ends_as_source_unavailable() -> None:
+    """The retry budget cannot turn publisher refusal into an unbounded loop."""
+    transport = ThrottledTransport(_gate_replies(2), throttles=99)
+    client = HkelGazetteRegisterClient(transport, attempts=2, backoff_seconds=0)
+    client.open_session()
+
+    with pytest.raises(GazetteRegisterError, match="HTTP 429") as error:
+        client.page(1)
+
     assert error.value.code is GazetteRegisterFailureCode.SOURCE_UNAVAILABLE
     assert transport.grid_calls == 2

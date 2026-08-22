@@ -1,0 +1,35 @@
+{
+  "fixture_id": "HKLEG-CURRENT-COMMENCE-FIX-010",
+  "title": "Missing authentic event evidence blocks commencement",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:464764c0c5dfeb7a848a3350f1e4a47acb006bfa8b44abeacc1b8c9fb735977b",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.commence-010",
+    "commencement_mode": "FIXED_DATE",
+    "operative_provision_fingerprint": "sha256:a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0",
+    "event_evidence_fingerprints": [],
+    "event_evidence_complete": false,
+    "event_evidence_authentic": false,
+    "event_evidence_conflicts": false,
+    "controlling_notice_state": "NOT_APPLICABLE",
+    "publication_date": "2026-08-10T00:00:00Z",
+    "effective_date": null,
+    "condition_exact": false,
+    "condition_satisfied_at_cutoff": false,
+    "all_location_ids": [
+      "section-1"
+    ],
+    "affected_location_ids": [
+      "section-1"
+    ],
+    "pre_event_operative_location_ids": [],
+    "affected_location_scope": "WHOLE_INSTRUMENT"
+  },
+  "expected_artifact": {
+    "path": "expected/current-commencement/HKLEG-CURRENT-COMMENCE-FIX-010.json",
+    "fingerprint": "sha256:67522f7d85782116486e3cb81790271d391b0b0610c97630b738878e789be7d9"
+  }
+}

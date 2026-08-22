@@ -1,0 +1,44 @@
+{
+  "fixture_id": "HKLEG-CURRENT-TEXT-EVENT-FIX-016",
+  "title": "Published future Editorial Record keeps pre-event current text",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:21807270ece01e4c34ba2553f4d6cf9a13b6ea6b4e4c9660413de66b658f5a27",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "affected_object_id": "hkleg.synthetic.principal-016",
+    "source_event_object_id": "hkleg.synthetic.editorial-record-016",
+    "event_type": "EDITORIAL_AMENDMENT",
+    "cause_source_id": "HK-LEG-HKEL-EDITORIAL-RECORDS",
+    "publication_date": "2026-08-01T00:00:00Z",
+    "effective_date": "2026-09-01T00:00:00Z",
+    "event_instrument_fingerprint": "sha256:1616161616161616161616161616161616161616161616161616161616161616",
+    "event_evidence_fingerprints": [
+      "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "operation_set_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "operation_mapping_complete": true,
+    "bilingual_operations_aligned": true,
+    "event_operative_at_cutoff": false,
+    "all_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "affected_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "affected_location_scope": "WHOLE_INSTRUMENT",
+    "matching_resulting_hkel_bundle_available": false,
+    "resulting_bundle_reflects_event": false,
+    "prior_event_history_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "expected_artifact": {
+    "path": "expected/current-text-event/HKLEG-CURRENT-TEXT-EVENT-FIX-016.json",
+    "fingerprint": "sha256:7d1492bd71e914db30596c9d48f144316c84e1d27a763717d07a99bb7fb62789"
+  }
+}

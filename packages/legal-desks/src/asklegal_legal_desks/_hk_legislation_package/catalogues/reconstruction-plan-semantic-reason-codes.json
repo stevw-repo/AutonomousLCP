@@ -1,0 +1,15 @@
+{"catalogue_id":"asklegal.hk-legislation.reconstruction-plan-semantic.reason-codes","version":"1.0.0","status":"FROZEN_PARTIAL","reason_codes":[
+  {"code":"HKLEG_RECON_PLAN_SEMANTIC_CANDIDATE_CONFIRMED","meaning":"Exact admitted decision and challenge outputs agree on one evidence-bound closed-registry mapping that passes deterministic prechecks; it remains an untrusted candidate.","processing_outcome":"PASS"},
+  {"code":"HKLEG_RECON_PLAN_SEMANTIC_PROFILE_NOT_ADMITTED","meaning":"The exact decision and challenge task profiles are not both admitted and fingerprint-bound.","processing_outcome":"BLOCK"},
+  {"code":"HKLEG_RECON_PLAN_SEMANTIC_DECISION_RESULT_MISSING","meaning":"No exact decision-stage result is available.","processing_outcome":"BLOCK"},
+  {"code":"HKLEG_RECON_PLAN_SEMANTIC_CHALLENGE_RESULT_MISSING","meaning":"No exact independent challenge-stage result is available.","processing_outcome":"BLOCK"},
+  {"code":"HKLEG_RECON_PLAN_SEMANTIC_DECISION_CONTRACT_INVALID","meaning":"The decision result or candidate mapping fails its closed task contract.","processing_outcome":"BLOCK"},
+  {"code":"HKLEG_RECON_PLAN_SEMANTIC_CHALLENGE_CONTRACT_INVALID","meaning":"The challenge result fails its closed task contract.","processing_outcome":"BLOCK"},
+  {"code":"HKLEG_RECON_PLAN_SEMANTIC_EVIDENCE_BINDING_INCOMPLETE","meaning":"Decision, challenge, or proposed operation fields are not completely bound to exact evidence spans.","processing_outcome":"BLOCK"},
+  {"code":"HKLEG_RECON_PLAN_SEMANTIC_UNSUPPORTED_OPERATION","meaning":"The candidate requests an operation outside the closed reconstruction registry.","processing_outcome":"BLOCK"},
+  {"code":"HKLEG_RECON_PLAN_SEMANTIC_FINAL_TEXT_OVERREACH","meaning":"A semantic stage attempted to author final legislative text, which is outside its authority.","processing_outcome":"QUARANTINE"},
+  {"code":"HKLEG_RECON_PLAN_SEMANTIC_CHALLENGE_OBJECTION","meaning":"The independent challenge identifies a bounded objection; revise the candidate or use fallback.","processing_outcome":"BLOCK"},
+  {"code":"HKLEG_RECON_PLAN_SEMANTIC_CHALLENGE_UNRESOLVED","meaning":"The independent challenge cannot resolve material uncertainty and requires the exceptional Legal Desk path.","processing_outcome":"QUARANTINE"},
+  {"code":"HKLEG_RECON_PLAN_SEMANTIC_RESULT_CONFLICT","meaning":"Decision and challenge evidence, fingerprints, or semantic facts conflict.","processing_outcome":"QUARANTINE"},
+  {"code":"HKLEG_RECON_PLAN_SEMANTIC_DETERMINISTIC_PRECHECK_FAILED","meaning":"Event-chain, applicability, dependency, bilingual-stream, or other deterministic candidate prechecks fail.","processing_outcome":"BLOCK"}
+]}

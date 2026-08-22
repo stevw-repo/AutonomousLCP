@@ -207,6 +207,14 @@ ignore = [
   "T201",
   "TRY003",
 ]
+"tools/image_admission_bootstrap.py" = [
+  "EM101",
+  "EM102",
+  "S603",
+  "T201",
+  "TRY003",
+  "TRY301",
+]
 "tools/architecture_spike.py" = [
   "C901",
   "EM101",
@@ -330,7 +338,7 @@ ignore = [
 include = [
   ".",
 ]
-exclude = [".venv", "node_modules"]
+exclude = [".venv", "node_modules", "var"]
 pythonVersion = "3.14"
 typeCheckingMode = "strict"
 venvPath = "."

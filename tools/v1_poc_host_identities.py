@@ -7,6 +7,7 @@ import re
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
+from typing import cast
 
 IDENTITY_POLICY_PATH = Path("infrastructure/poc/host_identity_inputs.json")
 TOPOLOGY_PATH = Path("infrastructure/poc/topology.json")
@@ -119,34 +120,72 @@ def _read_object(path: Path) -> dict[str, object]:
     raw = path.read_bytes()
     if len(raw) > _MAX_DOCUMENT_BYTES:
         raise ValueError(_DOCUMENT_TOO_LARGE)
-    value = json.loads(raw)
-    if not isinstance(value, dict):
+    value: object = json.loads(raw)
+    document = _string_object(value)
+    if document is None:
         raise TypeError(_DOCUMENT_ROOT)
-    return value
+    return document
 
 
 def _objects(value: object) -> tuple[dict[str, object], ...]:
-    if not isinstance(value, list) or not all(isinstance(item, dict) for item in value):
+    items = _object_list(value)
+    if items is None:
         raise TypeError(_OBJECT_LIST)
-    return tuple(item for item in value if isinstance(item, dict))
+    result: list[dict[str, object]] = []
+    for item in items:
+        document = _string_object(item)
+        if document is None:
+            raise TypeError(_OBJECT_LIST)
+        result.append(document)
+    return tuple(result)
 
 
 def _strings(value: object) -> tuple[str, ...]:
-    if not isinstance(value, list) or not all(type(item) is str and item for item in value):
+    items = _object_list(value)
+    if items is None:
         raise TypeError(_STRING_LIST)
-    return tuple(item for item in value if isinstance(item, str))
+    result: list[str] = []
+    for item in items:
+        if type(item) is not str or not item:
+            raise TypeError(_STRING_LIST)
+        result.append(item)
+    return tuple(result)
+
+
+def _string_object(value: object) -> dict[str, object] | None:
+    if not isinstance(value, dict):
+        return None
+    candidate = cast("dict[object, object]", value)
+    if not all(type(key) is str for key in candidate):
+        return None
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object] | None:
+    if not isinstance(value, list):
+        return None
+    return cast("list[object]", value)
+
+
+def _strings_or_empty(value: object) -> tuple[str, ...]:
+    try:
+        return _strings(value)
+    except TypeError:
+        return ()
 
 
 def _secret_findings(value: object, path: str = "$") -> tuple[HostIdentityFinding, ...]:
     findings: list[HostIdentityFinding] = []
-    if isinstance(value, dict):
+    document = _string_object(value)
+    items = _object_list(value)
+    if document is not None:
         forbidden = {"api_key", "password", "private_key", "secret", "token"}
-        for key, child in value.items():
+        for key, child in document.items():
             if key.lower() in forbidden:
                 findings.append(HostIdentityFinding(HostIdentityCode.SECRET, f"{path}.{key}"))
             findings.extend(_secret_findings(child, f"{path}.{key}"))
-    elif isinstance(value, list):
-        for index, child in enumerate(value):
+    elif items is not None:
+        for index, child in enumerate(items):
             findings.extend(_secret_findings(child, f"{path}[{index}]"))
     elif isinstance(value, str) and _SECRET_VALUE.search(value):
         findings.append(HostIdentityFinding(HostIdentityCode.SECRET, path))
@@ -202,12 +241,18 @@ def validate_host_identity_policy(
         findings.append(HostIdentityFinding(HostIdentityCode.AUTHORITY, "authority"))
     if policy.get("identity_profile") != _PROFILE:
         findings.append(HostIdentityFinding(HostIdentityCode.PROFILE, "profile"))
-    if tuple(policy.get("required_blockers", ())) != _BLOCKERS:
+    if _strings_or_empty(policy.get("required_blockers")) != _BLOCKERS:
         findings.append(HostIdentityFinding(HostIdentityCode.STATE, "blockers"))
     identities = _objects(policy.get("identities"))
-    service_ids = tuple(item.get("service_id") for item in identities)
-    names = tuple(item.get("identity") for item in identities)
-    if len(service_ids) != len(set(service_ids)) or frozenset(service_ids) != _EXPECTED_SERVICES:
+    service_ids = tuple(
+        service_id for item in identities if isinstance((service_id := item.get("service_id")), str)
+    )
+    names = tuple(name for item in identities if isinstance((name := item.get("identity")), str))
+    if (
+        len(service_ids) != len(identities)
+        or len(service_ids) != len(set(service_ids))
+        or frozenset(service_ids) != _EXPECTED_SERVICES
+    ):
         findings.append(HostIdentityFinding(HostIdentityCode.INVENTORY, "services"))
     if len(names) != len(set(names)) or any(name in {"mssql", "root"} for name in names):
         findings.append(HostIdentityFinding(HostIdentityCode.DUPLICATE, "identity"))
@@ -244,13 +289,19 @@ def _validate_container_identity_map(
         entries = _objects(value)
     except TypeError:
         return (HostIdentityFinding(HostIdentityCode.INVENTORY, "container identity map"),)
-    service_ids = tuple(entry.get("service_id") for entry in entries)
-    if len(service_ids) != len(set(service_ids)) or frozenset(service_ids) != topology_service_ids:
+    service_ids = tuple(
+        service_id for entry in entries if isinstance((service_id := entry.get("service_id")), str)
+    )
+    if (
+        len(service_ids) != len(entries)
+        or len(service_ids) != len(set(service_ids))
+        or frozenset(service_ids) != topology_service_ids
+    ):
         return (HostIdentityFinding(HostIdentityCode.INVENTORY, "container identity coverage"),)
-    host_uid = {
-        entry.get("service_id"): entry.get("uid")
+    host_uid: dict[str, object] = {
+        service_id: entry.get("uid")
         for entry in identities
-        if isinstance(entry.get("service_id"), str)
+        if isinstance((service_id := entry.get("service_id")), str)
     }
     findings: list[HostIdentityFinding] = []
     seen: set[int] = set()
@@ -275,21 +326,20 @@ def _validate_container_identity_map(
 
 
 def _validate_map_source(
-    entry: dict[str, object], uid: int, label: str, host_uid: dict[object, object]
+    entry: dict[str, object], uid: int, label: str, host_uid: dict[str, object]
 ) -> tuple[HostIdentityFinding, ...]:
     """Require each runtime identity to match the source that actually defines it."""
     source = entry.get("source")
-    service_id = entry.get("service_id")
     if source == "IMAGE_DEFINED":
-        expected = service_id in _IMAGE_DEFINED_SERVICES and uid == _IMAGE_DEFINED_SQL_UID
+        expected = label in _IMAGE_DEFINED_SERVICES and uid == _IMAGE_DEFINED_SQL_UID
     elif source == "CONTAINER_ONLY_RESERVED":
         expected = (
-            service_id in _CONTAINER_ONLY_SERVICES
+            label in _CONTAINER_ONLY_SERVICES
             and _ALLOCATED_UID_MIN <= uid <= _ALLOCATED_UID_MAX
-            and service_id not in host_uid
+            and label not in host_uid
         )
     else:
-        expected = host_uid.get(service_id) == uid
+        expected = host_uid.get(label) == uid
     return () if expected else (HostIdentityFinding(HostIdentityCode.STATE, label),)
 
 

@@ -14,9 +14,15 @@ from asklegal_application_runtime.credentials import (
     CredentialMaterial,
     SystemdCredentialDirectory,
 )
+from asklegal_application_runtime.entra_identity import (
+    EntraAccessTokenProfile,
+    EntraAccessTokenVerifier,
+    EntraSigningKey,
+)
 from asklegal_application_runtime.identity import (
     AuthorizationError,
     AuthorizationErrorCode,
+    IdentityVerifier,
     LocalIdentityVerifier,
     Principal,
     TokenType,
@@ -32,6 +38,9 @@ from asklegal_application_runtime.local import (
     LocalPaginationStore,
     LocalReviewProjectionStore,
     PageCursor,
+    ProposalArtifactProjection,
+    ProposalDecisionProjection,
+    ProposalDetailProjection,
     ProposalProjection,
 )
 from asklegal_application_runtime.probes import (
@@ -86,6 +95,10 @@ __all__ = [
     "CredentialMaterial",
     "DependencyCode",
     "DisabledEffectPort",
+    "EntraAccessTokenProfile",
+    "EntraAccessTokenVerifier",
+    "EntraSigningKey",
+    "IdentityVerifier",
     "LocalAdapterError",
     "LocalAdapterErrorCode",
     "LocalCommandRegister",
@@ -98,6 +111,9 @@ __all__ = [
     "Principal",
     "ProbeResult",
     "ProbeStatus",
+    "ProposalArtifactProjection",
+    "ProposalDecisionProjection",
+    "ProposalDetailProjection",
     "ProposalProjection",
     "ReadinessError",
     "ReadinessErrorCode",

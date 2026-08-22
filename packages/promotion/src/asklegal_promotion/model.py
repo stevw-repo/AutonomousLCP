@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from asklegal_corpus import CoverageStatusManifest, DesiredStateInventory
+    from asklegal_evidence_vault import ExactObjectReference
 
 
 class PromotionErrorCode(StrEnum):
@@ -44,6 +45,10 @@ class PromotionError(RuntimeError):
         super().__init__(f"{code.value}: {detail}" if detail else code.value)
         self.code = code
         self.detail = detail
+
+
+class OutcomeUnknown(RuntimeError):
+    """A remote mutation may have committed but no exact acknowledgement arrived."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -150,12 +155,25 @@ class PromotionManifest:
     desired_state: DesiredStateInventory
     coverage_status: CoverageStatusManifest
     embedding_profile: EmbeddingProfile
-    validity_predicates: tuple[tuple[str, str], ...]
+    validity_predicates: tuple[tuple[str, str, str], ...]
     batch_size: int
     project_id: str
     action_ids: tuple[str, ...]
     exact_retirement_target_ids: tuple[str, ...]
     capability_enabled: bool
+
+
+@dataclass(frozen=True, slots=True)
+class PromotionApprovalSnapshot:
+    """Exact manifest facts Review and Approval must recover from frozen bytes."""
+
+    manifest_id: str
+    fingerprint: str
+    expected_base_serving_state_id: str
+    candidate_serving_state_id: str
+    valid_from: str
+    valid_until: str
+    validity_predicates: tuple[tuple[str, str, str], ...]
 
 
 @dataclass(frozen=True, slots=True)
@@ -233,7 +251,7 @@ class PromotionPlan:
     desired_state: DesiredStateInventory
     coverage_status: CoverageStatusManifest
     embedding_profile: EmbeddingProfile
-    validity_predicates: tuple[tuple[str, str], ...]
+    validity_predicates: tuple[tuple[str, str, str], ...]
     batch_size: int
     project_id: str
     action_ids: tuple[str, ...]
@@ -250,3 +268,25 @@ class EmbeddingRequestInput:
     text: str
     batch_id: str
     position: int
+
+
+@dataclass(frozen=True, slots=True)
+class ProposalMemberReceipt:
+    """One proposal role bound to an exact Primary Vault object version."""
+
+    role: str
+    path: str
+    reference: ExactObjectReference
+
+
+@dataclass(frozen=True, slots=True)
+class StoredProposalPackage:
+    """Portable exact-version receipt for one manifest-last proposal package."""
+
+    package_id: str
+    package_fingerprint: str
+    promotion_manifest_id: str
+    promotion_manifest_fingerprint: str
+    members: tuple[ProposalMemberReceipt, ...]
+    manifest_reference: ExactObjectReference
+    receipt_fingerprint: str

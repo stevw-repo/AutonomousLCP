@@ -1,0 +1,33 @@
+{
+  "fixture_id": "HKLEG-CURRENT-PUB-FIX-007",
+  "title": "Other supplement remains discovery-only",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:8efb01df03fb55bf22586388e28a3002b6dec2d2ea33aeea623157755f723e76",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "source_id": "HK-LEG-GLD-EGAZETTE",
+    "gazette_issue_kind": "ORDINARY",
+    "gazette_material_class": "OTHER_SUPPLEMENT",
+    "publication_claim": "OTHER_DISCOVERY",
+    "subject_reference": "hkleg.synthetic.publication-007",
+    "issue_id": "gazette-2026-31",
+    "supplement_or_notice_id": "special-supplement-2026-31",
+    "instrument_or_notice_number": "Special Supplement A",
+    "publication_date": "2026-08-01T00:00:00Z",
+    "artifact_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "source_metadata_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "english_material_fingerprint": null,
+    "traditional_chinese_material_fingerprint": null,
+    "enabling_authority_fingerprint": null,
+    "evidence_complete": true,
+    "evidence_authentic": true,
+    "evidence_conflicts": false,
+    "bilingual_material_complete": false,
+    "claim_matches_material_class": true
+  },
+  "expected_artifact": {
+    "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-007.json",
+    "fingerprint": "sha256:71b66dbabee5801447522c986449a0411bc0d7d12c90c59f1be2692b96f92788"
+  }
+}

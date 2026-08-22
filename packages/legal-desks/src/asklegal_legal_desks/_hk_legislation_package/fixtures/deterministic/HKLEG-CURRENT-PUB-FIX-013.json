@@ -1,0 +1,33 @@
+{
+  "fixture_id": "HKLEG-CURRENT-PUB-FIX-013",
+  "title": "Main Gazette notice without exact enabling authority blocks",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:2244bc15ce01a4d8ebe3e612ee6a1badae44a34288e667a856bff24764f80701",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "source_id": "HK-LEG-GLD-EGAZETTE",
+    "gazette_issue_kind": "ORDINARY",
+    "gazette_material_class": "MAIN_GAZETTE_NOTICE",
+    "publication_claim": "LEGAL_NOTICE",
+    "subject_reference": "hkleg.synthetic.publication-013",
+    "issue_id": "gazette-2026-31",
+    "supplement_or_notice_id": "gn-5001-2026",
+    "instrument_or_notice_number": "G.N. 5001 of 2026",
+    "publication_date": "2026-08-01T00:00:00Z",
+    "artifact_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "source_metadata_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "english_material_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "traditional_chinese_material_fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "enabling_authority_fingerprint": null,
+    "evidence_complete": true,
+    "evidence_authentic": true,
+    "evidence_conflicts": false,
+    "bilingual_material_complete": true,
+    "claim_matches_material_class": true
+  },
+  "expected_artifact": {
+    "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-013.json",
+    "fingerprint": "sha256:4083b17400026325d2a0ea58bddcf1b65ff1e1084ce379315da41a156784e09e"
+  }
+}

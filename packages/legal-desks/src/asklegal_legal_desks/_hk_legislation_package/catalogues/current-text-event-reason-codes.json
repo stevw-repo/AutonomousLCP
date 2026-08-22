@@ -1,0 +1,22 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.current-text-event.reason-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {"code": "HKLEG_CURRENT_TEXT_EVENT_AMENDMENT_CURRENT_BUNDLE_AVAILABLE", "meaning": "An operative Gazette amendment has exact affected locations and a matching HKeL resulting bundle; ordinary current evidence validation must decide the text.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_TEXT_EVENT_AMENDMENT_CONSOLIDATION_MISSING", "meaning": "An operative Gazette amendment is proved but matching HKeL consolidated evidence is missing, creating a visible Coverage Gap and event route.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_TEXT_EVENT_AMENDMENT_PENDING", "meaning": "A published amendment takes effect after the cutoff; preserve its event while keeping pre-event text in ordinary current law.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_TEXT_EVENT_EXPRESS_CORRECTION_CURRENT_BUNDLE_AVAILABLE", "meaning": "An express Gazette correction is operative and matching HKeL resulting evidence is available for ordinary validation.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_TEXT_EVENT_EXPRESS_CORRECTION_CONSOLIDATION_MISSING", "meaning": "An express operative Gazette correction is proved but matching HKeL consolidated evidence is missing.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_TEXT_EVENT_EXPRESS_CORRECTION_PENDING", "meaning": "An express published correction takes effect after the cutoff; preserve the event and keep pre-event text.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_TEXT_EVENT_EDITORIAL_CURRENT_BUNDLE_AVAILABLE", "meaning": "A complete authentic bilingual Editorial Record is operative and matching HKeL resulting evidence is available for ordinary validation.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_TEXT_EVENT_EDITORIAL_CONSOLIDATION_MISSING", "meaning": "An operative Editorial Record is proved but matching HKeL consolidated evidence is missing, so no text is patched.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_TEXT_EVENT_EDITORIAL_PENDING", "meaning": "A published Editorial Record takes effect after the cutoff; preserve the event and keep pre-event text.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_CURRENT_TEXT_EVENT_EVIDENCE_INCOMPLETE", "meaning": "Authentic complete event evidence, publication/effective dates, or retained evidence fingerprints are incomplete.", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_CURRENT_TEXT_EVENT_OPERATION_MAPPING_INCOMPLETE", "meaning": "The event cannot be mapped completely to exact bilingual operations and legal locations.", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_CURRENT_TEXT_EVENT_BILINGUAL_OPERATION_CONFLICT", "meaning": "English and Traditional Chinese event operations do not identify the same change and locations.", "processing_outcome": "QUARANTINE"},
+    {"code": "HKLEG_CURRENT_TEXT_EVENT_RESULTING_TEXT_CONFLICT", "meaning": "The available resulting HKeL bundle does not reflect the proved operative event.", "processing_outcome": "QUARANTINE"},
+    {"code": "HKLEG_CURRENT_TEXT_EVENT_EVIDENCE_CONFLICT", "meaning": "Event evidence, fact-specific source authority, event identity, timing, or resulting-bundle claims conflict.", "processing_outcome": "QUARANTINE"},
+    {"code": "HKLEG_CURRENT_TEXT_EVENT_AFFECTED_SET_INVALID", "meaning": "The exact affected locations are empty, outside the instrument, or inconsistent with whole/partial scope.", "processing_outcome": "QUARANTINE"}
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "migration_id": "000006",
+  "operation": "expand",
+  "compatible_contract_range": ">=1.2.0,<2.0.0",
+  "batches": [
+    {"path": "001_registered_approval_revocation.sql", "byte_length": 7460, "sha256": "2a6aa55968380c86f26c651157cd48ae564fb388c52609a4e3dcb6c757baf524"},
+    {"path": "002_registered_approval_invalidation.sql", "byte_length": 7551, "sha256": "ed4d81d465721eabddb8d8927021e57995d0297a28bf6b1ef464bacf204c04ba"}
+  ],
+  "package_fingerprint": "0d553c258ec36ff45c1604b56b14e57e335b82df0fa3a3cede1f56d38a455813"
+}

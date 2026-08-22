@@ -7,7 +7,7 @@ import re
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -128,15 +128,43 @@ class TopologyReport:
 
 
 def _objects(value: object, label: str) -> tuple[dict[str, object], ...]:
-    if not isinstance(value, list) or not all(isinstance(item, dict) for item in value):
+    items = _object_list(value)
+    if items is None:
         raise ValueError(label)
-    return tuple(item for item in value if isinstance(item, dict))
+    result: list[dict[str, object]] = []
+    for item in items:
+        document = _string_object(item)
+        if document is None:
+            raise ValueError(label)
+        result.append(document)
+    return tuple(result)
 
 
 def _strings(value: object, label: str) -> tuple[str, ...]:
-    if not isinstance(value, list) or not all(type(item) is str and item for item in value):
+    items = _object_list(value)
+    if items is None:
         raise ValueError(label)
-    return tuple(item for item in value if isinstance(item, str))
+    result: list[str] = []
+    for item in items:
+        if type(item) is not str or not item:
+            raise ValueError(label)
+        result.append(item)
+    return tuple(result)
+
+
+def _string_object(value: object) -> dict[str, object] | None:
+    if not isinstance(value, dict):
+        return None
+    candidate = cast("dict[object, object]", value)
+    if not all(type(key) is str for key in candidate):
+        return None
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object] | None:
+    if not isinstance(value, list):
+        return None
+    return cast("list[object]", value)
 
 
 def _text(value: object, label: str) -> str:
@@ -152,14 +180,16 @@ def _duplicates(values: Iterable[str]) -> bool:
 
 def _secret_findings(value: object, path: str = "$") -> tuple[TopologyFinding, ...]:
     findings: list[TopologyFinding] = []
-    if isinstance(value, dict):
+    document = _string_object(value)
+    items = _object_list(value)
+    if document is not None:
         forbidden_keys = {"password", "secret", "token", "api_key", "private_key"}
-        for key, child in value.items():
+        for key, child in document.items():
             if key.lower() in forbidden_keys:
                 findings.append(TopologyFinding(TopologyCode.SECRET, f"{path}.{key}"))
             findings.extend(_secret_findings(child, f"{path}.{key}"))
-    elif isinstance(value, list):
-        for index, child in enumerate(value):
+    elif items is not None:
+        for index, child in enumerate(items):
             findings.extend(_secret_findings(child, f"{path}[{index}]"))
     elif isinstance(value, str) and _SECRET_VALUE.search(value):
         findings.append(TopologyFinding(TopologyCode.SECRET, path))
@@ -167,8 +197,8 @@ def _secret_findings(value: object, path: str = "$") -> tuple[TopologyFinding, .
 
 
 def _validate_host(document: dict[str, object]) -> tuple[TopologyFinding, ...]:
-    host = document.get("host")
-    if not isinstance(host, dict):
+    host = _string_object(document.get("host"))
+    if host is None:
         return (TopologyFinding(TopologyCode.HOST, "host"),)
     expected = {
         "os": "Ubuntu 24.04",
@@ -334,7 +364,11 @@ def validate_topology(document: dict[str, object]) -> tuple[TopologyFinding, ...
     findings.extend(_validate_host(document))
     if document.get("recovery_class") != "LOGICALLY_SEPARATE_POC_RECOVERY":
         findings.append(TopologyFinding(TopologyCode.RECOVERY, "recovery class"))
-    if tuple(document.get("databases", ())) != _EXPECTED_DATABASES:
+    try:
+        databases = _strings(document.get("databases"), "databases")
+    except ValueError:
+        databases = ()
+    if databases != _EXPECTED_DATABASES:
         findings.append(TopologyFinding(TopologyCode.AUTHORITY, "databases"))
     services = _objects(document.get("services"), "services")
     networks = _objects(document.get("networks"), "networks")
@@ -342,13 +376,18 @@ def validate_topology(document: dict[str, object]) -> tuple[TopologyFinding, ...
     findings.extend(_validate_networks(services, networks))
     findings.extend(_validate_vaults(document))
     findings.extend(_validate_schedulers(document))
-    if set(document.get("authoritative_audit", ())) != {
+    audit: set[str]
+    try:
+        audit = set(_strings(document.get("authoritative_audit"), "authoritative_audit"))
+    except ValueError:
+        audit = set()
+    if audit != {
         "RECOVERY_VAULT_IMMUTABLE_ARCHIVE",
         "SQL_SERVER_LEDGER",
     }:
         findings.append(TopologyFinding(TopologyCode.AUTHORITY, "audit"))
-    pinecone = document.get("pinecone")
-    if not isinstance(pinecone, dict) or pinecone != {
+    pinecone = _string_object(document.get("pinecone"))
+    if pinecone != {
         "project_isolation": "DEDICATED_POC_PROJECT",
         "mutation_owner": "promotion-worker",
         "replacement_indexes_only": True,
@@ -364,10 +403,11 @@ def load_topology(path: Path) -> dict[str, object]:
     raw = path.read_bytes()
     if len(raw) > _MAX_TOPOLOGY_BYTES:
         raise ValueError(_TOPOLOGY_TOO_LARGE)
-    value = json.loads(raw)
-    if not isinstance(value, dict):
+    value: object = json.loads(raw)
+    document = _string_object(value)
+    if document is None:
         raise TypeError(_TOPOLOGY_ROOT_TYPE)
-    return value
+    return document
 
 
 def check_topology(root: Path) -> TopologyReport:

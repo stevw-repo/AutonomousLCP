@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/hk-legislation-current-cessation.schema.json",
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "nullable_text": {"oneOf": [{"type": "string", "minLength": 1}, {"type": "null"}]},
+    "scope_id": {
+      "enum": [
+        "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+        "rsc_1cdf5a558e8286dadf84f819de1d48168d455cd457fcf30e",
+        "rsc_4708261daa351aa91a1511674b94bced0a9c2eaa817770ea"
+      ]
+    },
+    "event_type": {"enum": ["REPEAL", "REVOCATION", "EXPIRY", "REVIVAL"]},
+    "reason_code": {
+      "enum": [
+        "HKLEG_CURRENT_CESSATION_REPEAL_OPERATIVE_PROVED",
+        "HKLEG_CURRENT_CESSATION_REPEAL_PENDING",
+        "HKLEG_CURRENT_CESSATION_REVOCATION_OPERATIVE_PROVED",
+        "HKLEG_CURRENT_CESSATION_REVOCATION_PENDING",
+        "HKLEG_CURRENT_CESSATION_EXPIRY_OPERATIVE_PROVED",
+        "HKLEG_CURRENT_CESSATION_EXPIRY_PENDING",
+        "HKLEG_CURRENT_CESSATION_REVIVAL_OPERATIVE_PROVED",
+        "HKLEG_CURRENT_CESSATION_REVIVAL_PENDING",
+        "HKLEG_CURRENT_CESSATION_REVIVAL_CONTINUITY_UNPROVED",
+        "HKLEG_CURRENT_CESSATION_EVIDENCE_INCOMPLETE",
+        "HKLEG_CURRENT_CESSATION_EVIDENCE_CONFLICT",
+        "HKLEG_CURRENT_CESSATION_AFFECTED_STATE_INVALID"
+      ]
+    },
+    "reason_code_catalogue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalogue_id", "version", "status", "reason_codes"],
+      "properties": {
+        "catalogue_id": {"const": "asklegal.hk-legislation.current-cessation.reason-codes"},
+        "version": {"const": "1.0.0"},
+        "status": {"const": "FROZEN_PARTIAL"},
+        "reason_codes": {
+          "type": "array",
+          "minItems": 12,
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["code", "meaning", "processing_outcome"],
+            "properties": {
+              "code": {"$ref": "#/$defs/reason_code"},
+              "meaning": {"type": "string", "minLength": 1},
+              "processing_outcome": {"enum": ["PASS", "BLOCK", "QUARANTINE"]}
+            }
+          }
+        }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_id", "version", "stage", "establishes", "record_output", "identity_rule", "history_rule"],
+      "properties": {
+        "rule_id": {"const": "HKLEG-CURRENT-CESSATION-001"},
+        "version": {"const": "1.0.0"},
+        "stage": {"const": "CESSATION_AND_REVIVAL_LEGAL_EFFECT"},
+        "establishes": {"const": "EVIDENCE_BOUND_POST_EVENT_OPERATIVE_AND_CEASED_LOCATIONS"},
+        "record_output": {"const": "NONE"},
+        "identity_rule": {"const": "NO_SUBSTITUTION_SUCCESSOR_OR_REVIVAL_IDENTITY_INFERENCE"},
+        "history_rule": {"const": "APPEND_EVENT_WITHOUT_OVERWRITING_PRIOR_EVENT_HISTORY"}
+      }
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cutoff", "scope_id", "object_id", "event_type",
+        "operative_provision_fingerprint", "event_evidence_fingerprints",
+        "prior_event_history_fingerprint",
+        "event_evidence_complete", "event_evidence_authentic", "event_evidence_conflicts",
+        "controlling_notice_state", "effective_date", "revival_continuity_proved",
+        "all_location_ids", "affected_location_ids", "pre_event_operative_location_ids",
+        "pre_event_ceased_location_ids", "affected_location_scope"
+      ],
+      "properties": {
+        "cutoff": {"const": "2026-08-17T00:00:00Z"},
+        "scope_id": {"$ref": "#/$defs/scope_id"},
+        "object_id": {"type": "string", "minLength": 1},
+        "event_type": {"$ref": "#/$defs/event_type"},
+        "operative_provision_fingerprint": {"$ref": "#/$defs/sha256"},
+        "event_evidence_fingerprints": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "prior_event_history_fingerprint": {"$ref": "#/$defs/sha256"},
+        "event_evidence_complete": {"type": "boolean"},
+        "event_evidence_authentic": {"type": "boolean"},
+        "event_evidence_conflicts": {"type": "boolean"},
+        "controlling_notice_state": {"enum": ["NOT_APPLICABLE", "CURRENT", "AMENDED_CURRENT", "UNRESOLVED"]},
+        "effective_date": {"$ref": "#/$defs/nullable_text"},
+        "revival_continuity_proved": {"type": "boolean"},
+        "all_location_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "affected_location_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "pre_event_operative_location_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "pre_event_ceased_location_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "affected_location_scope": {"enum": ["WHOLE_INSTRUMENT", "EXACT_LOCATIONS"]}
+      }
+    },
+    "fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fixture_id", "title", "synthetic", "status", "input_fingerprint", "input", "expected_artifact"],
+      "properties": {
+        "fixture_id": {"type": "string", "pattern": "^HKLEG-CURRENT-CESSATION-FIX-(00[1-9]|01[0-4])$"},
+        "title": {"type": "string", "minLength": 1},
+        "synthetic": {"const": true},
+        "status": {"const": "FROZEN_PARTIAL"},
+        "input_fingerprint": {"$ref": "#/$defs/sha256"},
+        "input": {"$ref": "#/$defs/input"},
+        "expected_artifact": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "fingerprint"],
+          "properties": {
+            "path": {"type": "string", "pattern": "^expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-(00[1-9]|01[0-4])\\.json$"},
+            "fingerprint": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      }
+    },
+    "fixture_catalogue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalogue_id", "version", "status", "accepted_complete_universe", "fixtures"],
+      "properties": {
+        "catalogue_id": {"const": "asklegal.hk-legislation.current-cessation.fixtures"},
+        "version": {"const": "1.0.0"},
+        "status": {"const": "FROZEN_PARTIAL"},
+        "accepted_complete_universe": {"const": false},
+        "fixtures": {
+          "type": "array",
+          "minItems": 14,
+          "maxItems": 14,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["fixture_id", "path", "fixture_fingerprint", "expected_path", "expected_fingerprint"],
+            "properties": {
+              "fixture_id": {"type": "string", "pattern": "^HKLEG-CURRENT-CESSATION-FIX-(00[1-9]|01[0-4])$"},
+              "path": {"type": "string", "pattern": "^fixtures/deterministic/HKLEG-CURRENT-CESSATION-FIX-(00[1-9]|01[0-4])\\.json$"},
+              "fixture_fingerprint": {"$ref": "#/$defs/sha256"},
+              "expected_path": {"type": "string", "pattern": "^expected/current-cessation/HKLEG-CURRENT-CESSATION-FIX-(00[1-9]|01[0-4])\\.json$"},
+              "expected_fingerprint": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixture_id", "rule_id", "processing_outcome", "legal_disposition",
+        "coverage_effect", "source_contract_review_required", "reason_codes", "rule_trace",
+        "event_fact_output", "event_type", "status_effect", "identity_effect",
+        "affected_object_ids", "affected_scope_ids", "effective_date",
+        "operative_provision_fingerprint", "event_evidence_fingerprints",
+        "prior_event_history_fingerprint", "event_history_action",
+        "event_operative_at_cutoff", "affected_location_ids",
+        "post_event_operative_location_ids", "post_event_ceased_location_ids",
+        "record_output", "next_action"
+      ],
+      "properties": {
+        "fixture_id": {"type": "string", "pattern": "^HKLEG-CURRENT-CESSATION-FIX-(00[1-9]|01[0-4])$"},
+        "rule_id": {"const": "HKLEG-CURRENT-CESSATION-001"},
+        "processing_outcome": {"enum": ["PASS", "BLOCK", "QUARANTINE"]},
+        "legal_disposition": {"enum": ["NOT_APPLICABLE", "HISTORICAL", "QUARANTINE"]},
+        "coverage_effect": {"const": "NONE"},
+        "source_contract_review_required": {"const": false},
+        "reason_codes": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"$ref": "#/$defs/reason_code"}},
+        "rule_trace": {"const": ["HKLEG-CURRENT-CESSATION-001"]},
+        "event_fact_output": {"enum": ["NONE", "LEGAL_STATUS_EVENT"]},
+        "event_type": {"$ref": "#/$defs/event_type"},
+        "status_effect": {"enum": ["CEASED", "REVIVED", "PENDING", "UNRESOLVED"]},
+        "identity_effect": {"enum": ["NONE", "PRESERVE_EXISTING_IDENTITIES", "REVIVAL_CONTINUITY_PROVED"]},
+        "affected_object_ids": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"type": "string", "minLength": 1}},
+        "affected_scope_ids": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"$ref": "#/$defs/scope_id"}},
+        "effective_date": {"$ref": "#/$defs/nullable_text"},
+        "operative_provision_fingerprint": {"$ref": "#/$defs/sha256"},
+        "event_evidence_fingerprints": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "prior_event_history_fingerprint": {"$ref": "#/$defs/sha256"},
+        "event_history_action": {"enum": ["APPEND_EVENT", "PRESERVE_UNCHANGED"]},
+        "event_operative_at_cutoff": {"oneOf": [{"type": "boolean"}, {"type": "null"}]},
+        "affected_location_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "post_event_operative_location_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "post_event_ceased_location_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "record_output": {"const": "NONE"},
+        "next_action": {
+          "enum": [
+            "ASSIGN_HISTORICAL", "SPLIT_CURRENT_AND_HISTORICAL_LOCATIONS",
+            "RUN_HKLEG_CURRENT_EVENT_001", "KEEP_PRE_EVENT_STATE",
+            "RESOLVE_CESSATION_EVIDENCE", "QUARANTINE_CESSATION_EVIDENCE",
+            "QUARANTINE_REVIVAL_CONTINUITY", "QUARANTINE_AFFECTED_STATE"
+          ]
+        }
+      }
+    }
+  }
+}

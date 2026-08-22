@@ -3,6 +3,46 @@
 Only settled decisions belong here. Recommendations and unresolved choices stay
 in the design brief and `WORKING_STATE.md` until the user decides them.
 
+## 2026-08-22 — Re-admit the local synthetic image proof on exact current inputs
+
+The authorized local proof now binds the exact named builder used for every
+build, not merely the presence of some matching BuildKit node. The selected
+builder is `asklegal-image-admission-v0262`, using the Docker-container driver
+and `moby/buildkit` v0.26.2 at digest
+`sha256:de10faf919fc71ba4eb1dd7bd6449566d012b0c9436b1c61bfee21d621b009aa`.
+Docker Engine 29.7.2 supersedes the earlier 29.1.3 observation for this local
+admission. The selected Grype v6.1.9 database is built at
+`2026-08-21T06:17:24Z`; its exact archive and extracted database hashes remain
+closed policy inputs with a 24-hour maximum age.
+
+This re-admission fixes two reproducibility defects exposed by the rerun. The
+old proof checked that a v0.26.2 builder existed but hardcoded actual builds to
+the mutable `default` builder, and the tracked fixture lacked the dpkg status
+record required to inventory its declared BusyBox package. Builds now use the
+exact verified named builder, and ordinary tests require the tracked synthetic
+package record. `tools/image_admission_bootstrap.py` is the repository-owned
+verified acquisition/import path for all disposable proof inputs. The 2026-08-16
+synthetic-only trust, policy, and non-production limits remain unchanged.
+
+## 2026-08-21 — Keep ignored runtime state outside the strict repository type gate
+
+Official Pyright 1.1.413 checks the complete repository root in strict Python
+3.14 mode except dependency environments and the ignored `var/` runtime tree.
+Every tracked application, package, test, and repository Python tool remains
+automatically included; `var/` contains host probes, one-off runtime scripts,
+credentials staging, captures, and generated local state that is neither source
+nor allowed in Git. The configuration test fixes this exact exclusion inventory
+so tracked debt cannot be hidden by adding another excluded source directory.
+
+## 2026-08-21 — Never reset M7 proof state implicitly
+
+`asklegal-local prove` remains clean-state-only. If the exact marked synthetic
+root already contains complete or partial proof output, the CLI returns the
+stable `SYNTHETIC_STATE_RESET_REQUIRED` failure. It does not delete or overwrite
+that state. The operator must separately invoke
+`reset --exact-test-state`, whose exact-path and marker checks remain the only
+authorized deletion boundary.
+
 ## 2026-08-21 — Retain GLD e-Gazette as the V1 current-publication source
 
 The direct `HK-LEG-GLD-EGAZETTE` role remains inside V1 and remains the
@@ -5282,3 +5322,180 @@ claim independence from Azure or the shared Microsoft Entra tenant.
 Conflicting official evidence, incomplete source capture, unclear legal status,
 and unsupported AI output are preserved in Quarantine. Unrelated clear work may
 continue, but Quarantine remains visible in the report and coverage status.
+
+## 2026-08-22 — Approval validity predicates carry contract versions
+
+Every Approval validity-condition reference carries the exact contract ID,
+contract version, and fingerprint from the frozen Promotion Manifest. Approval
+schema 1.1.0 requires all three. Decision construction must fail if the version
+is absent; it must never infer or invent one from a fingerprint.
+
+## 2026-08-22 — Entra verification has no runtime discovery fallback
+
+The API resource-server verifier loads only an exact admitted single-tenant
+profile and locally pinned RSA signing-key versions. It does not fetch discovery
+metadata or JWKS during request handling and does not follow token-supplied key
+locations. Key refresh is a separate fingerprinted admission operation. This
+implements ADR 0096's pinned tenant metadata rule while keeping offline/local
+proofs deterministic and authentication fail-closed.
+
+## 2026-08-22 — Consume registered Approval only through a Promotion-owned specialized command
+
+The V1 Promotion worker reconstructs the approved proposal after restart and
+consumes one Approval for one exact execution lineage through a dedicated
+Management Register procedure. The procedure itself rechecks the registered
+approved decision and command/event bindings, records the no-effect lifecycle
+event atomically, and makes a competing lineage fail. Promotion is denied the
+generic command writer so application code cannot bypass the registered
+Approval guard. Consumption alone creates no Effect Intent or provider-write
+authority; later effect commands require their own admitted, specialized
+guards.
+
+## 2026-08-22 — Revocation, invalidation, and consumption share one terminal Approval winner
+
+An approved registered Approval has one mutually exclusive terminal transition.
+Named-human revocation belongs to Review; objective invalidation and execution
+consumption belong to Promotion. All three acquire the same per-Approval lock
+and global winner key, append only their authorized lifecycle event, and resolve
+exact replay. A terminal winner blocks the other two. Neither revocation nor
+invalidation creates an Effect Intent. This prevents a late revocation or drift
+observation from racing successfully with execution authorization.
+
+## 2026-08-22 — Validate proposal-member semantics at every consuming trust boundary
+
+Immutable versions, byte lengths, and fingerprints prove which proposal bytes
+were read, but do not prove those bytes contain a meaningful release package.
+One repository-owned framework-free contract therefore defines the exact eleven
+V1 member roles, each role's closed content, and their cross-member authority
+bindings. A correctly hashed placeholder, failed validation or readiness gate,
+or drifted release/coverage/traceability/recovery/report fact is invalid.
+
+Control and Promotion apply the contract through their shared exact-version
+package reader. Review applies it independently after its own vault reads, so a
+different application's successful parse is not a Review trust input. This
+validation is a prerequisite to Review visibility and Promotion reconstruction;
+it is not itself Approval, consumption, Effect Intent, or provider authority.
+
+## 2026-08-22 — Authorize a consumed execution lineage before creating any effect
+
+Approval consumption and Promotion execution authorization are separate durable
+no-effect transitions. Consumption terminally binds one exact `exe_` lineage to
+the approved manifest. A Promotion-only specialized command may then create
+`EXECUTION_AUTHORIZED` only after independently matching that consumption's
+proposal, decision, manifest, lineage fingerprint, worker identity, and
+validation evidence. Exact replay and acknowledgement-loss recovery return the
+same immutable result.
+
+Authorization itself creates no Effect Intent and grants no provider capability.
+The later `BEGIN` transition is the first point that may atomically create an
+Effect Intent, and only after exact model, embedding, target, recovery, and
+capability profiles are admitted. This ordering allows restart-safe governance
+proof without silently enabling a provider handler.
+
+## 2026-08-22 — Establish Hong Kong commencement from exact operative evidence and locations
+
+Hong Kong commencement decisions require an exact operative provision and
+authentic retained event evidence. Gazette publication, an HKeL `InEffect`
+signal, a future date, or an unsatisfied condition cannot by itself make a Legal
+Location searchable. Fixed or appointed dates after the cutoff and exact
+unsatisfied conditional commencements remain in the Waiting Room.
+
+Partial commencement changes only the exact newly named Legal Locations. The
+decision preserves the already-operative set, returns the remaining pending
+set, and records a Legal Status Event without manufacturing an Official Version
+or Search Record. Missing or structurally invalid evidence blocks; conflicting
+evidence or an unresolved controlling-notice chain quarantines.
+
+The frozen package readiness contract is generated from the actual offline rule
+files and declared fixture groups before the package manifest is fingerprinted.
+A manually maintained subset is not an authoritative readiness inventory.
+
+## 2026-08-22 — Cessation preserves identity; revival requires exact continuity
+
+Repeal, revocation, and expiry change only the exact Legal Locations named by
+an authentic operative provision or instrument when its effective date has
+arrived. Future cessation preserves the complete pre-event operative/ceased
+state. An operative cessation preserves existing identities and cannot infer a
+replacement, substitution, or successor merely from numbering, wording,
+disappearance, or source status.
+
+Revival may reuse a Legal Item or Legal Location only when exact official
+continuity evidence proves that the same object is revived. Otherwise the event
+is quarantined. This legal-effect decision emits a Legal Status Event, not an
+Official Version or Search Record; resulting current text remains governed by
+the separate HKeL evidence and missing-consolidation rules.
+
+Every accepted event binds the prior event-history fingerprint and appends a new
+event. Incomplete, conflicting, continuity-unproved, or state-inconsistent
+evidence preserves the prior history unchanged rather than overwriting it.
+
+## 2026-08-22 — Text-changing events do not manufacture consolidated text
+
+An operative amendment or express official correction is established only from
+its exact Gazette instrument, bilingual operation mapping, effective date, and
+affected Legal Locations. An HKeL Editorial Record establishes only its exact
+complete authentic bilingual editorial operations and effective date. The
+principal object and the source event object remain distinct, and every
+accepted event appends to the fingerprint-bound prior event history.
+
+A matching resulting HKeL bundle routes to ordinary current-evidence validation;
+it is not accepted by the event decision itself. Missing consolidation creates
+a visible Coverage Gap and routes to the existing missing-consolidation event
+boundary. Future-effective events preserve pre-event current text. No event
+path patches old text, constructs a consolidation, creates an Official Version
+or Search Record, or infers identity continuity. Conflicting evidence,
+bilingual operations, resulting text, timing, source authority, or affected
+sets quarantine; incomplete evidence or operation mapping blocks.
+
+## 2026-08-22 — Gazette publication is classified before legal effect or text
+
+The publication decision preserves the exact GLD artifact, source metadata,
+issue, supplement or notice identity, official number, publication date, and
+required bilingual material. Legal Supplement No. 1 may establish Ordinance
+enactment/publication; Legal Supplement No. 2 may establish subsidiary-
+legislation or notice publication. A Main Gazette notice also requires the
+exact enabling-authority fingerprint before even its fact-specific event route
+is available. Gazette Extraordinary has the authority of its material class;
+its timing supplies no higher legal priority.
+
+Legal Supplement No. 3 is retained only for complete Gazette inventory and
+excluded classification, not Bill processing, enactment, commencement, current
+law, or searchable text. Other supplements remain discovery-only until a
+separate item-specific accepted rule exists. Publication classification creates
+no commencement or legal-effect conclusion, identity or continuity inference,
+Official Version, or Search Record. Those decisions remain owned by their
+separate evidence, identity, event, and record gates.
+
+## 2026-08-22 — Reconstruction semantic results remain untrusted until deterministic Plan validation
+
+ADR 0099 Decision 7 permits separately admitted model tasks to decide and
+challenge only the bounded semantic mappings named by their contracts. A
+matching primary/challenge result therefore produces at most one
+`UNTRUSTED_STRUCTURED_PLAN_CANDIDATE`. It is not an ADR 0084 Reconstruction
+Plan, legal text, an operation result, an Official Version, or a Search Record.
+
+The pre-Plan gate requires exact admitted task-profile and result fingerprints,
+closed result contracts, complete evidence-span bindings, only ADR 0082 registry
+operations, no model-authored final text, a confirmed challenge, and complete
+deterministic event-chain, applicability, dependency, and bilingual prechecks.
+Missing or unsupported facts block; semantic conflict, model authority
+overreach, or unresolved material uncertainty quarantines. Every successful
+candidate must still pass the full deterministic Plan contract, execution, and
+artifact gates. This rule performs no provider call, profile admission,
+operation execution, text construction, record creation, or external effect.
+
+## 2026-08-22 — A complete Reconstruction Plan is validated before any operation executes
+
+The deterministic ADR 0084 Plan gate accepts only a closed, canonical Plan that
+binds the exact pre-Plan semantic candidate, accepted Legal Desk decision,
+latest eligible HKeL base, complete ordered event chain, applicability and
+dependency closure, complete source-unit ownership, both authentic-language
+streams, closed ADR 0082 operation instances, exact event bindings, and
+dependency-closed atomic groups. Unknown operations require Source Contract
+Review; incomplete evidence or closure blocks; bilingual mismatch quarantines.
+
+Validation binds the candidate's existing `rpl_` identity and canonical
+fingerprint. It does not mint a replacement identity, execute an operation,
+construct text, create a reconstruction artifact or Search Record, activate a
+scope, or grant provider/external authority. Execution and artifact validation
+remain separate later gates so a valid shape cannot silently become legal text.

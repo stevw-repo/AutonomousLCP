@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+from typing import cast
 
 OUTPUT_ROOT = Path("infrastructure/poc/provisioning")
 HOST_POLICY_PATH = Path("infrastructure/poc/host_admission_policy.json")
@@ -59,30 +60,59 @@ require_root() {{
 
 def _read(root: Path, path: Path) -> dict[str, object]:
     value = json.loads((root / path).read_bytes())
-    if not isinstance(value, dict):
+    result = _string_object(value)
+    if result is None:
         message = f"provisioning input root: {path}"
         raise TypeError(message)
-    return value
+    return result
+
+
+def _string_object(value: object) -> dict[str, object] | None:
+    if not isinstance(value, dict):
+        return None
+    candidate = cast("dict[object, object]", value)
+    if not all(type(key) is str for key in candidate):
+        return None
+    return cast("dict[str, object]", candidate)
 
 
 def _objects(value: object) -> list[dict[str, object]]:
     if not isinstance(value, list):
         message = "provisioning object list"
         raise TypeError(message)
-    return [item for item in value if isinstance(item, dict)]
+    result: list[dict[str, object]] = []
+    for item in cast("list[object]", value):
+        candidate = _string_object(item)
+        if candidate is None:
+            message = "provisioning object list member"
+            raise TypeError(message)
+        result.append(candidate)
+    return result
+
+
+def _strings(value: object) -> list[str]:
+    if not isinstance(value, list):
+        message = "provisioning string list"
+        raise TypeError(message)
+    candidate = cast("list[object]", value)
+    if not all(type(item) is str for item in candidate):
+        message = "provisioning string list member"
+        raise TypeError(message)
+    return cast("list[str]", candidate)
 
 
 def _preflight(host_policy: dict[str, object]) -> str:
-    runtime = host_policy["runtime"]
-    if not isinstance(runtime, dict):
+    runtime = _string_object(host_policy["runtime"])
+    if runtime is None:
         message = "runtime policy"
         raise TypeError(message)
-    locks = runtime["host_package_locks"]
-    if not isinstance(locks, dict):
+    locks = _string_object(runtime["host_package_locks"])
+    if locks is None or not all(type(version) is str for version in locks.values()):
         message = "host package locks"
         raise TypeError(message)
+    lock_versions = cast("dict[str, str]", locks)
     checks = "\n".join(
-        f'check_package {name} "{version}"' for name, version in sorted(locks.items())
+        f'check_package {name} "{version}"' for name, version in sorted(lock_versions.items())
     )
     return (
         _HEADER.format(generated=_GENERATED, title="Step 10 — read-only preflight")
@@ -227,8 +257,8 @@ def _identities(identity_policy: dict[str, object], topology: dict[str, object])
     for service in _objects(topology["services"]):
         service_id = str(service["service_id"])
         identity = str(service["identity"])
-        for path in service["write_paths"] if isinstance(service["write_paths"], list) else []:
-            owner_by_path[str(path)] = (
+        for path in _strings(service["write_paths"]):
+            owner_by_path[path] = (
                 f"{_SQL_IMAGE_UID}:{_SQL_IMAGE_UID}"
                 if service_id == "sql-server"
                 else f"{identity}:{identity}"

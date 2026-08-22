@@ -1,0 +1,630 @@
+{
+  "fixture_id": "HKLEG-RECON-PLAN-VAL-FIX-005",
+  "title": "Unknown reconstruction operation opens Source Contract Review",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:2f6b39bfdfedc649819265c07bc15073cd245bef73156b4f7140acc42d1cfe69",
+  "input": {
+    "semantic_candidate_fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "plan_semantic_candidate_fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "accepted_legal_desk_decision_ref": {
+      "ref_type": "DECISION",
+      "ref_id": "ldd_000000000000000000000000000000000000000000000003",
+      "fingerprint": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+    },
+    "legal_desk_decision_accepted": true,
+    "latest_eligible_base_proved": true,
+    "event_chain_complete": true,
+    "event_order_proved": true,
+    "applicability_exact": true,
+    "dependency_closure_complete": true,
+    "no_overlapping_plan": true,
+    "source_unit_ownership_complete": true,
+    "authentic_language_evidence_complete": true,
+    "bilingual_alignment_complete": true,
+    "operation_event_bindings_complete": true,
+    "atomic_groups_dependency_closed": true,
+    "undeclared_input_detected": false,
+    "deterministic_revalidation_passed": true,
+    "declared_evidence_refs": [
+      {
+        "ref_type": "ARTIFACT",
+        "ref_id": "art_000000000000000000000000000000000000000000000001",
+        "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      {
+        "ref_type": "ARTIFACT",
+        "ref_id": "art_000000000000000000000000000000000000000000000002",
+        "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+      },
+      {
+        "ref_type": "ARTIFACT",
+        "ref_id": "art_000000000000000000000000000000000000000000000003",
+        "fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+      },
+      {
+        "ref_type": "ARTIFACT",
+        "ref_id": "art_000000000000000000000000000000000000000000000004",
+        "fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+      },
+      {
+        "ref_type": "ARTIFACT",
+        "ref_id": "art_000000000000000000000000000000000000000000000005",
+        "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+      },
+      {
+        "ref_type": "ARTIFACT",
+        "ref_id": "art_000000000000000000000000000000000000000000000006",
+        "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+      },
+      {
+        "ref_type": "ARTIFACT",
+        "ref_id": "art_000000000000000000000000000000000000000000000007",
+        "fingerprint": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+      },
+      {
+        "ref_type": "ARTIFACT",
+        "ref_id": "art_000000000000000000000000000000000000000000000008",
+        "fingerprint": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+      },
+      {
+        "ref_type": "ARTIFACT",
+        "ref_id": "art_000000000000000000000000000000000000000000000009",
+        "fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      {
+        "ref_type": "ARTIFACT",
+        "ref_id": "art_00000000000000000000000000000000000000000000000a",
+        "fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      {
+        "ref_type": "ARTIFACT",
+        "ref_id": "art_00000000000000000000000000000000000000000000000b",
+        "fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      {
+        "ref_type": "ARTIFACT",
+        "ref_id": "art_00000000000000000000000000000000000000000000000c",
+        "fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      {
+        "ref_type": "ARTIFACT",
+        "ref_id": "art_00000000000000000000000000000000000000000000000d",
+        "fingerprint": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      {
+        "ref_type": "ARTIFACT",
+        "ref_id": "art_00000000000000000000000000000000000000000000000e",
+        "fingerprint": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      }
+    ],
+    "candidate_plan": {
+      "$schema": "asklegal://contracts/hk-legislation/reconstruction-plan/1.0.0",
+      "contract_version": "1.0.0",
+      "reconstruction_plan_id": "rpl_000000000000000000000000000000000000000000000001",
+      "jurisdiction": "HK",
+      "material": "legislation",
+      "observation_cutoff": "2026-08-17T00:00:00Z",
+      "legal_item_ref": {
+        "ref_type": "LEGAL_ITEM",
+        "ref_id": "lit_000000000000000000000000000000000000000000000001",
+        "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      "base": {
+        "official_version_ref": {
+          "ref_type": "OFFICIAL_VERSION",
+          "ref_id": "ofv_000000000000000000000000000000000000000000000001",
+          "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+        },
+        "bilingual_tree_ref": {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000001",
+          "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+        },
+        "en_tree_ref": {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000002",
+          "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+        },
+        "zh_hant_tree_ref": {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000003",
+          "fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+        },
+        "en_xml_ref": {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000004",
+          "fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+        },
+        "en_copy_ref": {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000005",
+          "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+        },
+        "zh_hant_xml_ref": {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000006",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "zh_hant_copy_ref": {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000007",
+          "fingerprint": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+        },
+        "evidence_class": "VERIFIED",
+        "source_version_date": "2026-08-01",
+        "applicable_state_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "ldd_000000000000000000000000000000000000000000000001",
+          "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+        },
+        "base_location_inventory_fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "canonical_bilingual_base_fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+      },
+      "applicability_decision_ref": {
+        "ref_type": "DECISION",
+        "ref_id": "ldd_000000000000000000000000000000000000000000000002",
+        "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+      },
+      "affected_legal_location_refs": [
+        {
+          "ref_type": "LEGAL_LOCATION",
+          "ref_id": "loc_000000000000000000000000000000000000000000000001",
+          "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+        }
+      ],
+      "contracts": {
+        "source_rulebook": {
+          "contract_id": "asklegal.hk-legislation.source-rulebook",
+          "version": "1.0.0",
+          "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        },
+        "operation_registry": {
+          "contract_id": "asklegal.hk-legislation.reconstruction-operation-registry",
+          "version": "1.0.0",
+          "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+        },
+        "source_interpretation": {
+          "contract_id": "asklegal.hk-legislation.source-interpretation",
+          "version": "1.0.0",
+          "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+        },
+        "tree": {
+          "contract_id": "asklegal.hk-legislation.canonical-tree",
+          "version": "1.0.0",
+          "fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+        },
+        "renderer": {
+          "contract_id": "asklegal.hk-legislation.renderer",
+          "version": "1.0.0",
+          "fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+        },
+        "identity": {
+          "contract_id": "asklegal.hk-legislation.identity",
+          "version": "1.0.0",
+          "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+        },
+        "traceability": {
+          "contract_id": "asklegal.hk-legislation.traceability",
+          "version": "1.0.0",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "execution": {
+          "contract_id": "asklegal.hk-legislation.reconstruction-execution",
+          "version": "1.0.0",
+          "fingerprint": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+        }
+      },
+      "evidence_refs": [
+        {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000001",
+          "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+        },
+        {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000002",
+          "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+        },
+        {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000003",
+          "fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+        },
+        {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000004",
+          "fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+        },
+        {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000005",
+          "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+        },
+        {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000006",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000007",
+          "fingerprint": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+        },
+        {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000008",
+          "fingerprint": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+        },
+        {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_000000000000000000000000000000000000000000000009",
+          "fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_00000000000000000000000000000000000000000000000a",
+          "fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_00000000000000000000000000000000000000000000000b",
+          "fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_00000000000000000000000000000000000000000000000c",
+          "fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_00000000000000000000000000000000000000000000000d",
+          "fingerprint": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        },
+        {
+          "ref_type": "ARTIFACT",
+          "ref_id": "art_00000000000000000000000000000000000000000000000e",
+          "fingerprint": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        }
+      ],
+      "event_chain": [
+        {
+          "sequence": 0,
+          "event_ref": {
+            "ref_type": "LEGAL_STATUS_EVENT",
+            "ref_id": "lse_000000000000000000000000000000000000000000000001",
+            "fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+          },
+          "event_role": "TEXT_AMENDMENT_WITH_EFFECT",
+          "amendment_evidence_refs": [
+            {
+              "ref_type": "ARTIFACT",
+              "ref_id": "art_000000000000000000000000000000000000000000000008",
+              "fingerprint": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+            }
+          ],
+          "effect_evidence_refs": [
+            {
+              "ref_type": "ARTIFACT",
+              "ref_id": "art_000000000000000000000000000000000000000000000009",
+              "fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "effective_state_decision_ref": {
+            "ref_type": "DECISION",
+            "ref_id": "ldd_000000000000000000000000000000000000000000000001",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          },
+          "affected_location_refs": [
+            {
+              "ref_type": "LEGAL_LOCATION",
+              "ref_id": "loc_000000000000000000000000000000000000000000000001",
+              "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+            }
+          ],
+          "authentic_language_source_unit_refs": {
+            "en": [
+              {
+                "ref_type": "ARTIFACT",
+                "ref_id": "art_00000000000000000000000000000000000000000000000a",
+                "fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+              },
+              {
+                "ref_type": "ARTIFACT",
+                "ref_id": "art_00000000000000000000000000000000000000000000000b",
+                "fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+              }
+            ],
+            "zh-Hant": [
+              {
+                "ref_type": "ARTIFACT",
+                "ref_id": "art_00000000000000000000000000000000000000000000000c",
+                "fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+              },
+              {
+                "ref_type": "ARTIFACT",
+                "ref_id": "art_00000000000000000000000000000000000000000000000d",
+                "fingerprint": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+              }
+            ]
+          },
+          "operation_instance_ids": [
+            "rop_000000000000000000000000000000000000000000000001",
+            "rop_000000000000000000000000000000000000000000000002"
+          ]
+        }
+      ],
+      "dependency_closure": {
+        "primary_affected_location_refs": [
+          {
+            "ref_type": "LEGAL_LOCATION",
+            "ref_id": "loc_000000000000000000000000000000000000000000000001",
+            "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+          }
+        ],
+        "governing_context_location_refs": [],
+        "dependent_location_refs": [],
+        "independent_sibling_boundary_refs": [
+          {
+            "ref_type": "LEGAL_LOCATION",
+            "ref_id": "loc_000000000000000000000000000000000000000000000002",
+            "fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+          }
+        ],
+        "authentic_language_source_unit_refs": {
+          "en": [
+            {
+              "ref_type": "ARTIFACT",
+              "ref_id": "art_00000000000000000000000000000000000000000000000a",
+              "fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            },
+            {
+              "ref_type": "ARTIFACT",
+              "ref_id": "art_00000000000000000000000000000000000000000000000b",
+              "fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            }
+          ],
+          "zh-Hant": [
+            {
+              "ref_type": "ARTIFACT",
+              "ref_id": "art_00000000000000000000000000000000000000000000000c",
+              "fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+            },
+            {
+              "ref_type": "ARTIFACT",
+              "ref_id": "art_00000000000000000000000000000000000000000000000d",
+              "fingerprint": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            }
+          ]
+        },
+        "dependency_rule": {
+          "contract_id": "asklegal.hk-legislation.dependency-closure",
+          "version": "1.0.0",
+          "fingerprint": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+        },
+        "closure_proof_fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+      },
+      "language_streams": [
+        {
+          "language": "en",
+          "language_effect": "CHANGED",
+          "base_language_tree_ref": {
+            "ref_type": "ARTIFACT",
+            "ref_id": "art_000000000000000000000000000000000000000000000002",
+            "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+          },
+          "base_language_tree_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+          "operations": [
+            {
+              "sequence": 0,
+              "operation_instance_id": "rop_000000000000000000000000000000000000000000000001",
+              "operation_type_id": "HKRECON-OP-999",
+              "atomic_group_id": "atomic-group-0001",
+              "amendment_event_ref": {
+                "ref_type": "LEGAL_STATUS_EVENT",
+                "ref_id": "lse_000000000000000000000000000000000000000000000001",
+                "fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+              },
+              "effect_event_refs": [
+                {
+                  "ref_type": "LEGAL_STATUS_EVENT",
+                  "ref_id": "lse_000000000000000000000000000000000000000000000001",
+                  "fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+                }
+              ],
+              "source_unit_refs": [
+                {
+                  "ref_type": "ARTIFACT",
+                  "ref_id": "art_00000000000000000000000000000000000000000000000a",
+                  "fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+                },
+                {
+                  "ref_type": "ARTIFACT",
+                  "ref_id": "art_00000000000000000000000000000000000000000000000b",
+                  "fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+                }
+              ],
+              "target_selector": {
+                "selector_kind": "EXACT_TEXT_RANGE",
+                "legal_location_ref": {
+                  "ref_type": "LEGAL_LOCATION",
+                  "ref_id": "loc_000000000000000000000000000000000000000000000001",
+                  "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+                },
+                "tree_node_id": "node_111111111111111111111111",
+                "structural_position": "EXACT_RANGE",
+                "anchor_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              "before_state": {
+                "expected_target_count": 1,
+                "location_refs": [
+                  {
+                    "ref_type": "LEGAL_LOCATION",
+                    "ref_id": "loc_000000000000000000000000000000000000000000000001",
+                    "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+                  }
+                ],
+                "structure_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "content_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+              },
+              "parameters": {
+                "old_text_source_unit_ref": {
+                  "ref_type": "ARTIFACT",
+                  "ref_id": "art_00000000000000000000000000000000000000000000000a",
+                  "fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+                },
+                "replacement_source_unit_ref": {
+                  "ref_type": "ARTIFACT",
+                  "ref_id": "art_00000000000000000000000000000000000000000000000b",
+                  "fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+                },
+                "exact_range_fingerprint": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+              },
+              "expected_after_state": {
+                "location_refs": [
+                  {
+                    "ref_type": "LEGAL_LOCATION",
+                    "ref_id": "loc_000000000000000000000000000000000000000000000001",
+                    "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+                  }
+                ],
+                "structure_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+                "source_unit_ownership_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+                "content_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+              },
+              "dependency_location_refs": [
+                {
+                  "ref_type": "LEGAL_LOCATION",
+                  "ref_id": "loc_000000000000000000000000000000000000000000000001",
+                  "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+                }
+              ]
+            }
+          ],
+          "unchanged_language_evidence_refs": [],
+          "expected_final_language_tree_fingerprint": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+          "expected_complete_source_unit_inventory_fingerprint": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+          "expected_bilingual_alignment_map_ref": {
+            "ref_type": "ARTIFACT",
+            "ref_id": "art_00000000000000000000000000000000000000000000000e",
+            "fingerprint": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+          }
+        },
+        {
+          "language": "zh-Hant",
+          "language_effect": "CHANGED",
+          "base_language_tree_ref": {
+            "ref_type": "ARTIFACT",
+            "ref_id": "art_000000000000000000000000000000000000000000000003",
+            "fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+          },
+          "base_language_tree_fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "operations": [
+            {
+              "sequence": 0,
+              "operation_instance_id": "rop_000000000000000000000000000000000000000000000002",
+              "operation_type_id": "HKRECON-OP-001",
+              "atomic_group_id": "atomic-group-0001",
+              "amendment_event_ref": {
+                "ref_type": "LEGAL_STATUS_EVENT",
+                "ref_id": "lse_000000000000000000000000000000000000000000000001",
+                "fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+              },
+              "effect_event_refs": [
+                {
+                  "ref_type": "LEGAL_STATUS_EVENT",
+                  "ref_id": "lse_000000000000000000000000000000000000000000000001",
+                  "fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+                }
+              ],
+              "source_unit_refs": [
+                {
+                  "ref_type": "ARTIFACT",
+                  "ref_id": "art_00000000000000000000000000000000000000000000000c",
+                  "fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+                },
+                {
+                  "ref_type": "ARTIFACT",
+                  "ref_id": "art_00000000000000000000000000000000000000000000000d",
+                  "fingerprint": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+                }
+              ],
+              "target_selector": {
+                "selector_kind": "EXACT_TEXT_RANGE",
+                "legal_location_ref": {
+                  "ref_type": "LEGAL_LOCATION",
+                  "ref_id": "loc_000000000000000000000000000000000000000000000001",
+                  "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+                },
+                "tree_node_id": "node_111111111111111111111111",
+                "structural_position": "EXACT_RANGE",
+                "anchor_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+              },
+              "before_state": {
+                "expected_target_count": 1,
+                "location_refs": [
+                  {
+                    "ref_type": "LEGAL_LOCATION",
+                    "ref_id": "loc_000000000000000000000000000000000000000000000001",
+                    "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+                  }
+                ],
+                "structure_fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                "content_fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+              },
+              "parameters": {
+                "old_text_source_unit_ref": {
+                  "ref_type": "ARTIFACT",
+                  "ref_id": "art_00000000000000000000000000000000000000000000000c",
+                  "fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+                },
+                "replacement_source_unit_ref": {
+                  "ref_type": "ARTIFACT",
+                  "ref_id": "art_00000000000000000000000000000000000000000000000d",
+                  "fingerprint": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+                },
+                "exact_range_fingerprint": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+              },
+              "expected_after_state": {
+                "location_refs": [
+                  {
+                    "ref_type": "LEGAL_LOCATION",
+                    "ref_id": "loc_000000000000000000000000000000000000000000000001",
+                    "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+                  }
+                ],
+                "structure_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+                "source_unit_ownership_fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+                "content_fingerprint": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+              },
+              "dependency_location_refs": [
+                {
+                  "ref_type": "LEGAL_LOCATION",
+                  "ref_id": "loc_000000000000000000000000000000000000000000000001",
+                  "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+                }
+              ]
+            }
+          ],
+          "unchanged_language_evidence_refs": [],
+          "expected_final_language_tree_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "expected_complete_source_unit_inventory_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "expected_bilingual_alignment_map_ref": {
+            "ref_type": "ARTIFACT",
+            "ref_id": "art_00000000000000000000000000000000000000000000000e",
+            "fingerprint": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+          }
+        }
+      ],
+      "decision_ref": {
+        "ref_type": "DECISION",
+        "ref_id": "ldd_000000000000000000000000000000000000000000000003",
+        "fingerprint": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+      }
+    }
+  },
+  "expected_artifact": {
+    "path": "expected/reconstruction-plan-validation/HKLEG-RECON-PLAN-VAL-FIX-005.json",
+    "fingerprint": "sha256:ced885813e37c951d0068d489d2ace7bd676f6e6dac52fe68cbcab000577f9fd"
+  }
+}

@@ -12,11 +12,11 @@ from asklegal_application_runtime import (
     ApplicationConfiguration,
     AuthorizationError,
     AuthorizationErrorCode,
+    IdentityVerifier,
     LocalAdapterError,
     LocalAdapterErrorCode,
     LocalCommandRegister,
     LocalConfigurationSource,
-    LocalIdentityVerifier,
     LocalTaskHub,
     Principal,
     authorize,
@@ -115,7 +115,7 @@ class ControlDependencies:
 
     configuration: ApplicationConfiguration
     configuration_source: LocalConfigurationSource
-    identity: LocalIdentityVerifier
+    identity: IdentityVerifier
     register: LocalCommandRegister
     task_hub: LocalTaskHub
 

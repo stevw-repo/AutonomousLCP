@@ -3,6 +3,7 @@
 import json
 from copy import deepcopy
 from pathlib import Path
+from typing import cast
 
 import pytest
 from asklegal_application_runtime import (
@@ -23,9 +24,28 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 
 
 def _object(path: Path) -> dict[str, object]:
-    value = json.loads(path.read_bytes())
+    value: object = json.loads(path.read_bytes())
+    return _object_map(value)
+
+
+def _object_map(value: object) -> dict[str, object]:
     assert isinstance(value, dict)
-    return value
+    candidate = cast("dict[object, object]", value)
+    assert all(type(key) is str for key in candidate)
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object]:
+    assert isinstance(value, list)
+    return cast("list[object]", value)
+
+
+def _item_by_id(value: object, service_id: str) -> dict[str, object]:
+    for raw_item in _object_list(value):
+        item = _object_map(raw_item)
+        if item.get("service_id") == service_id:
+            return item
+    raise AssertionError(service_id)
 
 
 def _policy() -> dict[str, object]:
@@ -33,13 +53,7 @@ def _policy() -> dict[str, object]:
 
 
 def _application(policy: dict[str, object], service_id: str) -> dict[str, object]:
-    applications = policy["applications"]
-    assert isinstance(applications, list)
-    return next(
-        item
-        for item in applications
-        if isinstance(item, dict) and item.get("service_id") == service_id
-    )
+    return _item_by_id(policy["applications"], service_id)
 
 
 def _codes(
@@ -69,10 +83,9 @@ def test_runtime_inputs_are_complete_exact_and_disabled() -> None:
     )
 
     policy = _policy()
-    applications = policy["applications"]
-    assert isinstance(applications, list)
-    for application in applications:
-        assert isinstance(application, dict)
+    applications = _object_list(policy["applications"])
+    for raw_application in applications:
+        application = _object_map(raw_application)
         application_code = application["application_code"]
         assert isinstance(application_code, str)
         assert application["readiness_dependency_codes"] == [
@@ -99,8 +112,7 @@ def test_runtime_input_drift_fails_closed(mutation: str, expected_code: RuntimeI
     """Reject authority, capability, topology, secret, and readiness drift."""
     policy = deepcopy(_policy())
     if mutation == "authority":
-        authority = policy["authority"]
-        assert isinstance(authority, dict)
+        authority = _object_map(policy["authority"])
         authority["service_enablement_authorized"] = True
     elif mutation == "database":
         _application(policy, "review-api")["database_role"] = "dbo"
@@ -113,8 +125,7 @@ def test_runtime_input_drift_fails_closed(mutation: str, expected_code: RuntimeI
     elif mutation == "vault":
         _application(policy, "legal-processing-worker")["vault_service_ids"] = ["vault-recovery"]
     elif mutation == "vault_profile":
-        profile = policy["vault_client_profile"]
-        assert isinstance(profile, dict)
+        profile = _object_map(policy["vault_client_profile"])
         profile["ambient_credentials_forbidden"] = False
     elif mutation == "admit":
         _application(policy, "review-api")["admitted"] = True
@@ -135,24 +146,12 @@ def test_runtime_readiness_dependency_drift_fails_closed() -> None:
 def test_topology_identity_network_listener_and_scheduler_drift_fail_closed() -> None:
     """Keep runtime inputs bound to the disabled topology and scheduler inventory."""
     topology = _object(REPOSITORY_ROOT / TOPOLOGY_PATH)
-    services = topology["services"]
-    assert isinstance(services, list)
-    review = next(
-        item
-        for item in services
-        if isinstance(item, dict) and item.get("service_id") == "review-api"
-    )
+    review = _item_by_id(topology["services"], "review-api")
     review["identity"] = "wrong-identity"
     assert RuntimeInputCode.TOPOLOGY in _codes(_policy(), topology)
 
     topology = _object(REPOSITORY_ROOT / TOPOLOGY_PATH)
-    schedulers = topology["scheduler_instances"]
-    assert isinstance(schedulers, list)
-    general = next(
-        item
-        for item in schedulers
-        if isinstance(item, dict) and item.get("service_id") == "dts-general"
-    )
+    general = _item_by_id(topology["scheduler_instances"], "dts-general")
     general["task_hubs"] = ["control", "legal-processing"]
     assert RuntimeInputCode.TASK_HUB in _codes(_policy(), topology)
 
@@ -173,10 +172,8 @@ def test_logical_destination_drift_fails_closed(mutation: str) -> None:
     """Every destination must equal the one the accepted topology implies."""
     policy = deepcopy(_policy())
     application = _application(policy, "control-plane")
-    destinations = application["logical_destinations"]
-    assert isinstance(destinations, list)
-    first = destinations[0]
-    assert isinstance(first, dict)
+    destinations = _object_list(application["logical_destinations"])
+    first = _object_map(destinations[0])
     if mutation == "missing":
         destinations.pop()
     elif mutation == "extra":
@@ -197,38 +194,35 @@ def test_logical_destination_drift_fails_closed(mutation: str) -> None:
 def test_destinations_follow_the_topology_rather_than_a_local_copy() -> None:
     """Changing a topology listener must invalidate the resolution, not be ignored."""
     topology = deepcopy(_object(REPOSITORY_ROOT / TOPOLOGY_PATH))
-    services = topology["services"]
-    assert isinstance(services, list)
-    for service in services:
-        if isinstance(service, dict) and service.get("service_id") == "sql-server":
-            listeners = service["listeners"]
-            assert isinstance(listeners, list)
-            first = listeners[0]
-            assert isinstance(first, dict)
-            first["port"] = 14330
+    service = _item_by_id(topology["services"], "sql-server")
+    listeners = _object_list(service["listeners"])
+    first = _object_map(listeners[0])
+    first["port"] = 14330
     assert RuntimeInputCode.DESTINATION in _codes(_policy(), topology)
 
 
 def test_destination_table_matches_the_runtime_contract_exactly() -> None:
     """The package table and the checked-in contract are one fact, not two."""
     policy = _policy()
-    applications = policy["applications"]
-    assert isinstance(applications, list)
+    applications = _object_list(policy["applications"])
     assert len(applications) == len(V1_LOGICAL_DESTINATIONS)
-    for application in applications:
-        assert isinstance(application, dict)
+    for raw_application in applications:
+        application = _object_map(raw_application)
         code = application["application_code"]
         assert isinstance(code, str)
-        destinations = application["logical_destinations"]
-        assert isinstance(destinations, list)
-        dependencies = application["readiness_dependency_codes"]
-        assert isinstance(dependencies, list)
+        destinations = _object_list(application["logical_destinations"])
+        dependencies = _object_list(application["readiness_dependency_codes"])
         table = V1_LOGICAL_DESTINATIONS[code]
         assert tuple(item.value for item in table) == tuple(dependencies)
-        contract = {
-            str(item["service_id"]): (str(item["host"]), int(str(item["port"])))
-            for item in destinations
-            if isinstance(item, dict)
-        }
+        contract: dict[str, tuple[str, int]] = {}
+        for raw_item in destinations:
+            item = _object_map(raw_item)
+            service_id = item["service_id"]
+            host = item["host"]
+            port = item["port"]
+            assert isinstance(service_id, str)
+            assert isinstance(host, str)
+            assert isinstance(port, int)
+            contract[service_id] = (host, port)
         for host, port in table.values():
             assert contract[host] == (host, port)

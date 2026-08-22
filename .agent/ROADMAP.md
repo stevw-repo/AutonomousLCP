@@ -1,6 +1,6 @@
 # AskLegal Legal Database Pipeline — Delivery Roadmap
 
-Updated: 2026-08-21
+Updated: 2026-08-22
 
 ## Purpose
 
@@ -32,13 +32,13 @@ V1 is a **strictly internal POC**, not an Azure-hosted deployment:
   APIs are allowed; and
 - Azure application hosting is outside V1.
 
-Products and the exact disabled service topology are selected. Static topology
-and read-only host-admission policy contracts now pass locally, but exact
-tested image versions/digests, Ubuntu package locks and host facts, private
-subnets, Pinecone plan/endpoints, credentials, and admission evidence remain
-implementation work. Azure M8 is post-V1/deferred. This direction authorizes no
-deployment or external effect; explicit authorization is required before the
-first real Pinecone write.
+Products and the local service topology are selected and running. Repository
+contracts now bind the host packages, identities, subnets, runtime inputs,
+application image inputs, credentials interfaces, and generated units, but the
+formal composite gate remains fail-closed because complete provider, target,
+release, recovery, and acceptance evidence is not admitted. Azure M8 is
+post-V1/deferred. Prior bounded source/provider/Pinecone exercises do not grant
+authority for another external mutation, deployment, or production action.
 
 ## Full Hong Kong local V1 exit checklist
 
@@ -92,27 +92,41 @@ Scope, source role, fact authority, cutoff, owner, admission state, and explicit
 exclusion, with an admitted GLD current-publication path and no assumed HKeL
 substitution.
 
-### HKV1-1 — Restore trustworthy engineering gates — NOT READY
+### HKV1-1 — Restore trustworthy engineering gates — IN PROGRESS
 
 - [x] Locked Python 3.14.7, Node 24.19.0, uv 0.12.5, workspace packages,
   architecture rules, and ordinary tests exist.
-- [x] Current ordinary developer suite passes: 856 passed, 4 skipped on
-  2026-08-21.
-- [ ] Clear strict Pyright or replace debt with a narrow reviewed exception
-  register that cannot grow silently; current result is 856 errors, including
-  665 across tracked Python files. The other 191 are ignored local runtime
-  files under `var/`.
-- [ ] Resolve the 13-file formatting drift without introducing Python 3.14-only
-  syntax into Python 3.12 host entrypoints.
-- [ ] Make the ordinary shipping command run strict Pyright, Ruff lint, safe
+- [x] Current ordinary developer suite passes: 959 passed, 4 skipped on
+  2026-08-22 through the complete shipping command.
+- [x] Clear strict Pyright without expanding the reviewed exception register:
+  current repository-wide result is 0 errors, 0 warnings, and 0 information
+  messages. The complete tracked tree is included; ignored local runtime state
+  under `var/` is explicitly excluded and the exact exclusion is tested.
+- [x] Resolve all formatting drift: Ruff reports all 375 Python files formatted,
+  while the dedicated grammar gate proves every documented host entrypoint still
+  parses as Python 3.12.
+- [x] Make the ordinary shipping command run strict Pyright, Ruff lint, safe
   formatting/grammar checks, architecture/boundary checks, generated-file drift,
-  contracts, and the full suite.
-- [ ] Add repository CI for the same locked gates; a local green run must not be
-  the only release protection.
-- [ ] Make `asklegal-local prove --all` safely rerunnable or fail with an explicit
-  reset-required result rather than an unhandled `FileExistsError`.
-- [ ] Re-run the dedicated SQL Server, Durable Task emulator, package, and image-
-  admission proofs in their intended environments.
+  contracts, lock validation, and the full suite. A focused end-to-end invocation
+  of this command passed on 2026-08-22 with no pytest arguments.
+- [x] Add repository CI for the same locked gates. `azure-pipelines.yml` uses a
+  fresh unprivileged Ubuntu 24.04 Microsoft-hosted agent, exact SHA-pinned uv
+  0.12.5 and Node 24.19.0 assets, exact Python 3.14.7, clean `npm ci`, and the
+  repository shipping command without any Azure/deployment authority. Its
+  corrected bootstrap completed from a new directory on 2026-08-22.
+- [x] Make `asklegal-local prove --all` fail with the explicit
+  `SYNTHETIC_STATE_RESET_REQUIRED` result when prior output exists. The existing
+  fresh reset/proof produced all 32 scenarios and a normal second run returned
+  that exact result without mutation on 2026-08-22.
+- [x] Re-run the dedicated SQL Server, Durable Task emulator, package, and image-
+  admission proofs in their intended environments. Package passed 5 tests; SQL
+  and Durable Task each passed their real disposable integration; image
+  admission passed with exact Docker 29.7.2, BuildKit v0.26.2 image digest, and
+  the fresh pinned Grype database. Every disposable proof container/builder was
+  removed.
+- [ ] Observe one successful remote Azure Pipelines execution from a pushed
+  checkpoint; no commit/push was authorized after the local CI definition was
+  added, so hosted execution remains unverified.
 
 Exit gate: a clean checkout passes one documented complete shipping command and
 CI reproduces it with no unregistered type, lint, format, contract, architecture,
@@ -157,11 +171,11 @@ test, package, or image-admission failure.
 - [x] Clear the 40 focused connector/acquisition strict-type failures recorded
   after the second slice; the exact Gazette/acquisition/readiness surface now
   passes strict Pyright with zero errors.
-- [ ] Complete duplicate-row, moving-`lastPage`, throttling, activity restart,
+- [x] Complete duplicate-row, moving-`lastPage`, throttling, activity restart,
   lost-acknowledgement, and manifest-adoption proofs. Page 51, redirect-loop,
   bounded-locator, incomplete-window, and partial-publication outcomes are
   already covered.
-- [ ] Prove source-specific polite rate, retry, timeout, and outage profiles
+- [x] Prove source-specific polite rate, retry, timeout, and outage profiles
   against bounded observations without treating an outage as no change.
 
 Exit gate: every enabled endpoint has one schedulable, bounded, evidence-
@@ -170,19 +184,47 @@ and a full source cycle produces exact durable coverage accounting.
 
 ### HKV1-3 — Admit the Hong Kong Legislation package — NOT READY
 
-- [x] Three non-overlapping scopes, 27 offline rules, strict package loader, and
+- [x] Three non-overlapping scopes, 32 offline rules, strict package loader, and
   synthetic baseline/current-update fixtures exist.
+- [x] Implement deterministic default, fixed-date, appointed-date, conditional,
+  and progressive partial-commencement classification at a frozen cutoff. The
+  12 exact synthetic cases bind operative-provision/event-evidence fingerprints,
+  distinguish operative and Waiting Room locations, and fail closed on missing,
+  conflicting, or invalid affected-set evidence. This is conformance proof, not
+  real-source admission.
+- [x] Implement deterministic whole/partial repeal, revocation, expiry, and
+  continuity-proved revival before/after a frozen cutoff. The 14 synthetic cases
+  bind exact pre/post operative and ceased sets plus append-only event history,
+  preserve future state, and quarantine continuity/evidence/state ambiguity.
+  They emit no Official Version, successor identity, or Search Record.
+- [x] Implement deterministic operative/future amendment, express correction,
+  and HKeL Editorial Record classification. The 16 synthetic cases bind exact
+  fact-specific source authority, principal/source-event identities, bilingual
+  operation and affected-location maps, effective timing, resulting-bundle
+  availability, and append-only history. Matching bundles return to ordinary
+  evidence validation; missing consolidation creates a Coverage Gap; no path
+  patches text or creates an Official Version or Search Record.
+- [x] Implement deterministic Gazette publication/enactment classification.
+  Thirteen synthetic cases distinguish ordinary/Extraordinary Legal Supplement
+  Nos. 1–3, subsidiary legislation, legal notices, enabling-authority-bound
+  Main Gazette notices, other-supplement discovery, bilingual incompleteness,
+  post-cutoff facts, and class/evidence conflict. Publication never implies
+  commencement, current law, identity, an Official Version, or a Search Record.
 - [ ] Complete and admit the exact current/past HKeL inventory/data, verified or
   assisted copy, Editorial Record, publication-specification, Basic Law, Annex
   III, and Instruments & Others evidence paths required by each scope.
 - [ ] Complete bilingual XML/PDF identity, language/version matching, structural
   parsing, canonical rendering, official-location splitting, and real tokenizer
   measurement.
-- [ ] Implement exact enactment, commencement, partial commencement, amendment,
-  repeal/revocation/expiry/revival, correction, and editorial-event handling
-  against preserved real evidence.
+- [ ] Bind every publication, commencement, cessation/revival, amendment,
+  correction, and editorial-event decision to preserved real evidence.
 - [ ] Implement the accepted reconstruction and known-stale analytical fallback
-  gates without presenting either as HKeL current official text.
+  gates without presenting either as HKeL current official text. The first
+  13-case decision/challenge semantic gate is complete and can emit only an
+  untrusted structured candidate. The complete 21-case deterministic ADR 0084
+  Plan validator is also complete and mints no new identity or effect; Plan
+  execution, artifact, fallback-selection, and later-HKeL reconciliation gates
+  remain.
 - [ ] Build complete-universe baseline, ordinary update, no-change, quarantine,
   withholding, Waiting Room, identity continuity, disposition, release
   accounting, and Coverage Gap fixtures from adjudicated real reference truth.
@@ -294,24 +336,79 @@ Exit gate: exact fingerprinted model, embedding, and target profiles are
 - [x] The complete M6 release, Approval, desired-state, backup, routing, rollback,
   and retirement behavior passes with deterministic local fakes.
 - [x] Six-field serving metadata is now carried in the current source branch.
-- [ ] Remove the direct control-plane path that promotes an arbitrary model
+- [x] Remove the direct control-plane path that promotes an arbitrary model
   decision or `INSUFFICIENT_EVIDENCE` result.
 - [ ] Require immutable Corpus Releases, complete Desired-State Inventory,
   Coverage Status Manifest, Promotion Manifest, named-human Review decision, and
-  one exact unconsumed Approval before any embedding or target write.
-- [ ] Bind write authority to the approved command/manifest instead of permanent
-  `PROMOTION_WRITE_AUTHORIZED=true` deployment state.
+  one exact unconsumed Approval before any embedding or target write. Proposal
+  packages now have a restart-safe manifest-last Primary Vault receipt and exact
+  full-package read-back. Control registers only a fully reread receipt through
+  the atomic command protocol; the dedicated Review/promotion SQL projection and
+  fail-closed V1 Review reader verify canonical bytes, exact identities, all 11
+  roles, immutable versions, locations, sizes, and fingerprints. The
+  `PROMOTION_MANIFEST` member now contains its canonical executable body; its
+  byte fingerprint is the runtime manifest fingerprint, and registration
+  recovers and checks the exact ID, base/candidate states, validity window, and
+  versioned invalidation predicates. Review now re-reads that complete package,
+  displays the real member inventory, and records a schema-valid named-human
+  approve/reject event through the generic atomic register command with no
+  effect intent. Migration `000004` projects that decision to Review and
+  Promotion with direct fact-table access denied. Promotion now reconstructs
+  the exact approved candidate after restart, independently rereads all twelve
+  Primary Vault objects, revalidates the executable manifest, decision,
+  historical/current authority evidence, predicates, base state, command
+  window, and one exact execution lineage. Migration `000005` gives only the
+  Promotion role one specialized atomic single-use consumption procedure,
+  records one no-effect `APPROVAL_CONSUMED` lifecycle event, resolves exact
+  replay, rejects competing consumption, and denies Promotion the generic
+  command writer. Migration `000006` adds named-human Review revocation and
+  objective Promotion invalidation as mutually exclusive no-effect terminal
+  events under the same Approval lock/winner. Exact replay, later-consumption
+  denial, app-specific procedure permissions, changed-authority/predicate
+  invalidation, and a real concurrent revoke/invalidate single-winner race pass.
+  Migration `000007` now creates the Promotion-only no-effect
+  `EXECUTION_PLANNED -> EXECUTION_AUTHORIZED` transition only after independently
+  matching the exact consumed proposal, decision, manifest, `exe_` lineage,
+  worker identity, and validation evidence. Migrations `000003` through `000007`
+  pass a fresh disposable SQL Server proof.
+  Restart reconstruction, exact replay, competing decision, consumption, or
+  terminal transition, role removal, stale version, manifest drift, and decision
+  tamper fail closed. A shared semantic contract now validates all eleven
+  canonical members and their release, desired-state, coverage, traceability,
+  validation, recovery, cost, report, serving-state, and executable-manifest
+  bindings; both the shared Control/Promotion reader and Review's independent
+  reader reject correctly hashed placeholders or cross-member drift. Real
+  current-authority/current-state adapters, live service composition, and
+  provider-effect execution are not yet wired.
+- [ ] Install command-bound write authority for the approved manifest. The
+  retired `PROMOTION_WRITE_AUTHORIZED=true` deployment flag is now inert and the
+  real service registers no effect handler. Durable no-effect authorization is
+  now proved, but the separately guarded `BEGIN` transition, first Effect Intent,
+  admitted capability/profile bindings, and effect handler remain unwired. The
+  current executable M6 manifest still exposes only opaque action IDs and a
+  global capability boolean; it must bind exact per-action effect, capability
+  profile, destination, retry/stop, pre/postcondition, and compensation authority
+  before `BEGIN` can safely create an intent.
 - [ ] Carry and compare approved serving/text/profile fingerprints across every
-  durable hop; never authenticate a received payload by recomputing its claim.
-- [ ] Validate provider upsert acknowledgement, enumerate the complete target,
-  and compare every ID, vector fingerprint, and six-field metadata payload.
-- [ ] Reconcile ambiguous/lost acknowledgements as `OUTCOME_UNKNOWN` before retry
-  or terminal failure.
+  durable hop. The dormant serving-payload mapper now compares its received
+  claim, but the complete approved durable chain is not implemented.
+- [x] Validate the exact provider upsert acknowledgement, enumerate the complete
+  target, and compare every ID, vector value, and fingerprinted six-field
+  metadata payload. This is offline adapter/orchestrator proof; no Pinecone
+  target was accessed or admitted.
+- [x] Reconcile ambiguous, malformed, missing, or wrong-count upsert
+  acknowledgements as `OutcomeUnknown`, then accept only exact full-batch
+  read-back or fail as `LOST_ACK_UNRECONCILED`.
 - [ ] Create and independently verify provider-native and separate recovery
   backups before cutover; keep the predecessor protected.
 - [ ] Make Review client authentication, current-role validation, revocation,
   approval invalidation, coverage retrieval/cache, cutover, reverse-swap, and
-  exact retirement work against the real local services.
+  exact retirement work against the real local services. A pinned-key Entra v2
+  access-token verifier now passes synthetic RS256 signature, issuer, tenant,
+  audience, client, scope, lifetime, stable-object-identity, role, app-token,
+  header, and key-drift proofs with no discovery/network fallback. V1 composition
+  stays fail-closed until exact tenant/client/scope/key and current-authority
+  evidence are admitted.
 
 Exit gate: an unapproved payload cannot call embeddings or mutate Pinecone; one
 exact approved complete Hong Kong manifest builds a byte/fingerprint-equal
@@ -428,7 +525,7 @@ and a working call is not a deployment profile or an evaluation.
 | Area | Current state | Evidence or remaining gap |
 |---|---|---|
 | Overall design and architecture | **DESIGN ACCEPTED** | Architecture and implementation-facing design are accepted through ADR 0099, including all six M2–M7 protocols |
-| Hong Kong legal-policy design | Complete ordinary offline path and expanding official-source boundary implemented; real scopes `NOT_READY` | The package binds 14 source roles and all three scopes; 27 offline rules cover first-baseline, ordinary current update through complete release accounting, and missing-consolidation event routing in 127 exact synthetic cases. The strict source register binds 79 endpoints and records legal-team clearance for all roles; five roles are configured, five partially configured, one is technically blocked, and three are outside V1 scope. Technical reporting accounts for all roles, item URL binding is implemented, bilingual inventories are atomic, and bounded direct plus isolated Patchright discovery is proved. Inert evidence, catalogue, physical, direct-search, adjudicated-evaluation, complete-universe, and activation evidence remain |
+| Hong Kong legal-policy design | Complete ordinary offline path and expanding official-source boundary implemented; real scopes `NOT_READY` | The package binds 14 source roles and all three scopes; 32 offline rules cover first-baseline, ordinary current update through complete release accounting, missing-consolidation routing, exact publication/enactment, commencement, cessation/revival, amendment/express-correction/editorial-event routing, and the bounded Reconstruction Plan decision/challenge semantic gate in 195 synthetic cases. Even the confirmed semantic result remains an untrusted candidate for later deterministic Plan validation. The readiness contract is generated from the complete frozen rule/fixture inventory. The strict source register binds 79 endpoints and records legal-team clearance for all roles; five roles are configured, five partially configured, one is technically blocked, and three are outside V1 scope. Technical reporting accounts for all roles, item URL binding is implemented, bilingual inventories are atomic, and bounded direct plus isolated Patchright discovery is proved. Real evidence, adjudicated evaluation, complete reconstruction/fallback proof, complete-universe proof, and activation remain. |
 | Normative machine contracts | Foundation through M6 contracts complete | Repository-owned Draft 2020-12 package 1.5.0 covers 74 shared objects and 27 cross-cutting fixtures, adding proposal-package and exact embedding profile/request/receipt contracts |
 | Python and Management Register foundations | All seven M1 checkpoints complete | Python 3.14.7 contract/type/package/architecture gates, synthetic image admission, the independent Node oracle, and separate real SQL Server and Durable Task emulator proofs pass |
 | Domain kernel and Management Register | **M2 COMPLETE** | Five lifecycle machines, operation objects, re-entry, typed store/fake, exact SQL prefix, procedures, ledger, recovery, and conformance proofs pass |
@@ -438,7 +535,7 @@ and a working call is not a deployment profile or an evaluation.
 | Review, Approval, corpus, and promotion | **M6 COMPLETE (LOCAL/SYNTHETIC)** | Exact releases/desired state/coverage/proposals, real local Review governance, single-use Approval, replacement target, embedding, backup, routing, rollback, coverage cache, and retirement-denial proofs pass; all remote adapters remain disabled |
 | Local end-to-end pipeline | **M7 COMPLETE (LOCAL/SYNTHETIC)** | Stable reset/named/all CLI; 32 expected-result scenarios; golden acquisition-to-recovery flow; failure/retry/restart/hostility/Approval/promotion/recovery/deletion proofs; network denial; and path-distinct reproducibility pass |
 | V1 operating environment | **RUNNING UNDER SYSTEMD ON THE TARGET HOST; ADMISSION NOT READY** | Fourteen services are running, all five application logs report ready, ten host identities and the owned storage paths exist, and installed generated units match the repository. The five running application images are older than the current local tags/source; `acq-batch` and `cp-test` run outside systemd; no recurring timers are installed; application telemetry and Prometheus/Grafana are absent; and the composite gate still reports `V1_POC_NOT_ADMITTED`. Its 14 blockers are a fail-closed static baseline and do not yet model the live host/provider evidence. |
-| Azure infrastructure and delivery | Post-V1/deferred unless separately restored to V1 scope | Azure SQL, Container Apps, Scheduler, Blob, ACR, Application Gateway, Azure Pipelines, and Azure Monitor remain accepted future architecture, but no Bicep, pipelines, or cloud resources exist |
+| Azure infrastructure and delivery | Post-V1/deferred unless separately restored to V1 scope | Azure SQL, Container Apps, Scheduler, Blob, ACR, Application Gateway, deployment pipelines, and Azure Monitor remain accepted future architecture. One unprivileged Azure Pipelines source-validation definition now exists; no Bicep, deployment pipeline, service connection, or cloud resource exists. |
 | Real-source, model, embedding, and Pinecone operation | **ALL FOUR PATHS EXERCISED LIVE; FORMAL ADMISSION NOT STARTED** | Legal admission is clear for all 14 roles. The current source report accounts for 79 endpoints, 56 enabled, with five roles configured, five partially configured, one blocked, and three outside V1 scope. Azure embeddings, Azure `gpt-5.4` inference, Pinecone writes to `testing-index-1`, and live Hong Kong source capture have each been exercised, and 7,274 gazette PDFs for 2000–2026 are retained under Object Lock. `MODEL_AND_EMBEDDING_ADMISSION` and `PINECONE_ADMISSION` remain `NOT_STARTED` in the static admission gate because deployment profiles, evaluation, exact approval/read-back, recovery, and rollback evidence are missing. No production activation occurred. |
 | Production admission and activation | Not started | Security, recovery, quality, operational, and human-approval proofs remain |
 | Ask.Legal admin-portal integration | Intentionally deferred | M7 now satisfies the complete-pipeline prerequisite, but integration remains deferred by explicit direction |

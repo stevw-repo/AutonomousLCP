@@ -13,7 +13,7 @@ import stat
 import subprocess
 from collections.abc import Sequence
 from pathlib import Path
-from typing import TYPE_CHECKING, Protocol
+from typing import TYPE_CHECKING, Protocol, cast
 
 if TYPE_CHECKING:
     from asklegal_contracts.json_types import JsonValue
@@ -107,7 +107,8 @@ class HostFactsSource(Protocol):
         ...
 
 
-def _parse_os_release(raw: str) -> dict[str, str]:
+def parse_os_release(raw: str) -> dict[str, str]:
+    """Parse declared key/value facts from one bounded OS release document."""
     values: dict[str, str] = {}
     for line in raw.splitlines():
         if not line or line.startswith("#") or "=" not in line:
@@ -118,16 +119,39 @@ def _parse_os_release(raw: str) -> dict[str, str]:
 
 
 def _json_object(raw: str, label: str) -> dict[str, object]:
-    value = json.loads(raw)
-    if not isinstance(value, dict):
+    value: object = json.loads(raw)
+    document = _string_object(value)
+    if document is None:
         raise TypeError(label)
-    return value
+    return document
 
 
 def _json_objects(value: object, label: str) -> tuple[dict[str, object], ...]:
-    if not isinstance(value, list) or not all(isinstance(item, dict) for item in value):
+    items = _object_list(value)
+    if items is None:
         raise ValueError(label)
-    return tuple(item for item in value if isinstance(item, dict))
+    result: list[dict[str, object]] = []
+    for item in items:
+        document = _string_object(item)
+        if document is None:
+            raise ValueError(label)
+        result.append(document)
+    return tuple(result)
+
+
+def _string_object(value: object) -> dict[str, object] | None:
+    if not isinstance(value, dict):
+        return None
+    candidate = cast("dict[object, object]", value)
+    if not all(type(key) is str for key in candidate):
+        return None
+    return cast("dict[str, object]", candidate)
+
+
+def _object_list(value: object) -> list[object] | None:
+    if not isinstance(value, list):
+        return None
+    return cast("list[object]", value)
 
 
 class UbuntuHostFactsSource:
@@ -163,7 +187,7 @@ class UbuntuHostFactsSource:
 
     def operating_system(self) -> dict[str, JsonValue]:
         """Read the bounded operating-system release file."""
-        values = _parse_os_release(Path("/etc/os-release").read_text(encoding="utf-8"))
+        values = parse_os_release(Path("/etc/os-release").read_text(encoding="utf-8"))
         return {
             "id": values.get("ID", "UNKNOWN"),
             "version_id": values.get("VERSION_ID", "UNKNOWN"),
@@ -177,9 +201,6 @@ class UbuntuHostFactsSource:
         """Compute physical memory from kernel page counters."""
         page_size = os.sysconf("SC_PAGE_SIZE")
         page_count = os.sysconf("SC_PHYS_PAGES")
-        if not isinstance(page_size, int) or not isinstance(page_count, int):
-            message = "memory fact unavailable"
-            raise TypeError(message)
         return page_size * page_count
 
     def physical_disks(self) -> list[JsonValue]:
@@ -273,11 +294,13 @@ class UbuntuHostFactsSource:
             if Path("/dev/tpmrm0").exists() or Path("/dev/tpm0").exists()
             else "HOST_KEY_ONLY"
         )
+        plaintext_paths: list[JsonValue] = []
+        plaintext_paths.extend(sorted(plaintext_names))
         return {
             "systemd_creds_available": shutil.which("systemd-creds") is not None,
             "protection_mode": protection_mode,
             "encrypted_blob_mode": encrypted_mode,
-            "persistent_plaintext_credential_paths": sorted(plaintext_names),
+            "persistent_plaintext_credential_paths": plaintext_paths,
         }
 
     def _nft_defaults(self) -> tuple[bool, str, str, str]:
@@ -288,10 +311,12 @@ class UbuntuHostFactsSource:
         if nft_available:
             ruleset = _json_object(self._run(("nft", "--json", "list", "ruleset")), "nft")
             entries = ruleset.get("nftables")
-            if isinstance(entries, list):
-                for entry in entries:
-                    chain = entry.get("chain") if isinstance(entry, dict) else None
-                    if not isinstance(chain, dict):
+            entry_items = _object_list(entries)
+            if entry_items is not None:
+                for raw_entry in entry_items:
+                    entry = _string_object(raw_entry)
+                    chain = None if entry is None else _string_object(entry.get("chain"))
+                    if chain is None:
                         continue
                     hook = chain.get("hook")
                     name = chain.get("name")
@@ -321,12 +346,14 @@ class UbuntuHostFactsSource:
     def firewall_facts(self) -> dict[str, JsonValue]:
         """Read nftables default policies and non-loopback TCP listeners."""
         nft_available, input_default, forward_default, egress_default = self._nft_defaults()
+        public_ports: list[JsonValue] = []
+        public_ports.extend(self._public_tcp_ports())
         return {
             "nftables_available": nft_available,
             "input_default": input_default,
             "forward_default": forward_default,
             "direct_container_egress_default": egress_default,
-            "public_tcp_ports": self._public_tcp_ports(),
+            "public_tcp_ports": public_ports,
         }
 
     def journal_facts(self) -> dict[str, JsonValue]:
@@ -351,12 +378,14 @@ class UbuntuHostFactsSource:
                 if entry.pw_gid == docker_group.gr_gid and entry.pw_uid != 0
             )
         docker_active = self._run(("systemctl", "is-active", "docker")) == "active"
+        group_members: list[JsonValue] = []
+        group_members.extend(sorted(members))
         return {
             "name": "docker"
             if shutil.which("docker") is not None and docker_active
             else "UNPROVED",
             "service_manager": "systemd" if Path("/run/systemd/system").is_dir() else "UNPROVED",
-            "docker_group_non_root_members": sorted(members),
+            "docker_group_non_root_members": group_members,
         }
 
     def host_package_facts(self) -> dict[str, JsonValue]:
@@ -375,7 +404,7 @@ class UbuntuHostFactsSource:
 
     def observed_network_facts(self) -> dict[str, JsonValue]:
         """Report the declared container subnets and every other IPv4 network on this host."""
-        declared: dict[str, JsonValue] = {}
+        declared: dict[str, str] = {}
         for network_id in _DECLARED_NETWORK_IDS:
             raw = self._absent_or_run(
                 (
@@ -389,20 +418,25 @@ class UbuntuHostFactsSource:
             )
             if raw:
                 declared[network_id] = raw
-        return {"declared": declared, "foreign": self._foreign_networks(set(declared.values()))}
+        declared_json: dict[str, JsonValue] = dict(declared)
+        return {
+            "declared": declared_json,
+            "foreign": self._foreign_networks(set(declared.values())),
+        }
 
-    def _foreign_networks(self, declared: set[JsonValue]) -> list[JsonValue]:
+    def _foreign_networks(self, declared: set[str]) -> list[JsonValue]:
         """Return every non-loopback IPv4 host network that is not a declared subnet."""
         interfaces = _json_objects(json.loads(self._run(("ip", "-json", "addr", "show"))), "ip")
         foreign: set[str] = set()
         for interface in interfaces:
             if interface.get("ifname") == "lo":
                 continue
-            addresses = interface.get("addr_info")
-            if not isinstance(addresses, list):
+            addresses = _object_list(interface.get("addr_info"))
+            if addresses is None:
                 continue
-            for address in addresses:
-                if not isinstance(address, dict) or address.get("family") != "inet":
+            for raw_address in addresses:
+                address = _string_object(raw_address)
+                if address is None or address.get("family") != "inet":
                     continue
                 local = address.get("local")
                 prefix = address.get("prefixlen")
@@ -411,7 +445,9 @@ class UbuntuHostFactsSource:
                 cidr = f"{local}/{prefix}"
                 if cidr not in declared:
                     foreign.add(cidr)
-        return sorted(foreign)
+        result: list[JsonValue] = []
+        result.extend(sorted(foreign))
+        return result
 
 
 def collect_host_facts(source: HostFactsSource) -> dict[str, JsonValue]:

@@ -330,9 +330,10 @@ backup, deployment, or other external effect.
 
 The second explicit implementation authorization completes the local type-
 boundary spike. Official Pyright 1.1.413 now checks the repository root in
-strict Python 3.14 mode, so current and future `apps/`, `packages/`, tests, and
-repository Python tools cannot be excluded by a manually maintained member
-list. Missing stubs and unnecessary type-ignore comments remain errors.
+strict Python 3.14 mode, excluding only dependency environments and ignored
+local runtime state under `var/`, so current and future `apps/`, `packages/`,
+tests, and repository Python tools cannot be excluded by a manually maintained
+member list. Missing stubs and unnecessary type-ignore comments remain errors.
 
 The repository-owned `tools/python_boundary_check.py` independently discovers
 Python below every `packages/*` and `apps/*` source and test tree. Stable
@@ -499,30 +500,42 @@ The resulting contract package-manifest fingerprint is
 
 ## Local image-admission checkpoint
 
-The sixth explicit implementation authorization completes the local synthetic
-image-admission spike. `tools/image_admission_spike_manifest.json` is its closed
-Linux amd64 policy and source ledger. It pins Buildx 0.36.1, BuildKit v0.26.2,
-Docker 29.1.3, Syft 1.51.0, Grype 0.117.0, ORAS 1.3.3, Notation 1.3.2,
+The local synthetic image-admission spike is governed by the closed Linux
+amd64 policy and source ledger in `tools/image_admission_spike_manifest.json`.
+The current 2026-08-22 admission pins Buildx 0.36.1, the named
+`asklegal-image-admission-v0262` builder, BuildKit v0.26.2 at image digest
+`sha256:de10faf919fc71ba4eb1dd7bd6449566d012b0c9436b1c61bfee21d621b009aa`,
+Docker 29.7.2, Syft 1.51.0, Grype 0.117.0, ORAS 1.3.3, Notation 1.3.2,
 OpenSSL 3.0.13, BusyBox `1:1.36.1-6ubuntu3.1`, and the Grype v6.1.9 database
-built at `2026-08-15T06:13:48Z`. Checked-in hashes cover each executable,
-release asset, BusyBox, the database archive, and the 1.9 GB extracted
-database; checked-in URLs identify the official release assets.
+built at `2026-08-21T06:17:24Z`. The database archive SHA-256 is
+`dca26dd65bd0c4ba626af404a2e60d983d9302863eabdd8a7e7d42008fb4da3c`;
+the extracted 1.9 GB database SHA-256 is
+`3e1958f596f8c3dd150991a06d401e84070f1ea33538d356cc78280748d13f71`.
+Checked-in URLs and hashes cover every release asset, extracted executable,
+BusyBox, the database archive, and the extracted database.
+
+`tools/image_admission_bootstrap.py` creates a new disposable input tree,
+downloads only HTTPS assets absent from an optional verified cache, verifies
+every release and binary hash, imports only the selected database archive, and
+checks its exact database hash, schema, build time, and valid status. The
+tracked synthetic dpkg status record is required so ordinary Syft discovery
+includes the BusyBox package rather than silently omitting it.
 
 `tools/image_admission_spike.py` creates two metadata-normalized contexts and
 uses network-disabled, no-cache BuildKit builds. The exact image digest is
-`sha256:ea30aba1368ae4eeb33a685971fe8689943c18f493a7e3aaea68a2fa3b91af74`.
+`sha256:52bd434d68d024291a83e44c5c0c8c360880001f98dfd36954bad501241c462c`.
 Two complete proof executions reproduced image graph
-`8f37dbddc81151d7aa546a7460365979197f29add68d2e1420d0b82ca96c5265`,
+`1f6cc922c2e35bb576c786cd4b03929ec4162dc45e3b335e9760294843a0602b`,
 normalized SPDX
-`79d260a664cc650612ffbc38e70f1ece860b906c02bcd8a07b1c64ace5bb697b`,
+`e8e5dc8ef028ffdc804f136a712216601eb05cb2dd106254cb706811cb371721`,
 normalized provenance
-`fc9520b58f941b680b911f71ed0e4622ed78445ee8405818383445cba398e93f`,
+`4af9ed99424bc2e66c3c77c1aa34b425234d7a157bd83f74d6130da053921114`,
 normalized vulnerability result
-`19341f3282438d73963b56c44e2d4447d5a31c5534aa9d9d334fd13a1d0e9f44`,
+`8f2dc2761283655f211bb25d3f69bfcca0a6e95af343e7bd1dcf60de52011132`,
 licence result
 `83af83789a2931a2f85f48cca48617d0e421b7d1026c4e645630d14f2269b92b`,
 and unsigned candidate graph
-`b2ce8b33ea32f5466e0992ad13edab53139084995356283f6af81f407db11ba3`.
+`ead94f80d8b176f3f1e8e6c0df759f8eaee2a0c70edaf12030ee0bb883ca6ac3`.
 
 Syft inventories exact synthetic Python and dpkg packages. Grype scans offline,
 is bound to the selected fresh database, and rejects its checked-in Log4Shell
@@ -882,9 +895,89 @@ Register-issued ID and an attempted same-ID mutation quarantines. Release
 accounting exactly reconciles objects, locations, events, selected and retired
 records, Coverage Gaps, and Quarantines before candidate-release construction.
 
-The package is version `0.21.0` with fingerprint
-`sha256:61d58fca4b695a466dbaaa73353c066614ba47df3be7cf5f3c89aa5389a1e978`.
-It contains 27 offline rules and 127 exact deterministic fixtures.
+The twenty-second local checkpoint implements
+`HKLEG-CURRENT-COMMENCEMENT-001`. Twelve fixtures distinguish exact default,
+fixed-date, appointed-date, conditional-event, and progressive partial
+commencement at the frozen cutoff. Operative facts require an exact operative
+provision plus authentic retained event evidence; publication or HKeL
+`InEffect` alone cannot establish legal effect. Future and unsatisfied events
+remain in the Waiting Room, partial commencement changes only exact newly named
+Legal Locations while preserving prior operative locations, and incomplete,
+conflicting, or invalid affected-set claims block or quarantine without a
+Search Record. The decision binds the operative-provision and event-evidence
+fingerprints and produces the exact `event_operative_at_cutoff`, effective date,
+operative locations, and pending locations needed by later event routing.
+
+The package builder now regenerates the readiness contract from every actual
+`HKLEG-*.json` rule and every declared frozen fixture group before fingerprinting
+the package. The previously static readiness file omitted all ordinary-current
+slices; package conformance now proves that its inventory exactly equals the
+loader-visible rule and fixture sets.
+
+The twenty-third local checkpoint implements `HKLEG-CURRENT-CESSATION-001`.
+Fourteen fixtures cover whole and partial repeal, revocation, expiry, and
+revival before and after the cutoff. Every decision binds the exact operative
+provision, retained event evidence, prior event-history fingerprint, effective
+date, pre-event operative/ceased partition, and exact affected Legal Locations.
+Operative cessation preserves identities and moves only the affected locations
+to ceased state; future events preserve the complete pre-event state. Revival
+reuses an identity only with explicit continuity proof and otherwise
+quarantines. Successful events append to history; blocked or quarantined facts
+preserve the prior history unchanged. The rule emits no Official Version,
+successor identity, substitution inference, or Search Record.
+
+The twenty-fourth local checkpoint implements
+`HKLEG-CURRENT-TEXT-EVENT-001`. Sixteen fixtures cover whole and exact-location
+operative amendments, express official corrections, and HKeL Editorial Record
+events with and without matching resulting HKeL bundles, plus future-effective,
+incomplete, conflicting, bilingual-operation, resulting-text, and invalid-set
+paths. Gazette evidence is fact authority for amendments and express
+corrections; HKeL Editorial Records are fact authority only for their exact
+editorial operations. Successful events append to the bound prior history.
+Future events keep pre-event current text; a missing consolidation creates a
+Coverage Gap and routes to the existing event/reconstruction boundary. The
+rule never patches prior text, constructs resulting text, creates an Official
+Version, infers identity continuity, or emits a Search Record.
+
+The twenty-fifth local checkpoint implements
+`HKLEG-CURRENT-PUBLICATION-001`. Thirteen fixtures distinguish ordinary and
+Extraordinary Legal Supplement No. 1 Ordinance enactment/publication, Legal
+Supplement No. 2 subsidiary-legislation and notice publication, enabling-
+authority-bound Main Gazette notice publication, Legal Supplement No. 3
+excluded inventory, and other-supplement discovery. They block incomplete or
+post-cutoff evidence and quarantine evidence or Gazette-class conflicts.
+Extraordinary timing does not change material authority. The rule produces no
+commencement, legal effect, identity, continuity, Official Version, or Search
+Record; it routes each publication fact to the separate evidence or
+fact-specific event boundary.
+
+The twenty-sixth local checkpoint implements the bounded pre-Plan semantic
+gate `HKLEG-RECON-PLAN-SEMANTIC-001` selected by ADR 0099 Decision 7. Thirteen
+fixtures cover one exact confirmed untrusted candidate plus missing profiles,
+missing or invalid decision/challenge results, incomplete evidence bindings,
+unsupported operations, model-authored final-text overreach, challenge
+objection or unresolved uncertainty, conflicting semantic results, and failed
+deterministic prechecks. The gate consumes only exact fingerprint-bound admitted
+result claims; it performs no provider call or profile admission. Even its
+successful result is only `UNTRUSTED_STRUCTURED_PLAN_CANDIDATE` and must enter
+the complete deterministic ADR 0084 Plan validator. It creates no `rpl_` Plan,
+executes no ADR 0082 operation, constructs no text, emits no Search Record, and
+performs no external effect.
+
+The twenty-seventh local checkpoint implements the full deterministic ADR 0084
+Plan validator `HKLEG-RECON-PLAN-001`. Twenty-one fixtures cover two exact valid
+Plans and every fail-closed boundary for candidate/contract validity, closed
+operation registry, semantic binding, accepted Legal Desk authority, latest
+eligible base, complete ordered event chain, applicability, dependency closure,
+overlap, source-unit ownership, authentic bilingual streams, operation/event
+bindings, atomic groups, undeclared input, and deterministic revalidation. A
+valid result binds the existing `rpl_` candidate identity and canonical
+fingerprint but executes no ADR 0082 operation, constructs no text or artifact,
+emits no record, activates no scope, and performs no external effect.
+
+The package is version `0.27.0` with fingerprint
+`sha256:f5eabc5748274e0cb1301ab1d10a7251f3c307bfe375808a6d5b5db253e0cbe7`.
+It contains 33 offline rules and 216 exact deterministic fixtures.
 It still has no real source bytes, complete source-acquisition proof, complete
 rule or fixture universe, semantic profile, adjudicated evaluation, named owner
 attestation, conformance attestation, activation, or processing authority. All
@@ -3056,3 +3149,165 @@ _Avoid_: Withholding, retirement, deletion, verified-current refresh
   result, and missing/duplicate/gap IDs carried into the V1 Coverage Status
   Manifest. V1 release and promotion freeze fail closed when the binding is
   absent, incomplete, or release-blocking.
+- **Official observation profile** — the source-role-owned local timeout,
+  attempt ceiling, deterministic backoff, minimum interval, serial concurrency
+  ceiling, closed retryable HTTP statuses, and registered outage consequence.
+  It is enforced by the acquisition worker and is a conservative local V1
+  policy, not evidence of publisher capacity.
+
+## V1 promotion-effect freeze — added 2026-08-21
+
+The current source has no executable external promotion entrypoint. Source
+observation ends after acquisition and legal analysis. The promotion worker
+registers no scheduler activity, provider effect, SQL handoff consumer, or target
+write, and the retired deployment-wide `PROMOTION_WRITE_AUTHORIZED` flag is
+always refused. The retained serving-record mapper requires an existing exact
+`serving_payload_fingerprint` and compares it to the six received fields; it does
+not recompute a changed payload into a new authoritative claim. This is a safety
+freeze, not a completed Review/Approval/promotion path, and it is not present in
+the older deployed images until an explicitly authorized rebuild/deployment.
+
+## Stored proposal package — added 2026-08-21
+
+A **Stored Proposal Package** is the portable receipt produced only after all 11
+frozen proposal members are conditionally created and read back in the Primary
+Vault and the schema-valid proposal manifest is committed last. It binds the
+package and Promotion Manifest identities/fingerprints and, for every member and
+the root, the exact vault, logical key, immutable provider version, fingerprint,
+and byte length. A fresh process must reconstruct and verify the entire package
+from those exact versions. The receipt is not Review, Approval, publication, or
+effect authority.
+
+## Registered proposal projection — added 2026-08-21
+
+A **Registered Proposal Projection** is the read-only Management Register view
+created only after Control re-reads all 12 exact proposal objects, revalidates
+the complete package, and atomically records the canonical portable receipt as
+`PROPOSAL_REVIEW_READY`. Review never treats a package ID, current vault key, or
+database row as sufficient: its V1 reader compares the SQL row SHA-256, requires
+canonical JSON, binds the register/package/Promotion Manifest identities, checks
+the exact ordered 11-role inventory, and validates every Primary Vault logical
+key, immutable version, size, and fingerprint before producing `REVIEW_READY`.
+An empty register is a valid empty generation; duplicate, out-of-order,
+noncanonical, corrupted, or later-version rows fail closed. The authored SQL
+migration is not applied by source implementation work. Registration grants no
+Approval or external-effect authority.
+
+## Remote mutation outcome — added 2026-08-21
+
+An **Outcome Unknown** is a remote mutation for which no exact successful
+acknowledgement was received, including a transport/provider failure after the
+request was issued or a malformed, missing, or wrong-count upsert reply. It is
+not terminal success or ordinary retry authority. Promotion must enumerate the
+remote target and compare the complete attempted batch—identity, exact vector,
+and fingerprinted six-field serving payload. Only exact equality adopts the
+mutation; any other state is `LOST_ACK_UNRECONCILED` and blocks cutover.
+
+## Executable Promotion Manifest bytes — added 2026-08-21
+
+The proposal role `PROMOTION_MANIFEST` contains the canonical serialized body
+whose SHA-256 is the runtime Promotion Manifest fingerprint; it is never a
+second wrapper carrying only an ID or fingerprint. The manifest ID derives from
+that byte fingerprint. Before `PROPOSAL_REVIEW_READY`, Control re-reads the
+complete exact-version package, parses this member, recovers its base/candidate
+Serving States, validity window, and invalidation predicates, and requires those
+facts to match the proposal root. A shared package reader gives Control, Review,
+and Promotion the same twelve-object key/version/length/fingerprint checks.
+
+## Registered Review decision — added 2026-08-22
+
+A **Registered Review Decision** is a schema-valid
+`asklegal.approval-decision` 1.1.0 document recorded by the Review application
+only after it re-reads the complete exact proposal package, rechecks the
+manifest fingerprint, verifies a delegated named-human
+`PipelineAdministrator`, and resolves current identity/authority evidence. It
+is an immutable no-effect event, not yet a consumable promotion Approval.
+Control's proposal-registration aggregate version and Review's decision
+aggregate version are separate application-owned sequences: the first Review
+decision expects Review version 0 and creates Review version 1. Migration
+`000004` projects the proposal receipt and optional decision to only the Review
+and Promotion SQL roles. Review reconstructs and validates the canonical
+decision after restart and fails closed on drift or tamper.
+
+Approval validity-condition references are exact triples:
+`(contract_id, version, fingerprint)`. The version is mandatory under Approval
+schema 1.1.0 and may never be invented during decision construction.
+
+## Pinned Entra access-token verification — added 2026-08-22
+
+`EntraAccessTokenVerifier` is the framework-free resource-server adapter for
+an already admitted single-tenant Entra v2 profile. It accepts only locally
+pinned RSA public keys and RS256; it performs no issuer discovery, JWKS fetch,
+or caller-selected key lookup. It checks exact issuer, tenant, audience,
+allowed client, delegated scope, token lifetime, stable object identity, roles,
+and token kind before returning a reduced `Principal`. App-only tokens can be
+classified but ordinary Review authorization still rejects them. Production V1
+composition remains disabled until the exact tenant/client/scope/key profile and
+current Management Register authority evidence exist.
+
+## Registered Approval consumption — added 2026-08-22
+
+Promotion reconstructs a **Registered Approval Candidate** only from the
+least-privilege SQL proposal/decision projection plus a fresh exact-version
+reread of the proposal root and all eleven retained members. It validates the
+canonical Approval 1.1.0 decision, executable Promotion Manifest, base Serving
+State, validity predicates, reviewer identity, and historical authority
+evidence before any consumption attempt.
+
+Migration `000005` owns the single-use boundary in the Promotion application.
+Its specialized procedure validates the exact proposal, decision fingerprint,
+Approval, manifest, command, lifecycle event, and execution lineage; records one
+`APPROVAL_CONSUMED` event atomically; and resolves an exact lost acknowledgement
+as replay. A different lineage loses. The Promotion SQL role is expressly
+denied the generic command procedure, so callers cannot bypass the guard. This
+event creates no Effect Intent and grants no embedding, target, backup, routing,
+retirement, provider, or deployment authority.
+
+## Registered Approval terminal lifecycle — added 2026-08-22
+
+Migration `000006` adds two specialized no-effect commands. Review may revoke
+one exact approved, unconsumed Approval only after a current delegated named
+human and authority-evidence recheck. Promotion may invalidate it only for one
+closed objective reason such as a closed manifest window, changed base Serving
+State, changed validity predicate, or removed reviewer authority. Both append a
+schema-valid Approval 1.1.0 lifecycle event with no execution lineage.
+
+Revocation, invalidation, and consumption acquire the same per-Approval SQL
+application lock and compete for the same global terminal winner. Exactly one
+can commit; exact replay resolves to the original immutable result. Review can
+execute only revocation and Promotion only invalidation/consumption. These
+terminal events still create no Effect Intent or provider authority.
+
+## Registered execution authorization — added 2026-08-22
+
+Migration `000007` adds the Promotion-only durable
+`EXECUTION_PLANNED -> EXECUTION_AUTHORIZED` transition after one exact Approval
+consumption. The specialized procedure independently proves the same proposal,
+decision, manifest, `exe_` lineage and lineage fingerprint, Promotion worker
+identity, and validation evidence from the immutable consumption command/event.
+It validates the canonical authorization fingerprint and complete execution
+event before committing execution aggregate version 1.
+
+Authorization resolves exact replay and lost acknowledgement, rejects an
+unconsumed Approval or changed lineage binding, and creates no Effect Intent,
+claim, attempt, receipt, provider call, backup, target write, or routing
+authority. The later `BEGIN` transition must separately recheck admitted
+capability/profile facts and create the first Effect Intent atomically; no
+provider handler is enabled by `000007`.
+
+## V1 proposal-member semantic contract — added 2026-08-22
+
+`validate_v1_proposal_members` is the shared framework-free contract for the
+eleven canonical proposal members. It validates the exact role set and the
+role-specific content for changes, releases, desired state, coverage, cost,
+traceability, recovery, serving state, validation, Review reporting, and the
+executable Promotion Manifest. It also proves their cutoff, scope, release,
+record, evidence, fingerprint, candidate/base state, count, and gate results
+agree as one package.
+
+The shared exact-version package reader invokes this contract after all twelve
+Primary Vault objects pass their byte/identity inventory checks, so Control and
+Promotion cannot use a correctly hashed but meaningless member. Review invokes
+the same contract independently from its own exact-version reads rather than
+trusting another application's parsed result. Semantic validation creates no
+Approval, Effect Intent, provider capability, or external authority.

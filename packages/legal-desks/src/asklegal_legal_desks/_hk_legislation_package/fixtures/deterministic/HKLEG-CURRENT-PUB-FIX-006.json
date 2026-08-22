@@ -1,0 +1,33 @@
+{
+  "fixture_id": "HKLEG-CURRENT-PUB-FIX-006",
+  "title": "Legal Supplement No. 3 is retained only for excluded inventory",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:e60d0ab6190f8662ba447bd4f801c38ea0cd3e79aa57e7f23e5d9ed40779a01b",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "source_id": "HK-LEG-GLD-EGAZETTE",
+    "gazette_issue_kind": "ORDINARY",
+    "gazette_material_class": "LEGAL_SUPPLEMENT_3",
+    "publication_claim": "BILL_INVENTORY",
+    "subject_reference": "hkleg.synthetic.publication-006",
+    "issue_id": "gazette-2026-31",
+    "supplement_or_notice_id": "ls3-2026-31",
+    "instrument_or_notice_number": "Bill 10 of 2026",
+    "publication_date": "2026-08-01T00:00:00Z",
+    "artifact_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "source_metadata_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "english_material_fingerprint": null,
+    "traditional_chinese_material_fingerprint": null,
+    "enabling_authority_fingerprint": null,
+    "evidence_complete": true,
+    "evidence_authentic": true,
+    "evidence_conflicts": false,
+    "bilingual_material_complete": false,
+    "claim_matches_material_class": true
+  },
+  "expected_artifact": {
+    "path": "expected/current-publication/HKLEG-CURRENT-PUB-FIX-006.json",
+    "fingerprint": "sha256:c302f097bfb151643444f48ae50a23cc7a27714f842f5def6998cad54ea51843"
+  }
+}

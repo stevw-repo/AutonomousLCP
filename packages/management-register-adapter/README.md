@@ -8,6 +8,12 @@ aggregate versions, events, effect intents, renewable claims, fencing,
 attempts, terminal receipts, explicit policy state, projections, recovery
 views, and five procedure-only application roles.
 
+Migrations `000003` through `000007` add the V1 Review-ready proposal and
+decision projection, exact single-use registered Approval consumption,
+mutually exclusive revocation/invalidation, and the Promotion-only no-effect
+execution-authorization transition. Authorization proves the exact consumed
+`exe_` lineage but deliberately creates no Effect Intent or provider authority.
+
 This is still a local implementation proof. It does not authorize Azure
 access, legal data, deployment, or production use.
 

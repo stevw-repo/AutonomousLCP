@@ -101,6 +101,21 @@ FIXTURE_GROUPS = (
         "catalogues/current-cause-fixtures.json",
     ),
     (
+        tuple(f"HKLEG-CURRENT-COMMENCE-FIX-{index:03d}" for index in range(1, 13)),
+        "asklegal.hk-legislation.current-commencement.fixtures",
+        "catalogues/current-commencement-fixtures.json",
+    ),
+    (
+        tuple(f"HKLEG-CURRENT-CESSATION-FIX-{index:03d}" for index in range(1, 15)),
+        "asklegal.hk-legislation.current-cessation.fixtures",
+        "catalogues/current-cessation-fixtures.json",
+    ),
+    (
+        tuple(f"HKLEG-CURRENT-TEXT-EVENT-FIX-{index:03d}" for index in range(1, 17)),
+        "asklegal.hk-legislation.current-text-event.fixtures",
+        "catalogues/current-text-event-fixtures.json",
+    ),
+    (
         tuple(f"HKLEG-CURRENT-DIFF-FIX-{index:03d}" for index in range(1, 8)),
         "asklegal.hk-legislation.current-difference.fixtures",
         "catalogues/current-difference-fixtures.json",
@@ -126,6 +141,11 @@ FIXTURE_GROUPS = (
         "catalogues/current-observation-fixtures.json",
     ),
     (
+        tuple(f"HKLEG-CURRENT-PUB-FIX-{index:03d}" for index in range(1, 14)),
+        "asklegal.hk-legislation.current-publication.fixtures",
+        "catalogues/current-publication-fixtures.json",
+    ),
+    (
         tuple(f"HKLEG-CURRENT-REC-FIX-{index:03d}" for index in range(1, 9)),
         "asklegal.hk-legislation.current-record.fixtures",
         "catalogues/current-record-fixtures.json",
@@ -134,6 +154,16 @@ FIXTURE_GROUPS = (
         tuple(f"HKLEG-CURRENT-REL-FIX-{index:03d}" for index in range(1, 8)),
         "asklegal.hk-legislation.current-release-accounting.fixtures",
         "catalogues/current-release-accounting-fixtures.json",
+    ),
+    (
+        tuple(f"HKLEG-RECON-PLAN-SEM-FIX-{index:03d}" for index in range(1, 14)),
+        "asklegal.hk-legislation.reconstruction-plan-semantic.fixtures",
+        "catalogues/reconstruction-plan-semantic-fixtures.json",
+    ),
+    (
+        tuple(f"HKLEG-RECON-PLAN-VAL-FIX-{index:03d}" for index in range(1, 22)),
+        "asklegal.hk-legislation.reconstruction-plan-validation.fixtures",
+        "catalogues/reconstruction-plan-validation-fixtures.json",
     ),
 )
 
@@ -165,6 +195,18 @@ def _refresh_fixture_locks() -> None:
             )
             expected_path_text = fixture["expected_artifact"]["path"]
             expected_path = PACKAGE_ROOT / expected_path_text
+            if fixture_id.startswith("HKLEG-RECON-PLAN-VAL-FIX-"):
+                expected = json.loads(expected_path.read_text(encoding="utf-8"))
+                candidate_plan = fixture["input"]["candidate_plan"]
+                candidate_fingerprint = (
+                    _fingerprint(rfc8785.dumps(cast("JsonValue", candidate_plan)))
+                    if isinstance(candidate_plan, dict)
+                    else None
+                )
+                expected["candidate_plan_fingerprint"] = candidate_fingerprint
+                if expected["plan_validation_result"] == "VALIDATED":
+                    expected["validated_reconstruction_plan_fingerprint"] = candidate_fingerprint
+                _write_json(expected_path, cast("JsonValue", expected))
             expected_fingerprint = _fingerprint(expected_path.read_bytes())
             fixture["expected_artifact"]["fingerprint"] = expected_fingerprint
             _write_json(fixture_path, cast("JsonValue", fixture))
@@ -187,9 +229,39 @@ def _refresh_fixture_locks() -> None:
         _write_json(PACKAGE_ROOT / catalogue_path, catalogue)
 
 
+def _refresh_readiness_contract() -> None:
+    """Bind readiness reporting to every frozen offline rule and fixture."""
+    rule_ids: list[str] = []
+    for path in sorted((PACKAGE_ROOT / "rules").glob("HKLEG-*.json")):
+        document = cast("dict[str, JsonValue]", json.loads(path.read_text(encoding="utf-8")))
+        rule_id = document.get("rule_id")
+        if not isinstance(rule_id, str):
+            message = "rule_id"
+            raise TypeError(message)
+        rule_ids.append(rule_id)
+    fixture_ids = sorted(fixture_id for group, _, _ in FIXTURE_GROUPS for fixture_id in group)
+    readiness = cast(
+        "JsonValue",
+        {
+            "contract_id": "asklegal.hk-legislation-readiness-package",
+            "contract_version": "1.0.0",
+            "lifecycle_state": "NOT_READY",
+            "execution_authority": "NONE",
+            "offline_conformance_rule_ids": rule_ids,
+            "offline_fixture_ids": fixture_ids,
+            "accepted_complete_conformance_universe": False,
+            "activation_forbidden": True,
+            "external_source_access": "NOT_PERFORMED",
+            "real_source_bytes_included": False,
+        },
+    )
+    _write_json(PACKAGE_ROOT / "contracts/readiness-contract.json", readiness)
+
+
 def build_manifest() -> dict[str, JsonValue]:
     """Build the deterministic manifest for a non-activatable partial package."""
     _refresh_fixture_locks()
+    _refresh_readiness_contract()
     files: list[JsonValue] = []
     for path in sorted(PACKAGE_ROOT.rglob("*"), key=lambda item: item.as_posix().encode()):
         if not path.is_file() or path.name == "package.json":
@@ -210,7 +282,7 @@ def build_manifest() -> dict[str, JsonValue]:
         "schema_id": "asklegal.executable-source-rulebook-package",
         "schema_version": "1.0.0",
         "package_id": "rbp_866fd2858e653370aec45ffa71b551942fbc33e1b8c440ca",
-        "package_version": "0.21.0",
+        "package_version": "0.27.0",
         "package_fingerprint": "PENDING",
         "jurisdiction": "HK",
         "environment": "PRODUCTION",
@@ -238,7 +310,13 @@ def build_manifest() -> dict[str, JsonValue]:
             "ORDINARY_CURRENT_DIFFERENCE_"
             "ORDINARY_CURRENT_DISPOSITION_"
             "ORDINARY_CURRENT_CAUSE_"
+            "ORDINARY_CURRENT_COMMENCEMENT_"
+            "ORDINARY_CURRENT_CESSATION_AND_REVIVAL_"
+            "ORDINARY_CURRENT_PUBLICATION_AND_ENACTMENT_"
+            "ORDINARY_CURRENT_TEXT_CHANGING_EVENT_"
             "ORDINARY_CURRENT_EVENT_"
+            "RECONSTRUCTION_PLAN_SEMANTIC_DECISION_AND_CHALLENGE_"
+            "DETERMINISTIC_RECONSTRUCTION_PLAN_VALIDATION_"
             "CONFORMANCE_ONLY_"
             "NO_PROCESSING_ACTIVATION_OR_PRODUCTION_AUTHORITY"
         ),

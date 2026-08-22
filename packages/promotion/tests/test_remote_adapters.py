@@ -11,10 +11,12 @@ from __future__ import annotations
 from dataclasses import replace
 
 import pytest
+from asklegal_contracts.json_types import JsonValue, checked_json_value
 from asklegal_promotion.builder import serving_metadata, serving_metadata_fingerprint
 from asklegal_promotion.model import (
     EmbeddingProfile,
     EmbeddingRequest,
+    OutcomeUnknown,
     PromotionError,
     PromotionErrorCode,
     TargetDefinition,
@@ -39,16 +41,16 @@ class StubTransport:
 
     def __init__(self, replies: list[object]) -> None:
         """Queue the replies this transport will return."""
-        self._replies = list(replies)
+        self._replies = [checked_json_value(reply) for reply in replies]
         self.calls: list[tuple[str, str]] = []
-        self.bodies: list[dict[str, object]] = []
+        self.bodies: list[dict[str, JsonValue]] = []
 
     def send(
         self,
         method: str,
         url: str,
         headers: dict[str, str],
-        body: object | None = None,
+        body: JsonValue | None = None,
     ) -> ProviderResponse:
         """Return the next queued reply, recording the call and what it carried."""
         del headers
@@ -63,28 +65,29 @@ def _azure() -> AzureOpenAIConfig:
     return AzureOpenAIConfig("https://example.openai.azure.com", "embed-1", "2024-10-21", "k")
 
 
-def _profile(**overrides: object) -> EmbeddingProfile:
-    base = {
-        "profile_id": "prof_1",
-        "profile_fingerprint": "sha256:" + "0" * 64,
-        "provider": "AZURE_OPENAI",
-        "resource_class": "HOSTED",
-        "geography_class": "US",
-        "deployment_name": "embed-1",
-        "model_id": "text-embedding-3-small",
-        "model_version": "1",
-        "api_contract": "2024-10-21",
-        "tokenizer": "cl100k_base",
-        "dimensions": _DIMENSIONS,
-        "encoding": "float32",
-        "normalization": "NONE",
-        "metric": "cosine",
-        "max_input_tokens": 8191,
-        "cost_limit_microunits": 1000,
-        "expires_at": "2027-01-01T00:00:00Z",
-        "allowed_environments": ("POC",),
-    }
-    return EmbeddingProfile(**{**base, **overrides})
+def _profile(
+    *, provider: str = "AZURE_OPENAI", deployment_name: str = "embed-1"
+) -> EmbeddingProfile:
+    return EmbeddingProfile(
+        profile_id="prof_1",
+        profile_fingerprint="sha256:" + "0" * 64,
+        provider=provider,
+        resource_class="HOSTED",
+        geography_class="US",
+        deployment_name=deployment_name,
+        model_id="text-embedding-3-small",
+        model_version="1",
+        api_contract="2024-10-21",
+        tokenizer="cl100k_base",
+        dimensions=_DIMENSIONS,
+        encoding="float32",
+        normalization="NONE",
+        metric="cosine",
+        max_input_tokens=8191,
+        cost_limit_microunits=1000,
+        expires_at="2027-01-01T00:00:00Z",
+        allowed_environments=("POC",),
+    )
 
 
 def _request() -> EmbeddingRequest:
@@ -201,6 +204,18 @@ def test_serving_target_writes_when_authorized() -> None:
     assert ("POST", f"{_DATA_PLANE}/vectors/upsert") in transport.calls
 
 
+@pytest.mark.parametrize("acknowledgement", [{}, {"upsertedCount": 0}, []])
+def test_serving_target_reports_an_unknown_outcome_without_an_exact_acknowledgement(
+    acknowledgement: JsonValue,
+) -> None:
+    """A missing, malformed, or wrong-count ack must enter exact reconciliation."""
+    transport = StubTransport([_index_listing(), acknowledgement])
+    store = PineconeServingTargetStore(_pinecone(), transport, write_authorized=True)
+
+    with pytest.raises(OutcomeUnknown):
+        store.upsert_batch(_INDEX, (_record(),))
+
+
 def test_serving_target_refuses_to_delete_without_destructive_authorization() -> None:
     """Losing an index is not recoverable here, so writing authority is not enough."""
     store = PineconeServingTargetStore(
@@ -289,7 +304,12 @@ def test_the_whole_six_field_payload_reaches_the_target() -> None:
 
     store.upsert_batch(_INDEX, (_record(),))
 
-    written = transport.bodies[-1]["vectors"][0]["metadata"]
+    vectors = transport.bodies[-1]["vectors"]
+    assert isinstance(vectors, list)
+    first = vectors[0]
+    assert isinstance(first, dict)
+    written = first["metadata"]
+    assert isinstance(written, dict)
     assert set(written) == {
         "authority_note",
         "country",

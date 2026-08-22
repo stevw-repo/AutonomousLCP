@@ -185,7 +185,9 @@ no remote action.
 
 The completed local image-admission spike is governed by
 [`tools/image_admission_spike_manifest.json`](tools/image_admission_spike_manifest.json)
-and [`tools/image_admission_spike.py`](tools/image_admission_spike.py). Two
+and [`tools/image_admission_spike.py`](tools/image_admission_spike.py). The
+verified input preparer is
+[`tools/image_admission_bootstrap.py`](tools/image_admission_bootstrap.py). Two
 network-disabled clean BuildKit builds produce the same synthetic OCI image and
 normalized provenance; pinned Syft and Grype produce a reproducible SPDX SBOM
 and fail-closed vulnerability result; the closed synthetic licence policy
@@ -194,6 +196,31 @@ referrer graph; and a Notation-generated local test root is used by OpenSSL to
 sign and verify the canonical evidence payload. The test root is incapable of production
 trust. No Azure registry, signing service, deployment, or production resource
 was used.
+
+Prepare a new exact tool/database tree before an opt-in proof:
+
+```sh
+.venv/bin/python -m tools.image_admission_bootstrap \
+  --destination /tmp/asklegal-image-admission-inputs
+```
+
+Create the manifest-named disposable builder through the host's already
+authorized Docker boundary, using the exact BuildKit digest in the manifest.
+If the current shell already has Docker permission, set
+`ASKLEGAL_PRIVILEGE_RUNNER` to
+`tools/image_admission_direct_runner.sh`; otherwise the proof defaults to
+`/usr/bin/sudo -n`. Supply the bootstrap's six binary/database paths through
+the `ASKLEGAL_BUILDX`, `ASKLEGAL_GRYPE`, `ASKLEGAL_GRYPE_DB`,
+`ASKLEGAL_NOTATION`, `ASKLEGAL_ORAS`, and `ASKLEGAL_SYFT` variables, then run:
+
+```sh
+ASKLEGAL_IMAGE_ADMISSION_SPIKE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
+  .venv/bin/pytest -q tools/tests/test_image_admission_spike.py \
+  -m image_admission
+```
+
+Remove the exact disposable builder after the proof. The bootstrap and test do
+not authorize production trust, registry access, deployment, or provider calls.
 
 The completed local architecture spike is governed by
 [`tools/architecture_spike_manifest.json`](tools/architecture_spike_manifest.json)
@@ -297,6 +324,9 @@ roots, rejects any external DNS/socket attempt, and writes only ignored
 synthetic state under `var/local-conformance/`. The report statement is
 `local synthetic platform proved`; it makes no source, jurisdiction, model,
 Azure, Pinecone, Ask.Legal routing, or production-readiness claim.
+If proof output already exists, `prove` fails with
+`SYNTHETIC_STATE_RESET_REQUIRED`; rerun the exact marked-state `reset` command
+before proving again. It never deletes prior proof state implicitly.
 
 M2 is complete locally. The framework-free domain now includes all five M2
 lifecycle machines, immutable command/effect contracts, explicit quarantine
@@ -345,8 +375,8 @@ Run the complete proof with an already-cached exact uv 0.12.5 installation:
 .venv/bin/python tools/package_spike.py --uv /path/to/uv-0.12.5
 ```
 
-Bootstrap every locked workspace member and run the ordinary local suite with
-one command:
+Bootstrap every locked workspace member and run the complete local shipping
+gate with one command:
 
 ```sh
 python3 -m tools.dev_test \
@@ -354,11 +384,22 @@ python3 -m tools.dev_test \
   --node /path/to/node-24.19.0
 ```
 
-The command rejects any other uv, Node.js, or Python version, performs an exact frozen
-all-member sync, disables unrelated host pytest plugins, supplies only the
-declared workspace source roots, and then runs the ordinary suite. It does not
-start opt-in SQL Server, Durable Task emulator, image-admission, or package
-proofs.
+The command rejects any other uv, Node.js, or Python version; checks the lock;
+performs an exact frozen all-member sync; checks strict Pyright, Ruff lint and
+format, Python 3.12 host-entrypoint grammar, architecture and Python boundaries,
+generated V1 files, and normative contracts; disables unrelated host pytest
+plugins; supplies only the declared workspace source roots; and then runs the
+ordinary suite. It does not start opt-in SQL Server, Durable Task emulator,
+image-admission, or package proofs.
+
+The unprivileged pull-request and `main` CI entrypoint is
+[`azure-pipelines.yml`](azure-pipelines.yml), following ADR 0097. A fresh
+Ubuntu 24.04 Microsoft-hosted agent downloads only the exact SHA-256-pinned uv
+0.12.5 and Node.js 24.19.0 archives, installs the exact locked dependency
+graphs, and invokes the same complete `tools.dev_test` command. The CI YAML has
+no Azure service connection, private pool, deployment environment, provider
+credential, or production authority; the SQL Server, Durable Task emulator,
+package, and image-admission proofs remain separately invoked gates.
 
 ## Start here
 
