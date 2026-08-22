@@ -125,8 +125,8 @@ substitution.
   the fresh pinned Grype database. Every disposable proof container/builder was
   removed.
 - [ ] Observe one successful remote Azure Pipelines execution from a pushed
-  checkpoint; no commit/push was authorized after the local CI definition was
-  added, so hosted execution remains unverified.
+  checkpoint. Checkpoint `da90a87` containing the CI definition was pushed on
+  2026-08-22, but the hosted execution result has not yet been observed.
 
 Exit gate: a clean checkout passes one documented complete shipping command and
 CI reproduces it with no unregistered type, lint, format, contract, architecture,

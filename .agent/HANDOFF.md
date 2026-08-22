@@ -6,10 +6,12 @@ Read this first, then `.agent/ROADMAP.md` and `.agent/WORKING_STATE.md`.
 
 - Root: `/home/docpro/Desktop/Ask.Legal Database/AskLegal-LegalDBPipeline`
 - Host: `docpro-MS-7D99`, Ubuntu 24.04.4 LTS, x86-64
-- Branch: `main`; local tracking was `0` ahead / `0` behind at the start of the
-  checkpoint. The last pushed commit is `3f340c7`.
-- The working tree intentionally contains the accumulated V1 implementation
-  after `3f340c7`; it is not committed. Preserve all unrelated changes.
+- Branch: `main`; substantive V1 checkpoint `da90a87` was pushed to
+  `origin/main` on 2026-08-22 after the complete shipping gate passed.
+- GitHub accepted the push through the configured old remote but reported that
+  the repository moved to `https://github.com/stevw-repo/AutonomousLCP.git`.
+  The configured remote has not been changed; reconcile it before relying on
+  the old URL for a later checkpoint.
 - The disposable branches `v1-poc-runtime-proven` and
   `demo/expo-source-transformation` are informational only. Do not import or
   cherry-pick their code.
@@ -79,8 +81,9 @@ bootstrap run completed on 2026-08-22. The pipeline contains no service
 connection, private pool, deployment environment, provider credential, or
 production authority.
 
-No hosted pipeline run has occurred because the CI files are not committed or
-pushed. HKV1-1 remains `IN PROGRESS` for that single remote observation.
+The CI files are now pushed in checkpoint `da90a87`. The hosted execution has
+not yet been observed, so HKV1-1 remains `IN PROGRESS` for that single remote
+observation.
 
 ## Image-proof corrections
 
@@ -201,8 +204,9 @@ No external legal source, Azure model/embedding deployment, Pinecone target,
 Ask.Legal route, production system, live host SQL database, credential, or
 deployed application was accessed or mutated during this checkpoint. Public
 downloads were limited to the exact SHA-verified CI/image-proof tools,
-BuildKit image, and Grype database. No commit or push was performed after
-`3f340c7`; do not commit or push without new exact authorization.
+BuildKit image, and Grype database. The authorized checkpoint `da90a87` was
+pushed; no external source/provider/deployment action accompanied it. Do not
+create another checkpoint commit or push without new exact authorization.
 
 ## Exact next work
 

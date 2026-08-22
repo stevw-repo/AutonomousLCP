@@ -321,11 +321,14 @@ and the complete approved durable command chain remain unadmitted.
 
 ## Working-copy and authorization state
 
-- Branch `main`; last pushed checkpoint `3f340c7`; no later commit/push.
-- The large dirty tree is intentional accumulated V1 work. Preserve it.
+- Branch `main`; substantive V1 checkpoint `da90a87` was pushed to
+  `origin/main` on 2026-08-22 after the complete shipping gate passed.
+- The former accumulated dirty tree is contained in that checkpoint. Preserve
+  any new post-checkpoint work separately.
 - The user authorized continued V1 work and the completed isolated local
   package/SQL/Durable/image proofs.
-- No authorization exists for another commit/push, external legal-source fetch,
+- No authorization exists for another checkpoint commit/push after the
+  continuity-only follow-up, external legal-source fetch,
   provider/model/Pinecone call, deployment, credential rotation, stopping live
   host services, applying migrations to the live SQL container, or production
   mutation.
