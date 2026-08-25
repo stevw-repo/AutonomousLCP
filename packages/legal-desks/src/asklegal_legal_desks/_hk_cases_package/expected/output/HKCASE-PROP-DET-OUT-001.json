@@ -1,0 +1,76 @@
+{
+  "schema_id": "asklegal.hk-cases.output-case-result",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-DET-OUT-001",
+  "variants": [
+    {
+      "variant_id": "HKCASE-PROP-DET-OUT-001-V01",
+      "result": {
+        "schema_id": "asklegal.hk-cases.output-result",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-OUTPUT-CONFORMANCE-001",
+        "request_fingerprint": "sha256:1002d312c3f8aeb2dd5956727dde892f7efde490edd792b3c9f4cb66e68f9be0",
+        "outcome": "BLOCKED",
+        "reasons": [
+          "CANDIDATE_BLOCKED"
+        ],
+        "discovered_candidate_count": 8,
+        "final_candidate_count": 8,
+        "candidate_outcome_counts": [
+          {
+            "outcome": "ACCEPTED",
+            "count": 3
+          },
+          {
+            "outcome": "BLOCKED",
+            "count": 1
+          },
+          {
+            "outcome": "MERGED",
+            "count": 1
+          },
+          {
+            "outcome": "QUARANTINED",
+            "count": 1
+          },
+          {
+            "outcome": "REJECTED",
+            "count": 1
+          },
+          {
+            "outcome": "SPLIT",
+            "count": 1
+          }
+        ],
+        "source_unit_count": 1,
+        "source_range_count": 4,
+        "proposition_count": 3,
+        "evidence_link_count": 24,
+        "validated_record_count": 3,
+        "validated_payload_fingerprints": [
+          "sha256:fa3ca67d6850106bac552e160cf5d25cc3e5422cfc1c588a75ec3e15976966b7",
+          "sha256:fa1b860bbdd94f0ad84de10ea0008dcdc1673e0d1af992e3b9c160697d9a5549",
+          "sha256:19f45d260bff3a4b2cd4f66bb52d8657e2004fb64c4df78587f009b072ba762f"
+        ],
+        "measured_text_token_counts": [
+          664,
+          658,
+          659
+        ],
+        "measured_payload_byte_counts": [
+          860,
+          854,
+          855
+        ],
+        "coverage_gap_ids": [],
+        "search_records_created": 0,
+        "release_eligible": false,
+        "semantic_analysis_authorized": false,
+        "external_effects": "NONE"
+      }
+    }
+  ],
+  "search_records_created": 0,
+  "release_eligible": false,
+  "external_effects": "NONE"
+}

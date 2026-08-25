@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/hk-legislation-canonical-language-tree.schema.json",
+  "$defs": {
+    "fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "local_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9._:-]{0,127}$"
+    },
+    "language": {
+      "enum": ["en", "zh-Hant"]
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref_type", "ref_id", "fingerprint"],
+      "properties": {
+        "ref_type": {"$ref": "#/$defs/local_id"},
+        "ref_id": {"$ref": "#/$defs/local_id"},
+        "fingerprint": {"$ref": "#/$defs/fingerprint"}
+      }
+    },
+    "source_unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_unit_id",
+        "language",
+        "tree_node_id",
+        "legal_item_ref",
+        "legal_location_ref",
+        "unit_kind",
+        "content",
+        "asset_ref",
+        "source_order",
+        "content_fingerprint"
+      ],
+      "properties": {
+        "source_unit_id": {"$ref": "#/$defs/local_id"},
+        "language": {"$ref": "#/$defs/language"},
+        "tree_node_id": {"$ref": "#/$defs/local_id"},
+        "legal_item_ref": {"$ref": "#/$defs/reference"},
+        "legal_location_ref": {"$ref": "#/$defs/reference"},
+        "unit_kind": {
+          "enum": [
+            "INSTRUMENT_TITLE",
+            "INSTRUMENT_CITATION",
+            "LOCATION_LOCATOR",
+            "LOCATION_HEADING",
+            "BODY_TEXT",
+            "STRUCTURAL_LABEL",
+            "TABLE_HEADER",
+            "TABLE_CELL",
+            "FORM_LABEL",
+            "FORM_CONTROL",
+            "NOTE_TEXT",
+            "CROSS_REFERENCE_MARKER",
+            "ASSET_REFERENCE"
+          ]
+        },
+        "content": {"type": ["string", "null"], "minLength": 1},
+        "asset_ref": {
+          "oneOf": [
+            {"$ref": "#/$defs/reference"},
+            {"type": "null"}
+          ]
+        },
+        "source_order": {"type": "integer", "minimum": 0},
+        "content_fingerprint": {"$ref": "#/$defs/fingerprint"}
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "content": {"type": "string", "minLength": 1},
+            "asset_ref": {"type": "null"}
+          }
+        },
+        {
+          "properties": {
+            "content": {"type": "null"},
+            "asset_ref": {"$ref": "#/$defs/reference"},
+            "unit_kind": {"const": "ASSET_REFERENCE"}
+          }
+        }
+      ]
+    },
+    "tree_node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tree_node_id",
+        "language",
+        "legal_item_ref",
+        "legal_location_ref",
+        "structural_type",
+        "parent_node_id",
+        "sibling_order",
+        "owned_source_unit_ids",
+        "child_node_ids",
+        "node_content_fingerprint",
+        "subtree_fingerprint"
+      ],
+      "properties": {
+        "tree_node_id": {"$ref": "#/$defs/local_id"},
+        "language": {"$ref": "#/$defs/language"},
+        "legal_item_ref": {"$ref": "#/$defs/reference"},
+        "legal_location_ref": {"$ref": "#/$defs/reference"},
+        "structural_type": {
+          "enum": [
+            "INSTRUMENT",
+            "PROVISION",
+            "SUBSECTION",
+            "PARAGRAPH",
+            "SUBPARAGRAPH",
+            "SCHEDULE",
+            "SCHEDULE_ITEM",
+            "TABLE",
+            "TABLE_ROW",
+            "TABLE_CELL",
+            "FORM",
+            "FORM_PART",
+            "FORM_FIELD",
+            "NOTE",
+            "HEADING",
+            "TEXT_BLOCK",
+            "ASSET"
+          ]
+        },
+        "parent_node_id": {
+          "oneOf": [
+            {"$ref": "#/$defs/local_id"},
+            {"type": "null"}
+          ]
+        },
+        "sibling_order": {"type": "integer", "minimum": 0},
+        "owned_source_unit_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/local_id"}
+        },
+        "child_node_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/local_id"}
+        },
+        "node_content_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "subtree_fingerprint": {"$ref": "#/$defs/fingerprint"}
+      }
+    },
+    "canonical_language_tree": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "$schema",
+        "contract_version",
+        "source_format",
+        "language",
+        "legal_item_ref",
+        "root_node_id",
+        "nodes",
+        "source_units"
+      ],
+      "properties": {
+        "$schema": {"const": "https://contracts.asklegal.local/v1/hk-legislation-canonical-language-tree.schema.json"},
+        "contract_version": {"const": "1.0.0"},
+        "source_format": {"$ref": "#/$defs/local_id"},
+        "language": {"$ref": "#/$defs/language"},
+        "legal_item_ref": {"$ref": "#/$defs/reference"},
+        "root_node_id": {"$ref": "#/$defs/local_id"},
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/tree_node"}
+        },
+        "source_units": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/source_unit"}
+        }
+      }
+    }
+  },
+  "$ref": "#/$defs/canonical_language_tree"
+}

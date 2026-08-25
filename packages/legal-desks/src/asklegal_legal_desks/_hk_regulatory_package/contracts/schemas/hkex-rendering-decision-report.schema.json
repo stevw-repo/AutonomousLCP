@@ -1,0 +1,533 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-rendering-decision-report.schema.json",
+  "title": "HKEX canonical-rendering conformance report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "rule_id",
+    "case_id",
+    "assertion_scope",
+    "observed_decision",
+    "expected_decision",
+    "conformance_status",
+    "source_authorized",
+    "provider_authorized",
+    "release_authorized",
+    "serving_authorized",
+    "deployment_authorized",
+    "external_effects"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-regulatory.rendering-decision-report"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "rule_id": {
+      "const": "HKREG-RENDERING-DECISION-001"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^HKREG-DET-RND-(0[0-2][0-9]|03[0-5])$"
+    },
+    "assertion_scope": {
+      "enum": [
+        "ORDINARY",
+        "TABLE",
+        "FEE",
+        "FORM",
+        "LANGUAGE",
+        "UNCERTAINTY",
+        "AUTHORITY_NOTE"
+      ]
+    },
+    "observed_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "case_id",
+        "outcome",
+        "reason",
+        "canonical_text",
+        "authority_note",
+        "embedding_input",
+        "text_tokens",
+        "metadata_bytes",
+        "text_limit",
+        "metadata_limit",
+        "fits",
+        "omitted_element_ids",
+        "rejected_element_ids",
+        "quarantined_element_ids",
+        "identity_consequence",
+        "vector_responsibility",
+        "search_record_authorized",
+        "embedding_authorized",
+        "release_authorized",
+        "serving_authorized",
+        "external_effects"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-regulatory.rendering-decision-result"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKREG-RENDERING-DECISION-001"
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^HKREG-DET-RND-(0[0-2][0-9]|03[0-5])$"
+        },
+        "outcome": {
+          "enum": [
+            "PASS",
+            "BLOCK",
+            "QUARANTINE"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "CANONICAL_RENDERED",
+            "BOARD_ISOLATION_PRESERVED",
+            "OFFICIAL_HEADING_INCLUDED",
+            "OFFICIAL_HEADING_OMITTED",
+            "EFFECTIVE_CONTEXT_INCLUDED",
+            "EFFECTIVE_CONTEXT_OMITTED",
+            "GOVERNING_CONTEXT_INCLUDED",
+            "GOVERNING_CONTEXT_OMITTED",
+            "REFERENCE_RENDERED",
+            "REFERENCE_OMITTED",
+            "SOURCE_FIDELITY_PRESERVED",
+            "CANONICAL_NORMALIZED",
+            "FORBIDDEN_CONTENT_EXCLUDED",
+            "AUTHORITY_NONE_SEPARATE",
+            "AUTHORITY_WARNING_SEPARATE",
+            "COMPLETE_MEASUREMENT",
+            "TABLE_COMPLETE",
+            "TABLE_INCOMPLETE",
+            "TABLE_SPAN_PRESERVED",
+            "PRESENTATION_CHANGE_STABLE",
+            "MATERIAL_TABLE_CHANGE",
+            "FEE_COMPLETE",
+            "FEE_INCOMPLETE",
+            "FORM_COMPLETE",
+            "PRESENTATION_CONTROL_OMITTED",
+            "FORM_STRUCTURE_COMPLETE",
+            "NEUTRAL_MARKERS_PRESERVED",
+            "FORM_FRAGMENTATION_REJECTED",
+            "ENGLISH_ONLY_SERVING",
+            "CHINESE_SERVING_REJECTED",
+            "SOURCE_AMBIGUITY_QUARANTINED",
+            "TRANSITION_WARNING_SEPARATE",
+            "MARKET_WARNING_SEPARATE",
+            "SOURCE_WARNING_SEPARATE",
+            "REPRESENTATION_WARNING_SEPARATE"
+          ]
+        },
+        "canonical_text": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "authority_note": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "embedding_input": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "text_tokens": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "metadata_bytes": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "text_limit": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "metadata_limit": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fits": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "omitted_element_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "rejected_element_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "quarantined_element_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "identity_consequence": {
+          "enum": [
+            "NOT_EVALUATED",
+            "PRESERVE_EXISTING",
+            "NEW_RECORD_REQUIRED"
+          ]
+        },
+        "vector_responsibility": {
+          "enum": [
+            "NONE",
+            "ONE_ENGLISH_TEXT"
+          ]
+        },
+        "search_record_authorized": {
+          "const": false
+        },
+        "embedding_authorized": {
+          "const": false
+        },
+        "release_authorized": {
+          "const": false
+        },
+        "serving_authorized": {
+          "const": false
+        },
+        "external_effects": {
+          "const": "NONE"
+        }
+      }
+    },
+    "expected_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "case_id",
+        "outcome",
+        "reason",
+        "canonical_text",
+        "authority_note",
+        "embedding_input",
+        "text_tokens",
+        "metadata_bytes",
+        "text_limit",
+        "metadata_limit",
+        "fits",
+        "omitted_element_ids",
+        "rejected_element_ids",
+        "quarantined_element_ids",
+        "identity_consequence",
+        "vector_responsibility",
+        "search_record_authorized",
+        "embedding_authorized",
+        "release_authorized",
+        "serving_authorized",
+        "external_effects"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-regulatory.rendering-decision-result"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKREG-RENDERING-DECISION-001"
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^HKREG-DET-RND-(0[0-2][0-9]|03[0-5])$"
+        },
+        "outcome": {
+          "enum": [
+            "PASS",
+            "BLOCK",
+            "QUARANTINE"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "CANONICAL_RENDERED",
+            "BOARD_ISOLATION_PRESERVED",
+            "OFFICIAL_HEADING_INCLUDED",
+            "OFFICIAL_HEADING_OMITTED",
+            "EFFECTIVE_CONTEXT_INCLUDED",
+            "EFFECTIVE_CONTEXT_OMITTED",
+            "GOVERNING_CONTEXT_INCLUDED",
+            "GOVERNING_CONTEXT_OMITTED",
+            "REFERENCE_RENDERED",
+            "REFERENCE_OMITTED",
+            "SOURCE_FIDELITY_PRESERVED",
+            "CANONICAL_NORMALIZED",
+            "FORBIDDEN_CONTENT_EXCLUDED",
+            "AUTHORITY_NONE_SEPARATE",
+            "AUTHORITY_WARNING_SEPARATE",
+            "COMPLETE_MEASUREMENT",
+            "TABLE_COMPLETE",
+            "TABLE_INCOMPLETE",
+            "TABLE_SPAN_PRESERVED",
+            "PRESENTATION_CHANGE_STABLE",
+            "MATERIAL_TABLE_CHANGE",
+            "FEE_COMPLETE",
+            "FEE_INCOMPLETE",
+            "FORM_COMPLETE",
+            "PRESENTATION_CONTROL_OMITTED",
+            "FORM_STRUCTURE_COMPLETE",
+            "NEUTRAL_MARKERS_PRESERVED",
+            "FORM_FRAGMENTATION_REJECTED",
+            "ENGLISH_ONLY_SERVING",
+            "CHINESE_SERVING_REJECTED",
+            "SOURCE_AMBIGUITY_QUARANTINED",
+            "TRANSITION_WARNING_SEPARATE",
+            "MARKET_WARNING_SEPARATE",
+            "SOURCE_WARNING_SEPARATE",
+            "REPRESENTATION_WARNING_SEPARATE"
+          ]
+        },
+        "canonical_text": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "authority_note": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "embedding_input": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "text_tokens": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "metadata_bytes": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "text_limit": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "metadata_limit": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fits": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "omitted_element_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "rejected_element_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "quarantined_element_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "identity_consequence": {
+          "enum": [
+            "NOT_EVALUATED",
+            "PRESERVE_EXISTING",
+            "NEW_RECORD_REQUIRED"
+          ]
+        },
+        "vector_responsibility": {
+          "enum": [
+            "NONE",
+            "ONE_ENGLISH_TEXT"
+          ]
+        },
+        "search_record_authorized": {
+          "const": false
+        },
+        "embedding_authorized": {
+          "const": false
+        },
+        "release_authorized": {
+          "const": false
+        },
+        "serving_authorized": {
+          "const": false
+        },
+        "external_effects": {
+          "const": "NONE"
+        }
+      }
+    },
+    "conformance_status": {
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "source_authorized": {
+      "const": false
+    },
+    "provider_authorized": {
+      "const": false
+    },
+    "release_authorized": {
+      "const": false
+    },
+    "serving_authorized": {
+      "const": false
+    },
+    "deployment_authorized": {
+      "const": false
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

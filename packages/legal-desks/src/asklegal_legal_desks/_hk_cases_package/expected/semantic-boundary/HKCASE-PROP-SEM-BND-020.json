@@ -1,0 +1,33 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-case-result",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-BND-020",
+  "result": {
+    "schema_id": "asklegal.hk-cases.semantic-boundary-evaluation-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+    "request_fingerprint": "sha256:325e1b28f2f7c3be7ffda8fce2a33386ad511b4b5740eb260bb2c0bbc785f575",
+    "reference_map_fingerprint": "sha256:1c8d18492405edffcdcada71f8c486a53448cc39498cf7a5910a3661c18e25f9",
+    "outcome": "PASS",
+    "reasons": [
+      "PASS"
+    ],
+    "expected_candidate_count": 2,
+    "observed_candidate_count": 2,
+    "matched_candidate_count": 2,
+    "accepted_candidate_count": 2,
+    "quarantined_candidate_count": 0,
+    "opinion_count": 1,
+    "complete_unit_count": 2,
+    "provider_calls_authorized": 0,
+    "workflow_admission_created": false,
+    "search_records_created": 0,
+    "release_eligible": false,
+    "external_effects": "NONE"
+  },
+  "provider_calls_authorized": 0,
+  "workflow_admissions_created": 0,
+  "search_records_created": 0,
+  "release_eligible": false,
+  "external_effects": "NONE"
+}

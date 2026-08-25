@@ -1,0 +1,182 @@
+{
+  "schema_id": "asklegal.hk-regulatory.rendering-decision-case",
+  "schema_version": "1.0.0",
+  "package_contract_version": "1.0.0",
+  "case_id": "HKREG-DET-RND-020",
+  "suite_layer": "DECISION_TO_ARTIFACT",
+  "primary_checkpoint": "CANONICAL_RENDERING",
+  "frozen": true,
+  "synthetic_evidence_class": "SYNTHETIC_NO_REAL_AUTHORITY",
+  "contract_bindings": [
+    {
+      "contract_id": "asklegal.hk-regulatory.conformance-universe",
+      "version": "1.0.0",
+      "fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.rendering-decision-case",
+      "version": "1.0.0",
+      "fingerprint": "sha256:235e23791750cfa0326aa8a4d1741285bafc79db986cd2c97d4be73da645709b"
+    }
+  ],
+  "synthetic_cutoff": "2026-08-24T00:00:00Z",
+  "scope_id": "HKEX_CROSS_BOARD",
+  "prior_state": "SYNTHETIC_ACCEPTED_PREDECESSOR",
+  "primary_coverage_cell_ids": [
+    "HKREG-COV-DRND-020"
+  ],
+  "secondary_coverage_cell_ids": [],
+  "pair_memberships": [
+    {
+      "pair_id": "HKREG-PAIR-034",
+      "role": "POSITIVE"
+    }
+  ],
+  "declared_input_inventory": [
+    "rendering-evidence"
+  ],
+  "declared_reference_inventory": [
+    "asklegal.hk-regulatory.conformance-universe",
+    "asklegal.hk-regulatory.rendering-decision-case"
+  ],
+  "declared_expected_inventory": [
+    "RENDERING_DECISION_REPORT"
+  ],
+  "assertion_scope": "TABLE",
+  "required_result_dimensions": [
+    "AUTHORITY_NOTE",
+    "CANONICAL_BYTES",
+    "IDENTITY_CONSEQUENCE",
+    "MEASUREMENT",
+    "PROCESSING",
+    "SOURCE_FIDELITY",
+    "VECTOR_RESPONSIBILITY"
+  ],
+  "evidence_packet_fields": [
+    "authority_note",
+    "chinese_duplicate_requested",
+    "chinese_text_inserted",
+    "component_label",
+    "dependency_lines",
+    "effective_context",
+    "forbidden_element_ids",
+    "location_label",
+    "material_projection_change",
+    "max_metadata_bytes",
+    "max_text_tokens",
+    "official_heading",
+    "optional_chinese_evidence_present",
+    "parallel_vector_requested",
+    "present_element_ids",
+    "presentation_only_change",
+    "presentation_only_element_ids",
+    "primary_lines",
+    "projection_kind",
+    "references",
+    "required_element_ids",
+    "scope_id",
+    "source_ambiguity",
+    "tokenizer_fingerprint",
+    "tokenizer_id"
+  ],
+  "supporting_evidence_ranges": [
+    "input/HKREG-DET-RND-020-rendering-evidence.json#facts"
+  ],
+  "rule_trace": [
+    "HKREG-ENGLISH-RECORD-001",
+    "HKREG-RENDERING-DECISION-001"
+  ],
+  "established_facts": [
+    "SYNTHETIC_RENDERING_FACT_PACKET_DECLARED"
+  ],
+  "unresolved_facts": [],
+  "permitted_equivalent_results": [],
+  "critical_error_codes": [],
+  "package_fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14",
+  "title": "Table changes only page layout, wrapping, or visual placement",
+  "purpose": "Emit byte-identical canonical table output",
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.rendering-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-RENDERING-DECISION-001",
+    "case_id": "HKREG-DET-RND-020",
+    "outcome": "PASS",
+    "reason": "PRESENTATION_CHANGE_STABLE",
+    "canonical_text": "Context:\nMaterial: HKEX Listing Rule — non-statutory exchange regulatory rule\nMarket: Main Board\nComponent: Synthetic Main Board Listing Rules\nLocation: Rule 2.01\n\nEnglish rule text — prevailing language:\nTable: Application fees\nColumns: Category | Amount | Unit\nRow 1: New applicant | HK$1,000 | per application\nNote: Amount is payable on submission.",
+    "authority_note": "None",
+    "embedding_input": "Context:\nMaterial: HKEX Listing Rule — non-statutory exchange regulatory rule\nMarket: Main Board\nComponent: Synthetic Main Board Listing Rules\nLocation: Rule 2.01\n\nEnglish rule text — prevailing language:\nTable: Application fees\nColumns: Category | Amount | Unit\nRow 1: New applicant | HK$1,000 | per application\nNote: Amount is payable on submission.",
+    "text_tokens": 351,
+    "metadata_bytes": 494,
+    "text_limit": 10000,
+    "metadata_limit": 20000,
+    "fits": true,
+    "omitted_element_ids": [
+      "page-wrap"
+    ],
+    "rejected_element_ids": [],
+    "quarantined_element_ids": [],
+    "identity_consequence": "PRESERVE_EXISTING",
+    "vector_responsibility": "ONE_ENGLISH_TEXT",
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "evidence_packet": {
+    "slot_id": "rendering-evidence",
+    "state": "AVAILABLE",
+    "path": "input/HKREG-DET-RND-020-rendering-evidence.json",
+    "role": "ORDINARY",
+    "media_type": "application/json",
+    "content_fingerprint": "sha256:6753e8cc7773a8bb5c550b43c5f76e4f3024890a71e8434154f74a48f5edee81"
+  },
+  "facts": {
+    "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+    "component_label": "Synthetic Main Board Listing Rules",
+    "location_label": "Rule 2.01",
+    "official_heading": null,
+    "effective_context": null,
+    "dependency_lines": [],
+    "references": [],
+    "primary_lines": [
+      "Table: Application fees",
+      "Columns: Category | Amount | Unit",
+      "Row 1: New applicant | HK$1,000 | per application",
+      "Note: Amount is payable on submission."
+    ],
+    "projection_kind": "TABLE",
+    "required_element_ids": [
+      "caption",
+      "header",
+      "note",
+      "row",
+      "unit"
+    ],
+    "present_element_ids": [
+      "caption",
+      "header",
+      "note",
+      "page-wrap",
+      "row",
+      "unit"
+    ],
+    "presentation_only_element_ids": [
+      "page-wrap"
+    ],
+    "forbidden_element_ids": [],
+    "optional_chinese_evidence_present": false,
+    "chinese_text_inserted": false,
+    "chinese_duplicate_requested": false,
+    "parallel_vector_requested": false,
+    "source_ambiguity": false,
+    "presentation_only_change": true,
+    "material_projection_change": false,
+    "authority_note": "None",
+    "tokenizer_id": "synthetic-codepoint-counter-1",
+    "tokenizer_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "max_text_tokens": 10000,
+    "max_metadata_bytes": 20000
+  },
+  "case_fingerprint": "sha256:3eab15e72ff9c49b06514f36fbd32befe56965015bbecb2beaf4be7c0519f535"
+}

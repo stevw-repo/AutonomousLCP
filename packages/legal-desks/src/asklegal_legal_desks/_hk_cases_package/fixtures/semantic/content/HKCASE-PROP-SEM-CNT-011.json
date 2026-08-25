@@ -1,0 +1,58 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-CNT-011",
+  "coverage_cell_id": "HKCASE-PROP-COV-SCNT-011",
+  "pair_memberships": [],
+  "scenario": "A footnote materially changes the scope of the proposition",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-content-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "content_execution_11",
+    "judgment_work_id": "content_judgment_11",
+    "judicial_decision_id": "synthetic_content_decision_11",
+    "official_version_id": "synthetic_content_version_11",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "Actual receipt is ordinarily required for the notice to take effect.",
+        "text_fingerprint": "sha256:595042217beeac4f0afbeac44a1eaef2436b7cbb05e11cb6e0e4b0563cbb2b18",
+        "range_available": true,
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "structure_kind": "FOOTNOTE",
+        "exact_text": "Footnote: deemed receipt applies when the addressee deliberately prevents delivery.",
+        "text_fingerprint": "sha256:867896fe605569502a9836ef98185ac6abf5b91d011cb2e6a4c40d61fc9bc295",
+        "range_available": true,
+        "range_id": "range_2"
+      }
+    ],
+    "dependencies": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-011.json",
+  "observation_path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-011.json",
+  "expected_path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-011.json"
+}

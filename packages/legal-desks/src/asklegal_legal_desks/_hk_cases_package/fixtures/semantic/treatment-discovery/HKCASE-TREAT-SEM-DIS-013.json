@@ -1,0 +1,55 @@
+{
+  "schema_id": "asklegal.hk-cases.treatment-discovery-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-TREAT-SEM-DIS-013",
+  "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-013",
+  "pair_memberships": [],
+  "scenario": "Mixed-language opinion combines English citation and Chinese operative reasoning",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.treatment-discovery-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "TREATMENT_DISCOVERY",
+    "execution_id": "treatment_discovery_execution_13",
+    "judgment_work_id": "synthetic_treatment_judgment_13",
+    "accepted_original_version_id": "synthetic_treatment_version_13",
+    "original_language": "MIXED",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "role": "OPERATIVE_MAJORITY",
+        "segment_ids": [
+          "segment_1",
+          "segment_2"
+        ]
+      }
+    ],
+    "segments": [
+      {
+        "segment_id": "segment_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "language": "MIXED",
+        "exact_text": "Alpha v Beta [2001] 1 HKLRD 1",
+        "text_fingerprint": "sha256:df4464ce45b5e955cddad62f562fb18c2568d3137aa8aad2ed0d76f3e13588b6",
+        "range_id": "range_1"
+      },
+      {
+        "segment_id": "segment_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "language": "MIXED",
+        "exact_text": "本院認為該案的限制在本案不適用。",
+        "text_fingerprint": "sha256:1dfd7302b5aa18039fc3265145346ae998550ec2a15763d88c03d4bf34d909e8",
+        "range_id": "range_2"
+      }
+    ],
+    "missing_required_segment_ids": [],
+    "segment_manifest_complete": true,
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-013.json",
+  "observation_path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-013.json",
+  "expected_path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-013.json"
+}

@@ -1,0 +1,191 @@
+{
+  "schema_id": "asklegal.hk-regulatory.identity-decision-case",
+  "schema_version": "1.0.0",
+  "package_contract_version": "1.0.0",
+  "case_id": "HKREG-DET-IDN-022",
+  "suite_layer": "DECISION_TO_ARTIFACT",
+  "primary_checkpoint": "IDENTITY_LINEAGE",
+  "frozen": true,
+  "synthetic_evidence_class": "SYNTHETIC_NO_REAL_AUTHORITY",
+  "contract_bindings": [
+    {
+      "contract_id": "asklegal.hk-regulatory.conformance-universe",
+      "version": "1.0.0",
+      "fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.english-record",
+      "version": "1.0.0",
+      "fingerprint": "sha256:f7448b87eefeb113e1617390d494219032848ec86fb10e8e0210dd68c1fbe5d9"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.record-identity",
+      "version": "1.0.0",
+      "fingerprint": "sha256:587d56485f29223b4b66a6bec0193dd6fd9f28ba5feaeba744225229a038d0c3"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.component-continuity",
+      "version": "1.0.0",
+      "fingerprint": "sha256:7cc26ef2437e57e9c21217dca3780bf7855a84b4d3561c0667d02c283ea98dd1"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.identity-decision-case",
+      "version": "1.0.0",
+      "fingerprint": "sha256:bfda59090e55b438c5727f0f664f272cd42deccb54d4aa278147e33291bf0b8e"
+    }
+  ],
+  "synthetic_cutoff": "2026-08-24T00:00:00Z",
+  "scope_id": "HKEX_CROSS_BOARD",
+  "prior_state": "SYNTHETIC_ACCEPTED_PREDECESSOR",
+  "primary_coverage_cell_ids": [
+    "HKREG-COV-DIDN-022"
+  ],
+  "secondary_coverage_cell_ids": [],
+  "pair_memberships": [
+    {
+      "pair_id": "HKREG-PAIR-049",
+      "role": "POSITIVE"
+    }
+  ],
+  "declared_input_inventory": [
+    "identity-evidence"
+  ],
+  "declared_reference_inventory": [
+    "asklegal.hk-regulatory.conformance-universe",
+    "asklegal.hk-regulatory.english-record",
+    "asklegal.hk-regulatory.record-identity",
+    "asklegal.hk-regulatory.component-continuity",
+    "asklegal.hk-regulatory.identity-decision-case"
+  ],
+  "declared_expected_inventory": [
+    "IDENTITY_DECISION_REPORT"
+  ],
+  "assertion_scope": "PROVED_CONTINUITY",
+  "required_result_dimensions": [
+    "BOARD_OWNERSHIP",
+    "FORBIDDEN_EFFECTS",
+    "IMMUTABLE_IDENTITY",
+    "LINEAGE",
+    "TRACEABILITY_LOOKUP"
+  ],
+  "evidence_packet_fields": [
+    "cached_embedding_text_contract_match",
+    "continuity_request",
+    "desired_records",
+    "existing_record_ids",
+    "identity_requests",
+    "lineage_edges",
+    "lookup_entries",
+    "optional_chinese_changed",
+    "optional_chinese_defect",
+    "presentation_only_change",
+    "proposed_record_ids",
+    "traceability_changed"
+  ],
+  "supporting_evidence_ranges": [
+    "input/HKREG-DET-IDN-022-identity-evidence.json#facts"
+  ],
+  "rule_trace": [
+    "HKREG-COMPONENT-CONTINUITY-001",
+    "HKREG-ENGLISH-RECORD-001",
+    "HKREG-IDENTITY-DECISION-001",
+    "HKREG-RECORD-IDENTITY-001"
+  ],
+  "established_facts": [
+    "SYNTHETIC_IDENTITY_FACT_PACKET_DECLARED"
+  ],
+  "unresolved_facts": [],
+  "permitted_equivalent_results": [],
+  "critical_error_codes": [],
+  "package_fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14",
+  "title": "Exact official evidence proves renumbering or other permitted continuity",
+  "purpose": "Preserve or relate identities exactly as the rulebook requires",
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.identity-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-IDENTITY-DECISION-001",
+    "case_id": "HKREG-DET-IDN-022",
+    "outcome": "PASS",
+    "reason": "OFFICIAL_CONTINUITY_PROVED",
+    "record_action": "NO_ID_CHANGE",
+    "traceability_action": "REVISE",
+    "identity_consequences": [],
+    "selected_search_record_ids": [],
+    "predecessor_search_record_ids": [],
+    "register_allocation_count": 0,
+    "board_separation_valid": false,
+    "lookup_valid": true,
+    "lineage_valid": true,
+    "traceability_revision_required": true,
+    "cached_embedding_reuse_permitted": false,
+    "quarantine_required": false,
+    "violation_codes": [],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "evidence_packet": {
+    "slot_id": "identity-evidence",
+    "state": "AVAILABLE",
+    "path": "input/HKREG-DET-IDN-022-identity-evidence.json",
+    "role": "ORDINARY",
+    "media_type": "application/json",
+    "content_fingerprint": "sha256:60ae6f5e966f3f5241037b4ca615150132d31cfa5e62379a27748c0453641f9b"
+  },
+  "facts": {
+    "identity_requests": [],
+    "desired_records": [],
+    "lookup_entries": [],
+    "lineage_edges": [],
+    "existing_record_ids": [],
+    "proposed_record_ids": [],
+    "continuity_request": {
+      "decision_id": "synthetic-identity-continuity-proved",
+      "cutoff": "2026-08-24T00:00:00Z",
+      "event": "RENUMBERED",
+      "support": "PROVED",
+      "predecessors": [
+        {
+          "component_id": "synthetic-component-main-old",
+          "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+          "legal_location_id": "synthetic-location-main-old",
+          "aliases": [
+            "Rule 2.01"
+          ],
+          "evidence_refs": [
+            "evidence-old"
+          ]
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "synthetic-candidate-main-renumbered",
+          "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+          "observed_locator": "Rule 2.02",
+          "aliases": [
+            "Rule 2.01",
+            "Rule 2.02"
+          ],
+          "evidence_refs": [
+            "evidence-new"
+          ]
+        }
+      ],
+      "source_rule_id": "HKREG-COMPONENT-CONTINUITY-001",
+      "evidence_refs": [
+        "official-renumbering-notice"
+      ],
+      "evidence_fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "legal_desk_actor": "synthetic-hk-regulatory-legal-desk"
+    },
+    "presentation_only_change": false,
+    "traceability_changed": true,
+    "optional_chinese_changed": false,
+    "optional_chinese_defect": false,
+    "cached_embedding_text_contract_match": false
+  },
+  "case_fingerprint": "sha256:aae470250b967c81762296870f7dbd0619c12bbf2a58c4d2c793895072a7cc85"
+}

@@ -1,0 +1,47 @@
+{
+  "renderer_id": "asklegal.hk-legislation.canonical-ordinary-bilingual-renderer",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL_CONFORMANCE",
+  "implementation": "asklegal_legal_desks.hk_canonical_legislation:render_canonical_bilingual_location",
+  "input_contracts": [
+    "https://contracts.asklegal.local/v1/hk-legislation-canonical-language-tree.schema.json",
+    "https://contracts.asklegal.local/v1/hk-legislation-bilingual-alignment-map.schema.json"
+  ],
+  "output_encoding": "UTF-8",
+  "unicode_normalization": "NFC",
+  "line_endings": "LF",
+  "language_order": ["en", "zh-Hant"],
+  "supported_structural_types": [
+    "INSTRUMENT",
+    "PROVISION",
+    "SUBSECTION",
+    "PARAGRAPH",
+    "SUBPARAGRAPH",
+    "HEADING",
+    "TEXT_BLOCK"
+  ],
+  "supported_location_unit_kinds": [
+    "LOCATION_LOCATOR",
+    "LOCATION_HEADING",
+    "BODY_TEXT"
+  ],
+  "unsupported_structural_types": [
+    "SCHEDULE",
+    "SCHEDULE_ITEM",
+    "TABLE",
+    "TABLE_ROW",
+    "TABLE_CELL",
+    "FORM",
+    "FORM_PART",
+    "FORM_FIELD",
+    "NOTE",
+    "ASSET"
+  ],
+  "authentic_hkel_xml_adapter": "NOT_IMPLEMENTED",
+  "official_copy_reconciliation": "NOT_IMPLEMENTED",
+  "traceability_encoder": "NOT_IMPLEMENTED",
+  "partitioner": "NOT_IMPLEMENTED",
+  "search_record_output": "NONE",
+  "external_effects": "NONE",
+  "scope_activation_authority": "NONE"
+}

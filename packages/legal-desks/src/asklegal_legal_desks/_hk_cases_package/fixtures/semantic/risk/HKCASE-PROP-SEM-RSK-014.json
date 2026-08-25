@@ -1,0 +1,44 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-RSK-014",
+  "coverage_cell_id": "HKCASE-PROP-COV-SRSK-014",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-017",
+      "role": "NEAR_MISS"
+    }
+  ],
+  "scenario": "One indivisible proposition exceeds serving limits",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-risk-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "risk_execution_14",
+    "judgment_work_id": "risk_judgment_14",
+    "judicial_decision_id": "synthetic_risk_decision_14",
+    "accepted_original_version_id": "synthetic_risk_original_14",
+    "court_family": "CFI",
+    "original_language": "ENGLISH",
+    "segments": [
+      {
+        "segment_id": "segment_1",
+        "source_order": 1,
+        "exact_text": "One indivisible cumulative proposition exceeds the admitted serving limit.",
+        "text_fingerprint": "sha256:35b695cef6a4f653b6d4a403fe73b0807411413bda3f5d86aa8e6f47e6338971",
+        "range_id": "range_1"
+      }
+    ],
+    "dependency_ids": [],
+    "segment_manifest_complete": true,
+    "parser_supported": true,
+    "auxiliary_translations": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-014.json",
+  "observation_path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-014.json",
+  "expected_path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-014.json"
+}

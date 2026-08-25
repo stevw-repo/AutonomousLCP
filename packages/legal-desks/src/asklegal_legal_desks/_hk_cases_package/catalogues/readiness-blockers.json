@@ -1,0 +1,11 @@
+{
+  "blocker_codes": [
+    {"code": "HKCASE_BASELINE_UNBUILT", "meaning": "No complete Hong Kong Cases baseline or release exists."},
+    {"code": "HKCASE_CONCRETE_SCOPE_BOUNDARIES_UNADMITTED", "meaning": "No evidenced concrete court-family and year registry is frozen."},
+    {"code": "HKCASE_EVALUATIONS_UNADMITTED", "meaning": "All 54 proposition deterministic cases, all 78 proposition semantic evaluator cases, and all 13 treatment whole-judgment discovery cases execute, but the remaining 142 treatment cases plus sealed real-judgment, repeated-workflow, provider, threshold, and retrieval evaluations are not admitted."},
+    {"code": "HKCASE_OFFICIAL_CONNECTORS_UNADMITTED", "meaning": "Official inventory and originating-artifact connectors are not admitted."},
+    {"code": "HKCASE_ORIGINATING_FORMATS_UNADMITTED", "meaning": "Official judgment parsing and reconciliation profiles are not admitted."},
+    {"code": "HKCASE_PROPOSITION_WORKFLOW_UNADMITTED", "meaning": "All 54 frozen deterministic cases, all eight ADR 0066 request-kind preflight envelopes, and all 78 synthetic semantic evaluator cases execute. Preflight and evaluator conformance authorize no provider call or semantic result; authentic parsers, semantic analysis/challenge provider composition, sealed real-judgment evaluation, and the complete two-pass workflow are not admitted."},
+    {"code": "HKCASE_TREATMENT_WORKFLOW_UNADMITTED", "meaning": "The source-neutral whole-judgment discovery evaluator executes all 13 frozen discovery cases without provider or legal-effect authority. Candidate analysis, deterministic validation, Legal Desk decisions, authority notes, relationship graph, record/release consequences, authentic workflow composition, and the current-authority graph remain unadmitted."}
+  ]
+}

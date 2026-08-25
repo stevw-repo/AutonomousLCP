@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-boundary-decision-catalogue.schema.json",
+  "title": "HKEX record-boundary executable checkpoint catalogue",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "catalogue_id",
+    "catalogue_version",
+    "status",
+    "case_count",
+    "primary_coverage_cell_count",
+    "high_risk_pair_ids",
+    "entries",
+    "checkpoint_complete",
+    "full_conformance_suite_complete",
+    "activation_authorized",
+    "external_effects"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-regulatory.boundary-decision-catalogue"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "catalogue_id": {
+      "const": "hk-regulatory-boundary-decision"
+    },
+    "catalogue_version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "const": "FROZEN_EXECUTABLE_CHECKPOINT"
+    },
+    "case_count": {
+      "const": 30
+    },
+    "primary_coverage_cell_count": {
+      "const": 30
+    },
+    "high_risk_pair_ids": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 30,
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "case_id",
+          "primary_coverage_cell_id",
+          "pair_memberships",
+          "assertion_scope",
+          "expected_outcome",
+          "expected_reason",
+          "fixture_path",
+          "fixture_fingerprint",
+          "expected_path",
+          "expected_fingerprint"
+        ],
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "primary_coverage_cell_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pair_memberships": {
+            "type": "array",
+            "maxItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "pair_id",
+                "role"
+              ],
+              "properties": {
+                "pair_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "role": {
+                  "enum": [
+                    "POSITIVE",
+                    "NEAR_MISS"
+                  ]
+                }
+              }
+            }
+          },
+          "assertion_scope": {
+            "enum": [
+              "NORMAL_UNIT",
+              "GOVERNING_DEPENDENCY",
+              "DEFINITION",
+              "LEGAL_STRUCTURE",
+              "CROSS_REFERENCE"
+            ]
+          },
+          "expected_outcome": {
+            "enum": [
+              "PASS",
+              "BLOCK",
+              "QUARANTINE"
+            ]
+          },
+          "expected_reason": {
+            "enum": [
+              "ONE_COMPLETE_NORMAL_UNIT",
+              "INDEPENDENT_CHILDREN_SELECTED",
+              "INSEPARABLE_GROUP_PRESERVED",
+              "REQUIRED_DEPENDENCIES_PRESERVED",
+              "UNSAFE_CHILD_BOUNDARY_REJECTED",
+              "NOTE_OWNER_PRESERVED",
+              "NOTE_OWNERSHIP_REJECTED",
+              "TERM_DEFINITIONS_SELECTED",
+              "GLOBAL_DEFINITION_SELECTED",
+              "GLOBAL_DEFINITION_DUPLICATION_REJECTED",
+              "PRESENTATION_IDENTITY_REJECTED",
+              "SOURCE_STRUCTURE_REVIEW_REQUIRED",
+              "BACKGROUND_EXCLUDED",
+              "DEPENDENCY_OWNER_LINKED",
+              "CROSS_REFERENCE_PRESERVED",
+              "RECURSIVE_TARGET_COPY_REJECTED",
+              "REFERENCE_CHAIN_PRESERVED",
+              "TARGET_RESOLUTION_REQUIRED",
+              "CROSS_BOARD_REFERENCE_PRESERVED",
+              "RELATIONSHIP_REVISION_ONLY",
+              "COMPLETE_UNIT_OVER_LIMIT",
+              "UNRELATED_PACKING_REJECTED"
+            ]
+          },
+          "fixture_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fixture_fingerprint": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "expected_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expected_fingerprint": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "checkpoint_complete": {
+      "const": true
+    },
+    "full_conformance_suite_complete": {
+      "const": false
+    },
+    "activation_authorized": {
+      "const": false
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

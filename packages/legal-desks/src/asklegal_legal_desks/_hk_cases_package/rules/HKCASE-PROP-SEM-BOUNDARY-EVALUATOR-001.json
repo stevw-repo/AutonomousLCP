@@ -1,0 +1,33 @@
+{
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "contract_version": "1.0.0",
+  "direct_case_count": 22,
+  "coverage_cell_count": 22,
+  "direct_high_risk_pair_ids": [
+    "HKCASE-PROP-PAIR-009",
+    "HKCASE-PROP-PAIR-010",
+    "HKCASE-PROP-PAIR-011",
+    "HKCASE-PROP-PAIR-012",
+    "HKCASE-PROP-PAIR-013",
+    "HKCASE-PROP-PAIR-014",
+    "HKCASE-PROP-PAIR-015"
+  ],
+  "complete_within_checkpoint_pair_ids": [
+    "HKCASE-PROP-PAIR-009",
+    "HKCASE-PROP-PAIR-010",
+    "HKCASE-PROP-PAIR-011",
+    "HKCASE-PROP-PAIR-012",
+    "HKCASE-PROP-PAIR-013",
+    "HKCASE-PROP-PAIR-014",
+    "HKCASE-PROP-PAIR-015"
+  ],
+  "model_facing_reference_fields": [],
+  "case_id_answer_switching_forbidden": true,
+  "provider_calls_authorized": 0,
+  "workflow_admission_created": false,
+  "search_records_created": 0,
+  "release_eligible": false,
+  "real_source_evidence": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

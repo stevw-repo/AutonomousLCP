@@ -1,0 +1,16 @@
+{
+  "catalogue_id": "asklegal.hk-regulatory.english-record.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_real_source_universe": false,
+  "synthetic_case_count": 8,
+  "fixtures": [
+    {
+      "fixture_id": "HKREG-ENGLISH-RECORD-FIX-001",
+      "path": "fixtures/deterministic/HKREG-ENGLISH-RECORD-FIX-001.json",
+      "fixture_fingerprint": "sha256:352f7b9bcc09503cb5687aaff3e936ea771c924dea035f6ad874d6ec2e305d5c",
+      "expected_path": "expected/english-record/HKREG-ENGLISH-RECORD-FIX-001.json",
+      "expected_fingerprint": "sha256:7d8bae0c1e7b12b0639fde6b333fdef5c1b46f554294e291bc42e5295eeff7dc"
+    }
+  ]
+}

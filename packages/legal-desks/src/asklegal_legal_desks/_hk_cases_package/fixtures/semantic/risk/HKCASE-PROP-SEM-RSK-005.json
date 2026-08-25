@@ -1,0 +1,39 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-RSK-005",
+  "coverage_cell_id": "HKCASE-PROP-COV-SRSK-005",
+  "pair_memberships": [],
+  "scenario": "Historical superior-court judgment uses older formatting and citations",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-risk-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "risk_execution_5",
+    "judgment_work_id": "risk_judgment_5",
+    "judicial_decision_id": "synthetic_risk_decision_5",
+    "accepted_original_version_id": "synthetic_risk_original_5",
+    "court_family": "HKSUPERIOR",
+    "original_language": "ENGLISH",
+    "segments": [
+      {
+        "segment_id": "segment_1",
+        "source_order": 1,
+        "exact_text": "Held, upon the authorities cited in the margin, that delivery must be actual.",
+        "text_fingerprint": "sha256:8782c28ed2fcb8ec075d9f222827756b37c877e900df167e99471b7ccce490a5",
+        "range_id": "range_1"
+      }
+    ],
+    "dependency_ids": [],
+    "segment_manifest_complete": true,
+    "parser_supported": true,
+    "auxiliary_translations": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-005.json",
+  "observation_path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-005.json",
+  "expected_path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-005.json"
+}

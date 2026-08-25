@@ -13,8 +13,10 @@ from asklegal_contracts import SchemaRegistry, canonicalize, fingerprint, parse_
 from asklegal_contracts.json_types import checked_json_value
 from asklegal_legal_desks import (
     HK_ORDINANCES_SCOPE_ID,
+    HKEX_REGULATORY_SOURCE_IDS,
     ActivationRecord,
     LoadedRulebook,
+    PartitionReleaseConsequenceResult,
     ProcessingSubject,
     ReadinessState,
     RulebookError,
@@ -47,8 +49,13 @@ from asklegal_legal_desks import (
     prove_hk_current_record,
     prove_hk_current_release_accounting,
     prove_hk_current_text_event,
+    prove_hk_known_stale_fallback,
+    prove_hk_legislation_partition,
+    prove_hk_reconstruction_execution,
     prove_hk_reconstruction_plan_semantic,
     prove_hk_reconstruction_plan_validation,
+    prove_hk_reconstruction_reconciliation,
+    prove_hk_reconstruction_report,
 )
 
 if TYPE_CHECKING:
@@ -58,6 +65,12 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
 PACKAGE_ROOT = REPOSITORY_ROOT / "packages/legal-desks/src/asklegal_legal_desks/_synthetic_package"
 HK_PACKAGE_ROOT = (
     REPOSITORY_ROOT / "packages/legal-desks/src/asklegal_legal_desks/_hk_legislation_package"
+)
+HK_CASE_PACKAGE_ROOT = (
+    REPOSITORY_ROOT / "packages/legal-desks/src/asklegal_legal_desks/_hk_cases_package"
+)
+HK_REGULATORY_PACKAGE_ROOT = (
+    REPOSITORY_ROOT / "packages/legal-desks/src/asklegal_legal_desks/_hk_regulatory_package"
 )
 CONTRACT_MANIFEST = REPOSITORY_ROOT / "contracts/package-manifest.json"
 CONTRACTS_ROOT = REPOSITORY_ROOT / "contracts"
@@ -88,6 +101,24 @@ def _load_hk(root: Path = HK_PACKAGE_ROOT) -> LoadedRulebook:
         environment="PRODUCTION",
         contract_set_fingerprint=_contract_fingerprint(),
         now="2026-08-17T00:00:00Z",
+    )
+
+
+def _load_cases(root: Path = HK_CASE_PACKAGE_ROOT) -> LoadedRulebook:
+    return load_rulebook_package(
+        root,
+        environment="PRODUCTION",
+        contract_set_fingerprint=_contract_fingerprint(),
+        now="2026-08-24T00:00:00Z",
+    )
+
+
+def _load_hk_regulatory(root: Path = HK_REGULATORY_PACKAGE_ROOT) -> LoadedRulebook:
+    return load_rulebook_package(
+        root,
+        environment="PRODUCTION",
+        contract_set_fingerprint=_contract_fingerprint(),
+        now="2026-08-24T00:00:00Z",
     )
 
 
@@ -386,6 +417,53 @@ def test_hk_legislation_readiness_package_is_exact_non_executable_and_honest() -
         "HKLEG-CURRENT-TEXT-EVENT-FIX-014",
         "HKLEG-CURRENT-TEXT-EVENT-FIX-015",
         "HKLEG-CURRENT-TEXT-EVENT-FIX-016",
+        "HKLEG-KNOWN-STALE-FIX-001",
+        "HKLEG-KNOWN-STALE-FIX-002",
+        "HKLEG-KNOWN-STALE-FIX-003",
+        "HKLEG-KNOWN-STALE-FIX-004",
+        "HKLEG-KNOWN-STALE-FIX-005",
+        "HKLEG-KNOWN-STALE-FIX-006",
+        "HKLEG-KNOWN-STALE-FIX-007",
+        "HKLEG-KNOWN-STALE-FIX-008",
+        "HKLEG-KNOWN-STALE-FIX-009",
+        "HKLEG-KNOWN-STALE-FIX-010",
+        "HKLEG-KNOWN-STALE-FIX-011",
+        "HKLEG-KNOWN-STALE-FIX-012",
+        "HKLEG-RECON-EXEC-FIX-001",
+        "HKLEG-RECON-EXEC-FIX-002",
+        "HKLEG-RECON-EXEC-FIX-003",
+        "HKLEG-RECON-EXEC-FIX-004",
+        "HKLEG-RECON-EXEC-FIX-005",
+        "HKLEG-RECON-EXEC-FIX-006",
+        "HKLEG-RECON-EXEC-FIX-007",
+        "HKLEG-RECON-EXEC-FIX-008",
+        "HKLEG-RECON-EXEC-FIX-009",
+        "HKLEG-RECON-EXEC-FIX-010",
+        "HKLEG-RECON-EXEC-FIX-011",
+        "HKLEG-RECON-EXEC-FIX-012",
+        "HKLEG-RECON-EXEC-FIX-013",
+        "HKLEG-RECON-ORP-FIX-001",
+        "HKLEG-RECON-ORP-FIX-002",
+        "HKLEG-RECON-ORP-FIX-003",
+        "HKLEG-RECON-ORP-FIX-004",
+        "HKLEG-RECON-ORP-FIX-005",
+        "HKLEG-RECON-ORP-FIX-006",
+        "HKLEG-RECON-ORP-FIX-007",
+        "HKLEG-RECON-ORP-FIX-008",
+        "HKLEG-RECON-ORP-FIX-009",
+        "HKLEG-RECON-ORP-FIX-010",
+        "HKLEG-RECON-ORP-FIX-011",
+        "HKLEG-RECON-ORP-FIX-012",
+        "HKLEG-RECON-ORP-FIX-013",
+        "HKLEG-RECON-ORP-FIX-014",
+        "HKLEG-RECON-ORP-FIX-015",
+        "HKLEG-RECON-ORP-FIX-016",
+        "HKLEG-RECON-ORP-FIX-017",
+        "HKLEG-RECON-ORP-FIX-018",
+        "HKLEG-RECON-ORP-FIX-019",
+        "HKLEG-RECON-ORP-FIX-020",
+        "HKLEG-RECON-ORP-FIX-021",
+        "HKLEG-RECON-ORP-FIX-022",
         "HKLEG-RECON-PLAN-SEM-FIX-001",
         "HKLEG-RECON-PLAN-SEM-FIX-002",
         "HKLEG-RECON-PLAN-SEM-FIX-003",
@@ -420,6 +498,20 @@ def test_hk_legislation_readiness_package_is_exact_non_executable_and_honest() -
         "HKLEG-RECON-PLAN-VAL-FIX-019",
         "HKLEG-RECON-PLAN-VAL-FIX-020",
         "HKLEG-RECON-PLAN-VAL-FIX-021",
+        "HKLEG-RECON-RCN-FIX-001",
+        "HKLEG-RECON-RCN-FIX-002",
+        "HKLEG-RECON-RCN-FIX-003",
+        "HKLEG-RECON-RCN-FIX-004",
+        "HKLEG-RECON-RCN-FIX-005",
+        "HKLEG-RECON-RCN-FIX-006",
+        "HKLEG-RECON-RCN-FIX-007",
+        "HKLEG-RECON-RCN-FIX-008",
+        "HKLEG-RECON-RCN-FIX-009",
+        "HKLEG-RECON-RCN-FIX-010",
+        "HKLEG-RECON-RCN-FIX-011",
+        "HKLEG-RECON-RCN-FIX-012",
+        "HKLEG-RECON-REPORT-FIX-001",
+        "HKLEG-RECON-REPORT-FIX-002",
     )
     assert package.evaluation_ids == ()
     assert package.attestation_ids == ()
@@ -459,6 +551,149 @@ def test_hk_legislation_readiness_package_is_exact_non_executable_and_honest() -
             ),
         )
     assert inactive.value.code is RulebookErrorCode.PACKAGE_NOT_ACTIVE
+
+
+def test_not_ready_real_package_may_declare_families_without_inventing_scopes(
+    tmp_path: Path,
+) -> None:
+    root = _copy_hk(tmp_path)
+    scope_document = _json(root / "scopes/release-scopes.json")
+    scopes = _array(scope_document["scopes"])
+    blocker_codes = sorted(
+        {
+            _text(code)
+            for raw_scope in scopes
+            for code in _array(_object(raw_scope)["blocker_codes"])
+        }
+    )
+    scope_document["scopes"] = []
+    scope_document["scope_families"] = checked_json_value(
+        [
+            {
+                "family_id": "HK-CASE-CFA",
+                "ownership_key_pattern": "HK-CASE-CFA-{DECISION_YEAR}",
+                "required_source_ids": ["HK-LEG-HKEL-CURRENT-INVENTORY"],
+                "concrete_scope_rule": "REQUIRES_EVIDENCED_INCLUSIVE_YEAR_BOUNDARY",
+                "blocker_codes": blocker_codes,
+            }
+        ]
+    )
+    _write(root / "scopes/release-scopes.json", scope_document)
+    manifest = _json(root / "package.json")
+    manifest["scope_readiness"] = []
+    _write(root / "package.json", manifest)
+    _rehash(root)
+
+    package = _load_hk(root)
+    assert package.scopes == ()
+    assert len(package.scope_families) == 1
+    assert package.scope_families[0].family_id == "HK-CASE-CFA"
+    assert package.rules == ()
+
+    no_families = _copy_hk(tmp_path / "no-families")
+    scope_document = _json(no_families / "scopes/release-scopes.json")
+    scope_document["scopes"] = []
+    _write(no_families / "scopes/release-scopes.json", scope_document)
+    manifest = _json(no_families / "package.json")
+    manifest["scope_readiness"] = []
+    _write(no_families / "package.json", manifest)
+    _rehash(no_families)
+    with pytest.raises(RulebookError) as caught:
+        _load_hk(no_families)
+    assert caught.value.code is RulebookErrorCode.OVERLAPPING_SCOPES
+
+
+def test_hk_cases_package_is_honestly_frozen_without_activation_authority() -> None:
+    package = _load_cases()
+
+    assert package.manifest.package_version == "0.11.0"
+    assert package.manifest.jurisdiction == "HK"
+    assert package.manifest.material_family == "CASES"
+    assert package.manifest.environment == "PRODUCTION"
+    assert package.scopes == ()
+    assert tuple(family.family_id for family in package.scope_families) == (
+        "HK-CASE-CA",
+        "HK-CASE-CFA",
+        "HK-CASE-CFI",
+        "HK-CASE-CT",
+        "HK-CASE-HKPC",
+        "HK-CASE-HKSUPERIOR",
+    )
+    assert tuple(source.source_id for source in package.sources) == (
+        "HK-CASE-COURT-REGISTRY",
+        "HK-CASE-HKLII-DISCOVERY",
+        "HK-CASE-JUDICIARY-JUDGMENT",
+        "HK-CASE-JUDICIARY-LIBRARY",
+        "HK-CASE-JUDICIARY-LRS-INVENTORY",
+        "HK-CASE-JUDICIARY-TRANSLATION",
+        "HK-CASE-PRIVY-COUNCIL",
+    )
+    assert package.rules == ()
+    assert package.semantic_profiles == ()
+    assert package.fixture_ids == (
+        "HKCASE-LIST-FIX-001",
+        *(f"HKCASE-PROP-DET-ADM-{ordinal:03d}" for ordinal in range(1, 19)),
+        *(f"HKCASE-PROP-DET-LED-{ordinal:03d}" for ordinal in range(1, 21)),
+        *(f"HKCASE-PROP-DET-OUT-{ordinal:03d}" for ordinal in range(1, 17)),
+        *(f"HKCASE-PROP-SEM-BND-{ordinal:03d}" for ordinal in range(1, 23)),
+        *(f"HKCASE-PROP-SEM-CNT-{ordinal:03d}" for ordinal in range(1, 19)),
+        *(f"HKCASE-PROP-SEM-MAT-{ordinal:03d}" for ordinal in range(1, 19)),
+        *(f"HKCASE-PROP-SEM-RSK-{ordinal:03d}" for ordinal in range(1, 21)),
+        *(f"HKCASE-TREAT-SEM-DIS-{ordinal:03d}" for ordinal in range(1, 14)),
+        *(f"HKCASE-PROP-TASK-PREFLIGHT-{ordinal:03d}" for ordinal in range(1, 9)),
+    )
+    assert package.evaluation_ids == ()
+    assert package.attestation_ids == ()
+    assert package.manifest.scope_readiness == ()
+    assert package.manifest.unresolved_policy_codes == (
+        "HKCASE_BASELINE_UNBUILT",
+        "HKCASE_CONCRETE_SCOPE_BOUNDARIES_UNADMITTED",
+        "HKCASE_EVALUATIONS_UNADMITTED",
+        "HKCASE_OFFICIAL_CONNECTORS_UNADMITTED",
+        "HKCASE_ORIGINATING_FORMATS_UNADMITTED",
+        "HKCASE_PROPOSITION_WORKFLOW_UNADMITTED",
+        "HKCASE_TREATMENT_WORKFLOW_UNADMITTED",
+    )
+
+
+def test_hk_regulatory_package_freezes_two_scopes_without_serving_authority() -> None:
+    package = _load_hk_regulatory()
+
+    assert package.manifest.package_version == "0.14.0"
+    assert package.manifest.jurisdiction == "HK"
+    assert package.manifest.material_family == "REGULATORY_MATERIALS"
+    assert package.manifest.environment == "PRODUCTION"
+    assert tuple(source.source_id for source in package.sources) == (HKEX_REGULATORY_SOURCE_IDS)
+    assert tuple(scope.ownership_keys for scope in package.scopes) == (
+        ("HK:REGULATORY:HK-REG-HKEX-GEM",),
+        ("HK:REGULATORY:HK-REG-HKEX-MAIN-BOARD",),
+    )
+    assert {scope.readiness for scope in package.scopes} == {ReadinessState.NOT_READY}
+    assert all(scope.blocker_codes for scope in package.scopes)
+    assert package.scope_families == ()
+    assert package.rules == ()
+    assert package.semantic_profiles == ()
+    assert package.fixture_ids == (
+        *(f"HKREG-DEC-BND-{ordinal:03d}" for ordinal in range(1, 31)),
+        *(f"HKREG-DET-COV-{ordinal:03d}" for ordinal in range(1, 21)),
+        *(f"HKREG-DET-IDN-{ordinal:03d}" for ordinal in range(1, 25)),
+        *(f"HKREG-DET-PKG-{ordinal:03d}" for ordinal in range(1, 39)),
+        *(f"HKREG-DET-PAR-{ordinal:03d}" for ordinal in range(1, 25)),
+        *(f"HKREG-DET-RND-{ordinal:03d}" for ordinal in range(1, 36)),
+        *(f"HKREG-DEC-SRC-{ordinal:03d}" for ordinal in range(1, 63)),
+        *(f"HKREG-DEC-STA-{ordinal:03d}" for ordinal in range(1, 52)),
+        "HKREG-CONTINUITY-FIX-001",
+        "HKREG-EFFECTIVE-STATE-FIX-001",
+        "HKREG-ENGLISH-RECORD-FIX-001",
+        "HKREG-INV-FIX-001",
+        "HKREG-RECORD-IDENTITY-FIX-001",
+    )
+    assert package.evaluation_ids == ()
+    assert package.attestation_ids == ()
+    assert len(package.manifest.unresolved_policy_codes) == 11
+    assert "HKREG_EFFECTIVE_STATE_REAL_EVIDENCE_UNADMITTED" in (
+        package.manifest.unresolved_policy_codes
+    )
 
 
 def test_hk_baseline_inventory_vertical_slice_is_exact_and_fail_closed() -> None:
@@ -1047,6 +1282,36 @@ def test_hk_current_event_routes_gap_without_constructing_a_record() -> None:
     assert all(decision.event_fact_output == "LEGAL_STATUS_EVENT" for decision in decisions[:4])
 
 
+def test_hk_known_stale_fallback_selects_only_exact_latest_hkel_text() -> None:
+    decisions = prove_hk_known_stale_fallback(HK_PACKAGE_ROOT)
+    assert tuple(decision.fixture_id for decision in decisions) == tuple(
+        f"HKLEG-KNOWN-STALE-FIX-{index:03d}" for index in range(1, 13)
+    )
+    assert tuple(decision.processing_outcome for decision in decisions) == (
+        "PASS",
+        "PASS",
+        "PASS",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "QUARANTINE",
+        "QUARANTINE",
+        "QUARANTINE",
+        "BLOCK",
+        "QUARANTINE",
+        "QUARANTINE",
+    )
+    assert decisions[0].selection_result == "KNOWN_STALE_ANALYTICAL_CARRY_FORWARD"
+    assert decisions[1].fallback_selection is not None
+    assert decisions[1].fallback_selection["base_evidence_class"] == "ASSISTED"
+    assert decisions[1].fallback_selection["base_version_date"] == "2026-07-15"
+    assert decisions[1].selection_ref() is not None
+    assert decisions[2].processing_outcome == "PASS"
+    assert decisions[2].selection_result == "NO_RECORD"
+    assert all(decision.document()["record_output"] == "NONE" for decision in decisions)
+    assert all(decision.document()["external_effects"] == "NONE" for decision in decisions)
+
+
 def test_hk_current_commencement_establishes_exact_operative_and_pending_locations() -> None:
     decisions = prove_hk_current_commencement(HK_PACKAGE_ROOT)
     assert tuple(decision.fixture_id for decision in decisions) == tuple(
@@ -1289,6 +1554,144 @@ def test_hk_reconstruction_plan_validation_is_complete_and_effect_free() -> None
         assert document["reconstructed_text_output"] == "NONE"
         assert document["record_output"] == "NONE"
         assert document["external_effects"] == "NONE"
+
+
+def test_hk_reconstruction_execution_is_exact_atomic_and_effect_free() -> None:
+    results = prove_hk_reconstruction_execution(HK_PACKAGE_ROOT)
+    assert tuple(result.processing_outcome for result in results) == (
+        *("PASS" for _ in range(8)),
+        *("BLOCK" for _ in range(5)),
+    )
+    assert tuple(result.reason_code for result in results) == (
+        *("RECONSTRUCTION_OPERATIONS_PROVISIONALLY_COMPLETE" for _ in range(8)),
+        "RECONSTRUCTION_BEFORE_STATE_MISMATCH",
+        "RECONSTRUCTION_FINAL_TREE_MISMATCH",
+        "RECONSTRUCTION_SOURCE_UNIT_INVENTORY_MISMATCH",
+        "RECONSTRUCTION_BILINGUAL_ALIGNMENT_MISMATCH",
+        "RECONSTRUCTION_RENDERER_UNSUPPORTED",
+    )
+    for result in results:
+        document = result.document()
+        assert document["execution_report_output"] == "NONE"
+        assert document["reconstructed_artifact_output"] == "NONE"
+        assert document["record_output"] == "NONE"
+        assert document["external_effects"] == "NONE"
+    assert all(
+        operation.atomic_group_result == "ROLLED_BACK"
+        for result in results[8:12]
+        for operation in result.operation_results
+        if operation.result == "APPLIED"
+    )
+
+
+def test_hk_recursive_bilingual_partition_package_is_exact_and_effect_free() -> None:
+    results = prove_hk_legislation_partition(HK_PACKAGE_ROOT)
+
+    assert len(results) == 22
+    assert tuple(result.reason.value for result in results) == (
+        "PASS_UNSPLIT",
+        "LOCATIONS_PROCESSED_SEPARATELY",
+        "PASS_PARTITIONED",
+        "PASS_PARTITIONED",
+        "PASS_PARTITIONED",
+        "PASS_PARTITIONED",
+        "PASS_PARTITIONED",
+        "PASS_UNSPLIT",
+        "PASS_PARTITIONED",
+        "PASS_PARTITIONED",
+        "PASS_PARTITIONED",
+        "PASS_PARTITIONED",
+        "PASS_PARTITIONED",
+        "SOURCE_UNIT_COVERAGE_DEFECT",
+        "SOURCE_UNIT_COVERAGE_DEFECT",
+        "SMALLEST_DEPENDENT_BRANCH_OVER_LIMIT",
+        "SMALLEST_DEPENDENT_BRANCH_OVER_LIMIT",
+        "BILINGUAL_ALIGNMENT_MISMATCH",
+        "SOURCE_LOCATION_OWNERSHIP_DEFECT",
+        "PASS_PARTITIONED",
+        "SOURCE_CONTRACT_REVIEW_REQUIRED",
+        "EXPLICIT_UNSAFE_NEW_VERSION_CONSEQUENCE",
+    )
+    assert all(result.canonical_bytes == canonicalize(result.document()) for result in results)
+    assert all(
+        result.document()["search_record_output"] == "NONE"
+        and result.document()["external_effects"] == "NONE"
+        for result in results
+    )
+    batch = results[1]
+    assert batch.parts == ()
+    assert batch.document()["cross_location_combination"] == "FORBIDDEN"
+    assert len(_array(batch.document()["location_results"])) == 2
+    assert results[5].parts[0].primary_partition_node_ids == ("partition_paragraph_1",)
+    nested_nodes = tuple(
+        node_id for part in results[6].parts for node_id in part.primary_partition_node_ids
+    )
+    assert "nested_subparagraph_1a" in nested_nodes
+    assert results[8].parts[-1].dependency_alignment_group_ids == ("align_heading",)
+    assert all(not part.dependency_alignment_group_ids for part in results[9].parts)
+    assert all(
+        part.dependency_alignment_group_ids == ("align_table_headers",)
+        for part in results[10].parts
+    )
+    note_part = next(
+        part for part in results[11].parts if "align_note_1" in part.primary_alignment_group_ids
+    )
+    assert note_part.primary_partition_node_ids == ("partition_paragraph_1",)
+    assert note_part.primary_alignment_group_ids == ("align_body_1", "align_note_1")
+    assert results[13].disposition.value == "BLOCK"
+    assert results[14].disposition.value == "BLOCK"
+    assert results[15].coverage_gap_required is True
+    assert results[16].coverage_gap_required is True
+    assert results[17].coverage_gap_required is True
+    assert results[18].disposition.value == "BLOCK"
+    assert results[18].reason.value == "SOURCE_LOCATION_OWNERSHIP_DEFECT"
+    consequence = results[21]
+    assert isinstance(consequence, PartitionReleaseConsequenceResult)
+    assert consequence.release_action == "NO_NEW_DESIRED_STATE"
+    assert consequence.routing_action == "RETAIN_PREVIOUS_VERIFIED_TARGET"
+    assert consequence.document()["predecessor_retirement"] == "FORBIDDEN"
+
+
+def test_hk_reconstruction_artifact_and_report_are_exact_and_effect_free() -> None:
+    reports = prove_hk_reconstruction_report(HK_PACKAGE_ROOT)
+    assert tuple(report.document()["processing_outcome"] for report in reports) == (
+        "PASS",
+        "BLOCK",
+    )
+    assert tuple(report.document()["selection_consequence"] for report in reports) == (
+        "RECONSTRUCTION",
+        "NO_RECORD",
+    )
+    assert all(report.document()["external_effects"] == "NONE" for report in reports)
+
+
+def test_hk_later_hkel_reconciliation_is_complete_and_valid_hkel_first() -> None:
+    decisions = prove_hk_reconstruction_reconciliation(HK_PACKAGE_ROOT)
+    assert tuple(decision.fixture_id for decision in decisions) == tuple(
+        f"HKLEG-RECON-RCN-FIX-{index:03d}" for index in range(1, 13)
+    )
+    assert tuple(decision.next_state for decision in decisions) == (
+        "AWAITING_HKEL_CONSOLIDATION",
+        "HKEL_CANDIDATE_OBSERVED",
+        "AWAITING_HKEL_CONSOLIDATION",
+        "MATCH_CONFIRMED",
+        "MATCH_CONFIRMED",
+        "COMPARISON_DEFERRED",
+        "MISMATCH_CONFIRMED",
+        "MISMATCH_CONFIRMED",
+        "HKEL_CANDIDATE_OBSERVED",
+        "SUSPENDED_PENDING_REVALIDATION",
+        "REVALIDATED",
+        "SUPERSEDED_BY_HKEL",
+    )
+    assert decisions[2].comparison_class == "HKEL_CANDIDATE_INVALID"
+    assert decisions[5].serving_consequence == "SELECT_ORDINARY_HKEL_WHEN_APPROVED"
+    assert decisions[8].processing_outcome == "BLOCK"
+    assert decisions[11].comparison_class == "MATERIAL_MISMATCH"
+    assert decisions[11].serving_consequence == "ORDINARY_HKEL_SELECTED"
+    assert all(decision.document()["artifact_mutation"] == "NONE" for decision in decisions)
+    assert all(decision.document()["record_output"] == "NONE" for decision in decisions)
+    assert all(decision.document()["external_effects"] == "NONE" for decision in decisions)
 
 
 def test_hk_baseline_inventory_fixture_schema_and_locks_reject_drift(tmp_path: Path) -> None:
@@ -1737,6 +2140,71 @@ def test_hk_reconstruction_plan_validation_schema_and_locks_reject_drift(
 
     with pytest.raises(RulebookError) as caught:
         prove_hk_reconstruction_plan_validation(root)
+    assert caught.value.code is RulebookErrorCode.CONTRACT_MISMATCH
+
+
+def test_hk_reconstruction_execution_schema_and_locks_reject_drift(
+    tmp_path: Path,
+) -> None:
+    root = _copy_hk(tmp_path)
+    fixture_path = root / "fixtures/deterministic/HKLEG-RECON-EXEC-FIX-001.json"
+    fixture = _json(fixture_path)
+    fixture["unexpected"] = "FORBIDDEN"
+    _write(fixture_path, fixture)
+
+    catalogue_path = root / "catalogues/reconstruction-execution-fixtures.json"
+    catalogue = _json(catalogue_path)
+    entries = _array(catalogue["fixtures"])
+    _object(entries[0])["fixture_fingerprint"] = (
+        f"sha256:{sha256(fixture_path.read_bytes()).hexdigest()}"
+    )
+    _write(catalogue_path, catalogue)
+    _rehash(root)
+
+    with pytest.raises(RulebookError) as caught:
+        prove_hk_reconstruction_execution(root)
+    assert caught.value.code is RulebookErrorCode.CONTRACT_MISMATCH
+
+
+def test_hk_partition_schema_and_locks_reject_drift(tmp_path: Path) -> None:
+    root = _copy_hk(tmp_path)
+    fixture_path = root / "fixtures/deterministic/HKLEG-RECON-ORP-FIX-001.json"
+    fixture = _json(fixture_path)
+    fixture["unexpected"] = "FORBIDDEN"
+    _write(fixture_path, fixture)
+
+    catalogue_path = root / "catalogues/reconstruction-overlong-partition-fixtures.json"
+    catalogue = _json(catalogue_path)
+    entries = _array(catalogue["fixtures"])
+    _object(entries[0])["fixture_fingerprint"] = (
+        f"sha256:{sha256(fixture_path.read_bytes()).hexdigest()}"
+    )
+    _write(catalogue_path, catalogue)
+    _rehash(root)
+
+    with pytest.raises(RulebookError) as caught:
+        prove_hk_legislation_partition(root)
+    assert caught.value.code is RulebookErrorCode.CONTRACT_MISMATCH
+
+
+def test_hk_reconstruction_report_schema_and_locks_reject_drift(tmp_path: Path) -> None:
+    root = _copy_hk(tmp_path)
+    fixture_path = root / "fixtures/deterministic/HKLEG-RECON-REPORT-FIX-001.json"
+    fixture = _json(fixture_path)
+    fixture["unexpected"] = "FORBIDDEN"
+    _write(fixture_path, fixture)
+
+    catalogue_path = root / "catalogues/reconstruction-report-fixtures.json"
+    catalogue = _json(catalogue_path)
+    entries = _array(catalogue["fixtures"])
+    _object(entries[0])["fixture_fingerprint"] = (
+        f"sha256:{sha256(fixture_path.read_bytes()).hexdigest()}"
+    )
+    _write(catalogue_path, catalogue)
+    _rehash(root)
+
+    with pytest.raises(RulebookError) as caught:
+        prove_hk_reconstruction_report(root)
     assert caught.value.code is RulebookErrorCode.CONTRACT_MISMATCH
 
 

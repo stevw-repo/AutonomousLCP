@@ -3,7 +3,7 @@
   "schema_version": "1.0.0",
   "package_id": "rbp_777777777777777777777777777777777777777777777777",
   "package_version": "1.0.0",
-  "package_fingerprint": "sha256:51dc8f224361a67ef6c67ea9cf63126069e664221372b9742ab4995fea879f74",
+  "package_fingerprint": "sha256:4c0fa98d9cd66abbe64584b3c06155a3fd7e53511e2e78f13557920821b172b6",
   "jurisdiction": "ZZZ",
   "environment": "LOCAL_SYNTHETIC",
   "material_family": "TEST_LEGAL_MATERIAL",
@@ -11,7 +11,7 @@
   "effective_cutoff": "2026-08-16T00:00:00Z",
   "predecessor": null,
   "contract_locks": [
-    "sha256:7bd2858bd0099271bc5be1e8d5c380521d81fb15bee8a4110de8fe6629d3094e"
+    "sha256:92b5193ca9fa45d2260ee2012cd350818136f4d12b1d93e763a67b827d15c455"
   ],
   "code_locks": [
     "asklegal-legal-desks==0.1.0",

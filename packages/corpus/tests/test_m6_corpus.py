@@ -1,6 +1,5 @@
 """M6 immutable release, desired-state, coverage, and proposal proofs."""
 
-from hashlib import sha256
 from pathlib import Path
 
 import pytest
@@ -26,6 +25,8 @@ from asklegal_corpus import (
     source_coverage_cycle_binding_from_json,
     verify_v1_coverage_release_gate,
 )
+
+from tools.tests.proposal_member_fixture import semantic_proposal_fixture
 
 _NOW = "2026-08-16T00:00:00Z"
 
@@ -266,19 +267,21 @@ def test_acquisition_source_cycle_handoff_parses_without_losing_exact_identity()
 
 def test_proposal_package_commits_the_exact_schema_valid_inventory_last() -> None:
     """One immutable root fingerprint covers every canonical review artifact."""
-    contents = {role: ("{}\n" + role).encode() for role in PROPOSAL_ROLE_PATHS}
-    promotion_fingerprint = "sha256:" + sha256(contents["PROMOTION_MANIFEST"]).hexdigest()
+    fixture = semantic_proposal_fixture()
+    contents = fixture.contents
+    bindings = fixture.bindings
     package = freeze_proposal_package(
         contents,
         ProposalPackageInput(
-            _NOW,
-            "pmn_" + "1" * 48,
-            promotion_fingerprint,
-            "srv_" + "2" * 48,
+            bindings.observation_cutoff,
+            bindings.promotion_manifest_id,
+            bindings.promotion_manifest_fingerprint,
+            bindings.base_serving_state_id,
             "sha256:" + "b" * 64,
-            "srv_" + "3" * 48,
-            "sha256:" + "c" * 64,
+            bindings.candidate_serving_state_id,
+            bindings.candidate_serving_state_fingerprint,
         ),
+        fixture.traceability_shards,
     )
     assert len(package.artifacts) == len(PROPOSAL_ROLE_PATHS) == 11
     assert all(item.content == contents[item.role] for item in package.artifacts)
@@ -289,19 +292,23 @@ def test_proposal_package_commits_the_exact_schema_valid_inventory_last() -> Non
         "schemas/promotion-domain.schema.json#/$defs/proposal_package_manifest",
     )
     changed = dict(contents)
-    changed["VALIDATION"] = b"changed"
+    changed["REVIEW_REPORT"] = changed["REVIEW_REPORT"].replace(
+        b"Complete deterministic proposal fixture.",
+        b"Complete deterministic proposal fixture, independently reviewed.",
+    )
     assert (
         freeze_proposal_package(
             changed,
             ProposalPackageInput(
-                _NOW,
-                "pmn_" + "1" * 48,
-                promotion_fingerprint,
-                "srv_" + "2" * 48,
+                bindings.observation_cutoff,
+                bindings.promotion_manifest_id,
+                bindings.promotion_manifest_fingerprint,
+                bindings.base_serving_state_id,
                 "sha256:" + "b" * 64,
-                "srv_" + "3" * 48,
-                "sha256:" + "c" * 64,
+                bindings.candidate_serving_state_id,
+                bindings.candidate_serving_state_fingerprint,
             ),
+            fixture.traceability_shards,
         ).fingerprint
         != package.fingerprint
     )

@@ -1,0 +1,48 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:c5f5c1a7bdc12155675a68a60368c5d4d21c17c7ef24f2085b81d827c9b0fab3",
+  "workflow_result_fingerprint": "sha256:46250c17f651fe178bb84bb397310cb9ff6ce871dd5410a6b07cab4c52c6a996",
+  "court_family": "CFI",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_9",
+  "auxiliary_translation_version_ids": [],
+  "examined_segment_ids": [
+    "segment_1"
+  ],
+  "resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "SHORT_SERVICE_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_9",
+      "meaning_codes": [
+        "VALID_SERVICE_REQUIRED"
+      ],
+      "risk_codes": [
+        "CANDIDATE_ACCOUNTING_COMPLETE",
+        "SHORT_PACKET_FULL_LEDGER"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "The claim fails because valid service was never proved."
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "coverage_gap_ids": [],
+  "translation_use": "NONE",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

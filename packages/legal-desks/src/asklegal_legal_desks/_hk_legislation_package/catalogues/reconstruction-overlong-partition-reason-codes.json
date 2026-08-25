@@ -1,0 +1,57 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.reconstruction-overlong-partition.reason-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {
+      "code": "PASS_UNSPLIT",
+      "meaning": "The complete final bilingual Legal Location fits both exact serving ceilings and remains one record candidate.",
+      "processing_outcome": "PASS"
+    },
+    {
+      "code": "PASS_PARTITIONED",
+      "meaning": "Recursive complete official bilingual units produced the minimum-part earliest-full canonical partition and every final part fits both ceilings.",
+      "processing_outcome": "PASS"
+    },
+    {
+      "code": "LOCATIONS_PROCESSED_SEPARATELY",
+      "meaning": "Two or more distinct Legal Locations were independently rendered and measured, with no aggregate serving part or cross-location combination.",
+      "processing_outcome": "PASS"
+    },
+    {
+      "code": "EXPLICIT_UNSAFE_NEW_VERSION_CONSEQUENCE",
+      "meaning": "An unsafe new Official Version is quarantined and one evidence-backed ADR 0005 carry-forward, complete withholding, or no-jurisdiction-rebuild decision is validated without silent predecessor reuse or retirement.",
+      "processing_outcome": "PASS"
+    },
+    {
+      "code": "SMALLEST_DEPENDENT_BRANCH_OVER_LIMIT",
+      "meaning": "The smallest complete supported bilingual branch and its required dependencies exceed a hard ceiling, so the branch is quarantined with a Coverage Gap.",
+      "processing_outcome": "QUARANTINE"
+    },
+    {
+      "code": "SOURCE_CONTRACT_REVIEW_REQUIRED",
+      "meaning": "A source element or dependency relationship has unknown published meaning and no split boundary is guessed.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "BILINGUAL_ALIGNMENT_MISMATCH",
+      "meaning": "A proposed official boundary cannot be proved in both authentic-language trees under the accepted alignment.",
+      "processing_outcome": "QUARANTINE"
+    },
+    {
+      "code": "SOURCE_LOCATION_OWNERSHIP_DEFECT",
+      "meaning": "The final payload does not preserve exact ownership by the declared Legal Location.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "SOURCE_UNIT_COVERAGE_DEFECT",
+      "meaning": "Primary source-unit coverage is missing, duplicated, reordered, or otherwise not exact-once.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "CANONICAL_PARTITION_DEFECT",
+      "meaning": "The implementation failed to produce the required canonical minimum-part result from otherwise valid inputs.",
+      "processing_outcome": "BLOCK"
+    }
+  ]
+}

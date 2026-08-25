@@ -5499,3 +5499,939 @@ fingerprint. It does not mint a replacement identity, execute an operation,
 construct text, create a reconstruction artifact or Search Record, activate a
 scope, or grant provider/external authority. Execution and artifact validation
 remain separate later gates so a valid shape cannot silently become legal text.
+
+## 2026-08-24 — Reconstruction deletions remain in proof but not final renderer input
+
+A Plan location removed by an admitted delete or complete replacement remains
+part of the Plan's affected dependency closure, but it cannot appear as a final
+reconstructed-location renderer row because no final source units exist for it.
+The artifact dependency proof therefore divides the exact Plan closure into
+surviving `artifact_location_refs` and explicit `ended_location_refs`; their
+disjoint union must equal the Plan closure. The ended set must exactly equal the
+identity-lineage result's ended locations.
+
+Complete replacement operation results account for both the removed base
+source-unit IDs and inserted final source-unit IDs. This lets source-unit
+coverage prove every deletion and every final derivation without inventing a
+tombstone renderer row or losing the removed source ownership. This refines the
+ADR 0085 executable contract; it does not change Legal Location identity rules,
+create a record, or grant source/provider/external authority.
+
+## 2026-08-24 — Proposal traceability remains one fixed role with transitive exact shard receipts
+
+The proposal retains the accepted fixed eleven-role boundary. Its
+`RECORD_TRACEABILITY` member is the exact canonical ADR 0078 lookup root
+manifest, not an envelope or flattened summary. Each declared NDJSON shard is a
+separate immutable Primary Vault object. The portable proposal receipt carries
+the exact logical key, immutable version, fingerprint, and byte length of every
+shard under the proposal package. The package-specific physical key does not
+alter the root's normalized relative shard path.
+
+Control writes all shards before the lookup-root member and commits the proposal
+root last. Control, Review, and Promotion each independently reread every exact
+version and validate the root, descriptor inventory, shard framing and bytes,
+record inventory, serving-payload fingerprint, scope/release ownership, profile
+use, and zero-entry scopes. A root fingerprint without transitive shard reads is
+insufficient. This preserves the fixed Review package while making restart and
+Approval reconstruction portable; it grants no provider or promotion effect.
+
+## 2026-08-24 — Freeze partial partition conformance without claiming source admission
+
+The executable ADR 0021/0040 partition boundary accepts only sealed canonical
+English and Traditional Chinese trees, an accepted bilingual alignment map, a
+declared official bilingual partition graph, and one exact serving profile. It
+does not parse HKeL, select a production tokenizer, create a Search Record, or
+perform an external effect. The package's UTF-8-byte counter is explicitly a
+synthetic conformance tokenizer and cannot be admitted as the V1 embedding
+tokenizer.
+
+Package `0.35.0` freezes the seventeen ADR 0040 cases that the source-neutral
+ordinary-text engine actually implements. It deliberately does not fabricate
+the remaining five cases, structured-material support, or authentic HKeL-shaped
+evidence merely to make the catalogue appear complete. Those remain explicit
+admission blockers. This keeps every implemented result byte-reproducible and
+fail-visible while preserving the final V1 requirement rather than weakening it.
+
+## 2026-08-24 — Keep a statutory note inseparable from its affected unit
+
+Package `0.36.0` adds ADR 0040 case 012 without claiming authentic HKeL-format
+support. In the sealed source-neutral tree, the complete bilingual statutory-note
+marker and body are owned by a `NOTE` child of the affected paragraph. The
+partition graph assigns the paragraph's body group and note group to one primary
+branch. Recursive descent therefore cannot place the note in another serving
+part, drop it, or treat it as optional repeated context. Exact primary source-
+unit accounting remains mandatory. Schedules, tables, Forms, wrong-location
+ownership, new-version carry-forward, authentic HKeL parsing, and a real admitted
+tokenizer remain separate blockers.
+
+## 2026-08-24 — Block wrong Legal Location ownership before rendering
+
+Package `0.37.0` adds ADR 0040 case 019. A partition request binds one exact
+Legal Location. If the declared partition node instead belongs to another
+location in both authentic-language trees, processing returns
+`BLOCK/SOURCE_LOCATION_OWNERSHIP_DEFECT` before rendering or limit measurement.
+Complete byte presence and a payload that would fit cannot repair the ownership
+error. This is a deterministic processing defect, not a bilingual uncertainty,
+and creates no Search Record or external effect.
+
+## 2026-08-24 — Forbid cross-location combination at an executable boundary
+
+Package `0.38.0` adds ADR 0040 case 002 through a closed multi-location
+orchestrator rather than inferring separation from the single-location API. The
+batch requires at least two distinct exact Legal Location references, preserves
+their input order, executes the ordinary partitioner independently for each,
+and returns each complete result under its own location reference. The batch
+exposes an empty aggregate `parts` inventory and the fixed
+`cross_location_combination=FORBIDDEN` claim. Duplicate-location batches are
+contract errors. This prevents two short locations from being merged merely
+because their combined bytes would fit, without creating Search Record identities
+or authorizing any external effect.
+
+## 2026-08-24 — Render and partition tables only from accepted header paths and rows
+
+Package `0.39.0` adds ADR 0040 case 011 and renderer contract `1.1.0`. A
+source-neutral table is supported only when its sealed tree declares one table,
+one complete header row, complete leaf header-path units, and rectangular data
+rows whose bilingual structures are already accepted. The renderer labels every
+cell with its exact header path and preserves source-row order. The partitioner
+may descend only to complete aligned rows; each row carries the complete
+bilingual headers as explicit repeated context and is indivisible. A row that
+cannot fit with those headers quarantines rather than losing context or splitting
+inside a cell. This does not admit authentic HKeL parsing, Schedules, or Forms.
+
+## 2026-08-24 — Require an explicit ADR 0005 consequence for an unsafe new version
+
+Package `0.40.0` completes ADR 0040 case 022. A new Official Version that
+quarantines because its smallest complete dependent bilingual branch exceeds an
+admitted ceiling cannot silently reuse or retire its predecessor. One strict,
+effect-free Legal Desk decision must instead select ordinary carry-forward, a
+complete Withholding Release, or no jurisdiction rebuild and bind the unsafe
+partition fingerprint, old and new Official Versions, predecessor release and
+target, reason, evidence, audit history, Coverage Gap, author, timestamps, and
+review deadline.
+
+Ordinary carry-forward is valid only when continued serving is supported, no
+affirmative record change is proved, existing records are not materially
+misleading, and the exact last approved release is selected with a warning. A
+complete Withholding Release requires evidence that the old records may mislead,
+an exact distinct withholding release, and Approval. Both target-building paths
+require Approval under the general promotion boundary. When neither continued
+serving nor complete withholding is supportable, no new Desired State is built
+and the previous verified target remains routed with a visible warning. The
+boundary creates no release, target, record, predecessor retirement, or provider
+effect and does not claim authentic HKeL-format support.
+
+## 2026-08-24 — Put exact effect authority in each approved Promotion action
+
+The executable Promotion Manifest uses action contract `1.0.0`. Each ordered
+action contains every non-dynamic value required to create its future Effect
+Intent: effect type and owner, checkpoint, exact immutable inputs and command
+fingerprint, required capability and exact capability-profile reference,
+destination class, stable idempotency key, retry/attempt/deadline/stops, remote
+precondition, success postcondition, and explicit compensation. The manifest
+does not carry a global capability-enabled boolean.
+
+Current capability is runtime evidence, not a human-approved toggle. A future
+`BEGIN` transaction must resolve the exact approved profile reference and refuse
+inactive, stale, missing, or changed evidence. It may populate only the dynamic
+intent identity, transaction time, command/aggregate/execution references, and
+other values already fixed by the durable command lineage; it may not infer or
+override action authority.
+
+The cross-cutting Promotion Manifest schema advances to `1.1.0`; Control/
+Promotion and Review independently validate the same canonical action bytes.
+This removes the accepted design's stale `capability_state` field and the local
+M6 implementation's opaque `action_ids`/`capability_enabled` shortcut. It does
+not authorize `BEGIN`, create an Effect Intent, enable a handler, admit an
+HKV1-7 profile, or perform an external effect.
+
+## 2026-08-24 — Make BEGIN atomic but keep effect execution separately disabled
+
+The first authorized promotion action advances from `EXECUTION_AUTHORIZED` to
+`EXECUTION_RUNNING` only through one specialized Promotion-owned command. The
+same Management Register transaction must append the version-2 execution event
+and exactly one Effect Intent derived from action sequence 1. An event without
+its intent, or an intent without its event, is forbidden. Aggregate-version
+competition selects one BEGIN; exact command replay resolves acknowledgement
+loss without appending another intent.
+
+Current capability evidence is read immediately before BEGIN and its exact
+evidence reference is durably bound into the command. It may establish only
+that the already-approved capability profile is current; it cannot change the
+action's effect, inputs, destination, retry policy, postcondition, or
+compensation. Migration `000008` independently binds the command, event, intent,
+prior authorization, lineage, manifest, Approval, worker identity, action, and
+capability references before the common atomic command protocol runs.
+
+BEGIN authority and effect-execution authority remain separate. This decision
+permits a durable unclaimed Effect Intent in the local synthetic proof, but no
+handler is registered and real process composition remains fail-closed until
+HKV1-7 profiles and current evidence are admitted. Creating an intent therefore
+does not authorize a provider call, Pinecone mutation, backup, publication,
+routing change, deployment, or live-host operation.
+
+## 2026-08-24 — Prove fenced first-intent handling without composing a provider
+
+The Promotion worker may own one disabled handler for the first exact Effect
+Intent created by migration `000008`. Claiming does not authorize execution by
+itself. Before an injected effect, the handler must validate the canonical
+intent against the approved action, reread current action and capability
+authority, renew the exact fence, and persist a sanitized started attempt.
+Inactive, stale, or changed authority produces a cancellation receipt before an
+attempt; missing authority remains unresolved and cannot be converted into
+success, cancellation, or final failure. A prior unreceipted attempt must be
+reconciled and may never be blindly repeated.
+
+SQL Server procedure creation and permission grants are separate migration
+batches. Text following `CREATE PROCEDURE` in the same batch is still procedure
+body text even after the outer `BEGIN`/`END`; putting `GRANT` there can produce
+an existing but uncallable procedure. Migration `000009` therefore creates
+`register.read_claimed_effect_v1` in its first exact batch and grants only the
+five application roles in a second exact batch. The procedure independently
+checks caller ownership, live claimant, exact fencing token, nonterminal state,
+intent bytes/fingerprint, attempt ceiling, and prior-attempt count.
+
+This decision permits only injected deterministic fakes and local SQL proof. It
+does not register the handler in the Promotion process, admit an HKV1-7 profile,
+or authorize any provider, target, backup, routing, deployment, or live-host
+effect.
+
+## 2026-08-24 — Start Cases with official listing accounting, not proposition count
+
+The first executable Hong Kong Cases boundary is deterministic official-listing
+accounting under ADRs 0046 and 0048. It derives one ownership scope from the
+issuing court family and original decision year, accounts every preserved
+official listing through exactly one of the six accepted acquisition outcomes,
+and reports inventory completion, originating-evidence coverage, decision-
+processing completion, and Search Record counts separately.
+
+Only the Judiciary LRS inventory, Judiciary Library, and accepted Privy Council
+inventory roles may satisfy this completeness boundary. HKLII remains a
+nonblocking discovery source and is mechanically rejected as a due completeness
+source. A valid acquired decision with no material proposition is a successful
+zero-record outcome; an unavailable file, unresolved processing, or Quarantine
+can never be converted into the same result.
+
+The package-facing source universe also keeps original Judiciary judgment
+artifacts, item-specific court-registry fallback, and optional Judiciary
+translations as separate roles. The scope-family registry binds current and
+historical inventory authority but intentionally contains no concrete first or
+last year until those boundaries are evidenced at a frozen cutoff.
+
+Concrete scopes may be frozen only from one sorted evidence-bound set containing
+exactly all six families. Every ordinary current family must reach the frozen
+cutoff year; the two historical families may not extend beyond 1997. A partial,
+stale, duplicated, reordered, or unevidenced family set generates no registry.
+
+This source-neutral kernel does not freeze a concrete court-year registry or
+claim an executable Cases Source Rulebook Package. Those require a frozen cutoff
+and evidenced current and historical boundaries. It also performs no source
+access, proposition extraction, later-treatment analysis, release construction,
+or external effect.
+
+## 2026-08-24 — Freeze Cases source and scope families without inventing scopes
+
+A real-jurisdiction Source Rulebook Package may contain zero concrete Release
+Scopes only while it is `NOT_READY` and carries a complete sorted registry of
+scope-family templates. Every family must bind one unique ownership-key pattern,
+declared source roles, one exact concrete-scope rule, and nonempty blocker codes.
+An empty concrete-scope inventory without that registry remains invalid.
+
+Hong Kong Cases package `0.1.0` applies this narrow rule. It freezes the accepted
+seven source roles and six court-family templates while preserving seven exact
+admission blockers. It has no executable rules, semantic profiles, evaluations,
+attestations, concrete court-year scopes, or activation authority. This avoids
+fabricating historical boundaries merely to satisfy a generic package shape and
+does not weaken activation: no concrete scope exists that the lifecycle can
+activate.
+
+This decision authorizes only source-neutral local package conformance. It does
+not establish official endpoint contracts, acquire evidence, prove coverage,
+admit a legal workflow, construct a Cases release, or perform any external
+effect.
+
+## 2026-08-24 — Freeze Cases source authority before endpoint discovery
+
+The first Hong Kong Cases access register freezes all seven accepted source
+roles before any endpoint is admitted. Each role carries exact Fact Authority,
+completeness authority, outage impact, unresolved publisher-rights state, and
+technical blockers. The register may describe zero endpoints while every role
+is blocked; this is more accurate than inventing a URL, parser, historical
+boundary, or completeness claim to satisfy a generic connector shape.
+
+The current register's implementation authority is local contract work only.
+Real source access and every downstream external effect are expressly forbidden.
+Package `0.2.0` binds the exact register fingerprint as a contract lock so a
+source-role or authority change cannot silently leave the legal package stale.
+The shared official endpoint value accepts stable `HK-CASE-*` identities for a
+future disabled contract, but the current register contains none and resolves
+none.
+
+Endpoint locators, publisher-rights evidence, source-access authorization,
+enumeration and no-change proof, formats, rates, retries, and historical range
+evidence must be preserved and independently admitted before a role can become
+callable. This decision performs no source access and proves no coverage.
+
+## 2026-08-24 — Start HKEX with separate inventory facts and no serving claim
+
+The first executable Hong Kong Regulatory Materials boundary is deterministic
+Rule Component Inventory accounting under ADRs 0069 through 0071. Five-source
+observation completeness, source-entry membership, board ownership and
+structure, branch-level effective state, derived component summary, material
+disposition, processing outcome, and final serving readiness remain separate
+facts. A complete inventory may expose an unresolved or quarantined component;
+it cannot become serving-ready through record counts or parser success.
+
+Main Board and GEM failures are isolated only when exact source observations
+bound the failure to one board. The top-level rulebook catalogue always covers
+both. Every rule component resolves bidirectionally to declared source entries,
+has one board owner and valid structure, and retains every atomic applicability
+branch. The derived state follows ADR 0071 and cannot flatten mixed or unknown
+facts into current wording.
+
+Package `0.1.0` freezes this source-neutral boundary with two `NOT_READY` scopes,
+the five-role source universe, one fixture, and ten blockers. It carries no
+endpoint, authentic source artifact, complete component inventory, executable
+rule, model profile, renderer, evaluation, attestation, or activation authority.
+This decision performs no external access and proves no real HKEX coverage.
+
+## 2026-08-24 — Decide HKEX state per exact branch without clock or absence inference
+
+HKEX effective state is now an executable deterministic source-neutral contract
+for one exact applicability branch at one frozen cutoff. The request must bind
+the component, board, Legal Location, update and controlling-product ranges,
+finality/approval basis, temporal or condition facts, applicability context,
+predecessor/successor, uncertainty, source-failure consequence, applied rule,
+and evidence fingerprint. Malformed or extra fields and unknown codes are
+rejected rather than repaired.
+
+A fixed date or external trigger only makes a branch eligible for current-state
+reconciliation. It cannot promote without a matching controlling prevailing
+English product. All-of remains future when at least one fact is freshly proved
+not to have occurred; any-of remains future only when every alternative is
+freshly negative. Otherwise stale or incomplete trigger evidence is `UNKNOWN`.
+Partial successor coverage remains `TRANSITIONAL_CURRENT`; only complete
+successor coverage is `SUPERSEDED`; only exact official withdrawal without a
+successor is `WITHDRAWN`; disappearance proves neither. A positive optional-
+Chinese signal of a possible English defect is uncertainty, while a translation-
+only difference is not.
+
+Technical failure that could change current truth yields no fictional fresh
+decision. The separately recorded ADR 0005 choice is exactly carry forward the
+last approved release, withhold, or no rebuild. Every output keeps legal state,
+material disposition, processing, and serving authority separate and explicitly
+authorizes neither a Search Record nor serving.
+
+Package `0.2.0` freezes the strict request/result schemas, rule declaration, and
+22-case fixture/result catalogue. This admits only source-neutral conformance;
+it does not admit endpoints, authentic HKEX evidence, component continuity,
+English record construction, evaluation, activation, or any external effect.
+
+## 2026-08-24 — Keep HKEX component identity independent of aliases and similarity
+
+HKEX component continuity is decided by one exact source-neutral comparison of
+issued predecessor identities and decision-local current observations. URLs,
+titles, visible rule numbers, locators, filenames, positions, and similar text
+remain aliases and evidence. They never allocate, preserve, merge, or resurrect
+an identity by themselves.
+
+Proved unchanged, URL move, rename, renumber, structural move, and source-
+supported correction preserve the existing board-owned component identity;
+rename, renumber, structural move, and correction retain typed event evidence.
+A distinct replacement requires a new one-to-one ID, split requires new one-to-
+many IDs, merge requires a new many-to-one ID, and a board transfer requires a
+new ID owned by the destination board. The deterministic evaluator declares
+those allocation and forward-lineage requirements but never issues an ID.
+
+Exact official withdrawal preserves the ended identity as history. Mere
+disappearance quarantines and proves neither withdrawal nor retirement. A
+proved reappearance reselects the existing ID through a reinstatement event; a
+new component with no predecessor requires a new unrelated register ID.
+Ambiguous, conflicting, missing, similarity-only, or one-alias-only continuity
+evidence quarantines.
+
+Package `0.3.0` freezes the rule/request/result contract and 15-case fixture.
+This is source-neutral conformance only: authentic event decisions, Management
+Register allocation, complete real inventories, Search Records, serving, and
+external effects remain unadmitted.
+
+## 2026-08-24 — Implement HKEX English construction per exact branch and independent normal root
+
+ADR 0073 is implemented source-neutrally as one complete ordered prevailing-
+English source tree for one exact applicability branch. A tree may contain
+several independent normal record roots, but each root is rendered and
+partitioned separately. Unrelated roots are never packed together to use spare
+capacity. Every primary source unit has one exact root owner in source order;
+official recursive child record units have one parent and partition the parent
+inventory exactly.
+
+Required governing context is the exact transitive source-supported closure,
+ordered by the source tree. Presentation-only units and useful background cannot
+enter that closure. Cross-references preserve only the referring primary words,
+target locator, and optional official heading; target text is not copied.
+Unknown structure quarantines the affected normal root even when the unsplit
+payload would fit.
+
+The canonical renderer and recursive partitioner measure the complete final
+six-field payload with one injected exact tokenizer, including real part labels.
+They choose the fewest contiguous official-child parts and the earliest-full
+solution, and quarantine the smallest complete overlong unit. The immutable
+coverage proof accounts primary, context-only, presentation-only, future,
+historical, and quarantined outcomes separately. It is not a Search Record and
+does not grant serving authority.
+
+Package `0.4.0` freezes strict request/result schemas, renderer declaration,
+rule declaration, eight exact fixture/result cases, and the direct 22-test
+behavioral suite. This admits only source-neutral conformance. Authentic HKEX
+source trees, exact production tokenizer/profile values, full ADR 0074/0075
+conformance, traceability, identity/lineage, release accounting, activation,
+and external effects remain unadmitted.
+
+## 2026-08-24 — Derive HKEX Search Record identity only from exact immutable payloads
+
+The HKEX Legal Desk now emits one source-neutral traceability seed and identity
+consequence for one exact current English serving part. It does not issue a
+Search Record ID, create a Search Record, mutate selection, or authorize
+serving. Identity remains Management Register-owned.
+
+An exact currently selected payload is preserved. An exact older preserved
+payload is reselected through a selection event without backward lineage. An
+unseen initial payload requires a new register-issued initial ID; an unseen
+payload-changing successor requires a new register-issued ID with forward
+lineage from the exact predecessors. A claimed payload change with unchanged
+bytes, an unchanged/reinstatement claim without preserved exact bytes, missing
+current legal support, non-current construction, duplicate payload identity,
+cross-scope identity, or malformed evidence blocks.
+
+Package `0.5.0` freezes the strict request/result schemas, rule declaration,
+eight exact fixture/result cases, and complete traceability inputs including
+source-unit ranges/fingerprints, authority-note decision/support, decision
+evidence, and Legal Desk actor. This is source-neutral conformance only. It does
+not admit authentic HKEX trees, tokenizer/profile limits, real register
+allocation or selection, release accounting, activation, or external effects.
+
+## 2026-08-25 — Bind the complete ADR 0075 universe before executable conformance claims
+
+The accepted ADR 0075 row expansion is now compiled into one strict immutable
+catalogue containing all 284 permanent direct case IDs, all 284 matching primary
+coverage-cell IDs, the exact eight checkpoint counts, and both declared roles
+for all 57 high-risk pairs. The catalogue binds the exact accepted design-file
+fingerprint. Ranges, globs, naming conventions, aggregate counts, and runner
+discovery cannot establish this inventory.
+
+The validator rejects unknown fields, design drift, missing, duplicated,
+reordered, mislayered, or misbound cases/cells, count drift, incomplete or
+duplicate pair roles, and a mismatched pair index. The catalogue permanently
+declares `case_packages_complete=false`, `conformance_ready=false`, no
+activation, and no external effects. Freezing identities is not evidence that
+any executable case passed.
+
+Package `0.6.0` binds this complete universe, its strict schema and rule, while
+retaining the existing eleven blockers. The next implementation checkpoint is
+all 38 deterministic package-integrity cases on the common ADR 0074 case
+envelope and runner. This work admits no real source, model, embedding,
+Pinecone, release, promotion, deployment, or serving authority.
+
+## 2026-08-25 — Make package integrity the first executable ADR 0075 checkpoint
+
+Package-integrity cases use one strict ADR 0074 common envelope and a closed
+virtual package. The package declares concrete embedded bytes, paths, hashes,
+media types, node/readability facts, input states, expected-artifact states,
+the full synthetic matrix and pairs, proposal fields, reproducibility results,
+capability attempts, authority claims, and compatibility bindings. The runner
+evaluates those orthogonal facts. A case ID binds fixture identity and coverage
+but never selects the result branch.
+
+All 38 permanent `HKREG-DET-PKG-NNN` cases and matching primary cells are
+individually frozen with exact reports. Pairs P050 through P056 each contain
+exactly one positive and one near-miss. `AVAILABLE`, `INTENTIONALLY_ABSENT`, and
+`UNREADABLE`, plus `EXACT`, `NONE`, and `NOT_APPLICABLE`, retain their ADR 0074
+meanings. Missing files do not become deliberate absence or zero output.
+Negative cases pass only when the package is rejected for the adjudicated
+reason. Expected truth remains separately fingerprinted and a changed expected
+answer makes conformance fail without changing the observed decision.
+
+Package validity grants only package validity; an exact complete attestation
+grants build compatibility only. Neither grants source, provider, release,
+serving, deployment, or effect authority. Package `0.7.0` therefore marks the
+38-case checkpoint complete while keeping the full 284-case suite, both real
+scopes, evaluation, and activation incomplete. The next complete executable
+checkpoint is the 62-case Source Fact Authority/membership/ownership/language
+family, not an aggregate or sampled substitute.
+
+## 2026-08-25 — Require complete structured equality for HKEX source decisions
+
+All 62 permanent `HKREG-DEC-SRC-NNN` cases and matching primary cells are now
+individually executable under one strict ADR 0074 evidence-to-decision envelope.
+Pairs P001 through P015 bind their exact positive and near-miss members. The
+runner dispatches on a closed assertion dimension and derives its result from
+ordinary source-shaped facts; a case ID binds identity and coverage only.
+
+Complete source-union and supported-no-change decisions enumerate the exact five
+due roles and their complete, fresh, and reconciled subsets. Summary completeness
+booleans are not accepted. Fact Authority is closed per role. Membership remains
+exactly Rule Component, Evidence Only, Excluded Non-Rule, or Unresolved.
+Ownership keeps Main Board and GEM instances separate, rejects double ownership,
+duplicates, orphans, and wrong-board assignments, and preserves placement
+discrepancies. Required English remains controlling; optional Chinese may supply
+bounded evidence or open an English investigation but may not repair or replace
+missing English.
+
+Conformance compares every structured decision field against separately frozen
+reference truth, rather than accepting only a matching headline outcome and
+reason. The proposal-safe evidence packet excludes case IDs, titles, package
+paths, coverage labels, pair roles, expected results, adjudication, and critical-
+error tags. Exact contracts, evidence content, case fingerprints, and reference
+reports remain independently bound.
+
+Package `0.8.0` therefore marks 100 of 284 permanent cases executable: the 62-
+case Source Fact Authority family and 38-case package-integrity family. The
+remaining 184 cases, complete suite, authentic sources, evaluation, both real
+scope admissions, and activation remain incomplete. This checkpoint grants no
+source access, model/provider access, Search Record, release, serving,
+deployment, or external-effect authority. The next complete checkpoint is all
+51 Applicability-branch effective-state and transition cases.
+
+## 2026-08-25 — Preserve atomic ADR 0071 truth inside the complete state checkpoint
+
+All 51 permanent `HKREG-DEC-STA-NNN` cases and matching primary cells are now
+individually executable. Pairs P016 through P024 bind their exact positive and
+near-miss members; cases 019 and 027 retain both applicable pair memberships.
+
+The accepted implementation reuses the existing ADR 0071 kernel for atomic
+branch state instead of creating a second legal-state engine. A strict ADR 0074
+wrapper adds only the orthogonal decisions required by the permanent rows:
+Non-Rule `NOT_APPLICABLE`, complete component summaries, independent branch-set
+accounting, record responsibility, effective-fact ordering, exact ADR 0005
+carry-forward/withhold/no-rebuild consequences, downstream-gate denial, and
+rejection of authority-note/confidence/prose repair of `UNKNOWN`.
+
+Complete structured equality is required. State alone never authorizes a Search
+Record or promotion. Carry-forward preserves the last-approved status,
+last-verified time, Coverage Gap, warning, optional next-due time, and support
+reference while the fresh branch decision remains `UNKNOWN`.
+
+Rejected alternatives were mapping the old 22 aggregate scenarios to permanent
+case IDs, switching behavior on case identity, flattening mixed branch sets into
+one state, or treating outage carry-forward as fresh current law. Those options
+would provide weak or false conformance evidence.
+
+Package `0.9.0` therefore marks 151 of 284 permanent cases executable: 62 Source
+Fact Authority, 51 Effective State, and 38 Package Integrity. The remaining 133
+cases, complete suite, authentic sources, evaluation, both real scope
+admissions, and activation remain incomplete. This checkpoint grants no source,
+provider, Search Record, release, serving, deployment, or external-effect
+authority. The next complete checkpoint is the 30-case Record Boundary,
+governing-dependency, and cross-reference family.
+
+## 2026-08-25 — Make HKEX boundary results self-contained and source-faithful
+
+All 30 permanent `HKREG-DEC-BND-NNN` cases and matching primary cells are now
+individually executable under the strict ADR 0074 evidence-to-decision envelope.
+Pairs P025 through P031 bind their exact positive and near-miss members. The
+evaluator dispatches on boundary assertion scope and ordinary facts; case IDs
+bind identity and coverage but never select an answer.
+
+Boundary decisions must be self-contained enough to prove the catalogue's exact
+result. A cross-reference therefore retains exact referring words, both the
+referring and target board identities, target locator, permitted official
+heading, and resolution while always excluding target text. Cross-board status
+is derived by comparing those two board identities, not by assuming Main Board
+is always the referring scope. Background exclusions and quarantines name the
+exact affected source units rather than returning only a summary boolean.
+
+Complete normal units, inseparable groups, independent children, parent
+fallback, term/global/local definitions, appendix and Practice Note units,
+minimum governing dependencies, repeated-dependency owners/fingerprints, and
+hard-limit consequences remain separate structured results. Presentation-only
+identity, stranded dependencies or notes, recursive target copying, unresolved
+targets, over-limit complete units, and fill-efficiency packing fail closed.
+
+Rejected alternatives were a case-ID decision table, retaining only a target
+locator while dropping the source's referring words, inferring cross-board
+status from the target alone, and reporting anonymous quarantine/background
+flags. Each would pass shallow outcome tests while failing the exact source-
+faithful result required by ADRs 0073–0075.
+
+Package `0.10.0` therefore marks 181 of 284 permanent cases executable: 62
+Source Fact Authority, 51 Effective State, 30 Record Boundary, and 38 Package
+Integrity. The remaining 103 cases, complete suite, authentic sources,
+evaluation, both real scope admissions, and activation remain incomplete. This
+checkpoint grants no source, provider, Search Record, release, serving,
+deployment, or external-effect authority. The next complete checkpoint is the
+35-case Canonical English rendering, tables, fees, and Forms family.
+
+## 2026-08-25 — Bind permanent HKEX rendering to exact artifacts and both measurements
+
+All 35 permanent `HKREG-DET-RND-NNN` cases and matching primary cells are now
+individually executable under a strict ADR 0074 decision-to-artifact envelope.
+Pairs P032 through P037 and P057 bind their exact positive and near-miss
+members. The evaluator derives its result from source-shaped projection facts
+and assertion scope; case IDs bind identity and coverage only.
+
+The accepted ADR 0073 renderer remains the baseline rather than being replaced.
+Permanent governing-context case 007 must produce byte-identical text to its
+accepted source-neutral renderer fixture. The permanent wrapper adds the
+orthogonal evidence needed by the catalogue: complete table, fee, and Form
+element sets; explicit presentation/forbidden elements; English-only vector
+responsibility; controlled authority-note separation; source ambiguity;
+synthetic tokenizer/profile identity; exact text-token and six-field byte
+measurements; and the immutable identity consequence of presentation-only,
+material, Chinese-evidence, or authority-note changes.
+
+An incomplete table value, fee branch, or Form unit produces no partial text.
+Chinese source text, duplicate Chinese records, and parallel Chinese vectors
+are rejected. Optional Chinese evidence may coexist outside serving and leaves
+one English vector responsibility. Every pass keeps `metadata.authority_note`
+outside both canonical text and embedding input. This checkpoint records only
+whether an existing identity can remain or a new record would be required; it
+never allocates an ID or authorizes embedding or serving.
+
+Rejected alternatives were generating expected truth from the evaluator,
+approximating six-field bytes from text alone, treating a structurally
+incomplete table/Form as usable prose, and reimplementing the accepted renderer
+without a byte-parity assertion. Each could produce superficially plausible
+artifacts while weakening the source-fidelity contract.
+
+Package `0.11.0` therefore marks 216 of 284 permanent cases executable: 62
+Source Fact Authority, 51 Effective State, 30 Record Boundary, 35 Canonical
+Rendering, and 38 Package Integrity. The remaining 68 cases, complete suite,
+authentic sources, admitted tokenizer/profile, evaluation, both real scope
+admissions, and activation remain incomplete. This checkpoint grants no source,
+provider, Search Record, release, serving, deployment, or external-effect
+authority. The next complete checkpoint is the 24-case Exact-limit measurement
+and official-structure partitioning family.
+
+## 2026-08-25 — Execute permanent HKEX partition cases through the accepted partitioner
+
+All 24 permanent `HKREG-DET-PAR-NNN` cases and matching primary cells are now
+individually executable under a strict ADR 0074 decision-to-artifact envelope.
+Pairs P038 through P040 bind their exact positive and near-miss members. The
+case runner selects an assertion dimension and ordinary facts, never case ID.
+
+The accepted ADR 0073 recursive partitioner remains the only partition
+algorithm. The permanent wrapper supplies one or two strictly decoded
+construction requests, the full measurement-field inventory, a closed proposed
+cut basis, and the synthetic tokenizer/profile. It records unsplit token and
+six-field byte measurements, exact final record/source-unit groups, real
+`Serving part: X of N` labels, dependency closure, final measurements and
+fingerprints, independently partitioned applicability branches, exact
+quarantine ownership, and Coverage Gap identity.
+
+Only a proved official child boundary may reach construction. Cross-normal-unit
+and unrelated fill packing, PDF-page, sentence/punctuation, whitespace/token/
+preferred-size, character/visual/sliding-window, and governing-context-removal
+proposals are rejected before the partitioner runs. Fixed metadata that already
+exceeds the byte ceiling is distinguished from an indivisible complete source
+unit; both emit no part, but each retains its exact reason and affected branch.
+
+Semantic outcome/reason truth is independently authored in the 24-case builder
+specification. Exact group, label, measurement, and fingerprint artifacts are
+then frozen from the accepted production partitioner and protected by direct
+group assertions, strict reports, package fingerprints, and two-run byte
+reproducibility. Rejected alternatives were a second test-only partition
+algorithm, case-ID result selection, accepting estimates in place of either
+ceiling, removing governing context, or treating arbitrary visual/text cuts as
+official structure.
+
+Package `0.12.0` therefore marks 240 of 284 permanent cases executable: 62
+Source Fact Authority, 51 Effective State, 30 Record Boundary, 35 Canonical
+Rendering, 24 Exact-limit/Official Partition, and 38 Package Integrity. The
+remaining 44 cases, complete suite, authentic sources, admitted tokenizer/
+profile, evaluation, both real scope admissions, and activation remain
+incomplete. This checkpoint grants no source, provider, Search Record, release,
+serving, deployment, or external-effect authority. The next complete checkpoint
+is the 20-case English source-unit coverage and per-board readiness family.
+
+## 2026-08-25 — Execute permanent HKEX coverage cases through the accepted ADR 0073 proof
+
+All 20 permanent `HKREG-DET-COV-NNN` cases and matching primary cells are now
+individually executable under a strict ADR 0074 decision-to-artifact envelope.
+Pairs P041 through P045 bind their exact positive and near-miss members. The
+case runner selects one assertion dimension and ordinary facts, never case ID.
+
+The accepted ADR 0073 `HKEXEnglishCoverageProof` remains the only source-unit
+coverage authority. The permanent wrapper freezes canonical source-unit keys,
+primary/context/presentation ownership, dependency identities, source order,
+board ownership, fidelity, state routing, explicit exclusions, candidate
+counts, and independent Main Board/GEM later-gate readiness. Missing,
+duplicate, orphaned, wrong-board, dependency-drifted, fidelity-drifted, and
+shared-gap facts fail closed. Aggregate proxy counts cannot repair incomplete
+source-unit proof. A completely accounted board with no eligible primary unit
+is a valid zero-output result rather than a fabricated blocker.
+
+Rejected alternatives were a second coverage implementation, deriving source-
+unit completeness from output counts, treating one board's completeness as
+proof for the other, or letting case identity select an expected result. Each
+could report readiness without proving the exact source units that support it.
+
+Package `0.13.0` therefore marks 260 of 284 permanent cases executable: 62
+Source Fact Authority, 51 Effective State, 30 Record Boundary, 35 Canonical
+Rendering, 24 Exact-limit/Official Partition, 20 Source-unit Coverage, and 38
+Package Integrity. The remaining 24 identity/lineage cases, complete suite,
+authentic sources, admitted tokenizer/profile, evaluation, both real scope
+admissions, and activation remain incomplete. This checkpoint grants no source,
+provider, Search Record, release, serving, deployment, or external-effect
+authority. The next complete checkpoint is the 24-case Search Record identity,
+lineage, and traceability family.
+
+## 2026-08-25 — Complete the permanent HKEX case universe without claiming admission
+
+All 24 permanent `HKREG-DET-IDN-NNN` cases and P046 through P049 execute through
+one strict fact-derived identity/lineage boundary. The accepted immutable
+record-identity and component-continuity decisions remain authoritative for
+reuse, reselection, six-field successors, register-issued identity, and proved
+official continuity. The wrapper separately validates complete lookup ownership
+and fingerprints, typed one-to-one/one-to-many/many-to-one forward lineage,
+board separation, collisions, cycles, and ambiguity. It allocates no identity
+and performs no release, serving, provider, or external effect.
+
+Package `0.14.0` therefore makes all 284 permanent cases and all 57 pairs
+executable across eight source-neutral checkpoints. This is deliberately
+recorded as `executable_case_packages_complete=true`, not as full conformance:
+every checkpoint catalogue retains `full_conformance_suite_complete=false`, the
+universe retains `conformance_ready=false`, and activation remains forbidden.
+The distinction prevents complete synthetic case execution from being mistaken
+for authentic-source evaluation, protected reference truth, named attestation,
+real Main Board/GEM admission, or a baseline release.
+
+Rejected alternatives were letting case ID select the expected identity answer,
+allocating realistic-looking IDs inside the Legal Desk evaluator, accepting
+similarity as continuity, allowing incomplete traceability to pass, or marking
+the full suite complete merely because every source-neutral case now runs. Each
+would overstate a different unproved boundary.
+
+## 2026-08-25 — Start executable Cases semantics with deterministic ledger arithmetic
+
+Hong Kong Cases package `0.3.0` makes the 20 permanent ADR 0064 deterministic
+structure and Coverage Ledger cases executable through one strict ADR 0062
+contract. The evaluator derives its result from exact opinion/unit inventory,
+source order, primary segment ownership, dependency fingerprints and adoption,
+unit resolution/use, evidence roles, candidate outcomes, treatment-screening
+handoff, and source-support facts. Case identity never selects the answer.
+
+The ledger can report structurally valid, complete-with-propositions,
+complete-no-proposition, accounted-with-Quarantine, blocked, or invalid results.
+It creates no Search Record and grants no semantic-analysis, release, serving,
+provider, or external-effect authority. This distinction preserves useful
+source-neutral progress without presenting 20 of 132 synthetic cases as a real
+Judiciary workflow or admitted legal package.
+
+Rejected alternatives were waiting for real endpoints before implementing
+deterministic safety arithmetic, treating aggregate counts as source-unit
+coverage, repairing malformed ledger facts into a plausible result, or issuing
+a conformance attestation against a dirty changing build. The next checkpoint
+is the 16 permanent deterministic candidate/evidence/renderer/output cases;
+attestation remains appropriate only over an exact frozen build.
+
+## 2026-08-25 — Validate Cases output without allocating or publishing records
+
+Hong Kong Cases package `0.4.0` makes all 16 permanent ADR 0064 deterministic
+candidate, evidence, renderer, and output cases executable. One strict ADR
+0060-0063 contract derives its result from discovered/final candidate
+inventories, exact outcome shapes, accepted proposition ownership, complete
+evidence roles, preserved UTF-8 byte ranges, verbatim quotations, ledger and
+renderer traceability, canonical labelled text, the exact six-field payload,
+and pinned synthetic token/byte measurements. Case identity never selects an
+answer.
+
+The renderer omits an inapplicable optional section; it never invents a legal
+claim such as “none found.” `authority_note` remains a separate sixth field.
+Every quotation must equal the preserved range bytes exactly. An indivisible
+over-limit proposition produces a named Coverage Gap and Quarantine with no
+record fragment. The evaluator validates proposed synthetic record bytes but
+allocates no Search Record, creates no release, and grants no semantic,
+provider, serving, deployment, or external-effect authority.
+
+Rejected alternatives were normalizing quotation bytes, accepting aggregate
+candidate/output counts, treating missing output as a valid zero, including
+internal ledger metadata in the serving payload, weakening mandatory text or
+authority warnings to fit, and splitting an indivisible proposition at a token
+boundary. Package `0.4.0` therefore completes 36 of the frozen 132 cases; the
+next checkpoint is the final 18 deterministic correction/package/security/
+admission cases.
+
+## 2026-08-25 — Complete deterministic Cases conformance without creating workflow admission
+
+Hong Kong Cases package `0.5.0` makes all 18 permanent ADR 0064 deterministic
+correction, package, security, and workflow-identity cases executable. The
+fact-derived evaluator validates unchanged Search Record and embedding reuse,
+official-correction successors, processing-correction split/merge lineage,
+genuinely new propositions without invented predecessors, exact unaffected
+reuse, and result-affecting component impact while preserving prior ledger and
+admission history.
+
+The same boundary owns the exact accepted 132-case, 132-primary-cell, and
+31-pair-role inventory; admitted-input-only evaluation packets; registered
+sealed-artifact and manifest equality; two isolated byte-identical deterministic
+runs; denial of source, model, embedding, Pinecone, Azure, routing, credential,
+production-store, network, and undeclared-file attempts; and equality of every
+result-affecting assembled-workflow fingerprint. It derives no answer from a
+case ID.
+
+`ELIGIBLE_FOR_WORKFLOW_ADMISSION` is deliberately only a deterministic
+conformance result. It does not write an admission event, authorize a provider
+call, allocate a Search Record, publish a release, authorize deployment, or
+stand in for the sealed semantic run set and dual attestations required by ADRs
+0067 and 0068. A mismatch is `NOT_ADMITTED` and requires a complete applicable
+evaluation plus an impact declaration.
+
+Rejected alternatives were mutating prior accepted ledger/admission history,
+using similarity to infer split/merge lineage, using counts or globs as
+catalogue completeness, exposing answer-bearing evaluation labels, scoring a
+partial or substituted sealed package, tolerating nondeterministic artifact
+order, or treating exact fingerprint equality as admission itself. Package
+`0.5.0` completes all 54 deterministic cases; the 78 semantic cases and sealed
+real-judgment extension remain separate unproved work.
+
+## 2026-08-25 — Validate every Case semantic request before provider composition
+
+Hong Kong Cases package `0.6.0` implements the source-neutral ADR 0065/0066
+semantic-task preflight boundary for both stable task families and all eight
+closed request kinds. A request must bind the exact workflow components,
+judgment and source fingerprints, complete ordered opinion and Coverage Unit
+manifests, ordered assigned primary units, original-language supplied bytes and
+UTF-8 evidence ranges, declared dependency closure, only the prior-stage
+fingerprints permitted for that request kind, the exact allowed object universe,
+all required evidence roles, a positive output budget, and the closed no-tool,
+no-hidden-reference, no-confidence, source-text-is-evidence constraints.
+
+Malformed contract facts remain `INVALID` even when source evidence is also
+unavailable; an otherwise valid request with unavailable evidence is `BLOCKED`.
+`VALID_REQUEST` means only that later separately admitted provider composition
+may consider the envelope. It authorizes no provider call, accepts no semantic
+result, creates no Search Record or release, and performs no external effect.
+Eight schema-validated supplementary package fixtures cover every request kind
+but intentionally count as zero of the 78 frozen semantic correctness cases.
+
+Rejected alternatives were letting source unavailability mask a malformed
+request, accepting unordered or incomplete primary assignment, repairing
+fingerprint or UTF-8 range drift, exposing hidden reference truth or model
+self-confidence, enabling tools, treating a complete-judgment request as a
+partial packet, or presenting safe request construction as semantic accuracy or
+workflow admission.
+
+## 2026-08-25 — Separate Case materiality truth from model-facing judgment input
+
+Hong Kong Cases package `0.7.0` executes all 18 frozen ADR 0064 `SEM-MAT`
+cases through a source-neutral fact-derived evaluator. Each case keeps the
+model-facing synthetic judgment packet separate from the evaluator-only
+Reference Proposition Map and adjudicated observation. The evaluator receives
+no case ID and checks material proposition recall, true zeroes, unsupported
+output, operative/obiter role, required and forbidden meanings, evidence roles
+and UTF-8 ranges, complete unit accounting, citation/treatment handoffs, and
+downstream selection separately from extraction.
+
+Six complete materiality high-risk pairs reject the other member's observation.
+P019's `SEM-MAT-017` positive member is recorded as pending until the separately
+owned `SEM-RSK-016` near-miss exists. These fixtures prove only synthetic
+evaluator/reference separation and exact assertions. They do not prove a model
+provider run, two-pass workflow admission, authentic Judiciary evidence,
+Search Record creation, release eligibility, or any external effect.
+
+Rejected alternatives were embedding reference truth in the model packet,
+switching expected answers on a case ID, requiring preferred prose equality
+instead of meaning/evidence assertions, collapsing independent failures into an
+aggregate score, allowing downstream-selection zero to erase extracted
+propositions, or describing canonical adjudicated observations as real model
+outputs.
+
+## 2026-08-25 — Evaluate Case content by adjudicated meaning and exact evidence, not preferred prose
+
+Hong Kong Cases package `0.8.0` executes all 18 frozen ADR 0064 `SEM-CNT`
+cases through a separate source-neutral fact-derived evaluator. Each case keeps
+the model-facing synthetic judgment packet separate from its evaluator-only
+Reference Proposition Map and adjudicated observation. The evaluator receives
+no case ID and checks required and forbidden meaning/content codes, candidate
+resolution, exact evidence roles and ordered ranges, selected quotation bytes,
+dependencies, complete unit uses, judgment disposition, and downstream
+selection.
+
+An accepted candidate needs a non-empty source-faithful derived statement, but
+the evaluator deliberately does not compare that statement to preferred prose.
+Meaning-equivalent alternative wording therefore passes only while every
+adjudicated limit and exact evidence assertion remains present. Unresolved
+meaning, unavailable exact location, and detected material broadening produce
+explicit quarantined candidates with no publishable statement. Pairs P006-P008
+reject both cross-member observations.
+
+These fixtures are canonical adjudicated observations used to prove the
+evaluator, not provider results. They authorize no provider call, workflow
+admission, authentic Judiciary evidence, Search Record, release, or external
+effect. Rejected alternatives were string-equality scoring, aggregate semantic
+scores, accepting evidence supersets that include optional narrative, normalising
+quotation bytes, flattening lists/tables, omitting dependency closure, citing an
+approximate locator as exact, or allowing a quarantined broad paraphrase to
+retain serving text.
+
+## 2026-08-25 — Evaluate Case proposition boundaries through exact opinion paths and unit accounting
+
+Hong Kong Cases package `0.9.0` executes all 22 frozen ADR 0064 `SEM-BND`
+cases through the same separated source-neutral model/reference/observation
+boundary. The evaluator receives no case ID and requires exact proposition
+inventory, issue scope, authority role, opinion path, adjudicated meaning and
+boundary codes, evidence ranges, primary-unit accounting, disposition,
+selection, and quarantine state.
+
+Cumulative elements remain one proposition while independent grounds remain
+separate. Repetition does not create duplicates, but a materially distinct
+branch or issue does. Joint opinions create one reasoning path rather than one
+candidate per judge; agreement-only text creates no duplicate proposition;
+concurrence, dissent, and obiter stay separately attributed. Adoption is
+operative only when express and scoped. Unsupported plurality positions remain
+separately attributed and quarantined rather than being synthesized into an
+unproved majority rationale. Pairs P009-P015 reject both cross-member
+observations.
+
+These fixtures prove deterministic evaluator behavior only. They authorize no
+provider call, workflow admission, authentic Judiciary evidence, Search Record,
+release, or external effect. Rejected alternatives were judge-count voting,
+same-result inference of adoption, text-similarity split/merge decisions,
+manufactured plurality consensus, unlabelled dissent or concurrence, aggregate
+unit counts, and any case-ID answer switching.
+
+## 2026-08-25 — Keep original authority, completeness failures, and hostile source text explicit in Case semantic evaluation
+
+Hong Kong Cases package `0.10.0` executes all 20 frozen ADR 0064 `SEM-RSK`
+cases through a separate fact-derived evaluator. The accepted court-authored
+original remains the proposition authority in its authentic English,
+Traditional Chinese, or mixed language. An optional official translation is
+auxiliary evaluation evidence only; it cannot create a duplicate or replacement
+record, and a conflict is isolated while the clear original remains controlling.
+
+Complete segmentation, dependency closure, and parser support are explicit
+facts. A missing required segment or unsupported structure is blocked rather
+than reported complete. One indivisible over-limit proposition is quarantined
+with a Coverage Gap; genuinely independent propositions may split only at their
+proved legal boundaries. Materiality or attribution uncertainty quarantines the
+smallest affected candidate and cannot become a false zero. Quoted hostile
+instructions remain source evidence and never alter the task. Corrected reasons
+require affected-candidate re-evaluation while the prior result remains
+immutable.
+
+Pairs P016-P018 reject cross-member observations and `SEM-RSK-016` completes
+P019 against `SEM-MAT-017`. All 78 frozen synthetic semantic cases now execute.
+They remain canonical adjudicated observations, not model-provider or sealed
+real-judgment results, and authorize no provider call, workflow admission,
+Search Record, release, or external effect. Rejected alternatives were
+translation-derived authority, silent segment truncation, supported-looking
+partial parsing, query-dependent fragmentation, uncertainty-as-zero, obeying
+source instructions, and mutation of a prior correction result.
+
+## 2026-08-25 — Keep build conformance external to immutable rulebook packages
+
+The HKEX Regulatory Rulebook Conformance Attestation remains outside frozen
+package `0.14.0` because it binds both that package and one exact processing
+build. Including it in the package would create a self-fingerprint cycle or
+require attesting only a predecessor. The external proof instead binds the
+exact 284-case suite, complete results, processing-source inventory,
+dependency lock, runner, contract set, two clean executions, and architecture
+report.
+
+A valid attestation grants only `BUILD_COMPATIBILITY`. It cannot claim authentic
+HKEX evidence, admit either board scope, authorize a source or provider call,
+create a release or Approval, access Pinecone, deploy, or activate. Rejected
+alternatives were embedding the proof in the package, excluding the proof from
+the package fingerprint through a special projection, attesting a predecessor
+as if it admitted the current package, relying on unit-test totals, or granting
+runtime authority from source-neutral compatibility.

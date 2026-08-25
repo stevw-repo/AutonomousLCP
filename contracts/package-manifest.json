@@ -740,15 +740,15 @@
       "path": "schemas/processing-domain.schema.json",
       "role": "JSON_SCHEMA",
       "media_type": "application/json",
-      "byte_size": 11967,
-      "fingerprint": "sha256:6e95990015b2eb156f3898a09c39cdb11b4c1db49709f1a1960fbdeeaeb96483"
+      "byte_size": 11952,
+      "fingerprint": "sha256:e1ec89a7ffd2c5aec09de429932dd5c8d61233616a5f9e79845837aefe80e104"
     },
     {
       "path": "schemas/promotion-domain.schema.json",
       "role": "JSON_SCHEMA",
       "media_type": "application/json",
-      "byte_size": 17148,
-      "fingerprint": "sha256:39c0af34d769ff53dd59bf00e42beddea0f15524b397e41565ba3e59b62a6c02"
+      "byte_size": 19162,
+      "fingerprint": "sha256:b4bb351e561fc6e776fe4069ecdbf590b895dc6db49a67f71f6487f9316dc3da"
     },
     {
       "path": "schemas/serving-domain.schema.json",

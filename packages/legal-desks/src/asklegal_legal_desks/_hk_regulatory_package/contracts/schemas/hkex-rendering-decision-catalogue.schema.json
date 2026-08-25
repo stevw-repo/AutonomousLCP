@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-rendering-decision-catalogue.schema.json",
+  "title": "HKEX canonical-rendering executable checkpoint catalogue",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "catalogue_id",
+    "catalogue_version",
+    "status",
+    "case_count",
+    "primary_coverage_cell_count",
+    "high_risk_pair_ids",
+    "entries",
+    "checkpoint_complete",
+    "full_conformance_suite_complete",
+    "activation_authorized",
+    "external_effects"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-regulatory.rendering-decision-catalogue"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "catalogue_id": {
+      "const": "hk-regulatory-rendering-decision"
+    },
+    "catalogue_version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "const": "FROZEN_EXECUTABLE_CHECKPOINT"
+    },
+    "case_count": {
+      "const": 35
+    },
+    "primary_coverage_cell_count": {
+      "const": 35
+    },
+    "high_risk_pair_ids": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 35,
+      "maxItems": 35,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "case_id",
+          "primary_coverage_cell_id",
+          "pair_memberships",
+          "assertion_scope",
+          "expected_outcome",
+          "expected_reason",
+          "fixture_path",
+          "fixture_fingerprint",
+          "expected_path",
+          "expected_fingerprint"
+        ],
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "primary_coverage_cell_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pair_memberships": {
+            "type": "array",
+            "maxItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "pair_id",
+                "role"
+              ],
+              "properties": {
+                "pair_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "role": {
+                  "enum": [
+                    "POSITIVE",
+                    "NEAR_MISS"
+                  ]
+                }
+              }
+            }
+          },
+          "assertion_scope": {
+            "enum": [
+              "ORDINARY",
+              "TABLE",
+              "FEE",
+              "FORM",
+              "LANGUAGE",
+              "UNCERTAINTY",
+              "AUTHORITY_NOTE"
+            ]
+          },
+          "expected_outcome": {
+            "enum": [
+              "PASS",
+              "BLOCK",
+              "QUARANTINE"
+            ]
+          },
+          "expected_reason": {
+            "enum": [
+              "CANONICAL_RENDERED",
+              "BOARD_ISOLATION_PRESERVED",
+              "OFFICIAL_HEADING_INCLUDED",
+              "OFFICIAL_HEADING_OMITTED",
+              "EFFECTIVE_CONTEXT_INCLUDED",
+              "EFFECTIVE_CONTEXT_OMITTED",
+              "GOVERNING_CONTEXT_INCLUDED",
+              "GOVERNING_CONTEXT_OMITTED",
+              "REFERENCE_RENDERED",
+              "REFERENCE_OMITTED",
+              "SOURCE_FIDELITY_PRESERVED",
+              "CANONICAL_NORMALIZED",
+              "FORBIDDEN_CONTENT_EXCLUDED",
+              "AUTHORITY_NONE_SEPARATE",
+              "AUTHORITY_WARNING_SEPARATE",
+              "COMPLETE_MEASUREMENT",
+              "TABLE_COMPLETE",
+              "TABLE_INCOMPLETE",
+              "TABLE_SPAN_PRESERVED",
+              "PRESENTATION_CHANGE_STABLE",
+              "MATERIAL_TABLE_CHANGE",
+              "FEE_COMPLETE",
+              "FEE_INCOMPLETE",
+              "FORM_COMPLETE",
+              "PRESENTATION_CONTROL_OMITTED",
+              "FORM_STRUCTURE_COMPLETE",
+              "NEUTRAL_MARKERS_PRESERVED",
+              "FORM_FRAGMENTATION_REJECTED",
+              "ENGLISH_ONLY_SERVING",
+              "CHINESE_SERVING_REJECTED",
+              "SOURCE_AMBIGUITY_QUARANTINED",
+              "TRANSITION_WARNING_SEPARATE",
+              "MARKET_WARNING_SEPARATE",
+              "SOURCE_WARNING_SEPARATE",
+              "REPRESENTATION_WARNING_SEPARATE"
+            ]
+          },
+          "fixture_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fixture_fingerprint": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "expected_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expected_fingerprint": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "checkpoint_complete": {
+      "const": true
+    },
+    "full_conformance_suite_complete": {
+      "const": false
+    },
+    "activation_authorized": {
+      "const": false
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

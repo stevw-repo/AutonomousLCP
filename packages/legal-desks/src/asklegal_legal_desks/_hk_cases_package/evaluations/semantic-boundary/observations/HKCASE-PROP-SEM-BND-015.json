@@ -1,0 +1,96 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:15ad4b8a103e4216ca4c26f4312c0d4d328373854822db0faa92474f68d12189",
+  "workflow_result_fingerprint": "sha256:dc1120de0bcca9ad723881f39cae45a7e661cfb76bbd8833c21957cb50810344",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    },
+    {
+      "opinion_id": "opinion_2",
+      "role": "CONCURRENCE",
+      "judge_ids": [
+        "judge_2"
+      ],
+      "joined_opinion_id": "opinion_1",
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "LEAD_RECEIPT_RULE",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "ACTUAL_RECEIPT"
+      ],
+      "boundary_codes": [
+        "ADOPTED_LEAD_SCOPE_PRESERVED"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "The lead opinion requires actual receipt."
+    },
+    {
+      "candidate_id": "candidate_2",
+      "mapped_reference_proposition_id": "reference_prop_2",
+      "resolution": "ACCEPTED",
+      "issue_code": "CONCURRENCE_EVASION_RULE",
+      "authority_role": "CONCURRENCE",
+      "opinion_path_ids": [
+        "opinion_2"
+      ],
+      "meaning_codes": [
+        "DEEMED_RECEIPT_ON_EVASION"
+      ],
+      "boundary_codes": [
+        "PARTIAL_CONCURRENCE_ADDITION",
+        "SEPARATE_ONLY_ADDITIONAL_REASONING"
+      ],
+      "range_ids": [
+        "range_2"
+      ],
+      "derived_statement": "I adopt that rule but add that deliberate evasion permits deemed receipt."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_2"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1",
+    "candidate_2"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

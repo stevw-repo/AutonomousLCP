@@ -1,0 +1,76 @@
+{
+  "schema_id": "asklegal.hk-regulatory.state-decision-report",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-STATE-DECISION-001",
+  "case_id": "HKREG-DEC-STA-038",
+  "assertion_scope": "RECORD_RESPONSIBILITY",
+  "observed_decision": {
+    "schema_id": "asklegal.hk-regulatory.state-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-STATE-DECISION-001",
+    "case_id": "HKREG-DEC-STA-038",
+    "outcome": "PASS",
+    "reason": "ONE_LIMITED_RECORD_ELIGIBLE",
+    "not_applicable": false,
+    "branch_decisions": [
+      {
+        "branch_id": "branch-038",
+        "state": "TRANSITIONAL_CURRENT",
+        "disposition": "SEARCHABLE_CURRENT_RULE_COMPONENT",
+        "processing_outcome": "PASS",
+        "reason": "TRANSITIONAL_CURRENT_PRODUCT_MATCHED",
+        "applicability_context": "Transactions entered before 2026-08-01"
+      }
+    ],
+    "component_state": null,
+    "record_responsibility": "ONE_LIMITED_RECORD_ELIGIBLE",
+    "ordered_branch_ids": [],
+    "source_failure_choice": "NONE",
+    "carry_forward_support": null,
+    "rebuild_target_authorized": false,
+    "repair_rejected": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.state-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-STATE-DECISION-001",
+    "case_id": "HKREG-DEC-STA-038",
+    "outcome": "PASS",
+    "reason": "ONE_LIMITED_RECORD_ELIGIBLE",
+    "not_applicable": false,
+    "branch_decisions": [
+      {
+        "branch_id": "branch-038",
+        "state": "TRANSITIONAL_CURRENT",
+        "disposition": "SEARCHABLE_CURRENT_RULE_COMPONENT",
+        "processing_outcome": "PASS",
+        "reason": "TRANSITIONAL_CURRENT_PRODUCT_MATCHED",
+        "applicability_context": "Transactions entered before 2026-08-01"
+      }
+    ],
+    "component_state": null,
+    "record_responsibility": "ONE_LIMITED_RECORD_ELIGIBLE",
+    "ordered_branch_ids": [],
+    "source_failure_choice": "NONE",
+    "carry_forward_support": null,
+    "rebuild_target_authorized": false,
+    "repair_rejected": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "conformance_status": "PASS",
+  "source_authorized": false,
+  "provider_authorized": false,
+  "release_authorized": false,
+  "serving_authorized": false,
+  "deployment_authorized": false,
+  "external_effects": "NONE"
+}

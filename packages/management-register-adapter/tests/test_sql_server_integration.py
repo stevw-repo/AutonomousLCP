@@ -9,7 +9,14 @@ from pathlib import Path
 import pytest
 from asklegal_contracts import canonicalize
 from asklegal_contracts.json_types import checked_json_value
-from asklegal_management_register import RegisterEventCommand, RegisterEventStore
+from asklegal_management_register import (
+    EffectHandoffStore,
+    EffectReceiptRecord,
+    RegisteredExecutionBeginCommand,
+    RegisteredExecutionBeginStore,
+    RegisterEventCommand,
+    RegisterEventStore,
+)
 from asklegal_management_register.driver import MssqlConnectionFactory
 from asklegal_management_register.migration import apply_packages
 from asklegal_management_register.store import (
@@ -36,6 +43,12 @@ _V1_TERMINAL_MIGRATION = (
 )
 _V1_EXECUTION_AUTHORIZATION_MIGRATION = (
     Path(__file__).parents[1] / "migrations" / "000007_registered_execution_authorization"
+)
+_V1_EXECUTION_BEGIN_MIGRATION = (
+    Path(__file__).parents[1] / "migrations" / "000008_registered_execution_begin"
+)
+_V1_CLAIMED_EFFECT_READBACK_MIGRATION = (
+    Path(__file__).parents[1] / "migrations" / "000009_claimed_effect_readback"
 )
 
 _REGISTERED_APPROVAL_ID = "apr_" + "a" * 48
@@ -196,6 +209,228 @@ def _execution_authorization_command(
         "9999-12-31T23:59:59",
         event_id,
         event,
+    )
+
+
+def _execution_begin_command(
+    *,
+    command_marker: str,
+    event_marker: str,
+    intent_marker: str,
+    authorization_fingerprint: str | None = None,
+) -> RegisteredExecutionBeginCommand:
+    """Build one exact first-action BEGIN command, event, and Effect Intent."""
+    authorization = _execution_authorization_command(command_marker="1", event_marker="1")
+    bound_authorization = authorization_fingerprint or authorization.authorization_fingerprint
+    decision_fingerprint = sha256(_registered_decision_bytes()).digest()
+    profile_id = "cap_" + "6" * 48
+    profile_fingerprint = "sha256:" + "6" * 64
+    evidence_id = "evi_" + "7" * 48
+    evidence_fingerprint = "sha256:" + "7" * 64
+    input_refs = [
+        {
+            "fingerprint": "sha256:" + "8" * 64,
+            "ref_id": "dsi_" + "8" * 48,
+            "ref_type": "DESIRED_STATE_INVENTORY",
+        },
+        {
+            "fingerprint": "sha256:" + "9" * 64,
+            "ref_id": "emp_" + "9" * 48,
+            "ref_type": "EMBEDDING_PROFILE",
+        },
+    ]
+    stop_conditions = [
+        "ATTEMPT_CEILING",
+        "AUTHORITY_INVALID",
+        "CANCELLATION_BEFORE_EFFECT",
+        "CAPABILITY_INACTIVE",
+        "DEADLINE",
+        "POSTCONDITION_MET",
+        "PRECONDITION_CHANGED",
+    ]
+    action = checked_json_value(
+        {
+            "action_id": "EMBED_RECORDS",
+            "attempt_ceiling": 3,
+            "capability_profile_ref": {
+                "fingerprint": profile_fingerprint,
+                "ref_id": profile_id,
+                "ref_type": "CAPABILITY_PROFILE",
+            },
+            "compensation": {"mode": "NO_COMPENSATION"},
+            "deadline": "9999-12-31T23:59:59Z",
+            "destination_class": "EMBEDDING_PROVIDER",
+            "effect_command_fingerprint": "sha256:" + "a" * 64,
+            "effect_type": "EMBEDDING_PROVIDER_CALL",
+            "expected_remote_precondition_ref": {
+                "contract_id": "asklegal.embedding-precondition",
+                "fingerprint": "sha256:" + "b" * 64,
+                "version": "1.0.0",
+            },
+            "input_refs": input_refs,
+            "owning_application": "PROMOTION_WORKER",
+            "permitted_checkpoint": "EMBED_RECORDS",
+            "required_capability": "CALL_EMBEDDING_PROVIDER",
+            "retry_class": "RECONCILE_BEFORE_RETRY",
+            "sequence": 1,
+            "stable_idempotency_key": "promotion-embed-records-v1",
+            "stop_conditions": stop_conditions,
+            "success_postcondition_ref": {
+                "contract_id": "asklegal.embedding-postcondition",
+                "fingerprint": "sha256:" + "c" * 64,
+                "version": "1.0.0",
+            },
+        }
+    )
+    action_fingerprint = f"sha256:{sha256(canonicalize(action)).hexdigest()}"
+    effect_intent_id = "efi_" + intent_marker * 48
+    command_id = "cmd_" + command_marker * 48
+    command = canonicalize(
+        checked_json_value(
+            {
+                "action": "BEGIN_REGISTERED_PROMOTION_EXECUTION",
+                "action_authority": action,
+                "action_contract_version": "1.0.0",
+                "action_fingerprint": action_fingerprint,
+                "approval_id": _REGISTERED_APPROVAL_ID,
+                "authorization_fingerprint": bound_authorization,
+                "capability_evidence_ref": {
+                    "fingerprint": evidence_fingerprint,
+                    "ref_id": evidence_id,
+                    "ref_type": "EVIDENCE",
+                },
+                "effect_intent_id": effect_intent_id,
+                "execution_lineage_fingerprint": "sha256:" + "5" * 64,
+                "execution_lineage_id": _REGISTERED_LINEAGE_ID,
+                "manifest_fingerprint": _REGISTERED_MANIFEST_FINGERPRINT,
+                "manifest_id": _REGISTERED_MANIFEST_ID,
+                "promotion_worker_identity_fingerprint": "sha256:" + "6" * 64,
+                "promotion_worker_identity_id": "act_" + "6" * 48,
+                "proposal_package_id": _REGISTERED_PROPOSAL_ID,
+            }
+        )
+    )
+    command_fingerprint = f"sha256:{sha256(command).hexdigest()}"
+    event_id = "pex_" + event_marker * 48
+    event = canonicalize(
+        checked_json_value(
+            {
+                "action_id": "BEGIN",
+                "approval_ref": {
+                    "fingerprint": f"sha256:{decision_fingerprint.hex()}",
+                    "ref_id": _REGISTERED_APPROVAL_ID,
+                    "ref_type": "APPROVAL",
+                },
+                "attempt_number": 0,
+                "event_time": "2026-08-22T00:04:00Z",
+                "execution_lineage_id": _REGISTERED_LINEAGE_ID,
+                "external_effects": "DECLARED_MANIFEST_ACTION",
+                "failure_codes": [],
+                "from_state": "EXECUTION_AUTHORIZED",
+                "idempotency": {
+                    "idempotency_key": f"begin:{_REGISTERED_LINEAGE_ID}",
+                    "input_fingerprint": command_fingerprint,
+                },
+                "immutable": True,
+                "promotion_execution_event_id": event_id,
+                "promotion_manifest_ref": {
+                    "fingerprint": _REGISTERED_MANIFEST_FINGERPRINT,
+                    "ref_id": _REGISTERED_MANIFEST_ID,
+                    "ref_type": "PROMOTION_MANIFEST",
+                },
+                "reason_codes": [
+                    "APPROVAL_EXACTLY_BOUND",
+                    "REFERENCE_VERIFIED",
+                    "TRANSITION_ALLOWED",
+                    "VALIDATION_COMPLETE",
+                ],
+                "receipt_refs": [],
+                "result_code": "SUCCEEDED",
+                "schema_id": "asklegal.promotion-execution-event",
+                "schema_version": "1.0.0",
+                "to_state": "EXECUTION_RUNNING",
+            }
+        )
+    )
+    intent = canonicalize(
+        checked_json_value(
+            {
+                "aggregate_ref": {
+                    "fingerprint": "sha256:" + "5" * 64,
+                    "ref_id": _REGISTERED_LINEAGE_ID,
+                    "ref_type": "EXECUTION_LINEAGE",
+                },
+                "attempt_ceiling": 3,
+                "capability_profile_ref": {
+                    "fingerprint": profile_fingerprint,
+                    "ref_id": profile_id,
+                    "ref_type": "CAPABILITY_PROFILE",
+                },
+                "command_ref": {
+                    "fingerprint": command_fingerprint,
+                    "ref_id": command_id,
+                    "ref_type": "COMMAND",
+                },
+                "compensation": {"mode": "NO_COMPENSATION"},
+                "created_at": "2026-08-22T00:04:00Z",
+                "deadline": "9999-12-31T23:59:59Z",
+                "destination_class": "EMBEDDING_PROVIDER",
+                "effect_command_fingerprint": "sha256:" + "a" * 64,
+                "effect_intent_id": effect_intent_id,
+                "effect_type": "EMBEDDING_PROVIDER_CALL",
+                "execution_lineage_ref": {
+                    "fingerprint": "sha256:" + "5" * 64,
+                    "ref_id": _REGISTERED_LINEAGE_ID,
+                    "ref_type": "EXECUTION_LINEAGE",
+                },
+                "expected_remote_precondition_ref": {
+                    "contract_id": "asklegal.embedding-precondition",
+                    "fingerprint": "sha256:" + "b" * 64,
+                    "version": "1.0.0",
+                },
+                "immutable": True,
+                "input_refs": input_refs,
+                "owning_application": "PROMOTION_WORKER",
+                "permitted_checkpoint": "EMBED_RECORDS",
+                "required_capability": "CALL_EMBEDDING_PROVIDER",
+                "retry_class": "RECONCILE_BEFORE_RETRY",
+                "schema_id": "asklegal.effect-intent",
+                "schema_version": "1.0.0",
+                "stable_idempotency_key": "promotion-embed-records-v1",
+                "stop_conditions": stop_conditions,
+                "success_postcondition_ref": {
+                    "contract_id": "asklegal.embedding-postcondition",
+                    "fingerprint": "sha256:" + "c" * 64,
+                    "version": "1.0.0",
+                },
+            }
+        )
+    )
+    return RegisteredExecutionBeginCommand(
+        command_id,
+        command,
+        _REGISTERED_APPROVAL_ID,
+        _REGISTERED_PROPOSAL_ID,
+        decision_fingerprint,
+        _REGISTERED_MANIFEST_ID,
+        _REGISTERED_MANIFEST_FINGERPRINT,
+        _REGISTERED_LINEAGE_ID,
+        "sha256:" + "5" * 64,
+        bound_authorization,
+        "EMBED_RECORDS",
+        action_fingerprint,
+        profile_id,
+        profile_fingerprint,
+        evidence_id,
+        evidence_fingerprint,
+        "9999-12-31T23:59:59",
+        event_id,
+        event,
+        effect_intent_id,
+        "EMBEDDING_PROVIDER_CALL",
+        intent,
+        "9999-12-31T23:59:59",
+        3,
     )
 
 
@@ -856,6 +1091,142 @@ def _prove_execution_authorization(database: MssqlConnectionFactory) -> None:
     assert promotion_permissions == [(1,)]
 
 
+def _prove_execution_begin(database: MssqlConnectionFactory) -> None:
+    """Prove atomic BEGIN, first intent, replay, competition, and permissions."""
+    store = RegisteredExecutionBeginStore(database)
+    command = _execution_begin_command(
+        command_marker="8",
+        event_marker="8",
+        intent_marker="8",
+    )
+    effect_count_before = _execute(
+        database,
+        "SELECT COUNT(*) FROM register.effect_intent_fact;",
+        fetch=True,
+    )
+
+    original = store.begin(command)
+    replay = store.begin(command)
+    lost_ack = store.begin(command, simulate_lost_ack=True)
+    assert original.result_code == "APPLIED"
+    assert original.authoritative_version == 2
+    assert original.replayed is False
+    assert replay.replayed is True
+    assert lost_ack.replayed is True
+
+    event_rows = _execute(
+        database,
+        "SELECT aggregate_id, event_type, prior_version, new_version, "
+        "event_bytes, event_fingerprint FROM register.event_v1_fact "
+        "WHERE event_id = 'pex_" + "8" * 48 + "';",
+        fetch=True,
+    )
+    assert event_rows == [
+        (
+            _REGISTERED_LINEAGE_ID,
+            "PROMOTION_EXECUTION_BEGAN",
+            1,
+            2,
+            command.event_bytes,
+            sha256(command.event_bytes).digest(),
+        )
+    ]
+    intent_rows = _execute(
+        database,
+        "SELECT aggregate_id, command_id, effect_type, intent_bytes, "
+        "intent_fingerprint, attempt_ceiling FROM register.effect_intent_fact "
+        "WHERE effect_intent_id = 'efi_" + "8" * 48 + "';",
+        fetch=True,
+    )
+    assert intent_rows == [
+        (
+            _REGISTERED_LINEAGE_ID,
+            command.command_id,
+            "EMBEDDING_PROVIDER_CALL",
+            command.intent_bytes,
+            sha256(command.intent_bytes).digest(),
+            3,
+        )
+    ]
+    effect_count_value = effect_count_before[0][0]
+    assert isinstance(effect_count_value, int)
+    assert _execute(
+        database,
+        "SELECT COUNT(*) FROM register.effect_intent_fact;",
+        fetch=True,
+    ) == [(effect_count_value + 1,)]
+    assert _execute(
+        database,
+        "SELECT COUNT(*) FROM register.effect_claim_current "
+        "WHERE effect_intent_id = 'efi_" + "8" * 48 + "';",
+        fetch=True,
+    ) == [(0,)]
+
+    with pytest.raises(CommandFingerprintMismatch):
+        store.begin(
+            replace(
+                command,
+                command_bytes=command.command_bytes.replace(
+                    b'"effect_command_fingerprint":"sha256:' + b"a" * 64 + b'"',
+                    b'"effect_command_fingerprint":"sha256:' + b"0" * 64 + b'"',
+                ),
+            )
+        )
+
+    competing = _execution_begin_command(
+        command_marker="9",
+        event_marker="9",
+        intent_marker="9",
+    )
+    rejected = store.begin(competing)
+    assert rejected.result_code == "REJECTED_STALE_VERSION"
+    assert rejected.authoritative_version == 2
+    assert _execute(
+        database,
+        "SELECT COUNT(*) FROM register.effect_intent_fact "
+        "WHERE effect_intent_id = 'efi_" + "9" * 48 + "';",
+        fetch=True,
+    ) == [(0,)]
+
+    malformed_profile = _execution_begin_command(
+        command_marker="a",
+        event_marker="a",
+        intent_marker="a",
+    )
+    with pytest.raises(Exception, match="ASKLEGAL_EXECUTION_BEGIN_ACTION_INVALID"):
+        store.begin(
+            replace(
+                malformed_profile,
+                capability_profile_fingerprint="sha256:" + "0" * 64,
+            )
+        )
+    wrong_authorization = _execution_begin_command(
+        command_marker="b",
+        event_marker="b",
+        intent_marker="b",
+        authorization_fingerprint="sha256:" + "0" * 64,
+    )
+    with pytest.raises(Exception, match="ASKLEGAL_AUTHORIZED_EXECUTION_NOT_BEGINNABLE"):
+        store.begin(wrong_authorization)
+
+    review_permissions = _execute(
+        database,
+        "EXECUTE AS USER='asklegal_review_app'; "
+        "SELECT HAS_PERMS_BY_NAME('promotion.begin_registered_execution_v1', "
+        "'OBJECT', 'EXECUTE'); REVERT;",
+        fetch=True,
+    )
+    promotion_permissions = _execute(
+        database,
+        "EXECUTE AS USER='asklegal_promotion_app'; "
+        "SELECT HAS_PERMS_BY_NAME('promotion.begin_registered_execution_v1', "
+        "'OBJECT', 'EXECUTE'); REVERT;",
+        fetch=True,
+    )
+    assert review_permissions == [(0,)]
+    assert promotion_permissions == [(1,)]
+
+
 @pytest.mark.sql_server
 def test_management_register_sql_server_proof() -> None:
     """Prove migration, command, concurrency, privilege, atomicity, and ledger behavior."""
@@ -888,11 +1259,14 @@ def test_management_register_sql_server_proof() -> None:
         _V1_CONSUMPTION_MIGRATION,
         _V1_TERMINAL_MIGRATION,
         _V1_EXECUTION_AUTHORIZATION_MIGRATION,
+        _V1_EXECUTION_BEGIN_MIGRATION,
+        _V1_CLAIMED_EFFECT_READBACK_MIGRATION,
     )
     apply_packages(database, migrations, runner_build="management-register-v1-1")
     apply_packages(database, migrations, runner_build="management-register-v1-1")
     _prove_review_ready_projection(database)
     _prove_execution_authorization(database)
+    _prove_execution_begin(database)
     _prove_terminal_lifecycle(database)
 
     manifest = sha256(b"synthetic-manifest").digest()
@@ -1120,47 +1494,65 @@ def test_management_register_sql_server_proof() -> None:
         cursor.close()
         connection.close()
 
-    connection = database()
-    cursor = connection.cursor()
     attempt_raw = b'{"attempt":"started"}'
     receipt_raw = b'{"receipt":"succeeded"}'
+    handoff = EffectHandoffStore(database)
+    claim = handoff.claim_next(
+        owning_application="ACQUISITION_WORKER",
+        effect_type="EVIDENCE_WRITE",
+        claimant_id="worker-m2",
+        lease_seconds=120,
+    )
+    assert claim is not None
+    assert claim.effect_intent_id == "intent-m2"
+    assert claim.intent_bytes == intent_raw
+    assert claim.intent_fingerprint == sha256(intent_raw).digest()
+    assert claim.prior_attempt_count == 0
+    owner_error = ""
+    connection = database()
+    cursor = connection.cursor()
     try:
-        cursor.execute("EXEC register.claim_effect_v1 ?, ?, ?", ("intent-m2", "worker-m2", 120))
-        claim = cursor.fetchone()
-        assert claim is not None and claim[2] == 1 and claim[3] == 1
-        fence = claim[3]
-        assert isinstance(fence, int)
+        cursor.execute("EXECUTE AS USER='asklegal_promotion_app';")
         cursor.execute(
-            "EXEC register.append_effect_attempt_v1 ?, ?, ?, ?, ?, ?, ?",
-            (
-                "intent-m2",
-                "worker-m2",
-                fence,
-                1,
-                "STARTED",
-                attempt_raw,
-                sha256(attempt_raw).digest(),
-            ),
+            "EXEC register.read_claimed_effect_v1 ?, ?, ?",
+            (claim.effect_intent_id, claim.claimant_id, claim.fencing_token),
         )
-        cursor.execute(
-            "EXEC register.record_effect_receipt_v1 ?, ?, ?, ?, ?, ?, ?, ?",
-            (
-                "receipt-m2",
-                "intent-m2",
-                "SUCCEEDED",
-                1,
-                receipt_raw,
-                sha256(receipt_raw).digest(),
-                "worker-m2",
-                fence,
-            ),
-        )
-        receipt = cursor.fetchone()
-        assert receipt is not None and receipt[2] == "SUCCEEDED" and bool(receipt[6]) is False
-        connection.commit()
+    except Exception as error:
+        owner_error = str(error)
+        connection.rollback()
     finally:
         cursor.close()
         connection.close()
+    assert "ASKLEGAL_EFFECT_OWNER_MISMATCH" in owner_error
+    handoff.renew_claim(claim, lease_seconds=120)
+    with pytest.raises(Exception, match="ASKLEGAL_STALE_FENCING_TOKEN"):
+        handoff.append_attempt(
+            replace(claim, fencing_token=claim.fencing_token + 1),
+            attempt_number=1,
+            event_code="STARTED",
+            event_bytes=attempt_raw,
+        )
+    handoff.append_attempt(
+        claim,
+        attempt_number=1,
+        event_code="STARTED",
+        event_bytes=attempt_raw,
+    )
+    receipt_record = EffectReceiptRecord(
+        "receipt-m2",
+        claim.effect_intent_id,
+        "SUCCEEDED",
+        1,
+        receipt_raw,
+        sha256(receipt_raw).digest(),
+        claim.fencing_token,
+        claim.claimant_id,
+    )
+    receipt = handoff.record_receipt(receipt_record)
+    replayed_receipt = handoff.record_receipt(receipt_record)
+    assert receipt.terminal_status == "SUCCEEDED"
+    assert receipt.replayed is False
+    assert replayed_receipt.replayed is True
 
     _execute(database, "EXEC register.rebuild_projection_v1;")
     m2_counts = _execute(
@@ -1179,9 +1571,9 @@ def test_management_register_sql_server_proof() -> None:
         fetch=True,
     )
     # Four registered proposals retain Control/Review facts; their Approval
-    # terminal winners and the no-effect execution authorization remain present
-    # alongside the M2 applied/stale commands.
-    assert m2_counts == [(15, 14, 1, 1, 1, 32, 14)]
+    # terminal winners, execution authorization, atomic BEGIN/intent, and the
+    # rejected competing BEGIN remain alongside the M2 applied/stale commands.
+    assert m2_counts == [(17, 15, 2, 1, 1, 36, 15)]
 
     permission_error = ""
     connection = database()
@@ -1221,7 +1613,8 @@ def test_management_register_sql_server_proof() -> None:
         database,
         "SELECT COUNT(*) FROM migration.applied_fact "
         "WHERE migration_id IN "
-        "('000001','000002','000003','000004','000005','000006','000007');",
+        "('000001','000002','000003','000004','000005','000006','000007','000008',"
+        "'000009');",
         fetch=True,
     )
-    assert migration_count == [(7,)]
+    assert migration_count == [(9,)]

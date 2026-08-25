@@ -1,0 +1,65 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-BND-022",
+  "coverage_cell_id": "HKCASE-PROP-COV-SBND-022",
+  "pair_memberships": [],
+  "scenario": "Identical wording is used for different issues and authority roles",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-boundary-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "boundary_execution_22",
+    "judgment_work_id": "boundary_judgment_22",
+    "judicial_decision_id": "synthetic_boundary_decision_22",
+    "official_version_id": "synthetic_boundary_version_22",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ],
+        "joined_opinion_id": null,
+        "expressly_adopted_opinion_ids": []
+      },
+      {
+        "opinion_id": "opinion_2",
+        "source_order": 2,
+        "role": "DISSENT",
+        "judge_ids": [
+          "judge_2"
+        ],
+        "joined_opinion_id": null,
+        "expressly_adopted_opinion_ids": []
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "The requirement is strict.",
+        "text_fingerprint": "sha256:c023a9bcc8c0d81c2f01df1a50e9773b093f1211416ac030bf1addc3c0a044fd",
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_2",
+        "source_order": 2,
+        "exact_text": "The requirement is strict.",
+        "text_fingerprint": "sha256:c023a9bcc8c0d81c2f01df1a50e9773b093f1211416ac030bf1addc3c0a044fd",
+        "range_id": "range_2"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-022.json",
+  "observation_path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-022.json",
+  "expected_path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-022.json"
+}

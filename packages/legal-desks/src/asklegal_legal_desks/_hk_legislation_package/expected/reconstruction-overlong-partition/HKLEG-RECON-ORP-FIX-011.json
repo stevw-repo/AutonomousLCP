@@ -1,0 +1,91 @@
+{
+  "alignment_map_fingerprint": "sha256:5a9b8b1334292a0b01a6fc44f4c595e0d568952cde666381d8ea1070b804791b",
+  "coverage_gap_required": false,
+  "disposition": "PASS",
+  "en_tree_fingerprint": "sha256:3f3d876d7733a6ed7eb48094a2bdb872091a8cfa82f17d6d10e709dcf8f4cbe7",
+  "external_effects": "NONE",
+  "parts": [
+    {
+      "dependency_alignment_group_ids": [
+        "align_table_headers"
+      ],
+      "en_dependency_source_unit_ids": [
+        "en_table_header_unit_1",
+        "en_table_header_unit_2"
+      ],
+      "en_primary_source_unit_ids": [
+        "en_table_row_1_unit_1",
+        "en_table_row_1_unit_2"
+      ],
+      "measurement": {
+        "metadata_bytes": 977,
+        "metadata_limit": 100000,
+        "text_limit": 987,
+        "text_tokens": 809
+      },
+      "part_number": 1,
+      "primary_alignment_group_ids": [
+        "align_table_row_1"
+      ],
+      "primary_partition_node_ids": [
+        "partition_table_row_1"
+      ],
+      "serving_payload_fingerprint": "sha256:a31bce407c5098c0e547032c4cc98046a50d1f05c6063e51e130bd8cdc2dd94f",
+      "text": "[English — Authentic Text]\nInstrument: Fees Ordinance (Cap. 997)\nProvision: Schedule 1, table 1\nServing part: 1 of 2\nHeading: Licence fees\nParent context (repeated):\n[Table headers]\nItem\nFee > Amount\nText:\n[Table]\nRow: 1\nItem: 1\nFee > Amount: $1,000 annual licence fee annual licence fee annual licence fee annual licence fee annual licence fee annual licence fee annual licence fee annual licence fee\n\n[繁體中文 — 真確文本]\n法例：費用條例（第997章）\n條文：附表1表1\n服務部分：第1部分，共2部分\n標題：牌照費\n上層脈絡（重複）：\n[表格標題]\n項目\n費用 > 款額\n正文：\n[表格]\n行：1\n項目：1\n費用 > 款額：$1,000 每年牌照費 每年牌照費 每年牌照費 每年牌照費 每年牌照費 每年牌照費 每年牌照費 每年牌照費",
+      "text_fingerprint": "sha256:a94c64ce2ddb1f89de22e3154e6ee4e15915a250f93bbfaf689f0e3c9e1d467a",
+      "total_parts": 2,
+      "zh_hant_dependency_source_unit_ids": [
+        "zh_table_header_unit_1",
+        "zh_table_header_unit_2"
+      ],
+      "zh_hant_primary_source_unit_ids": [
+        "zh_table_row_1_unit_1",
+        "zh_table_row_1_unit_2"
+      ]
+    },
+    {
+      "dependency_alignment_group_ids": [
+        "align_table_headers"
+      ],
+      "en_dependency_source_unit_ids": [
+        "en_table_header_unit_1",
+        "en_table_header_unit_2"
+      ],
+      "en_primary_source_unit_ids": [
+        "en_table_row_2_unit_1",
+        "en_table_row_2_unit_2"
+      ],
+      "measurement": {
+        "metadata_bytes": 981,
+        "metadata_limit": 100000,
+        "text_limit": 987,
+        "text_tokens": 813
+      },
+      "part_number": 2,
+      "primary_alignment_group_ids": [
+        "align_table_row_2"
+      ],
+      "primary_partition_node_ids": [
+        "partition_table_row_2"
+      ],
+      "serving_payload_fingerprint": "sha256:3db01da022792b5a2465d1d7846afb595fc4e0fc531f7b4f5e5a902a819488c7",
+      "text": "[English — Authentic Text]\nInstrument: Fees Ordinance (Cap. 997)\nProvision: Schedule 1, table 1\nServing part: 2 of 2\nHeading: Licence fees\nParent context (repeated):\n[Table headers]\nItem\nFee > Amount\nText:\n[Table]\nRow: 2\nItem: 2\nFee > Amount: $500 limited licence fee limited licence fee limited licence fee limited licence fee limited licence fee limited licence fee limited licence fee limited licence fee\n\n[繁體中文 — 真確文本]\n法例：費用條例（第997章）\n條文：附表1表1\n服務部分：第2部分，共2部分\n標題：牌照費\n上層脈絡（重複）：\n[表格標題]\n項目\n費用 > 款額\n正文：\n[表格]\n行：2\n項目：2\n費用 > 款額：$500 有限牌照費 有限牌照費 有限牌照費 有限牌照費 有限牌照費 有限牌照費 有限牌照費 有限牌照費",
+      "text_fingerprint": "sha256:e24cadef7c17dd37243a1f2d1ab03098a00d9400f1c1b86432fa3aeabf4ae96c",
+      "total_parts": 2,
+      "zh_hant_dependency_source_unit_ids": [
+        "zh_table_header_unit_1",
+        "zh_table_header_unit_2"
+      ],
+      "zh_hant_primary_source_unit_ids": [
+        "zh_table_row_2_unit_1",
+        "zh_table_row_2_unit_2"
+      ]
+    }
+  ],
+  "profile_fingerprint": "sha256:310169be7b304e024c4d286d9eb51c3351b81bc21a13a0f79455b6c1d0c28b43",
+  "profile_id": "psp_111111111111111111111111111111111111111111111111",
+  "quarantined_partition_node_ids": [],
+  "reason": "PASS_PARTITIONED",
+  "search_record_output": "NONE",
+  "zh_hant_tree_fingerprint": "sha256:642ecf729392b1d3eb16cccea504ef2784af24c0feed8bfde1c91cbb5f0754b6"
+}

@@ -1,0 +1,73 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "reference_map_id": "risk_reference_map_10",
+  "model_input_fingerprint": "sha256:b058027286ed03cd7db0170eb5e31d4111c4169f0d308d9e35f4884dd606c569",
+  "court_family": "CFA",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_10",
+  "auxiliary_translation_version_ids": [],
+  "expected_examined_segment_ids": [
+    "segment_1",
+    "segment_2",
+    "segment_3"
+  ],
+  "expected_resolved_dependency_ids": [
+    "dependency_service_qualification"
+  ],
+  "candidates": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "SEGMENTED_SERVICE_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_10",
+      "required_meaning_codes": [
+        "DELIBERATE_EVASION_QUALIFICATION",
+        "VALID_SERVICE_REQUIRED"
+      ],
+      "required_risk_codes": [
+        "COMPLETE_SEGMENT_EXAMINATION",
+        "CROSS_SEGMENT_MEANING_PRESERVED"
+      ],
+      "forbidden_risk_codes": [
+        "SILENT_TRUNCATION"
+      ],
+      "required_range_ids": [
+        "range_1",
+        "range_2"
+      ]
+    },
+    {
+      "reference_proposition_id": "reference_prop_2",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "SEGMENTED_RELIANCE_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_10",
+      "required_meaning_codes": [
+        "REASONABLE_RELIANCE"
+      ],
+      "required_risk_codes": [
+        "COMPLETE_SEGMENT_EXAMINATION",
+        "INDEPENDENT_GROUND_PRESERVED"
+      ],
+      "forbidden_risk_codes": [],
+      "required_range_ids": [
+        "range_3"
+      ]
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1",
+    "reference_prop_2"
+  ],
+  "expected_coverage_gap_ids": [],
+  "expected_translation_use": "NONE",
+  "expected_parser_supported": true,
+  "expected_re_evaluated_reference_proposition_ids": [],
+  "prior_result_immutable_required": false,
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

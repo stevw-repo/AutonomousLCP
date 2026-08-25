@@ -1,0 +1,33 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-task-preflight-result",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-TASK-PREFLIGHT-006",
+  "result": {
+    "schema_id": "asklegal.hk-cases.semantic-task-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKCASE-PROP-SEMANTIC-TASK-PREFLIGHT-001",
+    "request_fingerprint": "sha256:77343b2299c65168ea44001e3d7e399dd7be6c4d6a9970d81bb981cd59737aba",
+    "outcome": "VALID_REQUEST",
+    "reasons": [
+      "VALID_REQUEST"
+    ],
+    "opinion_count": 1,
+    "unit_count": 3,
+    "primary_unit_count": 2,
+    "assigned_primary_unit_count": 1,
+    "supplied_unit_count": 2,
+    "evidence_range_count": 2,
+    "dependency_count": 1,
+    "complete_judgment_assignment": false,
+    "provider_call_authorized": false,
+    "semantic_result_accepted": false,
+    "search_records_created": 0,
+    "release_eligible": false,
+    "external_effects": "NONE"
+  },
+  "provider_calls_authorized": 0,
+  "semantic_results_accepted": 0,
+  "search_records_created": 0,
+  "release_eligible": false,
+  "external_effects": "NONE"
+}

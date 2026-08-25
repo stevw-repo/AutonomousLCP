@@ -1,0 +1,32 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-case-result",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-CNT-004",
+  "result": {
+    "schema_id": "asklegal.hk-cases.semantic-content-evaluation-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+    "request_fingerprint": "sha256:7b272c5cacfab6532a1399cc38039388a40cf1f642011943ccc5730857b54f20",
+    "reference_map_fingerprint": "sha256:3f144ea68a02c3844e0526d7f4bc202b85bdc3d51560081c020da674e2f06e04",
+    "outcome": "PASS",
+    "reasons": [
+      "PASS"
+    ],
+    "expected_candidate_count": 1,
+    "observed_candidate_count": 1,
+    "matched_candidate_count": 1,
+    "accepted_candidate_count": 1,
+    "quarantined_candidate_count": 0,
+    "complete_unit_count": 2,
+    "provider_calls_authorized": 0,
+    "workflow_admission_created": false,
+    "search_records_created": 0,
+    "release_eligible": false,
+    "external_effects": "NONE"
+  },
+  "provider_calls_authorized": 0,
+  "workflow_admissions_created": 0,
+  "search_records_created": 0,
+  "release_eligible": false,
+  "external_effects": "NONE"
+}

@@ -1,0 +1,31 @@
+{
+  "fixture_id": "HKLEG-RECON-RCN-FIX-012",
+  "rule_id": "HKLEG-RECON-RECONCILE-001",
+  "processing_outcome": "QUARANTINE",
+  "legal_disposition": "NOT_APPLICABLE",
+  "coverage_effect": "COVERAGE_GAP",
+  "source_contract_review_required": false,
+  "reason_codes": [
+    "HKLEG_RECON_RECONCILE_MATERIAL_MISMATCH"
+  ],
+  "rule_trace": [
+    "HKLEG-RECON-RECONCILE-001"
+  ],
+  "prior_monitoring_state": "AWAITING_HKEL_CONSOLIDATION",
+  "next_monitoring_state": "SUPERSEDED_BY_HKEL",
+  "comparison_class": "MATERIAL_MISMATCH",
+  "accounted_location_ids": [
+    "section-1",
+    "section-2"
+  ],
+  "mismatch_attribution_classes": [
+    "OPERATION_EXECUTION_DEFECT"
+  ],
+  "suspension_scope": "BOUNDED_COMPONENT",
+  "serving_consequence": "ORDINARY_HKEL_SELECTED",
+  "coverage_gap_consequence": "RESOLVE_AFTER_COMPLETE_RECONCILIATION",
+  "artifact_mutation": "NONE",
+  "record_output": "NONE",
+  "external_effects": "NONE",
+  "next_action": "PRESERVE_RECONSTRUCTION_AND_SERVING_HISTORY"
+}

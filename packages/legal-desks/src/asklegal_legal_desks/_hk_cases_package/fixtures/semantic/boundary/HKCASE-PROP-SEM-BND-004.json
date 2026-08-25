@@ -1,0 +1,55 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-BND-004",
+  "coverage_cell_id": "HKCASE-PROP-COV-SBND-004",
+  "pair_memberships": [],
+  "scenario": "Judgment answers two different legal questions",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-boundary-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "boundary_execution_4",
+    "judgment_work_id": "boundary_judgment_4",
+    "judicial_decision_id": "synthetic_boundary_decision_4",
+    "official_version_id": "synthetic_boundary_version_4",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ],
+        "joined_opinion_id": null,
+        "expressly_adopted_opinion_ids": []
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "Jurisdiction requires service within the district.",
+        "text_fingerprint": "sha256:82574d8ee8d2734c664232dda394cc624c5091209a7f9d04dc42072c8a831bd6",
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "exact_text": "Liability requires proof of negligent conduct.",
+        "text_fingerprint": "sha256:fb2284fb0d11a6d35611be86e1c172d55219b4dd22e8771bf07e5daae8df8e63",
+        "range_id": "range_2"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-004.json",
+  "observation_path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-004.json",
+  "expected_path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-004.json"
+}

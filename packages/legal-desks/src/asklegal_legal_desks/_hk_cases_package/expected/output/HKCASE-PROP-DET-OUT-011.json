@@ -1,0 +1,70 @@
+{
+  "schema_id": "asklegal.hk-cases.output-case-result",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-DET-OUT-011",
+  "variants": [
+    {
+      "variant_id": "HKCASE-PROP-DET-OUT-011-V01",
+      "result": {
+        "schema_id": "asklegal.hk-cases.output-result",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-OUTPUT-CONFORMANCE-001",
+        "request_fingerprint": "sha256:b4111fe59e7fe61b1bebcbfc488255c76c13cb4581ae4c50332a698b6ca2d5e4",
+        "outcome": "VALID_OUTPUT",
+        "reasons": [
+          "OUTPUT_VALID"
+        ],
+        "discovered_candidate_count": 1,
+        "final_candidate_count": 1,
+        "candidate_outcome_counts": [
+          {
+            "outcome": "ACCEPTED",
+            "count": 1
+          },
+          {
+            "outcome": "BLOCKED",
+            "count": 0
+          },
+          {
+            "outcome": "MERGED",
+            "count": 0
+          },
+          {
+            "outcome": "QUARANTINED",
+            "count": 0
+          },
+          {
+            "outcome": "REJECTED",
+            "count": 0
+          },
+          {
+            "outcome": "SPLIT",
+            "count": 0
+          }
+        ],
+        "source_unit_count": 1,
+        "source_range_count": 4,
+        "proposition_count": 1,
+        "evidence_link_count": 8,
+        "validated_record_count": 1,
+        "validated_payload_fingerprints": [
+          "sha256:fa3ca67d6850106bac552e160cf5d25cc3e5422cfc1c588a75ec3e15976966b7"
+        ],
+        "measured_text_token_counts": [
+          664
+        ],
+        "measured_payload_byte_counts": [
+          860
+        ],
+        "coverage_gap_ids": [],
+        "search_records_created": 0,
+        "release_eligible": false,
+        "semantic_analysis_authorized": false,
+        "external_effects": "NONE"
+      }
+    }
+  ],
+  "search_records_created": 0,
+  "release_eligible": false,
+  "external_effects": "NONE"
+}

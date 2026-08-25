@@ -1,0 +1,39 @@
+{
+  "schema_id": "asklegal.hk-cases.treatment-discovery-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-TREAT-SEM-DISCOVERY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:2428a02afec3daacad3c56c622f81bc4fd451b1214b6088464844c17cc010b22",
+  "workflow_result_fingerprint": "sha256:60ebdd40aaac133ad4cbef0dc92fd2f9cf21eb03f56d19ef0585cfff12dc6f9a",
+  "original_language": "ENGLISH",
+  "examined_opinion_ids": [
+    "opinion_1"
+  ],
+  "examined_segment_ids": [
+    "segment_1"
+  ],
+  "leads": [
+    {
+      "lead_id": "lead_1",
+      "mapped_reference_lead_id": "reference_lead_1",
+      "opinion_id": "opinion_1",
+      "lead_kind": "FORMAL_CITATION",
+      "range_ids": [
+        "range_1"
+      ],
+      "identity_state": "UNMATCHED",
+      "resolved_judgment_id": null,
+      "material_candidate": false
+    }
+  ],
+  "candidates": [],
+  "disposition": "COMPLETE",
+  "coverage_gap_ids": [],
+  "judgment_proposition_count": 1,
+  "complete_opinion_ledger": true,
+  "complete_segment_ledger": true,
+  "correction_comparison_complete": false,
+  "silence_establishes_no_treatment": false,
+  "legal_effect_decided": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

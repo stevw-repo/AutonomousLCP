@@ -1,0 +1,70 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "reference_map_id": "boundary_reference_map_12",
+  "model_input_fingerprint": "sha256:1b0a1ee6fb4bc9935aefc623237f4975b6429086917ff02470b92eb75e7adc52",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    },
+    {
+      "opinion_id": "opinion_2",
+      "role": "AGREEMENT_ONLY",
+      "judge_ids": [
+        "judge_2"
+      ],
+      "joined_opinion_id": "opinion_1",
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "LEAD_NOTICE_RULE",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "required_meaning_codes": [
+        "OPERATIVE_NOTICE_RULE"
+      ],
+      "required_boundary_codes": [
+        "AGREEMENT_ONLY_NO_DUPLICATE"
+      ],
+      "forbidden_boundary_codes": [],
+      "required_range_ids": [
+        "range_1"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_2",
+      "use": "AGREEMENT_ONLY",
+      "reference_proposition_ids": []
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1"
+  ],
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

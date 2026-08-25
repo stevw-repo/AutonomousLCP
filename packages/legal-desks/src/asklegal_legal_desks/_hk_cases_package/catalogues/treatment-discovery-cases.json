@@ -1,0 +1,337 @@
+{
+  "schema_id": "asklegal.hk-cases.treatment-discovery-catalogue",
+  "schema_version": "1.0.0",
+  "catalogue_id": "hk-case-treatment-semantic-discovery-initial",
+  "status": "FROZEN",
+  "case_count": 13,
+  "coverage_cell_count": 13,
+  "pair_ids": [
+    "HKCASE-TREAT-PAIR-001"
+  ],
+  "complete_pair_ids": [
+    "HKCASE-TREAT-PAIR-001"
+  ],
+  "entries": [
+    {
+      "case_id": "HKCASE-TREAT-SEM-DIS-001",
+      "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-001",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-001.json",
+          "fingerprint": "sha256:28332dc3140e8412020984329c8d9e0eb2334c9ec6a2c9de45d9b7760e05c7c8"
+        },
+        {
+          "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-001.json",
+          "fingerprint": "sha256:f40c9581e03358e43f5bdfbf229ab0946cb4a88d2ba8ebee469ec7a6a979ff23"
+        },
+        {
+          "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-001.json",
+          "fingerprint": "sha256:bd99441322cabf840be68ff075b14edfdbd149c8430e65680f75dd84cd0e1903"
+        },
+        {
+          "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-001.json",
+          "fingerprint": "sha256:d9719c5e4420162ee9c7973bb14e777f0883d424ca7314ab43fb22aa886cbef2"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-TREAT-SEM-DIS-002",
+      "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-002",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-002.json",
+          "fingerprint": "sha256:49db4b155c1478187cb426c8c14d07ac3a4751cd384a7641914717fd3f66a8e8"
+        },
+        {
+          "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-002.json",
+          "fingerprint": "sha256:7820556e13796b64d0547e84a30018d316778599701d184876a71b84558db6c1"
+        },
+        {
+          "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-002.json",
+          "fingerprint": "sha256:f58e551719e3b760b26b9396745b7b44cfea631971e2c7fc901bcfeda9857e50"
+        },
+        {
+          "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-002.json",
+          "fingerprint": "sha256:929e1712e7d49094ad1777af51a5f9adfc9ba6944cb3ce9a46a2e4b86fe45bd1"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-TREAT-SEM-DIS-003",
+      "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-003",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-003.json",
+          "fingerprint": "sha256:88a5768f34c9647dff5121de201230a301ba148581320b4b6d0c82eea09e630d"
+        },
+        {
+          "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-003.json",
+          "fingerprint": "sha256:1f122b70c9ba1fb7a99231725cd8cbd60e81ec973a03673749a33e1a5d72c163"
+        },
+        {
+          "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-003.json",
+          "fingerprint": "sha256:55b45ee55a8596aa108c50024e1010c5b54162317c8be54fea331abdea00171a"
+        },
+        {
+          "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-003.json",
+          "fingerprint": "sha256:9bb2d63783208f5af34c90d8968e6f20aba510dd0cdb5674d1dbf76f0133f077"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-TREAT-SEM-DIS-004",
+      "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-004",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-004.json",
+          "fingerprint": "sha256:84efb5340bfa2bf3773575987f1b92a8ee26e93deb8382d19a87aa1015fe78da"
+        },
+        {
+          "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-004.json",
+          "fingerprint": "sha256:a09e3ccd128e215235ff0271bce07954ddf07f73165c16892b1d21dc94e3765a"
+        },
+        {
+          "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-004.json",
+          "fingerprint": "sha256:79aa59a317cbeeeea8e1ae4e85ebbe7281ec381bac526b1c5bd1beb301de3626"
+        },
+        {
+          "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-004.json",
+          "fingerprint": "sha256:60ea9bbf8e76ca9cff3e5d7a5d2c3a0083559515ecae3ea0984a7db84e163944"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-TREAT-SEM-DIS-005",
+      "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-005",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-005.json",
+          "fingerprint": "sha256:20c9dd164a481bb73cd2f4f8aa2574a692e5a7bbbd54cb475cd09aefc4519f84"
+        },
+        {
+          "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-005.json",
+          "fingerprint": "sha256:04ee37aedc89574d50f9dd60351ff916af2292fbfc3da05965208c7f00f72a58"
+        },
+        {
+          "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-005.json",
+          "fingerprint": "sha256:67df7de766b957feb985a9896d5edff41291c7271264fb5be59bbb6316b46f39"
+        },
+        {
+          "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-005.json",
+          "fingerprint": "sha256:923a8881c061dff0b0879998269158900ce39458712b6676af4f539498a6d324"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-TREAT-SEM-DIS-006",
+      "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-006",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-006.json",
+          "fingerprint": "sha256:d9d984805b0d412b0584c85024c8cdf42f1a6b5461938212ccfbba4da04f3812"
+        },
+        {
+          "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-006.json",
+          "fingerprint": "sha256:849a57463678285980ee89d3dc347b4f9cadffc48e31c2279c1dd493eb4cd319"
+        },
+        {
+          "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-006.json",
+          "fingerprint": "sha256:eb3cd34621b2073df14841dbfbf16e90f5cd0d809986bac383b1be7d837e08ab"
+        },
+        {
+          "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-006.json",
+          "fingerprint": "sha256:4e41664bf3a0df52ebb828fe04bf8a6f81143f8492503f07983716ee8a5df73c"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-TREAT-SEM-DIS-007",
+      "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-007",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-007.json",
+          "fingerprint": "sha256:175bb4dce79de0fd0e8b07abc217f5f691c53d35e56003978c6d5f575bcdf80d"
+        },
+        {
+          "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-007.json",
+          "fingerprint": "sha256:9a32c926af09df8697b388fabde20813b9e726425b2c7cc3efee3835485c8d75"
+        },
+        {
+          "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-007.json",
+          "fingerprint": "sha256:fb3e04d03401cce1f43469df1ed4972392aa5f45d2e78a7f98b08d7081d2b9ea"
+        },
+        {
+          "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-007.json",
+          "fingerprint": "sha256:5e7bd2538add4a93a648782161997d0d7aa91861d1317e2ae64a2060ad5cb435"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-TREAT-SEM-DIS-008",
+      "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-008",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-TREAT-PAIR-001",
+          "role": "POSITIVE"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-008.json",
+          "fingerprint": "sha256:7cbdb5a49193bdd24da88a6e5731b75164837bc254449d8bd94ff5adb2c02fcc"
+        },
+        {
+          "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-008.json",
+          "fingerprint": "sha256:67b86d2c720f2d800667542da1776879d6e6bef54cde3abacb95f034630c30b3"
+        },
+        {
+          "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-008.json",
+          "fingerprint": "sha256:d1e232f8784ba4eba627164c385e1f359b4834c325a452b515c329d21cc90adb"
+        },
+        {
+          "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-008.json",
+          "fingerprint": "sha256:83bcaac31dbd7b7a379e124d423528df348f3b9adea1cf2358fd8e7e8bb5ab4a"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-TREAT-SEM-DIS-009",
+      "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-009",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-TREAT-PAIR-001",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-009.json",
+          "fingerprint": "sha256:6522e08e515666bd123b450e1e96b8ad69a9d72a119aff03fe44d1cb923529bb"
+        },
+        {
+          "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-009.json",
+          "fingerprint": "sha256:f81962ac456f6b52a0d584a98a96289b62e2f326dd4f52b17ab5a43e534d6a37"
+        },
+        {
+          "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-009.json",
+          "fingerprint": "sha256:7a06fb53bc87995a61479592b69190513d9027fa4cc86e038108e2d4100ad1eb"
+        },
+        {
+          "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-009.json",
+          "fingerprint": "sha256:9caf4d08bace8781d16f9abe902ee6247d8d21e2e006e707565cfdf169fc8bbb"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-TREAT-SEM-DIS-010",
+      "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-010",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-010.json",
+          "fingerprint": "sha256:cef3c1e27eab22a7534cb5062f34f26cb718667ce7837c733fcb499ff09f3f67"
+        },
+        {
+          "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-010.json",
+          "fingerprint": "sha256:17f0c42590728328ecd179c1b20cb5301eb583472643dcc5ca0172faf4102e3a"
+        },
+        {
+          "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-010.json",
+          "fingerprint": "sha256:509a7ecfa5a59934941a4057246f4d6a1f530a32e6b0b08a5e24cc4b19b0ff62"
+        },
+        {
+          "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-010.json",
+          "fingerprint": "sha256:5872ff01cdbe4e90f82138df139e25d1e9a0f864ff6740c893cd175fdf3874f5"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-TREAT-SEM-DIS-011",
+      "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-011",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-011.json",
+          "fingerprint": "sha256:32fbe4df4df1dbe3144a1aadc721e4a165e8f33fe6bc3d019139a7d7fef96d5c"
+        },
+        {
+          "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-011.json",
+          "fingerprint": "sha256:ca9732feb63306bd30eaa9cac7cff2bdb945534741f00363d891455889a19cd3"
+        },
+        {
+          "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-011.json",
+          "fingerprint": "sha256:37a01e623a68de23dbf4966ba81c75372878af71096e1edf4fe257b2f1d695cf"
+        },
+        {
+          "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-011.json",
+          "fingerprint": "sha256:a09bbc168405472f81435fad9f89733bb226e48414953e6d080d586d2d760628"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-TREAT-SEM-DIS-012",
+      "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-012",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-012.json",
+          "fingerprint": "sha256:6de2e4ba10bbd2e7d1ae7766a6e6885c361b21d4736e6142d8f37412600bbc41"
+        },
+        {
+          "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-012.json",
+          "fingerprint": "sha256:38c4621a810cdb13c827c36864572229c30747a67c3f265b43ed122588945ddd"
+        },
+        {
+          "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-012.json",
+          "fingerprint": "sha256:23f9b2912b26571e6768b69beca9596a1f6ee85f6d361cf654370ca8c76c664b"
+        },
+        {
+          "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-012.json",
+          "fingerprint": "sha256:aa4906080756ee9abe15523dae9516be66969ed3e0e5c95c7d48129fa25e1e87"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-TREAT-SEM-DIS-013",
+      "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-013",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-013.json",
+          "fingerprint": "sha256:47e7dcecaae00e7220048d88efbdbfcd867c219b559e6a2205dd442ff8e515af"
+        },
+        {
+          "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-013.json",
+          "fingerprint": "sha256:2b493cc47071f6ab21e85426583b612d64e8dd9c6f1245b6562de42f3458dfd2"
+        },
+        {
+          "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-013.json",
+          "fingerprint": "sha256:2578e48521329cffffe60518764c4941c7501741d3e9eeb85eb8dcb16bf153f5"
+        },
+        {
+          "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-013.json",
+          "fingerprint": "sha256:0d15f9c158c640ae8fa20990f4b81f791d008a91484535ca64babb37ecf2e69c"
+        }
+      ]
+    }
+  ],
+  "frozen_treatment_case_count": 155,
+  "executed_treatment_case_count": 13,
+  "remaining_treatment_case_count": 142,
+  "frozen_treatment_semantic_case_count": 53,
+  "executed_treatment_semantic_case_count": 13,
+  "remaining_treatment_semantic_case_count": 40,
+  "provider_calls_authorized": 0,
+  "treatment_relationships_created": 0,
+  "legal_effects_decided": 0,
+  "real_source_evidence": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

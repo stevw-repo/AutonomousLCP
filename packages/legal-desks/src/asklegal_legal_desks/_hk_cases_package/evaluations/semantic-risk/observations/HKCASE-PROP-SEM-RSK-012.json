@@ -1,0 +1,53 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:acc347a0f39830373b85eedab9ed956f7afaae858f5f96e44128fc81e3c172a9",
+  "workflow_result_fingerprint": "sha256:7e7495712eac51b0f89c6f17e5491bde53107b56799b120d1bf2f46f76fba695",
+  "court_family": "CA",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_12",
+  "auxiliary_translation_version_ids": [],
+  "examined_segment_ids": [
+    "segment_1",
+    "segment_2"
+  ],
+  "resolved_dependency_ids": [
+    "dependency_notice_qualification"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "CROSS_SEGMENT_NOTICE_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_12",
+      "meaning_codes": [
+        "NOTICE_REQUIRED",
+        "REASONABLY_CAPABLE_OF_RECEIPT"
+      ],
+      "risk_codes": [
+        "CROSS_SEGMENT_QUALIFICATION_INCLUDED",
+        "ONE_COMPLETE_PROPOSITION"
+      ],
+      "range_ids": [
+        "range_1",
+        "range_2"
+      ],
+      "derived_statement": "The initial rule requires notice. A later segment limits the rule to notice reasonably capable of receipt."
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "coverage_gap_ids": [],
+  "translation_use": "NONE",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

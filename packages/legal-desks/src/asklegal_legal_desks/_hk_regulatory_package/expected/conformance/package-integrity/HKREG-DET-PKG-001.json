@@ -1,0 +1,21 @@
+{
+  "schema_id": "asklegal.hk-regulatory.package-integrity-report",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-PACKAGE-INTEGRITY-001",
+  "case_id": "HKREG-DET-PKG-001",
+  "assertion_scope": "COMPLETE_PACKAGE",
+  "observed_outcome": "ACCEPTED",
+  "observed_reason": "PACKAGE_VALID",
+  "expected_outcome": "ACCEPTED",
+  "expected_reason": "PACKAGE_VALID",
+  "conformance_status": "PASS",
+  "package_valid": true,
+  "external_state_mutated": false,
+  "authority_grants": [],
+  "source_authorized": false,
+  "provider_authorized": false,
+  "release_authorized": false,
+  "serving_authorized": false,
+  "deployment_authorized": false,
+  "external_effects": "NONE"
+}

@@ -1,0 +1,50 @@
+{
+  "complete": true,
+  "sources": [
+    {
+      "source_id": "HK-REG-HKEX-CONSOLIDATED-RULEBOOKS",
+      "role": "CONTROLLING",
+      "endpoint_families": ["HKEX_MAIN_AND_GEM_CONSOLIDATED_ENGLISH_RULEBOOKS"],
+      "checking_tier": "DAILY_SIGNAL_AND_CHANGE_TRIGGERED_COMPLETE_ARTIFACT",
+      "permitted_use": "PREVAILING_ENGLISH_WORDING_AND_CONTAINED_OFFICIAL_STRUCTURE",
+      "completeness_rule": "ENUMERATE_EVERY_COMPONENT_NOT_ONLY_TABLE_OF_CONTENTS",
+      "outage_consequence": "BOUNDED_BOARD_OR_UNBOUNDED_BOTH_SCOPE_BLOCKING"
+    },
+    {
+      "source_id": "HK-REG-HKEX-FEES-RULES",
+      "role": "CONTROLLING",
+      "endpoint_families": ["HKEX_MAIN_AND_GEM_FEES_RULES"],
+      "checking_tier": "DAILY_INVENTORY_AND_CHANGE_TRIGGERED_ARTIFACT",
+      "permitted_use": "SEPARATE_FEES_RULE_MEMBERSHIP_OWNERSHIP_AND_ENGLISH_CONTENT",
+      "completeness_rule": "ENUMERATE_EVERY_REQUIRED_ENGLISH_FEES_RULE_PER_BOARD",
+      "outage_consequence": "BOUNDED_BOARD_OR_UNBOUNDED_BOTH_SCOPE_BLOCKING"
+    },
+    {
+      "source_id": "HK-REG-HKEX-REGULATORY-FORMS",
+      "role": "CONTROLLING",
+      "endpoint_families": ["HKEX_MAIN_AND_GEM_REGULATORY_FORMS"],
+      "checking_tier": "DAILY_INVENTORY_AND_CHANGE_TRIGGERED_ARTIFACT",
+      "permitted_use": "SEPARATE_FORM_MEMBERSHIP_OWNERSHIP_AND_ENGLISH_CONTENT",
+      "completeness_rule": "ENUMERATE_EVERY_REQUIRED_ENGLISH_REGULATORY_FORM_PER_BOARD",
+      "outage_consequence": "BOUNDED_BOARD_OR_UNBOUNDED_BOTH_SCOPE_BLOCKING"
+    },
+    {
+      "source_id": "HK-REG-HKEX-RULE-UPDATES",
+      "role": "CONTROLLING",
+      "endpoint_families": ["HKEX_MAIN_AND_GEM_FINAL_RULE_UPDATES"],
+      "checking_tier": "DAILY_UPDATE_INVENTORY_AND_CHANGE_TRIGGERED_PACKAGE",
+      "permitted_use": "FINAL_CHANGE_WORDING_TIMING_CONDITION_TRANSITION_AND_MAPPING_FACTS",
+      "completeness_rule": "ENUMERATE_EVERY_DUE_FINAL_UPDATE_AND_LINKED_CLASSIFICATION_ARTIFACT",
+      "outage_consequence": "AFFECTED_BOARD_FRESH_RELEASE_BLOCKING"
+    },
+    {
+      "source_id": "HK-REG-HKEX-RULEBOOK-CATALOGUE",
+      "role": "CONTROLLING",
+      "endpoint_families": ["HKEX_LISTING_RULES_PRODUCT_CATALOGUE"],
+      "checking_tier": "DAILY_SIGNAL_AND_WEEKLY_COMPLETE_OBSERVATION",
+      "permitted_use": "TOP_LEVEL_PRODUCT_FAMILIES_BOARD_ASSOCIATION_AND_CURRENT_LOCATORS",
+      "completeness_rule": "BOUNDS_FAMILIES_BUT_NEVER_PROVES_COMPONENT_WORDING_OR_LIST_ALONE",
+      "outage_consequence": "UNBOUNDED_BOTH_SCOPE_RELEASE_BLOCKING"
+    }
+  ]
+}

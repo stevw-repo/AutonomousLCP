@@ -1,0 +1,88 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:4ffda2727c5d2980b0fdc58de65e00a157a8a727089ac684a6b63e2af0b46625",
+  "workflow_result_fingerprint": "sha256:202f8f917b75e0f39d07eccb7c56f39d76e7bd67cf48bd69c45e16d72eb91490",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "JURISDICTION_QUESTION",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "DISTRICT_SERVICE_JURISDICTION"
+      ],
+      "boundary_codes": [
+        "DISTINCT_LEGAL_QUESTION",
+        "SEPARATE_PROPOSITION"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "Jurisdiction requires service within the district."
+    },
+    {
+      "candidate_id": "candidate_2",
+      "mapped_reference_proposition_id": "reference_prop_2",
+      "resolution": "ACCEPTED",
+      "issue_code": "LIABILITY_QUESTION",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "NEGLIGENCE_LIABILITY"
+      ],
+      "boundary_codes": [
+        "DISTINCT_LEGAL_QUESTION",
+        "SEPARATE_PROPOSITION"
+      ],
+      "range_ids": [
+        "range_2"
+      ],
+      "derived_statement": "Liability requires proof of negligent conduct."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_2"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1",
+    "candidate_2"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

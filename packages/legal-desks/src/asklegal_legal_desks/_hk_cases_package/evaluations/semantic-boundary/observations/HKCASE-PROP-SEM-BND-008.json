@@ -1,0 +1,68 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:265b09082b891dccfb3a73665bbdc7b64b719ecca40892fdd12d165611ea932d",
+  "workflow_result_fingerprint": "sha256:1622aec7cd0b8d669afa8eb6bb023dc61516446b11104981e78b8a870085e0d8",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "NECESSITY_RULE",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "LEGITIMATE_AIM",
+        "NARROWER_MEASURE_APPLICATION"
+      ],
+      "boundary_codes": [
+        "GENERAL_RULE_WITH_APPLICATION",
+        "ONE_PROPOSITION"
+      ],
+      "range_ids": [
+        "range_1",
+        "range_2"
+      ],
+      "derived_statement": "A restriction must be necessary to its legitimate aim. This restriction was unnecessary because a narrower measure sufficed."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

@@ -1,0 +1,58 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "reference_map_id": "boundary_reference_map_11",
+  "model_input_fingerprint": "sha256:914e3b96e219586e7efdc7efd02d8bb507470396c5fd09c1b5a51ee2bf64bd51",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1",
+        "judge_2",
+        "judge_3"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "JOINED_LEAD_RULE",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "required_meaning_codes": [
+        "OBJECTIVE_NOTICE_TEST"
+      ],
+      "required_boundary_codes": [
+        "EXPRESS_UNQUALIFIED_JOIN",
+        "ONE_REASONING_PATH"
+      ],
+      "forbidden_boundary_codes": [],
+      "required_range_ids": [
+        "range_1"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1"
+  ],
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

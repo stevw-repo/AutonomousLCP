@@ -1,0 +1,23 @@
+{
+  "rule_id": "HKCASE-TREAT-SEM-DISCOVERY-EVALUATOR-001",
+  "contract_version": "1.0.0",
+  "direct_case_count": 13,
+  "coverage_cell_count": 13,
+  "direct_high_risk_pair_ids": [
+    "HKCASE-TREAT-PAIR-001"
+  ],
+  "complete_pair_ids": [
+    "HKCASE-TREAT-PAIR-001"
+  ],
+  "model_facing_reference_fields": [],
+  "case_id_answer_switching_forbidden": true,
+  "silence_proves_no_treatment": false,
+  "legal_effect_authority": false,
+  "provider_calls_authorized": 0,
+  "treatment_relationships_created": 0,
+  "search_records_created": 0,
+  "release_eligible": false,
+  "real_source_evidence": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

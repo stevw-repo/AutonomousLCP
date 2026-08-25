@@ -1,0 +1,88 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-CNT-010",
+  "coverage_cell_id": "HKCASE-PROP-COV-SCNT-010",
+  "pair_memberships": [],
+  "scenario": "Rule qualification and application appear in several non-contiguous passages",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-content-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "content_execution_10",
+    "judgment_work_id": "content_judgment_10",
+    "judicial_decision_id": "synthetic_content_decision_10",
+    "official_version_id": "synthetic_content_version_10",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "A statutory discretion must be exercised for its authorised purpose.",
+        "text_fingerprint": "sha256:7d5948ee74ff8afe193bcd5bcf8fef14b05db0e939fbe5cbf9127ccfe8f4ce12",
+        "range_available": true,
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "The department was reorganised in 2018.",
+        "text_fingerprint": "sha256:792a7e43ca8a313f4a8d7064c05db10e1800007da1001fde0d6b3527abb5e636",
+        "range_available": true,
+        "range_id": "range_2"
+      },
+      {
+        "unit_id": "unit_3",
+        "opinion_id": "opinion_1",
+        "source_order": 3,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "An incidental unauthorised benefit does not invalidate the decision.",
+        "text_fingerprint": "sha256:4017ee456383a8b61cc531267cf3fc9b4a01faa6ad5394d3b80a153d5d065595",
+        "range_available": true,
+        "range_id": "range_3"
+      },
+      {
+        "unit_id": "unit_4",
+        "opinion_id": "opinion_1",
+        "source_order": 4,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "Counsel filed supplementary bundles.",
+        "text_fingerprint": "sha256:7a4f8b88ef6c06e85a6e63a538c46f5320234c6ce0debd2805733779569fd73b",
+        "range_available": true,
+        "range_id": "range_4"
+      },
+      {
+        "unit_id": "unit_5",
+        "opinion_id": "opinion_1",
+        "source_order": 5,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "Here the unauthorised benefit was the dominant purpose, so the decision is invalid.",
+        "text_fingerprint": "sha256:281b9f1e7707c2af65209824bc201ef8b16199f8c768ac3252249deb070a34c9",
+        "range_available": true,
+        "range_id": "range_5"
+      }
+    ],
+    "dependencies": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-010.json",
+  "observation_path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-010.json",
+  "expected_path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-010.json"
+}

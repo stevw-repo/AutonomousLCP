@@ -52,7 +52,7 @@
         "contract_locks": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/fingerprint"}},
         "code_locks": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
         "source_universe_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
-        "scope_readiness": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/scope_readiness"}},
+        "scope_readiness": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/scope_readiness"}},
         "unresolved_policy_codes": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
         "impact_declaration": {"$ref": "common.schema.json#/$defs/non_empty_string"},
         "minimum_engine_version": {"$ref": "common.schema.json#/$defs/schema_version"},

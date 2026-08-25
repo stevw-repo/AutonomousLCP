@@ -1,0 +1,516 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-materiality-catalogue",
+  "schema_version": "1.0.0",
+  "catalogue_id": "hk-case-proposition-semantic-materiality-initial",
+  "case_count": 18,
+  "coverage_cell_count": 18,
+  "pair_ids": [
+    "HKCASE-PROP-PAIR-001",
+    "HKCASE-PROP-PAIR-002",
+    "HKCASE-PROP-PAIR-003",
+    "HKCASE-PROP-PAIR-004",
+    "HKCASE-PROP-PAIR-005",
+    "HKCASE-PROP-PAIR-019",
+    "HKCASE-PROP-PAIR-031"
+  ],
+  "complete_pair_ids": [
+    "HKCASE-PROP-PAIR-001",
+    "HKCASE-PROP-PAIR-002",
+    "HKCASE-PROP-PAIR-003",
+    "HKCASE-PROP-PAIR-004",
+    "HKCASE-PROP-PAIR-005",
+    "HKCASE-PROP-PAIR-031",
+    "HKCASE-PROP-PAIR-019"
+  ],
+  "completed_cross_checkpoint_pair_ids": [
+    "HKCASE-PROP-PAIR-019"
+  ],
+  "pending_cross_checkpoint_pair_ids": [],
+  "entries": [
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-001",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-001",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-001",
+          "role": "POSITIVE"
+        },
+        {
+          "pair_id": "HKCASE-PROP-PAIR-031",
+          "role": "POSITIVE"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-001.json",
+          "fingerprint": "sha256:f24f7ec5d43e66187c91ce1adf6d784886e38cf0e8debff590b6f9227cba185d"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-001.json",
+          "fingerprint": "sha256:112770751541a0f7d818c6549bb9dbe37dc25d690c1726cc0e856660f568295f"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-001.json",
+          "fingerprint": "sha256:0b1fb7b73484b9390095fb0f5f5492fec66bed0a9a494e42eeb6fe8baa3db071"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-001.json",
+          "fingerprint": "sha256:02e1b80fc7015e919169511e4db1e0f90ac2e5e87a8060dccb4d59304321eb90"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-002",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-002",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-002",
+          "role": "POSITIVE"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-002.json",
+          "fingerprint": "sha256:b08112b559b2b8464b31c5ac2bd88ba7874c6a1896fa0928e0b9fda84e1098d6"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-002.json",
+          "fingerprint": "sha256:51dd7e2fbf596a7331728991e09efda9818d6da4fdc392df5a37e3b256bcf183"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-002.json",
+          "fingerprint": "sha256:7bf39f345dbf6f0e24dc14a70ac979398ed8812360522b486276b307059b7e35"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-002.json",
+          "fingerprint": "sha256:1c3bdc595a1235717dde1eb9d27084c5b0e9d3138d75845a875a5de15961c697"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-003",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-003",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-002",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-003.json",
+          "fingerprint": "sha256:bd07e0cf4e8e6d9bff65ebc92d5d8d092bf9d54a8be86570e3ea2ac7bdee4ec1"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-003.json",
+          "fingerprint": "sha256:50fb05ed05c5eb212efaa85c1b29bf24ac1a2cc15d905b5ca04dedc0f5f52c6c"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-003.json",
+          "fingerprint": "sha256:36b8a3bc93a31193d328a85f0691d75e78ee364beb72028cf20c76df20a5fc41"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-003.json",
+          "fingerprint": "sha256:7a64c78dc05957540f163970d4cfe5fa92418c5f037cdbb500761e22383d9242"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-004",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-004",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-003",
+          "role": "POSITIVE"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-004.json",
+          "fingerprint": "sha256:9bbd0a5dff5727e78ca71e27acc5e7468ce5044c21d1f352ec705c2b5f8e2871"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-004.json",
+          "fingerprint": "sha256:48f805ebe8b8583c4763568c98606b4cad8dedd8b4cf56cde61883d29b1c6ded"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-004.json",
+          "fingerprint": "sha256:762a60d900e15aeaae9e1d9e7f6ade0b15e775818bdcfd8cc3bf8c28aaa93673"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-004.json",
+          "fingerprint": "sha256:76cbadbff3a62d911c1fa70ed4aa9007f803d3342e937a3ce096476dd60bee27"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-005",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-005",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-003",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-005.json",
+          "fingerprint": "sha256:2277c9848943ca47e47f09bfb250517c2aed85b8f6a1d7c02c3a5ceed8a774a6"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-005.json",
+          "fingerprint": "sha256:88c5bd1636894fa1501f2c627806fa2d9280fb07a04291ee3e7e6d17117d4f1b"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-005.json",
+          "fingerprint": "sha256:bb0ed73909c79ea73fb750f87e1b17bb688954ce7447e679ac9fff1aef85055f"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-005.json",
+          "fingerprint": "sha256:619b5f8e5d381a710f7d86358dee6a7588fb53ac0203b98805de7e43c3949f87"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-006",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-006",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-004",
+          "role": "POSITIVE"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-006.json",
+          "fingerprint": "sha256:6268e851b292f75fe862a04ccbf94219991fee5bc24b8d7cec8c075b69bf8b07"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-006.json",
+          "fingerprint": "sha256:ec7327591dc1050509b2746b69cec6c9747e4861a62403bec94e0804bf32e5b9"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-006.json",
+          "fingerprint": "sha256:6a28e467358d0e3711f328161f264737f0ca6f74965012921f65776cb9bb1bf6"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-006.json",
+          "fingerprint": "sha256:0b33900779d0a89d53e9460a8e71b24fe0c03c0f8ba4aef398334abbd7c69d72"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-007",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-007",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-004",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-007.json",
+          "fingerprint": "sha256:b01b21a01480d6cd46a0da7678bb94fbba4f01b53efbb2cbb619b6d6d439fb80"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-007.json",
+          "fingerprint": "sha256:bbd91244e65fc5cc9ae87d7da1dde41b2adf897a8532ba5d95ef060bbf8500be"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-007.json",
+          "fingerprint": "sha256:388daa424ba14ba628d40cfeed9eef3411cea44a018dd3cefeb68659a4401c7b"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-007.json",
+          "fingerprint": "sha256:6eed1b453b15bcab2376b5683165ee02d0fd49a545ee7e2c73317b3dc64a8ef6"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-008",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-008",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-008.json",
+          "fingerprint": "sha256:94984fc81cac7dc72c1d35528772f3869aecc8c055fa2cf3bf43f1de99be30f0"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-008.json",
+          "fingerprint": "sha256:ac3094be4e9300fddb7e3f5b2c75fefa348a977a932baa19b2305022191a9cb2"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-008.json",
+          "fingerprint": "sha256:23a7931854a2e5ce3b31eee0970481dbdc5f52c4b30bac7798d45939bb5aaf51"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-008.json",
+          "fingerprint": "sha256:102d331a2e9fa85942b2dabe14753b749f0554fc0d62181ead321d37eb7d0415"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-009",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-009",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-009.json",
+          "fingerprint": "sha256:b2604a616521a9f369698ad0d91940f2579a7763a74fc78140be7ddd5db400e7"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-009.json",
+          "fingerprint": "sha256:1ff260a4b0e4ce00e07db947b4ff168ca8b272bf93e530e1b5b6ef2888fb37d4"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-009.json",
+          "fingerprint": "sha256:f9215ba502bc8b4312a10fc08b3747f92d7fda7713781827d31b790208ed0b5f"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-009.json",
+          "fingerprint": "sha256:923a75a77387f9e243a414fc59a80e47caeeb7019d5045c802e00a5a24affb0c"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-010",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-010",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-010.json",
+          "fingerprint": "sha256:0ca149f805d92906bb14d1cfbb43ff574d552e1860af5a6ac3df9ccdd8d5672e"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-010.json",
+          "fingerprint": "sha256:51c8702213edb8445f3123c3ddb761dddbb3f9864c3aec2cd777ba353ce9d1b7"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-010.json",
+          "fingerprint": "sha256:98e0a547914ee5649f87a55a397199822c4ffa7d602e9ba31be10a5fd39de921"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-010.json",
+          "fingerprint": "sha256:3929b76f3344ab6a658863a41f486b9fad0f73d0af369c5e61c1e245683e213c"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-011",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-011",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-011.json",
+          "fingerprint": "sha256:87fbcb6ee6a46f06621a7ae5f80ad5152afd36e74bacdd5a6a94916c153f2f78"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-011.json",
+          "fingerprint": "sha256:92027b9b6d976141bf067bfb78a2185530362916bf6bb076f3a965d0fa373c3a"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-011.json",
+          "fingerprint": "sha256:6bdac182ec3f7a55dd15efad64e6f6305f12910498bad465a719e2b9b66d06ea"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-011.json",
+          "fingerprint": "sha256:7a75c20e2b02e49df648469c622341b0ac20840fe71798bb9113c553a00d4d9b"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-012",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-012",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-005",
+          "role": "POSITIVE"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-012.json",
+          "fingerprint": "sha256:3352b2c0e05b45543ed5ba4686140cc7b3a5df55c74c0c47905d274596d3c6fe"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-012.json",
+          "fingerprint": "sha256:0d2d799e3ba01b5c08fc545445429613078768e3b11f664a35e3b43ff68edae7"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-012.json",
+          "fingerprint": "sha256:75dfca8f0b6c676d0647aa00a1b8518a7f2053eb8a7bce03bb5082af1fc1cd8f"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-012.json",
+          "fingerprint": "sha256:1101def2ecee22194eef561750468707ffdff3f308ce8442c89b7c73f38bfbd0"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-013",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-013",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-001",
+          "role": "NEAR_MISS"
+        },
+        {
+          "pair_id": "HKCASE-PROP-PAIR-005",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-013.json",
+          "fingerprint": "sha256:f85f57ee636b667c0e35d7611d5b9d416ec27a85bf4ec918b516b70d2399fe29"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-013.json",
+          "fingerprint": "sha256:a2ab9ce9b72127c907c83e1f169dd0e5e48fee0b96fb29f6fe28030632a7c049"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-013.json",
+          "fingerprint": "sha256:f412f98d95c89abac71ed7687d3759add863aa91dce6017d3f9dec0a0ec2bbc7"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-013.json",
+          "fingerprint": "sha256:2b9c6cee057d5f6940cc33a8cb5c70017ec0f6c876ad6a8be20a5fde99d6d7f4"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-014",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-014",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-014.json",
+          "fingerprint": "sha256:f2448b6d464f6e40012870825cd89cc34668d61f76a6af4590e77853983a5baa"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-014.json",
+          "fingerprint": "sha256:5f479c4149cdb0fe055f5cd360a5a79be66797f3c748fb7d06020ef401ed2613"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-014.json",
+          "fingerprint": "sha256:9cfc6a4707e31154c62d9b384654a45135535979e04771756460ae0f241a294b"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-014.json",
+          "fingerprint": "sha256:c063740fe435c6ead6192b883ee628e55b304d9aa22e3ecb99c973d980a8332e"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-015",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-015",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-031",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-015.json",
+          "fingerprint": "sha256:99ac543d2e40f1b5c2b5108fe56763156354eac720036d13d770eba576785839"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-015.json",
+          "fingerprint": "sha256:40bd368b19fa19d7782d33b386ce97467e9acc48211bdceb6099f474a9780a05"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-015.json",
+          "fingerprint": "sha256:8e7648cd91656a34fd8dd7eb1e623850229f544330e32af342cc68659055adbd"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-015.json",
+          "fingerprint": "sha256:d0e2b16ec650afd69d4f26aa6a60e3edf4b11aafded689028c16fd5674d770cb"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-016",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-016",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-016.json",
+          "fingerprint": "sha256:e6cb03ffa43cf56d2f9f76580e12b5621ce2ef02a9f5f3d0cc7f07f805854bc3"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-016.json",
+          "fingerprint": "sha256:2c5dd05b8459f7aaf66592bcd42651d1d8716541a30a54f92feddad95b69010a"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-016.json",
+          "fingerprint": "sha256:a04aa282f313124721608731c6620fe56908816b8223e4dce7bd97232bd69bdf"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-016.json",
+          "fingerprint": "sha256:15b8cd6b9fad8342f1c2eb0b11ce85f3c591a62270cb8384112e6056d3fa053f"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-017",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-017",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-019",
+          "role": "POSITIVE"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-017.json",
+          "fingerprint": "sha256:e63e41fb03fd83b7b3291458ce132ce903107a9d9001f97eb3ef8381bc94601a"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-017.json",
+          "fingerprint": "sha256:2eb8676cc71e8528d9eb8344f7c65d1dfade3829b0655f931c2ffb7969f59709"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-017.json",
+          "fingerprint": "sha256:359c33b98d163b35fe8faa801190104b535dea458bd0689463f9920a1108d0c1"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-017.json",
+          "fingerprint": "sha256:213902342287851616ddd7d847f9c7849d8c62a55466220fe2dd608c01f2b32c"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-MAT-018",
+      "coverage_cell_id": "HKCASE-PROP-COV-SMAT-018",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-018.json",
+          "fingerprint": "sha256:a59ce367def102c0655cb42420d32a514e47992dc00729d2f8ef381f6bd2f950"
+        },
+        {
+          "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-018.json",
+          "fingerprint": "sha256:23a7efea579bb3fa6cc6d2efc646a77893e6b32d48a34b6d5fc356c9d8056c64"
+        },
+        {
+          "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-018.json",
+          "fingerprint": "sha256:5c78e5169ea5ed2786fd50487903adfbb2d2894c488b09af0d486b788387b5f7"
+        },
+        {
+          "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-018.json",
+          "fingerprint": "sha256:4ee6f0cf0193adc4d455793eef794b53342f9e75fda96306c82d8f1c89485e21"
+        }
+      ]
+    }
+  ],
+  "frozen_semantic_case_count": 78,
+  "executed_semantic_case_count": 18,
+  "remaining_semantic_case_count": 60,
+  "provider_calls_authorized": 0,
+  "workflow_admission_created": false,
+  "real_source_evidence": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

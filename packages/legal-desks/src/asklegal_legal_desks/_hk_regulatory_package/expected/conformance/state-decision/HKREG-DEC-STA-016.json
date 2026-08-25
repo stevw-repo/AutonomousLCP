@@ -1,0 +1,92 @@
+{
+  "schema_id": "asklegal.hk-regulatory.state-decision-report",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-STATE-DECISION-001",
+  "case_id": "HKREG-DEC-STA-016",
+  "assertion_scope": "COMPONENT_SUMMARY",
+  "observed_decision": {
+    "schema_id": "asklegal.hk-regulatory.state-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-STATE-DECISION-001",
+    "case_id": "HKREG-DEC-STA-016",
+    "outcome": "QUARANTINE",
+    "reason": "COMPONENT_SUMMARIZED",
+    "not_applicable": false,
+    "branch_decisions": [
+      {
+        "branch_id": "branch-016-current",
+        "state": "CURRENT",
+        "disposition": "SEARCHABLE_CURRENT_RULE_COMPONENT",
+        "processing_outcome": "PASS",
+        "reason": "CURRENT_PRODUCT_MATCHED",
+        "applicability_context": null
+      },
+      {
+        "branch_id": "branch-016-unknown",
+        "state": "UNKNOWN",
+        "disposition": "QUARANTINE",
+        "processing_outcome": "QUARANTINE",
+        "reason": "UNRESOLVED_LEGAL_STATE_FACT",
+        "applicability_context": null
+      }
+    ],
+    "component_state": "UNKNOWN",
+    "record_responsibility": "NONE",
+    "ordered_branch_ids": [],
+    "source_failure_choice": "NONE",
+    "carry_forward_support": null,
+    "rebuild_target_authorized": false,
+    "repair_rejected": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.state-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-STATE-DECISION-001",
+    "case_id": "HKREG-DEC-STA-016",
+    "outcome": "QUARANTINE",
+    "reason": "COMPONENT_SUMMARIZED",
+    "not_applicable": false,
+    "branch_decisions": [
+      {
+        "branch_id": "branch-016-current",
+        "state": "CURRENT",
+        "disposition": "SEARCHABLE_CURRENT_RULE_COMPONENT",
+        "processing_outcome": "PASS",
+        "reason": "CURRENT_PRODUCT_MATCHED",
+        "applicability_context": null
+      },
+      {
+        "branch_id": "branch-016-unknown",
+        "state": "UNKNOWN",
+        "disposition": "QUARANTINE",
+        "processing_outcome": "QUARANTINE",
+        "reason": "UNRESOLVED_LEGAL_STATE_FACT",
+        "applicability_context": null
+      }
+    ],
+    "component_state": "UNKNOWN",
+    "record_responsibility": "NONE",
+    "ordered_branch_ids": [],
+    "source_failure_choice": "NONE",
+    "carry_forward_support": null,
+    "rebuild_target_authorized": false,
+    "repair_rejected": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "conformance_status": "PASS",
+  "source_authorized": false,
+  "provider_authorized": false,
+  "release_authorized": false,
+  "serving_authorized": false,
+  "deployment_authorized": false,
+  "external_effects": "NONE"
+}

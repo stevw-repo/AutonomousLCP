@@ -1,0 +1,162 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.reconstruction-overlong-partition.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-001.json",
+      "fixture_fingerprint": "sha256:e399f2ddb4d7a8869a6ff0920b2949dc7e65f0560114860397c946dd1e68e0a5",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-001.json",
+      "expected_fingerprint": "sha256:6819c8211a26d0ccc0501c6266df3114a6e597fa86bf9e4617709de6de79eded"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-002.json",
+      "fixture_fingerprint": "sha256:1416260244af1d39dc8ad32a75544c43161d96382e70a01ee81b4673fcce64a7",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-002.json",
+      "expected_fingerprint": "sha256:f746e6935f99d5854d74cc54548ffb3e5fbbd629a9df3e8c1f1f205cb7fa1abb"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-003.json",
+      "fixture_fingerprint": "sha256:f47ab8b9984942d1f941aa12b66ec7eefa598dab0a66444e2ee497c407303d25",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-003.json",
+      "expected_fingerprint": "sha256:192757c58007861f0745d503f40f2ad08b2648722f724c8ac3207eeadc40a614"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-004.json",
+      "fixture_fingerprint": "sha256:7c8a9fe530feb906c0c8356dfc3e8d67ae053273c4747e28e1baa3378a9a840a",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-004.json",
+      "expected_fingerprint": "sha256:a14b300b5a79c4d774a96600e1324ccd3b06c54a29d6acf8c3afe4ed43460a79"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-005.json",
+      "fixture_fingerprint": "sha256:8d6db121c19436815acbeffcba844043e255103c4e748be56e133c5038bd58d0",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-005.json",
+      "expected_fingerprint": "sha256:51126e83b7a50efbe1572380e3e5b36d65fb926948686a4e6b4e07f2a687b342"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-006",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-006.json",
+      "fixture_fingerprint": "sha256:f8a184649d9a446601b03b9b0a1e33ccae191028349fdc56b735556f5a91b9a7",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-006.json",
+      "expected_fingerprint": "sha256:4873e822029cb4ae421125666fa24f388e592b3750059bcf1344e2c7c7345ad6"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-007",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-007.json",
+      "fixture_fingerprint": "sha256:01db8f2f86150dfb56bc208e4afa80bd475295f9e5bc76f8fa43fe6c26597f3e",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-007.json",
+      "expected_fingerprint": "sha256:e1f10a56d98193f24b21c3338823825256f57852466532c6ee0ddbc6f7dbee88"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-008",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-008.json",
+      "fixture_fingerprint": "sha256:78f5525676a3582e3ee152a85b02859fccf67f2cb87b46b2120ab5d892508db8",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-008.json",
+      "expected_fingerprint": "sha256:6dd9c0626bf33b6a7f1d2cd3facc452f3711069b6dd0f058e33543c565aa93de"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-009",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-009.json",
+      "fixture_fingerprint": "sha256:6995edd36c49bd6191fdca4b71403259e0042d8b0c0e8869601540820093eec8",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-009.json",
+      "expected_fingerprint": "sha256:a0823b56486724b75d93695f1736d5cdb59dbf949705cdbe3f74f5c218fd9a68"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-010",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-010.json",
+      "fixture_fingerprint": "sha256:1c4130493a7ac409720a6650fda4f4be0006dfca6b7d54aed39748ad77054e11",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-010.json",
+      "expected_fingerprint": "sha256:192757c58007861f0745d503f40f2ad08b2648722f724c8ac3207eeadc40a614"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-011",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-011.json",
+      "fixture_fingerprint": "sha256:fefb92f5afaf943a880bae323dcce399abc016cfa56f16c3bb6bbf40610bc146",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-011.json",
+      "expected_fingerprint": "sha256:e8baacd2467bc89f8b5d7b75d04d0c5fe949881fcc23fd08d95248d23a0f6862"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-012",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-012.json",
+      "fixture_fingerprint": "sha256:941d093d79d14d26e705eb66f5e2e4908f562dea8769bc746b012bc5eac347c9",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-012.json",
+      "expected_fingerprint": "sha256:84b13eed4659c0ba1544e5c826c4348827ce2b0d18116904c2849f41b1b6ea9e"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-013",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-013.json",
+      "fixture_fingerprint": "sha256:b048c860330ef8810eecb8b2f2cbb92e46b2452aff6da2af4c8378734a967f35",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-013.json",
+      "expected_fingerprint": "sha256:192757c58007861f0745d503f40f2ad08b2648722f724c8ac3207eeadc40a614"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-014",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-014.json",
+      "fixture_fingerprint": "sha256:82fe7df1fcd0cf8407e89911062eb27029729b94b1e97c765fdba448ede2901b",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-014.json",
+      "expected_fingerprint": "sha256:838dd5107245732c45285504874472ba3b94ebc2fcae0d25310a54b0a8eb4206"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-015",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-015.json",
+      "fixture_fingerprint": "sha256:ebcf3de97f3bb2d2b8b224e85d0dfb419c93e2bfed940b49ffd2f5bb16165d24",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-015.json",
+      "expected_fingerprint": "sha256:838dd5107245732c45285504874472ba3b94ebc2fcae0d25310a54b0a8eb4206"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-016",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-016.json",
+      "fixture_fingerprint": "sha256:b228f2a4bbdc3940e53316aeebc8703fd1576cfd0931b6cac6bed8b33b1638e4",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-016.json",
+      "expected_fingerprint": "sha256:7c7f3c408ef57e20d5889710d1ded12c07afa984d2efaa0e1cc835276181df60"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-017",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-017.json",
+      "fixture_fingerprint": "sha256:6575628d78678c10a1a60ae4801085150a392546b52a1cd58fb1395c97710b77",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-017.json",
+      "expected_fingerprint": "sha256:7c7f3c408ef57e20d5889710d1ded12c07afa984d2efaa0e1cc835276181df60"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-018",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-018.json",
+      "fixture_fingerprint": "sha256:9ee1a3c0eb83074bd10a2e2eeaadc70f1542d92fac629b6df9dbe76ce3b9e0ce",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-018.json",
+      "expected_fingerprint": "sha256:afd45df06b1bc4f7c930cfa29baef33c6bee8a5e2e465a4c36e563544b2097a1"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-019",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-019.json",
+      "fixture_fingerprint": "sha256:023158e92cb9cdc64b76006f2df0356f54bbee8deab41081a12c0add7bd77b51",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-019.json",
+      "expected_fingerprint": "sha256:7d157cba4e68412e00b6daeaadf811ab8ab7d80b8b7f9513bd0024b2a4325771"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-020",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-020.json",
+      "fixture_fingerprint": "sha256:133be88c93ca3ab9857e063fcf3cd9f6b3d9980b101ec9ae5956613c03fa6a9e",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-020.json",
+      "expected_fingerprint": "sha256:192757c58007861f0745d503f40f2ad08b2648722f724c8ac3207eeadc40a614"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-021",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-021.json",
+      "fixture_fingerprint": "sha256:5dcc9826a1c62012c0463351fe9a19fb2f8a8a94cab110d568bcb96e9dca2848",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-021.json",
+      "expected_fingerprint": "sha256:f587df8098988d3229fad5503b2d06b5ef0636c78f7fbef2c9af535d453f25f5"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-ORP-FIX-022",
+      "path": "fixtures/deterministic/HKLEG-RECON-ORP-FIX-022.json",
+      "fixture_fingerprint": "sha256:cb3831f089bcba8d9cb70ca652c35685fd7df3f2a3faeb01c3bf27ccddcb082b",
+      "expected_path": "expected/reconstruction-overlong-partition/HKLEG-RECON-ORP-FIX-022.json",
+      "expected_fingerprint": "sha256:025f7a4ec2cdc59b726746f4b665705adc39e6609c59264df32a9122fcd42263"
+    }
+  ]
+}

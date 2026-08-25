@@ -1,0 +1,32 @@
+{
+  "schema_id": "asklegal.hk-regulatory-partition-decision-rule",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-PARTITION-DECISION-001",
+  "status": "SOURCE_NEUTRAL_EXECUTABLE_CHECKPOINT",
+  "accepted_adrs": [
+    "0040",
+    "0050",
+    "0073",
+    "0074",
+    "0075"
+  ],
+  "case_schema": "contracts/schemas/hkex-partition-decision-case.schema.json",
+  "report_schema": "contracts/schemas/hkex-partition-decision-report.schema.json",
+  "catalogue_schema": "contracts/schemas/hkex-partition-decision-catalogue.schema.json",
+  "catalogue": "catalogues/partition-decision-cases.json",
+  "required_case_count": 24,
+  "required_primary_coverage_cell_count": 24,
+  "required_high_risk_pairs": [
+    "HKREG-PAIR-038",
+    "HKREG-PAIR-039",
+    "HKREG-PAIR-040"
+  ],
+  "accepted_partitioner_rule_id": "HKREG-ENGLISH-RECORD-001",
+  "complete_structured_decision_match_required": true,
+  "case_id_switching_forbidden": true,
+  "partition_decision_checkpoint_complete": true,
+  "full_conformance_suite_complete": false,
+  "source_authority": false,
+  "activation_authority": false,
+  "external_effects": "NONE"
+}

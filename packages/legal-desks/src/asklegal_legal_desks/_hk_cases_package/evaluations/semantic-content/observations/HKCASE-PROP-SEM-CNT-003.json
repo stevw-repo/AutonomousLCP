@@ -1,0 +1,62 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:67a2c1612df5f3f411416f07aa95dd2f3c424b2f4931ebf97d415a76617311c7",
+  "workflow_result_fingerprint": "sha256:1151090eab765b10c84a5fbf6cfdfc50f1953acd4ad4970adc32771d8b78abfd",
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "meaning_codes": [
+        "DELIVERY_START_RULE",
+        "FRAUD_CONCEALMENT_EXCEPTION"
+      ],
+      "content_codes": [
+        "EXCEPTION",
+        "RULE"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "ANSWER",
+          "ordered_range_ids": [
+            "range_1"
+          ]
+        },
+        {
+          "role_code": "QUALIFICATION",
+          "ordered_range_ids": [
+            "range_2"
+          ]
+        }
+      ],
+      "dependency_ids": [],
+      "selected_quotations": [],
+      "derived_statement": "Delivery starts the period unless fraud conceals the material facts."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

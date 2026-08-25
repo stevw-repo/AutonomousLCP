@@ -18,6 +18,7 @@ from asklegal_review_api.registered_proposals import (
     ProposalProjectionError,
     ProposalProjectionErrorCode,
     RegisteredReviewProjectionStore,
+    promotion_facts_from_bytes,
 )
 
 from tools.tests.proposal_member_fixture import semantic_proposal_fixture
@@ -48,6 +49,40 @@ class Rows:
     def review_ready_proposals(self) -> tuple[ReviewReadyProposalRow, ...]:
         """Return the configured immutable rows."""
         return self.rows
+
+
+@pytest.mark.parametrize("drift", ["CAPABILITY", "INPUT", "COMPENSATION", "SEQUENCE"])
+def test_review_independently_rejects_action_authority_drift(drift: str) -> None:
+    """Review does not rely on Control's manifest-action validation."""
+    fixture = semantic_proposal_fixture()
+    document = parse_json_bytes(fixture.contents["PROMOTION_MANIFEST"], max_bytes=1_000_000)
+    assert isinstance(document, dict)
+    actions = document["actions"]
+    assert isinstance(actions, list)
+    action = actions[0]
+    assert isinstance(action, dict)
+    if drift == "CAPABILITY":
+        action["required_capability"] = "MANAGE_BACKUP"
+    elif drift == "INPUT":
+        inputs = action["input_refs"]
+        assert isinstance(inputs, list)
+        action["input_refs"] = inputs[:1]
+    elif drift == "COMPENSATION":
+        action["compensation"] = {"mode": "IMPROVISED"}
+    else:
+        action["sequence"] = 2
+    content = canonicalize(document)
+    manifest_fingerprint = f"sha256:{sha256(content).hexdigest()}"
+    manifest_id = "pmn_" + sha256(manifest_fingerprint.encode()).hexdigest()[:48]
+
+    with pytest.raises(ProposalProjectionError) as error:
+        promotion_facts_from_bytes(
+            content,
+            manifest_id=manifest_id,
+            manifest_fingerprint=manifest_fingerprint,
+        )
+
+    assert error.value.code is ProposalProjectionErrorCode.PACKAGE
 
 
 def _reference(reference: ExactObjectReference) -> dict[str, JsonValue]:
@@ -151,6 +186,16 @@ def _store_proposal(
         manifest_bytes,
         _RETENTION,
     ).reference
+    traceability_rows: list[dict[str, JsonValue]] = []
+    traceability_references: list[ExactObjectReference] = []
+    for path in sorted(fixture.traceability_shards):
+        reference = vault.conditional_create(
+            f"proposal-packages/{package_id}/traceability/{path}",
+            fixture.traceability_shards[path],
+            _RETENTION,
+        ).reference
+        traceability_references.append(reference)
+        traceability_rows.append({"path": path, "reference": _reference(reference)})
     receipt = canonicalize(
         checked_json_value(
             {
@@ -160,6 +205,7 @@ def _store_proposal(
                 "package_id": package_id,
                 "promotion_manifest_fingerprint": promotion_reference.fingerprint,
                 "promotion_manifest_id": promotion_manifest_id,
+                "traceability_shards": traceability_rows,
             }
         )
     )
@@ -170,7 +216,7 @@ def _store_proposal(
         1,
         "2026-08-21T12:00:00",
     )
-    return row, (manifest_reference, *references)
+    return row, (manifest_reference, *references, *traceability_references)
 
 
 def _with_decision(
@@ -323,6 +369,20 @@ def test_registered_projection_rejects_member_or_root_inventory_tamper(tmp_path:
     assert semantic.check() is False
     with pytest.raises(ProposalProjectionError, match=ProposalProjectionErrorCode.PACKAGE.value):
         semantic.load()
+
+
+def test_registered_projection_independently_rereads_traceability_shards(
+    tmp_path: Path,
+) -> None:
+    """Review refuses a valid root and members when one transitive shard is corrupt."""
+    vault = LocalImmutableVault(tmp_path / "primary", VaultName.PRIMARY)
+    row, references = _store_proposal(vault, "3")
+    vault.inject_corruption(references[-1], b"changed")
+    store = RegisteredReviewProjectionStore(Rows((row,)), vault)
+
+    assert store.check() is False
+    with pytest.raises(ProposalProjectionError, match=ProposalProjectionErrorCode.READ.value):
+        store.load()
 
 
 def test_registered_projection_rejects_duplicate_or_out_of_order_rows(tmp_path: Path) -> None:

@@ -1,0 +1,52 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:1f5757cdad74943152738ee3ac75785d9565955694ba0a95f3d9f012705ba04c",
+  "workflow_result_fingerprint": "sha256:cef9231afbdbf1dce21f9d04a4818c5d62fc0816620ec794d3f0ec191db19d88",
+  "court_family": "CT",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_4",
+  "auxiliary_translation_version_ids": [],
+  "examined_segment_ids": [
+    "segment_1",
+    "segment_2"
+  ],
+  "resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "CT_EXCLUSIONARY_CONDUCT_TEST",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_4",
+      "meaning_codes": [
+        "EXCLUSIONARY_CONDUCT",
+        "HARM",
+        "MARKET_POWER"
+      ],
+      "risk_codes": [
+        "COMPETITION_TERMINOLOGY_PRESERVED",
+        "OPERATIVE_TABLE_STRUCTURE"
+      ],
+      "range_ids": [
+        "range_1",
+        "range_2"
+      ],
+      "derived_statement": "The operative table requires market power, exclusionary conduct, and harm. Each table row is cumulative and no row states a freestanding rule."
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "coverage_gap_ids": [],
+  "translation_use": "NONE",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

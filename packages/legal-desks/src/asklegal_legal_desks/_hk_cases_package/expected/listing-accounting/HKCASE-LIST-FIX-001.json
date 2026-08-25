@@ -1,0 +1,5 @@
+{
+  "fixture_id": "HKCASE-LIST-FIX-001",
+  "expected_result": "SOURCE_NEUTRAL_LISTING_ACCOUNTING_ONLY",
+  "real_coverage_claim": false
+}

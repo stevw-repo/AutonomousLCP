@@ -1,0 +1,74 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:b058027286ed03cd7db0170eb5e31d4111c4169f0d308d9e35f4884dd606c569",
+  "workflow_result_fingerprint": "sha256:fbb61a376eda5fea497d2e6129ebd807b3a2211dec3531a47b738028c811144c",
+  "court_family": "CFA",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_10",
+  "auxiliary_translation_version_ids": [],
+  "examined_segment_ids": [
+    "segment_1",
+    "segment_2",
+    "segment_3"
+  ],
+  "resolved_dependency_ids": [
+    "dependency_service_qualification"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "SEGMENTED_SERVICE_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_10",
+      "meaning_codes": [
+        "DELIBERATE_EVASION_QUALIFICATION",
+        "VALID_SERVICE_REQUIRED"
+      ],
+      "risk_codes": [
+        "COMPLETE_SEGMENT_EXAMINATION",
+        "CROSS_SEGMENT_MEANING_PRESERVED"
+      ],
+      "range_ids": [
+        "range_1",
+        "range_2"
+      ],
+      "derived_statement": "Segment one states that jurisdiction requires valid service. Segment two qualifies service where deliberate evasion is proved."
+    },
+    {
+      "candidate_id": "candidate_2",
+      "mapped_reference_proposition_id": "reference_prop_2",
+      "resolution": "ACCEPTED",
+      "issue_code": "SEGMENTED_RELIANCE_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_10",
+      "meaning_codes": [
+        "REASONABLE_RELIANCE"
+      ],
+      "risk_codes": [
+        "COMPLETE_SEGMENT_EXAMINATION",
+        "INDEPENDENT_GROUND_PRESERVED"
+      ],
+      "range_ids": [
+        "range_3"
+      ],
+      "derived_statement": "Segment three independently states the reasonable-reliance merits rule."
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1",
+    "candidate_2"
+  ],
+  "coverage_gap_ids": [],
+  "translation_use": "NONE",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

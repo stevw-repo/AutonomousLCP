@@ -1,0 +1,132 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:28eae9926257d068bd10dca0edc61a4604c836f6f46b2e17b68edbe10b1111b8",
+  "workflow_result_fingerprint": "sha256:b60b7e0f95ba1ea6d1497ffc5be99a3ddf33f93b286fac4b52611e33541434f7",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "OTHER",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    },
+    {
+      "opinion_id": "opinion_2",
+      "role": "OTHER",
+      "judge_ids": [
+        "judge_2"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    },
+    {
+      "opinion_id": "opinion_3",
+      "role": "OTHER",
+      "judge_ids": [
+        "judge_3"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "QUARANTINED",
+      "issue_code": "PLURALITY_EXPECTATION_POSITION",
+      "authority_role": "PLURALITY",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "LEGITIMATE_EXPECTATION"
+      ],
+      "boundary_codes": [
+        "NO_COMMON_MAJORITY",
+        "SEPARATELY_ATTRIBUTED_POSITION"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": null
+    },
+    {
+      "candidate_id": "candidate_2",
+      "mapped_reference_proposition_id": "reference_prop_2",
+      "resolution": "QUARANTINED",
+      "issue_code": "PLURALITY_PROPORTIONALITY_POSITION",
+      "authority_role": "PLURALITY",
+      "opinion_path_ids": [
+        "opinion_2"
+      ],
+      "meaning_codes": [
+        "PROPORTIONALITY"
+      ],
+      "boundary_codes": [
+        "NO_COMMON_MAJORITY",
+        "SEPARATELY_ATTRIBUTED_POSITION"
+      ],
+      "range_ids": [
+        "range_2"
+      ],
+      "derived_statement": null
+    },
+    {
+      "candidate_id": "candidate_3",
+      "mapped_reference_proposition_id": "reference_prop_3",
+      "resolution": "QUARANTINED",
+      "issue_code": "PLURALITY_PURPOSE_POSITION",
+      "authority_role": "PLURALITY",
+      "opinion_path_ids": [
+        "opinion_3"
+      ],
+      "meaning_codes": [
+        "STATUTORY_PURPOSE"
+      ],
+      "boundary_codes": [
+        "NO_COMMON_MAJORITY",
+        "SEPARATELY_ATTRIBUTED_POSITION"
+      ],
+      "range_ids": [
+        "range_3"
+      ],
+      "derived_statement": null
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_2"
+      ]
+    },
+    {
+      "unit_id": "unit_3",
+      "opinion_id": "opinion_3",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_3"
+      ]
+    }
+  ],
+  "disposition": "ACCOUNTED_WITH_QUARANTINE",
+  "selected_candidate_ids": [],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

@@ -1,0 +1,39 @@
+{
+  "fixture_id": "HKLEG-RECON-RCN-FIX-002",
+  "title": "Changed signal opens bounded HKeL candidate validation",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:73079c7147641bd4736e2fdbf7f39e5a7d9dad068a90b1a1f58c12610d0155da",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "reconciliation_id": "rrc_222222222222222222222222222222222222222222222222",
+    "reconstruction_artifact_ref": {
+      "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT",
+      "ref_id": "rca_111111111111111111111111111111111111111111111111",
+      "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "coverage_gap_ref": {
+      "ref_type": "COVERAGE_GAP",
+      "ref_id": "cvg_222222222222222222222222222222222222222222222222",
+      "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "current_monitoring_state": "AWAITING_HKEL_CONSOLIDATION",
+    "changed_signal": "CHANGED",
+    "hkel_candidate_state": "VALIDATION_RUNNING",
+    "common_basis": "NOT_APPLICABLE",
+    "ordinary_hkel_selection": "NOT_READY",
+    "reconstructed_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "comparison_results": [],
+    "complete_comparison_accounting": false,
+    "reconstruction_integrity_defect": false,
+    "declared_impact_scope": "NONE",
+    "revalidation_complete": false
+  },
+  "expected_artifact": {
+    "path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-002.json",
+    "fingerprint": "sha256:cd3441652674551d11eeb9bb6948ccce31c93b11dd40339061744d7499017f14"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "fixture_id": "HKREG-CONTINUITY-FIX-001",
+  "title": "HKEX component identity and continuity consequences",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "real_source_claim": false,
+  "base_request": {
+    "decision_id": "hkreg-continuity-decision-001",
+    "cutoff": "2026-08-24T00:00:00+08:00",
+    "event": "UNCHANGED",
+    "support": "PROVED",
+    "predecessors": [
+      {
+        "component_id": "component-main-old",
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "legal_location_id": "location-main-old",
+        "aliases": ["old-alias-main"],
+        "evidence_refs": ["evidence-old-main"]
+      }
+    ],
+    "candidates": [
+      {
+        "candidate_id": "candidate-main-current",
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "observed_locator": "Main Board Rule 2.01",
+        "aliases": ["current-alias-main"],
+        "evidence_refs": ["evidence-current-main"]
+      }
+    ],
+    "source_rule_id": "HKREG-COMPONENT-CONTINUITY-001",
+    "evidence_refs": ["evidence-complete-current", "evidence-predecessor"],
+    "evidence_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "legal_desk_actor": "synthetic-hk-regulatory-legal-desk"
+  },
+  "cases": [
+    {"case_id": "HKREG-CONT-001", "title": "Exact no change preserves identity", "overrides": {}},
+    {"case_id": "HKREG-CONT-002", "title": "URL movement changes an alias only", "overrides": {"event": "URL_MOVED"}},
+    {"case_id": "HKREG-CONT-003", "title": "Proved rename preserves component identity", "overrides": {"event": "RENAMED"}},
+    {"case_id": "HKREG-CONT-004", "title": "Proved renumbering preserves Legal Location identity", "overrides": {"event": "RENUMBERED"}},
+    {"case_id": "HKREG-CONT-005", "title": "Proved structural move preserves component identity", "overrides": {"event": "STRUCTURALLY_MOVED"}},
+    {"case_id": "HKREG-CONT-006", "title": "Source-supported correction preserves component identity", "overrides": {"event": "TEXT_CORRECTED"}},
+    {"case_id": "HKREG-CONT-007", "title": "Distinct replacement requires a new one-to-one identity", "overrides": {"event": "REPLACED"}},
+    {
+      "case_id": "HKREG-CONT-008",
+      "title": "Split requires new one-to-many identities",
+      "overrides": {
+        "event": "SPLIT",
+        "candidates": [
+          {"candidate_id": "candidate-split-a", "scope_id": "HK-REG-HKEX-MAIN-BOARD", "observed_locator": "Main Board Rule 2.01A", "aliases": ["alias-split-a"], "evidence_refs": ["evidence-split-a"]},
+          {"candidate_id": "candidate-split-b", "scope_id": "HK-REG-HKEX-MAIN-BOARD", "observed_locator": "Main Board Rule 2.01B", "aliases": ["alias-split-b"], "evidence_refs": ["evidence-split-b"]}
+        ]
+      }
+    },
+    {
+      "case_id": "HKREG-CONT-009",
+      "title": "Merge requires a new many-to-one identity",
+      "overrides": {
+        "event": "MERGED",
+        "predecessors": [
+          {"component_id": "component-merge-a", "scope_id": "HK-REG-HKEX-MAIN-BOARD", "legal_location_id": "location-merge-a", "aliases": ["alias-merge-a"], "evidence_refs": ["evidence-merge-a"]},
+          {"component_id": "component-merge-b", "scope_id": "HK-REG-HKEX-MAIN-BOARD", "legal_location_id": "location-merge-b", "aliases": ["alias-merge-b"], "evidence_refs": ["evidence-merge-b"]}
+        ]
+      }
+    },
+    {
+      "case_id": "HKREG-CONT-010",
+      "title": "Board transfer requires a new owner identity",
+      "overrides": {
+        "event": "BOARD_TRANSFERRED",
+        "candidates": [
+          {"candidate_id": "candidate-gem-current", "scope_id": "HK-REG-HKEX-GEM", "observed_locator": "GEM Rule 2.01", "aliases": ["alias-gem-current"], "evidence_refs": ["evidence-gem-current"]}
+        ]
+      }
+    },
+    {"case_id": "HKREG-CONT-011", "title": "Official withdrawal preserves historical identity", "overrides": {"event": "OFFICIALLY_WITHDRAWN", "candidates": []}},
+    {"case_id": "HKREG-CONT-012", "title": "Disappearance alone quarantines without retirement", "overrides": {"event": "DISAPPEARED", "candidates": []}},
+    {"case_id": "HKREG-CONT-013", "title": "Proved reappearance reselects the existing identity", "overrides": {"event": "REAPPEARED"}},
+    {"case_id": "HKREG-CONT-014", "title": "Genuinely new component requires a register-issued ID", "overrides": {"event": "NEW_COMPONENT", "predecessors": []}},
+    {"case_id": "HKREG-CONT-015", "title": "Similarity or one matching alias cannot prove renumbering", "overrides": {"event": "RENUMBERED", "support": "SIMILARITY_OR_ALIAS_ONLY"}}
+  ],
+  "expected_artifact": {"path": "expected/component-continuity/HKREG-CONTINUITY-FIX-001.json"}
+}

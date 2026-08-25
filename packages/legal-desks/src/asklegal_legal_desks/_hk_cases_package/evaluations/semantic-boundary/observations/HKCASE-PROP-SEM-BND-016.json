@@ -1,0 +1,80 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:d0692a9d7042ab57c4b3871e5a501d20bbfa3d464e78c3acb208fefec7e34a3b",
+  "workflow_result_fingerprint": "sha256:ef7480017877a0179f9208d30cbb1ca726549fd1e75c9817af695421ef77c0d6",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": [
+        "opinion_2"
+      ]
+    },
+    {
+      "opinion_id": "opinion_2",
+      "role": "CONCURRENCE",
+      "judge_ids": [
+        "judge_2"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "ADOPTED_RELIANCE_RULE",
+      "authority_role": "ADOPTED_OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1",
+        "opinion_2"
+      ],
+      "meaning_codes": [
+        "REASONABLE_RELIANCE",
+        "DUE_INQUIRY"
+      ],
+      "boundary_codes": [
+        "EXACT_ADOPTION_SCOPE",
+        "ONE_ADOPTED_REASONING_PATH"
+      ],
+      "range_ids": [
+        "range_1",
+        "range_2"
+      ],
+      "derived_statement": "We expressly adopt paragraphs 20 to 22 of the concurrence. Those paragraphs establish that reasonable reliance requires due inquiry."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

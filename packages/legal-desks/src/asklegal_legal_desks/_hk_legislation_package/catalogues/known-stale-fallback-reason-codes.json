@@ -1,0 +1,19 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.known-stale-fallback.reason-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {"code": "HKLEG_KNOWN_STALE_VERIFIED_TEXT_SELECTED", "meaning": "The latest applicable exact official HKeL version is valid and supported by verified copies.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_KNOWN_STALE_NEWER_ASSISTED_TEXT_SELECTED", "meaning": "A newer valid assisted HKeL version is selected instead of an older verified version.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_KNOWN_STALE_NO_VALID_APPLICABLE_TEXT", "meaning": "No valid applicable official HKeL text exists to carry forward, so only the Coverage Gap remains.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_KNOWN_STALE_CURRENT_CONSOLIDATION_AVAILABLE", "meaning": "Matching current HKeL text is available and must use the ordinary current-law path.", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_KNOWN_STALE_RECONSTRUCTION_ELIGIBLE", "meaning": "An eligible reconstructed consolidation takes precedence over known-stale fallback.", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_KNOWN_STALE_EVENT_EVIDENCE_INCOMPLETE", "meaning": "Complete authentic operative-event evidence is absent.", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_KNOWN_STALE_EVENT_EVIDENCE_CONFLICT", "meaning": "The official event evidence conflicts.", "processing_outcome": "QUARANTINE"},
+    {"code": "HKLEG_KNOWN_STALE_AFFECTED_SET_UNBOUNDED", "meaning": "No smallest complete affected parent set has been proved.", "processing_outcome": "QUARANTINE"},
+    {"code": "HKLEG_KNOWN_STALE_IDENTITY_MAPPING_UNPROVED", "meaning": "The old text cannot be labelled honestly because identity or predecessor mapping is unproved.", "processing_outcome": "QUARANTINE"},
+    {"code": "HKLEG_KNOWN_STALE_RELEASE_ACCOUNTING_INCOMPLETE", "meaning": "Affected and unaffected locations are not completely accounted for.", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_KNOWN_STALE_LATEST_APPLICABLE_TEXT_INVALID", "meaning": "The latest applicable prior HKeL version has an independent evidence or integrity defect.", "processing_outcome": "QUARANTINE"},
+    {"code": "HKLEG_KNOWN_STALE_LATEST_VERSION_CONFLICT", "meaning": "The latest applicable candidates disagree on the exact Official Version identity.", "processing_outcome": "QUARANTINE"}
+  ]
+}

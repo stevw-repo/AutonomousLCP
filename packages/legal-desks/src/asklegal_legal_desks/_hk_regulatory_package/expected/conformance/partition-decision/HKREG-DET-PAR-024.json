@@ -1,0 +1,96 @@
+{
+  "schema_id": "asklegal.hk-regulatory.partition-decision-report",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-PARTITION-DECISION-001",
+  "case_id": "HKREG-DET-PAR-024",
+  "assertion_scope": "FIXED_METADATA",
+  "observed_decision": {
+    "schema_id": "asklegal.hk-regulatory.partition-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-PARTITION-DECISION-001",
+    "case_id": "HKREG-DET-PAR-024",
+    "outcome": "QUARANTINE",
+    "reason": "FIXED_METADATA_OVER_LIMIT",
+    "partition_required": true,
+    "measurement_complete": true,
+    "branch_results": [
+      {
+        "branch_id": "synthetic-branch-current-fixed-metadata",
+        "root_record_unit_id": "record-root",
+        "disposition": "QUARANTINE",
+        "construction_reason": "SMALLEST_COMPLETE_UNIT_OVER_LIMIT",
+        "unsplit_text_tokens": 693,
+        "unsplit_metadata_bytes": 1492,
+        "text_limit": 100000,
+        "metadata_limit": 200,
+        "parts": [],
+        "accounted_primary_source_unit_ids": [
+          "unit-a",
+          "unit-b",
+          "unit-c"
+        ]
+      }
+    ],
+    "rejected_proposal_codes": [],
+    "quarantined_branch_ids": [
+      "synthetic-branch-current-fixed-metadata"
+    ],
+    "coverage_gap_ids": [
+      "HKREG-GAP:synthetic-branch-current-fixed-metadata"
+    ],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.partition-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-PARTITION-DECISION-001",
+    "case_id": "HKREG-DET-PAR-024",
+    "outcome": "QUARANTINE",
+    "reason": "FIXED_METADATA_OVER_LIMIT",
+    "partition_required": true,
+    "measurement_complete": true,
+    "branch_results": [
+      {
+        "branch_id": "synthetic-branch-current-fixed-metadata",
+        "root_record_unit_id": "record-root",
+        "disposition": "QUARANTINE",
+        "construction_reason": "SMALLEST_COMPLETE_UNIT_OVER_LIMIT",
+        "unsplit_text_tokens": 693,
+        "unsplit_metadata_bytes": 1492,
+        "text_limit": 100000,
+        "metadata_limit": 200,
+        "parts": [],
+        "accounted_primary_source_unit_ids": [
+          "unit-a",
+          "unit-b",
+          "unit-c"
+        ]
+      }
+    ],
+    "rejected_proposal_codes": [],
+    "quarantined_branch_ids": [
+      "synthetic-branch-current-fixed-metadata"
+    ],
+    "coverage_gap_ids": [
+      "HKREG-GAP:synthetic-branch-current-fixed-metadata"
+    ],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "conformance_status": "PASS",
+  "source_authorized": false,
+  "provider_authorized": false,
+  "release_authorized": false,
+  "serving_authorized": false,
+  "deployment_authorized": false,
+  "external_effects": "NONE"
+}

@@ -1,0 +1,64 @@
+{
+  "schema_id": "asklegal.hk-cases.coverage-ledger-case-result",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-DET-LED-013",
+  "variants": [
+    {
+      "variant_id": "HKCASE-PROP-DET-LED-013-V01",
+      "result": {
+        "schema_id": "asklegal.hk-cases.coverage-ledger-result",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-COVERAGE-LEDGER-001",
+        "request_fingerprint": "sha256:4fa5553ea37353e432cfcaa8634a0bcf42e2a501e3fe49b7d89ce6bf7768544d",
+        "outcome": "INVALID",
+        "reasons": [
+          "INVALID_RESOLUTION"
+        ],
+        "opinion_count": 1,
+        "unit_count": 3,
+        "segment_count": 1,
+        "dependency_count": 0,
+        "resolved_unit_count": 2,
+        "quarantined_unit_count": 0,
+        "blocked_unit_count": 0,
+        "proposition_evidence_unit_count": 1,
+        "accepted_candidate_count": 1,
+        "screening_handoff_count": 0,
+        "search_records_created": 0,
+        "release_eligible": false,
+        "semantic_analysis_authorized": false,
+        "external_effects": "NONE"
+      }
+    },
+    {
+      "variant_id": "HKCASE-PROP-DET-LED-013-V02",
+      "result": {
+        "schema_id": "asklegal.hk-cases.coverage-ledger-result",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-COVERAGE-LEDGER-001",
+        "request_fingerprint": "sha256:1d0c77f4d73311c6da09771acdd5e90f040c9e609ab783654ab28080d26b70da",
+        "outcome": "INVALID",
+        "reasons": [
+          "INVALID_RESOLUTION"
+        ],
+        "opinion_count": 1,
+        "unit_count": 3,
+        "segment_count": 1,
+        "dependency_count": 0,
+        "resolved_unit_count": 2,
+        "quarantined_unit_count": 0,
+        "blocked_unit_count": 0,
+        "proposition_evidence_unit_count": 1,
+        "accepted_candidate_count": 1,
+        "screening_handoff_count": 0,
+        "search_records_created": 0,
+        "release_eligible": false,
+        "semantic_analysis_authorized": false,
+        "external_effects": "NONE"
+      }
+    }
+  ],
+  "search_records_created": 0,
+  "release_eligible": false,
+  "external_effects": "NONE"
+}

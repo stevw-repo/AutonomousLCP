@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "migration_id": "000009",
+  "operation": "expand",
+  "compatible_contract_range": ">=1.2.0,<2.0.0",
+  "batches": [
+    {"path": "001_claimed_effect_readback.sql", "byte_length": 2146, "sha256": "fbeedca9dc1f81886931fae8ae360a2c96a3678ebe20f66fce519ca1eaa1cc0e"},
+    {"path": "002_claimed_effect_readback_permissions.sql", "byte_length": 449, "sha256": "31becb2bd12341e3d7ea84a48eb84e498f39b9a36670e0772bf63523dda780c4"}
+  ],
+  "package_fingerprint": "53c719b243174afb6e089a8e37465be4017b96e0b1a54944721c1d8c6e3bfc2c"
+}

@@ -1,0 +1,16 @@
+{
+  "catalogue_id": "asklegal.hk-regulatory.component-continuity.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_real_source_universe": false,
+  "synthetic_case_count": 15,
+  "fixtures": [
+    {
+      "fixture_id": "HKREG-CONTINUITY-FIX-001",
+      "path": "fixtures/deterministic/HKREG-CONTINUITY-FIX-001.json",
+      "fixture_fingerprint": "sha256:db90bd27cb6c2a4c48c0198899c6ef563ced05011ab574854a34ede430ea8458",
+      "expected_path": "expected/component-continuity/HKREG-CONTINUITY-FIX-001.json",
+      "expected_fingerprint": "sha256:5e8ae16cdba15d28a136baf40848bdebcf6660f2dc9ae2292a27fd09e8173efe"
+    }
+  ]
+}

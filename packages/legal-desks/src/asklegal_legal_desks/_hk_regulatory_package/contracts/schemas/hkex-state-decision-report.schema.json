@@ -1,0 +1,530 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-state-decision-report.schema.json",
+  "title": "HKEX effective-state decision conformance report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "rule_id",
+    "case_id",
+    "assertion_scope",
+    "observed_decision",
+    "expected_decision",
+    "conformance_status",
+    "source_authorized",
+    "provider_authorized",
+    "release_authorized",
+    "serving_authorized",
+    "deployment_authorized",
+    "external_effects"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-regulatory.state-decision-report"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "rule_id": {
+      "const": "HKREG-STATE-DECISION-001"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^HKREG-DEC-STA-(0[0-4][0-9]|05[01])$"
+    },
+    "assertion_scope": {
+      "enum": [
+        "ATOMIC_STATE",
+        "COMPONENT_SUMMARY",
+        "BRANCH_SET",
+        "RECORD_RESPONSIBILITY",
+        "EFFECTIVE_ORDER",
+        "SOURCE_FAILURE",
+        "DOWNSTREAM_GATE",
+        "UNKNOWN_REPAIR"
+      ]
+    },
+    "observed_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "case_id",
+        "outcome",
+        "reason",
+        "not_applicable",
+        "branch_decisions",
+        "component_state",
+        "record_responsibility",
+        "ordered_branch_ids",
+        "source_failure_choice",
+        "carry_forward_support",
+        "rebuild_target_authorized",
+        "repair_rejected",
+        "search_record_authorized",
+        "embedding_authorized",
+        "release_authorized",
+        "serving_authorized",
+        "external_effects"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-regulatory.state-decision-result"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKREG-STATE-DECISION-001"
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^HKREG-DEC-STA-(0[0-4][0-9]|05[01])$"
+        },
+        "outcome": {
+          "enum": [
+            "PASS",
+            "BLOCK",
+            "QUARANTINE"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "ATOMIC_STATE_DECIDED",
+            "NON_RULE_NOT_APPLICABLE",
+            "COMPONENT_SUMMARIZED",
+            "COMPLETE_BRANCH_SET_PRESERVED",
+            "SEPARATE_COMPLETE_RECORDS_REQUIRED",
+            "ONE_LIMITED_RECORD_ELIGIBLE",
+            "EFFECTIVE_FACT_ORDER_APPLIED",
+            "LAST_APPROVED_CARRY_FORWARD",
+            "AFFECTED_RECORDS_WITHHELD",
+            "NO_NEW_TARGET",
+            "OTHER_REQUIRED_GATE_FAILED",
+            "UNKNOWN_REPAIR_REJECTED"
+          ]
+        },
+        "not_applicable": {
+          "type": "boolean"
+        },
+        "branch_decisions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "branch_id",
+              "state",
+              "disposition",
+              "processing_outcome",
+              "reason",
+              "applicability_context"
+            ],
+            "properties": {
+              "branch_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "state": {
+                "enum": [
+                  "CURRENT",
+                  "TRANSITIONAL_CURRENT",
+                  "FUTURE_FIXED_DATE",
+                  "FUTURE_CONDITIONAL",
+                  "SUPERSEDED",
+                  "WITHDRAWN",
+                  "UNKNOWN"
+                ]
+              },
+              "disposition": {
+                "enum": [
+                  "SEARCHABLE_CURRENT_RULE_COMPONENT",
+                  "REGULATORY_WAITING_ROOM",
+                  "HISTORICAL",
+                  "QUARANTINE"
+                ]
+              },
+              "processing_outcome": {
+                "enum": [
+                  "PASS",
+                  "BLOCK",
+                  "QUARANTINE"
+                ]
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "applicability_context": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        "component_state": {
+          "enum": [
+            null,
+            "CURRENT",
+            "TRANSITIONAL_CURRENT",
+            "FUTURE_FIXED_DATE",
+            "FUTURE_CONDITIONAL",
+            "SUPERSEDED",
+            "WITHDRAWN",
+            "UNKNOWN"
+          ]
+        },
+        "record_responsibility": {
+          "enum": [
+            "NONE",
+            "SEPARATE_COMPLETE_RECORDS",
+            "ONE_LIMITED_RECORD_ELIGIBLE"
+          ]
+        },
+        "ordered_branch_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "source_failure_choice": {
+          "enum": [
+            "NONE",
+            "CARRY_FORWARD_LAST_APPROVED",
+            "WITHHOLD",
+            "NO_REBUILD"
+          ]
+        },
+        "carry_forward_support": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "last_approved_status",
+                "last_verified_at",
+                "coverage_gap_id",
+                "warning_code",
+                "next_due_at",
+                "support_ref"
+              ],
+              "properties": {
+                "last_approved_status": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "last_verified_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "coverage_gap_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "warning_code": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "next_due_at": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "support_ref": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          ]
+        },
+        "rebuild_target_authorized": {
+          "const": false
+        },
+        "repair_rejected": {
+          "type": "boolean"
+        },
+        "search_record_authorized": {
+          "const": false
+        },
+        "embedding_authorized": {
+          "const": false
+        },
+        "release_authorized": {
+          "const": false
+        },
+        "serving_authorized": {
+          "const": false
+        },
+        "external_effects": {
+          "const": "NONE"
+        }
+      }
+    },
+    "expected_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "case_id",
+        "outcome",
+        "reason",
+        "not_applicable",
+        "branch_decisions",
+        "component_state",
+        "record_responsibility",
+        "ordered_branch_ids",
+        "source_failure_choice",
+        "carry_forward_support",
+        "rebuild_target_authorized",
+        "repair_rejected",
+        "search_record_authorized",
+        "embedding_authorized",
+        "release_authorized",
+        "serving_authorized",
+        "external_effects"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-regulatory.state-decision-result"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKREG-STATE-DECISION-001"
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^HKREG-DEC-STA-(0[0-4][0-9]|05[01])$"
+        },
+        "outcome": {
+          "enum": [
+            "PASS",
+            "BLOCK",
+            "QUARANTINE"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "ATOMIC_STATE_DECIDED",
+            "NON_RULE_NOT_APPLICABLE",
+            "COMPONENT_SUMMARIZED",
+            "COMPLETE_BRANCH_SET_PRESERVED",
+            "SEPARATE_COMPLETE_RECORDS_REQUIRED",
+            "ONE_LIMITED_RECORD_ELIGIBLE",
+            "EFFECTIVE_FACT_ORDER_APPLIED",
+            "LAST_APPROVED_CARRY_FORWARD",
+            "AFFECTED_RECORDS_WITHHELD",
+            "NO_NEW_TARGET",
+            "OTHER_REQUIRED_GATE_FAILED",
+            "UNKNOWN_REPAIR_REJECTED"
+          ]
+        },
+        "not_applicable": {
+          "type": "boolean"
+        },
+        "branch_decisions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "branch_id",
+              "state",
+              "disposition",
+              "processing_outcome",
+              "reason",
+              "applicability_context"
+            ],
+            "properties": {
+              "branch_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "state": {
+                "enum": [
+                  "CURRENT",
+                  "TRANSITIONAL_CURRENT",
+                  "FUTURE_FIXED_DATE",
+                  "FUTURE_CONDITIONAL",
+                  "SUPERSEDED",
+                  "WITHDRAWN",
+                  "UNKNOWN"
+                ]
+              },
+              "disposition": {
+                "enum": [
+                  "SEARCHABLE_CURRENT_RULE_COMPONENT",
+                  "REGULATORY_WAITING_ROOM",
+                  "HISTORICAL",
+                  "QUARANTINE"
+                ]
+              },
+              "processing_outcome": {
+                "enum": [
+                  "PASS",
+                  "BLOCK",
+                  "QUARANTINE"
+                ]
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "applicability_context": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        "component_state": {
+          "enum": [
+            null,
+            "CURRENT",
+            "TRANSITIONAL_CURRENT",
+            "FUTURE_FIXED_DATE",
+            "FUTURE_CONDITIONAL",
+            "SUPERSEDED",
+            "WITHDRAWN",
+            "UNKNOWN"
+          ]
+        },
+        "record_responsibility": {
+          "enum": [
+            "NONE",
+            "SEPARATE_COMPLETE_RECORDS",
+            "ONE_LIMITED_RECORD_ELIGIBLE"
+          ]
+        },
+        "ordered_branch_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "source_failure_choice": {
+          "enum": [
+            "NONE",
+            "CARRY_FORWARD_LAST_APPROVED",
+            "WITHHOLD",
+            "NO_REBUILD"
+          ]
+        },
+        "carry_forward_support": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "last_approved_status",
+                "last_verified_at",
+                "coverage_gap_id",
+                "warning_code",
+                "next_due_at",
+                "support_ref"
+              ],
+              "properties": {
+                "last_approved_status": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "last_verified_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "coverage_gap_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "warning_code": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "next_due_at": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "support_ref": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          ]
+        },
+        "rebuild_target_authorized": {
+          "const": false
+        },
+        "repair_rejected": {
+          "type": "boolean"
+        },
+        "search_record_authorized": {
+          "const": false
+        },
+        "embedding_authorized": {
+          "const": false
+        },
+        "release_authorized": {
+          "const": false
+        },
+        "serving_authorized": {
+          "const": false
+        },
+        "external_effects": {
+          "const": "NONE"
+        }
+      }
+    },
+    "conformance_status": {
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "source_authorized": {
+      "const": false
+    },
+    "provider_authorized": {
+      "const": false
+    },
+    "release_authorized": {
+      "const": false
+    },
+    "serving_authorized": {
+      "const": false
+    },
+    "deployment_authorized": {
+      "const": false
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

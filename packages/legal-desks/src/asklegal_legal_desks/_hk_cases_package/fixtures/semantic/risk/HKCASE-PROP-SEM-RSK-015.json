@@ -1,0 +1,51 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-RSK-015",
+  "coverage_cell_id": "HKCASE-PROP-COV-SRSK-015",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-017",
+      "role": "POSITIVE"
+    }
+  ],
+  "scenario": "Long material contains genuinely independent propositions that fit",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-risk-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "risk_execution_15",
+    "judgment_work_id": "risk_judgment_15",
+    "judicial_decision_id": "synthetic_risk_decision_15",
+    "accepted_original_version_id": "synthetic_risk_original_15",
+    "court_family": "CFI",
+    "original_language": "ENGLISH",
+    "segments": [
+      {
+        "segment_id": "segment_1",
+        "source_order": 1,
+        "exact_text": "The first independent proposition requires valid service.",
+        "text_fingerprint": "sha256:624675b94568b2867cada206f298d90d82a3e21f23efcaa8437ddc8c67a9008f",
+        "range_id": "range_1"
+      },
+      {
+        "segment_id": "segment_2",
+        "source_order": 2,
+        "exact_text": "The second independent proposition requires reasonable mitigation.",
+        "text_fingerprint": "sha256:150f4a25e7b68539855c0e8d1735c903c67f14a5a1e93ae54fa16a436e77a5b4",
+        "range_id": "range_2"
+      }
+    ],
+    "dependency_ids": [],
+    "segment_manifest_complete": true,
+    "parser_supported": true,
+    "auxiliary_translations": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-015.json",
+  "observation_path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-015.json",
+  "expected_path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-015.json"
+}

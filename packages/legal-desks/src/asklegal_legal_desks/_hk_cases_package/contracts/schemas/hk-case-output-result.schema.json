@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hk-case-output-result.schema.json",
+  "title": "Hong Kong Case Proposition deterministic output result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "rule_id",
+    "request_fingerprint",
+    "outcome",
+    "reasons",
+    "discovered_candidate_count",
+    "final_candidate_count",
+    "candidate_outcome_counts",
+    "source_unit_count",
+    "source_range_count",
+    "proposition_count",
+    "evidence_link_count",
+    "validated_record_count",
+    "validated_payload_fingerprints",
+    "measured_text_token_counts",
+    "measured_payload_byte_counts",
+    "coverage_gap_ids",
+    "search_records_created",
+    "release_eligible",
+    "semantic_analysis_authorized",
+    "external_effects"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-cases.output-result"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "rule_id": {
+      "const": "HKCASE-PROP-OUTPUT-CONFORMANCE-001"
+    },
+    "request_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "outcome": {
+      "enum": [
+        "BLOCKED",
+        "INVALID",
+        "QUARANTINED_OVER_LIMIT",
+        "QUARANTINED_UNRESOLVED",
+        "VALID_OUTPUT",
+        "VALID_ZERO_OUTPUT"
+      ]
+    },
+    "reasons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "enum": [
+          "CANDIDATE_ACCOUNTING_INVALID",
+          "CANDIDATE_BLOCKED",
+          "CANDIDATE_QUARANTINED",
+          "DUPLICATE_IDENTITY",
+          "EVIDENCE_ROLE_INCOMPLETE",
+          "EVIDENCE_ROLE_OR_RANGE_INVALID",
+          "LIMIT_MEASUREMENT_INVALID",
+          "OUTPUT_INVENTORY_INVALID",
+          "OUTPUT_VALID",
+          "OVER_LIMIT_UNACCOUNTED",
+          "PAYLOAD_INVALID",
+          "QUOTATION_MISMATCH",
+          "RENDERER_MISMATCH",
+          "SOURCE_MAP_INVALID",
+          "SOURCE_MAP_UNAVAILABLE",
+          "TRACEABILITY_INVALID",
+          "VALID_OVER_LIMIT_QUARANTINE",
+          "ZERO_OUTPUT_VALID"
+        ]
+      }
+    },
+    "discovered_candidate_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "final_candidate_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "candidate_outcome_counts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "outcome",
+          "count"
+        ],
+        "properties": {
+          "outcome": {
+            "enum": [
+              "ACCEPTED",
+              "BLOCKED",
+              "MERGED",
+              "QUARANTINED",
+              "REJECTED",
+              "SPLIT"
+            ]
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "source_unit_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "source_range_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "proposition_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "evidence_link_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "validated_record_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "validated_payload_fingerprints": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[0-9a-f]{64}$"
+      }
+    },
+    "measured_text_token_counts": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "measured_payload_byte_counts": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "coverage_gap_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]{2,95}$"
+      }
+    },
+    "search_records_created": {
+      "const": 0
+    },
+    "release_eligible": {
+      "const": false
+    },
+    "semantic_analysis_authorized": {
+      "const": false
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

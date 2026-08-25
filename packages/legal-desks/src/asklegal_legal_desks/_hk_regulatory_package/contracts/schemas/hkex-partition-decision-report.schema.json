@@ -1,0 +1,674 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-partition-decision-report.schema.json",
+  "title": "HKEX exact-limit and official-partition conformance report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "rule_id",
+    "case_id",
+    "assertion_scope",
+    "observed_decision",
+    "expected_decision",
+    "conformance_status",
+    "source_authorized",
+    "provider_authorized",
+    "release_authorized",
+    "serving_authorized",
+    "deployment_authorized",
+    "external_effects"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-regulatory.partition-decision-report"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "rule_id": {
+      "const": "HKREG-PARTITION-DECISION-001"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^HKREG-DET-PAR-(0[0-1][0-9]|02[0-4])$"
+    },
+    "assertion_scope": {
+      "enum": [
+        "EXACT_FIT",
+        "TOKEN_OVERFLOW",
+        "METADATA_OVERFLOW",
+        "DUAL_OVERFLOW",
+        "MEASUREMENT_COMPLETENESS",
+        "FINAL_LABELS",
+        "CHILD_WHOLE",
+        "OVERSIZED_CHILD",
+        "LARGEST_FRONTIER",
+        "FEWEST_PARTS",
+        "EARLIEST_FULL",
+        "BRANCH_ISOLATION",
+        "FINAL_REMEASUREMENT",
+        "NORMAL_BOUNDARY",
+        "UNRELATED_PACKING",
+        "OFFICIAL_BOUNDARY",
+        "ARBITRARY_PAGE",
+        "ARBITRARY_SENTENCE",
+        "ARBITRARY_SIZE",
+        "ARBITRARY_WINDOW",
+        "CONTEXT_PRESERVATION",
+        "RECURSION",
+        "INDIVISIBLE",
+        "FIXED_METADATA"
+      ]
+    },
+    "observed_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "case_id",
+        "outcome",
+        "reason",
+        "partition_required",
+        "measurement_complete",
+        "branch_results",
+        "rejected_proposal_codes",
+        "quarantined_branch_ids",
+        "coverage_gap_ids",
+        "search_record_authorized",
+        "embedding_authorized",
+        "release_authorized",
+        "serving_authorized",
+        "deployment_authorized",
+        "external_effects"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-regulatory.partition-decision-result"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKREG-PARTITION-DECISION-001"
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^HKREG-DET-PAR-(0[0-1][0-9]|02[0-4])$"
+        },
+        "outcome": {
+          "enum": [
+            "PASS",
+            "BLOCK",
+            "QUARANTINE"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "EXACT_FIT_UNSPLIT",
+            "TOKEN_OVERFLOW_PARTITIONED",
+            "METADATA_OVERFLOW_PARTITIONED",
+            "DUAL_OVERFLOW_PARTITIONED",
+            "INCOMPLETE_MEASUREMENT_REJECTED",
+            "LABEL_OVERFLOW_RECOMPUTED",
+            "COMPLETE_CHILD_PRESERVED",
+            "OVERSIZED_CHILD_ONLY_REFINED",
+            "LARGEST_SAFE_FRONTIER_USED",
+            "FEWEST_PARTS_SELECTED",
+            "EARLIEST_FULL_SELECTED",
+            "BRANCH_DEPTHS_INDEPENDENT",
+            "FINAL_LABELS_REMEASURED",
+            "CROSS_NORMAL_BOUNDARY_REJECTED",
+            "UNRELATED_PACKING_REJECTED",
+            "OFFICIAL_BOUNDARY_PARTITIONED",
+            "PDF_PAGE_CUT_REJECTED",
+            "SENTENCE_PUNCTUATION_CUT_REJECTED",
+            "WHITESPACE_TOKEN_SIZE_CUT_REJECTED",
+            "CHARACTER_VISUAL_WINDOW_CUT_REJECTED",
+            "CONTEXT_REMOVAL_REJECTED",
+            "RECURSIVE_OFFICIAL_PARTITIONED",
+            "SMALLEST_COMPLETE_UNIT_QUARANTINED",
+            "FIXED_METADATA_OVER_LIMIT"
+          ]
+        },
+        "partition_required": {
+          "type": "boolean"
+        },
+        "measurement_complete": {
+          "type": "boolean"
+        },
+        "branch_results": {
+          "type": "array",
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "branch_id",
+              "root_record_unit_id",
+              "disposition",
+              "construction_reason",
+              "unsplit_text_tokens",
+              "unsplit_metadata_bytes",
+              "text_limit",
+              "metadata_limit",
+              "parts",
+              "accounted_primary_source_unit_ids"
+            ],
+            "properties": {
+              "branch_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "root_record_unit_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "disposition": {
+                "enum": [
+                  "PASS",
+                  "WAITING_ROOM",
+                  "HISTORICAL",
+                  "QUARANTINE"
+                ]
+              },
+              "construction_reason": {
+                "enum": [
+                  "PASS_UNSPLIT",
+                  "PASS_PARTITIONED",
+                  "FUTURE_BRANCH_ACCOUNTED",
+                  "HISTORICAL_BRANCH_ACCOUNTED",
+                  "UNKNOWN_BRANCH_QUARANTINED",
+                  "SOURCE_BOUNDARY_UNKNOWN",
+                  "SMALLEST_COMPLETE_UNIT_OVER_LIMIT"
+                ]
+              },
+              "unsplit_text_tokens": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "unsplit_metadata_bytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "text_limit": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "metadata_limit": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "parts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "part_number",
+                    "total_parts",
+                    "record_unit_ids",
+                    "primary_source_unit_ids",
+                    "dependency_source_unit_ids",
+                    "text_fingerprint",
+                    "serving_payload_fingerprint",
+                    "text_tokens",
+                    "metadata_bytes",
+                    "text_limit",
+                    "metadata_limit",
+                    "fits",
+                    "serving_label"
+                  ],
+                  "properties": {
+                    "part_number": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "total_parts": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "record_unit_ids": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1
+                    },
+                    "primary_source_unit_ids": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1
+                    },
+                    "dependency_source_unit_ids": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "text_fingerprint": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$"
+                    },
+                    "serving_payload_fingerprint": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$"
+                    },
+                    "text_tokens": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "metadata_bytes": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "text_limit": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "metadata_limit": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "fits": {
+                      "type": "boolean"
+                    },
+                    "serving_label": {
+                      "oneOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "accounted_primary_source_unit_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        },
+        "rejected_proposal_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "quarantined_branch_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "coverage_gap_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "search_record_authorized": {
+          "const": false
+        },
+        "embedding_authorized": {
+          "const": false
+        },
+        "release_authorized": {
+          "const": false
+        },
+        "serving_authorized": {
+          "const": false
+        },
+        "deployment_authorized": {
+          "const": false
+        },
+        "external_effects": {
+          "const": "NONE"
+        }
+      }
+    },
+    "expected_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "case_id",
+        "outcome",
+        "reason",
+        "partition_required",
+        "measurement_complete",
+        "branch_results",
+        "rejected_proposal_codes",
+        "quarantined_branch_ids",
+        "coverage_gap_ids",
+        "search_record_authorized",
+        "embedding_authorized",
+        "release_authorized",
+        "serving_authorized",
+        "deployment_authorized",
+        "external_effects"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-regulatory.partition-decision-result"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKREG-PARTITION-DECISION-001"
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^HKREG-DET-PAR-(0[0-1][0-9]|02[0-4])$"
+        },
+        "outcome": {
+          "enum": [
+            "PASS",
+            "BLOCK",
+            "QUARANTINE"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "EXACT_FIT_UNSPLIT",
+            "TOKEN_OVERFLOW_PARTITIONED",
+            "METADATA_OVERFLOW_PARTITIONED",
+            "DUAL_OVERFLOW_PARTITIONED",
+            "INCOMPLETE_MEASUREMENT_REJECTED",
+            "LABEL_OVERFLOW_RECOMPUTED",
+            "COMPLETE_CHILD_PRESERVED",
+            "OVERSIZED_CHILD_ONLY_REFINED",
+            "LARGEST_SAFE_FRONTIER_USED",
+            "FEWEST_PARTS_SELECTED",
+            "EARLIEST_FULL_SELECTED",
+            "BRANCH_DEPTHS_INDEPENDENT",
+            "FINAL_LABELS_REMEASURED",
+            "CROSS_NORMAL_BOUNDARY_REJECTED",
+            "UNRELATED_PACKING_REJECTED",
+            "OFFICIAL_BOUNDARY_PARTITIONED",
+            "PDF_PAGE_CUT_REJECTED",
+            "SENTENCE_PUNCTUATION_CUT_REJECTED",
+            "WHITESPACE_TOKEN_SIZE_CUT_REJECTED",
+            "CHARACTER_VISUAL_WINDOW_CUT_REJECTED",
+            "CONTEXT_REMOVAL_REJECTED",
+            "RECURSIVE_OFFICIAL_PARTITIONED",
+            "SMALLEST_COMPLETE_UNIT_QUARANTINED",
+            "FIXED_METADATA_OVER_LIMIT"
+          ]
+        },
+        "partition_required": {
+          "type": "boolean"
+        },
+        "measurement_complete": {
+          "type": "boolean"
+        },
+        "branch_results": {
+          "type": "array",
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "branch_id",
+              "root_record_unit_id",
+              "disposition",
+              "construction_reason",
+              "unsplit_text_tokens",
+              "unsplit_metadata_bytes",
+              "text_limit",
+              "metadata_limit",
+              "parts",
+              "accounted_primary_source_unit_ids"
+            ],
+            "properties": {
+              "branch_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "root_record_unit_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "disposition": {
+                "enum": [
+                  "PASS",
+                  "WAITING_ROOM",
+                  "HISTORICAL",
+                  "QUARANTINE"
+                ]
+              },
+              "construction_reason": {
+                "enum": [
+                  "PASS_UNSPLIT",
+                  "PASS_PARTITIONED",
+                  "FUTURE_BRANCH_ACCOUNTED",
+                  "HISTORICAL_BRANCH_ACCOUNTED",
+                  "UNKNOWN_BRANCH_QUARANTINED",
+                  "SOURCE_BOUNDARY_UNKNOWN",
+                  "SMALLEST_COMPLETE_UNIT_OVER_LIMIT"
+                ]
+              },
+              "unsplit_text_tokens": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "unsplit_metadata_bytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "text_limit": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "metadata_limit": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "parts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "part_number",
+                    "total_parts",
+                    "record_unit_ids",
+                    "primary_source_unit_ids",
+                    "dependency_source_unit_ids",
+                    "text_fingerprint",
+                    "serving_payload_fingerprint",
+                    "text_tokens",
+                    "metadata_bytes",
+                    "text_limit",
+                    "metadata_limit",
+                    "fits",
+                    "serving_label"
+                  ],
+                  "properties": {
+                    "part_number": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "total_parts": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "record_unit_ids": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1
+                    },
+                    "primary_source_unit_ids": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1
+                    },
+                    "dependency_source_unit_ids": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "text_fingerprint": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$"
+                    },
+                    "serving_payload_fingerprint": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$"
+                    },
+                    "text_tokens": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "metadata_bytes": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "text_limit": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "metadata_limit": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "fits": {
+                      "type": "boolean"
+                    },
+                    "serving_label": {
+                      "oneOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "accounted_primary_source_unit_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        },
+        "rejected_proposal_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "quarantined_branch_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "coverage_gap_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "search_record_authorized": {
+          "const": false
+        },
+        "embedding_authorized": {
+          "const": false
+        },
+        "release_authorized": {
+          "const": false
+        },
+        "serving_authorized": {
+          "const": false
+        },
+        "deployment_authorized": {
+          "const": false
+        },
+        "external_effects": {
+          "const": "NONE"
+        }
+      }
+    },
+    "conformance_status": {
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "source_authorized": {
+      "const": false
+    },
+    "provider_authorized": {
+      "const": false
+    },
+    "release_authorized": {
+      "const": false
+    },
+    "serving_authorized": {
+      "const": false
+    },
+    "deployment_authorized": {
+      "const": false
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

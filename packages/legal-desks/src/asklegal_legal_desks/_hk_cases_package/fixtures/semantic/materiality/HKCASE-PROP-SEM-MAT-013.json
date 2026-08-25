@@ -1,0 +1,54 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-materiality-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-MAT-013",
+  "coverage_cell_id": "HKCASE-PROP-COV-SMAT-013",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-001",
+      "role": "NEAR_MISS"
+    },
+    {
+      "pair_id": "HKCASE-PROP-PAIR-005",
+      "role": "NEAR_MISS"
+    }
+  ],
+  "scenario": "Opinion mentions a legal topic hypothetically without explaining a rule",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-materiality-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "semantic_execution_13",
+    "judgment_work_id": "semantic_judgment_13",
+    "judicial_decision_id": "synthetic_decision_13",
+    "official_version_id": "synthetic_version_13",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "Different considerations might perhaps arise if waiver were in issue.",
+        "text_fingerprint": "sha256:8dd738c5ec154958955a38c2d2321413fe4f4cad21141f37af5d36838647aa1b",
+        "range_id": "range_1"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-013.json",
+  "observation_path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-013.json",
+  "expected_path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-013.json"
+}

@@ -1,0 +1,92 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.reconstruction-execution.reason-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {
+      "code": "RECONSTRUCTION_OPERATIONS_PROVISIONALLY_COMPLETE",
+      "meaning": "Every declared operation and final tree, inventory, renderer, and bilingual-alignment gate passed; only provisional canonical output exists.",
+      "processing_outcome": "PASS"
+    },
+    {
+      "code": "RECONSTRUCTION_OPERATION_APPLIED",
+      "meaning": "One exact registry operation produced its declared canonical provisional after state.",
+      "processing_outcome": "OPERATION"
+    },
+    {
+      "code": "UNSUPPORTED_RECONSTRUCTION_OPERATION",
+      "meaning": "The Plan named an operation outside the closed executable registry.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "RECONSTRUCTION_UNDECLARED_INPUT",
+      "meaning": "An operation attempted to use a source artifact absent from the complete declared input inventory.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "RECONSTRUCTION_SOURCE_UNIT_KIND_MISMATCH",
+      "meaning": "A declared source payload or target unit did not have the exact kind required by the operation.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "RECONSTRUCTION_DEPENDENCY_CLOSURE_INCOMPLETE",
+      "meaning": "The operation payload did not account for the complete exact dependency or source-unit closure.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "RECONSTRUCTION_STRUCTURE_UNSUPPORTED",
+      "meaning": "The requested canonical structure or structural transition is outside the deterministic executor contract.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "RECONSTRUCTION_SOURCE_UNIT_OWNERSHIP_MISMATCH",
+      "meaning": "Canonical source-unit ownership, order, or exact-once accounting did not match the declared tree.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "RECONSTRUCTION_TARGET_NOT_EXACT",
+      "meaning": "The operation selector did not resolve to exactly the declared canonical target set.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "RECONSTRUCTION_BEFORE_STATE_MISMATCH",
+      "meaning": "The actual target count, locations, structure, or content did not equal the Plan before state.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "RECONSTRUCTION_AFTER_STATE_MISMATCH",
+      "meaning": "The provisional locations, structure, content, or ownership did not equal the Plan after state.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "RECONSTRUCTION_RENDERER_UNSUPPORTED",
+      "meaning": "The frozen ordinary renderer cannot represent every structural type or source-unit kind in the closed replacement region.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "RECONSTRUCTION_CANONICAL_TREE_INVALID",
+      "meaning": "The complete provisional tree failed canonical semantic validation after an operation.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "RECONSTRUCTION_NOT_RUN_AFTER_ATOMIC_FAILURE",
+      "meaning": "A later declared operation was explicitly not run after an earlier atomic Plan failure.",
+      "processing_outcome": "OPERATION"
+    },
+    {
+      "code": "RECONSTRUCTION_FINAL_TREE_MISMATCH",
+      "meaning": "A complete provisional language tree did not equal the Plan final-tree fingerprint.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "RECONSTRUCTION_SOURCE_UNIT_INVENTORY_MISMATCH",
+      "meaning": "A complete provisional source-unit inventory did not equal the Plan inventory fingerprint.",
+      "processing_outcome": "BLOCK"
+    },
+    {
+      "code": "RECONSTRUCTION_BILINGUAL_ALIGNMENT_MISMATCH",
+      "meaning": "The final English and Traditional Chinese units were not completely and exactly covered by the declared official alignment map.",
+      "processing_outcome": "BLOCK"
+    }
+  ]
+}

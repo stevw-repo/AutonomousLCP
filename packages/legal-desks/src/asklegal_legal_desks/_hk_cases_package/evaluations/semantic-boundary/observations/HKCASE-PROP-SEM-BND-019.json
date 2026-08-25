@@ -1,0 +1,136 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:96e363e90fba50798ad10524af379385dd19cc1d4d6c100e95800ce7784771f0",
+  "workflow_result_fingerprint": "sha256:49a6649ff0e17217168751775db292c850ffb2029f5eaf38370f481952af2dae",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "JOINT",
+      "judge_ids": [
+        "judge_1",
+        "judge_2",
+        "judge_3"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    },
+    {
+      "opinion_id": "opinion_2",
+      "role": "CONCURRENCE",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": "opinion_1",
+      "expressly_adopted_opinion_ids": []
+    },
+    {
+      "opinion_id": "opinion_3",
+      "role": "CONCURRENCE",
+      "judge_ids": [
+        "judge_2"
+      ],
+      "joined_opinion_id": "opinion_1",
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "COMMON_NOTICE_PATH",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "OBJECTIVE_NOTICE_RULE"
+      ],
+      "boundary_codes": [
+        "EXPRESS_COMMON_REASONING",
+        "OPERATIVE_COMMON_PATH"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "All three judges expressly join the objective notice rule."
+    },
+    {
+      "candidate_id": "candidate_2",
+      "mapped_reference_proposition_id": "reference_prop_2",
+      "resolution": "ACCEPTED",
+      "issue_code": "REMEDIAL_ADDITION",
+      "authority_role": "CONCURRENCE",
+      "opinion_path_ids": [
+        "opinion_2"
+      ],
+      "meaning_codes": [
+        "REMEDIAL_DISCRETION"
+      ],
+      "boundary_codes": [
+        "SEPARATE_ADDITIONAL_REASONING"
+      ],
+      "range_ids": [
+        "range_2"
+      ],
+      "derived_statement": "Judge one separately adds a remedial observation."
+    },
+    {
+      "candidate_id": "candidate_3",
+      "mapped_reference_proposition_id": "reference_prop_3",
+      "resolution": "ACCEPTED",
+      "issue_code": "PROCEDURAL_ADDITION",
+      "authority_role": "CONCURRENCE",
+      "opinion_path_ids": [
+        "opinion_3"
+      ],
+      "meaning_codes": [
+        "PROCEDURAL_FAIRNESS"
+      ],
+      "boundary_codes": [
+        "SEPARATE_ADDITIONAL_REASONING"
+      ],
+      "range_ids": [
+        "range_3"
+      ],
+      "derived_statement": "Judge two separately adds a procedural observation."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_2"
+      ]
+    },
+    {
+      "unit_id": "unit_3",
+      "opinion_id": "opinion_3",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_3"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1",
+    "candidate_2",
+    "candidate_3"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

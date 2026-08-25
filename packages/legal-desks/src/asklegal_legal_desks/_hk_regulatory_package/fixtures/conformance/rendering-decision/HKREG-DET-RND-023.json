@@ -1,0 +1,179 @@
+{
+  "schema_id": "asklegal.hk-regulatory.rendering-decision-case",
+  "schema_version": "1.0.0",
+  "package_contract_version": "1.0.0",
+  "case_id": "HKREG-DET-RND-023",
+  "suite_layer": "DECISION_TO_ARTIFACT",
+  "primary_checkpoint": "CANONICAL_RENDERING",
+  "frozen": true,
+  "synthetic_evidence_class": "SYNTHETIC_NO_REAL_AUTHORITY",
+  "contract_bindings": [
+    {
+      "contract_id": "asklegal.hk-regulatory.conformance-universe",
+      "version": "1.0.0",
+      "fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.rendering-decision-case",
+      "version": "1.0.0",
+      "fingerprint": "sha256:235e23791750cfa0326aa8a4d1741285bafc79db986cd2c97d4be73da645709b"
+    }
+  ],
+  "synthetic_cutoff": "2026-08-24T00:00:00Z",
+  "scope_id": "HKEX_CROSS_BOARD",
+  "prior_state": "SYNTHETIC_ACCEPTED_PREDECESSOR",
+  "primary_coverage_cell_ids": [
+    "HKREG-COV-DRND-023"
+  ],
+  "secondary_coverage_cell_ids": [],
+  "pair_memberships": [
+    {
+      "pair_id": "HKREG-PAIR-035",
+      "role": "NEAR_MISS"
+    }
+  ],
+  "declared_input_inventory": [
+    "rendering-evidence"
+  ],
+  "declared_reference_inventory": [
+    "asklegal.hk-regulatory.conformance-universe",
+    "asklegal.hk-regulatory.rendering-decision-case"
+  ],
+  "declared_expected_inventory": [
+    "RENDERING_DECISION_REPORT"
+  ],
+  "assertion_scope": "FEE",
+  "required_result_dimensions": [
+    "AUTHORITY_NOTE",
+    "CANONICAL_BYTES",
+    "IDENTITY_CONSEQUENCE",
+    "MEASUREMENT",
+    "PROCESSING",
+    "SOURCE_FIDELITY",
+    "VECTOR_RESPONSIBILITY"
+  ],
+  "evidence_packet_fields": [
+    "authority_note",
+    "chinese_duplicate_requested",
+    "chinese_text_inserted",
+    "component_label",
+    "dependency_lines",
+    "effective_context",
+    "forbidden_element_ids",
+    "location_label",
+    "material_projection_change",
+    "max_metadata_bytes",
+    "max_text_tokens",
+    "official_heading",
+    "optional_chinese_evidence_present",
+    "parallel_vector_requested",
+    "present_element_ids",
+    "presentation_only_change",
+    "presentation_only_element_ids",
+    "primary_lines",
+    "projection_kind",
+    "references",
+    "required_element_ids",
+    "scope_id",
+    "source_ambiguity",
+    "tokenizer_fingerprint",
+    "tokenizer_id"
+  ],
+  "supporting_evidence_ranges": [
+    "input/HKREG-DET-RND-023-rendering-evidence.json#facts"
+  ],
+  "rule_trace": [
+    "HKREG-ENGLISH-RECORD-001",
+    "HKREG-RENDERING-DECISION-001"
+  ],
+  "established_facts": [
+    "SYNTHETIC_RENDERING_FACT_PACKET_DECLARED"
+  ],
+  "unresolved_facts": [
+    "FEE_INCOMPLETE"
+  ],
+  "permitted_equivalent_results": [],
+  "critical_error_codes": [
+    "FEE_INCOMPLETE"
+  ],
+  "package_fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14",
+  "title": "Candidate includes a fee amount without currency, basis, timing, or applicable note",
+  "purpose": "Reject the incomplete fee branch",
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.rendering-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-RENDERING-DECISION-001",
+    "case_id": "HKREG-DET-RND-023",
+    "outcome": "BLOCK",
+    "reason": "FEE_INCOMPLETE",
+    "canonical_text": null,
+    "authority_note": null,
+    "embedding_input": null,
+    "text_tokens": null,
+    "metadata_bytes": null,
+    "text_limit": null,
+    "metadata_limit": null,
+    "fits": null,
+    "omitted_element_ids": [],
+    "rejected_element_ids": [
+      "basis",
+      "currency",
+      "note",
+      "timing"
+    ],
+    "quarantined_element_ids": [],
+    "identity_consequence": "NOT_EVALUATED",
+    "vector_responsibility": "NONE",
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "evidence_packet": {
+    "slot_id": "rendering-evidence",
+    "state": "AVAILABLE",
+    "path": "input/HKREG-DET-RND-023-rendering-evidence.json",
+    "role": "ORDINARY",
+    "media_type": "application/json",
+    "content_fingerprint": "sha256:cec9c5102111e957fbf93e727bb064e6bb660f92795603e4f36b13882976abf2"
+  },
+  "facts": {
+    "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+    "component_label": "Synthetic Main Board Listing Rules",
+    "location_label": "Rule 2.01",
+    "official_heading": null,
+    "effective_context": null,
+    "dependency_lines": [],
+    "references": [],
+    "primary_lines": [
+      "Amount: 5,000"
+    ],
+    "projection_kind": "FEE",
+    "required_element_ids": [
+      "amount",
+      "basis",
+      "currency",
+      "note",
+      "timing"
+    ],
+    "present_element_ids": [
+      "amount"
+    ],
+    "presentation_only_element_ids": [],
+    "forbidden_element_ids": [],
+    "optional_chinese_evidence_present": false,
+    "chinese_text_inserted": false,
+    "chinese_duplicate_requested": false,
+    "parallel_vector_requested": false,
+    "source_ambiguity": false,
+    "presentation_only_change": false,
+    "material_projection_change": false,
+    "authority_note": "None",
+    "tokenizer_id": "synthetic-codepoint-counter-1",
+    "tokenizer_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "max_text_tokens": 10000,
+    "max_metadata_bytes": 20000
+  },
+  "case_fingerprint": "sha256:4eb228115ae50b44c82639463ce37e68dca64b5fa50b7dee819d368c5b6d3a97"
+}

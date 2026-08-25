@@ -1,0 +1,46 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-RSK-006",
+  "coverage_cell_id": "HKCASE-PROP-COV-SRSK-006",
+  "pair_memberships": [],
+  "scenario": "Hong Kong Privy Council appeal contains older structure and several opinions",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-risk-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "risk_execution_6",
+    "judgment_work_id": "risk_judgment_6",
+    "judicial_decision_id": "synthetic_risk_decision_6",
+    "accepted_original_version_id": "synthetic_risk_original_6",
+    "court_family": "HKPC",
+    "original_language": "ENGLISH",
+    "segments": [
+      {
+        "segment_id": "segment_1",
+        "source_order": 1,
+        "exact_text": "The Board advises that the appeal be dismissed because no duty arose.",
+        "text_fingerprint": "sha256:777a1cb026adfce8e2d1820745378006c36792788b32a9a14b272eea728a3c52",
+        "range_id": "range_1"
+      },
+      {
+        "segment_id": "segment_2",
+        "source_order": 2,
+        "exact_text": "Lord Example separately agrees on limitation grounds.",
+        "text_fingerprint": "sha256:4b6f6653703402e4971fa3cda1b7a72c3d47cc34a64a47eefb967091d5b61857",
+        "range_id": "range_2"
+      }
+    ],
+    "dependency_ids": [],
+    "segment_manifest_complete": true,
+    "parser_supported": true,
+    "auxiliary_translations": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-006.json",
+  "observation_path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-006.json",
+  "expected_path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-006.json"
+}

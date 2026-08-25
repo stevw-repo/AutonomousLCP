@@ -1,0 +1,138 @@
+{
+  "schema_id": "asklegal.hk-cases.admission-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-DET-ADM-006",
+  "case_id": "HKCASE-PROP-DET-ADM-006",
+  "coverage_cell_id": "HKCASE-PROP-COV-DADM-006",
+  "pair_memberships": [],
+  "synthetic_scenario": "Official correction changes only one of several propositions",
+  "evidence_class": "SYNTHETIC_SOURCE_NEUTRAL",
+  "variants": [
+    {
+      "variant_id": "HKCASE-PROP-DET-ADM-006-V01",
+      "request": {
+        "schema_id": "asklegal.hk-cases.admission-request",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-ADMISSION-CONFORMANCE-001",
+        "assertion": "CORRECTION",
+        "correction": {
+          "kind": "PARTIAL_OFFICIAL_CORRECTION",
+          "prior_official_version_id": "version_1",
+          "current_official_version_id": "version_2",
+          "prior_ledger_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "current_ledger_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "prior_result_id": "result_1",
+          "current_result_id": "result_2",
+          "prior_admission_id": "admission_1",
+          "current_admission_id": "admission_1",
+          "prior_propositions": [
+            {
+              "proposition_id": "proposition_unchanged",
+              "text_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "support_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "attribution_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "payload_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            {
+              "proposition_id": "proposition_affected",
+              "text_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "support_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "attribution_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "payload_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "current_propositions": [
+            {
+              "proposition_id": "proposition_unchanged",
+              "text_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "support_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "attribution_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "payload_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            {
+              "proposition_id": "proposition_successor",
+              "text_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "support_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "attribution_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "payload_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "prior_records": [
+            {
+              "record_id": "record_unchanged",
+              "proposition_ids": [
+                "proposition_unchanged"
+              ],
+              "payload_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "embedding_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "selected": true
+            },
+            {
+              "record_id": "record_affected",
+              "proposition_ids": [
+                "proposition_affected"
+              ],
+              "payload_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "embedding_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "selected": true
+            }
+          ],
+          "current_records": [
+            {
+              "record_id": "record_unchanged",
+              "proposition_ids": [
+                "proposition_unchanged"
+              ],
+              "payload_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "embedding_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "selected": true
+            },
+            {
+              "record_id": "record_successor",
+              "proposition_ids": [
+                "proposition_successor"
+              ],
+              "payload_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "embedding_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "selected": true
+            }
+          ],
+          "affected_prior_proposition_ids": [
+            "proposition_affected"
+          ],
+          "unaffected_reused_proposition_ids": [
+            "proposition_unchanged"
+          ],
+          "introduced_proposition_ids": [],
+          "deselected_prior_record_ids": [
+            "record_affected"
+          ],
+          "lineages": [
+            {
+              "relation": "FORWARD_SUCCESSOR",
+              "predecessor_record_ids": [
+                "record_affected"
+              ],
+              "successor_record_ids": [
+                "record_successor"
+              ]
+            }
+          ],
+          "component_changes": [],
+          "processing_history_appended": true,
+          "ledger_history_appended": true,
+          "impact_declaration_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "prior_ledger_mutated": false,
+          "prior_admission_mutated": false
+        },
+        "catalogue": null,
+        "evaluation_packet": null,
+        "sealed_package": null,
+        "reproducibility": null,
+        "side_effects": null,
+        "workflow_identity": null
+      }
+    }
+  ],
+  "external_effects": "NONE"
+}

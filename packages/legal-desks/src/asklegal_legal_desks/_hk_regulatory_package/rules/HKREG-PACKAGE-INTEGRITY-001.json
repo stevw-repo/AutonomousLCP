@@ -1,0 +1,19 @@
+{
+  "schema_id": "asklegal.hk-regulatory-package-integrity-rule",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-PACKAGE-INTEGRITY-001",
+  "status": "SOURCE_NEUTRAL_EXECUTABLE_CHECKPOINT",
+  "accepted_adrs": ["0074", "0075"],
+  "case_schema": "contracts/schemas/hkex-package-integrity-case.schema.json",
+  "report_schema": "contracts/schemas/hkex-package-integrity-report.schema.json",
+  "catalogue_schema": "contracts/schemas/hkex-package-integrity-catalogue.schema.json",
+  "catalogue": "catalogues/package-integrity-cases.json",
+  "required_case_count": 38,
+  "required_primary_coverage_cell_count": 38,
+  "required_high_risk_pairs": ["HKREG-PAIR-050", "HKREG-PAIR-051", "HKREG-PAIR-052", "HKREG-PAIR-053", "HKREG-PAIR-054", "HKREG-PAIR-055", "HKREG-PAIR-056"],
+  "case_id_switching_forbidden": true,
+  "package_integrity_checkpoint_complete": true,
+  "full_conformance_suite_complete": false,
+  "activation_authority": false,
+  "external_effects": "NONE"
+}

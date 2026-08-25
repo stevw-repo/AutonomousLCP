@@ -15,6 +15,7 @@ class CorpusErrorCode(StrEnum):
     INVENTORY_MISMATCH = "INVENTORY_MISMATCH"
     PROPOSAL_NOT_FROZEN = "PROPOSAL_NOT_FROZEN"
     RELEASE_SCOPE_MISMATCH = "RELEASE_SCOPE_MISMATCH"
+    TRACEABILITY_INCOMPLETE = "TRACEABILITY_INCOMPLETE"
     ZERO_RECORD_UNJUSTIFIED = "ZERO_RECORD_UNJUSTIFIED"
 
 
@@ -107,6 +108,95 @@ class DesiredStateInventory:
     records: tuple[FlattenedRecord, ...]
     records_fingerprint: str
     inventory_fingerprint: str
+
+
+@dataclass(frozen=True, slots=True)
+class TraceabilityReference:
+    """One exact typed immutable reference in a traceability entry."""
+
+    ref_type: str
+    ref_id: str
+    fingerprint: str
+
+
+@dataclass(frozen=True, slots=True)
+class AuthorityNoteEvidence:
+    """Structured proof of the selected six-field authority-note value."""
+
+    rendered_value_fingerprint: str
+    decision_ref: TraceabilityReference
+    supporting_evidence_refs: tuple[TraceabilityReference, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class TraceabilityEntry:
+    """One exact ADR 0078 Search Record traceability entry."""
+
+    search_record_id: str
+    serving_payload_fingerprint: str
+    serving_record_profile_id: str
+    legal_item_id: str
+    official_version_ids: tuple[str, ...]
+    legal_location_ids: tuple[str, ...]
+    release_scope_id: str
+    corpus_release_id: str
+    evidence_refs: tuple[TraceabilityReference, ...]
+    authority_note_evidence: AuthorityNoteEvidence
+    grouping_ids: tuple[str, ...] = ()
+    display_citation_ids: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True, slots=True)
+class ServingRecordProfile:
+    """One exact serving-record schema profile used by a lookup revision."""
+
+    serving_record_profile_id: str
+    schema_version: str
+    schema_fingerprint: str
+
+
+@dataclass(frozen=True, slots=True)
+class TraceabilityScopeShardInput:
+    """Register-issued identity for one required Release-Scope shard."""
+
+    release_scope_id: str
+    corpus_release_id: str
+    lookup_shard_id: str
+
+
+@dataclass(frozen=True, slots=True)
+class TraceabilityShard:
+    """One immutable canonical NDJSON Release-Scope shard."""
+
+    release_scope_id: str
+    corpus_release_id: str
+    lookup_shard_id: str
+    path: str
+    content: bytes
+    entry_count: int
+    fingerprint: str
+
+
+@dataclass(frozen=True, slots=True)
+class RecordTraceabilityLookup:
+    """One complete immutable ADR 0078 lookup revision package."""
+
+    lookup_revision_id: str
+    desired_state_inventory_id: str
+    profiles: tuple[ServingRecordProfile, ...]
+    shards: tuple[TraceabilityShard, ...]
+    total_entry_count: int
+    manifest_bytes: bytes
+    fingerprint: str
+
+
+@dataclass(frozen=True, slots=True)
+class RecordTraceabilityLookupInput:
+    """Exact register and schema identities for one lookup freeze."""
+
+    lookup_revision_id: str
+    manifest_schema_fingerprint: str
+    entry_schema_fingerprint: str
 
 
 @dataclass(frozen=True, slots=True)

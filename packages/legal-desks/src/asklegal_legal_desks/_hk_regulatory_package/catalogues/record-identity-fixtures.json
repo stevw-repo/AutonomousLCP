@@ -1,0 +1,16 @@
+{
+  "catalogue_id": "asklegal.hk-regulatory.record-identity.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_real_source_universe": false,
+  "synthetic_case_count": 8,
+  "fixtures": [
+    {
+      "fixture_id": "HKREG-RECORD-IDENTITY-FIX-001",
+      "path": "fixtures/deterministic/HKREG-RECORD-IDENTITY-FIX-001.json",
+      "fixture_fingerprint": "sha256:25175bfcfe4e0c804e264d6af37d56e7279666f75f77ef6d6c7e8791b3ba1c8a",
+      "expected_path": "expected/record-identity/HKREG-RECORD-IDENTITY-FIX-001.json",
+      "expected_fingerprint": "sha256:64b1ce4d19a508f99228dfec27dc2c8e5e60bbd4c5686814ddb77dc022a241e6"
+    }
+  ]
+}

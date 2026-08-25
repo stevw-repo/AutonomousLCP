@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/contracts/hk-regulatory/hkex-english-record-result/1.0.0",
+  "title": "HKEX English record construction result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "contract_version",
+    "rule_id",
+    "tree_fingerprint",
+    "component_id",
+    "scope_id",
+    "branch_id",
+    "branch_state",
+    "disposition",
+    "reason",
+    "record_results",
+    "primary_source_unit_ids",
+    "context_only_source_unit_ids",
+    "presentation_only_source_unit_ids",
+    "primary_accounting_complete",
+    "serving_candidate_ready",
+    "search_record_authorized",
+    "serving_ready"
+  ],
+  "properties": {
+    "case_id": {"$ref": "#/$defs/nonempty"},
+    "contract_version": {"const": "1.0.0"},
+    "rule_id": {"const": "HKREG-ENGLISH-RECORD-001"},
+    "tree_fingerprint": {"$ref": "#/$defs/fingerprint"},
+    "component_id": {"$ref": "#/$defs/nonempty"},
+    "scope_id": {"enum": ["HK-REG-HKEX-GEM", "HK-REG-HKEX-MAIN-BOARD"]},
+    "branch_id": {"$ref": "#/$defs/nonempty"},
+    "branch_state": {
+      "enum": [
+        "CURRENT",
+        "TRANSITIONAL_CURRENT",
+        "FUTURE_FIXED_DATE",
+        "FUTURE_CONDITIONAL",
+        "SUPERSEDED",
+        "WITHDRAWN",
+        "UNKNOWN"
+      ]
+    },
+    "disposition": {"enum": ["PASS", "WAITING_ROOM", "HISTORICAL", "QUARANTINE"]},
+    "reason": {
+      "enum": [
+        "PASS_UNSPLIT",
+        "PASS_PARTITIONED",
+        "FUTURE_BRANCH_ACCOUNTED",
+        "HISTORICAL_BRANCH_ACCOUNTED",
+        "UNKNOWN_BRANCH_QUARANTINED",
+        "SOURCE_BOUNDARY_UNKNOWN",
+        "SMALLEST_COMPLETE_UNIT_OVER_LIMIT"
+      ]
+    },
+    "record_results": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/record_result"}
+    },
+    "primary_source_unit_ids": {"$ref": "#/$defs/string_array"},
+    "context_only_source_unit_ids": {"$ref": "#/$defs/string_array"},
+    "presentation_only_source_unit_ids": {"$ref": "#/$defs/string_array"},
+    "primary_accounting_complete": {"type": "boolean"},
+    "serving_candidate_ready": {"type": "boolean"},
+    "search_record_authorized": {"const": false},
+    "serving_ready": {"const": false}
+  },
+  "$defs": {
+    "nonempty": {"type": "string", "minLength": 1},
+    "fingerprint": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "string_array": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/nonempty"}
+    },
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text_tokens", "metadata_bytes", "text_limit", "metadata_limit", "fits"],
+      "properties": {
+        "text_tokens": {"type": "integer", "minimum": 0},
+        "metadata_bytes": {"type": "integer", "minimum": 0},
+        "text_limit": {"type": "integer", "minimum": 1},
+        "metadata_limit": {"type": "integer", "minimum": 1},
+        "fits": {"type": "boolean"}
+      }
+    },
+    "part": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "part_number",
+        "total_parts",
+        "record_unit_ids",
+        "primary_source_unit_ids",
+        "dependency_source_unit_ids",
+        "text",
+        "text_fingerprint",
+        "serving_payload_fingerprint",
+        "measurement"
+      ],
+      "properties": {
+        "part_number": {"type": "integer", "minimum": 1},
+        "total_parts": {"type": "integer", "minimum": 1},
+        "record_unit_ids": {"$ref": "#/$defs/string_array"},
+        "primary_source_unit_ids": {"$ref": "#/$defs/string_array"},
+        "dependency_source_unit_ids": {"$ref": "#/$defs/string_array"},
+        "text": {"$ref": "#/$defs/nonempty"},
+        "text_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "serving_payload_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "measurement": {"$ref": "#/$defs/measurement"}
+      }
+    },
+    "record_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "root_record_unit_id",
+        "disposition",
+        "reason",
+        "parts",
+        "accounted_primary_source_unit_ids"
+      ],
+      "properties": {
+        "root_record_unit_id": {"$ref": "#/$defs/nonempty"},
+        "disposition": {"enum": ["PASS", "QUARANTINE"]},
+        "reason": {
+          "enum": [
+            "PASS_UNSPLIT",
+            "PASS_PARTITIONED",
+            "SOURCE_BOUNDARY_UNKNOWN",
+            "SMALLEST_COMPLETE_UNIT_OVER_LIMIT"
+          ]
+        },
+        "parts": {"type": "array", "items": {"$ref": "#/$defs/part"}},
+        "accounted_primary_source_unit_ids": {"$ref": "#/$defs/string_array"}
+      }
+    }
+  }
+}

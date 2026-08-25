@@ -1,0 +1,32 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-materiality-case-result",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-MAT-001",
+  "result": {
+    "schema_id": "asklegal.hk-cases.semantic-materiality-evaluation-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKCASE-PROP-SEM-MATERIALITY-EVALUATOR-001",
+    "request_fingerprint": "sha256:7a54386e8ee89cb91c304e682f33ef9772727882b4922fc5b646895cf2942b78",
+    "reference_map_fingerprint": "sha256:e143b4feec6df69c33661e6d045cd2f13f7857fac2a127ca1975e3dbff03dcf4",
+    "outcome": "PASS",
+    "reasons": [
+      "PASS"
+    ],
+    "required_proposition_count": 1,
+    "observed_proposition_count": 1,
+    "matched_proposition_count": 1,
+    "missing_reference_proposition_ids": [],
+    "unsupported_candidate_ids": [],
+    "complete_unit_count": 2,
+    "provider_calls_authorized": 0,
+    "workflow_admission_created": false,
+    "search_records_created": 0,
+    "release_eligible": false,
+    "external_effects": "NONE"
+  },
+  "provider_calls_authorized": 0,
+  "workflow_admissions_created": 0,
+  "search_records_created": 0,
+  "release_eligible": false,
+  "external_effects": "NONE"
+}

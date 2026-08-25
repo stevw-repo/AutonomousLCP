@@ -1,0 +1,32 @@
+{
+  "fixture_id": "HKLEG-KNOWN-STALE-FIX-003",
+  "rule_id": "HKLEG-KNOWN-STALE-FALLBACK-001",
+  "processing_outcome": "PASS",
+  "legal_disposition": "NOT_APPLICABLE",
+  "coverage_effect": "COVERAGE_GAP",
+  "source_contract_review_required": false,
+  "reason_codes": [
+    "HKLEG_KNOWN_STALE_NO_VALID_APPLICABLE_TEXT"
+  ],
+  "rule_trace": [
+    "HKLEG-KNOWN-STALE-FALLBACK-001"
+  ],
+  "selection_result": "NO_RECORD",
+  "coverage_gap_ref": {
+    "ref_type": "COVERAGE_GAP",
+    "ref_id": "cvg_333333333333333333333333333333333333333333333333",
+    "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+  },
+  "affected_scope_ids": [
+    "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95"
+  ],
+  "affected_location_ids": [
+    "section-4"
+  ],
+  "warning_scope": "NONE",
+  "fallback_selection": null,
+  "official_version_output": "NONE",
+  "record_output": "NONE",
+  "external_effects": "NONE",
+  "next_action": "ACCOUNT_NO_RECORD_COVERAGE_GAP"
+}

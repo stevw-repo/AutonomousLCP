@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-conformance-attestation-result.schema.json",
+  "title": "HKEX Regulatory conformance compatibility result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "rule_id",
+    "attestation_id",
+    "outcome",
+    "reason",
+    "build_compatibility_valid",
+    "source_access_authorized",
+    "release_creation_authorized",
+    "approval_authorized",
+    "pinecone_authorized",
+    "deployment_authorized",
+    "activation_authorized",
+    "external_effects"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-regulatory.conformance-attestation-result"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "rule_id": {
+      "const": "HKREG-CONFORMANCE-ATTESTATION-001"
+    },
+    "attestation_id": {
+      "type": "string",
+      "pattern": "^rba_[0-9a-f]{48}$"
+    },
+    "outcome": {
+      "const": "VALID"
+    },
+    "reason": {
+      "const": "COMPLETE_SOURCE_NEUTRAL_BUILD_COMPATIBILITY"
+    },
+    "build_compatibility_valid": {
+      "const": true
+    },
+    "source_access_authorized": {
+      "const": false
+    },
+    "release_creation_authorized": {
+      "const": false
+    },
+    "approval_authorized": {
+      "const": false
+    },
+    "pinecone_authorized": {
+      "const": false
+    },
+    "deployment_authorized": {
+      "const": false
+    },
+    "activation_authorized": {
+      "const": false
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

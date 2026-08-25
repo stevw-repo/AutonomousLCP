@@ -1,0 +1,63 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:d176319fb432f59a609aaf6266687581598a4b4424095f39c597c87732fc3a16",
+  "workflow_result_fingerprint": "sha256:d1da54978b31ced6eeec6f64a9330e297df7667bf0a38c7f08f72a1c9b801734",
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "meaning_codes": [
+        "SERIOUS_HARM_THRESHOLD",
+        "STATUTORY_DEFINITION"
+      ],
+      "content_codes": [
+        "DEFINITION",
+        "RULE",
+        "THRESHOLD"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "ANSWER",
+          "ordered_range_ids": [
+            "range_1"
+          ]
+        },
+        {
+          "role_code": "DEFINITION",
+          "ordered_range_ids": [
+            "range_2"
+          ]
+        }
+      ],
+      "dependency_ids": [],
+      "selected_quotations": [],
+      "derived_statement": "Relief requires a material and continuing impairment amounting to serious harm."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "CONTEXT_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

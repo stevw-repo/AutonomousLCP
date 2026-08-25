@@ -1,0 +1,69 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:d852d4a369166c16ea3a1033718c4a830e058e48fd09f15e5e169a253614b81b",
+  "workflow_result_fingerprint": "sha256:2c5ba38f63a94b4a83a65131c416849665ff8168f0e506af0cbd7bf12da1aaeb",
+  "court_family": "CFI",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_15",
+  "auxiliary_translation_version_ids": [],
+  "examined_segment_ids": [
+    "segment_1",
+    "segment_2"
+  ],
+  "resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "INDEPENDENT_SERVICE_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_15",
+      "meaning_codes": [
+        "VALID_SERVICE_REQUIRED"
+      ],
+      "risk_codes": [
+        "GENUINE_LEGAL_SPLIT",
+        "INDEPENDENT_COMPLETE_RECORD"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "The first independent proposition requires valid service."
+    },
+    {
+      "candidate_id": "candidate_2",
+      "mapped_reference_proposition_id": "reference_prop_2",
+      "resolution": "ACCEPTED",
+      "issue_code": "INDEPENDENT_MITIGATION_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_15",
+      "meaning_codes": [
+        "REASONABLE_MITIGATION"
+      ],
+      "risk_codes": [
+        "GENUINE_LEGAL_SPLIT",
+        "INDEPENDENT_COMPLETE_RECORD"
+      ],
+      "range_ids": [
+        "range_2"
+      ],
+      "derived_statement": "The second independent proposition requires reasonable mitigation."
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1",
+    "candidate_2"
+  ],
+  "coverage_gap_ids": [],
+  "translation_use": "NONE",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

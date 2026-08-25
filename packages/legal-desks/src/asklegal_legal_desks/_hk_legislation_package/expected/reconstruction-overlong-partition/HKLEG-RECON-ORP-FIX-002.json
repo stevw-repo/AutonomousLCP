@@ -1,0 +1,117 @@
+{
+  "coverage_gap_required": false,
+  "cross_location_combination": "FORBIDDEN",
+  "disposition": "PASS",
+  "external_effects": "NONE",
+  "location_results": [
+    {
+      "legal_location_ref": {
+        "ref_type": "LEGAL_LOCATION",
+        "ref_id": "ll_section_2",
+        "fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "partition_result": {
+        "alignment_map_fingerprint": "sha256:94f5857c3ab54c40a78c567ef9d5b02bd508ec819267921c05b2f075dff2a7b9",
+        "coverage_gap_required": false,
+        "disposition": "PASS",
+        "en_tree_fingerprint": "sha256:52fcb3342cf359a078afd7ea28a22c5fdab177d54d0dd1b8b07e7f1771706d33",
+        "external_effects": "NONE",
+        "parts": [
+          {
+            "dependency_alignment_group_ids": [],
+            "en_dependency_source_unit_ids": [],
+            "en_primary_source_unit_ids": [
+              "en_body_1",
+              "en_body_2"
+            ],
+            "measurement": {
+              "metadata_bytes": 557,
+              "metadata_limit": 100000,
+              "text_limit": 100000,
+              "text_tokens": 403
+            },
+            "part_number": 1,
+            "primary_alignment_group_ids": [
+              "align_body_1",
+              "align_body_2"
+            ],
+            "primary_partition_node_ids": [
+              "partition_section"
+            ],
+            "serving_payload_fingerprint": "sha256:be008141454b48f8b9af0f9c8163a1506f897093b318633319df8120f7be52ce",
+            "text": "[English — Authentic Text]\nInstrument: Sample Ordinance (Cap. 999)\nProvision: section 2\nHeading: Application\nText:\n(1) This Ordinance applies to every specified person.\n(2) A person must keep the record.\n\n[繁體中文 — 真確文本]\n法例：示例條例（第999章）\n條文：第2條\n標題：適用範圍\n正文：\n(1) 本條例適用於每名指明人士。\n(2) 任何人須備存該紀錄。",
+            "text_fingerprint": "sha256:f306a08471beaffe4164c04e1ae786fbacd2ea8a6d0d319ee0961ae706503bb2",
+            "total_parts": 1,
+            "zh_hant_dependency_source_unit_ids": [],
+            "zh_hant_primary_source_unit_ids": [
+              "zh_body_1",
+              "zh_body_2"
+            ]
+          }
+        ],
+        "profile_fingerprint": "sha256:74a7a9bf0ec6b357c099f63093f6e82c867b024b2432fbc34cf5013eb10029ee",
+        "profile_id": "psp_111111111111111111111111111111111111111111111111",
+        "quarantined_partition_node_ids": [],
+        "reason": "PASS_UNSPLIT",
+        "search_record_output": "NONE",
+        "zh_hant_tree_fingerprint": "sha256:9607736aa26fc2595b5466a9ae562059008fbb148e244e979640c36ff5ee56f3"
+      }
+    },
+    {
+      "legal_location_ref": {
+        "ref_type": "LEGAL_LOCATION",
+        "ref_id": "ll_section_3",
+        "fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "partition_result": {
+        "alignment_map_fingerprint": "sha256:5b9f108e2596e889339d9e8f3569566e6fbffc3dbbe64b1933c522ae5c52d294",
+        "coverage_gap_required": false,
+        "disposition": "PASS",
+        "en_tree_fingerprint": "sha256:14ac3fe06a85b6f2795d2fe0833eff04aa1cd4e6ed20a8455b1a4bf43a826123",
+        "external_effects": "NONE",
+        "parts": [
+          {
+            "dependency_alignment_group_ids": [],
+            "en_dependency_source_unit_ids": [],
+            "en_primary_source_unit_ids": [
+              "en_body_1",
+              "en_body_2"
+            ],
+            "measurement": {
+              "metadata_bytes": 557,
+              "metadata_limit": 100000,
+              "text_limit": 100000,
+              "text_tokens": 403
+            },
+            "part_number": 1,
+            "primary_alignment_group_ids": [
+              "align_body_1",
+              "align_body_2"
+            ],
+            "primary_partition_node_ids": [
+              "partition_section"
+            ],
+            "serving_payload_fingerprint": "sha256:be008141454b48f8b9af0f9c8163a1506f897093b318633319df8120f7be52ce",
+            "text": "[English — Authentic Text]\nInstrument: Sample Ordinance (Cap. 999)\nProvision: section 2\nHeading: Application\nText:\n(1) This Ordinance applies to every specified person.\n(2) A person must keep the record.\n\n[繁體中文 — 真確文本]\n法例：示例條例（第999章）\n條文：第2條\n標題：適用範圍\n正文：\n(1) 本條例適用於每名指明人士。\n(2) 任何人須備存該紀錄。",
+            "text_fingerprint": "sha256:f306a08471beaffe4164c04e1ae786fbacd2ea8a6d0d319ee0961ae706503bb2",
+            "total_parts": 1,
+            "zh_hant_dependency_source_unit_ids": [],
+            "zh_hant_primary_source_unit_ids": [
+              "zh_body_1",
+              "zh_body_2"
+            ]
+          }
+        ],
+        "profile_fingerprint": "sha256:74a7a9bf0ec6b357c099f63093f6e82c867b024b2432fbc34cf5013eb10029ee",
+        "profile_id": "psp_111111111111111111111111111111111111111111111111",
+        "quarantined_partition_node_ids": [],
+        "reason": "PASS_UNSPLIT",
+        "search_record_output": "NONE",
+        "zh_hant_tree_fingerprint": "sha256:17befb67aa99186257bd35ee3cda30a90bebdfd253124261ee832d61636c3f22"
+      }
+    }
+  ],
+  "parts": [],
+  "reason": "LOCATIONS_PROCESSED_SEPARATELY",
+  "search_record_output": "NONE"
+}

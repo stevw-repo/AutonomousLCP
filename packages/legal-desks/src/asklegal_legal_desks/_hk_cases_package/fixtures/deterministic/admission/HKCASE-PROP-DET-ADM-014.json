@@ -1,0 +1,83 @@
+{
+  "schema_id": "asklegal.hk-cases.admission-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-DET-ADM-014",
+  "case_id": "HKCASE-PROP-DET-ADM-014",
+  "coverage_cell_id": "HKCASE-PROP-COV-DADM-014",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-029",
+      "role": "POSITIVE"
+    }
+  ],
+  "synthetic_scenario": "Two isolated deterministic executions are byte-identical",
+  "evidence_class": "SYNTHETIC_SOURCE_NEUTRAL",
+  "variants": [
+    {
+      "variant_id": "HKCASE-PROP-DET-ADM-014-V01",
+      "request": {
+        "schema_id": "asklegal.hk-cases.admission-request",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-ADMISSION-CONFORMANCE-001",
+        "assertion": "DETERMINISTIC_REPRODUCIBILITY",
+        "correction": null,
+        "catalogue": null,
+        "evaluation_packet": null,
+        "sealed_package": null,
+        "reproducibility": {
+          "first_run": {
+            "input_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "build_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "artifacts": [
+              {
+                "path": "artifacts/ledger.json",
+                "role": "LEDGER",
+                "byte_size": 101,
+                "content_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              {
+                "path": "artifacts/result.json",
+                "role": "RESULT",
+                "byte_size": 202,
+                "content_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+              },
+              {
+                "path": "artifacts/report.json",
+                "role": "REPORT",
+                "byte_size": 303,
+                "content_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+              }
+            ]
+          },
+          "second_run": {
+            "input_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "build_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "artifacts": [
+              {
+                "path": "artifacts/ledger.json",
+                "role": "LEDGER",
+                "byte_size": 101,
+                "content_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              },
+              {
+                "path": "artifacts/result.json",
+                "role": "RESULT",
+                "byte_size": 202,
+                "content_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+              },
+              {
+                "path": "artifacts/report.json",
+                "role": "REPORT",
+                "byte_size": 303,
+                "content_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+              }
+            ]
+          }
+        },
+        "side_effects": null,
+        "workflow_identity": null
+      }
+    }
+  ],
+  "external_effects": "NONE"
+}

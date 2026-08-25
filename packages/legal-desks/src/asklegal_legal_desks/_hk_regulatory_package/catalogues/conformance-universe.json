@@ -1,0 +1,3485 @@
+{
+  "schema_id": "asklegal.hk-regulatory.conformance-universe",
+  "schema_version": "1.0.0",
+  "catalogue_id": "hk-regulatory-initial",
+  "catalogue_version": "1.0.0",
+  "status": "FROZEN_EXECUTABLE_CASE_UNIVERSE",
+  "design_source_path": "docs/design/HONG_KONG_REGULATORY_CONFORMANCE_CATALOGUE.md",
+  "design_source_fingerprint": "sha256:fd5b7d1da524e260411a36a8aa8817e83769130a0209941936c3866d52316ce5",
+  "required_case_count": 284,
+  "required_coverage_cell_count": 284,
+  "required_pair_count": 57,
+  "checkpoint_counts": [
+    {
+      "checkpoint": "SOURCE_FACT_AUTHORITY",
+      "layer": "EVIDENCE_TO_DECISION",
+      "case_namespace": "HKREG-DEC-SRC",
+      "coverage_namespace": "HKREG-COV-DSRC",
+      "direct_case_count": 62
+    },
+    {
+      "checkpoint": "EFFECTIVE_STATE",
+      "layer": "EVIDENCE_TO_DECISION",
+      "case_namespace": "HKREG-DEC-STA",
+      "coverage_namespace": "HKREG-COV-DSTA",
+      "direct_case_count": 51
+    },
+    {
+      "checkpoint": "RECORD_BOUNDARY",
+      "layer": "EVIDENCE_TO_DECISION",
+      "case_namespace": "HKREG-DEC-BND",
+      "coverage_namespace": "HKREG-COV-DBND",
+      "direct_case_count": 30
+    },
+    {
+      "checkpoint": "CANONICAL_RENDERING",
+      "layer": "DECISION_TO_ARTIFACT",
+      "case_namespace": "HKREG-DET-RND",
+      "coverage_namespace": "HKREG-COV-DRND",
+      "direct_case_count": 35
+    },
+    {
+      "checkpoint": "PARTITIONING",
+      "layer": "DECISION_TO_ARTIFACT",
+      "case_namespace": "HKREG-DET-PAR",
+      "coverage_namespace": "HKREG-COV-DPAR",
+      "direct_case_count": 24
+    },
+    {
+      "checkpoint": "SOURCE_UNIT_COVERAGE",
+      "layer": "DECISION_TO_ARTIFACT",
+      "case_namespace": "HKREG-DET-COV",
+      "coverage_namespace": "HKREG-COV-DCOV",
+      "direct_case_count": 20
+    },
+    {
+      "checkpoint": "RECORD_IDENTITY",
+      "layer": "DECISION_TO_ARTIFACT",
+      "case_namespace": "HKREG-DET-IDN",
+      "coverage_namespace": "HKREG-COV-DIDN",
+      "direct_case_count": 24
+    },
+    {
+      "checkpoint": "PACKAGE_INTEGRITY",
+      "layer": "DECISION_TO_ARTIFACT",
+      "case_namespace": "HKREG-DET-PKG",
+      "coverage_namespace": "HKREG-COV-DPKG",
+      "direct_case_count": 38
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "HKREG-DEC-SRC-001",
+      "coverage_cell_id": "HKREG-COV-DSRC-001",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Complete catalogue identifies the two Listing Rule product families and their market locators",
+      "exact_required_result": "Accept only those top-level family, board-association, and locator facts",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-001",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-002",
+      "coverage_cell_id": "HKREG-COV-DSRC-002",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Catalogue entry is offered as proof of one rule's wording, state, and complete component inventory",
+      "exact_required_result": "Reject the overreach; those facts remain unproved by this role",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-001",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-003",
+      "coverage_cell_id": "HKREG-COV-DSRC-003",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Complete controlling English consolidated rulebook contains one rule and official structure",
+      "exact_required_result": "Accept its prevailing wording and contained structure for the exact board",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-002",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-004",
+      "coverage_cell_id": "HKREG-COV-DSRC-004",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Consolidated rulebook is offered as proof of a separately published Form, Fees Rule, amendment cause, and external trigger",
+      "exact_required_result": "Reject every out-of-role fact",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-002",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-005",
+      "coverage_cell_id": "HKREG-COV-DSRC-005",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Complete Regulatory Forms product expressly identifies a Form as part of one rulebook",
+      "exact_required_result": "Accept the Form inventory, membership, board, and prevailing English content facts",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-003",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-006",
+      "coverage_cell_id": "HKREG-COV-DSRC-006",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Forms product is offered as proof of an ordinary rule, Fees Rule, amendment cause, and trigger occurrence",
+      "exact_required_result": "Reject every out-of-role fact",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-003",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-007",
+      "coverage_cell_id": "HKREG-COV-DSRC-007",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Complete Fees Rules product expressly identifies one fee component",
+      "exact_required_result": "Accept its inventory, membership, board, and prevailing English content facts",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-004",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-008",
+      "coverage_cell_id": "HKREG-COV-DSRC-008",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Fees Rules product is offered as proof of an ordinary rule, Form, amendment cause, and trigger occurrence",
+      "exact_required_result": "Reject every out-of-role fact",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-004",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-009",
+      "coverage_cell_id": "HKREG-COV-DSRC-009",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Accepted final update states exact changed words, mappings, dates, conditions, transitions, and withdrawal facts",
+      "exact_required_result": "Accept only the update's assigned final-change facts",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-005",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-010",
+      "coverage_cell_id": "HKREG-COV-DSRC-010",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Final update alone is offered as proof that an external event occurred and its wording is already the current compiled product",
+      "exact_required_result": "Reject occurrence and present-currentness claims",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-005",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-011",
+      "coverage_cell_id": "HKREG-COV-DSRC-011",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "All five due source roles are complete, fresh, declared, and reconcile into one bounded union",
+      "exact_required_result": "Accept the complete source-entry universe for the cutoff",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-006",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-012",
+      "coverage_cell_id": "HKREG-COV-DSRC-012",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "One catalogue, search count, navigation tree, or table of contents claims to be the complete universe",
+      "exact_required_result": "Mark the universe incomplete and the affected scope not decision-ready",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-006",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-013",
+      "coverage_cell_id": "HKREG-COV-DSRC-013",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Optional Thomson Reuters presentation conflicts with an accepted HKEX current product",
+      "exact_required_result": "Preserve the discrepancy for investigation; keep the HKEX product controlling",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-014",
+      "coverage_cell_id": "HKREG-COV-DSRC-014",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Pinned precedence, language, inclusion, exclusion, or approval-framework statement materially changes",
+      "exact_required_result": "Open Source Contract Review and require a new rulebook decision before affected reuse",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-015",
+      "coverage_cell_id": "HKREG-COV-DSRC-015",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Final HKEX update, matching accepted current product, and pinned standing approval framework all reconcile",
+      "exact_required_result": "Accept `APPROVAL_SATISFIED_BY_FINAL_PUBLICATION` for the ordinary change",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-007",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-016",
+      "coverage_cell_id": "HKREG-COV-DSRC-016",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Consultation, proposal, draft, or pending-approval document is paired with the standing framework",
+      "exact_required_result": "Do not infer approval or current rule effect",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-007",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-017",
+      "coverage_cell_id": "HKREG-COV-DSRC-017",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Exact item says direct approval evidence is required but none is preserved",
+      "exact_required_result": "Block only that decision pending accepted direct evidence",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-018",
+      "coverage_cell_id": "HKREG-COV-DSRC-018",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Every due role has a complete fresh Observation and exactly matches the accepted predecessor",
+      "exact_required_result": "Produce `SUPPORTED_NO_CHANGE`; create no downstream rebuild work",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-008",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-019",
+      "coverage_cell_id": "HKREG-COV-DSRC-019",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "No alert was raised, but one due Observation is stale, partial, failed, or unreconciled",
+      "exact_required_result": "Do not produce `SUPPORTED_NO_CHANGE`; expose the exact gap",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-008",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-020",
+      "coverage_cell_id": "HKREG-COV-DSRC-020",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Consolidated evidence failure is proved to affect only Main Board",
+      "exact_required_result": "Block Main Board only; permit independently complete GEM work to continue",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-009",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-021",
+      "coverage_cell_id": "HKREG-COV-DSRC-021",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Shared catalogue or inventory failure prevents either board's universe from being bounded",
+      "exact_required_result": "Block both boards; do not report a board-specific gap",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-009",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-022",
+      "coverage_cell_id": "HKREG-COV-DSRC-022",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Older update artifact is missing only for one bounded historical investigation",
+      "exact_required_result": "Block that investigation only; do not block an otherwise supported current release",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-023",
+      "coverage_cell_id": "HKREG-COV-DSRC-023",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Official inclusion evidence identifies a Chapter",
+      "exact_required_result": "`RULE_COMPONENT` with its exact board owner and structure",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-024",
+      "coverage_cell_id": "HKREG-COV-DSRC-024",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Official inclusion evidence identifies an ordinary rule or subrule",
+      "exact_required_result": "`RULE_COMPONENT` with its exact board owner and structure",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-025",
+      "coverage_cell_id": "HKREG-COV-DSRC-025",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Official inclusion evidence identifies an incorporated note",
+      "exact_required_result": "`RULE_COMPONENT` attached to its exact owning location",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-026",
+      "coverage_cell_id": "HKREG-COV-DSRC-026",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Official inclusion evidence identifies an appendix",
+      "exact_required_result": "`RULE_COMPONENT` with its exact board owner and hierarchy",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-027",
+      "coverage_cell_id": "HKREG-COV-DSRC-027",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Official inclusion evidence expressly incorporates a Practice Note",
+      "exact_required_result": "`RULE_COMPONENT` with exact owner and inclusion ranges",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-010",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-028",
+      "coverage_cell_id": "HKREG-COV-DSRC-028",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Official inclusion evidence expressly incorporates a Regulatory Form",
+      "exact_required_result": "`RULE_COMPONENT` with exact owner and inclusion ranges",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-011",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-029",
+      "coverage_cell_id": "HKREG-COV-DSRC-029",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Official inclusion evidence expressly incorporates a Fees Rule",
+      "exact_required_result": "`RULE_COMPONENT` with exact owner and inclusion ranges",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-030",
+      "coverage_cell_id": "HKREG-COV-DSRC-030",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Official evidence expressly includes another component class",
+      "exact_required_result": "`RULE_COMPONENT` only for the proved object and board",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-031",
+      "coverage_cell_id": "HKREG-COV-DSRC-031",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Nearby guidance is published beside a Practice Note but expressly remains non-rule guidance",
+      "exact_required_result": "`EXCLUDED_NON_RULE`; no component state, owner, or Search Record",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-010",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-032",
+      "coverage_cell_id": "HKREG-COV-DSRC-032",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "HKEX FAQ does not form part of the Listing Rules",
+      "exact_required_result": "`EXCLUDED_NON_RULE`; preserve only if a bounded evidence use exists",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-033",
+      "coverage_cell_id": "HKREG-COV-DSRC-033",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Consultation or consultation conclusion proposes or explains policy",
+      "exact_required_result": "`EXCLUDED_NON_RULE`; no current rule effect",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-034",
+      "coverage_cell_id": "HKREG-COV-DSRC-034",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Listing or review decision appears in the same search interface",
+      "exact_required_result": "`EXCLUDED_NON_RULE`; no rule-component identity",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-035",
+      "coverage_cell_id": "HKREG-COV-DSRC-035",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Circular or general announcement is not incorporated into a rulebook",
+      "exact_required_result": "`EXCLUDED_NON_RULE`; no rule-component identity",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-036",
+      "coverage_cell_id": "HKREG-COV-DSRC-036",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Checklist, template, or Form-like object has no express incorporation proof",
+      "exact_required_result": "`EXCLUDED_NON_RULE` when exclusion is proved; never a rule from resemblance",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-011",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-037",
+      "coverage_cell_id": "HKREG-COV-DSRC-037",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Final update package proves assigned amendment facts but is not rule text",
+      "exact_required_result": "`EVIDENCE_ONLY`; no rule-component state, owner, or Search Record",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-038",
+      "coverage_cell_id": "HKREG-COV-DSRC-038",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "SFC or Exchange approval artifact proves an assigned approval fact only",
+      "exact_required_result": "`EVIDENCE_ONLY`; no rule-component state, owner, or Search Record",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-039",
+      "coverage_cell_id": "HKREG-COV-DSRC-039",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Official transition or external-trigger evidence proves its assigned fact only",
+      "exact_required_result": "`EVIDENCE_ONLY`; no rule-component state, owner, or Search Record",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-040",
+      "coverage_cell_id": "HKREG-COV-DSRC-040",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Pinned source-relationship or interpretation evidence supports a rulebook rule only",
+      "exact_required_result": "`EVIDENCE_ONLY`; no rule-component state, owner, or Search Record",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-041",
+      "coverage_cell_id": "HKREG-COV-DSRC-041",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Object has only navigation placement, similar title or number, visual resemblance, linking, usefulness, or semantic similarity",
+      "exact_required_result": "`UNRESOLVED_MEMBERSHIP`; quarantine the smallest boundary and assign no owner",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-042",
+      "coverage_cell_id": "HKREG-COV-DSRC-042",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Accepted official artifacts conflict on whether an object forms part of the rulebook",
+      "exact_required_result": "`UNRESOLVED_MEMBERSHIP`; preserve conflict and assign no owner",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-043",
+      "coverage_cell_id": "HKREG-COV-DSRC-043",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Required inclusion evidence is absent or unreadable",
+      "exact_required_result": "`UNRESOLVED_MEMBERSHIP`; preserve the gap and assign no owner",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-044",
+      "coverage_cell_id": "HKREG-COV-DSRC-044",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Exact official evidence assigns a component to Main Board",
+      "exact_required_result": "Own exactly one Main Board component instance",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-012",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-045",
+      "coverage_cell_id": "HKREG-COV-DSRC-045",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Exact official evidence assigns a component to GEM",
+      "exact_required_result": "Own exactly one GEM component instance",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-046",
+      "coverage_cell_id": "HKREG-COV-DSRC-046",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "One official artifact is expressly part of both rulebooks",
+      "exact_required_result": "Create one Main Board and one separate GEM component instance referencing the artifact",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-013",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-047",
+      "coverage_cell_id": "HKREG-COV-DSRC-047",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "One artifact contains several separately maintained components",
+      "exact_required_result": "Create and account for every distinct supported component instance",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-048",
+      "coverage_cell_id": "HKREG-COV-DSRC-048",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Main Board and GEM contain identical wording under their separate rulebooks",
+      "exact_required_result": "Preserve separate component and later record identities",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-049",
+      "coverage_cell_id": "HKREG-COV-DSRC-049",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Website placement suggests one board but express official ownership evidence proves the other",
+      "exact_required_result": "Follow the express evidence and record the placement discrepancy",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-050",
+      "coverage_cell_id": "HKREG-COV-DSRC-050",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Accepted Rule Component lacks any supported board owner",
+      "exact_required_result": "Quarantine it as unowned; the ownership proof fails",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-051",
+      "coverage_cell_id": "HKREG-COV-DSRC-051",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Accepted evidence conflicts between Main Board and GEM ownership",
+      "exact_required_result": "Quarantine the ownership decision; do not choose by convenience",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-052",
+      "coverage_cell_id": "HKREG-COV-DSRC-052",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "One component instance is assigned simultaneously to both boards",
+      "exact_required_result": "Reject the double-owned instance; require two supported instances or quarantine",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-013",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-053",
+      "coverage_cell_id": "HKREG-COV-DSRC-053",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Component has no supported official parent or structural position",
+      "exact_required_result": "Reject the orphaned component and fail the applicable proof",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-054",
+      "coverage_cell_id": "HKREG-COV-DSRC-054",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Same supported component is instantiated twice for one board and location",
+      "exact_required_result": "Reject duplicate ownership and fail the applicable proof",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-055",
+      "coverage_cell_id": "HKREG-COV-DSRC-055",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Main Board component is assigned to GEM, or GEM component to Main Board",
+      "exact_required_result": "Critical wrong-board result; fail the suite",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-012",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-056",
+      "coverage_cell_id": "HKREG-COV-DSRC-056",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Required English evidence is complete and no Chinese artifact exists",
+      "exact_required_result": "Continue through later English gates; Chinese absence has no release effect",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-014",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-057",
+      "coverage_cell_id": "HKREG-COV-DSRC-057",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Required English evidence is missing but an official Chinese translation is available",
+      "exact_required_result": "Block or quarantine the English boundary; never substitute Chinese",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-014",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-058",
+      "coverage_cell_id": "HKREG-COV-DSRC-058",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Optional Chinese wording differs harmlessly without indicating an English defect",
+      "exact_required_result": "Preserve the discrepancy as optional evidence; no serving or identity change",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-015",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-059",
+      "coverage_cell_id": "HKREG-COV-DSRC-059",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Chinese evidence positively signals a possible wrong English board, version, wording, state, or omission",
+      "exact_required_result": "Open the smallest English investigation and block or quarantine affected reuse",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-015",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-060",
+      "coverage_cell_id": "HKREG-COV-DSRC-060",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Chinese-only publication changes while all accepted English serving facts and bytes remain supported",
+      "exact_required_result": "No new Search Record, embedding, or current-release dependency",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-061",
+      "coverage_cell_id": "HKREG-COV-DSRC-061",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Candidate substitutes Chinese, an LLM translation, online presentation, similarity, or warning for missing English",
+      "exact_required_result": "Reject the candidate as prohibited source repair",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-SRC-062",
+      "coverage_cell_id": "HKREG-COV-DSRC-062",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "SOURCE_FACT_AUTHORITY",
+      "synthetic_scenario": "Optional Chinese artifact is preserved for bounded terminology, evaluation, investigation, or audit use",
+      "exact_required_result": "Keep it outside Pinecone with exact traceability only when used",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-001",
+      "coverage_cell_id": "HKREG-COV-DSTA-001",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Ordinary branch is effective and reconciles exactly with the controlling current product",
+      "exact_required_result": "Branch `CURRENT`; searchable only after every separate gate",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-002",
+      "coverage_cell_id": "HKREG-COV-DSTA-002",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Branch applies now only to one exact cohort, transaction, period, or time window",
+      "exact_required_result": "Branch `TRANSITIONAL_CURRENT` with complete limitation facts",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-003",
+      "coverage_cell_id": "HKREG-COV-DSTA-003",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Final branch has a fixed effective point later than the cutoff",
+      "exact_required_result": "`FUTURE_FIXED_DATE`; keep in the Waiting Room",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-004",
+      "coverage_cell_id": "HKREG-COV-DSTA-004",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Final conditional branch has fresh positive evidence that its trigger has not occurred",
+      "exact_required_result": "`FUTURE_CONDITIONAL`; continue targeted monitoring",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-021",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-005",
+      "coverage_cell_id": "HKREG-COV-DSTA-005",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Supported successor covers every former current application",
+      "exact_required_result": "`SUPERSEDED`; historical outside Pinecone",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-006",
+      "coverage_cell_id": "HKREG-COV-DSTA-006",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Exact official evidence ends the obligation without a supported successor",
+      "exact_required_result": "`WITHDRAWN`; historical outside Pinecone",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-024",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-007",
+      "coverage_cell_id": "HKREG-COV-DSTA-007",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Permitted fresh evidence conflicts on operative wording or state",
+      "exact_required_result": "`UNKNOWN`; Quarantine and no newly current record",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-008",
+      "coverage_cell_id": "HKREG-COV-DSTA-008",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Observed entry is not a Rule Component Instance",
+      "exact_required_result": "`NOT_APPLICABLE`; no regulatory Search Record",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-009",
+      "coverage_cell_id": "HKREG-COV-DSTA-009",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Complete branch set contains exactly one ordinary current branch",
+      "exact_required_result": "Component summary `CURRENT`",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-010",
+      "coverage_cell_id": "HKREG-COV-DSTA-010",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Complete branch set contains one or more materially limited current branches",
+      "exact_required_result": "Component summary `TRANSITIONAL_CURRENT`",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-011",
+      "coverage_cell_id": "HKREG-COV-DSTA-011",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Ordinary predecessor remains current while one amendment is only future",
+      "exact_required_result": "Component summary remains `CURRENT`, not transitional",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-016",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-012",
+      "coverage_cell_id": "HKREG-COV-DSTA-012",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "No current branch exists and the complete operative set supports one fixed-date future family",
+      "exact_required_result": "Component summary `FUTURE_FIXED_DATE`",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-013",
+      "coverage_cell_id": "HKREG-COV-DSTA-013",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "No current branch exists and the complete operative set supports one conditional future family",
+      "exact_required_result": "Component summary `FUTURE_CONDITIONAL`",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-014",
+      "coverage_cell_id": "HKREG-COV-DSTA-014",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Every formerly current branch has a complete supported successor",
+      "exact_required_result": "Component summary `SUPERSEDED`",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-015",
+      "coverage_cell_id": "HKREG-COV-DSTA-015",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Every formerly current branch ended without a supported successor",
+      "exact_required_result": "Component summary `WITHDRAWN`",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-016",
+      "coverage_cell_id": "HKREG-COV-DSTA-016",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "One unresolved fact could change which branch is current",
+      "exact_required_result": "Component summary `UNKNOWN`; preserve every branch decision",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-017",
+      "coverage_cell_id": "HKREG-COV-DSTA-017",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Mixed future families cannot be represented honestly by one summary",
+      "exact_required_result": "Component summary `UNKNOWN` unless another exact rule proves one result",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-018",
+      "coverage_cell_id": "HKREG-COV-DSTA-018",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Cutoff is immediately before the Hong Kong effective point",
+      "exact_required_result": "New branch remains future; predecessor remains separately accountable",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-017",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-019",
+      "coverage_cell_id": "HKREG-COV-DSTA-019",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Cutoff reaches the exact point and the controlling current product matches",
+      "exact_required_result": "New branch becomes `CURRENT` or `TRANSITIONAL_CURRENT` as its scope requires",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-017",
+          "role": "POSITIVE"
+        },
+        {
+          "pair_id": "HKREG-PAIR-018",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-020",
+      "coverage_cell_id": "HKREG-COV-DSTA-020",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Effective point passed but the controlling product still has incompatible old wording or omits the change",
+      "exact_required_result": "`UNKNOWN`; no reconstruction or clock-only promotion",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-018",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-021",
+      "coverage_cell_id": "HKREG-COV-DSTA-021",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Publisher exposes future wording before its stated effective point",
+      "exact_required_result": "Keep the future branch in the Waiting Room; handle predecessor evidence separately",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-022",
+      "coverage_cell_id": "HKREG-COV-DSTA-022",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Effective wording gives an ambiguous date, time, or time zone",
+      "exact_required_result": "`UNKNOWN`; do not invent temporal precision",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-023",
+      "coverage_cell_id": "HKREG-COV-DSTA-023",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Source expressly supplies a time zone different from Hong Kong",
+      "exact_required_result": "Apply the exact supplied zone and cutoff before deciding state",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-024",
+      "coverage_cell_id": "HKREG-COV-DSTA-024",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "One final update assigns several changed ranges to different fixed dates",
+      "exact_required_result": "Create and decide every mapped branch independently",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-025",
+      "coverage_cell_id": "HKREG-COV-DSTA-025",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "One final update contains fixed-date and external-condition changes",
+      "exact_required_result": "Preserve separate fixed and conditional branches and evidence",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-026",
+      "coverage_cell_id": "HKREG-COV-DSTA-026",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Final update describes an external condition but supplies no occurrence evidence",
+      "exact_required_result": "Keep the branch conditional or unknown under trigger freshness; do not activate it",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-019",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-027",
+      "coverage_cell_id": "HKREG-COV-DSTA-027",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Permitted official source proves trigger occurrence and the current product matches",
+      "exact_required_result": "Activate and classify the branch according to its exact present scope",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-019",
+          "role": "POSITIVE"
+        },
+        {
+          "pair_id": "HKREG-PAIR-020",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-028",
+      "coverage_cell_id": "HKREG-COV-DSTA-028",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Trigger is proved but current compiled wording conflicts or lags",
+      "exact_required_result": "`UNKNOWN`; no reconstructed current wording",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-020",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-029",
+      "coverage_cell_id": "HKREG-COV-DSTA-029",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Event could have occurred but its required source is stale, unavailable, incomplete, or conflicting",
+      "exact_required_result": "`UNKNOWN`; absence of evidence is not non-occurrence",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-021",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-030",
+      "coverage_cell_id": "HKREG-COV-DSTA-030",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Every fact in an all-of condition is positively proved",
+      "exact_required_result": "Activate the branch, subject to current-product reconciliation",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-031",
+      "coverage_cell_id": "HKREG-COV-DSTA-031",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "At least one all-of fact is freshly proved not to have occurred and no alternative uncertainty changes that result",
+      "exact_required_result": "Remain `FUTURE_CONDITIONAL`",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-032",
+      "coverage_cell_id": "HKREG-COV-DSTA-032",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "One required all-of fact is unresolved when it could have occurred",
+      "exact_required_result": "`UNKNOWN`",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-033",
+      "coverage_cell_id": "HKREG-COV-DSTA-033",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Any one permitted fact in an any-of condition is positively proved",
+      "exact_required_result": "Activate the branch, subject to current-product reconciliation",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-034",
+      "coverage_cell_id": "HKREG-COV-DSTA-034",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Every any-of alternative is freshly and positively supported as not having occurred",
+      "exact_required_result": "Remain `FUTURE_CONDITIONAL`",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-035",
+      "coverage_cell_id": "HKREG-COV-DSTA-035",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "One any-of alternative is unresolved and could have occurred",
+      "exact_required_result": "`UNKNOWN`",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-036",
+      "coverage_cell_id": "HKREG-COV-DSTA-036",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Old and new obligations concurrently apply to different supported cohorts",
+      "exact_required_result": "Preserve both as `TRANSITIONAL_CURRENT`; component summary transitional",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-016",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-037",
+      "coverage_cell_id": "HKREG-COV-DSTA-037",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Concurrent branches have materially different wording or obligations",
+      "exact_required_result": "Require separate complete record responsibilities",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-022",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-038",
+      "coverage_cell_id": "HKREG-COV-DSTA-038",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Same wording has one simple fully stated applicability limitation",
+      "exact_required_result": "One record is eligible only when `metadata.text` carries the complete limitation",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-022",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-039",
+      "coverage_cell_id": "HKREG-COV-DSTA-039",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Transition has no official end and cohort exhaustion is not provable",
+      "exact_required_result": "Keep the branch `TRANSITIONAL_CURRENT`; do not guess exhaustion",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-040",
+      "coverage_cell_id": "HKREG-COV-DSTA-040",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Exact evidence proves the last old cohort ended and a successor covers its former applications",
+      "exact_required_result": "Old branch `SUPERSEDED`",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-023",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-041",
+      "coverage_cell_id": "HKREG-COV-DSTA-041",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Exact evidence proves the last old cohort ended without a successor obligation",
+      "exact_required_result": "Old branch `WITHDRAWN`",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-042",
+      "coverage_cell_id": "HKREG-COV-DSTA-042",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Successor covers only part of the predecessor's former applications",
+      "exact_required_result": "Remaining old branch stays `TRANSITIONAL_CURRENT`",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-023",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-043",
+      "coverage_cell_id": "HKREG-COV-DSTA-043",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Overlapping amendments have update numbers out of effective order",
+      "exact_required_result": "Order branches by supported effective facts, not update numbers",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-044",
+      "coverage_cell_id": "HKREG-COV-DSTA-044",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Overlap creates an unresolved collision, gap, or precedence conflict",
+      "exact_required_result": "Affected branch `UNKNOWN` and quarantined",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-045",
+      "coverage_cell_id": "HKREG-COV-DSTA-045",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Rule disappears from a page, locator, filename, or contents without ending evidence",
+      "exact_required_result": "Do not infer supersession or withdrawal; preserve prior facts and expose the gap",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-024",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-STA-046",
+      "coverage_cell_id": "HKREG-COV-DSTA-046",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Similar wording, reused number, or higher update number is offered as continuity evidence",
+      "exact_required_result": "Do not infer identity, successor coverage, or retirement",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-047",
+      "coverage_cell_id": "HKREG-COV-DSTA-047",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Technical outage supports explicit last-approved carry-forward",
+      "exact_required_result": "Preserve last-approved status, last-verified date, Coverage Gap, warning, optional due time, and support; do not call it fresh",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-048",
+      "coverage_cell_id": "HKREG-COV-DSTA-048",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Available evidence makes continued serving materially misleading",
+      "exact_required_result": "Withhold the affected records under ADR 0005",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-049",
+      "coverage_cell_id": "HKREG-COV-DSTA-049",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Neither carry-forward nor withholding supports a safe rebuilt target",
+      "exact_required_result": "Build no new jurisdiction target",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-050",
+      "coverage_cell_id": "HKREG-COV-DSTA-050",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Branch state is `CURRENT` but another required gate fails",
+      "exact_required_result": "Do not create or promote a Search Record; state alone is not serving approval",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-STA-051",
+      "coverage_cell_id": "HKREG-COV-DSTA-051",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "EFFECTIVE_STATE",
+      "synthetic_scenario": "Candidate uses an authority note, confidence, or prose to turn `UNKNOWN` into current",
+      "exact_required_result": "Reject the repair; retain `UNKNOWN` and Quarantine",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-001",
+      "coverage_cell_id": "HKREG-COV-DBND-001",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "One official rule states one coherent independently usable obligation",
+      "exact_required_result": "One complete normal record responsibility",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-002",
+      "coverage_cell_id": "HKREG-COV-DBND-002",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Numbered subrules each state independently usable obligations",
+      "exact_required_result": "Separate complete record responsibilities for each subrule",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-025",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-BND-003",
+      "coverage_cell_id": "HKREG-COV-DBND-003",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Numbered children form cumulative conditions under one shared obligation",
+      "exact_required_result": "Keep the complete inseparable condition group together",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-025",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-BND-004",
+      "coverage_cell_id": "HKREG-COV-DBND-004",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Alternatives, conjunctions, exceptions, or shared qualifications make several list items inseparable",
+      "exact_required_result": "Keep the exact complete group with its governing logic",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-005",
+      "coverage_cell_id": "HKREG-COV-DBND-005",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "One list item is independently usable only with its grammatical lead-in",
+      "exact_required_result": "Select the item and repeat the exact lead-in as required governing context",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-026",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-BND-006",
+      "coverage_cell_id": "HKREG-COV-DBND-006",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Candidate strands the same item without its governing lead-in",
+      "exact_required_result": "Reject the child boundary as unsafe; retain a larger complete unit",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-026",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-BND-007",
+      "coverage_cell_id": "HKREG-COV-DBND-007",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Qualification, exception, or proviso materially controls an obligation",
+      "exact_required_result": "Keep it with the exact obligation it limits",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-008",
+      "coverage_cell_id": "HKREG-COV-DBND-008",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Incorporated note qualifies one rule, definition, or branch",
+      "exact_required_result": "Attach it to that exact owner and retain it in the complete unit",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-027",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-BND-009",
+      "coverage_cell_id": "HKREG-COV-DBND-009",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Candidate strands the incorporated note in another record",
+      "exact_required_result": "Reject both incomplete ownership and record boundary",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-027",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-BND-010",
+      "coverage_cell_id": "HKREG-COV-DBND-010",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Large definition collection has term-level entries and applicable global scope text",
+      "exact_required_result": "One responsibility per defined term with all required collection scope preserved",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-011",
+      "coverage_cell_id": "HKREG-COV-DBND-011",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Global definition applies broadly across the rulebook",
+      "exact_required_result": "Keep one separate searchable definition record and internal relationships",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-028",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-BND-012",
+      "coverage_cell_id": "HKREG-COV-DBND-012",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Candidate copies the global definition into every using rule",
+      "exact_required_result": "Reject the unnecessary duplication as non-governing overlap",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-028",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-BND-013",
+      "coverage_cell_id": "HKREG-COV-DBND-013",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Definition is embedded locally and governs only one branch",
+      "exact_required_result": "Keep it with that branch as required context",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-014",
+      "coverage_cell_id": "HKREG-COV-DBND-014",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Appendix has one independently usable official paragraph",
+      "exact_required_result": "One complete appendix record responsibility",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-015",
+      "coverage_cell_id": "HKREG-COV-DBND-015",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Practice Note has one independently usable official paragraph",
+      "exact_required_result": "One complete Practice Note record responsibility",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-016",
+      "coverage_cell_id": "HKREG-COV-DBND-016",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Website container, navigation label, PDF page, line wrap, table cell, blank field, or renderer part is offered as a Legal Location",
+      "exact_required_result": "Reject presentation-only identity; use proved legal structure",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-017",
+      "coverage_cell_id": "HKREG-COV-DBND-017",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Accepted English product has ambiguous substantive structure",
+      "exact_required_result": "Open Source Contract Review or quarantine the smallest branch; do not guess",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-018",
+      "coverage_cell_id": "HKREG-COV-DBND-018",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Exact grammatical parent, local scope, transition, or qualification is necessary to preserve meaning",
+      "exact_required_result": "Repeat only that exact material as labelled required governing context",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-029",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-BND-019",
+      "coverage_cell_id": "HKREG-COV-DBND-019",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Helpful background is proposed as generic overlap but omission changes no legal meaning",
+      "exact_required_result": "Exclude it from dependency closure and serving overlap",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-029",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-BND-020",
+      "coverage_cell_id": "HKREG-COV-DBND-020",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Required context repeats a source unit owned primarily elsewhere",
+      "exact_required_result": "Point to the exact owner and fingerprint; do not count it as primary again",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-021",
+      "coverage_cell_id": "HKREG-COV-DBND-021",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Rule contains an ordinary cross-reference with an exact target locator and helpful official heading",
+      "exact_required_result": "Preserve referring words, locator, and permitted heading only",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-030",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-BND-022",
+      "coverage_cell_id": "HKREG-COV-DBND-022",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Candidate recursively copies the target rule text into the referring record",
+      "exact_required_result": "Reject recursive copying; retain internal relationship instead",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-030",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-BND-023",
+      "coverage_cell_id": "HKREG-COV-DBND-023",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Reference chain A to B to C is resolvable",
+      "exact_required_result": "Preserve exact separate relationships without recursively expanding B or C",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-024",
+      "coverage_cell_id": "HKREG-COV-DBND-024",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Target identity or locator is unresolved",
+      "exact_required_result": "Preserve referring words and quarantine or review exact target resolution; do not guess",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-025",
+      "coverage_cell_id": "HKREG-COV-DBND-025",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Main Board rule refers to a distinct GEM or cross-market location",
+      "exact_required_result": "Preserve both board identities and relationship; never merge or copy target text",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-026",
+      "coverage_cell_id": "HKREG-COV-DBND-026",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Target wording changes but the referring record's six serving fields remain byte-identical",
+      "exact_required_result": "Update relationship or traceability revision only; no referring-record churn",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-027",
+      "coverage_cell_id": "HKREG-COV-DBND-027",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Child can stand independently with its exact locator and minimum dependencies",
+      "exact_required_result": "Accept the child as the normal complete unit",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-031",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-BND-028",
+      "coverage_cell_id": "HKREG-COV-DBND-028",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Child cannot be understood safely without its official parent",
+      "exact_required_result": "Keep the larger parent together; do not serve the child alone",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-031",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DEC-BND-029",
+      "coverage_cell_id": "HKREG-COV-DBND-029",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "No complete source-supported unit plus required context can fit later hard limits",
+      "exact_required_result": "Quarantine the smallest affected branch; do not copy or paraphrase target material",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DEC-BND-030",
+      "coverage_cell_id": "HKREG-COV-DBND-030",
+      "layer": "EVIDENCE_TO_DECISION",
+      "primary_checkpoint": "RECORD_BOUNDARY",
+      "synthetic_scenario": "Unrelated short rule would fit beside an overlong sibling",
+      "exact_required_result": "Keep it separate; never pack unrelated normal units for fill efficiency",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-001",
+      "coverage_cell_id": "HKREG-COV-DRND-001",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Ordinary current rule has no optional context blocks",
+      "exact_required_result": "Exact canonical ordinary `metadata.text` bytes in fixed block order",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-002",
+      "coverage_cell_id": "HKREG-COV-DRND-002",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Equivalent source units belong separately to Main Board and GEM",
+      "exact_required_result": "Distinct exact Market context and separate canonical records",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-003",
+      "coverage_cell_id": "HKREG-COV-DRND-003",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "HKEX supplies an official English heading",
+      "exact_required_result": "Include exact `Official heading` line",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-004",
+      "coverage_cell_id": "HKREG-COV-DRND-004",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "HKEX supplies no official heading",
+      "exact_required_result": "Omit the heading block completely; do not invent one",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-005",
+      "coverage_cell_id": "HKREG-COV-DRND-005",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Current branch has a material cohort, period, or condition",
+      "exact_required_result": "Render the closed exact `Effective context` line plus substantive source wording",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-032",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-RND-006",
+      "coverage_cell_id": "HKREG-COV-DRND-006",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Ordinary current branch has no material special limitation",
+      "exact_required_result": "Omit `Effective context`; do not add generic current prose",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-032",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-RND-007",
+      "coverage_cell_id": "HKREG-COV-DRND-007",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Primary unit requires repeated governing source text",
+      "exact_required_result": "Render exact labelled `Required governing context` block",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-008",
+      "coverage_cell_id": "HKREG-COV-DRND-008",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Primary unit requires no repeated governing source text",
+      "exact_required_result": "Omit the governing-context block completely",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-009",
+      "coverage_cell_id": "HKREG-COV-DRND-009",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Exact cross-reference has a permitted target heading",
+      "exact_required_result": "Render exact `Referenced locations` entry without target text",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-010",
+      "coverage_cell_id": "HKREG-COV-DRND-010",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Record has no applicable referenced location",
+      "exact_required_result": "Omit the referenced-locations block completely",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-011",
+      "coverage_cell_id": "HKREG-COV-DRND-011",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Source contains meaningful numbering, punctuation, capitalization, order, labels, and notes",
+      "exact_required_result": "Preserve them exactly in the closed source-faithful projection",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-012",
+      "coverage_cell_id": "HKREG-COV-DRND-012",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Canonical renderer receives equivalent Unicode and line-ending presentations",
+      "exact_required_result": "Emit UTF-8 NFC, LF, stable order, no trailing spaces, and no outer blank lines",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-013",
+      "coverage_cell_id": "HKREG-COV-DRND-013",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Source artifact contains URLs, page furniture, web controls, IDs, fingerprints, dates, reviewer prose, model output, and Chinese support",
+      "exact_required_result": "Exclude every forbidden item while preserving substantive English source units",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-014",
+      "coverage_cell_id": "HKREG-COV-DRND-014",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "No approved authority-note clause applies",
+      "exact_required_result": "Emit required `metadata.authority_note` exactly `\"None\"`, separate from text",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-057",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-RND-015",
+      "coverage_cell_id": "HKREG-COV-DRND-015",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Approved effective-date warning applies",
+      "exact_required_result": "Emit the exact English controlled warning separately; never leave `\"None\"` or modify source text",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-057",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-RND-016",
+      "coverage_cell_id": "HKREG-COV-DRND-016",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Authority note is present and metadata serialization is measured",
+      "exact_required_result": "Exclude it from embedding input but include its bytes in the six-field ceiling",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-017",
+      "coverage_cell_id": "HKREG-COV-DRND-017",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Table value has complete caption, lead-in, headers, units, spans, order, and notes",
+      "exact_required_result": "Emit exact closed table projection preserving every relationship",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-033",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-RND-018",
+      "coverage_cell_id": "HKREG-COV-DRND-018",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Candidate detaches a table value from its header or unit",
+      "exact_required_result": "Reject the projection; produce no incomplete record",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-033",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-RND-019",
+      "coverage_cell_id": "HKREG-COV-DRND-019",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Multi-level or row-spanning header controls several values",
+      "exact_required_result": "Project the controlling labels unambiguously for every value without invention",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-020",
+      "coverage_cell_id": "HKREG-COV-DRND-020",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Table changes only page layout, wrapping, or visual placement",
+      "exact_required_result": "Emit byte-identical canonical table output",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-034",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-RND-021",
+      "coverage_cell_id": "HKREG-COV-DRND-021",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "One material header, row, unit, value, or note changes",
+      "exact_required_result": "Emit changed canonical bytes and the exact downstream identity consequence",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-034",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-RND-022",
+      "coverage_cell_id": "HKREG-COV-DRND-022",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Fee bracket has amount, currency, basis, timing, activation condition, and notes",
+      "exact_required_result": "Emit one complete source-faithful fee branch",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-035",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-RND-023",
+      "coverage_cell_id": "HKREG-COV-DRND-023",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Candidate includes a fee amount without currency, basis, timing, or applicable note",
+      "exact_required_result": "Reject the incomplete fee branch",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-035",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-RND-024",
+      "coverage_cell_id": "HKREG-COV-DRND-024",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Form contains a substantive selection control, declaration, instruction, or signing requirement",
+      "exact_required_result": "Preserve it with its governing Form scope",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-036",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-RND-025",
+      "coverage_cell_id": "HKREG-COV-DRND-025",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Form contains a purely presentation-only blank or web control",
+      "exact_required_result": "Classify and omit it without discarding substantive content",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-036",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-RND-026",
+      "coverage_cell_id": "HKREG-COV-DRND-026",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Form has official Parts, connected field groups, declarations, certifications, and signing requirements",
+      "exact_required_result": "Emit complete class-specific Form units, never isolated blank fields",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-027",
+      "coverage_cell_id": "HKREG-COV-DRND-027",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Blank input and selection areas require neutral representation",
+      "exact_required_result": "Use the pinned neutral markers without inventing completed values",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-028",
+      "coverage_cell_id": "HKREG-COV-DRND-028",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Candidate creates one Search Record per blank field",
+      "exact_required_result": "Reject fragmentation and reconstruct the complete supported Form unit",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-029",
+      "coverage_cell_id": "HKREG-COV-DRND-029",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Complete prevailing English record has optional Chinese evidence outside serving",
+      "exact_required_result": "Emit English-only text and one ordinary vector responsibility",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-037",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-RND-030",
+      "coverage_cell_id": "HKREG-COV-DRND-030",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Candidate inserts Chinese source text, creates a Chinese duplicate, or requests a parallel vector",
+      "exact_required_result": "Reject every prohibited serving path",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-037",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-RND-031",
+      "coverage_cell_id": "HKREG-COV-DRND-031",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Character, ownership, or substantive layout is ambiguous",
+      "exact_required_result": "Fail closed and quarantine or review; do not silently normalize or correct",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-032",
+      "coverage_cell_id": "HKREG-COV-DRND-032",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Approved transitional-applicability warning applies beyond the complete source context",
+      "exact_required_result": "Emit its exact controlled English clause separately from `metadata.text`",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-033",
+      "coverage_cell_id": "HKREG-COV-DRND-033",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Approved market-scope warning applies",
+      "exact_required_result": "Emit its exact controlled English clause without changing board identity or source wording",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-034",
+      "coverage_cell_id": "HKREG-COV-DRND-034",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Approved source limitation applies",
+      "exact_required_result": "Emit its exact controlled English warning; never use it to repair missing evidence",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-RND-035",
+      "coverage_cell_id": "HKREG-COV-DRND-035",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "CANONICAL_RENDERING",
+      "synthetic_scenario": "Approved representation or unresolved-reference limitation applies",
+      "exact_required_result": "Emit its exact controlled English warning only for the supported limitation; unresolved legal state remains quarantined",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-001",
+      "coverage_cell_id": "HKREG-COV-DPAR-001",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Final rendered payload fits the token and six-field byte ceilings exactly",
+      "exact_required_result": "Keep one complete unsplit record and preserve exact measurements",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-038",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PAR-002",
+      "coverage_cell_id": "HKREG-COV-DPAR-002",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Final `metadata.text` exceeds only the pinned token ceiling",
+      "exact_required_result": "Enter official-structure partitioning; byte fit does not excuse token overflow",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-003",
+      "coverage_cell_id": "HKREG-COV-DPAR-003",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Six-field serialization exceeds only the metadata byte ceiling",
+      "exact_required_result": "Enter valid partitioning when text can cure it; token fit does not excuse byte overflow",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-004",
+      "coverage_cell_id": "HKREG-COV-DPAR-004",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Final payload exceeds both ceilings",
+      "exact_required_result": "Partition only through official structure and satisfy both limits",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-005",
+      "coverage_cell_id": "HKREG-COV-DPAR-005",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Candidate measurement omits context, references, table/Form projection, a metadata string, or authority note",
+      "exact_required_result": "Reject the incomplete measurement before any fit decision",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-006",
+      "coverage_cell_id": "HKREG-COV-DPAR-006",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Preliminary parts fit until real `Serving part: X of N` labels are rendered",
+      "exact_required_result": "Recompute the frontier or fail; never serve a label-induced overflow",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-038",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PAR-007",
+      "coverage_cell_id": "HKREG-COV-DPAR-007",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Complete official child fits with all required context",
+      "exact_required_result": "Keep the child whole in the frontier",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-008",
+      "coverage_cell_id": "HKREG-COV-DPAR-008",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "One child remains oversized while its siblings fit",
+      "exact_required_result": "Replace only the oversized child with its complete official children and repeat",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-009",
+      "coverage_cell_id": "HKREG-COV-DPAR-009",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Several official depths could form a frontier",
+      "exact_required_result": "Use the largest safe complete units in exact source order",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-010",
+      "coverage_cell_id": "HKREG-COV-DPAR-010",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Several valid contiguous partitions exist",
+      "exact_required_result": "Select the solution with the fewest total parts",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-011",
+      "coverage_cell_id": "HKREG-COV-DPAR-011",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Equal-part solutions remain after minimizing part count",
+      "exact_required_result": "Fill every earlier part with the greatest possible consecutive frontier units",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-012",
+      "coverage_cell_id": "HKREG-COV-DPAR-012",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Different applicability branches require different supported depths",
+      "exact_required_result": "Partition each branch independently without forcing aligned depth",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-013",
+      "coverage_cell_id": "HKREG-COV-DPAR-013",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Final part total and labels are known",
+      "exact_required_result": "Re-render and remeasure every complete part against both ceilings",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-014",
+      "coverage_cell_id": "HKREG-COV-DPAR-014",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Proposed partition crosses the normal record unit's official boundary",
+      "exact_required_result": "Reject the cross-boundary partition",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-015",
+      "coverage_cell_id": "HKREG-COV-DPAR-015",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Unrelated short rule could fill unused capacity in an overlong sibling",
+      "exact_required_result": "Keep it separate; reject packing for utilization",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-016",
+      "coverage_cell_id": "HKREG-COV-DPAR-016",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Oversized unit has a proved official child boundary that preserves complete meaning",
+      "exact_required_result": "Split only at that boundary and retain all required context",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-039",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PAR-017",
+      "coverage_cell_id": "HKREG-COV-DPAR-017",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Candidate cuts at a PDF page or visual page position with no independent semantic boundary",
+      "exact_required_result": "Reject the arbitrary cut",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-039",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PAR-018",
+      "coverage_cell_id": "HKREG-COV-DPAR-018",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Candidate cuts at sentence or punctuation merely because the limit is near",
+      "exact_required_result": "Reject unless the same point is independently an official semantic boundary",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-019",
+      "coverage_cell_id": "HKREG-COV-DPAR-019",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Candidate cuts at whitespace, token position, or preferred size",
+      "exact_required_result": "Reject the arbitrary cut",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-020",
+      "coverage_cell_id": "HKREG-COV-DPAR-020",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Candidate cuts by character count, visual column, or sliding window",
+      "exact_required_result": "Reject the arbitrary cut",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-021",
+      "coverage_cell_id": "HKREG-COV-DPAR-021",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Candidate removes governing context to make a part fit",
+      "exact_required_result": "Reject the incomplete part; context is not optional compression",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PAR-022",
+      "coverage_cell_id": "HKREG-COV-DPAR-022",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Overlong unit has complete official descendants that fit after valid recursion",
+      "exact_required_result": "Emit the exact minimum-part earliest-full partition and coverage mappings",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-040",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PAR-023",
+      "coverage_cell_id": "HKREG-COV-DPAR-023",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Smallest complete official unit plus required context still exceeds a ceiling",
+      "exact_required_result": "Emit no record; Quarantine the smallest affected branch and record a Coverage Gap",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-040",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PAR-024",
+      "coverage_cell_id": "HKREG-COV-DPAR-024",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PARTITIONING",
+      "synthetic_scenario": "Mandatory fixed metadata alone makes every otherwise valid part too large",
+      "exact_required_result": "Emit no record; do not attempt futile additional text splitting",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-COV-001",
+      "coverage_cell_id": "HKREG-COV-DCOV-001",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Every meaning-bearing current unit has exactly one primary owner",
+      "exact_required_result": "Valid complete primary-ownership coverage proof with reproducible totals",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-041",
+          "role": "POSITIVE"
+        },
+        {
+          "pair_id": "HKREG-PAIR-042",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-COV-002",
+      "coverage_cell_id": "HKREG-COV-DCOV-002",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "One required current unit cannot produce a safe record",
+      "exact_required_result": "Account it explicitly as blocked or quarantined; never silently omit it",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-COV-003",
+      "coverage_cell_id": "HKREG-COV-DCOV-003",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Governing source unit repeats in several records",
+      "exact_required_result": "One primary owner plus exact labelled dependency pointers and fingerprints",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-COV-004",
+      "coverage_cell_id": "HKREG-COV-DCOV-004",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Heading, container, or visual element is context-only or presentation-only",
+      "exact_required_result": "Record its explicit classification and permitted consequence",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-COV-005",
+      "coverage_cell_id": "HKREG-COV-DCOV-005",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Table and Form include headers, notes, Parts, groups, fields, and meaningful controls",
+      "exact_required_result": "Account every substantive and presentation unit exactly once by role",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-COV-006",
+      "coverage_cell_id": "HKREG-COV-DCOV-006",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Complete tree contains future, superseded, withdrawn, unknown, and excluded units",
+      "exact_required_result": "Account them respectively in Waiting Room, history, Quarantine, and exclusion outcomes",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-COV-007",
+      "coverage_cell_id": "HKREG-COV-DCOV-007",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Every primary unit preserves exact source order and board ownership",
+      "exact_required_result": "Valid order-and-ownership proof",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-043",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-COV-008",
+      "coverage_cell_id": "HKREG-COV-DCOV-008",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "One meaning-bearing source unit is absent from all outcomes",
+      "exact_required_result": "Invalidate coverage and serving readiness",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-041",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-COV-009",
+      "coverage_cell_id": "HKREG-COV-DCOV-009",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "One source unit is counted as primary in two records",
+      "exact_required_result": "Invalidate duplicate primary ownership",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-042",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-COV-010",
+      "coverage_cell_id": "HKREG-COV-DCOV-010",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Primary source units are reordered",
+      "exact_required_result": "Invalidate source-order proof even when all text is present",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-043",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-COV-011",
+      "coverage_cell_id": "HKREG-COV-DCOV-011",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Output contains a primary unit with no declared source-tree owner",
+      "exact_required_result": "Invalidate the orphaned output",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-COV-012",
+      "coverage_cell_id": "HKREG-COV-DCOV-012",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Main Board unit is covered by a GEM record or vice versa",
+      "exact_required_result": "Invalidate wrong-board coverage",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-COV-013",
+      "coverage_cell_id": "HKREG-COV-DCOV-013",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Repeated source text lacks required dependency label, owner, or fingerprint",
+      "exact_required_result": "Invalidate dependency accounting",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-COV-014",
+      "coverage_cell_id": "HKREG-COV-DCOV-014",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Output silently translates, summarizes, corrects, invents, or drops source meaning",
+      "exact_required_result": "Invalidate source fidelity and coverage",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-COV-015",
+      "coverage_cell_id": "HKREG-COV-DCOV-015",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Complete proof has every required current unit ready and no blocking result",
+      "exact_required_result": "Board may be marked serving-ready for later gates; no promotion is authorized",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-044",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-COV-016",
+      "coverage_cell_id": "HKREG-COV-DCOV-016",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Complete proof exposes one quarantined required current unit",
+      "exact_required_result": "Accounting is complete but the affected board is not serving-ready",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-044",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-COV-017",
+      "coverage_cell_id": "HKREG-COV-DCOV-017",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Main Board has one proved bounded failure while GEM is independently complete",
+      "exact_required_result": "Main Board not ready; GEM readiness may remain valid",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-045",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-COV-018",
+      "coverage_cell_id": "HKREG-COV-DCOV-018",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Shared unbounded gap prevents both inventories or current sets from being proved",
+      "exact_required_result": "Neither board is serving-ready",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-045",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-COV-019",
+      "coverage_cell_id": "HKREG-COV-DCOV-019",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Record count, PDF page count, parser success, or text-presence check matches expectations",
+      "exact_required_result": "Do not infer coverage or readiness without the complete source-unit proof",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-COV-020",
+      "coverage_cell_id": "HKREG-COV-DCOV-020",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+      "synthetic_scenario": "Complete accounting correctly produces zero Search Records",
+      "exact_required_result": "Valid zero-output proof with every source unit assigned a non-serving outcome",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-001",
+      "coverage_cell_id": "HKREG-COV-DIDN-001",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Main Board and GEM records have byte-identical source wording",
+      "exact_required_result": "Keep separate board-owned Legal Locations and Search Records",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-002",
+      "coverage_cell_id": "HKREG-COV-DIDN-002",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Candidate six-field bytes exactly match an existing record and current legal support is proved",
+      "exact_required_result": "Reuse the exact Search Record; create no duplicate ID",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-046",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-IDN-003",
+      "coverage_cell_id": "HKREG-COV-DIDN-003",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Previously issued exact record becomes supported again after an intervening selection",
+      "exact_required_result": "Reselect through a new append-only selection event; create no backward lineage edge",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-004",
+      "coverage_cell_id": "HKREG-COV-DIDN-004",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Primary English serving text changes by one supported byte",
+      "exact_required_result": "Issue a new immutable Search Record with typed forward lineage",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-046",
+          "role": "NEAR_MISS"
+        },
+        {
+          "pair_id": "HKREG-PAIR-048",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-IDN-005",
+      "coverage_cell_id": "HKREG-COV-DIDN-005",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Material applicability or effective-context rendering changes",
+      "exact_required_result": "Issue a new Search Record with exact change reason",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-006",
+      "coverage_cell_id": "HKREG-COV-DIDN-006",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Required governing dependency closure changes",
+      "exact_required_result": "Issue a new Search Record with exact change reason",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-007",
+      "coverage_cell_id": "HKREG-COV-DIDN-007",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Rendered referenced-location bytes change",
+      "exact_required_result": "Issue a new Search Record when the six-field payload changes",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-008",
+      "coverage_cell_id": "HKREG-COV-DIDN-008",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Table or Form projection changes materially",
+      "exact_required_result": "Issue a new Search Record with exact change reason",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-009",
+      "coverage_cell_id": "HKREG-COV-DIDN-009",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Canonical partition boundary or final serving-part label changes",
+      "exact_required_result": "Issue the affected new Search Records and typed lineage",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-010",
+      "coverage_cell_id": "HKREG-COV-DIDN-010",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "`metadata.authority_note` changes while `metadata.text` is unchanged",
+      "exact_required_result": "Issue a new Search Record; reuse cached embedding only if the pinned text contract matches",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-047",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-IDN-011",
+      "coverage_cell_id": "HKREG-COV-DIDN-011",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "URL moves while canonical serving bytes and legal support remain exact",
+      "exact_required_result": "Reuse the existing Search Record; update aliases or traceability only",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-048",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-IDN-012",
+      "coverage_cell_id": "HKREG-COV-DIDN-012",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Page reflow or navigation changes with byte-identical canonical payload",
+      "exact_required_result": "Reuse the Search Record; no embedding or Pinecone record churn",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-013",
+      "coverage_cell_id": "HKREG-COV-DIDN-013",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Optional Chinese changes without exposing an English defect",
+      "exact_required_result": "Reuse the supported English Search Record",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-014",
+      "coverage_cell_id": "HKREG-COV-DIDN-014",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Citation, grouping, provenance, alias, or evidence reference changes without a serving-field change",
+      "exact_required_result": "Create a new immutable Record Traceability Lookup revision only",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-047",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-IDN-015",
+      "coverage_cell_id": "HKREG-COV-DIDN-015",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Chinese evidence exposes a possible defect in the accepted English decision",
+      "exact_required_result": "Block reuse until the English support is resolved; do not create a Chinese record",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-016",
+      "coverage_cell_id": "HKREG-COV-DIDN-016",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Desired inventory contains one Search Record with one exact lookup entry",
+      "exact_required_result": "Validate payload, layered identities, scope, release, evidence, and authority-note fingerprints",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-017",
+      "coverage_cell_id": "HKREG-COV-DIDN-017",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Lookup entry is missing, duplicated, orphaned, or mismatched",
+      "exact_required_result": "Block readiness and promotion validation",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-018",
+      "coverage_cell_id": "HKREG-COV-DIDN-018",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Lookup entry binds the correct bytes to the wrong board or location",
+      "exact_required_result": "Block readiness as a critical ownership mismatch",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-019",
+      "coverage_cell_id": "HKREG-COV-DIDN-019",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "One record replaces one predecessor",
+      "exact_required_result": "Record one-to-one forward lineage with evidence and no cycle",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-020",
+      "coverage_cell_id": "HKREG-COV-DIDN-020",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "One record splits into several, or several merge into one",
+      "exact_required_result": "Record typed one-to-many or many-to-one forward lineage with complete evidence",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-021",
+      "coverage_cell_id": "HKREG-COV-DIDN-021",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Candidate lineage points backward or creates a cycle",
+      "exact_required_result": "Reject the lineage and candidate state",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-IDN-022",
+      "coverage_cell_id": "HKREG-COV-DIDN-022",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Exact official evidence proves renumbering or other permitted continuity",
+      "exact_required_result": "Preserve or relate identities exactly as the rulebook requires",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-049",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-IDN-023",
+      "coverage_cell_id": "HKREG-COV-DIDN-023",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Continuity is inferred only from similarity, title, URL, number, or alias",
+      "exact_required_result": "Quarantine the identity decision; do not reuse or merge IDs",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-049",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-IDN-024",
+      "coverage_cell_id": "HKREG-COV-DIDN-024",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "RECORD_IDENTITY",
+      "synthetic_scenario": "Lookup authority-note evidence or rendered fingerprint disagrees with the record",
+      "exact_required_result": "Block readiness and promotion validation",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-001",
+      "coverage_cell_id": "HKREG-COV-DPKG-001",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Complete strict package declares every root, catalogue, case, contract, artifact, path, role, hash, and inventory",
+      "exact_required_result": "Validate the package and its one canonical fingerprint",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-002",
+      "coverage_cell_id": "HKREG-COV-DPKG-002",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Root or case document contains an unknown property, enum, source role, artifact role, rule, reason, case, cell, or pair",
+      "exact_required_result": "Reject under the closed schema; never ignore for forward compatibility",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-003",
+      "coverage_cell_id": "HKREG-COV-DPKG-003",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Declared artifact bytes do not match SHA-256",
+      "exact_required_result": "Reject the package before case execution",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-004",
+      "coverage_cell_id": "HKREG-COV-DPKG-004",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Package contains an undeclared local file used by the runner",
+      "exact_required_result": "Reject the package and undeclared access",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-005",
+      "coverage_cell_id": "HKREG-COV-DPKG-005",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Declared required file is absent",
+      "exact_required_result": "Reject as incomplete unless its exact input state is deliberately absent",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-006",
+      "coverage_cell_id": "HKREG-COV-DPKG-006",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Manifest contains an absolute path",
+      "exact_required_result": "Reject path containment failure",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-007",
+      "coverage_cell_id": "HKREG-COV-DPKG-007",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Path contains parent traversal, an empty segment, or a platform-specific separator",
+      "exact_required_result": "Reject normalization and containment failure",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-008",
+      "coverage_cell_id": "HKREG-COV-DPKG-008",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Declared path resolves through a symlink",
+      "exact_required_result": "Reject the package",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-009",
+      "coverage_cell_id": "HKREG-COV-DPKG-009",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Manifest requests a URI, remote retrieval, or network resource",
+      "exact_required_result": "Reject the package and assert no network access",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-010",
+      "coverage_cell_id": "HKREG-COV-DPKG-010",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Catalogue relies on a glob, range, filename convention, directory scan, or dynamic discovery",
+      "exact_required_result": "Reject completeness by inference; require explicit inventory",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-011",
+      "coverage_cell_id": "HKREG-COV-DPKG-011",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Input slot is `AVAILABLE` and the exact declared artifact exists, validates, and hashes",
+      "exact_required_result": "Admit the input",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-050",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PKG-012",
+      "coverage_cell_id": "HKREG-COV-DPKG-012",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Input slot is `AVAILABLE` but its file is absent or mismatched",
+      "exact_required_result": "Reject the case as incomplete",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-050",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PKG-013",
+      "coverage_cell_id": "HKREG-COV-DPKG-013",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Input slot is `INTENTIONALLY_ABSENT` and no artifact exists",
+      "exact_required_result": "Admit the deliberate-absence condition",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-051",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PKG-014",
+      "coverage_cell_id": "HKREG-COV-DPKG-014",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Required file is accidentally missing without a deliberate-absence declaration",
+      "exact_required_result": "Reject; accidental absence cannot satisfy the test",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-051",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PKG-015",
+      "coverage_cell_id": "HKREG-COV-DPKG-015",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Input slot is `UNREADABLE` and exact declared corrupt or unsupported bytes exist",
+      "exact_required_result": "Admit the intended unreadable-input case without parsing invented content",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-016",
+      "coverage_cell_id": "HKREG-COV-DPKG-016",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Evidence is stale, conflicting, wrong-board, or differently versioned",
+      "exact_required_result": "Represent it through exact `AVAILABLE` artifacts and facts, not a vague state",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-017",
+      "coverage_cell_id": "HKREG-COV-DPKG-017",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Expected artifact is `EXACT`, exists, validates, and matches canonical bytes",
+      "exact_required_result": "Pass that artifact role",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-052",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PKG-018",
+      "coverage_cell_id": "HKREG-COV-DPKG-018",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "`EXACT` artifact is missing, invalid, or byte-different",
+      "exact_required_result": "Fail the case",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-052",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PKG-019",
+      "coverage_cell_id": "HKREG-COV-DPKG-019",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Expected artifact is `NONE` with explicit zero-count and no-artifact assertions",
+      "exact_required_result": "Pass the exact zero-output role",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-053",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PKG-020",
+      "coverage_cell_id": "HKREG-COV-DPKG-020",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Expected output file is simply absent without explicit zero proof",
+      "exact_required_result": "Fail; absence never establishes `NONE`",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-053",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PKG-021",
+      "coverage_cell_id": "HKREG-COV-DPKG-021",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Artifact role is `NOT_APPLICABLE` and the matrix proves the checkpoint is outside scope",
+      "exact_required_result": "Accept the explicit non-applicability",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-022",
+      "coverage_cell_id": "HKREG-COV-DPKG-022",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "`NOT_APPLICABLE` is used because the implementation failed to produce an applicable output",
+      "exact_required_result": "Reject the hidden failure",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-023",
+      "coverage_cell_id": "HKREG-COV-DPKG-023",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Every required cell has a direct case, every case owns a cell, every stable rule and branch is covered, and every pair is complete",
+      "exact_required_result": "Validate matrix completeness",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-024",
+      "coverage_cell_id": "HKREG-COV-DPKG-024",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Required cell is uncovered or executable case owns no primary cell",
+      "exact_required_result": "Reject the catalogue as incomplete",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-025",
+      "coverage_cell_id": "HKREG-COV-DPKG-025",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Declared pair contains exactly one positive and one near-miss member",
+      "exact_required_result": "Validate the pair",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-054",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PKG-026",
+      "coverage_cell_id": "HKREG-COV-DPKG-026",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Pair has one missing, duplicate-role, or extra member",
+      "exact_required_result": "Reject pair and catalogue completeness",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-054",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PKG-027",
+      "coverage_cell_id": "HKREG-COV-DPKG-027",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Proposal evidence packet is inspected for hidden truth",
+      "exact_required_result": "Prove it contains no case ID, title, path, cell, pair role, expected result, adjudication, or critical tag",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-028",
+      "coverage_cell_id": "HKREG-COV-DPKG-028",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Root fingerprint would include itself, or expected truth is edited in place after use",
+      "exact_required_result": "Reject the cycle or mutation; require a new immutable superseding identity",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-029",
+      "coverage_cell_id": "HKREG-COV-DPKG-029",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Two isolated clean deterministic executions use the same exact package and build",
+      "exact_required_result": "Require byte-identical artifacts, measurements, inventories, reports, and fingerprints",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-055",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PKG-030",
+      "coverage_cell_id": "HKREG-COV-DPKG-030",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Repeated clean run differs in any deterministic artifact or fingerprint",
+      "exact_required_result": "Fail reproducibility",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-055",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PKG-031",
+      "coverage_cell_id": "HKREG-COV-DPKG-031",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Source text contains instruction-like content aimed at tools, prompts, secrets, or expected answers",
+      "exact_required_result": "Treat it as inert evidence; execution and result remain contract-bound",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-056",
+          "role": "POSITIVE"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PKG-032",
+      "coverage_cell_id": "HKREG-COV-DPKG-032",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Instruction-like source text changes a tool, path, prompt, contract, expected result, secret, approval state, or execution",
+      "exact_required_result": "Fail the case as hostile-input control breach",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-056",
+          "role": "NEAR_MISS"
+        }
+      ]
+    },
+    {
+      "case_id": "HKREG-DET-PKG-033",
+      "coverage_cell_id": "HKREG-COV-DPKG-033",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Conformance run attempts source, generative-model, embedding, network, or credential access",
+      "exact_required_result": "Fail and prove no attempted capability changed state",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-034",
+      "coverage_cell_id": "HKREG-COV-DPKG-034",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Run attempts Azure, Pinecone, backup, routing, promotion, production-store, undeclared-file, or live-state access",
+      "exact_required_result": "Fail and prove no external mutation occurred",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-035",
+      "coverage_cell_id": "HKREG-COV-DPKG-035",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Suite package validates completely",
+      "exact_required_result": "Record only package validity; grant no source, provider, release, serving, or deployment authority",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-036",
+      "coverage_cell_id": "HKREG-COV-DPKG-036",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Attestation binds exact suite, rulebook, processing build, dependency lock, runner, results, reproducibility, and architecture tests",
+      "exact_required_result": "Validate build compatibility only",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-037",
+      "coverage_cell_id": "HKREG-COV-DPKG-037",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Attestation names a stale, changed, partial, or mismatched suite, rulebook, build, dependency, runner, or result set",
+      "exact_required_result": "Reject the attestation",
+      "pair_memberships": []
+    },
+    {
+      "case_id": "HKREG-DET-PKG-038",
+      "coverage_cell_id": "HKREG-COV-DPKG-038",
+      "layer": "DECISION_TO_ARTIFACT",
+      "primary_checkpoint": "PACKAGE_INTEGRITY",
+      "synthetic_scenario": "Declared media type conflicts with bytes, or required local file permissions prevent exact read-only preflight",
+      "exact_required_result": "Reject the package or case before processing and preserve the exact preflight failure",
+      "pair_memberships": []
+    }
+  ],
+  "pair_index": [
+    {
+      "pair_id": "HKREG-PAIR-001",
+      "positive_case_id": "HKREG-DEC-SRC-001",
+      "near_miss_case_id": "HKREG-DEC-SRC-002"
+    },
+    {
+      "pair_id": "HKREG-PAIR-002",
+      "positive_case_id": "HKREG-DEC-SRC-003",
+      "near_miss_case_id": "HKREG-DEC-SRC-004"
+    },
+    {
+      "pair_id": "HKREG-PAIR-003",
+      "positive_case_id": "HKREG-DEC-SRC-005",
+      "near_miss_case_id": "HKREG-DEC-SRC-006"
+    },
+    {
+      "pair_id": "HKREG-PAIR-004",
+      "positive_case_id": "HKREG-DEC-SRC-007",
+      "near_miss_case_id": "HKREG-DEC-SRC-008"
+    },
+    {
+      "pair_id": "HKREG-PAIR-005",
+      "positive_case_id": "HKREG-DEC-SRC-009",
+      "near_miss_case_id": "HKREG-DEC-SRC-010"
+    },
+    {
+      "pair_id": "HKREG-PAIR-006",
+      "positive_case_id": "HKREG-DEC-SRC-011",
+      "near_miss_case_id": "HKREG-DEC-SRC-012"
+    },
+    {
+      "pair_id": "HKREG-PAIR-007",
+      "positive_case_id": "HKREG-DEC-SRC-015",
+      "near_miss_case_id": "HKREG-DEC-SRC-016"
+    },
+    {
+      "pair_id": "HKREG-PAIR-008",
+      "positive_case_id": "HKREG-DEC-SRC-018",
+      "near_miss_case_id": "HKREG-DEC-SRC-019"
+    },
+    {
+      "pair_id": "HKREG-PAIR-009",
+      "positive_case_id": "HKREG-DEC-SRC-020",
+      "near_miss_case_id": "HKREG-DEC-SRC-021"
+    },
+    {
+      "pair_id": "HKREG-PAIR-010",
+      "positive_case_id": "HKREG-DEC-SRC-027",
+      "near_miss_case_id": "HKREG-DEC-SRC-031"
+    },
+    {
+      "pair_id": "HKREG-PAIR-011",
+      "positive_case_id": "HKREG-DEC-SRC-028",
+      "near_miss_case_id": "HKREG-DEC-SRC-036"
+    },
+    {
+      "pair_id": "HKREG-PAIR-012",
+      "positive_case_id": "HKREG-DEC-SRC-044",
+      "near_miss_case_id": "HKREG-DEC-SRC-055"
+    },
+    {
+      "pair_id": "HKREG-PAIR-013",
+      "positive_case_id": "HKREG-DEC-SRC-046",
+      "near_miss_case_id": "HKREG-DEC-SRC-052"
+    },
+    {
+      "pair_id": "HKREG-PAIR-014",
+      "positive_case_id": "HKREG-DEC-SRC-056",
+      "near_miss_case_id": "HKREG-DEC-SRC-057"
+    },
+    {
+      "pair_id": "HKREG-PAIR-015",
+      "positive_case_id": "HKREG-DEC-SRC-058",
+      "near_miss_case_id": "HKREG-DEC-SRC-059"
+    },
+    {
+      "pair_id": "HKREG-PAIR-016",
+      "positive_case_id": "HKREG-DEC-STA-011",
+      "near_miss_case_id": "HKREG-DEC-STA-036"
+    },
+    {
+      "pair_id": "HKREG-PAIR-017",
+      "positive_case_id": "HKREG-DEC-STA-019",
+      "near_miss_case_id": "HKREG-DEC-STA-018"
+    },
+    {
+      "pair_id": "HKREG-PAIR-018",
+      "positive_case_id": "HKREG-DEC-STA-019",
+      "near_miss_case_id": "HKREG-DEC-STA-020"
+    },
+    {
+      "pair_id": "HKREG-PAIR-019",
+      "positive_case_id": "HKREG-DEC-STA-027",
+      "near_miss_case_id": "HKREG-DEC-STA-026"
+    },
+    {
+      "pair_id": "HKREG-PAIR-020",
+      "positive_case_id": "HKREG-DEC-STA-027",
+      "near_miss_case_id": "HKREG-DEC-STA-028"
+    },
+    {
+      "pair_id": "HKREG-PAIR-021",
+      "positive_case_id": "HKREG-DEC-STA-004",
+      "near_miss_case_id": "HKREG-DEC-STA-029"
+    },
+    {
+      "pair_id": "HKREG-PAIR-022",
+      "positive_case_id": "HKREG-DEC-STA-038",
+      "near_miss_case_id": "HKREG-DEC-STA-037"
+    },
+    {
+      "pair_id": "HKREG-PAIR-023",
+      "positive_case_id": "HKREG-DEC-STA-040",
+      "near_miss_case_id": "HKREG-DEC-STA-042"
+    },
+    {
+      "pair_id": "HKREG-PAIR-024",
+      "positive_case_id": "HKREG-DEC-STA-006",
+      "near_miss_case_id": "HKREG-DEC-STA-045"
+    },
+    {
+      "pair_id": "HKREG-PAIR-025",
+      "positive_case_id": "HKREG-DEC-BND-002",
+      "near_miss_case_id": "HKREG-DEC-BND-003"
+    },
+    {
+      "pair_id": "HKREG-PAIR-026",
+      "positive_case_id": "HKREG-DEC-BND-005",
+      "near_miss_case_id": "HKREG-DEC-BND-006"
+    },
+    {
+      "pair_id": "HKREG-PAIR-027",
+      "positive_case_id": "HKREG-DEC-BND-008",
+      "near_miss_case_id": "HKREG-DEC-BND-009"
+    },
+    {
+      "pair_id": "HKREG-PAIR-028",
+      "positive_case_id": "HKREG-DEC-BND-011",
+      "near_miss_case_id": "HKREG-DEC-BND-012"
+    },
+    {
+      "pair_id": "HKREG-PAIR-029",
+      "positive_case_id": "HKREG-DEC-BND-018",
+      "near_miss_case_id": "HKREG-DEC-BND-019"
+    },
+    {
+      "pair_id": "HKREG-PAIR-030",
+      "positive_case_id": "HKREG-DEC-BND-021",
+      "near_miss_case_id": "HKREG-DEC-BND-022"
+    },
+    {
+      "pair_id": "HKREG-PAIR-031",
+      "positive_case_id": "HKREG-DEC-BND-027",
+      "near_miss_case_id": "HKREG-DEC-BND-028"
+    },
+    {
+      "pair_id": "HKREG-PAIR-032",
+      "positive_case_id": "HKREG-DET-RND-005",
+      "near_miss_case_id": "HKREG-DET-RND-006"
+    },
+    {
+      "pair_id": "HKREG-PAIR-033",
+      "positive_case_id": "HKREG-DET-RND-017",
+      "near_miss_case_id": "HKREG-DET-RND-018"
+    },
+    {
+      "pair_id": "HKREG-PAIR-034",
+      "positive_case_id": "HKREG-DET-RND-020",
+      "near_miss_case_id": "HKREG-DET-RND-021"
+    },
+    {
+      "pair_id": "HKREG-PAIR-035",
+      "positive_case_id": "HKREG-DET-RND-022",
+      "near_miss_case_id": "HKREG-DET-RND-023"
+    },
+    {
+      "pair_id": "HKREG-PAIR-036",
+      "positive_case_id": "HKREG-DET-RND-024",
+      "near_miss_case_id": "HKREG-DET-RND-025"
+    },
+    {
+      "pair_id": "HKREG-PAIR-037",
+      "positive_case_id": "HKREG-DET-RND-029",
+      "near_miss_case_id": "HKREG-DET-RND-030"
+    },
+    {
+      "pair_id": "HKREG-PAIR-038",
+      "positive_case_id": "HKREG-DET-PAR-001",
+      "near_miss_case_id": "HKREG-DET-PAR-006"
+    },
+    {
+      "pair_id": "HKREG-PAIR-039",
+      "positive_case_id": "HKREG-DET-PAR-016",
+      "near_miss_case_id": "HKREG-DET-PAR-017"
+    },
+    {
+      "pair_id": "HKREG-PAIR-040",
+      "positive_case_id": "HKREG-DET-PAR-022",
+      "near_miss_case_id": "HKREG-DET-PAR-023"
+    },
+    {
+      "pair_id": "HKREG-PAIR-041",
+      "positive_case_id": "HKREG-DET-COV-001",
+      "near_miss_case_id": "HKREG-DET-COV-008"
+    },
+    {
+      "pair_id": "HKREG-PAIR-042",
+      "positive_case_id": "HKREG-DET-COV-001",
+      "near_miss_case_id": "HKREG-DET-COV-009"
+    },
+    {
+      "pair_id": "HKREG-PAIR-043",
+      "positive_case_id": "HKREG-DET-COV-007",
+      "near_miss_case_id": "HKREG-DET-COV-010"
+    },
+    {
+      "pair_id": "HKREG-PAIR-044",
+      "positive_case_id": "HKREG-DET-COV-015",
+      "near_miss_case_id": "HKREG-DET-COV-016"
+    },
+    {
+      "pair_id": "HKREG-PAIR-045",
+      "positive_case_id": "HKREG-DET-COV-017",
+      "near_miss_case_id": "HKREG-DET-COV-018"
+    },
+    {
+      "pair_id": "HKREG-PAIR-046",
+      "positive_case_id": "HKREG-DET-IDN-002",
+      "near_miss_case_id": "HKREG-DET-IDN-004"
+    },
+    {
+      "pair_id": "HKREG-PAIR-047",
+      "positive_case_id": "HKREG-DET-IDN-014",
+      "near_miss_case_id": "HKREG-DET-IDN-010"
+    },
+    {
+      "pair_id": "HKREG-PAIR-048",
+      "positive_case_id": "HKREG-DET-IDN-011",
+      "near_miss_case_id": "HKREG-DET-IDN-004"
+    },
+    {
+      "pair_id": "HKREG-PAIR-049",
+      "positive_case_id": "HKREG-DET-IDN-022",
+      "near_miss_case_id": "HKREG-DET-IDN-023"
+    },
+    {
+      "pair_id": "HKREG-PAIR-050",
+      "positive_case_id": "HKREG-DET-PKG-011",
+      "near_miss_case_id": "HKREG-DET-PKG-012"
+    },
+    {
+      "pair_id": "HKREG-PAIR-051",
+      "positive_case_id": "HKREG-DET-PKG-013",
+      "near_miss_case_id": "HKREG-DET-PKG-014"
+    },
+    {
+      "pair_id": "HKREG-PAIR-052",
+      "positive_case_id": "HKREG-DET-PKG-017",
+      "near_miss_case_id": "HKREG-DET-PKG-018"
+    },
+    {
+      "pair_id": "HKREG-PAIR-053",
+      "positive_case_id": "HKREG-DET-PKG-019",
+      "near_miss_case_id": "HKREG-DET-PKG-020"
+    },
+    {
+      "pair_id": "HKREG-PAIR-054",
+      "positive_case_id": "HKREG-DET-PKG-025",
+      "near_miss_case_id": "HKREG-DET-PKG-026"
+    },
+    {
+      "pair_id": "HKREG-PAIR-055",
+      "positive_case_id": "HKREG-DET-PKG-029",
+      "near_miss_case_id": "HKREG-DET-PKG-030"
+    },
+    {
+      "pair_id": "HKREG-PAIR-056",
+      "positive_case_id": "HKREG-DET-PKG-031",
+      "near_miss_case_id": "HKREG-DET-PKG-032"
+    },
+    {
+      "pair_id": "HKREG-PAIR-057",
+      "positive_case_id": "HKREG-DET-RND-014",
+      "near_miss_case_id": "HKREG-DET-RND-015"
+    }
+  ],
+  "case_packages_complete": true,
+  "conformance_ready": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

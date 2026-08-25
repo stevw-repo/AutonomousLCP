@@ -1,0 +1,82 @@
+{
+  "rule_id": "HKLEG-RECON-EXEC-001",
+  "rule_trace": [
+    "HKLEG-RECON-PLAN-001",
+    "HKLEG-RECON-EXEC-001"
+  ],
+  "processing_outcome": "BLOCK",
+  "reason_codes": [
+    "RECONSTRUCTION_BEFORE_STATE_MISMATCH"
+  ],
+  "reconstruction_plan_id": "rpl_000000000000000000000000000000000000000000000001",
+  "reconstruction_plan_fingerprint": "sha256:103c595b3d53093523ea3130ed441a2508c8f2c1460a88ff5bee965cf3aaa08f",
+  "execution_mode": "OFFLINE_SYNTHETIC_CONFORMANCE",
+  "operation_results": [
+    {
+      "language": "en",
+      "operation_instance_id": "rop_000000000000000000000000000000000000000000000001",
+      "operation_type_id": "HKRECON-OP-001",
+      "atomic_group_id": "atomic-group-0001",
+      "result": "APPLIED",
+      "actual_target_count": 1,
+      "matched_location_ids": [
+        "loc_000000000000000000000000000000000000000000000002"
+      ],
+      "matched_source_unit_ids": [
+        "en_unit_000000000000000000000002_body"
+      ],
+      "actual_before_state_fingerprint": "sha256:0392e952f4e636276bfcada1c5e7768492b793c2db85a074c994a245badfa8b0",
+      "actual_after_state_fingerprint": "sha256:b252248ff036b968e48c6486a91bb264814bd61ab21c810b402626d3b76afa30",
+      "provisional_output_tree_fingerprint": "sha256:fd3fb790b5515acebb272d1fd07b6169855eebe2c38837aeb3e6ba4d9d9797b3",
+      "reason_codes": [
+        "RECONSTRUCTION_OPERATION_APPLIED"
+      ],
+      "atomic_group_result": "ROLLED_BACK"
+    },
+    {
+      "language": "zh-Hant",
+      "operation_instance_id": "rop_000000000000000000000000000000000000000000000002",
+      "operation_type_id": "HKRECON-OP-001",
+      "atomic_group_id": "atomic-group-0001",
+      "result": "FAILED_PRECONDITION",
+      "actual_target_count": 1,
+      "matched_location_ids": [
+        "loc_000000000000000000000000000000000000000000000002"
+      ],
+      "matched_source_unit_ids": [],
+      "actual_before_state_fingerprint": "sha256:d8a6e76bf49656b93f2ea5238cb96156f46dd11f7a226a225ddbd356cff1fac9",
+      "actual_after_state_fingerprint": null,
+      "provisional_output_tree_fingerprint": null,
+      "reason_codes": [
+        "RECONSTRUCTION_BEFORE_STATE_MISMATCH"
+      ],
+      "atomic_group_result": "FAILED"
+    },
+    {
+      "language": "zh-Hant",
+      "operation_instance_id": "rop_000000000000000000000000000000000000000000000003",
+      "operation_type_id": "HKRECON-OP-001",
+      "atomic_group_id": "atomic-group-0001",
+      "result": "NOT_RUN_AFTER_ATOMIC_FAILURE",
+      "actual_target_count": 0,
+      "matched_location_ids": [],
+      "matched_source_unit_ids": [],
+      "actual_before_state_fingerprint": null,
+      "actual_after_state_fingerprint": null,
+      "provisional_output_tree_fingerprint": null,
+      "reason_codes": [
+        "RECONSTRUCTION_NOT_RUN_AFTER_ATOMIC_FAILURE"
+      ],
+      "atomic_group_result": "NOT_RUN"
+    }
+  ],
+  "provisional_language_trees": [],
+  "provisional_language_tree_fingerprints": [],
+  "provisional_bilingual_alignment_map": null,
+  "provisional_bilingual_alignment_map_fingerprint": null,
+  "execution_report_output": "NONE",
+  "reconstructed_artifact_output": "NONE",
+  "record_output": "NONE",
+  "external_effects": "NONE",
+  "next_action": "SELECT_VALIDATED_FALLBACK_OR_NO_RECORD"
+}

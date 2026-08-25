@@ -1,0 +1,30 @@
+{
+  "schema_id": "asklegal.hk-regulatory-canonical-english-renderer",
+  "schema_version": "1.0.0",
+  "renderer_id": "HKREG-CANONICAL-ENGLISH-001",
+  "accepted_adr": "0073",
+  "status": "SOURCE_NEUTRAL_CONFORMANCE",
+  "encoding": "UTF-8",
+  "normalization": "NFC",
+  "line_endings": "LF",
+  "trailing_spaces": "FORBIDDEN",
+  "block_order": [
+    "CONTEXT",
+    "REQUIRED_GOVERNING_CONTEXT_IF_ANY",
+    "REFERENCED_LOCATIONS_IF_ANY",
+    "ENGLISH_RULE_TEXT_PREVAILING_LANGUAGE"
+  ],
+  "form_control_markers": [
+    "[BLANK FIELD]",
+    "[CHECKBOX]",
+    "[SELECTION]",
+    "[SIGNATURE]"
+  ],
+  "table_projection": "ORDERED_SOURCE_SUPPORTED_LINE_BLOCKS_WITH_HEADER_AND_ROW_CLOSURE",
+  "authority_note_in_text": false,
+  "embedding_input": "metadata.text",
+  "real_tokenizer_profile_admitted": false,
+  "real_source_format_admitted": false,
+  "search_record_authority": false,
+  "serving_authority": false
+}

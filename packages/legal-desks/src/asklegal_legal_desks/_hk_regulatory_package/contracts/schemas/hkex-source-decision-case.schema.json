@@ -1,0 +1,773 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-source-decision-case.schema.json",
+  "title": "HKEX source evidence-to-decision conformance case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "package_contract_version",
+    "case_id",
+    "suite_layer",
+    "primary_checkpoint",
+    "frozen",
+    "synthetic_evidence_class",
+    "contract_bindings",
+    "synthetic_cutoff",
+    "scope_id",
+    "prior_state",
+    "primary_coverage_cell_ids",
+    "secondary_coverage_cell_ids",
+    "pair_membership",
+    "declared_input_inventory",
+    "declared_reference_inventory",
+    "declared_expected_inventory",
+    "assertion_scope",
+    "required_result_dimensions",
+    "evidence_packet_fields",
+    "supporting_evidence_ranges",
+    "rule_trace",
+    "established_facts",
+    "unresolved_facts",
+    "permitted_equivalent_results",
+    "critical_error_codes",
+    "package_fingerprint",
+    "title",
+    "purpose",
+    "expected_decision",
+    "evidence_packet",
+    "facts",
+    "case_fingerprint"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-regulatory.source-decision-case"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "package_contract_version": {
+      "const": "1.0.0"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^HKREG-DEC-SRC-(0[0-5][0-9]|06[0-2])$"
+    },
+    "suite_layer": {
+      "const": "EVIDENCE_TO_DECISION"
+    },
+    "primary_checkpoint": {
+      "const": "SOURCE_FACT_AUTHORITY"
+    },
+    "frozen": {
+      "const": true
+    },
+    "synthetic_evidence_class": {
+      "const": "SYNTHETIC_NO_REAL_AUTHORITY"
+    },
+    "contract_bindings": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contract_id",
+          "version",
+          "fingerprint"
+        ],
+        "properties": {
+          "contract_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fingerprint": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "synthetic_cutoff": {
+      "const": "2026-08-24T00:00:00Z"
+    },
+    "scope_id": {
+      "const": "HKEX_CROSS_BOARD"
+    },
+    "prior_state": {
+      "const": "SYNTHETIC_ACCEPTED_PREDECESSOR"
+    },
+    "primary_coverage_cell_ids": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^HKREG-COV-DSRC-(0[0-5][0-9]|06[0-2])$"
+      }
+    },
+    "secondary_coverage_cell_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "pair_membership": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "pair_id",
+            "role"
+          ],
+          "properties": {
+            "pair_id": {
+              "type": "string",
+              "pattern": "^HKREG-PAIR-0(0[1-9]|1[0-5])$"
+            },
+            "role": {
+              "enum": [
+                "POSITIVE",
+                "NEAR_MISS"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "declared_input_inventory": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "const": "source-evidence"
+        }
+      ],
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "declared_reference_inventory": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "declared_expected_inventory": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "const": "SOURCE_DECISION_REPORT"
+        }
+      ],
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "assertion_scope": {
+      "enum": [
+        "FACT_AUTHORITY",
+        "SOURCE_UNION",
+        "SOURCE_CONTRACT",
+        "APPROVAL",
+        "NO_CHANGE",
+        "OUTAGE_SCOPE",
+        "HISTORICAL_INVESTIGATION",
+        "MEMBERSHIP",
+        "OWNERSHIP",
+        "LANGUAGE"
+      ]
+    },
+    "required_result_dimensions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "evidence_packet_fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "supporting_evidence_ranges": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "rule_trace": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "established_facts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "unresolved_facts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "permitted_equivalent_results": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "critical_error_codes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "package_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expected_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "case_id",
+        "outcome",
+        "reason",
+        "accepted_fact_codes",
+        "rejected_fact_codes",
+        "membership",
+        "owner_scope_ids",
+        "component_instance_count",
+        "blocked_scope_ids",
+        "permitted_scope_ids",
+        "source_contract_review_required",
+        "english_investigation_required",
+        "supported_no_change",
+        "search_record_authorized",
+        "embedding_authorized",
+        "release_authorized",
+        "serving_authorized",
+        "external_effects"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-regulatory.source-decision-result"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKREG-SOURCE-DECISION-001"
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^HKREG-DEC-SRC-(0[0-5][0-9]|06[0-2])$"
+        },
+        "outcome": {
+          "enum": [
+            "PASS",
+            "BLOCK",
+            "QUARANTINE"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "ASSIGNED_FACTS_ACCEPTED",
+            "OUT_OF_ROLE_FACT_REJECTED",
+            "COMPLETE_UNION_ACCEPTED",
+            "UNIVERSE_INCOMPLETE",
+            "PRESENTATION_DISCREPANCY_PRESERVED",
+            "SOURCE_CONTRACT_REVIEW_REQUIRED",
+            "SOURCE_CONTRACT_ASSERTION_UNSUPPORTED",
+            "APPROVAL_SATISFIED_BY_FINAL_PUBLICATION",
+            "APPROVAL_NOT_PROVED",
+            "DIRECT_APPROVAL_EVIDENCE_MISSING",
+            "SUPPORTED_NO_CHANGE",
+            "NO_CHANGE_UNPROVED",
+            "BOARD_SPECIFIC_GAP",
+            "SHARED_UNBOUNDED_GAP",
+            "BOUNDED_HISTORICAL_GAP",
+            "RULE_COMPONENT_CLASSIFIED",
+            "EXCLUDED_NON_RULE_CLASSIFIED",
+            "EVIDENCE_ONLY_CLASSIFIED",
+            "MEMBERSHIP_UNRESOLVED",
+            "OWNER_ASSIGNED",
+            "SHARED_ARTIFACT_INSTANCES_ASSIGNED",
+            "MULTI_COMPONENTS_ACCOUNTED",
+            "SEPARATE_IDENTITIES_REQUIRED",
+            "PLACEMENT_DISCREPANCY_PRESERVED",
+            "OWNER_MISSING",
+            "OWNER_CONFLICT",
+            "DOUBLE_OWNED_INSTANCE",
+            "ORPHAN_COMPONENT",
+            "DUPLICATE_COMPONENT",
+            "CRITICAL_WRONG_BOARD",
+            "ENGLISH_COMPLETE_CHINESE_OPTIONAL",
+            "REQUIRED_ENGLISH_MISSING",
+            "CHINESE_DISCREPANCY_NONBLOCKING",
+            "CHINESE_ENGLISH_DEFECT_SIGNAL",
+            "CHINESE_ONLY_NO_SERVING_CHANGE",
+            "PROHIBITED_SOURCE_REPAIR",
+            "OPTIONAL_CHINESE_TRACEABILITY_ONLY"
+          ]
+        },
+        "accepted_fact_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "rejected_fact_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "membership": {
+          "enum": [
+            null,
+            "RULE_COMPONENT",
+            "EVIDENCE_ONLY",
+            "EXCLUDED_NON_RULE",
+            "UNRESOLVED_MEMBERSHIP"
+          ]
+        },
+        "owner_scope_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "HK-REG-HKEX-GEM",
+              "HK-REG-HKEX-MAIN-BOARD"
+            ]
+          }
+        },
+        "component_instance_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocked_scope_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "HK-REG-HKEX-GEM",
+              "HK-REG-HKEX-MAIN-BOARD"
+            ]
+          }
+        },
+        "permitted_scope_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "HK-REG-HKEX-GEM",
+              "HK-REG-HKEX-MAIN-BOARD"
+            ]
+          }
+        },
+        "source_contract_review_required": {
+          "type": "boolean"
+        },
+        "english_investigation_required": {
+          "type": "boolean"
+        },
+        "supported_no_change": {
+          "type": "boolean"
+        },
+        "search_record_authorized": {
+          "const": false
+        },
+        "embedding_authorized": {
+          "const": false
+        },
+        "release_authorized": {
+          "const": false
+        },
+        "serving_authorized": {
+          "const": false
+        },
+        "external_effects": {
+          "const": "NONE"
+        }
+      }
+    },
+    "evidence_packet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot_id",
+        "state",
+        "path",
+        "role",
+        "media_type",
+        "content_fingerprint"
+      ],
+      "properties": {
+        "slot_id": {
+          "const": "source-evidence"
+        },
+        "state": {
+          "enum": [
+            "AVAILABLE",
+            "INTENTIONALLY_ABSENT",
+            "UNREADABLE"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "enum": [
+            "RULEBOOK_CATALOGUE",
+            "CONSOLIDATED_RULEBOOK",
+            "REGULATORY_FORMS",
+            "FEES_RULES",
+            "FINAL_RULE_UPDATE",
+            "COMPLETE_SOURCE_UNION",
+            "OPTIONAL_PRESENTATION",
+            "SOURCE_CONTRACT",
+            "APPROVAL_EVIDENCE",
+            "SOURCE_OBSERVATIONS",
+            "HISTORICAL_UPDATE",
+            "MEMBERSHIP_EVIDENCE",
+            "OWNERSHIP_EVIDENCE",
+            "ENGLISH_EVIDENCE",
+            "OPTIONAL_CHINESE"
+          ]
+        },
+        "media_type": {
+          "const": "application/json"
+        },
+        "content_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_component_count",
+        "artifact_shared_between_boards",
+        "assigned_evidence_only_use",
+        "assigned_instance_count",
+        "assigned_owner_scopes",
+        "chinese_available",
+        "chinese_state",
+        "claimed_fact_codes",
+        "complete_source_ids",
+        "direct_approval_present",
+        "direct_approval_required",
+        "due_source_ids",
+        "express_exclusion",
+        "express_inclusion",
+        "final_update_present",
+        "fresh_source_ids",
+        "historical_investigation_only",
+        "identical_wording_across_boards",
+        "inclusion_evidence_conflicting",
+        "inclusion_evidence_missing",
+        "inclusion_evidence_unreadable",
+        "matching_current_product",
+        "no_alert_only",
+        "object_class",
+        "observation_gap",
+        "official_parent_supported",
+        "optional_chinese_bounded_use",
+        "optional_presentation_conflict",
+        "ownership_conflict",
+        "predecessor_exact_match",
+        "prohibited_source_repair",
+        "proposal_or_pending_document",
+        "reconciled_source_ids",
+        "required_english_complete",
+        "single_view_completeness_inference",
+        "source_artifact_final",
+        "source_contract_material_change",
+        "source_id",
+        "standing_approval_framework",
+        "supported_owner_scopes",
+        "website_suggested_scope"
+      ],
+      "properties": {
+        "source_id": {
+          "enum": [
+            null,
+            "HK-REG-HKEX-CONSOLIDATED-RULEBOOKS",
+            "HK-REG-HKEX-FEES-RULES",
+            "HK-REG-HKEX-REGULATORY-FORMS",
+            "HK-REG-HKEX-RULE-UPDATES",
+            "HK-REG-HKEX-RULEBOOK-CATALOGUE"
+          ]
+        },
+        "claimed_fact_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "due_source_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "HK-REG-HKEX-CONSOLIDATED-RULEBOOKS",
+              "HK-REG-HKEX-FEES-RULES",
+              "HK-REG-HKEX-REGULATORY-FORMS",
+              "HK-REG-HKEX-RULE-UPDATES",
+              "HK-REG-HKEX-RULEBOOK-CATALOGUE"
+            ]
+          }
+        },
+        "complete_source_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "HK-REG-HKEX-CONSOLIDATED-RULEBOOKS",
+              "HK-REG-HKEX-FEES-RULES",
+              "HK-REG-HKEX-REGULATORY-FORMS",
+              "HK-REG-HKEX-RULE-UPDATES",
+              "HK-REG-HKEX-RULEBOOK-CATALOGUE"
+            ]
+          }
+        },
+        "fresh_source_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "HK-REG-HKEX-CONSOLIDATED-RULEBOOKS",
+              "HK-REG-HKEX-FEES-RULES",
+              "HK-REG-HKEX-REGULATORY-FORMS",
+              "HK-REG-HKEX-RULE-UPDATES",
+              "HK-REG-HKEX-RULEBOOK-CATALOGUE"
+            ]
+          }
+        },
+        "reconciled_source_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "HK-REG-HKEX-CONSOLIDATED-RULEBOOKS",
+              "HK-REG-HKEX-FEES-RULES",
+              "HK-REG-HKEX-REGULATORY-FORMS",
+              "HK-REG-HKEX-RULE-UPDATES",
+              "HK-REG-HKEX-RULEBOOK-CATALOGUE"
+            ]
+          }
+        },
+        "observation_gap": {
+          "enum": [
+            "NONE",
+            "MAIN_ONLY",
+            "GEM_ONLY",
+            "BOTH_SHARED_UNBOUNDED",
+            "BOUNDED_HISTORICAL"
+          ]
+        },
+        "object_class": {
+          "enum": [
+            "PRODUCT_FAMILY",
+            "CHAPTER",
+            "ORDINARY_RULE",
+            "INCORPORATED_NOTE",
+            "APPENDIX",
+            "PRACTICE_NOTE",
+            "REGULATORY_FORM",
+            "FEES_RULE",
+            "OTHER_COMPONENT",
+            "GUIDANCE",
+            "FAQ",
+            "CONSULTATION",
+            "LISTING_DECISION",
+            "ANNOUNCEMENT",
+            "TEMPLATE",
+            "UPDATE_EVIDENCE",
+            "APPROVAL_EVIDENCE",
+            "TRIGGER_EVIDENCE",
+            "SOURCE_BASIS_EVIDENCE",
+            "UNKNOWN"
+          ]
+        },
+        "supported_owner_scopes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "HK-REG-HKEX-GEM",
+              "HK-REG-HKEX-MAIN-BOARD"
+            ]
+          }
+        },
+        "assigned_owner_scopes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "HK-REG-HKEX-GEM",
+              "HK-REG-HKEX-MAIN-BOARD"
+            ]
+          }
+        },
+        "assigned_instance_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "artifact_component_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "website_suggested_scope": {
+          "enum": [
+            null,
+            "HK-REG-HKEX-GEM",
+            "HK-REG-HKEX-MAIN-BOARD"
+          ]
+        },
+        "chinese_state": {
+          "enum": [
+            "NONE",
+            "HARMLESS_DIFFERENCE",
+            "ENGLISH_DEFECT_SIGNAL",
+            "CHINESE_ONLY_CHANGE"
+          ]
+        },
+        "source_artifact_final": {
+          "type": "boolean"
+        },
+        "single_view_completeness_inference": {
+          "type": "boolean"
+        },
+        "optional_presentation_conflict": {
+          "type": "boolean"
+        },
+        "source_contract_material_change": {
+          "type": "boolean"
+        },
+        "final_update_present": {
+          "type": "boolean"
+        },
+        "matching_current_product": {
+          "type": "boolean"
+        },
+        "standing_approval_framework": {
+          "type": "boolean"
+        },
+        "proposal_or_pending_document": {
+          "type": "boolean"
+        },
+        "direct_approval_required": {
+          "type": "boolean"
+        },
+        "direct_approval_present": {
+          "type": "boolean"
+        },
+        "predecessor_exact_match": {
+          "type": "boolean"
+        },
+        "no_alert_only": {
+          "type": "boolean"
+        },
+        "historical_investigation_only": {
+          "type": "boolean"
+        },
+        "express_inclusion": {
+          "type": "boolean"
+        },
+        "express_exclusion": {
+          "type": "boolean"
+        },
+        "assigned_evidence_only_use": {
+          "type": "boolean"
+        },
+        "inclusion_evidence_missing": {
+          "type": "boolean"
+        },
+        "inclusion_evidence_unreadable": {
+          "type": "boolean"
+        },
+        "inclusion_evidence_conflicting": {
+          "type": "boolean"
+        },
+        "artifact_shared_between_boards": {
+          "type": "boolean"
+        },
+        "identical_wording_across_boards": {
+          "type": "boolean"
+        },
+        "ownership_conflict": {
+          "type": "boolean"
+        },
+        "official_parent_supported": {
+          "type": "boolean"
+        },
+        "required_english_complete": {
+          "type": "boolean"
+        },
+        "chinese_available": {
+          "type": "boolean"
+        },
+        "prohibited_source_repair": {
+          "type": "boolean"
+        },
+        "optional_chinese_bounded_use": {
+          "type": "boolean"
+        }
+      }
+    },
+    "case_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

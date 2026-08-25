@@ -1,0 +1,54 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:0158371caa3b32f6cb0e8b5f1768b4a388eafe88e30f6e963cfbf865364a805d",
+  "workflow_result_fingerprint": "sha256:9bbb4ad25ea353a7e80ce935c36d9e0461a2314e09496daba86de5e4360540ce",
+  "court_family": "CFA",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_13",
+  "auxiliary_translation_version_ids": [],
+  "examined_segment_ids": [
+    "segment_1",
+    "segment_2"
+  ],
+  "resolved_dependency_ids": [
+    "dependency_express_adoption"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "CROSS_OPINION_ADOPTED_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_13",
+      "meaning_codes": [
+        "DUE_INQUIRY",
+        "EXPRESS_ADOPTION",
+        "REASONABLE_RELIANCE"
+      ],
+      "risk_codes": [
+        "ADOPTION_DEPENDENCY_EXACT",
+        "OPINION_INVENTORY_UNMERGED"
+      ],
+      "range_ids": [
+        "range_1",
+        "range_2"
+      ],
+      "derived_statement": "The lead opinion expressly adopts the identified concurrence paragraphs. The adopted paragraphs require due inquiry before reliance is reasonable."
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "coverage_gap_ids": [],
+  "translation_use": "NONE",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

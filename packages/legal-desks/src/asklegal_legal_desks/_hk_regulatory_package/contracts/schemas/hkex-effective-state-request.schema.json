@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/contracts/hkex-effective-state-request/1.0.0",
+  "title": "HKEX applicability-branch effective-state request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision_id",
+    "branch_id",
+    "component_id",
+    "scope_id",
+    "legal_location_id",
+    "cutoff",
+    "update_part_id",
+    "update_source_ranges",
+    "current_product_ranges",
+    "basis",
+    "finality",
+    "effective_at",
+    "condition_operator",
+    "conditions",
+    "transition_state",
+    "applicability_context",
+    "retirement_evidence",
+    "predecessor_branch_id",
+    "successor_branch_ids",
+    "current_product_reconciliation",
+    "uncertainty_codes",
+    "source_failure_impact",
+    "source_failure_choice",
+    "source_rule_id",
+    "evidence_refs",
+    "evidence_fingerprint"
+  ],
+  "properties": {
+    "decision_id": {"$ref": "#/$defs/nonempty"},
+    "branch_id": {"$ref": "#/$defs/nonempty"},
+    "component_id": {"$ref": "#/$defs/nonempty"},
+    "scope_id": {"enum": ["HK-REG-HKEX-GEM", "HK-REG-HKEX-MAIN-BOARD"]},
+    "legal_location_id": {"$ref": "#/$defs/nonempty"},
+    "cutoff": {"type": "string", "format": "date-time"},
+    "update_part_id": {"$ref": "#/$defs/nonempty"},
+    "update_source_ranges": {"$ref": "#/$defs/nonemptyUniqueStrings"},
+    "current_product_ranges": {"$ref": "#/$defs/nonemptyUniqueStrings"},
+    "basis": {"enum": ["ORDINARY", "FIXED_DATE", "CONDITIONAL"]},
+    "finality": {
+      "enum": [
+        "FINAL_PUBLICATION_APPROVAL_INFERRED",
+        "FINAL_DIRECT_APPROVAL_PROVED",
+        "CONSULTATION_OR_PROPOSAL",
+        "APPROVAL_PENDING",
+        "DIRECT_APPROVAL_REQUIRED_MISSING",
+        "CONFLICTING"
+      ]
+    },
+    "effective_at": {"type": ["string", "null"], "minLength": 1},
+    "condition_operator": {"enum": ["ALL_OF", "ANY_OF", null]},
+    "conditions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["condition_id", "registered_source_id", "state", "evidence_refs"],
+        "properties": {
+          "condition_id": {"$ref": "#/$defs/nonempty"},
+          "registered_source_id": {"$ref": "#/$defs/nonempty"},
+          "state": {"enum": ["OCCURRED", "NOT_OCCURRED_FRESH", "UNRESOLVED"]},
+          "evidence_refs": {"$ref": "#/$defs/nonemptyUniqueStrings"}
+        }
+      }
+    },
+    "transition_state": {
+      "enum": ["ORDINARY", "MATERIALLY_LIMITED_CURRENT", "PROVED_ENDED"]
+    },
+    "applicability_context": {"type": ["string", "null"], "minLength": 1},
+    "retirement_evidence": {
+      "enum": [
+        "NONE",
+        "COMPLETE_SUCCESSOR",
+        "PARTIAL_SUCCESSOR",
+        "OFFICIAL_WITHDRAWAL_NO_SUCCESSOR",
+        "DISAPPEARANCE_ONLY",
+        "CONFLICTING"
+      ]
+    },
+    "predecessor_branch_id": {"type": ["string", "null"], "minLength": 1},
+    "successor_branch_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/nonempty"}},
+    "current_product_reconciliation": {
+      "enum": ["MATCH", "CONFLICT", "MISSING_STALE_OR_INCOMPLETE", "NOT_YET_REQUIRED"]
+    },
+    "uncertainty_codes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "AMENDMENT_COMPONENT_MAPPING_AMBIGUOUS",
+          "EFFECTIVE_TIME_AMBIGUOUS",
+          "CONFLICTING_EFFECTIVE_FACTS",
+          "TRANSITION_SCOPE_AMBIGUOUS",
+          "BRANCH_COLLISION_OR_GAP",
+          "OPTIONAL_CHINESE_SIGNALS_ENGLISH_DEFECT",
+          "UNEXPLAINED_CURRENT_PRODUCT_CHANGE"
+        ]
+      }
+    },
+    "source_failure_impact": {"enum": ["NONE", "COULD_CHANGE_CURRENT"]},
+    "source_failure_choice": {
+      "enum": ["NONE", "CARRY_FORWARD_LAST_APPROVED", "WITHHOLD", "NO_REBUILD"]
+    },
+    "source_rule_id": {"const": "HKREG-EFFECTIVE-STATE-001"},
+    "evidence_refs": {"$ref": "#/$defs/nonemptyUniqueStrings"},
+    "evidence_fingerprint": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "nonempty": {"type": "string", "minLength": 1},
+    "nonemptyUniqueStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/nonempty"}
+    }
+  }
+}

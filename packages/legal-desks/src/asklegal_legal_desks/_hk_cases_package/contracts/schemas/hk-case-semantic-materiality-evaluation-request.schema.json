@@ -1,0 +1,327 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hk-case-semantic-materiality-evaluation-request.schema.json",
+  "title": "Hong Kong Case semantic materiality evaluator request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "rule_id",
+    "evaluator_fingerprint",
+    "reference",
+    "observation"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-cases.semantic-materiality-evaluation-request"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "rule_id": {
+      "const": "HKCASE-PROP-SEM-MATERIALITY-EVALUATOR-001"
+    },
+    "evaluator_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "reference_map_id",
+        "model_input_fingerprint",
+        "coverage_unit_ids",
+        "propositions",
+        "expected_disposition",
+        "required_handoff_ids",
+        "expected_selected_reference_proposition_ids",
+        "adjudication_complete",
+        "unresolved_reference_ambiguity"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-cases.semantic-materiality-reference"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKCASE-PROP-SEM-MATERIALITY-EVALUATOR-001"
+        },
+        "reference_map_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,95}$"
+        },
+        "model_input_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "coverage_unit_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "propositions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "reference_proposition_id",
+              "authority_role",
+              "required_meaning_codes",
+              "forbidden_meaning_codes",
+              "required_evidence_role_codes",
+              "required_range_ids"
+            ],
+            "properties": {
+              "reference_proposition_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "authority_role": {
+                "enum": [
+                  "OBITER",
+                  "OPERATIVE"
+                ]
+              },
+              "required_meaning_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "forbidden_meaning_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "required_evidence_role_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "required_range_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              }
+            }
+          }
+        },
+        "expected_disposition": {
+          "enum": [
+            "ACCOUNTED_WITH_QUARANTINE",
+            "BLOCKED",
+            "COMPLETE_NO_PROPOSITION",
+            "COMPLETE_WITH_PROPOSITIONS"
+          ]
+        },
+        "required_handoff_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "expected_selected_reference_proposition_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "adjudication_complete": {
+          "type": "boolean"
+        },
+        "unresolved_reference_ambiguity": {
+          "type": "boolean"
+        }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "model_input_fingerprint",
+        "workflow_result_fingerprint",
+        "propositions",
+        "unit_observations",
+        "disposition",
+        "handoff_ids",
+        "selected_candidate_ids",
+        "complete_ledger",
+        "source_text_treated_as_instruction",
+        "hidden_reference_received_by_workflow"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-cases.semantic-materiality-observation"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKCASE-PROP-SEM-MATERIALITY-EVALUATOR-001"
+        },
+        "model_input_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "workflow_result_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "propositions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "candidate_id",
+              "mapped_reference_proposition_id",
+              "authority_role",
+              "meaning_codes",
+              "evidence_role_codes",
+              "range_ids"
+            ],
+            "properties": {
+              "candidate_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "mapped_reference_proposition_id": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "authority_role": {
+                "enum": [
+                  "OBITER",
+                  "OPERATIVE"
+                ]
+              },
+              "meaning_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "evidence_role_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "range_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              }
+            }
+          }
+        },
+        "unit_observations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "unit_id",
+              "use",
+              "candidate_ids",
+              "handoff_ids"
+            ],
+            "properties": {
+              "unit_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "use": {
+                "enum": [
+                  "CITATION_ONLY",
+                  "NON_PROPOSITIONAL",
+                  "PROPOSITION_EVIDENCE",
+                  "TREATMENT_ONLY"
+                ]
+              },
+              "candidate_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "handoff_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              }
+            }
+          }
+        },
+        "disposition": {
+          "enum": [
+            "ACCOUNTED_WITH_QUARANTINE",
+            "BLOCKED",
+            "COMPLETE_NO_PROPOSITION",
+            "COMPLETE_WITH_PROPOSITIONS"
+          ]
+        },
+        "handoff_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "selected_candidate_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "complete_ledger": {
+          "type": "boolean"
+        },
+        "source_text_treated_as_instruction": {
+          "type": "boolean"
+        },
+        "hidden_reference_received_by_workflow": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "alignment_map_fingerprint": "sha256:e31752745d217a4a73c0ad2d1e9d69103a291f5c9584e92318c7523a5144e5b2",
+  "coverage_gap_required": false,
+  "disposition": "PASS",
+  "en_tree_fingerprint": "sha256:c8b92bd5b0f2f5458796552875d2c7ef1220bb5ef1370aa9ff7630fb5166b279",
+  "external_effects": "NONE",
+  "parts": [
+    {
+      "dependency_alignment_group_ids": [],
+      "en_dependency_source_unit_ids": [],
+      "en_primary_source_unit_ids": [
+        "en_nested_body_1a"
+      ],
+      "measurement": {
+        "metadata_bytes": 755,
+        "metadata_limit": 100000,
+        "text_limit": 900,
+        "text_tokens": 601
+      },
+      "part_number": 1,
+      "primary_alignment_group_ids": [
+        "align_nested_body_1a"
+      ],
+      "primary_partition_node_ids": [
+        "nested_subparagraph_1a"
+      ],
+      "serving_payload_fingerprint": "sha256:4ecdec477392f347493d4dd9b19a2eaee430472977a469a2651f3930bbac765e",
+      "text": "[English — Authentic Text]\nInstrument: Nested Ordinance (Cap. 998)\nProvision: section 3\nServing part: 1 of 2\nHeading: Nested units\nText:\n(a) First complete official subparagraph. (a) First complete official subparagraph. (a) First complete official subparagraph. (a) First complete official subparagraph.\n\n[繁體中文 — 真確文本]\n法例：嵌套條例（第998章）\n條文：第3條\n服務部分：第1部分，共2部分\n標題：嵌套單元\n正文：\n(a) 第一個完整官方分段。(a) 第一個完整官方分段。(a) 第一個完整官方分段。(a) 第一個完整官方分段。",
+      "text_fingerprint": "sha256:f458be23fe7c806b3cf4f6fa755f683d2cb2a6615029ae2f518348eade00cc0a",
+      "total_parts": 2,
+      "zh_hant_dependency_source_unit_ids": [],
+      "zh_hant_primary_source_unit_ids": [
+        "zh_nested_body_1a"
+      ]
+    },
+    {
+      "dependency_alignment_group_ids": [],
+      "en_dependency_source_unit_ids": [],
+      "en_primary_source_unit_ids": [
+        "en_nested_body_1b",
+        "en_nested_body_2"
+      ],
+      "measurement": {
+        "metadata_bytes": 812,
+        "metadata_limit": 100000,
+        "text_limit": 900,
+        "text_tokens": 656
+      },
+      "part_number": 2,
+      "primary_alignment_group_ids": [
+        "align_nested_body_1b",
+        "align_nested_body_2"
+      ],
+      "primary_partition_node_ids": [
+        "nested_subparagraph_1b",
+        "nested_paragraph_2"
+      ],
+      "serving_payload_fingerprint": "sha256:1c83ac66ef38f7b828370c3a1ec62830f612362ced69ec3d6103722449085c98",
+      "text": "[English — Authentic Text]\nInstrument: Nested Ordinance (Cap. 998)\nProvision: section 3\nServing part: 2 of 2\nHeading: Nested units\nText:\n(b) Second complete official subparagraph. (b) Second complete official subparagraph. (b) Second complete official subparagraph. (b) Second complete official subparagraph.\n(2) Separate sibling.\n\n[繁體中文 — 真確文本]\n法例：嵌套條例（第998章）\n條文：第3條\n服務部分：第2部分，共2部分\n標題：嵌套單元\n正文：\n(b) 第二個完整官方分段。(b) 第二個完整官方分段。(b) 第二個完整官方分段。(b) 第二個完整官方分段。\n(2) 獨立的同級單元。",
+      "text_fingerprint": "sha256:54989e72b9ea9c5a9554c36b2d01f7e88eca01fbae982432027992f8e726dbcc",
+      "total_parts": 2,
+      "zh_hant_dependency_source_unit_ids": [],
+      "zh_hant_primary_source_unit_ids": [
+        "zh_nested_body_1b",
+        "zh_nested_body_2"
+      ]
+    }
+  ],
+  "profile_fingerprint": "sha256:6927527e0eed5bc18aff2b6eac5aa06a804ccb3d850dd29b0bcb0e2a764c29ba",
+  "profile_id": "psp_111111111111111111111111111111111111111111111111",
+  "quarantined_partition_node_ids": [],
+  "reason": "PASS_PARTITIONED",
+  "search_record_output": "NONE",
+  "zh_hant_tree_fingerprint": "sha256:53d2cf632b3771b84cd751f4c2ba30f2ef861dce1eca3c587edf00a513235db4"
+}

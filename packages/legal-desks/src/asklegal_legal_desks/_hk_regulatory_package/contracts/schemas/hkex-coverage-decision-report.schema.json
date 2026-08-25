@@ -1,0 +1,446 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-coverage-decision-report.schema.json",
+  "title": "HKEX source-unit coverage and board-readiness conformance report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "rule_id",
+    "case_id",
+    "assertion_scope",
+    "observed_decision",
+    "expected_decision",
+    "conformance_status",
+    "source_authorized",
+    "provider_authorized",
+    "release_authorized",
+    "serving_authorized",
+    "deployment_authorized",
+    "external_effects"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-regulatory.coverage-decision-report"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "rule_id": {
+      "const": "HKREG-COVERAGE-DECISION-001"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^HKREG-DET-COV-(0[0-1][0-9]|020)$"
+    },
+    "assertion_scope": {
+      "enum": [
+        "PRIMARY_OWNERSHIP",
+        "BLOCKED_REQUIRED",
+        "REPEATED_DEPENDENCY",
+        "EXPLICIT_CLASSIFICATION",
+        "COMPLEX_ELEMENTS",
+        "NONCURRENT_OUTCOMES",
+        "ORDER_AND_BOARD",
+        "MISSING_UNIT",
+        "DUPLICATE_PRIMARY",
+        "REORDERED_PRIMARY",
+        "ORPHAN_OUTPUT",
+        "WRONG_BOARD",
+        "DEPENDENCY_BINDING",
+        "SOURCE_FIDELITY",
+        "BOARD_READY",
+        "QUARANTINED_CURRENT",
+        "BOARD_ISOLATION",
+        "SHARED_GAP",
+        "WEAK_PROXY",
+        "ZERO_OUTPUT"
+      ]
+    },
+    "observed_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "case_id",
+        "outcome",
+        "reason",
+        "coverage_complete",
+        "source_fidelity_valid",
+        "source_order_valid",
+        "board_ownership_valid",
+        "dependency_accounting_valid",
+        "total_source_unit_count",
+        "primary_owned_unit_count",
+        "non_serving_unit_count",
+        "board_results",
+        "violation_codes",
+        "search_record_authorized",
+        "embedding_authorized",
+        "release_authorized",
+        "serving_authorized",
+        "deployment_authorized",
+        "external_effects"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-regulatory.coverage-decision-result"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKREG-COVERAGE-DECISION-001"
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^HKREG-DET-COV-(0[0-1][0-9]|020)$"
+        },
+        "outcome": {
+          "enum": [
+            "PASS",
+            "INVALID",
+            "COMPLETE_NOT_READY"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "COMPLETE_PRIMARY_OWNERSHIP",
+            "REQUIRED_UNIT_EXPLICITLY_BLOCKED",
+            "DEPENDENCY_REPETITION_ACCOUNTED",
+            "CLASSIFICATIONS_ACCOUNTED",
+            "COMPLEX_ELEMENTS_ACCOUNTED",
+            "NONCURRENT_OUTCOMES_ACCOUNTED",
+            "ORDER_AND_BOARD_PROVED",
+            "MISSING_SOURCE_UNIT",
+            "DUPLICATE_PRIMARY_OWNER",
+            "SOURCE_ORDER_CHANGED",
+            "ORPHANED_OUTPUT",
+            "WRONG_BOARD_OWNER",
+            "DEPENDENCY_BINDING_INCOMPLETE",
+            "SOURCE_FIDELITY_CHANGED",
+            "BOARD_READY_FOR_LATER_GATES",
+            "COMPLETE_BUT_BOARD_NOT_READY",
+            "BOARDS_INDEPENDENT",
+            "SHARED_GAP_BLOCKS_BOTH",
+            "WEAK_PROXY_REJECTED",
+            "VALID_ZERO_OUTPUT"
+          ]
+        },
+        "coverage_complete": {
+          "type": "boolean"
+        },
+        "source_fidelity_valid": {
+          "type": "boolean"
+        },
+        "source_order_valid": {
+          "type": "boolean"
+        },
+        "board_ownership_valid": {
+          "type": "boolean"
+        },
+        "dependency_accounting_valid": {
+          "type": "boolean"
+        },
+        "total_source_unit_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "primary_owned_unit_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "non_serving_unit_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "board_results": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "scope_id",
+              "inventory_bounded",
+              "coverage_complete",
+              "required_current_unit_count",
+              "ready_current_unit_count",
+              "blocked_or_quarantined_unit_count",
+              "search_record_candidate_count",
+              "later_gate_candidate_ready"
+            ],
+            "properties": {
+              "scope_id": {
+                "enum": [
+                  "HK-REG-HKEX-GEM",
+                  "HK-REG-HKEX-MAIN-BOARD"
+                ]
+              },
+              "inventory_bounded": {
+                "type": "boolean"
+              },
+              "coverage_complete": {
+                "type": "boolean"
+              },
+              "required_current_unit_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "ready_current_unit_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "blocked_or_quarantined_unit_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "search_record_candidate_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "later_gate_candidate_ready": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "violation_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "search_record_authorized": {
+          "const": false
+        },
+        "embedding_authorized": {
+          "const": false
+        },
+        "release_authorized": {
+          "const": false
+        },
+        "serving_authorized": {
+          "const": false
+        },
+        "deployment_authorized": {
+          "const": false
+        },
+        "external_effects": {
+          "const": "NONE"
+        }
+      }
+    },
+    "expected_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "case_id",
+        "outcome",
+        "reason",
+        "coverage_complete",
+        "source_fidelity_valid",
+        "source_order_valid",
+        "board_ownership_valid",
+        "dependency_accounting_valid",
+        "total_source_unit_count",
+        "primary_owned_unit_count",
+        "non_serving_unit_count",
+        "board_results",
+        "violation_codes",
+        "search_record_authorized",
+        "embedding_authorized",
+        "release_authorized",
+        "serving_authorized",
+        "deployment_authorized",
+        "external_effects"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-regulatory.coverage-decision-result"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKREG-COVERAGE-DECISION-001"
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^HKREG-DET-COV-(0[0-1][0-9]|020)$"
+        },
+        "outcome": {
+          "enum": [
+            "PASS",
+            "INVALID",
+            "COMPLETE_NOT_READY"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "COMPLETE_PRIMARY_OWNERSHIP",
+            "REQUIRED_UNIT_EXPLICITLY_BLOCKED",
+            "DEPENDENCY_REPETITION_ACCOUNTED",
+            "CLASSIFICATIONS_ACCOUNTED",
+            "COMPLEX_ELEMENTS_ACCOUNTED",
+            "NONCURRENT_OUTCOMES_ACCOUNTED",
+            "ORDER_AND_BOARD_PROVED",
+            "MISSING_SOURCE_UNIT",
+            "DUPLICATE_PRIMARY_OWNER",
+            "SOURCE_ORDER_CHANGED",
+            "ORPHANED_OUTPUT",
+            "WRONG_BOARD_OWNER",
+            "DEPENDENCY_BINDING_INCOMPLETE",
+            "SOURCE_FIDELITY_CHANGED",
+            "BOARD_READY_FOR_LATER_GATES",
+            "COMPLETE_BUT_BOARD_NOT_READY",
+            "BOARDS_INDEPENDENT",
+            "SHARED_GAP_BLOCKS_BOTH",
+            "WEAK_PROXY_REJECTED",
+            "VALID_ZERO_OUTPUT"
+          ]
+        },
+        "coverage_complete": {
+          "type": "boolean"
+        },
+        "source_fidelity_valid": {
+          "type": "boolean"
+        },
+        "source_order_valid": {
+          "type": "boolean"
+        },
+        "board_ownership_valid": {
+          "type": "boolean"
+        },
+        "dependency_accounting_valid": {
+          "type": "boolean"
+        },
+        "total_source_unit_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "primary_owned_unit_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "non_serving_unit_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "board_results": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "scope_id",
+              "inventory_bounded",
+              "coverage_complete",
+              "required_current_unit_count",
+              "ready_current_unit_count",
+              "blocked_or_quarantined_unit_count",
+              "search_record_candidate_count",
+              "later_gate_candidate_ready"
+            ],
+            "properties": {
+              "scope_id": {
+                "enum": [
+                  "HK-REG-HKEX-GEM",
+                  "HK-REG-HKEX-MAIN-BOARD"
+                ]
+              },
+              "inventory_bounded": {
+                "type": "boolean"
+              },
+              "coverage_complete": {
+                "type": "boolean"
+              },
+              "required_current_unit_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "ready_current_unit_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "blocked_or_quarantined_unit_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "search_record_candidate_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "later_gate_candidate_ready": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "violation_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "search_record_authorized": {
+          "const": false
+        },
+        "embedding_authorized": {
+          "const": false
+        },
+        "release_authorized": {
+          "const": false
+        },
+        "serving_authorized": {
+          "const": false
+        },
+        "deployment_authorized": {
+          "const": false
+        },
+        "external_effects": {
+          "const": "NONE"
+        }
+      }
+    },
+    "conformance_status": {
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "source_authorized": {
+      "const": false
+    },
+    "provider_authorized": {
+      "const": false
+    },
+    "release_authorized": {
+      "const": false
+    },
+    "serving_authorized": {
+      "const": false
+    },
+    "deployment_authorized": {
+      "const": false
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

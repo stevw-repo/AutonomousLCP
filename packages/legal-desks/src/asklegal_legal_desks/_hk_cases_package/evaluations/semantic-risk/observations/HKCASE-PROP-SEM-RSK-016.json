@@ -1,0 +1,48 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:0f5fbb35dddad8dd748ed3eda677891be3c37bc36d6ba805c117fd65e54e819c",
+  "workflow_result_fingerprint": "sha256:ebdb14ddf49a5897a34f41e280b229f9b2e47c0c063c7f301492fe71b658a5c7",
+  "court_family": "CA",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_16",
+  "auxiliary_translation_version_ids": [],
+  "examined_segment_ids": [
+    "segment_1"
+  ],
+  "resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "QUARANTINED",
+      "issue_code": "UNCERTAIN_MATERIALITY_CANDIDATE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_16",
+      "meaning_codes": [
+        "POSSIBLE_MATERIAL_RULE"
+      ],
+      "risk_codes": [
+        "MATERIALITY_UNCERTAIN",
+        "QUARANTINE_NOT_FALSE_ZERO"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": null
+    }
+  ],
+  "disposition": "ACCOUNTED_WITH_QUARANTINE",
+  "selected_candidate_ids": [],
+  "coverage_gap_ids": [
+    "coverage_gap_materiality_uncertain"
+  ],
+  "translation_use": "NONE",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

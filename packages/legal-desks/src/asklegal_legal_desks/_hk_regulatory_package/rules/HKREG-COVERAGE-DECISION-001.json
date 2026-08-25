@@ -1,0 +1,35 @@
+{
+  "schema_id": "asklegal.hk-regulatory-coverage-decision-rule",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-COVERAGE-DECISION-001",
+  "status": "SOURCE_NEUTRAL_EXECUTABLE_CHECKPOINT",
+  "accepted_adrs": [
+    "0011",
+    "0050",
+    "0069",
+    "0073",
+    "0074",
+    "0075"
+  ],
+  "case_schema": "contracts/schemas/hkex-coverage-decision-case.schema.json",
+  "report_schema": "contracts/schemas/hkex-coverage-decision-report.schema.json",
+  "catalogue_schema": "contracts/schemas/hkex-coverage-decision-catalogue.schema.json",
+  "catalogue": "catalogues/coverage-decision-cases.json",
+  "required_case_count": 20,
+  "required_primary_coverage_cell_count": 20,
+  "required_high_risk_pairs": [
+    "HKREG-PAIR-041",
+    "HKREG-PAIR-042",
+    "HKREG-PAIR-043",
+    "HKREG-PAIR-044",
+    "HKREG-PAIR-045"
+  ],
+  "accepted_coverage_rule_id": "HKREG-ENGLISH-RECORD-001",
+  "complete_structured_decision_match_required": true,
+  "case_id_switching_forbidden": true,
+  "coverage_decision_checkpoint_complete": true,
+  "full_conformance_suite_complete": false,
+  "source_authority": false,
+  "activation_authority": false,
+  "external_effects": "NONE"
+}

@@ -1,0 +1,88 @@
+{
+  "schema_id": "asklegal.hk-regulatory.boundary-decision-report",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-BOUNDARY-DECISION-001",
+  "case_id": "HKREG-DEC-BND-024",
+  "assertion_scope": "CROSS_REFERENCE",
+  "observed_decision": {
+    "schema_id": "asklegal.hk-regulatory.boundary-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-BOUNDARY-DECISION-001",
+    "case_id": "HKREG-DEC-BND-024",
+    "outcome": "QUARANTINE",
+    "reason": "TARGET_RESOLUTION_REQUIRED",
+    "responsibilities": [],
+    "dependency_owners": [],
+    "references": [
+      {
+        "referring_unit_id": "unit-24",
+        "referring_words": "see missing-rule-24",
+        "referring_scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "target_locator": "missing-rule-24",
+        "target_heading": "Missing rule",
+        "target_scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "resolution": "UNRESOLVED",
+        "target_text_included": false
+      }
+    ],
+    "excluded_background_unit_ids": [],
+    "quarantined_unit_ids": [
+      "unit-24"
+    ],
+    "rejected_candidate": false,
+    "source_contract_review_required": true,
+    "quarantined_branch": true,
+    "presentation_identity_rejected": false,
+    "relationship_revision_only": false,
+    "referring_payload_change_required": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.boundary-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-BOUNDARY-DECISION-001",
+    "case_id": "HKREG-DEC-BND-024",
+    "outcome": "QUARANTINE",
+    "reason": "TARGET_RESOLUTION_REQUIRED",
+    "responsibilities": [],
+    "dependency_owners": [],
+    "references": [
+      {
+        "referring_unit_id": "unit-24",
+        "referring_words": "see missing-rule-24",
+        "referring_scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "target_locator": "missing-rule-24",
+        "target_heading": "Missing rule",
+        "target_scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "resolution": "UNRESOLVED",
+        "target_text_included": false
+      }
+    ],
+    "excluded_background_unit_ids": [],
+    "quarantined_unit_ids": [
+      "unit-24"
+    ],
+    "rejected_candidate": false,
+    "source_contract_review_required": true,
+    "quarantined_branch": true,
+    "presentation_identity_rejected": false,
+    "relationship_revision_only": false,
+    "referring_payload_change_required": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "conformance_status": "PASS",
+  "source_authorized": false,
+  "provider_authorized": false,
+  "release_authorized": false,
+  "serving_authorized": false,
+  "deployment_authorized": false,
+  "external_effects": "NONE"
+}

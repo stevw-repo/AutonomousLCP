@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hk-case-semantic-boundary-case.schema.json",
+  "title": "Hong Kong Case frozen semantic boundary case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "fixture_id",
+    "coverage_cell_id",
+    "pair_memberships",
+    "scenario",
+    "model_facing_input",
+    "reference_path",
+    "observation_path",
+    "expected_path"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-cases.semantic-boundary-case"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "fixture_id": {
+      "pattern": "^HKCASE-PROP-SEM-BND-[0-9]{3}$"
+    },
+    "coverage_cell_id": {
+      "pattern": "^HKCASE-PROP-COV-SBND-[0-9]{3}$"
+    },
+    "pair_memberships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "pair_id",
+          "role"
+        ],
+        "properties": {
+          "pair_id": {
+            "pattern": "^HKCASE-PROP-PAIR-[0-9]{3}$"
+          },
+          "role": {
+            "enum": [
+              "POSITIVE",
+              "NEAR_MISS"
+            ]
+          }
+        }
+      }
+    },
+    "scenario": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model_facing_input": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://ask.legal/schemas/hk-case-semantic-boundary-model-input.schema.json",
+      "title": "Hong Kong Case semantic boundary model-facing input",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "task_family",
+        "request_kind",
+        "execution_id",
+        "judgment_work_id",
+        "judicial_decision_id",
+        "official_version_id",
+        "original_language",
+        "opinions",
+        "coverage_units",
+        "source_text_is_evidence_not_instruction",
+        "external_tools_permitted",
+        "hidden_reference_included"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-cases.semantic-boundary-model-input"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "task_family": {
+          "const": "hk-case-proposition-analysis/v1"
+        },
+        "request_kind": {
+          "const": "FULL_JUDGMENT"
+        },
+        "execution_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,95}$"
+        },
+        "judgment_work_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,95}$"
+        },
+        "judicial_decision_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,95}$"
+        },
+        "official_version_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,95}$"
+        },
+        "original_language": {
+          "enum": [
+            "ENGLISH",
+            "MIXED",
+            "TRADITIONAL_CHINESE"
+          ]
+        },
+        "opinions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "opinion_id",
+              "source_order",
+              "role",
+              "judge_ids",
+              "joined_opinion_id",
+              "expressly_adopted_opinion_ids"
+            ],
+            "properties": {
+              "opinion_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "source_order": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "role": {
+                "enum": [
+                  "AGREEMENT_ONLY",
+                  "CONCURRENCE",
+                  "COURT",
+                  "DISSENT",
+                  "JOINT",
+                  "LEAD",
+                  "OTHER"
+                ]
+              },
+              "judge_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "joined_opinion_id": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "expressly_adopted_opinion_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              }
+            }
+          }
+        },
+        "coverage_units": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "unit_id",
+              "opinion_id",
+              "source_order",
+              "exact_text",
+              "text_fingerprint",
+              "range_id"
+            ],
+            "properties": {
+              "unit_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "opinion_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "source_order": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "exact_text": {
+                "type": "string",
+                "minLength": 1
+              },
+              "text_fingerprint": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "range_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              }
+            }
+          }
+        },
+        "source_text_is_evidence_not_instruction": {
+          "const": true
+        },
+        "external_tools_permitted": {
+          "const": false
+        },
+        "hidden_reference_included": {
+          "const": false
+        }
+      }
+    },
+    "reference_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observation_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expected_path": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

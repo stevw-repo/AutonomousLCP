@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hk-case-coverage-ledger-result.schema.json",
+  "title": "Hong Kong Case Proposition Coverage Ledger result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "rule_id",
+    "request_fingerprint",
+    "outcome",
+    "reasons",
+    "opinion_count",
+    "unit_count",
+    "segment_count",
+    "dependency_count",
+    "resolved_unit_count",
+    "quarantined_unit_count",
+    "blocked_unit_count",
+    "proposition_evidence_unit_count",
+    "accepted_candidate_count",
+    "screening_handoff_count",
+    "search_records_created",
+    "release_eligible",
+    "semantic_analysis_authorized",
+    "external_effects"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-cases.coverage-ledger-result"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "rule_id": {
+      "const": "HKCASE-PROP-COVERAGE-LEDGER-001"
+    },
+    "request_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "outcome": {
+      "enum": [
+        "ACCOUNTED_WITH_QUARANTINE",
+        "BLOCKED",
+        "COMPLETE_NO_PROPOSITION",
+        "COMPLETE_WITH_PROPOSITIONS",
+        "INVALID",
+        "STRUCTURE_VALID"
+      ]
+    },
+    "reasons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "enum": [
+          "CANDIDATE_BLOCKED",
+          "CANDIDATE_QUARANTINED",
+          "COMPLETE_NO_PROPOSITION",
+          "COMPLETE_WITH_PROPOSITIONS",
+          "CROSS_OPINION_ADOPTION_INVALID",
+          "DEPENDENCY_FINGERPRINT_MISMATCH",
+          "DEPENDENCY_UNKNOWN_PRIMARY",
+          "DUPLICATE_IDENTITY",
+          "DUPLICATE_PRIMARY_COVERAGE",
+          "INVALID_NON_PROPOSITIONAL_REASON",
+          "INVALID_OPINION_OWNERSHIP",
+          "INVALID_PRIMARY_USE",
+          "INVALID_RESOLUTION",
+          "INVALID_SCREENING_HANDOFF",
+          "MISSING_PRIMARY_COVERAGE",
+          "PRIMARY_COVERAGE_REORDERED",
+          "SOURCE_SUPPORT_ABSENT",
+          "STRUCTURE_VALID",
+          "UNIT_BLOCKED",
+          "UNIT_QUARANTINED"
+        ]
+      }
+    },
+    "opinion_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "unit_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "segment_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "dependency_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "resolved_unit_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "quarantined_unit_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "blocked_unit_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "proposition_evidence_unit_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "accepted_candidate_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "screening_handoff_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "search_records_created": {
+      "const": 0
+    },
+    "release_eligible": {
+      "const": false
+    },
+    "semantic_analysis_authorized": {
+      "const": false
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

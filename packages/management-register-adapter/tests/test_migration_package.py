@@ -21,6 +21,12 @@ _V1_TERMINAL_PACKAGE = (
 _V1_EXECUTION_AUTHORIZATION_PACKAGE = (
     Path(__file__).parents[1] / "migrations" / "000007_registered_execution_authorization"
 )
+_V1_EXECUTION_BEGIN_PACKAGE = (
+    Path(__file__).parents[1] / "migrations" / "000008_registered_execution_begin"
+)
+_V1_CLAIMED_EFFECT_READBACK_PACKAGE = (
+    Path(__file__).parents[1] / "migrations" / "000009_claimed_effect_readback"
+)
 
 
 def test_repository_migration_package_is_exact() -> None:
@@ -46,6 +52,16 @@ def test_repository_migration_package_is_exact() -> None:
     authorization = load_package(_V1_EXECUTION_AUTHORIZATION_PACKAGE)
     assert authorization.migration_id == "000007"
     assert len(authorization.batches) == 1
+    begin = load_package(_V1_EXECUTION_BEGIN_PACKAGE)
+    assert begin.migration_id == "000008"
+    assert len(begin.batches) == 1
+    readback = load_package(_V1_CLAIMED_EFFECT_READBACK_PACKAGE)
+    assert readback.migration_id == "000009"
+    assert len(readback.batches) == 2
+    create_batch = (readback.directory / readback.batches[0].path).read_bytes()
+    permission_batch = (readback.directory / readback.batches[1].path).read_bytes()
+    assert b"GRANT EXECUTE" not in create_batch
+    assert b"GRANT EXECUTE" in permission_batch
 
 
 def test_changed_batch_is_rejected(tmp_path: Path) -> None:

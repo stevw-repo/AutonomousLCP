@@ -1,0 +1,36 @@
+{
+  "rule_id": "HKCASE-PROP-SEM-MATERIALITY-EVALUATOR-001",
+  "contract_version": "1.0.0",
+  "direct_case_count": 18,
+  "coverage_cell_count": 18,
+  "direct_high_risk_pair_ids": [
+    "HKCASE-PROP-PAIR-001",
+    "HKCASE-PROP-PAIR-002",
+    "HKCASE-PROP-PAIR-003",
+    "HKCASE-PROP-PAIR-004",
+    "HKCASE-PROP-PAIR-005",
+    "HKCASE-PROP-PAIR-019",
+    "HKCASE-PROP-PAIR-031"
+  ],
+  "complete_within_checkpoint_pair_ids": [
+    "HKCASE-PROP-PAIR-001",
+    "HKCASE-PROP-PAIR-002",
+    "HKCASE-PROP-PAIR-003",
+    "HKCASE-PROP-PAIR-004",
+    "HKCASE-PROP-PAIR-005",
+    "HKCASE-PROP-PAIR-031"
+  ],
+  "completed_cross_checkpoint_pair_ids": [
+    "HKCASE-PROP-PAIR-019"
+  ],
+  "pending_cross_checkpoint_pair_ids": [],
+  "model_facing_reference_fields": [],
+  "case_id_answer_switching_forbidden": true,
+  "provider_calls_authorized": 0,
+  "workflow_admission_created": false,
+  "search_records_created": 0,
+  "release_eligible": false,
+  "real_source_evidence": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

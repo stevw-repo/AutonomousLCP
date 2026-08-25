@@ -1,0 +1,50 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-materiality-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-MAT-012",
+  "coverage_cell_id": "HKCASE-PROP-COV-SMAT-012",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-005",
+      "role": "POSITIVE"
+    }
+  ],
+  "scenario": "Clearly attributed obiter reasoning explains a usable legal rule",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-materiality-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "semantic_execution_12",
+    "judgment_work_id": "semantic_judgment_12",
+    "judicial_decision_id": "synthetic_decision_12",
+    "official_version_id": "synthetic_version_12",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "Although unnecessary to the result, we add that waiver requires an unequivocal election.",
+        "text_fingerprint": "sha256:42c0ffbcf03095386ccbe6d13b6a7aa7f29768f12379535c12c9c3baf73efa30",
+        "range_id": "range_1"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-012.json",
+  "observation_path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-012.json",
+  "expected_path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-012.json"
+}

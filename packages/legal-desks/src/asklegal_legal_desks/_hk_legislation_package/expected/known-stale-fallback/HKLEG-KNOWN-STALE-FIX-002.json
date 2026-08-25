@@ -1,0 +1,64 @@
+{
+  "fixture_id": "HKLEG-KNOWN-STALE-FIX-002",
+  "rule_id": "HKLEG-KNOWN-STALE-FALLBACK-001",
+  "processing_outcome": "PASS",
+  "legal_disposition": "NOT_APPLICABLE",
+  "coverage_effect": "COVERAGE_GAP",
+  "source_contract_review_required": false,
+  "reason_codes": [
+    "HKLEG_KNOWN_STALE_NEWER_ASSISTED_TEXT_SELECTED"
+  ],
+  "rule_trace": [
+    "HKLEG-KNOWN-STALE-FALLBACK-001"
+  ],
+  "selection_result": "KNOWN_STALE_ANALYTICAL_CARRY_FORWARD",
+  "coverage_gap_ref": {
+    "ref_type": "COVERAGE_GAP",
+    "ref_id": "cvg_222222222222222222222222222222222222222222222222",
+    "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+  },
+  "affected_scope_ids": [
+    "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95"
+  ],
+  "affected_location_ids": [
+    "section-4"
+  ],
+  "warning_scope": "EXACT",
+  "fallback_selection": {
+    "schema_id": "asklegal.hk-legislation-known-stale-fallback-selection",
+    "schema_version": "1.0.0",
+    "selection_id": "ksf_222222222222222222222222222222222222222222222222",
+    "serving_mode": "KNOWN_STALE_ANALYTICAL_CARRY_FORWARD",
+    "object_id": "hkleg.synthetic.fallback-002",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "cutoff": "2026-08-17T00:00:00Z",
+    "coverage_gap_ref": {
+      "ref_type": "COVERAGE_GAP",
+      "ref_id": "cvg_222222222222222222222222222222222222222222222222",
+      "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "selected_official_version_ref": {
+      "ref_type": "OFFICIAL_VERSION",
+      "ref_id": "ovr_333333333333333333333333333333333333333333333333",
+      "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    },
+    "base_version_date": "2026-07-15",
+    "base_evidence_class": "ASSISTED",
+    "source_text_fingerprints": {
+      "en": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "zh-Hant": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+    },
+    "affected_location_ids": [
+      "section-4"
+    ],
+    "warning_scope": "EXACT",
+    "authority_note_template_id": "HKLEG-KNOWN-STALE-WARNING-1.0.0",
+    "source_text_action": "REUSE_BYTE_EXACT_SOURCE_TEXT",
+    "reconstruction_disposition": "INELIGIBLE_OR_FAILED",
+    "fingerprint": "sha256:c459af008fa6db58539de0f05d4f077747872f706957af51cf4d6d168f74b6d0"
+  },
+  "official_version_output": "NONE",
+  "record_output": "NONE",
+  "external_effects": "NONE",
+  "next_action": "BUILD_WARNED_ANALYTICAL_RECORD_CANDIDATE"
+}

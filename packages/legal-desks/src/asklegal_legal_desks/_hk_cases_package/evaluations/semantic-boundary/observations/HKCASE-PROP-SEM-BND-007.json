@@ -1,0 +1,88 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:b7789c6e59265d436798c784641148f4b63833c26991d17fd18a8f0533c2a03c",
+  "workflow_result_fingerprint": "sha256:2275683a103b99c747c24998eba5c6722aa2ff9bbe42e90cac9d4b4f1c72bc65",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "ORDINARY_NOTICE_BRANCH",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "ACTUAL_DELIVERY"
+      ],
+      "boundary_codes": [
+        "DISTINCT_BRANCH",
+        "SEPARATE_PROPOSITION"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "Ordinary notice requires actual delivery."
+    },
+    {
+      "candidate_id": "candidate_2",
+      "mapped_reference_proposition_id": "reference_prop_2",
+      "resolution": "ACCEPTED",
+      "issue_code": "EVASION_NOTICE_BRANCH",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "DEEMED_DELIVERY_ON_EVASION"
+      ],
+      "boundary_codes": [
+        "DISTINCT_BRANCH",
+        "SEPARATE_PROPOSITION"
+      ],
+      "range_ids": [
+        "range_2"
+      ],
+      "derived_statement": "For deliberate evasion deemed delivery is a distinct exception branch."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_2"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1",
+    "candidate_2"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

@@ -1,0 +1,49 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-BND-011",
+  "coverage_cell_id": "HKCASE-PROP-COV-SBND-011",
+  "pair_memberships": [],
+  "scenario": "Lead opinion is expressly joined without qualification",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-boundary-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "boundary_execution_11",
+    "judgment_work_id": "boundary_judgment_11",
+    "judicial_decision_id": "synthetic_boundary_decision_11",
+    "official_version_id": "synthetic_boundary_version_11",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1",
+          "judge_2",
+          "judge_3"
+        ],
+        "joined_opinion_id": null,
+        "expressly_adopted_opinion_ids": []
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "The joined lead reasons adopt an objective notice test.",
+        "text_fingerprint": "sha256:40273942f60e5bb5631b4cc7dc1fe8d5ce5a4347a5f77887f73720c85ffbc298",
+        "range_id": "range_1"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-011.json",
+  "observation_path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-011.json",
+  "expected_path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-011.json"
+}

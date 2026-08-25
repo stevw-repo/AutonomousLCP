@@ -1,0 +1,430 @@
+{
+  "schema_id": "asklegal.hk-regulatory.coverage-decision-case",
+  "schema_version": "1.0.0",
+  "package_contract_version": "1.0.0",
+  "case_id": "HKREG-DET-COV-005",
+  "suite_layer": "DECISION_TO_ARTIFACT",
+  "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+  "frozen": true,
+  "synthetic_evidence_class": "SYNTHETIC_NO_REAL_AUTHORITY",
+  "contract_bindings": [
+    {
+      "contract_id": "asklegal.hk-regulatory.conformance-universe",
+      "version": "1.0.0",
+      "fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.coverage-decision-case",
+      "version": "1.0.0",
+      "fingerprint": "sha256:55ca192442fe71ecc2ddd8f25a80af68afda82e18bbb8301f7a2db76ff217ea8"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.english-record",
+      "version": "1.0.0",
+      "fingerprint": "sha256:f7448b87eefeb113e1617390d494219032848ec86fb10e8e0210dd68c1fbe5d9"
+    }
+  ],
+  "synthetic_cutoff": "2026-08-24T00:00:00Z",
+  "scope_id": "HKEX_CROSS_BOARD",
+  "prior_state": "SYNTHETIC_ACCEPTED_PREDECESSOR",
+  "primary_coverage_cell_ids": [
+    "HKREG-COV-DCOV-005"
+  ],
+  "secondary_coverage_cell_ids": [],
+  "pair_memberships": [],
+  "declared_input_inventory": [
+    "coverage-evidence"
+  ],
+  "declared_reference_inventory": [
+    "asklegal.hk-regulatory.conformance-universe",
+    "asklegal.hk-regulatory.coverage-decision-case",
+    "asklegal.hk-regulatory.english-record"
+  ],
+  "declared_expected_inventory": [
+    "COVERAGE_DECISION_REPORT"
+  ],
+  "assertion_scope": "COMPLEX_ELEMENTS",
+  "required_result_dimensions": [
+    "BOARD_READINESS",
+    "DEPENDENCY_ACCOUNTING",
+    "FORBIDDEN_EFFECTS",
+    "SOURCE_FIDELITY",
+    "SOURCE_ORDER",
+    "SOURCE_UNIT_ACCOUNTING"
+  ],
+  "evidence_packet_fields": [
+    "declared_units",
+    "excluded_units",
+    "requests",
+    "shared_unbounded_gap",
+    "weak_proxy_checks"
+  ],
+  "supporting_evidence_ranges": [
+    "input/HKREG-DET-COV-005-coverage-evidence.json#facts"
+  ],
+  "rule_trace": [
+    "HKREG-COVERAGE-DECISION-001",
+    "HKREG-ENGLISH-RECORD-001"
+  ],
+  "established_facts": [
+    "SYNTHETIC_COVERAGE_FACT_PACKET_DECLARED"
+  ],
+  "unresolved_facts": [],
+  "permitted_equivalent_results": [],
+  "critical_error_codes": [],
+  "package_fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14",
+  "title": "Table and Form include headers, notes, Parts, groups, fields, and meaningful controls",
+  "purpose": "Account every substantive and presentation unit exactly once by role",
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.coverage-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-COVERAGE-DECISION-001",
+    "case_id": "HKREG-DET-COV-005",
+    "outcome": "PASS",
+    "reason": "COMPLEX_ELEMENTS_ACCOUNTED",
+    "coverage_complete": true,
+    "source_fidelity_valid": true,
+    "source_order_valid": true,
+    "board_ownership_valid": true,
+    "dependency_accounting_valid": true,
+    "total_source_unit_count": 9,
+    "primary_owned_unit_count": 7,
+    "non_serving_unit_count": 2,
+    "board_results": [
+      {
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "inventory_bounded": true,
+        "coverage_complete": true,
+        "required_current_unit_count": 7,
+        "ready_current_unit_count": 7,
+        "blocked_or_quarantined_unit_count": 0,
+        "search_record_candidate_count": 1,
+        "later_gate_candidate_ready": true
+      }
+    ],
+    "violation_codes": [],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "evidence_packet": {
+    "slot_id": "coverage-evidence",
+    "state": "AVAILABLE",
+    "path": "input/HKREG-DET-COV-005-coverage-evidence.json",
+    "role": "ORDINARY",
+    "media_type": "application/json",
+    "content_fingerprint": "sha256:8862b5e1e4b9dca0dd011d30a517bf80887c92b9a12d72cd4cc2dba2ca828929"
+  },
+  "facts": {
+    "requests": [
+      {
+        "tree": {
+          "tree_id": "synthetic-tree-coverage-complex",
+          "component_id": "synthetic-component-main-complex",
+          "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+          "branch_id": "synthetic-branch-current-complex",
+          "branch_state": "CURRENT",
+          "component_class": "APPENDIX",
+          "component_label": "Synthetic Main Board complex fixture",
+          "location_label": "Appendix 3",
+          "official_heading": "Synthetic table and Form fixture",
+          "root_source_unit_id": "context",
+          "source_units": [
+            {
+              "source_unit_id": "context",
+              "parent_source_unit_id": null,
+              "child_source_unit_ids": [
+                "body",
+                "table-header",
+                "table-row",
+                "table-note",
+                "form-instruction",
+                "form-label",
+                "form-control",
+                "layout"
+              ],
+              "source_order": 0,
+              "kind": "HEADING",
+              "role": "CONTEXT_ONLY",
+              "text": "Appendix 3 — Synthetic table and Form fixture",
+              "source_range": "synthetic-hkex-artifact#range-0",
+              "required_context_unit_ids": [],
+              "meaning_bearing": true,
+              "content_fingerprint": "sha256:81d76f4b2a6ca9c3c5e6ea9fca9d2799c5218589d3173dd37921b2278f039eae"
+            },
+            {
+              "source_unit_id": "body",
+              "parent_source_unit_id": "context",
+              "child_source_unit_ids": [],
+              "source_order": 1,
+              "kind": "BODY_TEXT",
+              "role": "PRIMARY",
+              "text": "3.01 Complete every applicable item.",
+              "source_range": "synthetic-hkex-artifact#range-1",
+              "required_context_unit_ids": [
+                "context"
+              ],
+              "meaning_bearing": true,
+              "content_fingerprint": "sha256:0953ccb1247f7b173f4f102eb5a27965a5987c3717a0296fb273e49ff8dc360d"
+            },
+            {
+              "source_unit_id": "table-header",
+              "parent_source_unit_id": "context",
+              "child_source_unit_ids": [],
+              "source_order": 2,
+              "kind": "TABLE_HEADER",
+              "role": "PRIMARY",
+              "text": "Category | Requirement",
+              "source_range": "synthetic-hkex-artifact#range-2",
+              "required_context_unit_ids": [
+                "context"
+              ],
+              "meaning_bearing": true,
+              "content_fingerprint": "sha256:857a63c089ea0c5165ab00ec96658b2df854a29bf434d0fa09e28c38f94a00ed"
+            },
+            {
+              "source_unit_id": "table-row",
+              "parent_source_unit_id": "context",
+              "child_source_unit_ids": [],
+              "source_order": 3,
+              "kind": "TABLE_ROW",
+              "role": "PRIMARY",
+              "text": "A | Publish a notice",
+              "source_range": "synthetic-hkex-artifact#range-3",
+              "required_context_unit_ids": [
+                "context"
+              ],
+              "meaning_bearing": true,
+              "content_fingerprint": "sha256:989a23af12b25721268d1ea0ee9bfcac5ee78e21b17d3c89b75dea87fd76b385"
+            },
+            {
+              "source_unit_id": "table-note",
+              "parent_source_unit_id": "context",
+              "child_source_unit_ids": [],
+              "source_order": 4,
+              "kind": "TABLE_NOTE",
+              "role": "PRIMARY",
+              "text": "Note: Category A is mandatory.",
+              "source_range": "synthetic-hkex-artifact#range-4",
+              "required_context_unit_ids": [
+                "context"
+              ],
+              "meaning_bearing": true,
+              "content_fingerprint": "sha256:5334e017fa3d1bdca864409437b29969e7d441dafce680be0f0e8422620e7571"
+            },
+            {
+              "source_unit_id": "form-instruction",
+              "parent_source_unit_id": "context",
+              "child_source_unit_ids": [],
+              "source_order": 5,
+              "kind": "FORM_INSTRUCTION",
+              "role": "PRIMARY",
+              "text": "Complete Part I.",
+              "source_range": "synthetic-hkex-artifact#range-5",
+              "required_context_unit_ids": [
+                "context"
+              ],
+              "meaning_bearing": true,
+              "content_fingerprint": "sha256:6941f00619cdaa6a2e834d658b81eb49492d667536a02ffaf90cb0596c2c4f4c"
+            },
+            {
+              "source_unit_id": "form-label",
+              "parent_source_unit_id": "context",
+              "child_source_unit_ids": [],
+              "source_order": 6,
+              "kind": "FORM_LABEL",
+              "role": "PRIMARY",
+              "text": "Issuer name",
+              "source_range": "synthetic-hkex-artifact#range-6",
+              "required_context_unit_ids": [
+                "context"
+              ],
+              "meaning_bearing": true,
+              "content_fingerprint": "sha256:fe154fcf7540421b7480b1060f9bbbb57439467b0a8af1add9a603766e455390"
+            },
+            {
+              "source_unit_id": "form-control",
+              "parent_source_unit_id": "context",
+              "child_source_unit_ids": [],
+              "source_order": 7,
+              "kind": "FORM_CONTROL",
+              "role": "PRIMARY",
+              "text": "[CHECKBOX]",
+              "source_range": "synthetic-hkex-artifact#range-7",
+              "required_context_unit_ids": [
+                "context"
+              ],
+              "meaning_bearing": true,
+              "content_fingerprint": "sha256:8bac65b323a85f5084ddd69ba0e55f09428b0289aa89e5029baff4e2b69d8ca6"
+            },
+            {
+              "source_unit_id": "layout",
+              "parent_source_unit_id": "context",
+              "child_source_unit_ids": [],
+              "source_order": 8,
+              "kind": "PRESENTATION",
+              "role": "PRESENTATION_ONLY",
+              "text": "________________",
+              "source_range": "synthetic-hkex-artifact#range-8",
+              "required_context_unit_ids": [],
+              "meaning_bearing": false,
+              "content_fingerprint": "sha256:4cf00d828a49141d245df4e3d22e42f6ceb9cf545bc53f0f5984d2aa792cbd44"
+            }
+          ],
+          "root_record_unit_ids": [
+            "record-complex"
+          ],
+          "record_units": [
+            {
+              "record_unit_id": "record-complex",
+              "primary_source_unit_ids": [
+                "body",
+                "table-header",
+                "table-row",
+                "table-note",
+                "form-instruction",
+                "form-label",
+                "form-control"
+              ],
+              "dependency_source_unit_ids": [
+                "context"
+              ],
+              "referenced_locations": [],
+              "child_record_unit_ids": [],
+              "source_contract_state": "SUPPORTED",
+              "indivisible": true
+            }
+          ],
+          "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+          "source_artifact_fingerprints": [
+            "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          ]
+        },
+        "profile": {
+          "profile_id": "synthetic-hkex-english-profile-1",
+          "profile_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tokenizer_id": "synthetic-codepoint-counter-1",
+          "max_text_tokens": 100000,
+          "max_metadata_bytes": 100000,
+          "country": "Hong Kong",
+          "jurisdiction": "Hong Kong",
+          "material_type": "regulatory_material",
+          "source": "Hong Kong Exchanges and Clearing Limited",
+          "authority_note": "None"
+        },
+        "effective_context": null
+      }
+    ],
+    "declared_units": [
+      {
+        "unit_key": "synthetic-tree-coverage-complex:context",
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "source_order": 0,
+        "outcome": "CONTEXT_ONLY",
+        "primary_owner_record_ids": [],
+        "dependency_uses": [
+          {
+            "consumer_record_id": "synthetic-tree-coverage-complex:record-complex",
+            "label": "Governing context: context",
+            "owner_record_id": "CLASSIFICATION:CONTEXT_ONLY:synthetic-tree-coverage-complex:context",
+            "source_fingerprint": "sha256:81d76f4b2a6ca9c3c5e6ea9fca9d2799c5218589d3173dd37921b2278f039eae"
+          }
+        ],
+        "fidelity": "EXACT"
+      },
+      {
+        "unit_key": "synthetic-tree-coverage-complex:body",
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "source_order": 1,
+        "outcome": "PRIMARY",
+        "primary_owner_record_ids": [
+          "synthetic-tree-coverage-complex:record-complex"
+        ],
+        "dependency_uses": [],
+        "fidelity": "EXACT"
+      },
+      {
+        "unit_key": "synthetic-tree-coverage-complex:table-header",
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "source_order": 2,
+        "outcome": "PRIMARY",
+        "primary_owner_record_ids": [
+          "synthetic-tree-coverage-complex:record-complex"
+        ],
+        "dependency_uses": [],
+        "fidelity": "EXACT"
+      },
+      {
+        "unit_key": "synthetic-tree-coverage-complex:table-row",
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "source_order": 3,
+        "outcome": "PRIMARY",
+        "primary_owner_record_ids": [
+          "synthetic-tree-coverage-complex:record-complex"
+        ],
+        "dependency_uses": [],
+        "fidelity": "EXACT"
+      },
+      {
+        "unit_key": "synthetic-tree-coverage-complex:table-note",
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "source_order": 4,
+        "outcome": "PRIMARY",
+        "primary_owner_record_ids": [
+          "synthetic-tree-coverage-complex:record-complex"
+        ],
+        "dependency_uses": [],
+        "fidelity": "EXACT"
+      },
+      {
+        "unit_key": "synthetic-tree-coverage-complex:form-instruction",
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "source_order": 5,
+        "outcome": "PRIMARY",
+        "primary_owner_record_ids": [
+          "synthetic-tree-coverage-complex:record-complex"
+        ],
+        "dependency_uses": [],
+        "fidelity": "EXACT"
+      },
+      {
+        "unit_key": "synthetic-tree-coverage-complex:form-label",
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "source_order": 6,
+        "outcome": "PRIMARY",
+        "primary_owner_record_ids": [
+          "synthetic-tree-coverage-complex:record-complex"
+        ],
+        "dependency_uses": [],
+        "fidelity": "EXACT"
+      },
+      {
+        "unit_key": "synthetic-tree-coverage-complex:form-control",
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "source_order": 7,
+        "outcome": "PRIMARY",
+        "primary_owner_record_ids": [
+          "synthetic-tree-coverage-complex:record-complex"
+        ],
+        "dependency_uses": [],
+        "fidelity": "EXACT"
+      },
+      {
+        "unit_key": "synthetic-tree-coverage-complex:layout",
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "source_order": 8,
+        "outcome": "PRESENTATION_ONLY",
+        "primary_owner_record_ids": [],
+        "dependency_uses": [],
+        "fidelity": "EXACT"
+      }
+    ],
+    "excluded_units": [],
+    "shared_unbounded_gap": false,
+    "weak_proxy_checks": []
+  },
+  "case_fingerprint": "sha256:acf405687511fe31353b835d13a9d96315d274ea1d2e60c79f290edc5de98179"
+}

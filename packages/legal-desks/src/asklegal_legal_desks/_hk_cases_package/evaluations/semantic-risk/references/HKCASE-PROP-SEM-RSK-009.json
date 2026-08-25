@@ -1,0 +1,46 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "reference_map_id": "risk_reference_map_9",
+  "model_input_fingerprint": "sha256:c5f5c1a7bdc12155675a68a60368c5d4d21c17c7ef24f2085b81d827c9b0fab3",
+  "court_family": "CFI",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_9",
+  "auxiliary_translation_version_ids": [],
+  "expected_examined_segment_ids": [
+    "segment_1"
+  ],
+  "expected_resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "SHORT_SERVICE_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_9",
+      "required_meaning_codes": [
+        "VALID_SERVICE_REQUIRED"
+      ],
+      "required_risk_codes": [
+        "CANDIDATE_ACCOUNTING_COMPLETE",
+        "SHORT_PACKET_FULL_LEDGER"
+      ],
+      "forbidden_risk_codes": [],
+      "required_range_ids": [
+        "range_1"
+      ]
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1"
+  ],
+  "expected_coverage_gap_ids": [],
+  "expected_translation_use": "NONE",
+  "expected_parser_supported": true,
+  "expected_re_evaluated_reference_proposition_ids": [],
+  "prior_result_immutable_required": false,
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

@@ -20,7 +20,7 @@ from .model import HttpMethod, exact_identifier, exact_string_tuple, exact_text
 if TYPE_CHECKING:
     from asklegal_contracts.json_types import JsonValue
 
-_POLICY_SOURCE_ID = re.compile(r"^HK-LEG-[A-Z0-9-]+$")
+_POLICY_SOURCE_ID = re.compile(r"^HK-(?:LEG|CASE)-[A-Z0-9-]+$")
 _MAX_REGISTER_BYTES = 1_000_000
 HK_LEGISLATION_SOURCE_IDS = frozenset(
     {
@@ -579,7 +579,7 @@ def _register_fingerprint(document: dict[str, JsonValue]) -> str:
 def _policy_source_id(value: object) -> str:
     text = exact_text(value, "source_id")
     if _POLICY_SOURCE_ID.fullmatch(text) is None:
-        raise ValueError("source_id must be a stable HK Legislation source identity")
+        raise ValueError("source_id must be a stable HK Legislation or Cases source identity")
     return text
 
 

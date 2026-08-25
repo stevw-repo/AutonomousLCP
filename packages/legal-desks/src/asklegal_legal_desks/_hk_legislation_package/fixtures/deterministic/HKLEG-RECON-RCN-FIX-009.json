@@ -1,0 +1,45 @@
+{
+  "fixture_id": "HKLEG-RECON-RCN-FIX-009",
+  "title": "Incomplete location accounting cannot hide an unexamined location",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:79db68e9d57af2272c545353fbc030d442c8d6c532d48e78f0d6bbb67304bcf7",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "reconciliation_id": "rrc_999999999999999999999999999999999999999999999999",
+    "reconstruction_artifact_ref": {
+      "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT",
+      "ref_id": "rca_111111111111111111111111111111111111111111111111",
+      "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "coverage_gap_ref": {
+      "ref_type": "COVERAGE_GAP",
+      "ref_id": "cvg_222222222222222222222222222222222222222222222222",
+      "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "current_monitoring_state": "AWAITING_HKEL_CONSOLIDATION",
+    "changed_signal": "CHANGED",
+    "hkel_candidate_state": "VALID",
+    "common_basis": "EXACT",
+    "ordinary_hkel_selection": "CANDIDATE_READY",
+    "reconstructed_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "comparison_results": [
+      {
+        "location_id": "section-1",
+        "comparison_class": "EXACT_CANONICAL_MATCH",
+        "attribution_classes": []
+      }
+    ],
+    "complete_comparison_accounting": false,
+    "reconstruction_integrity_defect": false,
+    "declared_impact_scope": "NONE",
+    "revalidation_complete": false
+  },
+  "expected_artifact": {
+    "path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-009.json",
+    "fingerprint": "sha256:94b92ddfecd737d5cd9e7e7ef62f9ee7028d239ac97a99bb7747a5c43934d563"
+  }
+}

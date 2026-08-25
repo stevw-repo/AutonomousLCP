@@ -1,0 +1,18 @@
+{
+  "rule_id": "HKCASE-PROP-COVERAGE-LEDGER-001",
+  "contract_version": "1.0.0",
+  "direct_case_count": 20,
+  "coverage_cell_count": 20,
+  "high_risk_pair_ids": [
+    "HKCASE-PROP-PAIR-020",
+    "HKCASE-PROP-PAIR-021"
+  ],
+  "fact_derived_execution": true,
+  "case_id_answer_switching_forbidden": true,
+  "search_records_created": 0,
+  "semantic_analysis_authorized": false,
+  "release_eligible": false,
+  "real_source_evidence": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

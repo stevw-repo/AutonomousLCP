@@ -1,0 +1,49 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:d09dee110605288ea73be0cea03f398c623319dcd9ef544a498f556a09d1f909",
+  "workflow_result_fingerprint": "sha256:d7edffb63f74cd6ed6a41f9f97b97cf8cee54ed284936963561702e6ea1d7c44",
+  "court_family": "CA",
+  "original_language": "TRADITIONAL_CHINESE",
+  "accepted_original_version_id": "synthetic_risk_original_2",
+  "auxiliary_translation_version_ids": [],
+  "examined_segment_ids": [
+    "segment_1"
+  ],
+  "resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "CA_NOTICE_TIME_RULE",
+      "language": "TRADITIONAL_CHINESE",
+      "source_version_id": "synthetic_risk_original_2",
+      "meaning_codes": [
+        "REASONABLE_NOTICE",
+        "TIME_START"
+      ],
+      "risk_codes": [
+        "NO_ENGLISH_TRANSLATION_REQUIRED",
+        "SOURCE_FAITHFUL_TRADITIONAL_CHINESE"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "法院裁定, 只有在通知合理可得知時, 期限才開始計算。"
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "coverage_gap_ids": [],
+  "translation_use": "NONE",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

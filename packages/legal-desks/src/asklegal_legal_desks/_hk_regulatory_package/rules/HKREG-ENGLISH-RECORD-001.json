@@ -1,0 +1,20 @@
+{
+  "schema_id": "asklegal.hk-regulatory-english-record-rule",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-ENGLISH-RECORD-001",
+  "status": "SOURCE_NEUTRAL_CONFORMANCE",
+  "accepted_adr": "0073",
+  "input_schema": "contracts/schemas/hkex-english-record-request.schema.json",
+  "result_schema": "contracts/schemas/hkex-english-record-result.schema.json",
+  "decision_unit": "ONE_EXACT_APPLICABILITY_BRANCH_WITH_INDEPENDENT_NORMAL_RECORD_ROOTS",
+  "canonical_renderer": "renderers/canonical-english-renderer.json",
+  "primary_source_unit_coverage_required": true,
+  "minimum_part_earliest_full_partition_required": true,
+  "actual_part_labels_measured": true,
+  "text_and_six_field_metadata_limits_independent": true,
+  "presentation_only_primary_ownership_forbidden": true,
+  "unrelated_normal_unit_packing_forbidden": true,
+  "search_record_authority": false,
+  "serving_authority": false,
+  "external_effects": "NONE"
+}

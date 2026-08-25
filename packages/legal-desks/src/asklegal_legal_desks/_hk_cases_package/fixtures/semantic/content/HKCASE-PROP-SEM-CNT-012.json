@@ -1,0 +1,58 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-CNT-012",
+  "coverage_cell_id": "HKCASE-PROP-COV-SCNT-012",
+  "pair_memberships": [],
+  "scenario": "A list or table supplies operative elements of a legal test",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-content-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "content_execution_12",
+    "judgment_work_id": "content_judgment_12",
+    "judicial_decision_id": "synthetic_content_decision_12",
+    "official_version_id": "synthetic_content_version_12",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "The test has the following cumulative elements:",
+        "text_fingerprint": "sha256:15cbc4a6ff09b3797c1ac5c378d88f112070d23d292dacccc647bca048e33ed8",
+        "range_available": true,
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "structure_kind": "TABLE",
+        "exact_text": "Element | Requirement\nA | Knowledge\nB | Intention\nC | Material reliance",
+        "text_fingerprint": "sha256:b3b98723c82e23ab680f1d50e4682d88f13f790511ffb39408351c2c886c2f4d",
+        "range_available": true,
+        "range_id": "range_2"
+      }
+    ],
+    "dependencies": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-012.json",
+  "observation_path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-012.json",
+  "expected_path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-012.json"
+}

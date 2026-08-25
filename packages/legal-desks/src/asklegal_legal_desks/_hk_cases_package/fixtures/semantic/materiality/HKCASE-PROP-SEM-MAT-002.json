@@ -1,0 +1,50 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-materiality-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-MAT-002",
+  "coverage_cell_id": "HKCASE-PROP-COV-SMAT-002",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-002",
+      "role": "POSITIVE"
+    }
+  ],
+  "scenario": "Court applies a familiar settled rule to a genuinely disputed issue",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-materiality-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "semantic_execution_2",
+    "judgment_work_id": "semantic_judgment_2",
+    "judicial_decision_id": "synthetic_decision_2",
+    "official_version_id": "synthetic_version_2",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "The settled duty rule governs this disputed issue and requires dismissal.",
+        "text_fingerprint": "sha256:644239093f68655c4efb63d3d9f2ce43b0c449307581cbdeda5036e7933b63bd",
+        "range_id": "range_1"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-002.json",
+  "observation_path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-002.json",
+  "expected_path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-002.json"
+}

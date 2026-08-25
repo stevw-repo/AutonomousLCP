@@ -1,0 +1,56 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "reference_map_id": "content_reference_map_15",
+  "model_input_fingerprint": "sha256:35c71d0f25798a2caf97427a30e2abfe6fa562bc9c2f4c193e692e333923632c",
+  "propositions": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "QUARANTINED",
+      "required_meaning_codes": [
+        "UNRESOLVED_COMPLIANCE_STANDARD"
+      ],
+      "forbidden_meaning_codes": [
+        "SINGLE_MEANING_ASSERTED"
+      ],
+      "required_content_codes": [
+        "UNRESOLVED_AMBIGUITY"
+      ],
+      "forbidden_content_codes": [
+        "GUESSED_DERIVED_STATEMENT"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "AMBIGUITY",
+          "ordered_range_ids": [
+            "range_1",
+            "range_2"
+          ]
+        }
+      ],
+      "required_dependency_ids": [],
+      "exact_quotations": []
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    }
+  ],
+  "expected_disposition": "ACCOUNTED_WITH_QUARANTINE",
+  "expected_selected_reference_proposition_ids": [],
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

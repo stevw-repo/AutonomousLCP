@@ -1,0 +1,35 @@
+{
+  "schema_id": "asklegal.hk-regulatory-boundary-decision-rule",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-BOUNDARY-DECISION-001",
+  "status": "SOURCE_NEUTRAL_EXECUTABLE_CHECKPOINT",
+  "accepted_adrs": [
+    "0005",
+    "0072",
+    "0073",
+    "0074",
+    "0075"
+  ],
+  "case_schema": "contracts/schemas/hkex-boundary-decision-case.schema.json",
+  "report_schema": "contracts/schemas/hkex-boundary-decision-report.schema.json",
+  "catalogue_schema": "contracts/schemas/hkex-boundary-decision-catalogue.schema.json",
+  "catalogue": "catalogues/boundary-decision-cases.json",
+  "required_case_count": 30,
+  "required_primary_coverage_cell_count": 30,
+  "required_high_risk_pairs": [
+    "HKREG-PAIR-025",
+    "HKREG-PAIR-026",
+    "HKREG-PAIR-027",
+    "HKREG-PAIR-028",
+    "HKREG-PAIR-029",
+    "HKREG-PAIR-030",
+    "HKREG-PAIR-031"
+  ],
+  "complete_structured_decision_match_required": true,
+  "case_id_switching_forbidden": true,
+  "boundary_decision_checkpoint_complete": true,
+  "full_conformance_suite_complete": false,
+  "source_authority": false,
+  "activation_authority": false,
+  "external_effects": "NONE"
+}

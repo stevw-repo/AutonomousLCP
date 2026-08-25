@@ -1,0 +1,122 @@
+{
+  "schema_id": "asklegal.hk-cases.treatment-discovery-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-TREAT-SEM-DISCOVERY-EVALUATOR-001",
+  "reference_map_id": "treatment_discovery_reference_11",
+  "model_input_fingerprint": "sha256:2f103b943b468253ee6e1c9d12cd22dd162837f7d8b09d36ab93ebdb10230b3c",
+  "original_language": "ENGLISH",
+  "expected_opinion_ids": [
+    "opinion_1"
+  ],
+  "expected_segment_ids": [
+    "segment_1",
+    "segment_2",
+    "segment_3",
+    "segment_4"
+  ],
+  "leads": [
+    {
+      "reference_lead_id": "reference_lead_1",
+      "opinion_id": "opinion_1",
+      "lead_kind": "FORMAL_CITATION",
+      "range_ids": [
+        "range_1"
+      ],
+      "identity_state": "RESOLVED",
+      "resolved_judgment_id": "earlier_judgment_11_1",
+      "material_candidate_expected": true
+    },
+    {
+      "reference_lead_id": "reference_lead_2",
+      "opinion_id": "opinion_1",
+      "lead_kind": "FORMAL_CITATION",
+      "range_ids": [
+        "range_2"
+      ],
+      "identity_state": "RESOLVED",
+      "resolved_judgment_id": "earlier_judgment_11_2",
+      "material_candidate_expected": true
+    },
+    {
+      "reference_lead_id": "reference_lead_3",
+      "opinion_id": "opinion_1",
+      "lead_kind": "FORMAL_CITATION",
+      "range_ids": [
+        "range_3"
+      ],
+      "identity_state": "RESOLVED",
+      "resolved_judgment_id": "earlier_judgment_11_3",
+      "material_candidate_expected": true
+    },
+    {
+      "reference_lead_id": "reference_lead_4",
+      "opinion_id": "opinion_1",
+      "lead_kind": "FORMAL_CITATION",
+      "range_ids": [
+        "range_4"
+      ],
+      "identity_state": "RESOLVED",
+      "resolved_judgment_id": "earlier_judgment_11_4",
+      "material_candidate_expected": true
+    }
+  ],
+  "candidates": [
+    {
+      "reference_candidate_id": "reference_candidate_1",
+      "reference_lead_id": "reference_lead_1",
+      "opinion_id": "opinion_1",
+      "language": "ENGLISH",
+      "passage_range_ids": [
+        "range_1"
+      ],
+      "context_segment_ids": [
+        "segment_1"
+      ],
+      "correction_change": "ADDED"
+    },
+    {
+      "reference_candidate_id": "reference_candidate_2",
+      "reference_lead_id": "reference_lead_2",
+      "opinion_id": "opinion_1",
+      "language": "ENGLISH",
+      "passage_range_ids": [
+        "range_2"
+      ],
+      "context_segment_ids": [
+        "segment_2"
+      ],
+      "correction_change": "REMOVED"
+    },
+    {
+      "reference_candidate_id": "reference_candidate_3",
+      "reference_lead_id": "reference_lead_3",
+      "opinion_id": "opinion_1",
+      "language": "ENGLISH",
+      "passage_range_ids": [
+        "range_3"
+      ],
+      "context_segment_ids": [
+        "segment_3"
+      ],
+      "correction_change": "CHANGED"
+    },
+    {
+      "reference_candidate_id": "reference_candidate_4",
+      "reference_lead_id": "reference_lead_4",
+      "opinion_id": "opinion_1",
+      "language": "ENGLISH",
+      "passage_range_ids": [
+        "range_4"
+      ],
+      "context_segment_ids": [
+        "segment_4"
+      ],
+      "correction_change": "UNCHANGED"
+    }
+  ],
+  "expected_disposition": "COMPLETE",
+  "expected_coverage_gap_ids": [],
+  "expected_judgment_proposition_count": 1,
+  "correction_comparison_required": true,
+  "adjudication_complete": true
+}

@@ -1,0 +1,53 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-materiality-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-MAT-018",
+  "coverage_cell_id": "HKCASE-PROP-COV-SMAT-018",
+  "pair_memberships": [],
+  "scenario": "Supported propositions are all excluded only by downstream treatment selection",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-materiality-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "semantic_execution_18",
+    "judgment_work_id": "semantic_judgment_18",
+    "judicial_decision_id": "synthetic_decision_18",
+    "official_version_id": "synthetic_version_18",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "A public-law duty of candour applies throughout these proceedings.",
+        "text_fingerprint": "sha256:127065f364f72fda84fd7f07a1c2c89568d1a54c1caa00847b64bdc93cc7c966",
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "exact_text": "Relief may be refused where delay causes substantial prejudice.",
+        "text_fingerprint": "sha256:4cba1b30eb8d3918de2fff075599c5a74f3ee47d62851b620e93bc0009bb072b",
+        "range_id": "range_2"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-018.json",
+  "observation_path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-018.json",
+  "expected_path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-018.json"
+}

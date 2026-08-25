@@ -93,6 +93,10 @@ def read_stored_proposal_package(
         )
     if set(inventory) != {member.path for member in receipt.members}:
         raise CorpusError(CorpusErrorCode.INVENTORY_MISMATCH, "proposal inventory")
+    traceability_shards = {
+        shard.path: primary_vault.read_exact(shard.reference)
+        for shard in receipt.traceability_shards
+    }
     _validate_proposal_member_semantics(
         artifacts,
         ProposalMemberBindings(
@@ -103,6 +107,7 @@ def read_stored_proposal_package(
             _text(candidate_ref, "ref_id"),
             _text(candidate_ref, "fingerprint"),
         ),
+        traceability_shards,
     )
     return ProposalPackage(
         package_id,
@@ -120,11 +125,13 @@ def read_stored_proposal_package(
 def _validate_proposal_member_semantics(
     artifacts: list[ProposalArtifact],
     bindings: ProposalMemberBindings,
+    traceability_shards_by_path: Mapping[str, bytes],
 ) -> None:
     try:
         validate_v1_proposal_members(
             {artifact.role: artifact.content for artifact in artifacts},
             bindings,
+            traceability_shards_by_path,
         )
     except ProposalMemberViolation as error:
         raise CorpusError(CorpusErrorCode.PROPOSAL_NOT_FROZEN, "proposal semantics") from error

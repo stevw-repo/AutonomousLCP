@@ -1,0 +1,76 @@
+{
+  "schema_id": "asklegal.hk-regulatory.identity-decision-report",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-IDENTITY-DECISION-001",
+  "case_id": "HKREG-DET-IDN-005",
+  "assertion_scope": "APPLICABILITY_CHANGE",
+  "observed_decision": {
+    "schema_id": "asklegal.hk-regulatory.identity-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-IDENTITY-DECISION-001",
+    "case_id": "HKREG-DET-IDN-005",
+    "outcome": "REQUIRE_NEW_RECORD",
+    "reason": "APPLICABILITY_SUCCESSOR_REQUIRED",
+    "record_action": "REQUIRE_NEW",
+    "traceability_action": "REVISE",
+    "identity_consequences": [
+      "REQUIRE_NEW_FORWARD_SUCCESSOR"
+    ],
+    "selected_search_record_ids": [],
+    "predecessor_search_record_ids": [
+      "rec_444444444444444444444444444444444444444444444444"
+    ],
+    "register_allocation_count": 1,
+    "board_separation_valid": false,
+    "lookup_valid": true,
+    "lineage_valid": true,
+    "traceability_revision_required": true,
+    "cached_embedding_reuse_permitted": false,
+    "quarantine_required": false,
+    "violation_codes": [],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.identity-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-IDENTITY-DECISION-001",
+    "case_id": "HKREG-DET-IDN-005",
+    "outcome": "REQUIRE_NEW_RECORD",
+    "reason": "APPLICABILITY_SUCCESSOR_REQUIRED",
+    "record_action": "REQUIRE_NEW",
+    "traceability_action": "REVISE",
+    "identity_consequences": [
+      "REQUIRE_NEW_FORWARD_SUCCESSOR"
+    ],
+    "selected_search_record_ids": [],
+    "predecessor_search_record_ids": [
+      "rec_444444444444444444444444444444444444444444444444"
+    ],
+    "register_allocation_count": 1,
+    "board_separation_valid": false,
+    "lookup_valid": true,
+    "lineage_valid": true,
+    "traceability_revision_required": true,
+    "cached_embedding_reuse_permitted": false,
+    "quarantine_required": false,
+    "violation_codes": [],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "conformance_status": "PASS",
+  "source_authorized": false,
+  "provider_authorized": false,
+  "release_authorized": false,
+  "serving_authorized": false,
+  "deployment_authorized": false,
+  "external_effects": "NONE"
+}

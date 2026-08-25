@@ -1,0 +1,37 @@
+{
+  "schema_id": "asklegal.hk-cases.coverage-ledger-case-result",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-DET-LED-006",
+  "variants": [
+    {
+      "variant_id": "HKCASE-PROP-DET-LED-006-V01",
+      "result": {
+        "schema_id": "asklegal.hk-cases.coverage-ledger-result",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-COVERAGE-LEDGER-001",
+        "request_fingerprint": "sha256:4158c2190b2eae2ecfabad01eaee3775dd978b97d0160d96942c6b0a7f1d6f91",
+        "outcome": "INVALID",
+        "reasons": [
+          "DUPLICATE_PRIMARY_COVERAGE"
+        ],
+        "opinion_count": 1,
+        "unit_count": 3,
+        "segment_count": 1,
+        "dependency_count": 0,
+        "resolved_unit_count": 3,
+        "quarantined_unit_count": 0,
+        "blocked_unit_count": 0,
+        "proposition_evidence_unit_count": 1,
+        "accepted_candidate_count": 1,
+        "screening_handoff_count": 0,
+        "search_records_created": 0,
+        "release_eligible": false,
+        "semantic_analysis_authorized": false,
+        "external_effects": "NONE"
+      }
+    }
+  ],
+  "search_records_created": 0,
+  "release_eligible": false,
+  "external_effects": "NONE"
+}

@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-identity-decision-catalogue.schema.json",
+  "title": "HKEX permanent identity decision catalogue",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "catalogue_id",
+    "catalogue_version",
+    "status",
+    "case_count",
+    "primary_coverage_cell_count",
+    "high_risk_pair_ids",
+    "entries",
+    "checkpoint_complete",
+    "full_conformance_suite_complete",
+    "activation_authorized",
+    "external_effects"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-regulatory.identity-decision-catalogue"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "catalogue_id": {
+      "const": "hk-regulatory-identity-decision"
+    },
+    "catalogue_version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "const": "FROZEN_EXECUTABLE_CHECKPOINT"
+    },
+    "case_count": {
+      "const": 24
+    },
+    "primary_coverage_cell_count": {
+      "const": 24
+    },
+    "high_risk_pair_ids": {
+      "const": [
+        "HKREG-PAIR-046",
+        "HKREG-PAIR-047",
+        "HKREG-PAIR-048",
+        "HKREG-PAIR-049"
+      ]
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 24,
+      "maxItems": 24,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "case_id",
+          "primary_coverage_cell_id",
+          "pair_memberships",
+          "assertion_scope",
+          "expected_outcome",
+          "expected_reason",
+          "fixture_path",
+          "fixture_fingerprint",
+          "expected_path",
+          "expected_fingerprint"
+        ],
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "pattern": "^HKREG-DET-IDN-(0[0-1][0-9]|02[0-4])$"
+          },
+          "primary_coverage_cell_id": {
+            "type": "string",
+            "pattern": "^HKREG-COV-DIDN-(0[0-1][0-9]|02[0-4])$"
+          },
+          "pair_memberships": {
+            "type": "array"
+          },
+          "assertion_scope": {
+            "enum": [
+              "BOARD_SEPARATION",
+              "EXACT_REUSE",
+              "RESELECTION",
+              "PRIMARY_TEXT_CHANGE",
+              "APPLICABILITY_CHANGE",
+              "GOVERNING_DEPENDENCY_CHANGE",
+              "REFERENCED_LOCATION_CHANGE",
+              "STRUCTURED_PROJECTION_CHANGE",
+              "PARTITION_CHANGE",
+              "AUTHORITY_NOTE_CHANGE",
+              "URL_MOVE",
+              "PAGE_REFLOW",
+              "OPTIONAL_CHINESE_CHANGE",
+              "TRACEABILITY_ONLY",
+              "CHINESE_DEFECT",
+              "LOOKUP_VALID",
+              "LOOKUP_INCOMPLETE",
+              "LOOKUP_WRONG_OWNER",
+              "LINEAGE_ONE_TO_ONE",
+              "LINEAGE_SPLIT_MERGE",
+              "LINEAGE_CYCLE",
+              "PROVED_CONTINUITY",
+              "SIMILARITY_ONLY",
+              "LOOKUP_FINGERPRINT_MISMATCH"
+            ]
+          },
+          "expected_outcome": {
+            "enum": [
+              "PASS",
+              "REQUIRE_NEW_RECORD",
+              "BLOCK",
+              "QUARANTINE"
+            ]
+          },
+          "expected_reason": {
+            "enum": [
+              "SEPARATE_BOARD_IDENTITIES",
+              "EXACT_RECORD_REUSED",
+              "PRESERVED_RECORD_RESELECTED",
+              "PRIMARY_TEXT_SUCCESSOR_REQUIRED",
+              "APPLICABILITY_SUCCESSOR_REQUIRED",
+              "GOVERNING_DEPENDENCY_SUCCESSOR_REQUIRED",
+              "REFERENCED_LOCATION_SUCCESSOR_REQUIRED",
+              "STRUCTURED_PROJECTION_SUCCESSOR_REQUIRED",
+              "PARTITION_SUCCESSORS_REQUIRED",
+              "AUTHORITY_NOTE_SUCCESSOR_REQUIRED",
+              "URL_MOVE_REUSES_RECORD",
+              "PAGE_REFLOW_REUSES_RECORD",
+              "OPTIONAL_CHINESE_CHANGE_REUSES_RECORD",
+              "TRACEABILITY_REVISION_ONLY",
+              "ENGLISH_SUPPORT_BLOCKED",
+              "LOOKUP_ENTRY_VALID",
+              "LOOKUP_INCOMPLETE",
+              "LOOKUP_OWNERSHIP_MISMATCH",
+              "ONE_TO_ONE_LINEAGE_VALID",
+              "SPLIT_MERGE_LINEAGE_VALID",
+              "LINEAGE_REJECTED",
+              "OFFICIAL_CONTINUITY_PROVED",
+              "SIMILARITY_CONTINUITY_QUARANTINED",
+              "LOOKUP_FINGERPRINT_MISMATCH"
+            ]
+          },
+          "fixture_path": {
+            "type": "string",
+            "pattern": "^fixtures/conformance/identity-decision/HKREG-DET-IDN-\\d{3}\\.json$"
+          },
+          "fixture_fingerprint": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "expected_path": {
+            "type": "string",
+            "pattern": "^expected/conformance/identity-decision/HKREG-DET-IDN-\\d{3}\\.json$"
+          },
+          "expected_fingerprint": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "checkpoint_complete": {
+      "const": true
+    },
+    "full_conformance_suite_complete": {
+      "const": false
+    },
+    "activation_authorized": {
+      "const": false
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

@@ -79,8 +79,6 @@ class PromotionService:
     ) -> PromotionExecutionResult:
         """Build, verify, back up, cut over, and verify one replacement state."""
         verify_promotion_manifest(manifest)
-        if not manifest.capability_enabled:
-            raise PromotionError(PromotionErrorCode.MANIFEST_DRIFT, "capability disabled")
         existing = self._results.get(execution_lineage_id)
         if existing is not None:
             if existing.manifest_id != manifest.manifest_id:

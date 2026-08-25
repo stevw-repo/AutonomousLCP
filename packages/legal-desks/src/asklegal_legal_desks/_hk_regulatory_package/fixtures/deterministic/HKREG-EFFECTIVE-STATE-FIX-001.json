@@ -1,0 +1,265 @@
+{
+  "fixture_id": "HKREG-EFFECTIVE-STATE-FIX-001",
+  "title": "ADR 0071 applicability-branch state and outage boundaries",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "real_source_claim": false,
+  "base_request": {
+    "decision_id": "hkreg-decision-001",
+    "branch_id": "hkreg-branch-001",
+    "component_id": "hkreg-component-main-2.01",
+    "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+    "legal_location_id": "hkreg-location-main-2.01",
+    "cutoff": "2026-08-24T00:00:00+08:00",
+    "update_part_id": "update-153-part-a",
+    "update_source_ranges": ["evidence-update-153#part-a"],
+    "current_product_ranges": ["evidence-current-main#rule-2.01"],
+    "basis": "ORDINARY",
+    "finality": "FINAL_PUBLICATION_APPROVAL_INFERRED",
+    "effective_at": null,
+    "condition_operator": null,
+    "conditions": [],
+    "transition_state": "ORDINARY",
+    "applicability_context": null,
+    "retirement_evidence": "NONE",
+    "predecessor_branch_id": null,
+    "successor_branch_ids": [],
+    "current_product_reconciliation": "MATCH",
+    "uncertainty_codes": [],
+    "source_failure_impact": "NONE",
+    "source_failure_choice": "NONE",
+    "source_rule_id": "HKREG-EFFECTIVE-STATE-001",
+    "evidence_refs": ["evidence-current-main", "evidence-update-153"],
+    "evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "cases": [
+    {
+      "case_id": "HKREG-STATE-001",
+      "title": "Ordinary final branch reconciles current",
+      "overrides": {}
+    },
+    {
+      "case_id": "HKREG-STATE-002",
+      "title": "First part of one update remains fixed-date future despite early product exposure",
+      "overrides": {
+        "basis": "FIXED_DATE",
+        "effective_at": "2026-09-01",
+        "update_part_id": "update-153-part-b"
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-003",
+      "title": "Second part of the same update has reached its fixed date",
+      "overrides": {
+        "basis": "FIXED_DATE",
+        "effective_at": "2026-08-20",
+        "update_part_id": "update-153-part-a"
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-004",
+      "title": "Passed fixed date with lagging current product is unknown",
+      "overrides": {
+        "basis": "FIXED_DATE",
+        "effective_at": "2026-08-20",
+        "current_product_reconciliation": "CONFLICT"
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-005",
+      "title": "Final update fixed-date branch remains future",
+      "overrides": {
+        "basis": "FIXED_DATE",
+        "effective_at": "2026-09-15",
+        "update_part_id": "update-152-fixed"
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-006",
+      "title": "Same final update all-of external-trigger branch activates",
+      "overrides": {
+        "basis": "CONDITIONAL",
+        "update_part_id": "update-152-trigger",
+        "condition_operator": "ALL_OF",
+        "conditions": [
+          {
+            "condition_id": "legislation-commenced",
+            "registered_source_id": "HK-LEG-HKEL-CURRENT-DATA",
+            "state": "OCCURRED",
+            "evidence_refs": ["evidence-legislation-trigger"]
+          },
+          {
+            "condition_id": "exchange-notice-issued",
+            "registered_source_id": "HK-REG-ITEM-UPDATE-152-TRIGGER",
+            "state": "OCCURRED",
+            "evidence_refs": ["evidence-exchange-trigger"]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-007",
+      "title": "All-of remains future when one fact is freshly proved absent",
+      "overrides": {
+        "basis": "CONDITIONAL",
+        "condition_operator": "ALL_OF",
+        "conditions": [
+          {
+            "condition_id": "legislation-commenced",
+            "registered_source_id": "HK-LEG-HKEL-CURRENT-DATA",
+            "state": "NOT_OCCURRED_FRESH",
+            "evidence_refs": ["evidence-legislation-negative"]
+          },
+          {
+            "condition_id": "exchange-notice-issued",
+            "registered_source_id": "HK-REG-ITEM-UPDATE-152-TRIGGER",
+            "state": "UNRESOLVED",
+            "evidence_refs": ["evidence-exchange-unresolved"]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-008",
+      "title": "Any-of remains future only when every alternative is freshly negative",
+      "overrides": {
+        "basis": "CONDITIONAL",
+        "condition_operator": "ANY_OF",
+        "conditions": [
+          {
+            "condition_id": "route-a",
+            "registered_source_id": "HK-REG-ITEM-ROUTE-A",
+            "state": "NOT_OCCURRED_FRESH",
+            "evidence_refs": ["evidence-route-a-negative"]
+          },
+          {
+            "condition_id": "route-b",
+            "registered_source_id": "HK-REG-ITEM-ROUTE-B",
+            "state": "NOT_OCCURRED_FRESH",
+            "evidence_refs": ["evidence-route-b-negative"]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-009",
+      "title": "Any-of stale alternative makes occurrence unresolved",
+      "overrides": {
+        "basis": "CONDITIONAL",
+        "condition_operator": "ANY_OF",
+        "conditions": [
+          {
+            "condition_id": "route-a",
+            "registered_source_id": "HK-REG-ITEM-ROUTE-A",
+            "state": "NOT_OCCURRED_FRESH",
+            "evidence_refs": ["evidence-route-a-negative"]
+          },
+          {
+            "condition_id": "route-b",
+            "registered_source_id": "HK-REG-ITEM-ROUTE-B",
+            "state": "UNRESOLVED",
+            "evidence_refs": ["evidence-route-b-stale"]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-010",
+      "title": "Old cohort remains transitional current",
+      "overrides": {
+        "branch_id": "hkreg-branch-old-cohort",
+        "transition_state": "MATERIALLY_LIMITED_CURRENT",
+        "applicability_context": "Transactions entered before 2026-08-01"
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-011",
+      "title": "New cohort concurrently remains transitional current",
+      "overrides": {
+        "branch_id": "hkreg-branch-new-cohort",
+        "transition_state": "MATERIALLY_LIMITED_CURRENT",
+        "applicability_context": "Transactions entered on or after 2026-08-01"
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-012",
+      "title": "Partial successor leaves a supported old branch transitional",
+      "overrides": {
+        "retirement_evidence": "PARTIAL_SUCCESSOR",
+        "successor_branch_ids": ["hkreg-branch-successor"],
+        "applicability_context": "Legacy cohort remains subject to old wording"
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-013",
+      "title": "Complete successor supersedes every former application",
+      "overrides": {
+        "retirement_evidence": "COMPLETE_SUCCESSOR",
+        "transition_state": "PROVED_ENDED",
+        "successor_branch_ids": ["hkreg-branch-successor"]
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-014",
+      "title": "Official withdrawal without successor is withdrawn",
+      "overrides": {
+        "retirement_evidence": "OFFICIAL_WITHDRAWAL_NO_SUCCESSOR",
+        "transition_state": "PROVED_ENDED"
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-015",
+      "title": "Disappearance alone proves no retirement",
+      "overrides": {"retirement_evidence": "DISAPPEARANCE_ONLY"}
+    },
+    {
+      "case_id": "HKREG-STATE-016",
+      "title": "Overlapping amendment collision is unknown",
+      "overrides": {"uncertainty_codes": ["BRANCH_COLLISION_OR_GAP"]}
+    },
+    {
+      "case_id": "HKREG-STATE-017",
+      "title": "Optional Chinese difference alone does not block English state",
+      "overrides": {}
+    },
+    {
+      "case_id": "HKREG-STATE-018",
+      "title": "Chinese evidence indicating a possible English defect quarantines",
+      "overrides": {
+        "uncertainty_codes": ["OPTIONAL_CHINESE_SIGNALS_ENGLISH_DEFECT"]
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-019",
+      "title": "Consultation or proposal cannot become current",
+      "overrides": {"finality": "CONSULTATION_OR_PROPOSAL"}
+    },
+    {
+      "case_id": "HKREG-STATE-020",
+      "title": "Source failure may carry forward only the last approved release",
+      "overrides": {
+        "source_failure_impact": "COULD_CHANGE_CURRENT",
+        "source_failure_choice": "CARRY_FORWARD_LAST_APPROVED"
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-021",
+      "title": "Source failure may withhold affected records",
+      "overrides": {
+        "source_failure_impact": "COULD_CHANGE_CURRENT",
+        "source_failure_choice": "WITHHOLD"
+      }
+    },
+    {
+      "case_id": "HKREG-STATE-022",
+      "title": "Source failure may stop the jurisdiction rebuild",
+      "overrides": {
+        "source_failure_impact": "COULD_CHANGE_CURRENT",
+        "source_failure_choice": "NO_REBUILD"
+      }
+    }
+  ],
+  "expected_artifact": {
+    "path": "expected/effective-state/HKREG-EFFECTIVE-STATE-FIX-001.json"
+  }
+}

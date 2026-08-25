@@ -1,0 +1,444 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hk-case-semantic-content-evaluation-request.schema.json",
+  "title": "Hong Kong Case semantic content evaluator request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "rule_id",
+    "evaluator_fingerprint",
+    "reference",
+    "observation"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-cases.semantic-content-evaluation-request"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "rule_id": {
+      "const": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001"
+    },
+    "evaluator_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "reference_map_id",
+        "model_input_fingerprint",
+        "propositions",
+        "units",
+        "expected_disposition",
+        "expected_selected_reference_proposition_ids",
+        "adjudication_complete",
+        "unresolved_reference_ambiguity"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-cases.semantic-content-reference"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001"
+        },
+        "reference_map_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,95}$"
+        },
+        "model_input_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "propositions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "reference_proposition_id",
+              "expected_resolution",
+              "required_meaning_codes",
+              "forbidden_meaning_codes",
+              "required_content_codes",
+              "forbidden_content_codes",
+              "evidence_assertions",
+              "required_dependency_ids",
+              "exact_quotations"
+            ],
+            "properties": {
+              "reference_proposition_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "expected_resolution": {
+                "enum": [
+                  "ACCEPTED",
+                  "QUARANTINED"
+                ]
+              },
+              "required_meaning_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "forbidden_meaning_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "required_content_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "forbidden_content_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "evidence_assertions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "role_code",
+                    "ordered_range_ids"
+                  ],
+                  "properties": {
+                    "role_code": {
+                      "type": "string",
+                      "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                    },
+                    "ordered_range_ids": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                      }
+                    }
+                  }
+                }
+              },
+              "required_dependency_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "exact_quotations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "range_id",
+                    "exact_text"
+                  ],
+                  "properties": {
+                    "range_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                    },
+                    "exact_text": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "units": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "unit_id",
+              "use",
+              "reference_proposition_ids"
+            ],
+            "properties": {
+              "unit_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "use": {
+                "enum": [
+                  "CITATION_ONLY",
+                  "CONTEXT_EVIDENCE",
+                  "NON_PROPOSITIONAL",
+                  "PROPOSITION_EVIDENCE"
+                ]
+              },
+              "reference_proposition_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              }
+            }
+          }
+        },
+        "expected_disposition": {
+          "enum": [
+            "ACCOUNTED_WITH_QUARANTINE",
+            "COMPLETE_NO_PROPOSITION",
+            "COMPLETE_WITH_PROPOSITIONS"
+          ]
+        },
+        "expected_selected_reference_proposition_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "adjudication_complete": {
+          "type": "boolean"
+        },
+        "unresolved_reference_ambiguity": {
+          "type": "boolean"
+        }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "model_input_fingerprint",
+        "workflow_result_fingerprint",
+        "propositions",
+        "units",
+        "disposition",
+        "selected_candidate_ids",
+        "complete_ledger",
+        "source_text_treated_as_instruction",
+        "hidden_reference_received_by_workflow"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-cases.semantic-content-observation"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001"
+        },
+        "model_input_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "workflow_result_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "propositions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "candidate_id",
+              "mapped_reference_proposition_id",
+              "resolution",
+              "meaning_codes",
+              "content_codes",
+              "evidence_assertions",
+              "dependency_ids",
+              "selected_quotations",
+              "derived_statement"
+            ],
+            "properties": {
+              "candidate_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "mapped_reference_proposition_id": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "resolution": {
+                "enum": [
+                  "ACCEPTED",
+                  "QUARANTINED"
+                ]
+              },
+              "meaning_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "content_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "evidence_assertions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "role_code",
+                    "ordered_range_ids"
+                  ],
+                  "properties": {
+                    "role_code": {
+                      "type": "string",
+                      "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                    },
+                    "ordered_range_ids": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                      }
+                    }
+                  }
+                }
+              },
+              "dependency_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "selected_quotations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "range_id",
+                    "exact_text"
+                  ],
+                  "properties": {
+                    "range_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                    },
+                    "exact_text": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "derived_statement": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "units": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "unit_id",
+              "use",
+              "candidate_ids"
+            ],
+            "properties": {
+              "unit_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "use": {
+                "enum": [
+                  "CITATION_ONLY",
+                  "CONTEXT_EVIDENCE",
+                  "NON_PROPOSITIONAL",
+                  "PROPOSITION_EVIDENCE"
+                ]
+              },
+              "candidate_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              }
+            }
+          }
+        },
+        "disposition": {
+          "enum": [
+            "ACCOUNTED_WITH_QUARANTINE",
+            "COMPLETE_NO_PROPOSITION",
+            "COMPLETE_WITH_PROPOSITIONS"
+          ]
+        },
+        "selected_candidate_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "complete_ledger": {
+          "type": "boolean"
+        },
+        "source_text_treated_as_instruction": {
+          "type": "boolean"
+        },
+        "hidden_reference_received_by_workflow": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

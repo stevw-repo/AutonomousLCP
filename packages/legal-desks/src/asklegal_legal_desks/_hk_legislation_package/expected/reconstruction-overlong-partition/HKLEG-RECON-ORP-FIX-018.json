@@ -1,0 +1,16 @@
+{
+  "alignment_map_fingerprint": "sha256:94f5857c3ab54c40a78c567ef9d5b02bd508ec819267921c05b2f075dff2a7b9",
+  "coverage_gap_required": true,
+  "disposition": "QUARANTINE",
+  "en_tree_fingerprint": "sha256:52fcb3342cf359a078afd7ea28a22c5fdab177d54d0dd1b8b07e7f1771706d33",
+  "external_effects": "NONE",
+  "parts": [],
+  "profile_fingerprint": "sha256:420d9cd9ee79a8a02cf7d5531485f282a8ad113a6fa18dfd0ae2c434080b2636",
+  "profile_id": "psp_111111111111111111111111111111111111111111111111",
+  "quarantined_partition_node_ids": [
+    "partition_paragraph_1"
+  ],
+  "reason": "BILINGUAL_ALIGNMENT_MISMATCH",
+  "search_record_output": "NONE",
+  "zh_hant_tree_fingerprint": "sha256:9607736aa26fc2595b5466a9ae562059008fbb148e244e979640c36ff5ee56f3"
+}

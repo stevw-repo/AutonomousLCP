@@ -19,8 +19,10 @@ from asklegal_promotion import (
     PromotionApprovalSnapshot,
     ProposalMemberReceipt,
     StoredProposalPackage,
+    TraceabilityShardReceipt,
     proposal_receipt_document,
     proposal_receipt_fingerprint,
+    stored_proposal_package_from_bytes,
 )
 from asklegal_promotion_worker.registered_approval import (
     ApprovalConsumptionContext,
@@ -189,6 +191,8 @@ def _candidate() -> RegisteredApprovalCandidate:
             "2026-08-22T00:00:00Z",
             "2026-08-23T00:00:00Z",
             _PREDICATES,
+            "1.0.0",
+            (),
         ),
         _REVIEWER,
         _REVIEWER_FP,
@@ -261,6 +265,7 @@ def _stored_approved_row(
             "srv_" + "c" * 48,
             "sha256:" + "c" * 64,
         ),
+        fixture.traceability_shards,
     )
     vault = LocalImmutableVault(tmp_path / "primary", VaultName.PRIMARY)
     retention = RetentionProfile("proposal-v1", "2036-01-01T00:00:00Z")
@@ -276,6 +281,17 @@ def _stored_approved_row(
         )
         for artifact in package.artifacts
     )
+    traceability_shards = tuple(
+        TraceabilityShardReceipt(
+            path,
+            vault.conditional_create(
+                f"proposal-packages/{package.package_id}/traceability/{path}",
+                fixture.traceability_shards[path],
+                retention,
+            ).reference,
+        )
+        for path in sorted(fixture.traceability_shards)
+    )
     manifest_reference = vault.conditional_create(
         f"proposal-packages/{package.package_id}/proposal-manifest.json",
         package.manifest_bytes,
@@ -287,6 +303,7 @@ def _stored_approved_row(
         manifest_id,
         manifest_fingerprint,
         members,
+        traceability_shards,
         manifest_reference,
         "",
     )
@@ -401,6 +418,18 @@ def test_promotion_source_rejects_tamper_and_never_admits_rejection(tmp_path: Pa
         )
         is None
     )
+
+
+def test_promotion_source_independently_rereads_traceability_shards(tmp_path: Path) -> None:
+    """Promotion refuses a valid Approval when one declared lookup shard is corrupt."""
+    row, vault = _stored_approved_row(tmp_path)
+    receipt = stored_proposal_package_from_bytes(row.receipt_bytes)
+    vault.inject_corruption(receipt.traceability_shards[0].reference, b"changed")
+
+    with pytest.raises(RegisteredApprovalSourceError):
+        RegisteredPromotionApprovalSource(Rows((row,)), vault, _schemas()).approved(
+            row.proposal_package_id
+        )
 
 
 def test_registered_approval_consumes_once_without_provider_effect() -> None:

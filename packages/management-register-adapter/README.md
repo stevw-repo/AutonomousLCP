@@ -8,11 +8,17 @@ aggregate versions, events, effect intents, renewable claims, fencing,
 attempts, terminal receipts, explicit policy state, projections, recovery
 views, and five procedure-only application roles.
 
-Migrations `000003` through `000007` add the V1 Review-ready proposal and
+Migrations `000003` through `000009` add the V1 Review-ready proposal and
 decision projection, exact single-use registered Approval consumption,
 mutually exclusive revocation/invalidation, and the Promotion-only no-effect
-execution-authorization transition. Authorization proves the exact consumed
-`exe_` lineage but deliberately creates no Effect Intent or provider authority.
+execution-authorization transition. Migration `000008` then consumes the exact
+authorized `exe_` lineage, approved first-action authority, and current
+capability-evidence reference in one atomic `EXECUTION_RUNNING` transition plus
+first Effect Intent. It registers no effect handler and performs no provider
+effect. Migration `000009` lets an owning application read immutable intent
+bytes only after proving its exact live claim and fencing token. The adapter
+verifies the stored fingerprint and prior attempt count before returning the
+claim, consumes every terminal-receipt result row, and exposes exact replay.
 
 This is still a local implementation proof. It does not authorize Azure
 access, legal data, deployment, or production use.

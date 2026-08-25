@@ -1,0 +1,61 @@
+{
+  "schema_id": "asklegal.hk-cases.treatment-discovery-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-TREAT-SEM-DIS-006",
+  "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-006",
+  "pair_memberships": [],
+  "scenario": "Majority and dissent separately discuss the same earlier authority",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.treatment-discovery-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "TREATMENT_DISCOVERY",
+    "execution_id": "treatment_discovery_execution_6",
+    "judgment_work_id": "synthetic_treatment_judgment_6",
+    "accepted_original_version_id": "synthetic_treatment_version_6",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "role": "OPERATIVE_MAJORITY",
+        "segment_ids": [
+          "segment_1"
+        ]
+      },
+      {
+        "opinion_id": "opinion_2",
+        "role": "DISSENT",
+        "segment_ids": [
+          "segment_2"
+        ]
+      }
+    ],
+    "segments": [
+      {
+        "segment_id": "segment_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "language": "ENGLISH",
+        "exact_text": "The majority follows Alpha v Beta [2001] 1 HKLRD 1.",
+        "text_fingerprint": "sha256:34c6afd157d1a85d85a3f387fab72d2fb9f7c3b7e529615530022d3c7cc2a3d9",
+        "range_id": "range_1"
+      },
+      {
+        "segment_id": "segment_2",
+        "opinion_id": "opinion_2",
+        "source_order": 2,
+        "language": "ENGLISH",
+        "exact_text": "I would distinguish Alpha v Beta [2001] 1 HKLRD 1.",
+        "text_fingerprint": "sha256:1adfd16ba331d270fce1771daeed7782b0528a31a536e1724f2bdfcb3649181d",
+        "range_id": "range_2"
+      }
+    ],
+    "missing_required_segment_ids": [],
+    "segment_manifest_complete": true,
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-006.json",
+  "observation_path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-006.json",
+  "expected_path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-006.json"
+}

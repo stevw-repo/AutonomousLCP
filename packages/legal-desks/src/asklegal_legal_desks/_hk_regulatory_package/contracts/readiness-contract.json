@@ -1,0 +1,135 @@
+{
+  "schema_id": "asklegal.hk-regulatory-readiness-contract",
+  "schema_version": "1.0.0",
+  "package_state": "NOT_READY",
+  "scope_ownership_keys": [
+    "HK:REGULATORY:HK-REG-HKEX-GEM",
+    "HK:REGULATORY:HK-REG-HKEX-MAIN-BOARD"
+  ],
+  "source_ids": [
+    "HK-REG-HKEX-CONSOLIDATED-RULEBOOKS",
+    "HK-REG-HKEX-FEES-RULES",
+    "HK-REG-HKEX-REGULATORY-FORMS",
+    "HK-REG-HKEX-RULE-UPDATES",
+    "HK-REG-HKEX-RULEBOOK-CATALOGUE"
+  ],
+  "source_neutral_contracts": [
+    {
+      "contract_version": "1.0.0",
+      "fixture_id": "HKREG-CONTINUITY-FIX-001",
+      "rule_id": "HKREG-COMPONENT-CONTINUITY-001",
+      "synthetic_case_count": 15
+    },
+    {
+      "contract_version": "1.0.0",
+      "fixture_id": "HKREG-EFFECTIVE-STATE-FIX-001",
+      "rule_id": "HKREG-EFFECTIVE-STATE-001",
+      "synthetic_case_count": 22
+    },
+    {
+      "contract_version": "1.0.0",
+      "fixture_id": "HKREG-ENGLISH-RECORD-FIX-001",
+      "rule_id": "HKREG-ENGLISH-RECORD-001",
+      "synthetic_case_count": 8
+    },
+    {
+      "contract_version": "1.0.0",
+      "fixture_id": "HKREG-RECORD-IDENTITY-FIX-001",
+      "rule_id": "HKREG-RECORD-IDENTITY-001",
+      "synthetic_case_count": 8
+    }
+  ],
+  "source_neutral_conformance_universe": {
+    "contract_version": "1.0.0",
+    "rule_id": "HKREG-CONFORMANCE-UNIVERSE-001",
+    "catalogue_id": "hk-regulatory-initial",
+    "required_case_count": 284,
+    "required_primary_coverage_cell_count": 284,
+    "required_high_risk_pair_count": 57,
+    "executable_case_packages_complete": true,
+    "conformance_ready": false
+  },
+  "executable_conformance_checkpoints": [
+    {
+      "checkpoint": "SOURCE_FACT_AUTHORITY",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-SOURCE-DECISION-001",
+      "case_count": 62,
+      "primary_coverage_cell_count": 62,
+      "high_risk_pair_count": 15,
+      "checkpoint_complete": true,
+      "full_conformance_suite_complete": false
+    },
+    {
+      "checkpoint": "EFFECTIVE_STATE",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-STATE-DECISION-001",
+      "case_count": 51,
+      "primary_coverage_cell_count": 51,
+      "high_risk_pair_count": 9,
+      "checkpoint_complete": true,
+      "full_conformance_suite_complete": false
+    },
+    {
+      "checkpoint": "RECORD_BOUNDARY",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-BOUNDARY-DECISION-001",
+      "case_count": 30,
+      "primary_coverage_cell_count": 30,
+      "high_risk_pair_count": 7,
+      "checkpoint_complete": true,
+      "full_conformance_suite_complete": false
+    },
+    {
+      "checkpoint": "CANONICAL_RENDERING",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-RENDERING-DECISION-001",
+      "case_count": 35,
+      "primary_coverage_cell_count": 35,
+      "high_risk_pair_count": 7,
+      "checkpoint_complete": true,
+      "full_conformance_suite_complete": false
+    },
+    {
+      "checkpoint": "PARTITIONING",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-PARTITION-DECISION-001",
+      "case_count": 24,
+      "primary_coverage_cell_count": 24,
+      "high_risk_pair_count": 3,
+      "checkpoint_complete": true,
+      "full_conformance_suite_complete": false
+    },
+    {
+      "checkpoint": "SOURCE_UNIT_COVERAGE",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-COVERAGE-DECISION-001",
+      "case_count": 20,
+      "primary_coverage_cell_count": 20,
+      "high_risk_pair_count": 5,
+      "checkpoint_complete": true,
+      "full_conformance_suite_complete": false
+    },
+    {
+      "checkpoint": "IDENTITY_LINEAGE",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-IDENTITY-DECISION-001",
+      "case_count": 24,
+      "primary_coverage_cell_count": 24,
+      "high_risk_pair_count": 4,
+      "checkpoint_complete": true,
+      "full_conformance_suite_complete": false
+    },
+    {
+      "checkpoint": "PACKAGE_INTEGRITY",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-PACKAGE-INTEGRITY-001",
+      "case_count": 38,
+      "primary_coverage_cell_count": 38,
+      "high_risk_pair_count": 7,
+      "checkpoint_complete": true,
+      "full_conformance_suite_complete": false
+    }
+  ],
+  "activation_forbidden": true
+}

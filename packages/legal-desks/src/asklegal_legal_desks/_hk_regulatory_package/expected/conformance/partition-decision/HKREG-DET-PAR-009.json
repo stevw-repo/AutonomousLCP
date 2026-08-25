@@ -1,0 +1,220 @@
+{
+  "schema_id": "asklegal.hk-regulatory.partition-decision-report",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-PARTITION-DECISION-001",
+  "case_id": "HKREG-DET-PAR-009",
+  "assertion_scope": "LARGEST_FRONTIER",
+  "observed_decision": {
+    "schema_id": "asklegal.hk-regulatory.partition-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-PARTITION-DECISION-001",
+    "case_id": "HKREG-DET-PAR-009",
+    "outcome": "PASS",
+    "reason": "LARGEST_SAFE_FRONTIER_USED",
+    "partition_required": true,
+    "measurement_complete": true,
+    "branch_results": [
+      {
+        "branch_id": "synthetic-branch-current-largest",
+        "root_record_unit_id": "record-root",
+        "disposition": "PASS",
+        "construction_reason": "PASS_PARTITIONED",
+        "unsplit_text_tokens": 843,
+        "unsplit_metadata_bytes": 1028,
+        "text_limit": 700,
+        "metadata_limit": 100000,
+        "parts": [
+          {
+            "part_number": 1,
+            "total_parts": 3,
+            "record_unit_ids": [
+              "record-a"
+            ],
+            "primary_source_unit_ids": [
+              "unit-a"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:4b3796faa48432d499be69115250e55f014d03a0395c59450f7b34ae0c30a106",
+            "serving_payload_fingerprint": "sha256:0d74b291c52f555e29f5909f03f91c33c1ec8a23e25da0ef218dce4e96cc6da3",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 700,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 1 of 3"
+          },
+          {
+            "part_number": 2,
+            "total_parts": 3,
+            "record_unit_ids": [
+              "record-b"
+            ],
+            "primary_source_unit_ids": [
+              "unit-b1",
+              "unit-b2"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:a04dc73174f97ae374243e73de481a016cf0127af0ddcccc0631e93329387e2a",
+            "serving_payload_fingerprint": "sha256:212946e8d9878254f14795815fc450a1dda5ec9d426ab735b2f2e9a0c38b75c1",
+            "text_tokens": 610,
+            "metadata_bytes": 794,
+            "text_limit": 700,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 2 of 3"
+          },
+          {
+            "part_number": 3,
+            "total_parts": 3,
+            "record_unit_ids": [
+              "record-c"
+            ],
+            "primary_source_unit_ids": [
+              "unit-c"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:042fe09c6b5fa0b9c413a210ed0aa069a9034a4d16f7b6bd1b4a719ad78c052d",
+            "serving_payload_fingerprint": "sha256:4bb477d62338fae6b7d8582e9f34340e3f77ee5fbee00c6b0f97b40b1aeefc1d",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 700,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 3 of 3"
+          }
+        ],
+        "accounted_primary_source_unit_ids": [
+          "unit-a",
+          "unit-b1",
+          "unit-b2",
+          "unit-c"
+        ]
+      }
+    ],
+    "rejected_proposal_codes": [],
+    "quarantined_branch_ids": [],
+    "coverage_gap_ids": [],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.partition-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-PARTITION-DECISION-001",
+    "case_id": "HKREG-DET-PAR-009",
+    "outcome": "PASS",
+    "reason": "LARGEST_SAFE_FRONTIER_USED",
+    "partition_required": true,
+    "measurement_complete": true,
+    "branch_results": [
+      {
+        "branch_id": "synthetic-branch-current-largest",
+        "root_record_unit_id": "record-root",
+        "disposition": "PASS",
+        "construction_reason": "PASS_PARTITIONED",
+        "unsplit_text_tokens": 843,
+        "unsplit_metadata_bytes": 1028,
+        "text_limit": 700,
+        "metadata_limit": 100000,
+        "parts": [
+          {
+            "part_number": 1,
+            "total_parts": 3,
+            "record_unit_ids": [
+              "record-a"
+            ],
+            "primary_source_unit_ids": [
+              "unit-a"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:4b3796faa48432d499be69115250e55f014d03a0395c59450f7b34ae0c30a106",
+            "serving_payload_fingerprint": "sha256:0d74b291c52f555e29f5909f03f91c33c1ec8a23e25da0ef218dce4e96cc6da3",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 700,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 1 of 3"
+          },
+          {
+            "part_number": 2,
+            "total_parts": 3,
+            "record_unit_ids": [
+              "record-b"
+            ],
+            "primary_source_unit_ids": [
+              "unit-b1",
+              "unit-b2"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:a04dc73174f97ae374243e73de481a016cf0127af0ddcccc0631e93329387e2a",
+            "serving_payload_fingerprint": "sha256:212946e8d9878254f14795815fc450a1dda5ec9d426ab735b2f2e9a0c38b75c1",
+            "text_tokens": 610,
+            "metadata_bytes": 794,
+            "text_limit": 700,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 2 of 3"
+          },
+          {
+            "part_number": 3,
+            "total_parts": 3,
+            "record_unit_ids": [
+              "record-c"
+            ],
+            "primary_source_unit_ids": [
+              "unit-c"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:042fe09c6b5fa0b9c413a210ed0aa069a9034a4d16f7b6bd1b4a719ad78c052d",
+            "serving_payload_fingerprint": "sha256:4bb477d62338fae6b7d8582e9f34340e3f77ee5fbee00c6b0f97b40b1aeefc1d",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 700,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 3 of 3"
+          }
+        ],
+        "accounted_primary_source_unit_ids": [
+          "unit-a",
+          "unit-b1",
+          "unit-b2",
+          "unit-c"
+        ]
+      }
+    ],
+    "rejected_proposal_codes": [],
+    "quarantined_branch_ids": [],
+    "coverage_gap_ids": [],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "conformance_status": "PASS",
+  "source_authorized": false,
+  "provider_authorized": false,
+  "release_authorized": false,
+  "serving_authorized": false,
+  "deployment_authorized": false,
+  "external_effects": "NONE"
+}

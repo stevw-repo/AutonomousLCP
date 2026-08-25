@@ -1,0 +1,17 @@
+{
+  "schema_id": "asklegal.hk-regulatory-component-continuity-rule",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-COMPONENT-CONTINUITY-001",
+  "status": "SOURCE_NEUTRAL_CONFORMANCE",
+  "accepted_adrs": ["0011", "0018", "0069"],
+  "input_schema": "contracts/schemas/hkex-component-continuity-request.schema.json",
+  "result_schema": "contracts/schemas/hkex-component-continuity-result.schema.json",
+  "identity_issuer": "MANAGEMENT_REGISTER_ONLY",
+  "alias_derived_identity_forbidden": true,
+  "similarity_derived_continuity_forbidden": true,
+  "disappearance_as_retirement_forbidden": true,
+  "cross_board_identity_reuse_forbidden": true,
+  "search_record_authority": false,
+  "serving_authority": false,
+  "external_effects": "NONE"
+}

@@ -1,0 +1,50 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:24f910c26da364b85b318510278a71865bed96f68f39f2645ce1992e7f143ad7",
+  "workflow_result_fingerprint": "sha256:a33f16e4b05d7d89f9928b3b1bd3b5c4418ad08b4c361079c636350d1ffeeef8",
+  "court_family": "CFA",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_7",
+  "auxiliary_translation_version_ids": [
+    "synthetic_risk_translation_7_1"
+  ],
+  "examined_segment_ids": [
+    "segment_1"
+  ],
+  "resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "ORIGINAL_RELIANCE_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_7",
+      "meaning_codes": [
+        "REASONABLE_RELIANCE"
+      ],
+      "risk_codes": [
+        "AUXILIARY_TRANSLATION_NO_DUPLICATE",
+        "ORIGINAL_AUTHORITY_PRESERVED"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "The original court-authored reasons require reasonable reliance."
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "coverage_gap_ids": [],
+  "translation_use": "AUXILIARY_ONLY",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

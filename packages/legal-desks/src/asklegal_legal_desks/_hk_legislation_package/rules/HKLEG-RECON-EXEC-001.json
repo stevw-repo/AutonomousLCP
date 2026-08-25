@@ -1,0 +1,12 @@
+{
+  "rule_id": "HKLEG-RECON-EXEC-001",
+  "version": "1.0.0",
+  "stage": "DETERMINISTIC_RECONSTRUCTION_PLAN_EXECUTION",
+  "input_authority": "EXACT_VALIDATED_PLAN_AND_DECLARED_CANONICAL_INPUTS_ONLY",
+  "operation_registry": "HKRECON-OP-001_THROUGH_008_ONLY",
+  "canonical_tree_contract": "1.0.0",
+  "renderer_contract": "asklegal.hk-legislation.canonical-ordinary-bilingual-renderer/1.0.0",
+  "atomicity": "COMPLETE_PLAN_ROLLBACK_ON_ANY_OPERATION_OR_FINAL_GATE_FAILURE",
+  "output_authority": "PROVISIONAL_CANONICAL_TREES_AND_ALIGNMENT_ONLY",
+  "provider_rule": "NO_REPORT_ARTIFACT_RECORD_PROVIDER_OR_EXTERNAL_EFFECT"
+}

@@ -1,0 +1,135 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "fixture_id",
+    "result"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-cases.treatment-discovery-case-result"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "fixture_id": {
+      "type": "string",
+      "pattern": "^HKCASE-TREAT-SEM-DIS-[0-9]{3}$"
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "request_fingerprint",
+        "reference_map_fingerprint",
+        "outcome",
+        "reasons",
+        "expected_lead_count",
+        "observed_lead_count",
+        "matched_lead_count",
+        "expected_candidate_count",
+        "observed_candidate_count",
+        "matched_candidate_count",
+        "examined_opinion_count",
+        "examined_segment_count",
+        "provider_calls_authorized",
+        "treatment_relationships_created",
+        "legal_effects_decided",
+        "search_records_created",
+        "release_eligible",
+        "external_effects"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-cases.treatment-discovery-evaluation-result"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKCASE-TREAT-SEM-DISCOVERY-EVALUATOR-001"
+        },
+        "request_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "reference_map_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "outcome": {
+          "enum": [
+            "EVALUATOR_BLOCKED",
+            "FAIL",
+            "PASS"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "expected_lead_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "observed_lead_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matched_lead_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expected_candidate_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "observed_candidate_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matched_candidate_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "examined_opinion_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "examined_segment_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "provider_calls_authorized": {
+          "const": 0
+        },
+        "treatment_relationships_created": {
+          "const": 0
+        },
+        "legal_effects_decided": {
+          "const": 0
+        },
+        "search_records_created": {
+          "const": 0
+        },
+        "release_eligible": {
+          "const": false
+        },
+        "external_effects": {
+          "const": "NONE"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://ask.legal/schemas/hk-case-treatment-discovery-result.schema.json"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hk-case-treatment-discovery-case-result.schema.json"
+}

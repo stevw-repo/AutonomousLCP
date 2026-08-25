@@ -1,0 +1,19 @@
+{
+  "schema_id": "asklegal.hk-regulatory-record-identity-rule",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-RECORD-IDENTITY-001",
+  "status": "SOURCE_NEUTRAL_CONFORMANCE",
+  "accepted_adrs": ["0011", "0016", "0055", "0073", "0078"],
+  "input_schema": "contracts/schemas/hkex-record-identity-request.schema.json",
+  "result_schema": "contracts/schemas/hkex-record-identity-result.schema.json",
+  "decision_unit": "ONE_EXACT_CURRENT_ENGLISH_SERVING_PART_AND_PRESERVED_SCOPE_IDENTITY_SET",
+  "exact_payload_reuse_required": true,
+  "backward_lineage_for_reselection_forbidden": true,
+  "register_allocates_identity": true,
+  "material_boundary_allocates_identity": false,
+  "traceability_seed_required_for_current_candidate": true,
+  "search_record_authority": false,
+  "selection_authority": false,
+  "serving_authority": false,
+  "external_effects": "NONE"
+}

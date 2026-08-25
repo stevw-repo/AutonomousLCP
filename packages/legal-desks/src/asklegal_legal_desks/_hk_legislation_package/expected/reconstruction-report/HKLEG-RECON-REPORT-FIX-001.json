@@ -1,0 +1,375 @@
+{
+  "$schema": "https://contracts.asklegal.local/v1/hk-legislation-reconstruction-execution-report.schema.json",
+  "artifact_output": {
+    "affected_legal_location_refs": [
+      {
+        "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+        "ref_id": "loc_000000000000000000000000000000000000000000000001",
+        "ref_type": "LEGAL_LOCATION"
+      },
+      {
+        "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+        "ref_id": "loc_000000000000000000000000000000000000000000000002",
+        "ref_type": "LEGAL_LOCATION"
+      }
+    ],
+    "affected_location_inventory_fingerprint": "sha256:d809558dc0d3261f093d3c745e18914658b313dd2120e65f2cb6eb12be109284",
+    "bilingual_alignment_map_ref": {
+      "byte_size": 2068,
+      "fingerprint": "sha256:e198f00d4d8c27847e291ad365c475bb403e46b4b2c0e37804d3dd50632ceb81",
+      "media_type": "application/json",
+      "path": "bilingual-alignment-map.json",
+      "reconstructed_consolidation_artifact_ref": {
+        "fingerprint": "sha256:af29d6e9ead10d88fc313518b77ff2981091db6029a37cc352d5aba61d488c83",
+        "ref_id": "rca_000000000000000000000000000000000000000000000001",
+        "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT"
+      },
+      "role": "BILINGUAL_ALIGNMENT_MAP"
+    },
+    "canonical_bilingual_output_ref": {
+      "byte_size": 3370,
+      "fingerprint": "sha256:f61891eb4670948d744896ccb6b0bac23f2abd65f7b7f52466b116c464aad5b7",
+      "media_type": "application/x-ndjson",
+      "path": "reconstructed-location-units.jsonl",
+      "reconstructed_consolidation_artifact_ref": {
+        "fingerprint": "sha256:af29d6e9ead10d88fc313518b77ff2981091db6029a37cc352d5aba61d488c83",
+        "ref_id": "rca_000000000000000000000000000000000000000000000001",
+        "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT"
+      },
+      "role": "RECONSTRUCTED_LOCATION_UNITS"
+    },
+    "dependency_closure_proof_ref": {
+      "byte_size": 1652,
+      "fingerprint": "sha256:53708d376c2a88db654ba7d907a8ffb32382faa67b178c6ebaac759f7dc02430",
+      "media_type": "application/json",
+      "path": "dependency-closure-proof.json",
+      "reconstructed_consolidation_artifact_ref": {
+        "fingerprint": "sha256:af29d6e9ead10d88fc313518b77ff2981091db6029a37cc352d5aba61d488c83",
+        "ref_id": "rca_000000000000000000000000000000000000000000000001",
+        "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT"
+      },
+      "role": "DEPENDENCY_CLOSURE_PROOF"
+    },
+    "en_final_tree_ref": {
+      "byte_size": 4104,
+      "fingerprint": "sha256:fd3fb790b5515acebb272d1fd07b6169855eebe2c38837aeb3e6ba4d9d9797b3",
+      "media_type": "application/json",
+      "path": "trees/en.json",
+      "reconstructed_consolidation_artifact_ref": {
+        "fingerprint": "sha256:af29d6e9ead10d88fc313518b77ff2981091db6029a37cc352d5aba61d488c83",
+        "ref_id": "rca_000000000000000000000000000000000000000000000001",
+        "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT"
+      },
+      "role": "TREE_EN"
+    },
+    "manifest_ref": {
+      "byte_size": 5832,
+      "fingerprint": "sha256:c620fdf2fa9c9c604430b1b038ef287dd0f79fbb635936a920713e7e94b2a849",
+      "media_type": "application/json",
+      "path": "manifest.json",
+      "reconstructed_consolidation_artifact_ref": {
+        "fingerprint": "sha256:af29d6e9ead10d88fc313518b77ff2981091db6029a37cc352d5aba61d488c83",
+        "ref_id": "rca_000000000000000000000000000000000000000000000001",
+        "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT"
+      },
+      "role": "MANIFEST"
+    },
+    "reconstructed_consolidation_artifact_ref": {
+      "fingerprint": "sha256:af29d6e9ead10d88fc313518b77ff2981091db6029a37cc352d5aba61d488c83",
+      "ref_id": "rca_000000000000000000000000000000000000000000000001",
+      "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT"
+    },
+    "record_output": "NONE",
+    "source_unit_coverage_proof_ref": {
+      "byte_size": 2024,
+      "fingerprint": "sha256:ef93807bc877541bc85581b03353916ece05c49792e52d29b9239b1fdbf60a1c",
+      "media_type": "application/json",
+      "path": "source-unit-coverage-proof.json",
+      "reconstructed_consolidation_artifact_ref": {
+        "fingerprint": "sha256:af29d6e9ead10d88fc313518b77ff2981091db6029a37cc352d5aba61d488c83",
+        "ref_id": "rca_000000000000000000000000000000000000000000000001",
+        "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT"
+      },
+      "role": "SOURCE_UNIT_COVERAGE_PROOF"
+    },
+    "traceability_binding_fingerprint": "sha256:a01c47af073c800e0a3d79e4c328e099622dc750c024eca79bc3542097f91f58",
+    "zh_hant_final_tree_ref": {
+      "byte_size": 4144,
+      "fingerprint": "sha256:7d75172453d2cd016413df937984df0084359a16a97444ffcbe32f4a7759c328",
+      "media_type": "application/json",
+      "path": "trees/zh-Hant.json",
+      "reconstructed_consolidation_artifact_ref": {
+        "fingerprint": "sha256:af29d6e9ead10d88fc313518b77ff2981091db6029a37cc352d5aba61d488c83",
+        "ref_id": "rca_000000000000000000000000000000000000000000000001",
+        "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT"
+      },
+      "role": "TREE_ZH_HANT"
+    }
+  },
+  "base_validation": {
+    "canonical_bilingual_base_fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+    "complete": true,
+    "evidence_class": "VERIFIED",
+    "fingerprint_match": true,
+    "identity_match": true,
+    "latest_eligible_base": true,
+    "official_version_ref": {
+      "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "ref_id": "ofv_000000000000000000000000000000000000000000000001",
+      "ref_type": "OFFICIAL_VERSION"
+    },
+    "source_version_date": "2026-08-01",
+    "version_match": true
+  },
+  "bilingual_validation": {
+    "complete": true,
+    "expected_alignment_map_ref": {
+      "fingerprint": "sha256:e198f00d4d8c27847e291ad365c475bb403e46b4b2c0e37804d3dd50632ceb81",
+      "ref_id": "art_00000000000000000000000000000000000000000000270f",
+      "ref_type": "ARTIFACT"
+    },
+    "final_alignment_fingerprint": "sha256:e198f00d4d8c27847e291ad365c475bb403e46b4b2c0e37804d3dd50632ceb81",
+    "final_alignment_map_ref": {
+      "byte_size": 2068,
+      "fingerprint": "sha256:e198f00d4d8c27847e291ad365c475bb403e46b4b2c0e37804d3dd50632ceb81",
+      "media_type": "application/json",
+      "path": "bilingual-alignment-map.json",
+      "reconstructed_consolidation_artifact_ref": {
+        "fingerprint": "sha256:af29d6e9ead10d88fc313518b77ff2981091db6029a37cc352d5aba61d488c83",
+        "ref_id": "rca_000000000000000000000000000000000000000000000001",
+        "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT"
+      },
+      "role": "BILINGUAL_ALIGNMENT_MAP"
+    },
+    "legal_effect_bound": true
+  },
+  "contract_version": "1.0.0",
+  "contracts": {
+    "alignment": {
+      "contract_id": "asklegal.hk-legislation.bilingual-alignment",
+      "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000015",
+      "version": "1.0.0"
+    },
+    "artifact": {
+      "contract_id": "asklegal.hk-legislation.reconstructed-consolidation-artifact",
+      "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000017",
+      "version": "1.0.0"
+    },
+    "execution": {
+      "contract_id": "asklegal.hk-legislation.reconstruction-execution",
+      "fingerprint": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+      "version": "1.0.0"
+    },
+    "identity": {
+      "contract_id": "asklegal.hk-legislation.identity",
+      "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+      "version": "1.0.0"
+    },
+    "lineage": {
+      "contract_id": "asklegal.hk-legislation.identity-lineage",
+      "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000016",
+      "version": "1.0.0"
+    },
+    "operation_registry": {
+      "contract_id": "asklegal.hk-legislation.reconstruction-operation-registry",
+      "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "version": "1.0.0"
+    },
+    "renderer": {
+      "contract_id": "asklegal.hk-legislation.renderer",
+      "fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+      "version": "1.0.0"
+    },
+    "report": {
+      "contract_id": "asklegal.hk-legislation.reconstruction-execution-report",
+      "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000019",
+      "version": "1.0.0"
+    },
+    "source_interpretation": {
+      "contract_id": "asklegal.hk-legislation.source-interpretation",
+      "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "version": "1.0.0"
+    },
+    "source_rulebook": {
+      "contract_id": "asklegal.hk-legislation.source-rulebook",
+      "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "version": "1.0.0"
+    },
+    "source_tree": {
+      "contract_id": "asklegal.hk-legislation.canonical-tree",
+      "fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+      "version": "1.0.0"
+    },
+    "traceability": {
+      "contract_id": "asklegal.hk-legislation.traceability",
+      "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+      "version": "1.0.0"
+    }
+  },
+  "coverage_consequence": {
+    "coverage_gap_ref": {
+      "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+      "ref_id": "cvg_000000000000000000000000000000000000000000000001",
+      "ref_type": "COVERAGE_GAP"
+    },
+    "disposition": "ACTIVE_MISSING_CONSOLIDATION",
+    "fallback_selection_ref": null,
+    "matching_hkel_consolidation_required": true
+  },
+  "dependency_validation": {
+    "affected_location_refs": [
+      {
+        "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+        "ref_id": "loc_000000000000000000000000000000000000000000000001",
+        "ref_type": "LEGAL_LOCATION"
+      },
+      {
+        "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+        "ref_id": "loc_000000000000000000000000000000000000000000000002",
+        "ref_type": "LEGAL_LOCATION"
+      }
+    ],
+    "artifact_dependency_proof_ref": {
+      "byte_size": 1652,
+      "fingerprint": "sha256:53708d376c2a88db654ba7d907a8ffb32382faa67b178c6ebaac759f7dc02430",
+      "media_type": "application/json",
+      "path": "dependency-closure-proof.json",
+      "reconstructed_consolidation_artifact_ref": {
+        "fingerprint": "sha256:af29d6e9ead10d88fc313518b77ff2981091db6029a37cc352d5aba61d488c83",
+        "ref_id": "rca_000000000000000000000000000000000000000000000001",
+        "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT"
+      },
+      "role": "DEPENDENCY_CLOSURE_PROOF"
+    },
+    "closure_proof_fingerprint": "sha256:9d22a04a9d8886343d8c6f6448815324b0fd2f315de8e072302a1bebef54781b",
+    "complete": true,
+    "independence_proved": true,
+    "overlap_absent": true,
+    "ownership_complete": true
+  },
+  "engine_build_ref": {
+    "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+    "ref_id": "eng_000000000000000000000000000000000000000000000001",
+    "ref_type": "ENGINE_BUILD"
+  },
+  "event_chain_validation": {
+    "applicability_bound": true,
+    "complete": true,
+    "event_count": 1,
+    "event_refs": [
+      {
+        "fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "ref_id": "lse_000000000000000000000000000000000000000000000001",
+        "ref_type": "LEGAL_STATUS_EVENT"
+      }
+    ],
+    "operation_binding_count": 2,
+    "operations_bound": true,
+    "ordered": true
+  },
+  "external_effects": "NONE",
+  "language_results": [
+    {
+      "complete_source_unit_coverage": true,
+      "final_source_unit_inventory_fingerprint": "sha256:b2604d7191483a6676c412e24e9baefddf1c47559bab04b4c26becdd4c366401",
+      "final_tree_fingerprint": "sha256:fd3fb790b5515acebb272d1fd07b6169855eebe2c38837aeb3e6ba4d9d9797b3",
+      "final_tree_ref": {
+        "byte_size": 4104,
+        "fingerprint": "sha256:fd3fb790b5515acebb272d1fd07b6169855eebe2c38837aeb3e6ba4d9d9797b3",
+        "media_type": "application/json",
+        "path": "trees/en.json",
+        "reconstructed_consolidation_artifact_ref": {
+          "fingerprint": "sha256:af29d6e9ead10d88fc313518b77ff2981091db6029a37cc352d5aba61d488c83",
+          "ref_id": "rca_000000000000000000000000000000000000000000000001",
+          "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT"
+        },
+        "role": "TREE_EN"
+      },
+      "language": "en",
+      "operation_results": [
+        {
+          "actual_after_state_fingerprint": "sha256:b252248ff036b968e48c6486a91bb264814bd61ab21c810b402626d3b76afa30",
+          "actual_before_state_fingerprint": "sha256:0392e952f4e636276bfcada1c5e7768492b793c2db85a074c994a245badfa8b0",
+          "actual_target_count": 1,
+          "atomic_group_id": "atomic-group-0001",
+          "atomic_group_result": "APPLIED",
+          "language": "en",
+          "matched_location_ids": [
+            "loc_000000000000000000000000000000000000000000000002"
+          ],
+          "matched_source_unit_ids": [
+            "en_unit_000000000000000000000002_body"
+          ],
+          "operation_instance_id": "rop_000000000000000000000000000000000000000000000001",
+          "operation_type_id": "HKRECON-OP-001",
+          "provisional_output_tree_fingerprint": "sha256:fd3fb790b5515acebb272d1fd07b6169855eebe2c38837aeb3e6ba4d9d9797b3",
+          "reason_codes": [
+            "RECONSTRUCTION_OPERATION_APPLIED"
+          ],
+          "result": "APPLIED"
+        }
+      ],
+      "processing_outcome": "PASS"
+    },
+    {
+      "complete_source_unit_coverage": true,
+      "final_source_unit_inventory_fingerprint": "sha256:a27c9e563583d37304a83da0dc3ea5551fe5ca537666966fc598f2bf28426ef4",
+      "final_tree_fingerprint": "sha256:7d75172453d2cd016413df937984df0084359a16a97444ffcbe32f4a7759c328",
+      "final_tree_ref": {
+        "byte_size": 4144,
+        "fingerprint": "sha256:7d75172453d2cd016413df937984df0084359a16a97444ffcbe32f4a7759c328",
+        "media_type": "application/json",
+        "path": "trees/zh-Hant.json",
+        "reconstructed_consolidation_artifact_ref": {
+          "fingerprint": "sha256:af29d6e9ead10d88fc313518b77ff2981091db6029a37cc352d5aba61d488c83",
+          "ref_id": "rca_000000000000000000000000000000000000000000000001",
+          "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT"
+        },
+        "role": "TREE_ZH_HANT"
+      },
+      "language": "zh-Hant",
+      "operation_results": [
+        {
+          "actual_after_state_fingerprint": "sha256:b4ad519eb00f2441c2379d8eea805e1e387185aa771d765280a6c14b10b80e5e",
+          "actual_before_state_fingerprint": "sha256:d8a6e76bf49656b93f2ea5238cb96156f46dd11f7a226a225ddbd356cff1fac9",
+          "actual_target_count": 1,
+          "atomic_group_id": "atomic-group-0001",
+          "atomic_group_result": "APPLIED",
+          "language": "zh-Hant",
+          "matched_location_ids": [
+            "loc_000000000000000000000000000000000000000000000002"
+          ],
+          "matched_source_unit_ids": [
+            "zh_unit_000000000000000000000002_body"
+          ],
+          "operation_instance_id": "rop_000000000000000000000000000000000000000000000002",
+          "operation_type_id": "HKRECON-OP-001",
+          "provisional_output_tree_fingerprint": "sha256:7d75172453d2cd016413df937984df0084359a16a97444ffcbe32f4a7759c328",
+          "reason_codes": [
+            "RECONSTRUCTION_OPERATION_APPLIED"
+          ],
+          "result": "APPLIED"
+        }
+      ],
+      "processing_outcome": "PASS"
+    }
+  ],
+  "processing_outcome": "PASS",
+  "reason_codes": [
+    "RECONSTRUCTION_COMPLETE"
+  ],
+  "reconstruction_execution_report_id": "rex_000000000000000000000000000000000000000000000001",
+  "reconstruction_plan_ref": {
+    "fingerprint": "sha256:986e6b73a49e51d01ea62f528ccd99a95f4e7c31ad9bfcba7ab93e38371cbbce",
+    "ref_id": "rpl_000000000000000000000000000000000000000000000001",
+    "ref_type": "RECONSTRUCTION_PLAN"
+  },
+  "rule_trace": [
+    "HKLEG-RECON-PLAN-001",
+    "HKLEG-RECON-EXEC-001",
+    "HKLEG-RECON-ARTIFACT-001",
+    "HKLEG-RECON-REPORT-001"
+  ],
+  "selection_consequence": "RECONSTRUCTION",
+  "source_contract_review_required": false
+}

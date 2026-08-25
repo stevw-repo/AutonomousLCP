@@ -1,0 +1,171 @@
+{
+  "schema_id": "asklegal.hk-cases.coverage-ledger-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-DET-LED-002",
+  "case_id": "HKCASE-PROP-DET-LED-002",
+  "coverage_cell_id": "HKCASE-PROP-COV-DLED-002",
+  "pair_memberships": [],
+  "synthetic_scenario": "Lead, concurrence, dissent, and agreement-only opinions",
+  "evidence_class": "SYNTHETIC_SOURCE_NEUTRAL",
+  "variants": [
+    {
+      "variant_id": "HKCASE-PROP-DET-LED-002-V01",
+      "request": {
+        "schema_id": "asklegal.hk-cases.coverage-ledger-request",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-COVERAGE-LEDGER-001",
+        "judicial_decision_id": "decision_1",
+        "official_version_id": "version_1",
+        "artifact_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "parser_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "rulebook_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cutoff": "2026-08-25T00:00:00Z",
+        "source_support_available": true,
+        "source_support_refs": [
+          "evidence_1"
+        ],
+        "semantic_resolution_complete": false,
+        "opinions": [
+          {
+            "opinion_id": "opn_lead",
+            "role": "LEAD",
+            "judge_ids": [
+              "judge_1"
+            ]
+          },
+          {
+            "opinion_id": "opn_concurrence",
+            "role": "CONCURRENCE",
+            "judge_ids": [
+              "judge_2"
+            ]
+          },
+          {
+            "opinion_id": "opn_dissent",
+            "role": "DISSENT",
+            "judge_ids": [
+              "judge_3"
+            ]
+          },
+          {
+            "opinion_id": "opn_agreement",
+            "role": "AGREEMENT_ONLY",
+            "judge_ids": [
+              "judge_4"
+            ]
+          }
+        ],
+        "units": [
+          {
+            "unit_id": "unit_1",
+            "opinion_id": "opn_lead",
+            "source_order": 1,
+            "kind": "PARAGRAPH",
+            "source_range_id": "range_1",
+            "text_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "resolutions": [
+              "RESOLVED"
+            ],
+            "primary_uses": [
+              "NON_PROPOSITIONAL"
+            ],
+            "evidence_roles": [],
+            "non_propositional_reason": "UNUSED_PROCEDURAL_OR_FACTUAL_NARRATIVE",
+            "citation_or_treatment_lead": false,
+            "screening_handoff_ids": []
+          },
+          {
+            "unit_id": "unit_2",
+            "opinion_id": "opn_concurrence",
+            "source_order": 2,
+            "kind": "PARAGRAPH",
+            "source_range_id": "range_2",
+            "text_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "resolutions": [
+              "RESOLVED"
+            ],
+            "primary_uses": [
+              "NON_PROPOSITIONAL"
+            ],
+            "evidence_roles": [],
+            "non_propositional_reason": "UNUSED_PROCEDURAL_OR_FACTUAL_NARRATIVE",
+            "citation_or_treatment_lead": false,
+            "screening_handoff_ids": []
+          },
+          {
+            "unit_id": "unit_3",
+            "opinion_id": "opn_dissent",
+            "source_order": 3,
+            "kind": "PARAGRAPH",
+            "source_range_id": "range_3",
+            "text_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "resolutions": [
+              "RESOLVED"
+            ],
+            "primary_uses": [
+              "NON_PROPOSITIONAL"
+            ],
+            "evidence_roles": [],
+            "non_propositional_reason": "UNUSED_PROCEDURAL_OR_FACTUAL_NARRATIVE",
+            "citation_or_treatment_lead": false,
+            "screening_handoff_ids": []
+          },
+          {
+            "unit_id": "unit_4",
+            "opinion_id": "opn_agreement",
+            "source_order": 4,
+            "kind": "PARAGRAPH",
+            "source_range_id": "range_4",
+            "text_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "resolutions": [
+              "RESOLVED"
+            ],
+            "primary_uses": [
+              "NON_PROPOSITIONAL"
+            ],
+            "evidence_roles": [],
+            "non_propositional_reason": "UNUSED_PROCEDURAL_OR_FACTUAL_NARRATIVE",
+            "citation_or_treatment_lead": false,
+            "screening_handoff_ids": []
+          }
+        ],
+        "segments": [
+          {
+            "segment_id": "segment_1",
+            "opinion_id": "opn_lead",
+            "primary_unit_ids": [
+              "unit_1"
+            ],
+            "dependencies": []
+          },
+          {
+            "segment_id": "segment_2",
+            "opinion_id": "opn_concurrence",
+            "primary_unit_ids": [
+              "unit_2"
+            ],
+            "dependencies": []
+          },
+          {
+            "segment_id": "segment_3",
+            "opinion_id": "opn_dissent",
+            "primary_unit_ids": [
+              "unit_3"
+            ],
+            "dependencies": []
+          },
+          {
+            "segment_id": "segment_4",
+            "opinion_id": "opn_agreement",
+            "primary_unit_ids": [
+              "unit_4"
+            ],
+            "dependencies": []
+          }
+        ],
+        "candidates": []
+      }
+    }
+  ],
+  "external_effects": "NONE"
+}

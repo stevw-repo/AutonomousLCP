@@ -1,0 +1,63 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:4d9d9c45557796bacf33b266a38bf1d97168fe476492644cfae89ada689caad7",
+  "workflow_result_fingerprint": "sha256:30e4d42359ab1e20b1df06e86277051c2a4b0dae382222991e5d1aa755a49004",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "NOTICE_STANDARD",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "OBJECTIVE_NOTICE_STANDARD"
+      ],
+      "boundary_codes": [
+        "REPEATED_APPLICATION_NO_DUPLICATE"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "The objective notice rule defeats the first claim."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_1",
+      "use": "NON_PROPOSITIONAL",
+      "candidate_ids": []
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

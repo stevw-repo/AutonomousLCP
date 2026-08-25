@@ -1,0 +1,49 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:106872e2cfdd0880bc432dbfd0ccc8616f544267cced3011644e6923ed512824",
+  "workflow_result_fingerprint": "sha256:28ea80ba7eea695842ab911e65dab56a42c89e05f4ba8e0b685e74d3d8c7015b",
+  "court_family": "CFI",
+  "original_language": "MIXED",
+  "accepted_original_version_id": "synthetic_risk_original_3",
+  "auxiliary_translation_version_ids": [],
+  "examined_segment_ids": [
+    "segment_1"
+  ],
+  "resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "CFI_MIXED_LANGUAGE_RULE",
+      "language": "MIXED",
+      "source_version_id": "synthetic_risk_original_3",
+      "meaning_codes": [
+        "CONTEXT_SENSITIVE_ASSESSMENT",
+        "FAIR_AND_REASONABLE_TERM"
+      ],
+      "risk_codes": [
+        "AUTHENTIC_MIXED_LANGUAGE",
+        "EXACT_ATTRIBUTION"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "The statutory phrase 公平合理 requires a context-sensitive assessment."
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "coverage_gap_ids": [],
+  "translation_use": "NONE",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

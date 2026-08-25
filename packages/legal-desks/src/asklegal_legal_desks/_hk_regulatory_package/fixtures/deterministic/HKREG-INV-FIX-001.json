@@ -1,0 +1,7 @@
+{
+  "fixture_id": "HKREG-INV-FIX-001",
+  "evidence_class": "SYNTHETIC_SOURCE_NEUTRAL",
+  "purpose": "Prove separate five-source, entry, ownership, state, and non-serving accounting",
+  "scope_ids": ["HK-REG-HKEX-GEM", "HK-REG-HKEX-MAIN-BOARD"],
+  "real_source_claim": false
+}

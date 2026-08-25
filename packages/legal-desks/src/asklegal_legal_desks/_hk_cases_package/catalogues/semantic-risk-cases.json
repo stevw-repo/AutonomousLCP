@@ -1,0 +1,528 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-catalogue",
+  "schema_version": "1.0.0",
+  "catalogue_id": "hk-case-proposition-semantic-risk-initial",
+  "case_count": 20,
+  "coverage_cell_count": 20,
+  "pair_ids": [
+    "HKCASE-PROP-PAIR-016",
+    "HKCASE-PROP-PAIR-017",
+    "HKCASE-PROP-PAIR-018",
+    "HKCASE-PROP-PAIR-019"
+  ],
+  "complete_pair_ids": [
+    "HKCASE-PROP-PAIR-016",
+    "HKCASE-PROP-PAIR-017",
+    "HKCASE-PROP-PAIR-018",
+    "HKCASE-PROP-PAIR-019"
+  ],
+  "completed_cross_checkpoint_pair_ids": [
+    "HKCASE-PROP-PAIR-019"
+  ],
+  "pending_cross_checkpoint_pair_ids": [],
+  "entries": [
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-001",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-001",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-018",
+          "role": "POSITIVE"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-001.json",
+          "fingerprint": "sha256:232d1edeb60ac0fbfb10e9e98e8141b63b1926afb9619045fa758a60ceb0a4ae"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-001.json",
+          "fingerprint": "sha256:1b5abeffdb1ddd1bf171103ba3bab0f05baf0c64c38c32bbe2a43587c44c436a"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-001.json",
+          "fingerprint": "sha256:9ae6526080ff8de9cbf2fa63241198bc79c21a359cc0c6d34e0af009fb6af495"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-001.json",
+          "fingerprint": "sha256:76a499c8eb6824572ed78959fd0fdf9fc6458edc6fb1a5da11e1b7a96abe1356"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-002",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-002",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-002.json",
+          "fingerprint": "sha256:dfcd0ac364c0ea1b9ed704e27036a95c1b7b7d11ee34db1e22769125185b363c"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-002.json",
+          "fingerprint": "sha256:59a542e239ccbbd73ac184c30f05c809cb2a6d3b1862ad75a330acabdd7cb567"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-002.json",
+          "fingerprint": "sha256:76ba26ba23bce79cad0cc94210af8162d0b592a15672656355b13a37a7c4267e"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-002.json",
+          "fingerprint": "sha256:3c6dbe84781000f9624e9cbf52f21adf9e347271d1747b52383684288ad5545e"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-003",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-003",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-003.json",
+          "fingerprint": "sha256:45464f6c319b0fc9304198cf0f1d5f5eb69ef4c71ad71e7198665490274a3761"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-003.json",
+          "fingerprint": "sha256:dbfef30534006ee993908befd5723ead63d2f48b94bb91aa25401cd6678a4bed"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-003.json",
+          "fingerprint": "sha256:c54fa3001ef3038e05e8b528121379036720c1bafb0ea8f06a3dc69b76b282b3"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-003.json",
+          "fingerprint": "sha256:0caef8783dfdfe1a1d439dc1faddb60f8803aeafb7c58d15489242948a6de6af"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-004",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-004",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-004.json",
+          "fingerprint": "sha256:2894a325aa51a3b95b5bb126fdaa77a30cbda569f08a0d653934ddd0f92d55da"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-004.json",
+          "fingerprint": "sha256:730a354ee9eeb4b562dec83842ae64ddce42d7a5f5f77ab5190f638e84bd79be"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-004.json",
+          "fingerprint": "sha256:3781077dbd8449630aedfcd019026d8752c67407d12f312d96bef4b3c370ddab"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-004.json",
+          "fingerprint": "sha256:fd6ea456752a5a54c11b080b6256716938f6677d86b03170c17460153784192a"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-005",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-005",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-005.json",
+          "fingerprint": "sha256:c97fb8b9eadf2c28393a05927e41fc14dc52be004ba105397915fe914e0369f9"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-005.json",
+          "fingerprint": "sha256:55aacc05413dbb6ddb242c5ccccac1d7cb39c4b7f78a5d58dcf2ee6221879ff8"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-005.json",
+          "fingerprint": "sha256:a37c435082364a98af86ac635d19d2414ef3de51360263837462a46d20bbb1b7"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-005.json",
+          "fingerprint": "sha256:36f7bc3899568e6006c14789e678db3bb35d80e068a678a4698f7554b8a58918"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-006",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-006",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-006.json",
+          "fingerprint": "sha256:b06f4e7f9147d3141c2809e10da7b535027e848a3c5772aad48689692d228d20"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-006.json",
+          "fingerprint": "sha256:a7dc2f2e0b34b7838fd0abb3623199be26b12b285d26b3c7fbfc4626b68ee2d4"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-006.json",
+          "fingerprint": "sha256:3bef83247827e15f9c52e656a47908cdf5b2822bf0ace3a6f6fac2562dbf5c88"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-006.json",
+          "fingerprint": "sha256:efb29c14b3e94c8a11173389bc1a1c85b785ea483b55a64b9330d1cef6038e01"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-007",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-007",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-018",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-007.json",
+          "fingerprint": "sha256:295a5e5224dabf0bf923e0492b9ed92e148a9fa0f9bb5da137d74abc77844b27"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-007.json",
+          "fingerprint": "sha256:ebe33a1e83503f84f4f95cba5dd540d4fd37a67ccf4c54cef25cc1f28a7c22f1"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-007.json",
+          "fingerprint": "sha256:22e41cb3ff4d5770f4ee52f6177ee6f2cbcf5db5ca426ce4f5c3200fdb5df43e"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-007.json",
+          "fingerprint": "sha256:690f3761664bbe40a6c93720d36de358a6100d2fd0b1b2fcb4a9a7e74cdcf2ac"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-008",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-008",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-008.json",
+          "fingerprint": "sha256:642a8361acbe309d00af55259512d05f305fde77763f120ef7e305a67db7abfb"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-008.json",
+          "fingerprint": "sha256:5780af59ffe2dda170e33f9de7514b995670c96de70a16a57f9bfa26c1c094c3"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-008.json",
+          "fingerprint": "sha256:4f5f7d751bc387530de80121f31b1aeed5b38d53b19ea06ca1f149a715e67c4f"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-008.json",
+          "fingerprint": "sha256:c923d3a4fbc7ac535121fd9ddf0a15965f7981f8dd5735b6ea92d0fcfc93503e"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-009",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-009",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-009.json",
+          "fingerprint": "sha256:f1cd975f9feff02b5d3e9d340c7353cfc9cca4efba75809fc7c5ca3c0c655f74"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-009.json",
+          "fingerprint": "sha256:c2e47f25cbc34142e20bccf8e4fe678e6f34bd0b41d5fc3776dd28fd08de6a02"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-009.json",
+          "fingerprint": "sha256:1872b6c86b65a4b59affcf77ccda4b37a54385b8aacc5a16a465b74f62c4158e"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-009.json",
+          "fingerprint": "sha256:b55b9c96a99c9c71dd498a93591a537ebf034df611859b1498c71968b6b6cc14"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-010",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-010",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-016",
+          "role": "POSITIVE"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-010.json",
+          "fingerprint": "sha256:a097e7e49db83a54be8e4e7b5cfd31d26ef48d9f2105e63b559cafc1f860d3ce"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-010.json",
+          "fingerprint": "sha256:e854b80ecb91d3204ed26717991be37d40676465f97784c89ba7369826d37afc"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-010.json",
+          "fingerprint": "sha256:55b0a37ff1c2bc39c7a1edd5797ab5be25e78604937519764b1f8150671bdbb1"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-010.json",
+          "fingerprint": "sha256:6670fbbf9791cf0fa3b2ba1d59b8df465930be8cc20b76914a8d4f76af926815"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-011",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-011",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-016",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-011.json",
+          "fingerprint": "sha256:548964d1552863de62c5cab2d3b63cb713f5b7d13753407da0a00d6706761330"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-011.json",
+          "fingerprint": "sha256:db51d33534938ce1fae448c515e65cc459807bbd4a1de1a3412407d10ed0125b"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-011.json",
+          "fingerprint": "sha256:43f88eb2e9e5da686dbb38e35cbc3aecf908b075ef3b561a896da3e9867cc742"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-011.json",
+          "fingerprint": "sha256:18aa1006a0f62b8c0287048ac3bf08a3d72721cdc218769a07e0fbbce9b5f32c"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-012",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-012",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-012.json",
+          "fingerprint": "sha256:6ff5f08a6bc2c9100e7a5583022d1d9b27e6d123f58cbf488501556eaa12344a"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-012.json",
+          "fingerprint": "sha256:7b0f895e3817b29428d3292b07abe1235a7557bf29b7648768ca7b288d5bd639"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-012.json",
+          "fingerprint": "sha256:f55fd4a72e8f1e447df3559d85e736a7e049d3b276849976f41ad72a8ae7b75c"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-012.json",
+          "fingerprint": "sha256:c9a00f4f7d4899772c5b444d9e3eb7cf3388bf97e152c85b571bfabd5726b184"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-013",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-013",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-013.json",
+          "fingerprint": "sha256:a55403dc56093fa615932b20c3f926e2fcf51b266dc8a8c88dd3844dfc452c68"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-013.json",
+          "fingerprint": "sha256:4b120d81d3de375328950c1fda13063272e3f2fba1090ef82631541eaa0d9f9a"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-013.json",
+          "fingerprint": "sha256:6ec29284aa8ab3fbaa77d3a34d90701496a10302f75eedbdf2c161c7d7bc4efb"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-013.json",
+          "fingerprint": "sha256:5c2ffaa8887e63f3dc49465ac11a9a63cf95f657e799b224afe13104b850f3ed"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-014",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-014",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-017",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-014.json",
+          "fingerprint": "sha256:83a3685976c92e0daae9206c1c8938b21edab1d97e101ce192180ac67e6b1027"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-014.json",
+          "fingerprint": "sha256:9d4ec826717a9ed868af2e268845acc38a3a6df477bad315d87c4bfef17fadf0"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-014.json",
+          "fingerprint": "sha256:5f58bc269c3d8240f50728f338b55ed58862aa224a7324d626921e26e9b23388"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-014.json",
+          "fingerprint": "sha256:61e868b26edc0785c55a3810fde322a2592e3705875ddfe8c6aa45e8462ff188"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-015",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-015",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-017",
+          "role": "POSITIVE"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-015.json",
+          "fingerprint": "sha256:433104f7c1054f699bb362e50efe85febded778b1ba52e42172513f146fc8d6e"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-015.json",
+          "fingerprint": "sha256:f0b927571eaba5904f0c13063df4735d64d6a7b2c4d64f2b02d3af0af1ffda21"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-015.json",
+          "fingerprint": "sha256:892fd8ba826cbd8b9ee4b973a6e1f66bd1e7be8500cc3298d007d68939ae4ff6"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-015.json",
+          "fingerprint": "sha256:ac7e290c36eb4ab21bca2ed5ae2bca3af445bb35b6b7272f55d99ec65f1b765b"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-016",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-016",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-019",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-016.json",
+          "fingerprint": "sha256:e5ee5592ffe80eaf8fbe8633d4648fbda30447a68886e726ea6079859415fa88"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-016.json",
+          "fingerprint": "sha256:efd05361628b89a4b73f46dd93defc5312f64d24c5fb074753ef1449f722935a"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-016.json",
+          "fingerprint": "sha256:35701fe6fdb25819a30de068261fba31cb0b7aeffd5d294723070c443510e658"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-016.json",
+          "fingerprint": "sha256:ba441b72b3b0f36f5965a2c09a2b2edf096f6fb99a965bfd4313ca555eec9ab8"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-017",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-017",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-017.json",
+          "fingerprint": "sha256:59b993d7d3fe4903707a13cedad6d0a9719d36e7f399f090d6d879ee3fdfb300"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-017.json",
+          "fingerprint": "sha256:28127a04ea513f7c02e63a95a7b8bdbc2274be93d0b0c6cb860ffa37fba5683e"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-017.json",
+          "fingerprint": "sha256:7f148cc8eb7604b8640e337e08811677b3fa4de16df57afc749f9581b7cd30a7"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-017.json",
+          "fingerprint": "sha256:15827ccbf35da04fde7ec78c7dacab864e7297986c9b004668d7ad8fdccd0479"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-018",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-018",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-018.json",
+          "fingerprint": "sha256:658f89a3fc5fd81e1a4b1ca969be673e5e09182a112b53d7fcb4f6efe42e8397"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-018.json",
+          "fingerprint": "sha256:e625a8da7edc9630ff21f9a2d76cd063ff69dc76c024ab7321f82c14b734070e"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-018.json",
+          "fingerprint": "sha256:504846e80833cd96f2e1f09e64347627b567fed03bdb102f6f05139b2f846172"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-018.json",
+          "fingerprint": "sha256:3b6cb84b743a0eeaeedc25a7583d3761fac6039e0c9a3c13c2f07082ce7d9800"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-019",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-019",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-019.json",
+          "fingerprint": "sha256:5a00f7c59130b4251e54c84641f13cf866aece74e44310ba0116c3ec130ca987"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-019.json",
+          "fingerprint": "sha256:1a17c8fa4a06dd4947c358cc6c52377581e38a4b06cca446d2e6b19cca5c132c"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-019.json",
+          "fingerprint": "sha256:06baf43e79494b96dd5a2d1bcea7cb606e81cff18fc99cb22fbfc3d41efb2c67"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-019.json",
+          "fingerprint": "sha256:b6fa988db9a853118794488be594ab0abfd9b8be2ba5ef20279a0e3bec957213"
+        }
+      ]
+    },
+    {
+      "case_id": "HKCASE-PROP-SEM-RSK-020",
+      "coverage_cell_id": "HKCASE-PROP-COV-SRSK-020",
+      "pair_memberships": [],
+      "artifacts": [
+        {
+          "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-020.json",
+          "fingerprint": "sha256:32ee049502e41095356819ec1949f862a82ec10a7142a3fdcbb239a2de91227a"
+        },
+        {
+          "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-020.json",
+          "fingerprint": "sha256:c1df616d7c01641292f5c422de1bbc54c8e13fb3c31087f643a8075960190ae8"
+        },
+        {
+          "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-020.json",
+          "fingerprint": "sha256:b83892cc02eff6d70ad6d6608d1cc74e68c0b18e98c7c04f16d867b014106e6c"
+        },
+        {
+          "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-020.json",
+          "fingerprint": "sha256:04e369ff7d1f2ad41243addd60d14ad59424dc5c7db6d0e0632870d6e3c24812"
+        }
+      ]
+    }
+  ],
+  "frozen_semantic_case_count": 78,
+  "executed_semantic_case_count": 78,
+  "remaining_semantic_case_count": 0,
+  "provider_calls_authorized": 0,
+  "workflow_admission_created": false,
+  "real_source_evidence": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

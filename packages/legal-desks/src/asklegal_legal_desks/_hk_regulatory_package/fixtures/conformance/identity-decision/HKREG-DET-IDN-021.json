@@ -1,0 +1,182 @@
+{
+  "schema_id": "asklegal.hk-regulatory.identity-decision-case",
+  "schema_version": "1.0.0",
+  "package_contract_version": "1.0.0",
+  "case_id": "HKREG-DET-IDN-021",
+  "suite_layer": "DECISION_TO_ARTIFACT",
+  "primary_checkpoint": "IDENTITY_LINEAGE",
+  "frozen": true,
+  "synthetic_evidence_class": "SYNTHETIC_NO_REAL_AUTHORITY",
+  "contract_bindings": [
+    {
+      "contract_id": "asklegal.hk-regulatory.conformance-universe",
+      "version": "1.0.0",
+      "fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.english-record",
+      "version": "1.0.0",
+      "fingerprint": "sha256:f7448b87eefeb113e1617390d494219032848ec86fb10e8e0210dd68c1fbe5d9"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.record-identity",
+      "version": "1.0.0",
+      "fingerprint": "sha256:587d56485f29223b4b66a6bec0193dd6fd9f28ba5feaeba744225229a038d0c3"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.component-continuity",
+      "version": "1.0.0",
+      "fingerprint": "sha256:7cc26ef2437e57e9c21217dca3780bf7855a84b4d3561c0667d02c283ea98dd1"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.identity-decision-case",
+      "version": "1.0.0",
+      "fingerprint": "sha256:bfda59090e55b438c5727f0f664f272cd42deccb54d4aa278147e33291bf0b8e"
+    }
+  ],
+  "synthetic_cutoff": "2026-08-24T00:00:00Z",
+  "scope_id": "HKEX_CROSS_BOARD",
+  "prior_state": "SYNTHETIC_ACCEPTED_PREDECESSOR",
+  "primary_coverage_cell_ids": [
+    "HKREG-COV-DIDN-021"
+  ],
+  "secondary_coverage_cell_ids": [],
+  "pair_memberships": [],
+  "declared_input_inventory": [
+    "identity-evidence"
+  ],
+  "declared_reference_inventory": [
+    "asklegal.hk-regulatory.conformance-universe",
+    "asklegal.hk-regulatory.english-record",
+    "asklegal.hk-regulatory.record-identity",
+    "asklegal.hk-regulatory.component-continuity",
+    "asklegal.hk-regulatory.identity-decision-case"
+  ],
+  "declared_expected_inventory": [
+    "IDENTITY_DECISION_REPORT"
+  ],
+  "assertion_scope": "LINEAGE_CYCLE",
+  "required_result_dimensions": [
+    "BOARD_OWNERSHIP",
+    "FORBIDDEN_EFFECTS",
+    "IMMUTABLE_IDENTITY",
+    "LINEAGE",
+    "TRACEABILITY_LOOKUP"
+  ],
+  "evidence_packet_fields": [
+    "cached_embedding_text_contract_match",
+    "continuity_request",
+    "desired_records",
+    "existing_record_ids",
+    "identity_requests",
+    "lineage_edges",
+    "lookup_entries",
+    "optional_chinese_changed",
+    "optional_chinese_defect",
+    "presentation_only_change",
+    "proposed_record_ids",
+    "traceability_changed"
+  ],
+  "supporting_evidence_ranges": [
+    "input/HKREG-DET-IDN-021-identity-evidence.json#facts"
+  ],
+  "rule_trace": [
+    "HKREG-COMPONENT-CONTINUITY-001",
+    "HKREG-ENGLISH-RECORD-001",
+    "HKREG-IDENTITY-DECISION-001",
+    "HKREG-RECORD-IDENTITY-001"
+  ],
+  "established_facts": [
+    "SYNTHETIC_IDENTITY_FACT_PACKET_DECLARED"
+  ],
+  "unresolved_facts": [
+    "LINEAGE_REJECTED"
+  ],
+  "permitted_equivalent_results": [],
+  "critical_error_codes": [
+    "LINEAGE_REJECTED"
+  ],
+  "package_fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14",
+  "title": "Candidate lineage points backward or creates a cycle",
+  "purpose": "Reject the lineage and candidate state",
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.identity-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-IDENTITY-DECISION-001",
+    "case_id": "HKREG-DET-IDN-021",
+    "outcome": "BLOCK",
+    "reason": "LINEAGE_REJECTED",
+    "record_action": "BLOCK",
+    "traceability_action": "BLOCK",
+    "identity_consequences": [],
+    "selected_search_record_ids": [],
+    "predecessor_search_record_ids": [],
+    "register_allocation_count": 0,
+    "board_separation_valid": false,
+    "lookup_valid": true,
+    "lineage_valid": false,
+    "traceability_revision_required": false,
+    "cached_embedding_reuse_permitted": false,
+    "quarantine_required": false,
+    "violation_codes": [
+      "LINEAGE_CYCLE",
+      "RECORD_ID_COLLISION"
+    ],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "evidence_packet": {
+    "slot_id": "identity-evidence",
+    "state": "AVAILABLE",
+    "path": "input/HKREG-DET-IDN-021-identity-evidence.json",
+    "role": "ORDINARY",
+    "media_type": "application/json",
+    "content_fingerprint": "sha256:99690da41d745943cd8dd8f0cb22557b9e5efcfa3ea68f67c26727fa42fe1b7a"
+  },
+  "facts": {
+    "identity_requests": [],
+    "desired_records": [],
+    "lookup_entries": [],
+    "lineage_edges": [
+      {
+        "lineage_type": "ONE_TO_ONE",
+        "predecessor_ids": [
+          "rec_444444444444444444444444444444444444444444444444"
+        ],
+        "successor_ids": [
+          "rec_555555555555555555555555555555555555555555555555"
+        ],
+        "evidence_fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+      },
+      {
+        "lineage_type": "ONE_TO_ONE",
+        "predecessor_ids": [
+          "rec_555555555555555555555555555555555555555555555555"
+        ],
+        "successor_ids": [
+          "rec_444444444444444444444444444444444444444444444444"
+        ],
+        "evidence_fingerprint": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+      }
+    ],
+    "existing_record_ids": [
+      "rec_444444444444444444444444444444444444444444444444",
+      "rec_555555555555555555555555555555555555555555555555"
+    ],
+    "proposed_record_ids": [
+      "rec_444444444444444444444444444444444444444444444444",
+      "rec_555555555555555555555555555555555555555555555555"
+    ],
+    "continuity_request": null,
+    "presentation_only_change": false,
+    "traceability_changed": false,
+    "optional_chinese_changed": false,
+    "optional_chinese_defect": false,
+    "cached_embedding_text_contract_match": false
+  },
+  "case_fingerprint": "sha256:dd175af3a6352bbc6614d54f1be5a25efcab9deb6f55fcff1dacc9a156a93006"
+}

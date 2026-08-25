@@ -1,0 +1,50 @@
+{
+  "fixture_id": "HKLEG-RECON-RCN-FIX-006",
+  "title": "Additional overlapping change defers comparison but not HKeL replacement",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:bb45dbb318335aa68e9016a9cca67c43ab3ec310d195f0ad28ab5c26b6d89b64",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "reconciliation_id": "rrc_666666666666666666666666666666666666666666666666",
+    "reconstruction_artifact_ref": {
+      "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT",
+      "ref_id": "rca_111111111111111111111111111111111111111111111111",
+      "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "coverage_gap_ref": {
+      "ref_type": "COVERAGE_GAP",
+      "ref_id": "cvg_222222222222222222222222222222222222222222222222",
+      "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "current_monitoring_state": "AWAITING_HKEL_CONSOLIDATION",
+    "changed_signal": "CHANGED",
+    "hkel_candidate_state": "VALID",
+    "common_basis": "NOT_ISOLATABLE",
+    "ordinary_hkel_selection": "CANDIDATE_READY",
+    "reconstructed_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "comparison_results": [
+      {
+        "location_id": "section-1",
+        "comparison_class": "COMPARISON_NOT_ISOLATABLE",
+        "attribution_classes": []
+      },
+      {
+        "location_id": "section-2",
+        "comparison_class": "COMPARISON_NOT_ISOLATABLE",
+        "attribution_classes": []
+      }
+    ],
+    "complete_comparison_accounting": true,
+    "reconstruction_integrity_defect": false,
+    "declared_impact_scope": "NONE",
+    "revalidation_complete": false
+  },
+  "expected_artifact": {
+    "path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-006.json",
+    "fingerprint": "sha256:2dd8873595d34ef4c0fd52d8b1e4cc0ac114de24fb02f66331ff8f86066fdfbe"
+  }
+}

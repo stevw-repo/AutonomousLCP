@@ -1,0 +1,90 @@
+{
+  "schema_id": "asklegal.hk-regulatory.state-decision-report",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-STATE-DECISION-001",
+  "case_id": "HKREG-DEC-STA-047",
+  "assertion_scope": "SOURCE_FAILURE",
+  "observed_decision": {
+    "schema_id": "asklegal.hk-regulatory.state-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-STATE-DECISION-001",
+    "case_id": "HKREG-DEC-STA-047",
+    "outcome": "PASS",
+    "reason": "LAST_APPROVED_CARRY_FORWARD",
+    "not_applicable": false,
+    "branch_decisions": [
+      {
+        "branch_id": "branch-047",
+        "state": "UNKNOWN",
+        "disposition": "QUARANTINE",
+        "processing_outcome": "QUARANTINE",
+        "reason": "SOURCE_FAILURE_COULD_CHANGE_CURRENT",
+        "applicability_context": null
+      }
+    ],
+    "component_state": null,
+    "record_responsibility": "NONE",
+    "ordered_branch_ids": [],
+    "source_failure_choice": "CARRY_FORWARD_LAST_APPROVED",
+    "carry_forward_support": {
+      "last_approved_status": "APPROVED_CURRENT",
+      "last_verified_at": "2026-08-23T18:00:00+08:00",
+      "coverage_gap_id": "coverage-gap-047",
+      "warning_code": "LAST_APPROVED_NOT_FRESH",
+      "next_due_at": "2026-08-24T06:00:00+08:00",
+      "support_ref": "evidence:last-approved-047"
+    },
+    "rebuild_target_authorized": false,
+    "repair_rejected": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.state-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-STATE-DECISION-001",
+    "case_id": "HKREG-DEC-STA-047",
+    "outcome": "PASS",
+    "reason": "LAST_APPROVED_CARRY_FORWARD",
+    "not_applicable": false,
+    "branch_decisions": [
+      {
+        "branch_id": "branch-047",
+        "state": "UNKNOWN",
+        "disposition": "QUARANTINE",
+        "processing_outcome": "QUARANTINE",
+        "reason": "SOURCE_FAILURE_COULD_CHANGE_CURRENT",
+        "applicability_context": null
+      }
+    ],
+    "component_state": null,
+    "record_responsibility": "NONE",
+    "ordered_branch_ids": [],
+    "source_failure_choice": "CARRY_FORWARD_LAST_APPROVED",
+    "carry_forward_support": {
+      "last_approved_status": "APPROVED_CURRENT",
+      "last_verified_at": "2026-08-23T18:00:00+08:00",
+      "coverage_gap_id": "coverage-gap-047",
+      "warning_code": "LAST_APPROVED_NOT_FRESH",
+      "next_due_at": "2026-08-24T06:00:00+08:00",
+      "support_ref": "evidence:last-approved-047"
+    },
+    "rebuild_target_authorized": false,
+    "repair_rejected": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "conformance_status": "PASS",
+  "source_authorized": false,
+  "provider_authorized": false,
+  "release_authorized": false,
+  "serving_authorized": false,
+  "deployment_authorized": false,
+  "external_effects": "NONE"
+}

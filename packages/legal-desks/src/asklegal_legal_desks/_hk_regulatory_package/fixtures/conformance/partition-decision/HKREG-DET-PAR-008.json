@@ -1,0 +1,433 @@
+{
+  "schema_id": "asklegal.hk-regulatory.partition-decision-case",
+  "schema_version": "1.0.0",
+  "package_contract_version": "1.0.0",
+  "case_id": "HKREG-DET-PAR-008",
+  "suite_layer": "DECISION_TO_ARTIFACT",
+  "primary_checkpoint": "PARTITIONING",
+  "frozen": true,
+  "synthetic_evidence_class": "SYNTHETIC_NO_REAL_AUTHORITY",
+  "contract_bindings": [
+    {
+      "contract_id": "asklegal.hk-regulatory.conformance-universe",
+      "version": "1.0.0",
+      "fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.partition-decision-case",
+      "version": "1.0.0",
+      "fingerprint": "sha256:6eaabbb6a03a3428510ac1f6764cf91cc81fff6e836044936a178d5593f103c3"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.english-record",
+      "version": "1.0.0",
+      "fingerprint": "sha256:f7448b87eefeb113e1617390d494219032848ec86fb10e8e0210dd68c1fbe5d9"
+    }
+  ],
+  "synthetic_cutoff": "2026-08-24T00:00:00Z",
+  "scope_id": "HKEX_CROSS_BOARD",
+  "prior_state": "SYNTHETIC_ACCEPTED_PREDECESSOR",
+  "primary_coverage_cell_ids": [
+    "HKREG-COV-DPAR-008"
+  ],
+  "secondary_coverage_cell_ids": [],
+  "pair_memberships": [],
+  "declared_input_inventory": [
+    "partition-evidence"
+  ],
+  "declared_reference_inventory": [
+    "asklegal.hk-regulatory.conformance-universe",
+    "asklegal.hk-regulatory.partition-decision-case",
+    "asklegal.hk-regulatory.english-record"
+  ],
+  "declared_expected_inventory": [
+    "PARTITION_DECISION_REPORT"
+  ],
+  "assertion_scope": "OVERSIZED_CHILD",
+  "required_result_dimensions": [
+    "BOTH_EXACT_LIMITS",
+    "COVERAGE_GAP",
+    "FINAL_LABELS",
+    "OFFICIAL_STRUCTURE",
+    "PARTITION_OPTIMIZATION",
+    "PROCESSING",
+    "QUARANTINE"
+  ],
+  "evidence_packet_fields": [
+    "candidate_cut",
+    "candidate_official_boundary_proved",
+    "measurement_field_ids",
+    "preliminary_part_count",
+    "requests"
+  ],
+  "supporting_evidence_ranges": [
+    "input/HKREG-DET-PAR-008-partition-evidence.json#facts"
+  ],
+  "rule_trace": [
+    "HKREG-ENGLISH-RECORD-001",
+    "HKREG-PARTITION-DECISION-001"
+  ],
+  "established_facts": [
+    "SYNTHETIC_PARTITION_FACT_PACKET_DECLARED"
+  ],
+  "unresolved_facts": [],
+  "permitted_equivalent_results": [],
+  "critical_error_codes": [],
+  "package_fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14",
+  "title": "One child remains oversized while its siblings fit",
+  "purpose": "Replace only the oversized child with its complete official children and repeat",
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.partition-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-PARTITION-DECISION-001",
+    "case_id": "HKREG-DET-PAR-008",
+    "outcome": "PASS",
+    "reason": "OVERSIZED_CHILD_ONLY_REFINED",
+    "partition_required": true,
+    "measurement_complete": true,
+    "branch_results": [
+      {
+        "branch_id": "synthetic-branch-current-nested",
+        "root_record_unit_id": "record-root",
+        "disposition": "PASS",
+        "construction_reason": "PASS_PARTITIONED",
+        "unsplit_text_tokens": 843,
+        "unsplit_metadata_bytes": 1028,
+        "text_limit": 600,
+        "metadata_limit": 100000,
+        "parts": [
+          {
+            "part_number": 1,
+            "total_parts": 4,
+            "record_unit_ids": [
+              "record-a"
+            ],
+            "primary_source_unit_ids": [
+              "unit-a"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:2803cd04a6a0528f81fae36ad8f1e33b3aeb3ea17125c8be42520b557549de40",
+            "serving_payload_fingerprint": "sha256:084e09f8c32025f66582225808d1feb314d7b44f81095d9164f96b2b1083763d",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 600,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 1 of 4"
+          },
+          {
+            "part_number": 2,
+            "total_parts": 4,
+            "record_unit_ids": [
+              "record-b1"
+            ],
+            "primary_source_unit_ids": [
+              "unit-b1"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:83009c1c6f34e92d69401dab16b7a448dedcf78ea2f6865d7edb0de6c0688d34",
+            "serving_payload_fingerprint": "sha256:9b9a341c950dbf9919fd415898a1d30e3affaef316c1abc208c8a377364b0f7a",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 600,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 2 of 4"
+          },
+          {
+            "part_number": 3,
+            "total_parts": 4,
+            "record_unit_ids": [
+              "record-b2"
+            ],
+            "primary_source_unit_ids": [
+              "unit-b2"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:ffafd6d169c61e63b3f1912a01b515a22e50c7cacebcd4f15f450ab3db0e12fc",
+            "serving_payload_fingerprint": "sha256:ed6b509367ec3c863689f97db7aa4bc886e72c74b46ae1db4428bd56a98d5171",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 600,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 3 of 4"
+          },
+          {
+            "part_number": 4,
+            "total_parts": 4,
+            "record_unit_ids": [
+              "record-c"
+            ],
+            "primary_source_unit_ids": [
+              "unit-c"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:d46c6d4877783659a5254d10abbcc3c9473ff47003984601949f12d7966aa1c0",
+            "serving_payload_fingerprint": "sha256:51a4c82452741bf46fe9e14ef3f769f44bf82cd3068bf18661d794fb59253b12",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 600,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 4 of 4"
+          }
+        ],
+        "accounted_primary_source_unit_ids": [
+          "unit-a",
+          "unit-b1",
+          "unit-b2",
+          "unit-c"
+        ]
+      }
+    ],
+    "rejected_proposal_codes": [],
+    "quarantined_branch_ids": [],
+    "coverage_gap_ids": [],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "evidence_packet": {
+    "slot_id": "partition-evidence",
+    "state": "AVAILABLE",
+    "path": "input/HKREG-DET-PAR-008-partition-evidence.json",
+    "role": "ORDINARY",
+    "media_type": "application/json",
+    "content_fingerprint": "sha256:bdc1ded6ff945e9509927fd04e0210717a510d1b11ee1e6271145eaadfcc2af6"
+  },
+  "facts": {
+    "requests": [
+      {
+        "tree": {
+          "tree_id": "synthetic-tree-current-nested",
+          "component_id": "synthetic-component-main-10",
+          "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+          "branch_id": "synthetic-branch-current-nested",
+          "branch_state": "CURRENT",
+          "component_class": "ORDINARY_RULE",
+          "component_label": "Synthetic Main Board Listing Rules",
+          "location_label": "Rule 10",
+          "official_heading": "Synthetic recursive partition fixture",
+          "root_source_unit_id": "context",
+          "source_units": [
+            {
+              "source_unit_id": "context",
+              "parent_source_unit_id": null,
+              "child_source_unit_ids": [
+                "unit-a",
+                "unit-b1",
+                "unit-b2",
+                "unit-c"
+              ],
+              "source_order": 0,
+              "kind": "HEADING",
+              "role": "CONTEXT_ONLY",
+              "text": "Rule 10 — Synthetic recursive partition fixture",
+              "source_range": "synthetic-hkex-artifact#range-0",
+              "required_context_unit_ids": [],
+              "meaning_bearing": true,
+              "content_fingerprint": "sha256:1eb4860816e78eab008764b8bc1faa436886bdc90ab0649819c160c0ec28ddcd"
+            },
+            {
+              "source_unit_id": "unit-a",
+              "parent_source_unit_id": "context",
+              "child_source_unit_ids": [],
+              "source_order": 1,
+              "kind": "BODY_TEXT",
+              "role": "PRIMARY",
+              "text": "10.01 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "source_range": "synthetic-hkex-artifact#range-1",
+              "required_context_unit_ids": [
+                "context"
+              ],
+              "meaning_bearing": true,
+              "content_fingerprint": "sha256:8d26b068d56b234a412914f436d5d154a331f6bc5acd7d19a7f07b3784c2f1ee"
+            },
+            {
+              "source_unit_id": "unit-b1",
+              "parent_source_unit_id": "context",
+              "child_source_unit_ids": [],
+              "source_order": 2,
+              "kind": "BODY_TEXT",
+              "role": "PRIMARY",
+              "text": "10.02 BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+              "source_range": "synthetic-hkex-artifact#range-2",
+              "required_context_unit_ids": [
+                "context"
+              ],
+              "meaning_bearing": true,
+              "content_fingerprint": "sha256:804a0925d1aab650b167e6ad3fabbe4b8816322ebee601f82c39aa37bd4dde32"
+            },
+            {
+              "source_unit_id": "unit-b2",
+              "parent_source_unit_id": "context",
+              "child_source_unit_ids": [],
+              "source_order": 3,
+              "kind": "BODY_TEXT",
+              "role": "PRIMARY",
+              "text": "10.03 DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+              "source_range": "synthetic-hkex-artifact#range-3",
+              "required_context_unit_ids": [
+                "context"
+              ],
+              "meaning_bearing": true,
+              "content_fingerprint": "sha256:7dfbce89ae8dff190463b287a3f9640325a21c3e8e569a49631e2761a9cd941c"
+            },
+            {
+              "source_unit_id": "unit-c",
+              "parent_source_unit_id": "context",
+              "child_source_unit_ids": [],
+              "source_order": 4,
+              "kind": "BODY_TEXT",
+              "role": "PRIMARY",
+              "text": "10.04 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+              "source_range": "synthetic-hkex-artifact#range-4",
+              "required_context_unit_ids": [
+                "context"
+              ],
+              "meaning_bearing": true,
+              "content_fingerprint": "sha256:a6c8632cdc5f35498694bb9080b4f93197022617e180871e81e38e1def47299b"
+            }
+          ],
+          "root_record_unit_ids": [
+            "record-root"
+          ],
+          "record_units": [
+            {
+              "record_unit_id": "record-root",
+              "primary_source_unit_ids": [
+                "unit-a",
+                "unit-b1",
+                "unit-b2",
+                "unit-c"
+              ],
+              "dependency_source_unit_ids": [
+                "context"
+              ],
+              "referenced_locations": [],
+              "child_record_unit_ids": [
+                "record-a",
+                "record-b",
+                "record-c"
+              ],
+              "source_contract_state": "SUPPORTED",
+              "indivisible": false
+            },
+            {
+              "record_unit_id": "record-a",
+              "primary_source_unit_ids": [
+                "unit-a"
+              ],
+              "dependency_source_unit_ids": [
+                "context"
+              ],
+              "referenced_locations": [],
+              "child_record_unit_ids": [],
+              "source_contract_state": "SUPPORTED",
+              "indivisible": true
+            },
+            {
+              "record_unit_id": "record-b",
+              "primary_source_unit_ids": [
+                "unit-b1",
+                "unit-b2"
+              ],
+              "dependency_source_unit_ids": [
+                "context"
+              ],
+              "referenced_locations": [],
+              "child_record_unit_ids": [
+                "record-b1",
+                "record-b2"
+              ],
+              "source_contract_state": "SUPPORTED",
+              "indivisible": false
+            },
+            {
+              "record_unit_id": "record-b1",
+              "primary_source_unit_ids": [
+                "unit-b1"
+              ],
+              "dependency_source_unit_ids": [
+                "context"
+              ],
+              "referenced_locations": [],
+              "child_record_unit_ids": [],
+              "source_contract_state": "SUPPORTED",
+              "indivisible": true
+            },
+            {
+              "record_unit_id": "record-b2",
+              "primary_source_unit_ids": [
+                "unit-b2"
+              ],
+              "dependency_source_unit_ids": [
+                "context"
+              ],
+              "referenced_locations": [],
+              "child_record_unit_ids": [],
+              "source_contract_state": "SUPPORTED",
+              "indivisible": true
+            },
+            {
+              "record_unit_id": "record-c",
+              "primary_source_unit_ids": [
+                "unit-c"
+              ],
+              "dependency_source_unit_ids": [
+                "context"
+              ],
+              "referenced_locations": [],
+              "child_record_unit_ids": [],
+              "source_contract_state": "SUPPORTED",
+              "indivisible": true
+            }
+          ],
+          "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+          "source_artifact_fingerprints": [
+            "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          ]
+        },
+        "profile": {
+          "profile_id": "synthetic-hkex-english-profile-1",
+          "profile_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tokenizer_id": "synthetic-codepoint-counter-1",
+          "max_text_tokens": 600,
+          "max_metadata_bytes": 100000,
+          "country": "Hong Kong",
+          "jurisdiction": "Hong Kong",
+          "material_type": "regulatory_material",
+          "source": "Hong Kong Exchanges and Clearing Limited",
+          "authority_note": "None"
+        },
+        "effective_context": null
+      }
+    ],
+    "measurement_field_ids": [
+      "AUTHORITY_NOTE",
+      "CONTEXT",
+      "METADATA_COUNTRY",
+      "METADATA_JURISDICTION",
+      "METADATA_SOURCE",
+      "METADATA_TYPE",
+      "PRIMARY_PROJECTION",
+      "REFERENCED_LOCATIONS"
+    ],
+    "candidate_cut": "NONE",
+    "candidate_official_boundary_proved": false,
+    "preliminary_part_count": 0
+  },
+  "case_fingerprint": "sha256:a528bc75b6a60d1663bd133bc24955c0604868fb407426d663bbdba9a3a0b0ab"
+}

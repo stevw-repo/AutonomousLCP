@@ -1,0 +1,25 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.reconstruction-report.reason-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {"code": "RECONSTRUCTION_COMPLETE", "meaning": "The exact Plan, artifact, proofs, and Report pass.", "processing_outcome": "PASS"},
+    {"code": "RECONSTRUCTION_OPERATIONS_PROVISIONALLY_COMPLETE", "meaning": "All operations passed before artifact construction.", "processing_outcome": "PASS"},
+    {"code": "RECONSTRUCTION_OPERATION_APPLIED", "meaning": "One operation provisionally applied.", "processing_outcome": "OPERATION"},
+    {"code": "UNSUPPORTED_RECONSTRUCTION_OPERATION", "meaning": "The operation registry does not admit the operation.", "processing_outcome": "BLOCK"},
+    {"code": "RECONSTRUCTION_UNDECLARED_INPUT", "meaning": "Execution encountered an undeclared input.", "processing_outcome": "BLOCK"},
+    {"code": "RECONSTRUCTION_SOURCE_UNIT_KIND_MISMATCH", "meaning": "A source payload has the wrong source-unit kind.", "processing_outcome": "BLOCK"},
+    {"code": "RECONSTRUCTION_DEPENDENCY_CLOSURE_INCOMPLETE", "meaning": "The dependency closure is incomplete.", "processing_outcome": "BLOCK"},
+    {"code": "RECONSTRUCTION_STRUCTURE_UNSUPPORTED", "meaning": "The canonical structure cannot support the operation.", "processing_outcome": "BLOCK"},
+    {"code": "RECONSTRUCTION_SOURCE_UNIT_OWNERSHIP_MISMATCH", "meaning": "Source-unit ownership does not match the Plan.", "processing_outcome": "BLOCK"},
+    {"code": "RECONSTRUCTION_TARGET_NOT_EXACT", "meaning": "The exact declared target was not found.", "processing_outcome": "BLOCK"},
+    {"code": "RECONSTRUCTION_BEFORE_STATE_MISMATCH", "meaning": "The actual before-state differs from the Plan.", "processing_outcome": "BLOCK"},
+    {"code": "RECONSTRUCTION_AFTER_STATE_MISMATCH", "meaning": "The provisional after-state differs from the Plan.", "processing_outcome": "BLOCK"},
+    {"code": "RECONSTRUCTION_RENDERER_UNSUPPORTED", "meaning": "The frozen ordinary renderer cannot represent the result.", "processing_outcome": "BLOCK"},
+    {"code": "RECONSTRUCTION_CANONICAL_TREE_INVALID", "meaning": "The provisional canonical tree is invalid.", "processing_outcome": "BLOCK"},
+    {"code": "RECONSTRUCTION_NOT_RUN_AFTER_ATOMIC_FAILURE", "meaning": "The operation was not run after an atomic failure.", "processing_outcome": "OPERATION"},
+    {"code": "RECONSTRUCTION_FINAL_TREE_MISMATCH", "meaning": "The final tree fingerprint differs from the Plan.", "processing_outcome": "BLOCK"},
+    {"code": "RECONSTRUCTION_SOURCE_UNIT_INVENTORY_MISMATCH", "meaning": "The final source-unit inventory differs from the Plan.", "processing_outcome": "BLOCK"},
+    {"code": "RECONSTRUCTION_BILINGUAL_ALIGNMENT_MISMATCH", "meaning": "The final bilingual alignment is incomplete or different.", "processing_outcome": "BLOCK"}
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "fixture_id": "HKLEG-RECON-RCN-FIX-008",
+  "title": "Unresolved mismatch suspends the complete rulebook and build profile",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:158daabb8d2d5432ec4e1b8fecc4d11918d5636451ae235f15fd5bdead326d1e",
+  "input": {
+    "cutoff": "2026-08-17T00:00:00Z",
+    "reconciliation_id": "rrc_888888888888888888888888888888888888888888888888",
+    "reconstruction_artifact_ref": {
+      "ref_type": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT",
+      "ref_id": "rca_111111111111111111111111111111111111111111111111",
+      "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "coverage_gap_ref": {
+      "ref_type": "COVERAGE_GAP",
+      "ref_id": "cvg_222222222222222222222222222222222222222222222222",
+      "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "current_monitoring_state": "AWAITING_HKEL_CONSOLIDATION",
+    "changed_signal": "CHANGED",
+    "hkel_candidate_state": "VALID",
+    "common_basis": "EXACT",
+    "ordinary_hkel_selection": "CANDIDATE_READY",
+    "reconstructed_location_ids": [
+      "section-1",
+      "section-2"
+    ],
+    "comparison_results": [
+      {
+        "location_id": "section-1",
+        "comparison_class": "MATERIAL_MISMATCH",
+        "attribution_classes": [
+          "UNRESOLVED_RECONSTRUCTION_MISMATCH"
+        ]
+      },
+      {
+        "location_id": "section-2",
+        "comparison_class": "EXACT_CANONICAL_MATCH",
+        "attribution_classes": []
+      }
+    ],
+    "complete_comparison_accounting": true,
+    "reconstruction_integrity_defect": false,
+    "declared_impact_scope": "RULEBOOK_AND_BUILD",
+    "revalidation_complete": false
+  },
+  "expected_artifact": {
+    "path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-008.json",
+    "fingerprint": "sha256:22f5a04050dfcb92313a9ab3b1f1248bfa6ddcc7250c9cfe8e2375ef7c017512"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "fixture_id": "HKLEG-KNOWN-STALE-FIX-003",
+  "title": "No valid applicable HKeL text yields no record and retains the gap",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:2218b4b6986c076ec70d90b0d5bed7ea06eb1f0f9b46928e224236f1944271dc",
+  "input": {
+    "selection_id": "ksf_333333333333333333333333333333333333333333333333",
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.fallback-003",
+    "coverage_gap_ref": {
+      "ref_type": "COVERAGE_GAP",
+      "ref_id": "cvg_333333333333333333333333333333333333333333333333",
+      "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    },
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "event_operative_at_cutoff": true,
+    "matching_current_consolidation_available": false,
+    "reconstruction_disposition": "INELIGIBLE_OR_FAILED",
+    "affected_location_ids": [
+      "section-4"
+    ],
+    "affected_location_scope": "EXACT",
+    "identity_mapping_proved": true,
+    "release_accounting_complete": true,
+    "candidate_versions": []
+  },
+  "expected_artifact": {
+    "path": "expected/known-stale-fallback/HKLEG-KNOWN-STALE-FIX-003.json",
+    "fingerprint": "sha256:658b35cde5fcc901cb6800bf84a9955fd679ddf6e375767080694f7c24145939"
+  }
+}

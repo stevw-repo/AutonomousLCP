@@ -1,0 +1,62 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:a4f96e34a39d0fbc176560ce9c1b2d1b59f5cfd738b20d9c4fbea944a726027c",
+  "workflow_result_fingerprint": "sha256:7c7c172fbb9c6fb24fbba65009b1591bb8e8aefa3e496e00403ae8c3463d60be",
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "meaning_codes": [
+        "ACTUAL_RECEIPT_RULE",
+        "DELIBERATE_PREVENTION_EXCEPTION"
+      ],
+      "content_codes": [
+        "FOOTNOTE_QUALIFICATION",
+        "RULE"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "ANSWER",
+          "ordered_range_ids": [
+            "range_1"
+          ]
+        },
+        {
+          "role_code": "QUALIFICATION",
+          "ordered_range_ids": [
+            "range_2"
+          ]
+        }
+      ],
+      "dependency_ids": [],
+      "selected_quotations": [],
+      "derived_statement": "Actual receipt is required unless the addressee deliberately prevents delivery."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

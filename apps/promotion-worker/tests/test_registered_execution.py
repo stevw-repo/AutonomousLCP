@@ -93,6 +93,8 @@ def _candidate() -> RegisteredApprovalCandidate:
             "2026-08-22T00:00:00Z",
             "2026-08-23T00:00:00Z",
             (("configuration", "1.0.0", "sha256:" + "a" * 64),),
+            "1.0.0",
+            (),
         ),
         "act_" + "5" * 48,
         "sha256:" + "5" * 64,

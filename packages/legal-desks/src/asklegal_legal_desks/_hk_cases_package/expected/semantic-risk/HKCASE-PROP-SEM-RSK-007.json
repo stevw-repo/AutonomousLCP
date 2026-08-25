@@ -1,0 +1,28 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-case-result",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-RSK-007",
+  "result": {
+    "schema_id": "asklegal.hk-cases.semantic-risk-evaluation-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+    "request_fingerprint": "sha256:f86e4911359eed7ae3dac541fe39cdd63b51ff3df97d2b4637e349aae4b1029e",
+    "reference_map_fingerprint": "sha256:6dc25142c59a4aec8b30dc3f177a39b91e2d0cec57392d5419e743b04d93f9d6",
+    "outcome": "PASS",
+    "reasons": [
+      "PASS"
+    ],
+    "expected_candidate_count": 1,
+    "observed_candidate_count": 1,
+    "matched_candidate_count": 1,
+    "accepted_candidate_count": 1,
+    "quarantined_candidate_count": 0,
+    "examined_segment_count": 1,
+    "resolved_dependency_count": 0,
+    "provider_calls_authorized": 0,
+    "workflow_admission_created": false,
+    "search_records_created": 0,
+    "release_eligible": false,
+    "external_effects": "NONE"
+  }
+}

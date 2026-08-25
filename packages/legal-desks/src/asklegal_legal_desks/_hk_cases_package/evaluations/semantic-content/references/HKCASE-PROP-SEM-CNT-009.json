@@ -1,0 +1,77 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "reference_map_id": "content_reference_map_9",
+  "model_input_fingerprint": "sha256:1b419bf72d156f55c30e41b1239b4d4768b12a44c18f5a18ba4f07d3fdfe9d20",
+  "propositions": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "ACCEPTED",
+      "required_meaning_codes": [
+        "UNEQUIVOCAL_ELECTION_RULE",
+        "EXPRESS_ADOPTION"
+      ],
+      "forbidden_meaning_codes": [
+        "UNADOPTED_QUOTATION"
+      ],
+      "required_content_codes": [
+        "ADOPTION",
+        "EXACT_QUOTATION",
+        "RULE"
+      ],
+      "forbidden_content_codes": [
+        "QUOTATION_NORMALIZED"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "QUOTATION",
+          "ordered_range_ids": [
+            "range_1"
+          ]
+        },
+        {
+          "role_code": "ATTRIBUTION",
+          "ordered_range_ids": [
+            "range_2"
+          ]
+        },
+        {
+          "role_code": "RESULT",
+          "ordered_range_ids": [
+            "range_2"
+          ]
+        }
+      ],
+      "required_dependency_ids": [],
+      "exact_quotations": [
+        {
+          "range_id": "range_1",
+          "exact_text": "A waiver must be an unequivocal election between inconsistent rights."
+        }
+      ]
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1"
+  ],
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

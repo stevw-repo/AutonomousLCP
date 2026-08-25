@@ -1,0 +1,559 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-record-identity-request.schema.json",
+  "title": "HKEX Search Record identity and traceability request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision_id",
+    "construction",
+    "root_record_unit_id",
+    "part_number",
+    "legal_item_id",
+    "official_version_ids",
+    "legal_location_ids",
+    "evidence_refs",
+    "authority_note_decision_ref",
+    "authority_note_supporting_refs",
+    "current_legal_support",
+    "existing_records",
+    "predecessor_search_record_ids",
+    "change",
+    "decision_evidence_fingerprint",
+    "legal_desk_actor"
+  ],
+  "$defs": {
+    "fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "issued_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]{2,15}_[0-9a-f]{48}$"
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref_type",
+        "ref_id",
+        "fingerprint"
+      ],
+      "properties": {
+        "ref_type": {
+          "enum": [
+            "ARTIFACT",
+            "DECISION",
+            "EVIDENCE",
+            "RULEBOOK",
+            "SOURCE_SNAPSHOT"
+          ]
+        },
+        "ref_id": {
+          "$ref": "#/$defs/issued_id"
+        },
+        "fingerprint": {
+          "$ref": "#/$defs/fingerprint"
+        }
+      }
+    },
+    "english_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "english_nonempty": {
+      "type": "string",
+      "minLength": 1
+    },
+    "english_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "profile_fingerprint",
+        "tokenizer_id",
+        "max_text_tokens",
+        "max_metadata_bytes",
+        "country",
+        "jurisdiction",
+        "material_type",
+        "source",
+        "authority_note"
+      ],
+      "properties": {
+        "profile_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "profile_fingerprint": {
+          "$ref": "#/$defs/english_fingerprint"
+        },
+        "tokenizer_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "max_text_tokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_metadata_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "country": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "jurisdiction": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "material_type": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "source": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "authority_note": {
+          "$ref": "#/$defs/english_nonempty"
+        }
+      }
+    },
+    "english_record_unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_unit_id",
+        "primary_source_unit_ids",
+        "dependency_source_unit_ids",
+        "referenced_locations",
+        "child_record_unit_ids",
+        "source_contract_state",
+        "indivisible"
+      ],
+      "properties": {
+        "record_unit_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "primary_source_unit_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_nonempty"
+          }
+        },
+        "dependency_source_unit_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_nonempty"
+          }
+        },
+        "referenced_locations": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_reference"
+          }
+        },
+        "child_record_unit_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_nonempty"
+          }
+        },
+        "source_contract_state": {
+          "enum": [
+            "SUPPORTED",
+            "UNKNOWN"
+          ]
+        },
+        "indivisible": {
+          "type": "boolean"
+        }
+      }
+    },
+    "english_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "locator",
+        "official_heading"
+      ],
+      "properties": {
+        "locator": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "official_heading": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      }
+    },
+    "english_source_unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_unit_id",
+        "parent_source_unit_id",
+        "child_source_unit_ids",
+        "source_order",
+        "kind",
+        "role",
+        "text",
+        "source_range",
+        "required_context_unit_ids",
+        "meaning_bearing",
+        "content_fingerprint"
+      ],
+      "properties": {
+        "source_unit_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "parent_source_unit_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "child_source_unit_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_nonempty"
+          }
+        },
+        "source_order": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "kind": {
+          "enum": [
+            "HEADING",
+            "LOCATOR",
+            "BODY_TEXT",
+            "LEAD_IN",
+            "DEFINITION_TERM",
+            "DEFINITION_TEXT",
+            "QUALIFICATION",
+            "EXCEPTION",
+            "PROVISO",
+            "TRANSITION_TEXT",
+            "SCOPE_TEXT",
+            "INCORPORATED_NOTE",
+            "TABLE_CAPTION",
+            "TABLE_HEADER",
+            "TABLE_ROW",
+            "TABLE_UNIT",
+            "TABLE_NOTE",
+            "FORM_INSTRUCTION",
+            "FORM_LABEL",
+            "FORM_CONTROL",
+            "FORM_DECLARATION",
+            "FEE_CATEGORY",
+            "FEE_AMOUNT",
+            "FEE_BASIS",
+            "FEE_TIMING",
+            "CROSS_REFERENCE",
+            "PRESENTATION"
+          ]
+        },
+        "role": {
+          "enum": [
+            "PRIMARY",
+            "CONTEXT_ONLY",
+            "PRESENTATION_ONLY"
+          ]
+        },
+        "text": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "source_range": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "required_context_unit_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_nonempty"
+          }
+        },
+        "meaning_bearing": {
+          "type": "boolean"
+        },
+        "content_fingerprint": {
+          "$ref": "#/$defs/english_fingerprint"
+        }
+      }
+    },
+    "english_tree": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tree_id",
+        "component_id",
+        "scope_id",
+        "branch_id",
+        "branch_state",
+        "component_class",
+        "component_label",
+        "location_label",
+        "official_heading",
+        "root_source_unit_id",
+        "source_units",
+        "root_record_unit_ids",
+        "record_units",
+        "source_rule_id",
+        "source_artifact_fingerprints"
+      ],
+      "properties": {
+        "tree_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "component_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "scope_id": {
+          "enum": [
+            "HK-REG-HKEX-GEM",
+            "HK-REG-HKEX-MAIN-BOARD"
+          ]
+        },
+        "branch_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "branch_state": {
+          "enum": [
+            "CURRENT",
+            "TRANSITIONAL_CURRENT",
+            "FUTURE_FIXED_DATE",
+            "FUTURE_CONDITIONAL",
+            "SUPERSEDED",
+            "WITHDRAWN",
+            "UNKNOWN"
+          ]
+        },
+        "component_class": {
+          "enum": [
+            "ORDINARY_RULE",
+            "DEFINITION_RULE",
+            "APPENDIX",
+            "PRACTICE_NOTE",
+            "TABLE",
+            "FEES_RULE",
+            "REGULATORY_FORM"
+          ]
+        },
+        "component_label": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "location_label": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "official_heading": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "root_source_unit_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "source_units": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/english_source_unit"
+          }
+        },
+        "root_record_unit_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_nonempty"
+          }
+        },
+        "record_units": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/english_record_unit"
+          }
+        },
+        "source_rule_id": {
+          "const": "HKREG-ENGLISH-RECORD-001"
+        },
+        "source_artifact_fingerprints": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_fingerprint"
+          }
+        }
+      }
+    }
+  },
+  "properties": {
+    "decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "construction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tree",
+        "profile",
+        "effective_context"
+      ],
+      "properties": {
+        "effective_context": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "profile": {
+          "$ref": "#/$defs/english_profile"
+        },
+        "tree": {
+          "$ref": "#/$defs/english_tree"
+        }
+      }
+    },
+    "root_record_unit_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "part_number": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "legal_item_id": {
+      "type": "string",
+      "pattern": "^lit_[0-9a-f]{48}$"
+    },
+    "official_version_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^ofv_[0-9a-f]{48}$"
+      }
+    },
+    "legal_location_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^loc_[0-9a-f]{48}$"
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/reference"
+      }
+    },
+    "authority_note_decision_ref": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ref_type": {
+              "const": "DECISION"
+            }
+          }
+        }
+      ]
+    },
+    "authority_note_supporting_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/reference"
+      }
+    },
+    "current_legal_support": {
+      "type": "boolean"
+    },
+    "existing_records": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "search_record_id",
+          "serving_payload_fingerprint",
+          "scope_id",
+          "legal_item_id",
+          "currently_selected"
+        ],
+        "properties": {
+          "search_record_id": {
+            "type": "string",
+            "pattern": "^rec_[0-9a-f]{48}$"
+          },
+          "serving_payload_fingerprint": {
+            "$ref": "#/$defs/fingerprint"
+          },
+          "scope_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "legal_item_id": {
+            "type": "string",
+            "pattern": "^lit_[0-9a-f]{48}$"
+          },
+          "currently_selected": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "predecessor_search_record_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^rec_[0-9a-f]{48}$"
+      }
+    },
+    "change": {
+      "enum": [
+        "INITIAL",
+        "SIX_FIELD_UNCHANGED",
+        "TRACEABILITY_ONLY",
+        "PRIMARY_TEXT_CHANGED",
+        "APPLICABILITY_CONTEXT_CHANGED",
+        "GOVERNING_CONTEXT_CHANGED",
+        "REFERENCED_LOCATION_CHANGED",
+        "STRUCTURED_PROJECTION_CHANGED",
+        "PARTITION_CHANGED",
+        "AUTHORITY_NOTE_CHANGED",
+        "REINSTATEMENT"
+      ]
+    },
+    "decision_evidence_fingerprint": {
+      "$ref": "#/$defs/fingerprint"
+    },
+    "legal_desk_actor": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

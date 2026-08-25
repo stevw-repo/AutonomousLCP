@@ -1,0 +1,44 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-materiality-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-MATERIALITY-EVALUATOR-001",
+  "reference_map_id": "reference_map_12",
+  "model_input_fingerprint": "sha256:13d0993c726e8a95b5803c62d7c1ea360fe7de90db9ced3ad1da76ff94663404",
+  "coverage_unit_ids": [
+    "unit_1"
+  ],
+  "propositions": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "authority_role": "OBITER",
+      "required_meaning_codes": [
+        "MATERIAL_OBITER",
+        "USABLE_LEGAL_RULE"
+      ],
+      "forbidden_meaning_codes": [
+        "OPERATIVE_AUTHORITY",
+        "NON_MATERIAL_TOPIC"
+      ],
+      "required_evidence_role_codes": [
+        "ANSWER",
+        "APPLICATION",
+        "ATTRIBUTION",
+        "CONTEXT",
+        "ISSUE",
+        "QUALIFICATION",
+        "QUOTATION",
+        "RESULT"
+      ],
+      "required_range_ids": [
+        "range_1"
+      ]
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "required_handoff_ids": [],
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1"
+  ],
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

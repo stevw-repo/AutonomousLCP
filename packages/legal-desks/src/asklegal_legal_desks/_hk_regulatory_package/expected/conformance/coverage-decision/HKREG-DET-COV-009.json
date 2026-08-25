@@ -1,0 +1,110 @@
+{
+  "schema_id": "asklegal.hk-regulatory.coverage-decision-report",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-COVERAGE-DECISION-001",
+  "case_id": "HKREG-DET-COV-009",
+  "assertion_scope": "DUPLICATE_PRIMARY",
+  "observed_decision": {
+    "schema_id": "asklegal.hk-regulatory.coverage-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-COVERAGE-DECISION-001",
+    "case_id": "HKREG-DET-COV-009",
+    "outcome": "INVALID",
+    "reason": "DUPLICATE_PRIMARY_OWNER",
+    "coverage_complete": false,
+    "source_fidelity_valid": true,
+    "source_order_valid": true,
+    "board_ownership_valid": true,
+    "dependency_accounting_valid": true,
+    "total_source_unit_count": 8,
+    "primary_owned_unit_count": 5,
+    "non_serving_unit_count": 2,
+    "board_results": [
+      {
+        "scope_id": "HK-REG-HKEX-GEM",
+        "inventory_bounded": true,
+        "coverage_complete": false,
+        "required_current_unit_count": 3,
+        "ready_current_unit_count": 3,
+        "blocked_or_quarantined_unit_count": 0,
+        "search_record_candidate_count": 1,
+        "later_gate_candidate_ready": false
+      },
+      {
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "inventory_bounded": true,
+        "coverage_complete": false,
+        "required_current_unit_count": 3,
+        "ready_current_unit_count": 2,
+        "blocked_or_quarantined_unit_count": 0,
+        "search_record_candidate_count": 3,
+        "later_gate_candidate_ready": false
+      }
+    ],
+    "violation_codes": [
+      "DUPLICATE_PRIMARY_OWNER",
+      "WRONG_PRIMARY_OWNER"
+    ],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.coverage-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-COVERAGE-DECISION-001",
+    "case_id": "HKREG-DET-COV-009",
+    "outcome": "INVALID",
+    "reason": "DUPLICATE_PRIMARY_OWNER",
+    "coverage_complete": false,
+    "source_fidelity_valid": true,
+    "source_order_valid": true,
+    "board_ownership_valid": true,
+    "dependency_accounting_valid": true,
+    "total_source_unit_count": 8,
+    "primary_owned_unit_count": 5,
+    "non_serving_unit_count": 2,
+    "board_results": [
+      {
+        "scope_id": "HK-REG-HKEX-GEM",
+        "inventory_bounded": true,
+        "coverage_complete": false,
+        "required_current_unit_count": 3,
+        "ready_current_unit_count": 3,
+        "blocked_or_quarantined_unit_count": 0,
+        "search_record_candidate_count": 1,
+        "later_gate_candidate_ready": false
+      },
+      {
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "inventory_bounded": true,
+        "coverage_complete": false,
+        "required_current_unit_count": 3,
+        "ready_current_unit_count": 2,
+        "blocked_or_quarantined_unit_count": 0,
+        "search_record_candidate_count": 3,
+        "later_gate_candidate_ready": false
+      }
+    ],
+    "violation_codes": [
+      "DUPLICATE_PRIMARY_OWNER",
+      "WRONG_PRIMARY_OWNER"
+    ],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "conformance_status": "PASS",
+  "source_authorized": false,
+  "provider_authorized": false,
+  "release_authorized": false,
+  "serving_authorized": false,
+  "deployment_authorized": false,
+  "external_effects": "NONE"
+}

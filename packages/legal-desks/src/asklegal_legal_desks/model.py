@@ -140,6 +140,17 @@ class ReleaseScope:
 
 
 @dataclass(frozen=True, slots=True)
+class ScopeFamilyDefinition:
+    """One non-executable ownership template awaiting concrete scope evidence."""
+
+    family_id: str
+    ownership_key_pattern: str
+    required_source_ids: tuple[str, ...]
+    concrete_scope_rule: str
+    blocker_codes: tuple[str, ...]
+
+
+@dataclass(frozen=True, slots=True)
 class RulePredicate:
     """One closed exact fact predicate."""
 
@@ -221,6 +232,7 @@ class LoadedRulebook:
     manifest: RulebookManifest
     sources: tuple[SourceDefinition, ...]
     scopes: tuple[ReleaseScope, ...]
+    scope_families: tuple[ScopeFamilyDefinition, ...]
     rules: tuple[RuleDefinition, ...]
     semantic_profiles: tuple[SemanticTaskProfile, ...]
     fixture_ids: tuple[str, ...]

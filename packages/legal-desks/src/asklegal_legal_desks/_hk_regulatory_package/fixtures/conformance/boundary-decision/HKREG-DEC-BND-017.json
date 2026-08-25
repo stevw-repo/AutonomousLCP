@@ -1,0 +1,154 @@
+{
+  "schema_id": "asklegal.hk-regulatory.boundary-decision-case",
+  "schema_version": "1.0.0",
+  "package_contract_version": "1.0.0",
+  "case_id": "HKREG-DEC-BND-017",
+  "suite_layer": "EVIDENCE_TO_DECISION",
+  "primary_checkpoint": "RECORD_BOUNDARY",
+  "frozen": true,
+  "synthetic_evidence_class": "SYNTHETIC_NO_REAL_AUTHORITY",
+  "contract_bindings": [
+    {
+      "contract_id": "asklegal.hk-regulatory.conformance-universe",
+      "version": "1.0.0",
+      "fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.boundary-decision-case",
+      "version": "1.0.0",
+      "fingerprint": "sha256:c945f82674f234b12e6d7474f060b117cb85f3932e75330251e17537c882e4e3"
+    }
+  ],
+  "synthetic_cutoff": "2026-08-24T00:00:00Z",
+  "scope_id": "HKEX_CROSS_BOARD",
+  "prior_state": "SYNTHETIC_ACCEPTED_PREDECESSOR",
+  "primary_coverage_cell_ids": [
+    "HKREG-COV-DBND-017"
+  ],
+  "secondary_coverage_cell_ids": [],
+  "pair_memberships": [],
+  "declared_input_inventory": [
+    "boundary-evidence"
+  ],
+  "declared_reference_inventory": [
+    "asklegal.hk-regulatory.conformance-universe",
+    "asklegal.hk-regulatory.boundary-decision-case"
+  ],
+  "declared_expected_inventory": [
+    "BOUNDARY_DECISION_REPORT"
+  ],
+  "assertion_scope": "LEGAL_STRUCTURE",
+  "required_result_dimensions": [
+    "CROSS_REFERENCE",
+    "DEPENDENCY_CLOSURE",
+    "LEGAL_LOCATION",
+    "PROCESSING",
+    "RECORD_RESPONSIBILITY",
+    "SOURCE_STRUCTURE"
+  ],
+  "evidence_packet_fields": [
+    "background_unit_ids",
+    "child_unit_ids",
+    "complete_unit_fits_hard_limits",
+    "component_class",
+    "definition_scope",
+    "definition_term_unit_ids",
+    "dependency_owners",
+    "duplicate_global_definition",
+    "global_scope_unit_id",
+    "independent_child_ids",
+    "inseparable_logic",
+    "legal_location_basis",
+    "note_owner_unit_id",
+    "parent_unit_id",
+    "proposed_dependency_ids",
+    "proposed_note_owner_unit_id",
+    "qualification_unit_ids",
+    "references",
+    "required_dependency_ids",
+    "selected_primary_unit_ids",
+    "source_contract_state",
+    "unrelated_unit_packed"
+  ],
+  "supporting_evidence_ranges": [
+    "input/HKREG-DEC-BND-017-boundary-evidence.json#facts"
+  ],
+  "rule_trace": [
+    "HKREG-BOUNDARY-DECISION-001",
+    "HKREG-ENGLISH-RECORD-001"
+  ],
+  "established_facts": [
+    "SYNTHETIC_BOUNDARY_FACT_PACKET_DECLARED"
+  ],
+  "unresolved_facts": [
+    "SOURCE_STRUCTURE_REVIEW_REQUIRED"
+  ],
+  "permitted_equivalent_results": [],
+  "critical_error_codes": [
+    "SOURCE_STRUCTURE_REVIEW_REQUIRED"
+  ],
+  "package_fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14",
+  "title": "Accepted English product has ambiguous substantive structure",
+  "purpose": "Open Source Contract Review or quarantine the smallest branch; do not guess",
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.boundary-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-BOUNDARY-DECISION-001",
+    "case_id": "HKREG-DEC-BND-017",
+    "outcome": "QUARANTINE",
+    "reason": "SOURCE_STRUCTURE_REVIEW_REQUIRED",
+    "responsibilities": [],
+    "dependency_owners": [],
+    "references": [],
+    "excluded_background_unit_ids": [],
+    "quarantined_unit_ids": [
+      "ambiguous-structure-17"
+    ],
+    "rejected_candidate": false,
+    "source_contract_review_required": true,
+    "quarantined_branch": true,
+    "presentation_identity_rejected": false,
+    "relationship_revision_only": false,
+    "referring_payload_change_required": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "evidence_packet": {
+    "slot_id": "boundary-evidence",
+    "state": "AVAILABLE",
+    "path": "input/HKREG-DEC-BND-017-boundary-evidence.json",
+    "role": "ORDINARY",
+    "media_type": "application/json",
+    "content_fingerprint": "sha256:fec72548b65120de22e370e5177bfbd8f7f8fd23a01ffa8328dd3054b666c45d"
+  },
+  "facts": {
+    "component_class": "ORDINARY_RULE",
+    "source_contract_state": "UNKNOWN",
+    "parent_unit_id": "ambiguous-structure-17",
+    "child_unit_ids": [],
+    "independent_child_ids": [],
+    "selected_primary_unit_ids": [
+      "ambiguous-structure-17"
+    ],
+    "inseparable_logic": false,
+    "required_dependency_ids": [],
+    "proposed_dependency_ids": [],
+    "background_unit_ids": [],
+    "qualification_unit_ids": [],
+    "note_owner_unit_id": null,
+    "proposed_note_owner_unit_id": null,
+    "definition_scope": "NONE",
+    "definition_term_unit_ids": [],
+    "global_scope_unit_id": null,
+    "duplicate_global_definition": false,
+    "legal_location_basis": "PROVED_LEGAL_STRUCTURE",
+    "dependency_owners": [],
+    "references": [],
+    "complete_unit_fits_hard_limits": true,
+    "unrelated_unit_packed": false
+  },
+  "case_fingerprint": "sha256:27ae71622f266045433dddce5dd45c734da2113ca1dfb9c12d73b24c7cb3f81a"
+}

@@ -1,0 +1,1002 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-coverage-decision-case.schema.json",
+  "title": "HKEX source-unit coverage and board-readiness conformance case",
+  "$defs": {
+    "english_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "english_nonempty": {
+      "type": "string",
+      "minLength": 1
+    },
+    "english_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "profile_fingerprint",
+        "tokenizer_id",
+        "max_text_tokens",
+        "max_metadata_bytes",
+        "country",
+        "jurisdiction",
+        "material_type",
+        "source",
+        "authority_note"
+      ],
+      "properties": {
+        "profile_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "profile_fingerprint": {
+          "$ref": "#/$defs/english_fingerprint"
+        },
+        "tokenizer_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "max_text_tokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_metadata_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "country": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "jurisdiction": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "material_type": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "source": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "authority_note": {
+          "$ref": "#/$defs/english_nonempty"
+        }
+      }
+    },
+    "english_record_unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_unit_id",
+        "primary_source_unit_ids",
+        "dependency_source_unit_ids",
+        "referenced_locations",
+        "child_record_unit_ids",
+        "source_contract_state",
+        "indivisible"
+      ],
+      "properties": {
+        "record_unit_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "primary_source_unit_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_nonempty"
+          }
+        },
+        "dependency_source_unit_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_nonempty"
+          }
+        },
+        "referenced_locations": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_reference"
+          }
+        },
+        "child_record_unit_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_nonempty"
+          }
+        },
+        "source_contract_state": {
+          "enum": [
+            "SUPPORTED",
+            "UNKNOWN"
+          ]
+        },
+        "indivisible": {
+          "type": "boolean"
+        }
+      }
+    },
+    "english_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "locator",
+        "official_heading"
+      ],
+      "properties": {
+        "locator": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "official_heading": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      }
+    },
+    "english_source_unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_unit_id",
+        "parent_source_unit_id",
+        "child_source_unit_ids",
+        "source_order",
+        "kind",
+        "role",
+        "text",
+        "source_range",
+        "required_context_unit_ids",
+        "meaning_bearing",
+        "content_fingerprint"
+      ],
+      "properties": {
+        "source_unit_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "parent_source_unit_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "child_source_unit_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_nonempty"
+          }
+        },
+        "source_order": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "kind": {
+          "enum": [
+            "HEADING",
+            "LOCATOR",
+            "BODY_TEXT",
+            "LEAD_IN",
+            "DEFINITION_TERM",
+            "DEFINITION_TEXT",
+            "QUALIFICATION",
+            "EXCEPTION",
+            "PROVISO",
+            "TRANSITION_TEXT",
+            "SCOPE_TEXT",
+            "INCORPORATED_NOTE",
+            "TABLE_CAPTION",
+            "TABLE_HEADER",
+            "TABLE_ROW",
+            "TABLE_UNIT",
+            "TABLE_NOTE",
+            "FORM_INSTRUCTION",
+            "FORM_LABEL",
+            "FORM_CONTROL",
+            "FORM_DECLARATION",
+            "FEE_CATEGORY",
+            "FEE_AMOUNT",
+            "FEE_BASIS",
+            "FEE_TIMING",
+            "CROSS_REFERENCE",
+            "PRESENTATION"
+          ]
+        },
+        "role": {
+          "enum": [
+            "PRIMARY",
+            "CONTEXT_ONLY",
+            "PRESENTATION_ONLY"
+          ]
+        },
+        "text": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "source_range": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "required_context_unit_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_nonempty"
+          }
+        },
+        "meaning_bearing": {
+          "type": "boolean"
+        },
+        "content_fingerprint": {
+          "$ref": "#/$defs/english_fingerprint"
+        }
+      }
+    },
+    "english_tree": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tree_id",
+        "component_id",
+        "scope_id",
+        "branch_id",
+        "branch_state",
+        "component_class",
+        "component_label",
+        "location_label",
+        "official_heading",
+        "root_source_unit_id",
+        "source_units",
+        "root_record_unit_ids",
+        "record_units",
+        "source_rule_id",
+        "source_artifact_fingerprints"
+      ],
+      "properties": {
+        "tree_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "component_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "scope_id": {
+          "enum": [
+            "HK-REG-HKEX-GEM",
+            "HK-REG-HKEX-MAIN-BOARD"
+          ]
+        },
+        "branch_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "branch_state": {
+          "enum": [
+            "CURRENT",
+            "TRANSITIONAL_CURRENT",
+            "FUTURE_FIXED_DATE",
+            "FUTURE_CONDITIONAL",
+            "SUPERSEDED",
+            "WITHDRAWN",
+            "UNKNOWN"
+          ]
+        },
+        "component_class": {
+          "enum": [
+            "ORDINARY_RULE",
+            "DEFINITION_RULE",
+            "APPENDIX",
+            "PRACTICE_NOTE",
+            "TABLE",
+            "FEES_RULE",
+            "REGULATORY_FORM"
+          ]
+        },
+        "component_label": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "location_label": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "official_heading": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "root_source_unit_id": {
+          "$ref": "#/$defs/english_nonempty"
+        },
+        "source_units": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/english_source_unit"
+          }
+        },
+        "root_record_unit_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_nonempty"
+          }
+        },
+        "record_units": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/english_record_unit"
+          }
+        },
+        "source_rule_id": {
+          "const": "HKREG-ENGLISH-RECORD-001"
+        },
+        "source_artifact_fingerprints": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/english_fingerprint"
+          }
+        }
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "package_contract_version",
+    "case_id",
+    "suite_layer",
+    "primary_checkpoint",
+    "frozen",
+    "synthetic_evidence_class",
+    "contract_bindings",
+    "synthetic_cutoff",
+    "scope_id",
+    "prior_state",
+    "primary_coverage_cell_ids",
+    "secondary_coverage_cell_ids",
+    "pair_memberships",
+    "declared_input_inventory",
+    "declared_reference_inventory",
+    "declared_expected_inventory",
+    "assertion_scope",
+    "required_result_dimensions",
+    "evidence_packet_fields",
+    "supporting_evidence_ranges",
+    "rule_trace",
+    "established_facts",
+    "unresolved_facts",
+    "permitted_equivalent_results",
+    "critical_error_codes",
+    "package_fingerprint",
+    "title",
+    "purpose",
+    "expected_decision",
+    "evidence_packet",
+    "facts",
+    "case_fingerprint"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-regulatory.coverage-decision-case"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "package_contract_version": {
+      "const": "1.0.0"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^HKREG-DET-COV-(0[0-1][0-9]|020)$"
+    },
+    "suite_layer": {
+      "const": "DECISION_TO_ARTIFACT"
+    },
+    "primary_checkpoint": {
+      "const": "SOURCE_UNIT_COVERAGE"
+    },
+    "frozen": {
+      "const": true
+    },
+    "synthetic_evidence_class": {
+      "const": "SYNTHETIC_NO_REAL_AUTHORITY"
+    },
+    "contract_bindings": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contract_id",
+          "version",
+          "fingerprint"
+        ],
+        "properties": {
+          "contract_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fingerprint": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "synthetic_cutoff": {
+      "const": "2026-08-24T00:00:00Z"
+    },
+    "scope_id": {
+      "const": "HKEX_CROSS_BOARD"
+    },
+    "prior_state": {
+      "const": "SYNTHETIC_ACCEPTED_PREDECESSOR"
+    },
+    "primary_coverage_cell_ids": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^HKREG-COV-DCOV-(0[0-1][0-9]|020)$"
+      }
+    },
+    "secondary_coverage_cell_ids": {
+      "const": []
+    },
+    "pair_memberships": {
+      "type": "array",
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "pair_id",
+          "role"
+        ],
+        "properties": {
+          "pair_id": {
+            "type": "string",
+            "pattern": "^HKREG-PAIR-0(41|42|43|44|45)$"
+          },
+          "role": {
+            "enum": [
+              "POSITIVE",
+              "NEAR_MISS"
+            ]
+          }
+        }
+      }
+    },
+    "declared_input_inventory": {
+      "const": [
+        "coverage-evidence"
+      ]
+    },
+    "declared_reference_inventory": {
+      "const": [
+        "asklegal.hk-regulatory.conformance-universe",
+        "asklegal.hk-regulatory.coverage-decision-case",
+        "asklegal.hk-regulatory.english-record"
+      ]
+    },
+    "declared_expected_inventory": {
+      "const": [
+        "COVERAGE_DECISION_REPORT"
+      ]
+    },
+    "assertion_scope": {
+      "enum": [
+        "PRIMARY_OWNERSHIP",
+        "BLOCKED_REQUIRED",
+        "REPEATED_DEPENDENCY",
+        "EXPLICIT_CLASSIFICATION",
+        "COMPLEX_ELEMENTS",
+        "NONCURRENT_OUTCOMES",
+        "ORDER_AND_BOARD",
+        "MISSING_UNIT",
+        "DUPLICATE_PRIMARY",
+        "REORDERED_PRIMARY",
+        "ORPHAN_OUTPUT",
+        "WRONG_BOARD",
+        "DEPENDENCY_BINDING",
+        "SOURCE_FIDELITY",
+        "BOARD_READY",
+        "QUARANTINED_CURRENT",
+        "BOARD_ISOLATION",
+        "SHARED_GAP",
+        "WEAK_PROXY",
+        "ZERO_OUTPUT"
+      ]
+    },
+    "required_result_dimensions": {
+      "const": [
+        "BOARD_READINESS",
+        "DEPENDENCY_ACCOUNTING",
+        "FORBIDDEN_EFFECTS",
+        "SOURCE_FIDELITY",
+        "SOURCE_ORDER",
+        "SOURCE_UNIT_ACCOUNTING"
+      ]
+    },
+    "evidence_packet_fields": {
+      "const": [
+        "declared_units",
+        "excluded_units",
+        "requests",
+        "shared_unbounded_gap",
+        "weak_proxy_checks"
+      ]
+    },
+    "supporting_evidence_ranges": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "rule_trace": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "established_facts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "unresolved_facts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "permitted_equivalent_results": {
+      "const": []
+    },
+    "critical_error_codes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "package_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expected_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "case_id",
+        "outcome",
+        "reason",
+        "coverage_complete",
+        "source_fidelity_valid",
+        "source_order_valid",
+        "board_ownership_valid",
+        "dependency_accounting_valid",
+        "total_source_unit_count",
+        "primary_owned_unit_count",
+        "non_serving_unit_count",
+        "board_results",
+        "violation_codes",
+        "search_record_authorized",
+        "embedding_authorized",
+        "release_authorized",
+        "serving_authorized",
+        "deployment_authorized",
+        "external_effects"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-regulatory.coverage-decision-result"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKREG-COVERAGE-DECISION-001"
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^HKREG-DET-COV-(0[0-1][0-9]|020)$"
+        },
+        "outcome": {
+          "enum": [
+            "PASS",
+            "INVALID",
+            "COMPLETE_NOT_READY"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "COMPLETE_PRIMARY_OWNERSHIP",
+            "REQUIRED_UNIT_EXPLICITLY_BLOCKED",
+            "DEPENDENCY_REPETITION_ACCOUNTED",
+            "CLASSIFICATIONS_ACCOUNTED",
+            "COMPLEX_ELEMENTS_ACCOUNTED",
+            "NONCURRENT_OUTCOMES_ACCOUNTED",
+            "ORDER_AND_BOARD_PROVED",
+            "MISSING_SOURCE_UNIT",
+            "DUPLICATE_PRIMARY_OWNER",
+            "SOURCE_ORDER_CHANGED",
+            "ORPHANED_OUTPUT",
+            "WRONG_BOARD_OWNER",
+            "DEPENDENCY_BINDING_INCOMPLETE",
+            "SOURCE_FIDELITY_CHANGED",
+            "BOARD_READY_FOR_LATER_GATES",
+            "COMPLETE_BUT_BOARD_NOT_READY",
+            "BOARDS_INDEPENDENT",
+            "SHARED_GAP_BLOCKS_BOTH",
+            "WEAK_PROXY_REJECTED",
+            "VALID_ZERO_OUTPUT"
+          ]
+        },
+        "coverage_complete": {
+          "type": "boolean"
+        },
+        "source_fidelity_valid": {
+          "type": "boolean"
+        },
+        "source_order_valid": {
+          "type": "boolean"
+        },
+        "board_ownership_valid": {
+          "type": "boolean"
+        },
+        "dependency_accounting_valid": {
+          "type": "boolean"
+        },
+        "total_source_unit_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "primary_owned_unit_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "non_serving_unit_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "board_results": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "scope_id",
+              "inventory_bounded",
+              "coverage_complete",
+              "required_current_unit_count",
+              "ready_current_unit_count",
+              "blocked_or_quarantined_unit_count",
+              "search_record_candidate_count",
+              "later_gate_candidate_ready"
+            ],
+            "properties": {
+              "scope_id": {
+                "enum": [
+                  "HK-REG-HKEX-GEM",
+                  "HK-REG-HKEX-MAIN-BOARD"
+                ]
+              },
+              "inventory_bounded": {
+                "type": "boolean"
+              },
+              "coverage_complete": {
+                "type": "boolean"
+              },
+              "required_current_unit_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "ready_current_unit_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "blocked_or_quarantined_unit_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "search_record_candidate_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "later_gate_candidate_ready": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "violation_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "search_record_authorized": {
+          "const": false
+        },
+        "embedding_authorized": {
+          "const": false
+        },
+        "release_authorized": {
+          "const": false
+        },
+        "serving_authorized": {
+          "const": false
+        },
+        "deployment_authorized": {
+          "const": false
+        },
+        "external_effects": {
+          "const": "NONE"
+        }
+      }
+    },
+    "evidence_packet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot_id",
+        "state",
+        "path",
+        "role",
+        "media_type",
+        "content_fingerprint"
+      ],
+      "properties": {
+        "slot_id": {
+          "const": "coverage-evidence"
+        },
+        "state": {
+          "const": "AVAILABLE"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "const": "ORDINARY"
+        },
+        "media_type": {
+          "const": "application/json"
+        },
+        "content_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requests",
+        "declared_units",
+        "excluded_units",
+        "shared_unbounded_gap",
+        "weak_proxy_checks"
+      ],
+      "properties": {
+        "requests": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "tree",
+              "profile",
+              "effective_context"
+            ],
+            "properties": {
+              "effective_context": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1
+              },
+              "profile": {
+                "$ref": "#/$defs/english_profile"
+              },
+              "tree": {
+                "$ref": "#/$defs/english_tree"
+              }
+            }
+          }
+        },
+        "declared_units": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "unit_key",
+              "scope_id",
+              "source_order",
+              "outcome",
+              "primary_owner_record_ids",
+              "dependency_uses",
+              "fidelity"
+            ],
+            "properties": {
+              "unit_key": {
+                "type": "string",
+                "minLength": 1
+              },
+              "scope_id": {
+                "enum": [
+                  "HK-REG-HKEX-GEM",
+                  "HK-REG-HKEX-MAIN-BOARD"
+                ]
+              },
+              "source_order": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "outcome": {
+                "enum": [
+                  "PRIMARY",
+                  "BLOCKED",
+                  "QUARANTINED",
+                  "CONTEXT_ONLY",
+                  "PRESENTATION_ONLY",
+                  "WAITING_ROOM",
+                  "HISTORY",
+                  "EXCLUDED"
+                ]
+              },
+              "primary_owner_record_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "dependency_uses": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "consumer_record_id",
+                    "label",
+                    "owner_record_id",
+                    "source_fingerprint"
+                  ],
+                  "properties": {
+                    "consumer_record_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "owner_record_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "source_fingerprint": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$"
+                    }
+                  }
+                }
+              },
+              "fidelity": {
+                "enum": [
+                  "EXACT",
+                  "TRANSLATED",
+                  "SUMMARIZED",
+                  "CORRECTED",
+                  "INVENTED",
+                  "DROPPED"
+                ]
+              }
+            }
+          }
+        },
+        "excluded_units": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "unit_key",
+              "scope_id",
+              "source_order"
+            ],
+            "properties": {
+              "unit_key": {
+                "type": "string",
+                "minLength": 1
+              },
+              "scope_id": {
+                "enum": [
+                  "HK-REG-HKEX-GEM",
+                  "HK-REG-HKEX-MAIN-BOARD"
+                ]
+              },
+              "source_order": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "shared_unbounded_gap": {
+          "type": "boolean"
+        },
+        "weak_proxy_checks": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "PARSER_SUCCESS",
+              "PDF_PAGE_COUNT_MATCH",
+              "RECORD_COUNT_MATCH",
+              "TEXT_PRESENCE_MATCH"
+            ]
+          }
+        }
+      }
+    },
+    "case_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

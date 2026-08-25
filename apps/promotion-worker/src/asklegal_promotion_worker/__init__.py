@@ -12,6 +12,28 @@ CAPABILITY_PORTS: tuple[str, ...] = (
     "serving_state_write",
 )
 
+from asklegal_promotion_worker.registered_effect_handler import (
+    CurrentExecutionActionAuthority,
+    CurrentExecutionActionAuthoritySource,
+    RegisteredEffectHandler,
+    RegisteredEffectHandlerContext,
+    RegisteredEffectHandlerDependencies,
+    RegisteredEffectHandlerError,
+    RegisteredEffectHandlerErrorCode,
+    RegisteredEffectHandlingResult,
+    RegisteredEffectHandoff,
+    RegisteredEffectOutcome,
+    RegisteredEffectPort,
+)
+from asklegal_promotion_worker.registered_execution_begin import (
+    CurrentCapabilityEvidence,
+    CurrentCapabilityEvidenceSource,
+    RegisteredExecutionBeginContext,
+    RegisteredExecutionBeginError,
+    RegisteredExecutionBeginErrorCode,
+    RegisteredExecutionBeginService,
+    RegisteredExecutionBeginWriter,
+)
 from asklegal_promotion_worker.runtime import create_runtime
 from asklegal_promotion_worker.service import (
     PromotionDependencies,
@@ -22,8 +44,26 @@ from asklegal_promotion_worker.service import (
 __all__ = [
     "APPLICATION_NAME",
     "CAPABILITY_PORTS",
+    "CurrentCapabilityEvidence",
+    "CurrentCapabilityEvidenceSource",
+    "CurrentExecutionActionAuthority",
+    "CurrentExecutionActionAuthoritySource",
     "PromotionDependencies",
     "PromotionExecutionContext",
     "PromotionService",
+    "RegisteredEffectHandler",
+    "RegisteredEffectHandlerContext",
+    "RegisteredEffectHandlerDependencies",
+    "RegisteredEffectHandlerError",
+    "RegisteredEffectHandlerErrorCode",
+    "RegisteredEffectHandlingResult",
+    "RegisteredEffectHandoff",
+    "RegisteredEffectOutcome",
+    "RegisteredEffectPort",
+    "RegisteredExecutionBeginContext",
+    "RegisteredExecutionBeginError",
+    "RegisteredExecutionBeginErrorCode",
+    "RegisteredExecutionBeginService",
+    "RegisteredExecutionBeginWriter",
     "create_runtime",
 ]

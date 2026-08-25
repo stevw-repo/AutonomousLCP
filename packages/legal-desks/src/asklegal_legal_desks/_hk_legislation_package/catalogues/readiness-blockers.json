@@ -18,11 +18,11 @@
     },
     {
       "code": "HKLEG_EXECUTABLE_RULESET_INCOMPLETE",
-      "meaning": "HKLEG-BASE-INV-001 is executable offline, but the accepted Hong Kong Legislation rule universe is not completely encoded."
+      "meaning": "The package has multiple executable source-neutral offline rules, but the accepted Hong Kong Legislation rule universe and authentic-source adapters are not completely encoded."
     },
     {
       "code": "HKLEG_DETERMINISTIC_FIXTURE_UNIVERSE_INCOMPLETE",
-      "meaning": "Four exact baseline-inventory fixtures exist, but the accepted complete deterministic conformance universe is not implemented."
+      "meaning": "The generated readiness contract binds every implemented exact fixture, but the accepted complete deterministic conformance universe and adjudicated real-reference truth are not implemented."
     },
     {
       "code": "HKLEG_ADJUDICATED_EVALUATIONS_MISSING",

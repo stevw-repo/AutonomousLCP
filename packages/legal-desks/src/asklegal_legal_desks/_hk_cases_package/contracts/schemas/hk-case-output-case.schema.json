@@ -1,0 +1,515 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hk-case-output-case.schema.json",
+  "title": "Hong Kong Case Proposition deterministic output case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "fixture_id",
+    "case_id",
+    "coverage_cell_id",
+    "pair_memberships",
+    "synthetic_scenario",
+    "evidence_class",
+    "variants",
+    "external_effects"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-cases.output-case"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "fixture_id": {
+      "pattern": "^HKCASE-PROP-DET-OUT-[0-9]{3}$"
+    },
+    "case_id": {
+      "pattern": "^HKCASE-PROP-DET-OUT-[0-9]{3}$"
+    },
+    "coverage_cell_id": {
+      "pattern": "^HKCASE-PROP-COV-DOUT-[0-9]{3}$"
+    },
+    "pair_memberships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "pair_id",
+          "role"
+        ],
+        "properties": {
+          "pair_id": {
+            "pattern": "^HKCASE-PROP-PAIR-02[2-5]$"
+          },
+          "role": {
+            "enum": [
+              "POSITIVE",
+              "NEAR_MISS"
+            ]
+          }
+        }
+      }
+    },
+    "synthetic_scenario": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_class": {
+      "const": "SYNTHETIC_SOURCE_NEUTRAL"
+    },
+    "variants": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "variant_id",
+          "request"
+        ],
+        "properties": {
+          "variant_id": {
+            "pattern": "^HKCASE-PROP-DET-OUT-[0-9]{3}-V[0-9]{2}$"
+          },
+          "request": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "https://ask.legal/schemas/hk-case-output-request.schema.json",
+            "title": "Hong Kong Case Proposition deterministic output request",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "schema_id",
+              "schema_version",
+              "rule_id",
+              "judicial_decision_id",
+              "official_version_id",
+              "ledger_fingerprint",
+              "renderer_id",
+              "tokenizer_profile_fingerprint",
+              "max_text_tokens",
+              "max_payload_bytes",
+              "source_map_available",
+              "discovered_candidate_ids",
+              "candidates",
+              "source_units",
+              "source_ranges",
+              "propositions",
+              "ledger_proposition_ids",
+              "proposed_records"
+            ],
+            "properties": {
+              "schema_id": {
+                "const": "asklegal.hk-cases.output-request"
+              },
+              "schema_version": {
+                "const": "1.0.0"
+              },
+              "rule_id": {
+                "const": "HKCASE-PROP-OUTPUT-CONFORMANCE-001"
+              },
+              "judicial_decision_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "official_version_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "ledger_fingerprint": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "renderer_id": {
+                "const": "HKCASE-ADR0060-LABELLED-1.0.0"
+              },
+              "tokenizer_profile_fingerprint": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "max_text_tokens": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "max_payload_bytes": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "source_map_available": {
+                "type": "boolean"
+              },
+              "discovered_candidate_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "candidates": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "candidate_id",
+                    "outcome",
+                    "proposition_ids",
+                    "related_candidate_ids",
+                    "reason_code"
+                  ],
+                  "properties": {
+                    "candidate_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                    },
+                    "outcome": {
+                      "enum": [
+                        "ACCEPTED",
+                        "BLOCKED",
+                        "MERGED",
+                        "QUARANTINED",
+                        "REJECTED",
+                        "SPLIT"
+                      ]
+                    },
+                    "proposition_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                      }
+                    },
+                    "related_candidate_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                      }
+                    },
+                    "reason_code": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                    }
+                  }
+                }
+              },
+              "source_units": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "unit_id",
+                    "source_order",
+                    "exact_text"
+                  ],
+                  "properties": {
+                    "unit_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                    },
+                    "source_order": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "exact_text": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "source_ranges": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "range_id",
+                    "unit_id",
+                    "start_byte",
+                    "end_byte",
+                    "exact_text_fingerprint"
+                  ],
+                  "properties": {
+                    "range_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                    },
+                    "unit_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                    },
+                    "start_byte": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "end_byte": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "exact_text_fingerprint": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$"
+                    }
+                  }
+                }
+              },
+              "propositions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "proposition_id",
+                    "candidate_id",
+                    "case_name",
+                    "official_citation",
+                    "court",
+                    "decision_date",
+                    "opinion_label",
+                    "authority_role",
+                    "legal_issue",
+                    "derived_statement",
+                    "material_context",
+                    "qualifications",
+                    "application_and_result",
+                    "evidence_links",
+                    "quotations",
+                    "authority_note",
+                    "boundary_indivisible",
+                    "coverage_gap_id"
+                  ],
+                  "properties": {
+                    "proposition_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                    },
+                    "candidate_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                    },
+                    "case_name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "official_citation": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "court": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "decision_date": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "opinion_label": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "authority_role": {
+                      "enum": [
+                        "AGREEMENT_ONLY",
+                        "CONCURRENCE",
+                        "COURT",
+                        "DISSENT",
+                        "JOINT",
+                        "LEAD",
+                        "OTHER"
+                      ]
+                    },
+                    "legal_issue": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "derived_statement": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "material_context": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "minLength": 1
+                    },
+                    "qualifications": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "minLength": 1
+                    },
+                    "application_and_result": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "evidence_links": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "role",
+                          "range_id"
+                        ],
+                        "properties": {
+                          "role": {
+                            "enum": [
+                              "ANSWER",
+                              "APPLICATION",
+                              "ATTRIBUTION",
+                              "CONTEXT",
+                              "ISSUE",
+                              "QUALIFICATION",
+                              "QUOTATION",
+                              "RESULT",
+                              "SUPPLEMENTARY"
+                            ]
+                          },
+                          "range_id": {
+                            "type": "string",
+                            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                          }
+                        }
+                      }
+                    },
+                    "quotations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "range_id",
+                          "exact_text"
+                        ],
+                        "properties": {
+                          "range_id": {
+                            "type": "string",
+                            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                          },
+                          "exact_text": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    },
+                    "authority_note": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "boundary_indivisible": {
+                      "type": "boolean"
+                    },
+                    "coverage_gap_id": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                    }
+                  }
+                }
+              },
+              "ledger_proposition_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "proposed_records": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "record_id",
+                    "proposition_id",
+                    "ledger_fingerprint",
+                    "renderer_proposition_id",
+                    "text",
+                    "country",
+                    "jurisdiction",
+                    "type",
+                    "source",
+                    "authority_note",
+                    "text_token_count",
+                    "payload_byte_count",
+                    "payload_fingerprint"
+                  ],
+                  "properties": {
+                    "record_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                    },
+                    "proposition_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                    },
+                    "ledger_fingerprint": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$"
+                    },
+                    "renderer_proposition_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                    },
+                    "text": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "country": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "jurisdiction": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "type": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "source": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "authority_note": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "text_token_count": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "payload_byte_count": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "payload_fingerprint": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

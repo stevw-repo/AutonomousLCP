@@ -45,6 +45,7 @@ from asklegal_control_plane import ProposalPreparationService
 from asklegal_control_plane import create_app as create_control_app
 from asklegal_corpus import (
     PROPOSAL_ROLE_PATHS,
+    AuthorityNoteEvidence,
     CorpusRelease,
     CorpusReleaseInput,
     CoverageScopeStatus,
@@ -54,10 +55,16 @@ from asklegal_corpus import (
     DesiredStateInventory,
     ProposalPackage,
     ProposalPackageInput,
+    RecordTraceabilityLookupInput,
     ServingRecord,
+    ServingRecordProfile,
+    TraceabilityEntry,
+    TraceabilityReference,
+    TraceabilityScopeShardInput,
     compose_desired_state,
     freeze_corpus_release,
     freeze_coverage_status,
+    freeze_record_traceability_lookup,
 )
 from asklegal_domain import (
     PIPELINE_RUN_MACHINE,
@@ -67,6 +74,7 @@ from asklegal_domain import (
     CommandPayload,
     CommandResultCode,
     ContractReference,
+    DeclaredCompensation,
     DestinationClass,
     EffectCancelledDetail,
     EffectCapability,
@@ -128,6 +136,7 @@ from asklegal_promotion import (
     LocalFailurePlan,
     LocalRoutingStore,
     LocalServingTargetStore,
+    PromotionActionAuthority,
     PromotionError,
     PromotionErrorCode,
     PromotionExecutionResult,
@@ -711,39 +720,203 @@ def _promotion_manifest(
             _PREDICATES,
             2,
             "project1",
-            ("BUILD_TARGET", "VERIFY_BACKUP", "ACTIVATE_ROUTING"),
+            "1.0.0",
+            _promotion_action_authorities(desired, profile),
             (),
-            True,
         )
     )
     return release, desired, manifest
 
 
+def _promotion_action_authorities(
+    desired: DesiredStateInventory,
+    profile: EmbeddingProfile,
+) -> tuple[PromotionActionAuthority, ...]:
+    desired_ref = ImmutableReference(
+        ReferenceType.DESIRED_STATE_INVENTORY,
+        desired.inventory_id,
+        desired.inventory_fingerprint,
+    )
+    profile_ref = ImmutableReference(
+        ReferenceType.EMBEDDING_PROFILE,
+        profile.profile_id,
+        profile.profile_fingerprint,
+    )
+    state_ref = ImmutableReference(ReferenceType.SERVING_STATE, _CANDIDATE, _STATE_FP)
+    stops = tuple(StopCondition)
+    specifications = (
+        (
+            "EMBED_RECORDS",
+            EffectType.EMBEDDING_PROVIDER_CALL,
+            EffectCapability.CALL_EMBEDDING_PROVIDER,
+            DestinationClass.EMBEDDING_PROVIDER,
+            (desired_ref, profile_ref),
+            RetryClass.RECONCILE_BEFORE_RETRY,
+            3,
+            NoCompensation(),
+        ),
+        (
+            "BUILD_TARGET",
+            EffectType.PINECONE_MUTATION,
+            EffectCapability.MUTATE_PINECONE,
+            DestinationClass.SERVING_TARGET,
+            (desired_ref, profile_ref, state_ref),
+            RetryClass.RECONCILE_BEFORE_RETRY,
+            3,
+            NoCompensation(),
+        ),
+        (
+            "CREATE_BACKUPS",
+            EffectType.BACKUP_MUTATION,
+            EffectCapability.MANAGE_BACKUP,
+            DestinationClass.BACKUP_STORE,
+            (state_ref,),
+            RetryClass.RECONCILE_BEFORE_RETRY,
+            2,
+            NoCompensation(),
+        ),
+        (
+            "ACTIVATE_ROUTING",
+            EffectType.ROUTING_ACTIVATION,
+            EffectCapability.ACTIVATE_ROUTING,
+            DestinationClass.ROUTING_TARGET,
+            (state_ref,),
+            RetryClass.NEVER,
+            1,
+            DeclaredCompensation(
+                ContractReference(
+                    "asklegal.routing-reverse-swap",
+                    "1.0.0",
+                    "sha256:" + "9" * 64,
+                )
+            ),
+        ),
+    )
+    return tuple(
+        PromotionActionAuthority(
+            sequence,
+            action_id,
+            effect_type,
+            ApplicationCode.PROMOTION_WORKER,
+            action_id,
+            input_refs,
+            "sha256:" + str(sequence) * 64,
+            capability,
+            ImmutableReference(
+                ReferenceType.CAPABILITY_PROFILE,
+                "cap_" + str(sequence) * 48,
+                "sha256:" + str(sequence + 4) * 64,
+            ),
+            destination,
+            f"synthetic-{sequence}-{action_id.lower()}",
+            retry_class,
+            attempt_ceiling,
+            "2026-08-17T00:00:00Z",
+            stops,
+            ContractReference(
+                f"asklegal.{action_id.lower()}-precondition",
+                "1.0.0",
+                "sha256:" + "a" * 64,
+            ),
+            ContractReference(
+                f"asklegal.{action_id.lower()}-postcondition",
+                "1.0.0",
+                "sha256:" + "b" * 64,
+            ),
+            compensation,
+        )
+        for sequence, (
+            action_id,
+            effect_type,
+            capability,
+            destination,
+            input_refs,
+            retry_class,
+            attempt_ceiling,
+            compensation,
+        ) in enumerate(specifications, start=1)
+    )
+
+
 def _proposal(manifest: PromotionManifest, release: CorpusRelease) -> ProposalPackage:
     desired = manifest.desired_state
     coverage = manifest.coverage_status
+    profile_id = "srp_" + "1" * 48
+    record = desired.records[0]
+    lookup = freeze_record_traceability_lookup(
+        RecordTraceabilityLookupInput(
+            "rtl_" + "1" * 48,
+            "sha256:" + "2" * 64,
+            "sha256:" + "3" * 64,
+        ),
+        desired,
+        (
+            TraceabilityEntry(
+                record.record_id,
+                record.content_fingerprint,
+                profile_id,
+                "lit_" + "1" * 48,
+                ("ofv_" + "1" * 48,),
+                ("loc_" + "1" * 48,),
+                record.scope_id,
+                record.release_id,
+                (
+                    TraceabilityReference(
+                        "EVIDENCE",
+                        release.evidence_refs[0],
+                        "sha256:" + "4" * 64,
+                    ),
+                ),
+                AuthorityNoteEvidence(
+                    "sha256:" + sha256(record.record.authority_note.encode()).hexdigest(),
+                    TraceabilityReference(
+                        "DECISION",
+                        "dec_" + "1" * 48,
+                        "sha256:" + "5" * 64,
+                    ),
+                    (),
+                ),
+            ),
+        ),
+        (ServingRecordProfile(profile_id, "1.0.0", "sha256:" + "6" * 64),),
+        (
+            TraceabilityScopeShardInput(
+                record.scope_id,
+                record.release_id,
+                "rts_" + "1" * 48,
+            ),
+        ),
+    )
+    traceability_shards = {shard.path: shard.content for shard in lookup.shards}
+    all_validation_evidence = sorted({*release.evidence_refs, *release.validation_refs})
     contents = {
         "CHANGE_INVENTORY": canonicalize(
             checked_json_value(
                 {
-                    "changed_record_ids": [item.record_id for item in desired.records],
+                    "additions": [item.record_id for item in desired.records],
+                    "carried_forward": list[str](),
                     "observation_cutoff": desired.observation_cutoff,
-                    "synthetic": True,
+                    "replacements": list[str](),
+                    "retirements": list[str](),
+                    "unchanged": list[str](),
+                    "withholdings": list[str](),
                 }
             )
         ),
         "CORPUS_RELEASES": canonicalize(
             checked_json_value(
                 {
+                    "observation_cutoff": desired.observation_cutoff,
                     "releases": [
                         {
                             "evidence_refs": list(release.evidence_refs),
-                            "release_fingerprint": release.release_fingerprint,
+                            "observation_cutoff": release.observation_cutoff,
+                            "record_ids": [item.record.record_id for item in release.records],
                             "release_id": release.release_id,
                             "scope_id": release.scope_id,
                             "validation_refs": list(release.validation_refs),
                         }
-                    ]
+                    ],
                 }
             )
         ),
@@ -751,8 +924,12 @@ def _proposal(manifest: PromotionManifest, release: CorpusRelease) -> ProposalPa
             checked_json_value(
                 {
                     "batch_size": manifest.batch_size,
-                    "cost_limit_microunits": (manifest.embedding_profile.cost_limit_microunits),
+                    "embedding_profile_fingerprint": (
+                        manifest.embedding_profile.profile_fingerprint
+                    ),
+                    "estimated_cost_microunits": 1,
                     "record_count": len(desired.records),
+                    "result": "PASS",
                 }
             )
         ),
@@ -762,34 +939,28 @@ def _proposal(manifest: PromotionManifest, release: CorpusRelease) -> ProposalPa
                 {
                     "inventory_fingerprint": desired.inventory_fingerprint,
                     "inventory_id": desired.inventory_id,
-                    "record_ids": [item.record_id for item in desired.records],
+                    "observation_cutoff": desired.observation_cutoff,
+                    "records": [
+                        {
+                            "record_id": item.record_id,
+                            "release_id": item.release_id,
+                            "scope_id": item.scope_id,
+                            "serving_payload_fingerprint": item.content_fingerprint,
+                        }
+                        for item in desired.records
+                    ],
                     "scope_releases": [list(item) for item in desired.scope_releases],
                 }
             )
         ),
-        "RECORD_TRACEABILITY": canonicalize(
-            checked_json_value(
-                {
-                    "records": [
-                        {
-                            "artifact_ref": item.record.artifact_ref,
-                            "evidence_refs": list(item.record.evidence_refs),
-                            "record_id": item.record_id,
-                            "release_id": item.release_id,
-                            "scope_id": item.scope_id,
-                        }
-                        for item in desired.records
-                    ]
-                }
-            )
-        ),
+        "RECORD_TRACEABILITY": lookup.manifest_bytes,
         "RECOVERY_READINESS": canonicalize(
             checked_json_value(
                 {
                     "candidate_serving_state_id": manifest.candidate_serving_state_id,
                     "predecessor_retained": True,
                     "rollback_serving_state_id": manifest.rollback_serving_state_id,
-                    "two_copy_verification_required": True,
+                    "two_copy_backup_required": True,
                 }
             )
         ),
@@ -799,6 +970,7 @@ def _proposal(manifest: PromotionManifest, release: CorpusRelease) -> ProposalPa
                     "coverage_fingerprint": coverage.fingerprint,
                     "desired_state_fingerprint": desired.inventory_fingerprint,
                     "record_count": len(desired.records),
+                    "result": "READY",
                     "statement": "Reserved local synthetic proposal ready for review.",
                 }
             )
@@ -817,12 +989,18 @@ def _proposal(manifest: PromotionManifest, release: CorpusRelease) -> ProposalPa
             checked_json_value(
                 {
                     "checks": [
-                        "EVIDENCE_BOUND",
-                        "SCOPE_COMPLETE",
-                        "TRACEABILITY_COMPLETE",
+                        {
+                            "check_id": check_id,
+                            "evidence_refs": all_validation_evidence,
+                            "result": "PASS",
+                        }
+                        for check_id in (
+                            "EVIDENCE_BOUND",
+                            "SCOPE_COMPLETE",
+                            "TRACEABILITY_COMPLETE",
+                        )
                     ],
                     "result": "PASS",
-                    "validation_refs": list(release.validation_refs),
                 }
             )
         ),
@@ -842,6 +1020,7 @@ def _proposal(manifest: PromotionManifest, release: CorpusRelease) -> ProposalPa
             _CANDIDATE,
             _STATE_FP,
         ),
+        traceability_shards,
     )
 
 
@@ -1855,9 +2034,9 @@ def _run_scenario(scenario_id: str, root: Path) -> ScenarioResult:
                 manifest.validity_predicates,
                 manifest.batch_size,
                 manifest.project_id,
-                manifest.action_ids,
+                manifest.action_contract_version,
+                _promotion_action_authorities(manifest.desired_state, low_profile),
                 manifest.exact_retirement_target_ids,
-                manifest.capability_enabled,
             )
         )
         approvals, approval_id = _direct_approval(changed)

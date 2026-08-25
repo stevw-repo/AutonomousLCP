@@ -92,10 +92,10 @@
     "promotion_manifest": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["schema_id", "schema_version", "promotion_manifest_id", "created_at", "observation_cutoff", "valid_from", "valid_until", "base_serving_state_ref", "base_routing_configuration_ref", "candidate_serving_state_ref", "desired_state_inventory_refs", "corpus_release_refs", "target_generation_refs", "contract_refs", "change_inventory", "evidence_refs", "recovery_refs", "validation_refs", "cost_policy_state", "action_plan", "invalidation_predicates", "capability_state", "immutable"],
+      "required": ["schema_id", "schema_version", "promotion_manifest_id", "created_at", "observation_cutoff", "valid_from", "valid_until", "base_serving_state_ref", "base_routing_configuration_ref", "candidate_serving_state_ref", "desired_state_inventory_refs", "corpus_release_refs", "target_generation_refs", "contract_refs", "change_inventory", "evidence_refs", "recovery_refs", "validation_refs", "cost_policy_state", "action_contract_version", "action_plan", "invalidation_predicates", "immutable"],
       "properties": {
         "schema_id": {"const": "asklegal.promotion-manifest"},
-        "schema_version": {"const": "1.0.0"},
+        "schema_version": {"const": "1.1.0"},
         "promotion_manifest_id": {"type": "string", "pattern": "^pmn_[0-9a-f]{48}$"},
         "created_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
         "observation_cutoff": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
@@ -113,9 +113,9 @@
         "recovery_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
         "validation_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
         "cost_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
+        "action_contract_version": {"const": "1.0.0"},
         "action_plan": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/action"}},
         "invalidation_predicates": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/invalidation_predicate"}},
-        "capability_state": {"type": "string", "enum": ["DISABLED", "ENABLED"]},
         "immutable": {"const": true}
       }
     },
@@ -145,18 +145,34 @@
     "action": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["sequence", "action_id", "capability_code", "target_refs", "preconditions", "verification_refs", "stop_conditions", "retry_policy_state", "rollback_action_refs"],
+      "required": ["sequence", "action_id", "effect_type", "owning_application", "permitted_checkpoint", "input_refs", "effect_command_fingerprint", "required_capability", "capability_profile_ref", "destination_class", "stable_idempotency_key", "retry_class", "attempt_ceiling", "deadline", "stop_conditions", "expected_remote_precondition_ref", "success_postcondition_ref", "compensation"],
       "properties": {
-        "sequence": {"$ref": "common.schema.json#/$defs/safe_integer"},
-        "action_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
-        "capability_code": {"type": "string", "enum": ["ACTIVATE_ROUTING", "CALL_EMBEDDING_PROVIDER", "EXECUTE_PROMOTION", "MANAGE_BACKUP", "MUTATE_PINECONE", "PUBLISH_RELEASE"]},
-        "target_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
-        "preconditions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
-        "verification_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
-        "stop_conditions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
-        "retry_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
-        "rollback_action_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}}
-      }
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+        "action_id": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
+        "effect_type": {"type": "string", "enum": ["BACKUP_MUTATION", "EMBEDDING_PROVIDER_CALL", "PINECONE_MUTATION", "RELEASE_PUBLICATION", "ROUTING_ACTIVATION"]},
+        "owning_application": {"const": "PROMOTION_WORKER"},
+        "permitted_checkpoint": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
+        "input_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reference"}},
+        "effect_command_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "required_capability": {"type": "string", "enum": ["ACTIVATE_ROUTING", "CALL_EMBEDDING_PROVIDER", "MANAGE_BACKUP", "MUTATE_PINECONE", "PUBLISH_RELEASE"]},
+        "capability_profile_ref": {"$ref": "operation-domain.schema.json#/$defs/capability_profile_reference"},
+        "destination_class": {"type": "string", "enum": ["BACKUP_STORE", "EMBEDDING_PROVIDER", "RELEASE_STORE", "ROUTING_TARGET", "SERVING_TARGET"]},
+        "stable_idempotency_key": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "retry_class": {"type": "string", "enum": ["NEVER", "RECONCILE_BEFORE_RETRY", "SAFE_SAME_INTENT"]},
+        "attempt_ceiling": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+        "deadline": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+        "stop_conditions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "enum": ["ATTEMPT_CEILING", "AUTHORITY_INVALID", "CANCELLATION_BEFORE_EFFECT", "CAPABILITY_INACTIVE", "DEADLINE", "POSTCONDITION_MET", "PRECONDITION_CHANGED"]}},
+        "expected_remote_precondition_ref": {"$ref": "common.schema.json#/$defs/contract_reference"},
+        "success_postcondition_ref": {"$ref": "common.schema.json#/$defs/contract_reference"},
+        "compensation": {"$ref": "operation-domain.schema.json#/$defs/compensation"}
+      },
+      "oneOf": [
+        {"properties": {"effect_type": {"const": "BACKUP_MUTATION"}, "required_capability": {"const": "MANAGE_BACKUP"}, "destination_class": {"const": "BACKUP_STORE"}}},
+        {"properties": {"effect_type": {"const": "EMBEDDING_PROVIDER_CALL"}, "required_capability": {"const": "CALL_EMBEDDING_PROVIDER"}, "destination_class": {"const": "EMBEDDING_PROVIDER"}}},
+        {"properties": {"effect_type": {"const": "PINECONE_MUTATION"}, "required_capability": {"const": "MUTATE_PINECONE"}, "destination_class": {"const": "SERVING_TARGET"}}},
+        {"properties": {"effect_type": {"const": "RELEASE_PUBLICATION"}, "required_capability": {"const": "PUBLISH_RELEASE"}, "destination_class": {"const": "RELEASE_STORE"}}},
+        {"properties": {"effect_type": {"const": "ROUTING_ACTIVATION"}, "required_capability": {"const": "ACTIVATE_ROUTING"}, "destination_class": {"const": "ROUTING_TARGET"}}}
+      ]
     },
     "invalidation_predicate": {
       "type": "object",

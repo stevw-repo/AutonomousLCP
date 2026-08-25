@@ -1,0 +1,726 @@
+{
+  "schema_id": "asklegal.hk-regulatory.state-decision-catalogue",
+  "schema_version": "1.0.0",
+  "catalogue_id": "hk-regulatory-state-decision",
+  "catalogue_version": "1.0.0",
+  "status": "FROZEN_EXECUTABLE_CHECKPOINT",
+  "case_count": 51,
+  "primary_coverage_cell_count": 51,
+  "high_risk_pair_ids": [
+    "HKREG-PAIR-016",
+    "HKREG-PAIR-017",
+    "HKREG-PAIR-018",
+    "HKREG-PAIR-019",
+    "HKREG-PAIR-020",
+    "HKREG-PAIR-021",
+    "HKREG-PAIR-022",
+    "HKREG-PAIR-023",
+    "HKREG-PAIR-024"
+  ],
+  "entries": [
+    {
+      "case_id": "HKREG-DEC-STA-001",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-001",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-001.json",
+      "fixture_fingerprint": "sha256:f5282c04d5c6a9e79a38155a9622955f31d214419091d0711bcb47824f34cac9",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-001.json",
+      "expected_fingerprint": "sha256:7e9ca151b7421f306a49cc83ac280092d278e600e7def90aac1d3b7edf7724f6"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-002",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-002",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-002.json",
+      "fixture_fingerprint": "sha256:fe7e6f630fe92beac42195679ba56b4259c00b09c697e29a78dcea3c748ad32f",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-002.json",
+      "expected_fingerprint": "sha256:c93cf8e3b88ffb730b787e57e41f649230ce0023ba0194835bf95ec96805a26e"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-003",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-003",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-003.json",
+      "fixture_fingerprint": "sha256:c2463cc3a9171d7846362640cf55a7adc8cad9275b87b174a08ad3c4cbe86340",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-003.json",
+      "expected_fingerprint": "sha256:57825f45c59af9a36cf464be45cecd4837436f36ef823ee8c96eea8a709fa525"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-004",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-004",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-021",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-004.json",
+      "fixture_fingerprint": "sha256:be6f17484d5fc25f02e783f74430adf4ddabffa94e1fa30db7b5729c376c7fe9",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-004.json",
+      "expected_fingerprint": "sha256:6bc42d5c9e56cb6c4298ff6905ee46226066a3e59d34d1c2db53c75280738320"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-005",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-005",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-005.json",
+      "fixture_fingerprint": "sha256:01c9d26730b2d01698239b3eed50699f90b23efde00944de370fbd9383517e1b",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-005.json",
+      "expected_fingerprint": "sha256:0494df5571146175c96dc6b2d6a8ed9157d425c76367412599dd597491170439"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-006",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-006",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-024",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-006.json",
+      "fixture_fingerprint": "sha256:b3a28fcd1d0519df765836894fe672bf0414cfa98e1fd19d716c61987425fa8d",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-006.json",
+      "expected_fingerprint": "sha256:894e4eba4fc9f39178bdc9372ba5096433e1d8d23ee827bcad29084367f2e64f"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-007",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-007",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-007.json",
+      "fixture_fingerprint": "sha256:76c101424620a5384f55aab017d77aa8b872d4c94d5d07c8d19d0db7bba69a24",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-007.json",
+      "expected_fingerprint": "sha256:34e5060ccf55353186d3c1257d6bf98021a1ca75c29901529ea6afe862b09bd1"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-008",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-008",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "NON_RULE_NOT_APPLICABLE",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-008.json",
+      "fixture_fingerprint": "sha256:e0b2055636d8b514e9f4dba00bf3d32d17000139377b3b7864941460c999aba2",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-008.json",
+      "expected_fingerprint": "sha256:d32a8817101545952a11ffdfca225a5ffaace576db768b0303b1d186fa70e28a"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-009",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-009",
+      "pair_memberships": [],
+      "assertion_scope": "COMPONENT_SUMMARY",
+      "expected_outcome": "PASS",
+      "expected_reason": "COMPONENT_SUMMARIZED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-009.json",
+      "fixture_fingerprint": "sha256:32d2f735af75097accd21879579802e8343ac36cca149b6411ca7f128c7594f2",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-009.json",
+      "expected_fingerprint": "sha256:80d6357d33d46f065d265973a7eda180040d1c924801ba103d5c66d23bff3648"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-010",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-010",
+      "pair_memberships": [],
+      "assertion_scope": "COMPONENT_SUMMARY",
+      "expected_outcome": "PASS",
+      "expected_reason": "COMPONENT_SUMMARIZED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-010.json",
+      "fixture_fingerprint": "sha256:9b27eb0263c36bbd39075baffa34185372afbb536e147ecc8698c4ce1370dd06",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-010.json",
+      "expected_fingerprint": "sha256:110fff7543dc2208f9f3dfef74830f7b98a8a46d8f11cb6efe4328348e0b9073"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-011",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-011",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-016",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "COMPONENT_SUMMARY",
+      "expected_outcome": "PASS",
+      "expected_reason": "COMPONENT_SUMMARIZED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-011.json",
+      "fixture_fingerprint": "sha256:ee7d9db1dfc4bec44668831a7d1a737d2a2c043b60eeb01238aca3618a37aa77",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-011.json",
+      "expected_fingerprint": "sha256:613a3654e63eecf0e8502432c89804afe95e9823dccd002992ad572605432817"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-012",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-012",
+      "pair_memberships": [],
+      "assertion_scope": "COMPONENT_SUMMARY",
+      "expected_outcome": "PASS",
+      "expected_reason": "COMPONENT_SUMMARIZED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-012.json",
+      "fixture_fingerprint": "sha256:343f420ad64065489d6da894cc77ea9e574b0f30420775f87d9a20aff97c444a",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-012.json",
+      "expected_fingerprint": "sha256:f2855a914039e0ccab8274a09e8fee2de102965203da0497d8631cee8a5ec110"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-013",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-013",
+      "pair_memberships": [],
+      "assertion_scope": "COMPONENT_SUMMARY",
+      "expected_outcome": "PASS",
+      "expected_reason": "COMPONENT_SUMMARIZED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-013.json",
+      "fixture_fingerprint": "sha256:73132f7ea724ef5fe7c6dddeda146938012ade59dee0d9397aefee7fa3a45153",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-013.json",
+      "expected_fingerprint": "sha256:773f5b0aa6fceb673258ded2aa7ee9a613c6756c8b22e614ad63b9c37adfd6f8"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-014",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-014",
+      "pair_memberships": [],
+      "assertion_scope": "COMPONENT_SUMMARY",
+      "expected_outcome": "PASS",
+      "expected_reason": "COMPONENT_SUMMARIZED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-014.json",
+      "fixture_fingerprint": "sha256:16679e145695fcde6c6dbd6fb9345ba57789e241cd7703c876164938fdcd1164",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-014.json",
+      "expected_fingerprint": "sha256:da8b0f4312355bb3a304c421f22a93951bef644e7317d657fa56121d75ea21e6"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-015",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-015",
+      "pair_memberships": [],
+      "assertion_scope": "COMPONENT_SUMMARY",
+      "expected_outcome": "PASS",
+      "expected_reason": "COMPONENT_SUMMARIZED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-015.json",
+      "fixture_fingerprint": "sha256:27775744c540b7c0c6738736abab80edd0a66e7b6f036281139a3a04f1da81c0",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-015.json",
+      "expected_fingerprint": "sha256:9c252843b6341ec65b5bed3a157f7d70a6d75b41110e479db10fd123f17c2427"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-016",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-016",
+      "pair_memberships": [],
+      "assertion_scope": "COMPONENT_SUMMARY",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "COMPONENT_SUMMARIZED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-016.json",
+      "fixture_fingerprint": "sha256:be72411c766de557fb02d64b8ca129955299cd8684081eea7226078f4215e81c",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-016.json",
+      "expected_fingerprint": "sha256:a67514cfb7a8f589f3d82314d3b33a6adda788ffb6c36cd3b0831eea34506db4"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-017",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-017",
+      "pair_memberships": [],
+      "assertion_scope": "COMPONENT_SUMMARY",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "COMPONENT_SUMMARIZED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-017.json",
+      "fixture_fingerprint": "sha256:6658c73c05e80ab3c85d3c9820be9e123d046b1227eae6a9967c8b1e1fabdb9a",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-017.json",
+      "expected_fingerprint": "sha256:11e224404c301fc23d6a50d0c07e27a8f6eec5c9d0b6f888889bc82c40e218c6"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-018",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-018",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-017",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-018.json",
+      "fixture_fingerprint": "sha256:cafc9c1450eb8ab708669994d0368c2b725b8afe3c260b60b082cbb01b2dc339",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-018.json",
+      "expected_fingerprint": "sha256:2827444cacf4d057fa8c448a46b8534a256945c3f99cc2282205e531a5fdb9f0"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-019",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-019",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-017",
+          "role": "POSITIVE"
+        },
+        {
+          "pair_id": "HKREG-PAIR-018",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-019.json",
+      "fixture_fingerprint": "sha256:23261d3fd6f0963b79f4081b5c86ad2d53da32e3405944a5612da680b065e1b1",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-019.json",
+      "expected_fingerprint": "sha256:ad745444959f804dd56cf04a130dd73393443201396735292fce6603839247d0"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-020",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-020",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-018",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-020.json",
+      "fixture_fingerprint": "sha256:4aa551c4a247c7427a1c7afa9426c989851c89a463076578b4054a207686159c",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-020.json",
+      "expected_fingerprint": "sha256:ef26afb0300fba544c0d4a2b3347627a14f215215defa01b18b5bd963fb6e4a6"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-021",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-021",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-021.json",
+      "fixture_fingerprint": "sha256:b26d8dbc332633cbec91d096f6e5573e2447906459a091a6bf7f93413d10e376",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-021.json",
+      "expected_fingerprint": "sha256:4180c4ea52aa06d1db7b95b85007b4fb43ed402b880033f2c2bbd4ea0a954613"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-022",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-022",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-022.json",
+      "fixture_fingerprint": "sha256:47f2c1db97fa7bb16a36fc21eaa86289458eb4d4e34eb40299ad1446f0872e04",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-022.json",
+      "expected_fingerprint": "sha256:ca34a6ee41eea6c5c0f51ee8f4d6ed6893095e6463f7041010bd1341a2f11596"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-023",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-023",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-023.json",
+      "fixture_fingerprint": "sha256:c76407359bb7531c268a65548b12540fdf8868a91e348480b13f71c9648436eb",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-023.json",
+      "expected_fingerprint": "sha256:0f614651b119197d450163c4e52dfe5620f018c8de9159a0d57c54652fd5f19b"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-024",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-024",
+      "pair_memberships": [],
+      "assertion_scope": "BRANCH_SET",
+      "expected_outcome": "PASS",
+      "expected_reason": "COMPLETE_BRANCH_SET_PRESERVED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-024.json",
+      "fixture_fingerprint": "sha256:2d230ba6f4fcc6a92e415ebb6123555ac63971fe672c894182b74da10ee6960d",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-024.json",
+      "expected_fingerprint": "sha256:2b9bbd3b1b9be55ad2a2e408f2e099a05d3b9cf2042fcdacaa291d7ad4ec3f54"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-025",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-025",
+      "pair_memberships": [],
+      "assertion_scope": "BRANCH_SET",
+      "expected_outcome": "PASS",
+      "expected_reason": "COMPLETE_BRANCH_SET_PRESERVED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-025.json",
+      "fixture_fingerprint": "sha256:8cedcc9f43d4ff0b54a28db837875f897b1f7c9aa3c3c3e22b900f25db0cb7a2",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-025.json",
+      "expected_fingerprint": "sha256:0fb8aa5865af1007cd0b9f9e21d53188e9897536cfcb14dcfcaa4e2283b74262"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-026",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-026",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-019",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-026.json",
+      "fixture_fingerprint": "sha256:851e4dcc9f114749fcd221d6522a4c3ed6c292f75450abbb642b243ff9caff57",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-026.json",
+      "expected_fingerprint": "sha256:6937accbe91ea8f88c84f8bf5ca763efb740f63929e981feaeb3f51f141a25d6"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-027",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-027",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-019",
+          "role": "POSITIVE"
+        },
+        {
+          "pair_id": "HKREG-PAIR-020",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-027.json",
+      "fixture_fingerprint": "sha256:632af84227d50ce4f71e9d329c8e95936b7d48e408468a67b74b02edf58788ac",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-027.json",
+      "expected_fingerprint": "sha256:14254ddb021014b57d5c4a7e6892c714bf1d4f8ed32a7ebc0fb65ef2354168f0"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-028",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-028",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-020",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-028.json",
+      "fixture_fingerprint": "sha256:adc5855674ee387cf7f00f76696ce77549a7618cf8944165c487b938d7df69cd",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-028.json",
+      "expected_fingerprint": "sha256:4320645d3fdeb755bd16625f0019cf9b02ebfe1f9fbbf659f0dd1855847a735f"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-029",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-029",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-021",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-029.json",
+      "fixture_fingerprint": "sha256:f8ba4c96a8c55fc239fd002c8c6850a90e47c35c2896cfbfd6e85a5a683cddaf",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-029.json",
+      "expected_fingerprint": "sha256:68f28a95ee76a5bca665893f7ccdb509a32464401bdca0c06e53cb2d3508a443"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-030",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-030",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-030.json",
+      "fixture_fingerprint": "sha256:ec412e4346610ff5303b0f29f24a1fcb3bddbdea0fa9e89dd591bfc115d7cc02",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-030.json",
+      "expected_fingerprint": "sha256:f5c19cc0c5601c6f5251a2de326bbc2f2a14bd4256e210c0e8f82e6ca4afcaab"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-031",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-031",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-031.json",
+      "fixture_fingerprint": "sha256:82164e5eb9797ef648abd79459d7fd0df9645411a39dfe9b649b38f818ed99b1",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-031.json",
+      "expected_fingerprint": "sha256:08d60c3333a5d778c7e5fc303f6b434ddafd4affd5a197a6ac5c49cd642d19ca"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-032",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-032",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-032.json",
+      "fixture_fingerprint": "sha256:5bd5a577fc2ddda0cbfbf2639403aeb6930914a9c944a31cc4e11c5284d061d2",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-032.json",
+      "expected_fingerprint": "sha256:769099223b1616d3ae7bd476c18b336528c7e86ba76539118e432c3101dded01"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-033",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-033",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-033.json",
+      "fixture_fingerprint": "sha256:535116bfb43a3aac09ff4dc2f661e49ee8e08ea4306b81b7ba1af653d8b8e17f",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-033.json",
+      "expected_fingerprint": "sha256:1933fdb4543bb782b0cad99dbd06771da29af4ef4917f940f313239a74e8ac29"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-034",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-034",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-034.json",
+      "fixture_fingerprint": "sha256:3646fcafab587b7f75762f26dd322788e1dcf2aeba5b305c4efcb8df107c8793",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-034.json",
+      "expected_fingerprint": "sha256:1e73b743a7bd4bba05938d5819335921d34f0d3101f14a414d8773b8c66ebd43"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-035",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-035",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-035.json",
+      "fixture_fingerprint": "sha256:e3e529bca2cd28770eba050505b38a998d98a9b26fdc0e5bc05492c07e98e98d",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-035.json",
+      "expected_fingerprint": "sha256:26d740fa7fdb9e63f8adbb8d3ccd27d5d8645186cc92d20facbeb2b50f4067fa"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-036",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-036",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-016",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "COMPONENT_SUMMARY",
+      "expected_outcome": "PASS",
+      "expected_reason": "COMPONENT_SUMMARIZED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-036.json",
+      "fixture_fingerprint": "sha256:7ee83661abe0da50020984fec337c1e06b89e83f37e718329016b266a625940d",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-036.json",
+      "expected_fingerprint": "sha256:b9690bdc254844f4375777e68e5a2eb3a5097aef6ea9130ca9816b7a90b1f3b3"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-037",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-037",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-022",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "RECORD_RESPONSIBILITY",
+      "expected_outcome": "PASS",
+      "expected_reason": "SEPARATE_COMPLETE_RECORDS_REQUIRED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-037.json",
+      "fixture_fingerprint": "sha256:0b32c0fd6208e62acc9bb2dcb0c48116ff5316485cca12f715f4263fb7ca609d",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-037.json",
+      "expected_fingerprint": "sha256:0944f71eac180707834dd9a0df413067d1e21a1b0049bbb9873f641c4dfb45bb"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-038",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-038",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-022",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "RECORD_RESPONSIBILITY",
+      "expected_outcome": "PASS",
+      "expected_reason": "ONE_LIMITED_RECORD_ELIGIBLE",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-038.json",
+      "fixture_fingerprint": "sha256:2fe8156aa89a61eba04f51327ece87993d5c75f44e5e01fba9d40e8710cece78",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-038.json",
+      "expected_fingerprint": "sha256:60431cf214c265a478a9e8376a8263bc82e7eda18b33d29841c6ec11bafd70e4"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-039",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-039",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-039.json",
+      "fixture_fingerprint": "sha256:c2c6b914725609864ff8d2226c4f837c2f776810722ce93c8f70b100429dda5d",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-039.json",
+      "expected_fingerprint": "sha256:db10e8ab777a27379992b2496dc8027749af4daf64a0db363acf7459cbb76dea"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-040",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-040",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-023",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-040.json",
+      "fixture_fingerprint": "sha256:1e3c5013a87fe219fa87a9be900f9cd7d6e62be5a175bfe3d89d50fcfbe3a2d2",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-040.json",
+      "expected_fingerprint": "sha256:4ab1e1ddcc9a34da5b023d0045b8c076ca4743b347d62270b22d771c43589d8d"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-041",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-041",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-041.json",
+      "fixture_fingerprint": "sha256:d0f9d25960d710a420b0fd17a6cfd3f61ade418caf1b1963b838b1929824a467",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-041.json",
+      "expected_fingerprint": "sha256:ed585b4139103f29fad2edb6e64cdd9c929e92f2c27add1f05dae957313241aa"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-042",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-042",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-023",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "PASS",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-042.json",
+      "fixture_fingerprint": "sha256:4171761cbb9203b297cfe76c1b3eaaffee3bb73d4dec516409fecd4b618354a4",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-042.json",
+      "expected_fingerprint": "sha256:413821f57513d079698d22e8807ae6959102cd34ccb56fa21b4bcd525634dc9a"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-043",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-043",
+      "pair_memberships": [],
+      "assertion_scope": "EFFECTIVE_ORDER",
+      "expected_outcome": "PASS",
+      "expected_reason": "EFFECTIVE_FACT_ORDER_APPLIED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-043.json",
+      "fixture_fingerprint": "sha256:234ab4e634c10dac90598858717641d1df9a68f1e8b2209243d6fa5a55fd2d4e",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-043.json",
+      "expected_fingerprint": "sha256:eb1ca61ceb611003399046f3304b133c6a61aaa2bbe96acd2f19020d1a916ae2"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-044",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-044",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-044.json",
+      "fixture_fingerprint": "sha256:7a1518ec2aa4e840d650403ce5009339ed5fe006dc32ec5c4f37b1cba547d160",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-044.json",
+      "expected_fingerprint": "sha256:27b9f0609d90afbe9541a78ee41a6d947a4da65fefcd1fbc0be7ddb2f3b9c80f"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-045",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-045",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-024",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-045.json",
+      "fixture_fingerprint": "sha256:cf0a7b24ba52b5a807a3296e62d3f1a52e244943a7c6ff7669841157e403c2dd",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-045.json",
+      "expected_fingerprint": "sha256:c78e302fbb4d3595ffd3416f68373aa576a244b5f77349350a387630a88cf40c"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-046",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-046",
+      "pair_memberships": [],
+      "assertion_scope": "ATOMIC_STATE",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "ATOMIC_STATE_DECIDED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-046.json",
+      "fixture_fingerprint": "sha256:74329357c278ef96f47cb765235f040ff6ce8150d830a0599e4cf6ca483b5e6e",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-046.json",
+      "expected_fingerprint": "sha256:df68ee50de880d93293b9111fec47ed40da372add619f175842c0d83a04b8b71"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-047",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-047",
+      "pair_memberships": [],
+      "assertion_scope": "SOURCE_FAILURE",
+      "expected_outcome": "PASS",
+      "expected_reason": "LAST_APPROVED_CARRY_FORWARD",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-047.json",
+      "fixture_fingerprint": "sha256:a9104d2978255aedbeab7c3fce8fc32f904be76ff949a55b0393872b1069b8d2",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-047.json",
+      "expected_fingerprint": "sha256:73d107d7d2140bcba0704678ff9c08a0417e9a9df9de94502f7c7fde60da8ee1"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-048",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-048",
+      "pair_memberships": [],
+      "assertion_scope": "SOURCE_FAILURE",
+      "expected_outcome": "BLOCK",
+      "expected_reason": "AFFECTED_RECORDS_WITHHELD",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-048.json",
+      "fixture_fingerprint": "sha256:0f4681fb775c3031e3644e46938e4cc950e4e6dcf533074ca02b19467fe309a1",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-048.json",
+      "expected_fingerprint": "sha256:2c89ed0e83865fe5553cb49e85b1d645ac4b5735f369566aa4634b396c66c4a1"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-049",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-049",
+      "pair_memberships": [],
+      "assertion_scope": "SOURCE_FAILURE",
+      "expected_outcome": "BLOCK",
+      "expected_reason": "NO_NEW_TARGET",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-049.json",
+      "fixture_fingerprint": "sha256:fb4dfa4d52be49408871a26b99a6c81e53964b6fbd6efbb97d5c3a7ad75e7cad",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-049.json",
+      "expected_fingerprint": "sha256:5bb0d1acfc5c43351f8ec8d882113bd6b152649910712a027e021e32c3444fbb"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-050",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-050",
+      "pair_memberships": [],
+      "assertion_scope": "DOWNSTREAM_GATE",
+      "expected_outcome": "BLOCK",
+      "expected_reason": "OTHER_REQUIRED_GATE_FAILED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-050.json",
+      "fixture_fingerprint": "sha256:b26e26a905ed4fac3299341690e3ef7641d06a6f7ee47e764cc432b6eee8974e",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-050.json",
+      "expected_fingerprint": "sha256:11891481a4e783c95a9814ae2c8fa837414f942b51a3bb477310d3e4bf25493b"
+    },
+    {
+      "case_id": "HKREG-DEC-STA-051",
+      "primary_coverage_cell_id": "HKREG-COV-DSTA-051",
+      "pair_memberships": [],
+      "assertion_scope": "UNKNOWN_REPAIR",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "UNKNOWN_REPAIR_REJECTED",
+      "fixture_path": "fixtures/conformance/state-decision/HKREG-DEC-STA-051.json",
+      "fixture_fingerprint": "sha256:86c021e46341e29af485b94a70b33958bf42df1d89b23c12a2ed29dc3e707ac9",
+      "expected_path": "expected/conformance/state-decision/HKREG-DEC-STA-051.json",
+      "expected_fingerprint": "sha256:edf17293c659a9a4aeafaf867022948e49ce27807429ea5a4194fed23e1017e8"
+    }
+  ],
+  "checkpoint_complete": true,
+  "full_conformance_suite_complete": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

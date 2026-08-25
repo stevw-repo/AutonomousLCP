@@ -1,0 +1,88 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:550ee779183e362ae669c260f725eb57332fb364df69d45efed9c775515e2512",
+  "workflow_result_fingerprint": "sha256:9f0b6f0564114799e75c31ee85dab8d1fd28debcec4e59cf1d0f588437ec23c7",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "SERVICE_SCOPE",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "REASONABLE_SERVICE_STEPS"
+      ],
+      "boundary_codes": [
+        "DIFFERENT_ISSUE_SCOPE",
+        "SEPARATE_PROPOSITION"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "Reasonable steps are required before statutory service."
+    },
+    {
+      "candidate_id": "candidate_2",
+      "mapped_reference_proposition_id": "reference_prop_2",
+      "resolution": "ACCEPTED",
+      "issue_code": "MITIGATION_SCOPE",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "REASONABLE_MITIGATION_STEPS"
+      ],
+      "boundary_codes": [
+        "DIFFERENT_ISSUE_SCOPE",
+        "SEPARATE_PROPOSITION"
+      ],
+      "range_ids": [
+        "range_2"
+      ],
+      "derived_statement": "Reasonable steps are separately required to mitigate loss."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_2"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1",
+    "candidate_2"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

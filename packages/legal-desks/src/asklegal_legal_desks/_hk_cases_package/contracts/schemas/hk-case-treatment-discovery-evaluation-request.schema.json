@@ -1,0 +1,491 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "rule_id",
+    "evaluator_fingerprint",
+    "reference",
+    "observation"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-cases.treatment-discovery-evaluation-request"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "rule_id": {
+      "const": "HKCASE-TREAT-SEM-DISCOVERY-EVALUATOR-001"
+    },
+    "evaluator_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "reference_map_id",
+        "model_input_fingerprint",
+        "original_language",
+        "expected_opinion_ids",
+        "expected_segment_ids",
+        "leads",
+        "candidates",
+        "expected_disposition",
+        "expected_coverage_gap_ids",
+        "expected_judgment_proposition_count",
+        "correction_comparison_required",
+        "adjudication_complete"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-cases.treatment-discovery-reference"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKCASE-TREAT-SEM-DISCOVERY-EVALUATOR-001"
+        },
+        "reference_map_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,95}$"
+        },
+        "model_input_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "original_language": {
+          "enum": [
+            "ENGLISH",
+            "MIXED",
+            "TRADITIONAL_CHINESE"
+          ]
+        },
+        "expected_opinion_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "expected_segment_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "leads": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "reference_lead_id",
+              "opinion_id",
+              "lead_kind",
+              "range_ids",
+              "identity_state",
+              "resolved_judgment_id",
+              "material_candidate_expected"
+            ],
+            "properties": {
+              "reference_lead_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "opinion_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "lead_kind": {
+                "enum": [
+                  "FORMAL_CITATION",
+                  "IMPLICIT_REFERENCE"
+                ]
+              },
+              "range_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "identity_state": {
+                "enum": [
+                  "AMBIGUOUS",
+                  "RESOLVED",
+                  "UNMATCHED"
+                ]
+              },
+              "resolved_judgment_id": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "material_candidate_expected": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "reference_candidate_id",
+              "reference_lead_id",
+              "opinion_id",
+              "language",
+              "passage_range_ids",
+              "context_segment_ids",
+              "correction_change"
+            ],
+            "properties": {
+              "reference_candidate_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "reference_lead_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "opinion_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "language": {
+                "enum": [
+                  "ENGLISH",
+                  "MIXED",
+                  "TRADITIONAL_CHINESE"
+                ]
+              },
+              "passage_range_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "context_segment_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "correction_change": {
+                "enum": [
+                  "ADDED",
+                  "CHANGED",
+                  "NONE",
+                  "REMOVED",
+                  "UNCHANGED"
+                ]
+              }
+            }
+          }
+        },
+        "expected_disposition": {
+          "enum": [
+            "COMPLETE",
+            "INCOMPLETE"
+          ]
+        },
+        "expected_coverage_gap_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "expected_judgment_proposition_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "correction_comparison_required": {
+          "type": "boolean"
+        },
+        "adjudication_complete": {
+          "type": "boolean"
+        }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "model_input_fingerprint",
+        "workflow_result_fingerprint",
+        "original_language",
+        "examined_opinion_ids",
+        "examined_segment_ids",
+        "leads",
+        "candidates",
+        "disposition",
+        "coverage_gap_ids",
+        "judgment_proposition_count",
+        "complete_opinion_ledger",
+        "complete_segment_ledger",
+        "correction_comparison_complete",
+        "silence_establishes_no_treatment",
+        "legal_effect_decided",
+        "source_text_treated_as_instruction",
+        "hidden_reference_received_by_workflow"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-cases.treatment-discovery-observation"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKCASE-TREAT-SEM-DISCOVERY-EVALUATOR-001"
+        },
+        "model_input_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "workflow_result_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "original_language": {
+          "enum": [
+            "ENGLISH",
+            "MIXED",
+            "TRADITIONAL_CHINESE"
+          ]
+        },
+        "examined_opinion_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "examined_segment_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "leads": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "lead_id",
+              "mapped_reference_lead_id",
+              "opinion_id",
+              "lead_kind",
+              "range_ids",
+              "identity_state",
+              "resolved_judgment_id",
+              "material_candidate"
+            ],
+            "properties": {
+              "lead_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "mapped_reference_lead_id": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "opinion_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "lead_kind": {
+                "enum": [
+                  "FORMAL_CITATION",
+                  "IMPLICIT_REFERENCE"
+                ]
+              },
+              "range_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "identity_state": {
+                "enum": [
+                  "AMBIGUOUS",
+                  "RESOLVED",
+                  "UNMATCHED"
+                ]
+              },
+              "resolved_judgment_id": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "material_candidate": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "candidate_id",
+              "mapped_reference_candidate_id",
+              "mapped_lead_id",
+              "opinion_id",
+              "language",
+              "passage_range_ids",
+              "context_segment_ids",
+              "correction_change"
+            ],
+            "properties": {
+              "candidate_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "mapped_reference_candidate_id": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "mapped_lead_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "opinion_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "language": {
+                "enum": [
+                  "ENGLISH",
+                  "MIXED",
+                  "TRADITIONAL_CHINESE"
+                ]
+              },
+              "passage_range_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "context_segment_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "correction_change": {
+                "enum": [
+                  "ADDED",
+                  "CHANGED",
+                  "NONE",
+                  "REMOVED",
+                  "UNCHANGED"
+                ]
+              }
+            }
+          }
+        },
+        "disposition": {
+          "enum": [
+            "COMPLETE",
+            "INCOMPLETE"
+          ]
+        },
+        "coverage_gap_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "judgment_proposition_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "complete_opinion_ledger": {
+          "type": "boolean"
+        },
+        "complete_segment_ledger": {
+          "type": "boolean"
+        },
+        "correction_comparison_complete": {
+          "type": "boolean"
+        },
+        "silence_establishes_no_treatment": {
+          "const": false
+        },
+        "legal_effect_decided": {
+          "const": false
+        },
+        "source_text_treated_as_instruction": {
+          "const": false
+        },
+        "hidden_reference_received_by_workflow": {
+          "const": false
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hk-case-treatment-discovery-evaluation-request.schema.json"
+}

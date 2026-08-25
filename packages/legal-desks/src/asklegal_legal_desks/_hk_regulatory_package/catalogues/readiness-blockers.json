@@ -1,0 +1,15 @@
+{
+  "blocker_codes": [
+    {"code": "HKREG_BASELINE_UNBUILT", "meaning": "No complete Main Board or GEM baseline exists."},
+    {"code": "HKREG_COMPONENT_INVENTORY_UNBUILT", "meaning": "No complete real HKEX Rule Component Inventory Package exists."},
+    {"code": "HKREG_CONFORMANCE_SUITE_UNADMITTED", "meaning": "All 284 permanent cases and 57 high-risk pairs are executable across the complete eight-checkpoint source-neutral case universe, but authentic-source evaluation, protected reference truth, named attestations, both real scope admissions, and activation remain unadmitted."},
+    {"code": "HKREG_EFFECTIVE_STATE_REAL_EVIDENCE_UNADMITTED", "meaning": "The deterministic branch-state contract passes source-neutral conformance, but no authentic HKEX evidence has been processed or admitted."},
+    {"code": "HKREG_ENDPOINT_CONTRACTS_UNADMITTED", "meaning": "Exact five-role HKEX endpoint and enumeration contracts are not admitted."},
+    {"code": "HKREG_ENGLISH_RECORD_WORKFLOW_UNADMITTED", "meaning": "Source-neutral ADR 0073 rendering, partitioning, and coverage proof pass conformance, but authentic source trees, exact tokenizer limits, real traceability, and workflow activation are not admitted."},
+    {"code": "HKREG_MODEL_PROFILES_UNADMITTED", "meaning": "The accepted update and record analysis/challenge profiles are not admitted."},
+    {"code": "HKREG_NAMED_OWNER_ATTESTATION_MISSING", "meaning": "Named Legal Desk and system-owner attestations are absent."},
+    {"code": "HKREG_REAL_SOURCE_BYTES_MISSING", "meaning": "No authentic HKEX source evidence is preserved in this package."},
+    {"code": "HKREG_RECORD_IDENTITY_REAL_EVIDENCE_UNADMITTED", "meaning": "Source-neutral identity and traceability consequences pass conformance, but no authentic HKEX part, register allocation, or release selection is admitted."},
+    {"code": "HKREG_RETRIEVAL_EVALUATION_UNADMITTED", "meaning": "Multilingual retrieval and downstream-answer behavior are not admitted."}
+  ]
+}

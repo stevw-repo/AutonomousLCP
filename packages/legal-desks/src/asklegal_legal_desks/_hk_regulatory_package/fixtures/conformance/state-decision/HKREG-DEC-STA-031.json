@@ -1,0 +1,182 @@
+{
+  "schema_id": "asklegal.hk-regulatory.state-decision-case",
+  "schema_version": "1.0.0",
+  "package_contract_version": "1.0.0",
+  "case_id": "HKREG-DEC-STA-031",
+  "suite_layer": "EVIDENCE_TO_DECISION",
+  "primary_checkpoint": "EFFECTIVE_STATE",
+  "frozen": true,
+  "synthetic_evidence_class": "SYNTHETIC_NO_REAL_AUTHORITY",
+  "contract_bindings": [
+    {
+      "contract_id": "asklegal.hk-regulatory.conformance-universe",
+      "version": "1.0.0",
+      "fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.state-decision-case",
+      "version": "1.0.0",
+      "fingerprint": "sha256:24e334a3c967e76bbe21c862d7f5a6da98e7ce8cea2e73b8f0945db99e3f0099"
+    }
+  ],
+  "synthetic_cutoff": "2026-08-24T00:00:00Z",
+  "scope_id": "HKEX_CROSS_BOARD",
+  "prior_state": "SYNTHETIC_ACCEPTED_PREDECESSOR",
+  "primary_coverage_cell_ids": [
+    "HKREG-COV-DSTA-031"
+  ],
+  "secondary_coverage_cell_ids": [],
+  "pair_memberships": [],
+  "declared_input_inventory": [
+    "state-evidence"
+  ],
+  "declared_reference_inventory": [
+    "asklegal.hk-regulatory.conformance-universe",
+    "asklegal.hk-regulatory.state-decision-case"
+  ],
+  "declared_expected_inventory": [
+    "STATE_DECISION_REPORT"
+  ],
+  "assertion_scope": "ATOMIC_STATE",
+  "required_result_dimensions": [
+    "APPLICABILITY",
+    "BRANCH_STATE",
+    "COMPONENT_STATE",
+    "PROCESSING",
+    "RECORD_RESPONSIBILITY",
+    "SOURCE_FAILURE"
+  ],
+  "evidence_packet_fields": [
+    "branches",
+    "carry_forward_support",
+    "complete_branch_set",
+    "effective_order_facts",
+    "limitation_metadata_complete",
+    "membership",
+    "other_required_gates_passed",
+    "repair_attempt",
+    "unsupported_retirement_basis",
+    "wording_relationship"
+  ],
+  "supporting_evidence_ranges": [
+    "input/HKREG-DEC-STA-031-state-evidence.json#facts"
+  ],
+  "rule_trace": [
+    "HKREG-EFFECTIVE-STATE-001",
+    "HKREG-STATE-DECISION-001"
+  ],
+  "established_facts": [
+    "SYNTHETIC_STATE_FACT_PACKET_DECLARED"
+  ],
+  "unresolved_facts": [],
+  "permitted_equivalent_results": [],
+  "critical_error_codes": [],
+  "package_fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14",
+  "title": "At least one all-of fact is freshly proved not to have occurred and no alternative uncertainty changes that result",
+  "purpose": "Remain `FUTURE_CONDITIONAL`",
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.state-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-STATE-DECISION-001",
+    "case_id": "HKREG-DEC-STA-031",
+    "outcome": "PASS",
+    "reason": "ATOMIC_STATE_DECIDED",
+    "not_applicable": false,
+    "branch_decisions": [
+      {
+        "branch_id": "branch-031",
+        "state": "FUTURE_CONDITIONAL",
+        "disposition": "REGULATORY_WAITING_ROOM",
+        "processing_outcome": "PASS",
+        "reason": "FUTURE_CONDITION_PROVED_UNMET",
+        "applicability_context": null
+      }
+    ],
+    "component_state": null,
+    "record_responsibility": "NONE",
+    "ordered_branch_ids": [],
+    "source_failure_choice": "NONE",
+    "carry_forward_support": null,
+    "rebuild_target_authorized": false,
+    "repair_rejected": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "evidence_packet": {
+    "slot_id": "state-evidence",
+    "state": "AVAILABLE",
+    "path": "input/HKREG-DEC-STA-031-state-evidence.json",
+    "role": "ORDINARY",
+    "media_type": "application/json",
+    "content_fingerprint": "sha256:3dafabf7c8c1502b3059cb220353ac0194612a874550d452788713d214fde5ce"
+  },
+  "facts": {
+    "membership": "RULE_COMPONENT",
+    "branches": [
+      {
+        "decision_id": "decision-branch-031",
+        "branch_id": "branch-031",
+        "component_id": "component-conformance",
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "legal_location_id": "location-branch-031",
+        "cutoff": "2026-08-24T00:00:00+08:00",
+        "update_part_id": "update-part-branch-031",
+        "update_source_ranges": [
+          "evidence-update#branch-031"
+        ],
+        "current_product_ranges": [
+          "evidence-current#branch-031"
+        ],
+        "basis": "CONDITIONAL",
+        "finality": "FINAL_PUBLICATION_APPROVAL_INFERRED",
+        "effective_at": null,
+        "condition_operator": "ALL_OF",
+        "conditions": [
+          {
+            "condition_id": "all-a-031",
+            "registered_source_id": "registered-source-all-a-031",
+            "state": "OCCURRED",
+            "evidence_refs": [
+              "evidence-all-a-031"
+            ]
+          },
+          {
+            "condition_id": "all-b-031",
+            "registered_source_id": "registered-source-all-b-031",
+            "state": "NOT_OCCURRED_FRESH",
+            "evidence_refs": [
+              "evidence-all-b-031"
+            ]
+          }
+        ],
+        "transition_state": "ORDINARY",
+        "applicability_context": null,
+        "retirement_evidence": "NONE",
+        "predecessor_branch_id": null,
+        "successor_branch_ids": [],
+        "current_product_reconciliation": "MATCH",
+        "uncertainty_codes": [],
+        "source_failure_impact": "NONE",
+        "source_failure_choice": "NONE",
+        "source_rule_id": "HKREG-EFFECTIVE-STATE-001",
+        "evidence_refs": [
+          "evidence-current-branch-031",
+          "evidence-update-branch-031"
+        ],
+        "evidence_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    ],
+    "complete_branch_set": false,
+    "wording_relationship": "NOT_EVALUATED",
+    "limitation_metadata_complete": false,
+    "effective_order_facts": [],
+    "carry_forward_support": null,
+    "other_required_gates_passed": true,
+    "repair_attempt": "NONE",
+    "unsupported_retirement_basis": "NONE"
+  },
+  "case_fingerprint": "sha256:029a9efd1d90ccbf57d884d2b3a46d2aaec6ca51cc06dd44aa5be42dcab03e36"
+}

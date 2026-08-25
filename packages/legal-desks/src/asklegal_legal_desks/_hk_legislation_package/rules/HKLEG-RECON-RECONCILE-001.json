@@ -1,0 +1,10 @@
+{
+  "rule_id": "HKLEG-RECON-RECONCILE-001",
+  "version": "1.0.0",
+  "stage": "ACTIVE_RECONSTRUCTION_LATER_HKEL_MONITORING",
+  "establishes": "APPEND_ONLY_MONITORING_COMPARISON_AND_IMPACT_CONSEQUENCE",
+  "valid_hkel_precedence": "REPLACE_WHEN_ORDINARY_RELEASE_APPROVED_REGARDLESS_OF_COMPARISON",
+  "artifact_mutation": "NONE",
+  "record_output": "NONE",
+  "external_effects": "NONE"
+}

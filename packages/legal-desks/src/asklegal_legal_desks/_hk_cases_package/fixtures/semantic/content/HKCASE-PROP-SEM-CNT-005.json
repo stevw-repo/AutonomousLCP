@@ -1,0 +1,58 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-CNT-005",
+  "coverage_cell_id": "HKCASE-PROP-COV-SCNT-005",
+  "pair_memberships": [],
+  "scenario": "Court allocates or shifts a legal burden",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-content-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "content_execution_5",
+    "judgment_work_id": "content_judgment_5",
+    "judicial_decision_id": "synthetic_content_decision_5",
+    "official_version_id": "synthetic_content_version_5",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "The applicant bears the initial evidential burden of showing non-delivery.",
+        "text_fingerprint": "sha256:3b9d3c84edf794e5bee751e8743b74a364cdcf797dbf4573db59d279d2cd9bfb",
+        "range_available": true,
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "Once that showing is made, the respondent must prove effective delivery.",
+        "text_fingerprint": "sha256:f3a433905a9346c17c49ebbf9a0942f2ced7f8a310d4a882e829594bd6d6bd37",
+        "range_available": true,
+        "range_id": "range_2"
+      }
+    ],
+    "dependencies": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-005.json",
+  "observation_path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-005.json",
+  "expected_path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-005.json"
+}

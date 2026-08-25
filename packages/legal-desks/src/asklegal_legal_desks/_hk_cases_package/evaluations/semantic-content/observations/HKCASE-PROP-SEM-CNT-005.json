@@ -1,0 +1,72 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:744dc88ce4de8f9c79ecb660afa72b9329f21d6c0a92719dfae3dbfcd44a401d",
+  "workflow_result_fingerprint": "sha256:670ed403a0a9f9c8c950459739b7ec2bb6af6440641bad8d8d6cbd7425376405",
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "meaning_codes": [
+        "APPLICANT_INITIAL_BURDEN",
+        "RESPONDENT_SHIFTED_BURDEN"
+      ],
+      "content_codes": [
+        "ATTRIBUTION",
+        "BURDEN",
+        "RULE",
+        "TRIGGER"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "ANSWER",
+          "ordered_range_ids": [
+            "range_1",
+            "range_2"
+          ]
+        },
+        {
+          "role_code": "ATTRIBUTION",
+          "ordered_range_ids": [
+            "range_1",
+            "range_2"
+          ]
+        },
+        {
+          "role_code": "QUALIFICATION",
+          "ordered_range_ids": [
+            "range_2"
+          ]
+        }
+      ],
+      "dependency_ids": [],
+      "selected_quotations": [],
+      "derived_statement": "The applicant first shows non-delivery; only then must the respondent prove delivery."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

@@ -1,0 +1,65 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "reference_map_id": "content_reference_map_3",
+  "model_input_fingerprint": "sha256:67a2c1612df5f3f411416f07aa95dd2f3c424b2f4931ebf97d415a76617311c7",
+  "propositions": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "ACCEPTED",
+      "required_meaning_codes": [
+        "DELIVERY_START_RULE",
+        "FRAUD_CONCEALMENT_EXCEPTION"
+      ],
+      "forbidden_meaning_codes": [
+        "ABSOLUTE_DELIVERY_START"
+      ],
+      "required_content_codes": [
+        "EXCEPTION",
+        "RULE"
+      ],
+      "forbidden_content_codes": [
+        "EXCEPTION_OMITTED"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "ANSWER",
+          "ordered_range_ids": [
+            "range_1"
+          ]
+        },
+        {
+          "role_code": "QUALIFICATION",
+          "ordered_range_ids": [
+            "range_2"
+          ]
+        }
+      ],
+      "required_dependency_ids": [],
+      "exact_quotations": []
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1"
+  ],
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

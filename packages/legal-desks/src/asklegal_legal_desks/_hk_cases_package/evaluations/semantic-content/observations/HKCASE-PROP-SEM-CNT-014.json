@@ -1,0 +1,25 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:3c603586a2edf3ace46efbc4ab5d7d50b9c3a0a04e73c6908fb3b6586427ed7a",
+  "workflow_result_fingerprint": "sha256:1bf408fe8f6741fa2e3c397465ef18fc3869db8cfc34f48f3802e731b2c50083",
+  "propositions": [],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "CITATION_ONLY",
+      "candidate_ids": []
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "NON_PROPOSITIONAL",
+      "candidate_ids": []
+    }
+  ],
+  "disposition": "COMPLETE_NO_PROPOSITION",
+  "selected_candidate_ids": [],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

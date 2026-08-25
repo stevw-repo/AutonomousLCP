@@ -1,0 +1,57 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "reference_map_id": "content_reference_map_8",
+  "model_input_fingerprint": "sha256:a03284598f5711aa14ebdf1accc6ec8b39c2d332c9452d016fcd3d50cd9fbcd7",
+  "propositions": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "ACCEPTED",
+      "required_meaning_codes": [
+        "DELAY_BAR",
+        "SUBSTANTIAL_PREJUDICE_LIMIT"
+      ],
+      "forbidden_meaning_codes": [
+        "COURTHOUSE_HISTORY_LIMIT"
+      ],
+      "required_content_codes": [
+        "MINIMUM_RECORD",
+        "RULE"
+      ],
+      "forbidden_content_codes": [
+        "OPTIONAL_NARRATIVE_INCLUDED"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "ANSWER",
+          "ordered_range_ids": [
+            "range_1"
+          ]
+        }
+      ],
+      "required_dependency_ids": [],
+      "exact_quotations": []
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "NON_PROPOSITIONAL",
+      "reference_proposition_ids": []
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1"
+  ],
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

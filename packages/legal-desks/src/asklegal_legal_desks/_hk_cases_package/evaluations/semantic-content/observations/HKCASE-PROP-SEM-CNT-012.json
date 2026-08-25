@@ -1,0 +1,63 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:6933a340bad62231dc5a444b27d9a2b8efd15face221d8057b9bf910ae0a3386",
+  "workflow_result_fingerprint": "sha256:dc6cba3620085317bfd664fe26d3c27c3c76ded0ba14c2ec023fcb675785b636",
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "meaning_codes": [
+        "CUMULATIVE_THREE_ELEMENT_TEST"
+      ],
+      "content_codes": [
+        "COMPLETE_ELEMENTS",
+        "PRESERVED_STRUCTURE",
+        "RULE"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "ANSWER",
+          "ordered_range_ids": [
+            "range_1",
+            "range_2"
+          ]
+        },
+        {
+          "role_code": "STRUCTURE",
+          "ordered_range_ids": [
+            "range_2"
+          ]
+        }
+      ],
+      "dependency_ids": [],
+      "selected_quotations": [],
+      "derived_statement": "Knowledge, intention, and material reliance are cumulative requirements."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

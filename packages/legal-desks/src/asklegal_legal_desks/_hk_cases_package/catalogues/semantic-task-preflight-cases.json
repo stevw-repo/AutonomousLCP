@@ -1,0 +1,81 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-task-preflight-catalogue",
+  "schema_version": "1.0.0",
+  "catalogue_id": "hk-case-proposition-semantic-task-preflight-initial",
+  "fixture_count": 8,
+  "request_kind_count": 8,
+  "entries": [
+    {
+      "fixture_id": "HKCASE-PROP-TASK-PREFLIGHT-001",
+      "request_kind": "FULL_JUDGMENT",
+      "fixture_path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-001.json",
+      "fixture_fingerprint": "sha256:4e0e0bb17f1952a39ee6be7a93b1e48aeeb187a7049440f4c481ac685c41ceee",
+      "expected_path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-001.json",
+      "expected_fingerprint": "sha256:87143a373a586df8adb1e5659879e59972d58dd44234e94f4f917beef73eb6d8"
+    },
+    {
+      "fixture_id": "HKCASE-PROP-TASK-PREFLIGHT-002",
+      "request_kind": "EVIDENCE_PACKET",
+      "fixture_path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-002.json",
+      "fixture_fingerprint": "sha256:1a891cc8866390a2a7660e2db8ab1ef9c9a05b4f98e061524f690df24f75266e",
+      "expected_path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-002.json",
+      "expected_fingerprint": "sha256:1fa35d0144ce1bc28f1b4db76b07cefa6b6dc8282bc0d2386ca30773c3ba9008"
+    },
+    {
+      "fixture_id": "HKCASE-PROP-TASK-PREFLIGHT-003",
+      "request_kind": "JUDGMENT_INTEGRATION",
+      "fixture_path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-003.json",
+      "fixture_fingerprint": "sha256:c5d3efe3211dcd461f051ac8b90f159e76b788f7743506e98978112d323b785d",
+      "expected_path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-003.json",
+      "expected_fingerprint": "sha256:dcf2c07b4491abe0de4417cf64e117c7efa655cf90201f1d22b996cfe1c9dc88"
+    },
+    {
+      "fixture_id": "HKCASE-PROP-TASK-PREFLIGHT-004",
+      "request_kind": "TARGETED_REANALYSIS",
+      "fixture_path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-004.json",
+      "fixture_fingerprint": "sha256:5aab487d40db5b26aca3888a0ee5117c93dddd3b72591b12f30b8908448f10d5",
+      "expected_path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-004.json",
+      "expected_fingerprint": "sha256:0ab377059f2d423217fc2ad6a435cd4361f76bb2f183400536ce734adb9775b7"
+    },
+    {
+      "fixture_id": "HKCASE-PROP-TASK-PREFLIGHT-005",
+      "request_kind": "FULL_JUDGMENT_CHALLENGE",
+      "fixture_path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-005.json",
+      "fixture_fingerprint": "sha256:9271a41c91947700d09d51349b1ef281bcc750fa7402577715783eb7e81fa1f6",
+      "expected_path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-005.json",
+      "expected_fingerprint": "sha256:8601319833692d0436f1e3a21a1fd0eb0c40d186e8afeb4687e6d5364560c8b7"
+    },
+    {
+      "fixture_id": "HKCASE-PROP-TASK-PREFLIGHT-006",
+      "request_kind": "COVERAGE_PACKET_CHALLENGE",
+      "fixture_path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-006.json",
+      "fixture_fingerprint": "sha256:34cde51189dbe0d5e047c8874305c4858dcf98a80925c8d85f49753827e56950",
+      "expected_path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-006.json",
+      "expected_fingerprint": "sha256:0e23630d2584abfd257e75c5758ff2dec9a1de80c2656208eaf477ce22c98470"
+    },
+    {
+      "fixture_id": "HKCASE-PROP-TASK-PREFLIGHT-007",
+      "request_kind": "JUDGMENT_RESULT_CHALLENGE",
+      "fixture_path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-007.json",
+      "fixture_fingerprint": "sha256:f7138283828a719619b55427bc3f9a8a8d0658cc64ecbd6cc5b0c0cfc2c7a053",
+      "expected_path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-007.json",
+      "expected_fingerprint": "sha256:a533ff992c8c3298967c2ef39a37feccd35c330b494bdbe533ac98db4674ef14"
+    },
+    {
+      "fixture_id": "HKCASE-PROP-TASK-PREFLIGHT-008",
+      "request_kind": "FINAL_TARGETED_CHALLENGE",
+      "fixture_path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-008.json",
+      "fixture_fingerprint": "sha256:636aafa078f2a09231510a9455dbfcf9a5e3f171d863cc92d83ad7a93980dc86",
+      "expected_path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-008.json",
+      "expected_fingerprint": "sha256:1af57b20538d5f2129dcb62dae3b29cfa69f0dddc44584b9695a56f17c378ed0"
+    }
+  ],
+  "frozen_semantic_case_count": 0,
+  "frozen_semantic_cases_executed": false,
+  "provider_calls_authorized": 0,
+  "semantic_results_accepted": 0,
+  "real_source_evidence": false,
+  "workflow_admission_created": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

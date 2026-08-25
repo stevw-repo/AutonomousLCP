@@ -1,0 +1,39 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-RSK-002",
+  "coverage_cell_id": "HKCASE-PROP-COV-SRSK-002",
+  "pair_memberships": [],
+  "scenario": "Court of Appeal judgment is authored in Traditional Chinese",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-risk-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "risk_execution_2",
+    "judgment_work_id": "risk_judgment_2",
+    "judicial_decision_id": "synthetic_risk_decision_2",
+    "accepted_original_version_id": "synthetic_risk_original_2",
+    "court_family": "CA",
+    "original_language": "TRADITIONAL_CHINESE",
+    "segments": [
+      {
+        "segment_id": "segment_1",
+        "source_order": 1,
+        "exact_text": "法院裁定, 只有在通知合理可得知時, 期限才開始計算。",
+        "text_fingerprint": "sha256:5c2aa31350ddfdb8bf736e4ba1640a2bdcc010bded3589eb507960460611267a",
+        "range_id": "range_1"
+      }
+    ],
+    "dependency_ids": [],
+    "segment_manifest_complete": true,
+    "parser_supported": true,
+    "auxiliary_translations": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-002.json",
+  "observation_path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-002.json",
+  "expected_path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-002.json"
+}

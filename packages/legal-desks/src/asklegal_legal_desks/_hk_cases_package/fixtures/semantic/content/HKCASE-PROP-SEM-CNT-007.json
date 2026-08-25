@@ -1,0 +1,68 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-CNT-007",
+  "coverage_cell_id": "HKCASE-PROP-COV-SCNT-007",
+  "pair_memberships": [],
+  "scenario": "Application and result reveal how an otherwise abstract test operates",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-content-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "content_execution_7",
+    "judgment_work_id": "content_judgment_7",
+    "judicial_decision_id": "synthetic_content_decision_7",
+    "official_version_id": "synthetic_content_version_7",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "A restriction is proportionate only if no less intrusive measure would achieve the aim.",
+        "text_fingerprint": "sha256:a5156b1dd32d7bce4475323abc8258fc7d1d1691b4725f4cc021cace5de90f3c",
+        "range_available": true,
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "A shorter reporting period would have achieved the same aim here.",
+        "text_fingerprint": "sha256:3a9e4400eecb8e9e4be88fbe89d2f7b379fd4760066700829c21eb0c3bb381e0",
+        "range_available": true,
+        "range_id": "range_2"
+      },
+      {
+        "unit_id": "unit_3",
+        "opinion_id": "opinion_1",
+        "source_order": 3,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "The restriction is therefore disproportionate and the appeal is allowed.",
+        "text_fingerprint": "sha256:b6558e2c49ebc2804869f7d72d8d4042716ac5179f6484217c61c362e0a52247",
+        "range_available": true,
+        "range_id": "range_3"
+      }
+    ],
+    "dependencies": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-007.json",
+  "observation_path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-007.json",
+  "expected_path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-007.json"
+}

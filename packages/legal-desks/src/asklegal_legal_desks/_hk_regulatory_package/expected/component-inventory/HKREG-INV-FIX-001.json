@@ -1,0 +1,8 @@
+{
+  "fixture_id": "HKREG-INV-FIX-001",
+  "expected_scope_results": [
+    {"scope": "HK-REG-HKEX-GEM", "inventory_candidate_ready": true, "serving_ready": false},
+    {"scope": "HK-REG-HKEX-MAIN-BOARD", "inventory_candidate_ready": true, "serving_ready": false}
+  ],
+  "serving_blocker": "ENGLISH_RECORD_TRACEABILITY_AND_RELEASE_LAYER_NOT_EVALUATED"
+}

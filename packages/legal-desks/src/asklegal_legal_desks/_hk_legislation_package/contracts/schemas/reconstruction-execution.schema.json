@@ -1,0 +1,440 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/hk-legislation-reconstruction-execution.schema.json",
+  "$defs": {
+    "fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "nullable_fingerprint": {
+      "oneOf": [
+        {"$ref": "#/$defs/fingerprint"},
+        {"type": "null"}
+      ]
+    },
+    "fixture_id": {
+      "type": "string",
+      "pattern": "^HKLEG-RECON-EXEC-FIX-(00[1-9]|01[0-3])$"
+    },
+    "artifact_ref": {
+      "$ref": "https://contracts.asklegal.local/v1/hk-legislation-reconstruction-plan-validation.schema.json#/$defs/artifact_ref"
+    },
+    "canonical_language_tree": {
+      "$ref": "https://contracts.asklegal.local/v1/hk-legislation-canonical-language-tree.schema.json#/$defs/canonical_language_tree"
+    },
+    "bilingual_alignment_map": {
+      "$ref": "https://contracts.asklegal.local/v1/hk-legislation-bilingual-alignment-map.schema.json#/$defs/bilingual_alignment_map"
+    },
+    "validated_plan_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixture_id",
+        "rule_id",
+        "processing_outcome",
+        "legal_disposition",
+        "coverage_effect",
+        "source_contract_review_required",
+        "reason_codes",
+        "rule_trace",
+        "candidate_plan_fingerprint",
+        "plan_validation_result",
+        "validated_reconstruction_plan_id",
+        "validated_reconstruction_plan_fingerprint",
+        "validated_operation_count",
+        "operation_execution",
+        "reconstructed_text_output",
+        "record_output",
+        "external_effects",
+        "next_action"
+      ],
+      "properties": {
+        "fixture_id": {"$ref": "#/$defs/fixture_id"},
+        "rule_id": {"const": "HKLEG-RECON-PLAN-001"},
+        "processing_outcome": {"const": "PASS"},
+        "legal_disposition": {"const": "NOT_APPLICABLE"},
+        "coverage_effect": {"const": "COVERAGE_GAP"},
+        "source_contract_review_required": {"const": false},
+        "reason_codes": {"const": ["HKLEG_RECON_PLAN_VALIDATED"]},
+        "rule_trace": {"const": ["HKLEG-RECON-PLAN-001"]},
+        "candidate_plan_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "plan_validation_result": {"const": "VALIDATED"},
+        "validated_reconstruction_plan_id": {
+          "type": "string",
+          "pattern": "^rpl_[0-9a-f]{48}$"
+        },
+        "validated_reconstruction_plan_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "validated_operation_count": {"type": "integer", "minimum": 1},
+        "operation_execution": {"const": "NONE"},
+        "reconstructed_text_output": {"const": "NONE"},
+        "record_output": {"const": "NONE"},
+        "external_effects": {"const": "NONE"},
+        "next_action": {"const": "CHECK_RECONSTRUCTION_CAPABILITY_AND_EXECUTE_PLAN"}
+      }
+    },
+    "language_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["language", "base_tree_ref", "base_tree"],
+      "properties": {
+        "language": {"enum": ["en", "zh-Hant"]},
+        "base_tree_ref": {"$ref": "#/$defs/artifact_ref"},
+        "base_tree": {"$ref": "#/$defs/canonical_language_tree"}
+      }
+    },
+    "text_payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["payload_kind", "content"],
+      "properties": {
+        "payload_kind": {"const": "TEXT"},
+        "content": {"type": "string", "minLength": 1}
+      }
+    },
+    "tree_fragment_payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["payload_kind", "tree"],
+      "properties": {
+        "payload_kind": {"const": "CANONICAL_TREE_FRAGMENT"},
+        "tree": {"$ref": "#/$defs/canonical_language_tree"}
+      }
+    },
+    "source_unit_removal_payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["payload_kind", "source_unit_ids"],
+      "properties": {
+        "payload_kind": {"const": "SOURCE_UNIT_REMOVAL"},
+        "source_unit_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9._:-]{0,127}$"}
+        }
+      }
+    },
+    "move_authority_payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["payload_kind", "source_unit_ids"],
+      "properties": {
+        "payload_kind": {"const": "MOVE_AUTHORITY"},
+        "source_unit_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9._:-]{0,127}$"}
+        }
+      }
+    },
+    "source_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "payload"],
+      "properties": {
+        "ref": {"$ref": "#/$defs/artifact_ref"},
+        "payload": {
+          "oneOf": [
+            {"$ref": "#/$defs/text_payload"},
+            {"$ref": "#/$defs/tree_fragment_payload"},
+            {"$ref": "#/$defs/source_unit_removal_payload"},
+            {"$ref": "#/$defs/move_authority_payload"}
+          ]
+        }
+      }
+    },
+    "execution_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "$schema",
+        "contract_version",
+        "execution_mode",
+        "plan",
+        "validation_decision",
+        "language_inputs",
+        "source_artifacts",
+        "bilingual_alignment_map"
+      ],
+      "properties": {
+        "$schema": {"const": "https://contracts.asklegal.local/v1/hk-legislation-reconstruction-execution.schema.json"},
+        "contract_version": {"const": "1.0.0"},
+        "execution_mode": {"const": "OFFLINE_SYNTHETIC_CONFORMANCE"},
+        "plan": {
+          "$ref": "https://contracts.asklegal.local/v1/hk-legislation-reconstruction-plan-validation.schema.json#/$defs/plan"
+        },
+        "validation_decision": {"$ref": "#/$defs/validated_plan_authority"},
+        "language_inputs": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [
+            {"$ref": "#/$defs/language_input", "properties": {"language": {"const": "en"}}},
+            {"$ref": "#/$defs/language_input", "properties": {"language": {"const": "zh-Hant"}}}
+          ],
+          "items": false
+        },
+        "source_artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/source_artifact"}
+        },
+        "bilingual_alignment_map": {"$ref": "#/$defs/bilingual_alignment_map"}
+      }
+    },
+    "reason_code": {
+      "enum": [
+        "RECONSTRUCTION_OPERATIONS_PROVISIONALLY_COMPLETE",
+        "RECONSTRUCTION_OPERATION_APPLIED",
+        "UNSUPPORTED_RECONSTRUCTION_OPERATION",
+        "RECONSTRUCTION_UNDECLARED_INPUT",
+        "RECONSTRUCTION_SOURCE_UNIT_KIND_MISMATCH",
+        "RECONSTRUCTION_DEPENDENCY_CLOSURE_INCOMPLETE",
+        "RECONSTRUCTION_STRUCTURE_UNSUPPORTED",
+        "RECONSTRUCTION_SOURCE_UNIT_OWNERSHIP_MISMATCH",
+        "RECONSTRUCTION_TARGET_NOT_EXACT",
+        "RECONSTRUCTION_BEFORE_STATE_MISMATCH",
+        "RECONSTRUCTION_AFTER_STATE_MISMATCH",
+        "RECONSTRUCTION_RENDERER_UNSUPPORTED",
+        "RECONSTRUCTION_CANONICAL_TREE_INVALID",
+        "RECONSTRUCTION_NOT_RUN_AFTER_ATOMIC_FAILURE",
+        "RECONSTRUCTION_FINAL_TREE_MISMATCH",
+        "RECONSTRUCTION_SOURCE_UNIT_INVENTORY_MISMATCH",
+        "RECONSTRUCTION_BILINGUAL_ALIGNMENT_MISMATCH"
+      ]
+    },
+    "operation_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "language",
+        "operation_instance_id",
+        "operation_type_id",
+        "atomic_group_id",
+        "result",
+        "actual_target_count",
+        "matched_location_ids",
+        "matched_source_unit_ids",
+        "actual_before_state_fingerprint",
+        "actual_after_state_fingerprint",
+        "provisional_output_tree_fingerprint",
+        "reason_codes",
+        "atomic_group_result"
+      ],
+      "properties": {
+        "language": {"enum": ["en", "zh-Hant"]},
+        "operation_instance_id": {"type": "string", "pattern": "^rop_[0-9a-f]{48}$"},
+        "operation_type_id": {"type": "string", "pattern": "^HKRECON-OP-00[1-8]$"},
+        "atomic_group_id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9._:-]{0,127}$"},
+        "result": {"enum": ["APPLIED", "FAILED_PRECONDITION", "FAILED_EXECUTION", "NOT_RUN_AFTER_ATOMIC_FAILURE"]},
+        "actual_target_count": {"type": "integer", "minimum": 0},
+        "matched_location_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^loc_[0-9a-f]{48}$"}
+        },
+        "matched_source_unit_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9._:-]{0,127}$"}
+        },
+        "actual_before_state_fingerprint": {"$ref": "#/$defs/nullable_fingerprint"},
+        "actual_after_state_fingerprint": {"$ref": "#/$defs/nullable_fingerprint"},
+        "provisional_output_tree_fingerprint": {"$ref": "#/$defs/nullable_fingerprint"},
+        "reason_codes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {"$ref": "#/$defs/reason_code"}
+        },
+        "atomic_group_result": {"enum": ["APPLIED", "FAILED", "ROLLED_BACK", "NOT_RUN"]}
+      }
+    },
+    "execution_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule_id",
+        "rule_trace",
+        "processing_outcome",
+        "reason_codes",
+        "reconstruction_plan_id",
+        "reconstruction_plan_fingerprint",
+        "execution_mode",
+        "operation_results",
+        "provisional_language_trees",
+        "provisional_language_tree_fingerprints",
+        "provisional_bilingual_alignment_map",
+        "provisional_bilingual_alignment_map_fingerprint",
+        "execution_report_output",
+        "reconstructed_artifact_output",
+        "record_output",
+        "external_effects",
+        "next_action"
+      ],
+      "properties": {
+        "rule_id": {"const": "HKLEG-RECON-EXEC-001"},
+        "rule_trace": {"const": ["HKLEG-RECON-PLAN-001", "HKLEG-RECON-EXEC-001"]},
+        "processing_outcome": {"enum": ["PASS", "BLOCK"]},
+        "reason_codes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {"$ref": "#/$defs/reason_code"}
+        },
+        "reconstruction_plan_id": {"type": "string", "pattern": "^rpl_[0-9a-f]{48}$"},
+        "reconstruction_plan_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "execution_mode": {"const": "OFFLINE_SYNTHETIC_CONFORMANCE"},
+        "operation_results": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/operation_result"}},
+        "provisional_language_trees": {"type": "array", "items": {"$ref": "#/$defs/canonical_language_tree"}},
+        "provisional_language_tree_fingerprints": {"type": "array", "items": {"$ref": "#/$defs/fingerprint"}},
+        "provisional_bilingual_alignment_map": {
+          "oneOf": [
+            {"$ref": "#/$defs/bilingual_alignment_map"},
+            {"type": "null"}
+          ]
+        },
+        "provisional_bilingual_alignment_map_fingerprint": {"$ref": "#/$defs/nullable_fingerprint"},
+        "execution_report_output": {"const": "NONE"},
+        "reconstructed_artifact_output": {"const": "NONE"},
+        "record_output": {"const": "NONE"},
+        "external_effects": {"const": "NONE"},
+        "next_action": {"enum": ["BUILD_AND_VALIDATE_RECONSTRUCTION_ARTIFACT_AND_REPORT", "SELECT_VALIDATED_FALLBACK_OR_NO_RECORD"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"processing_outcome": {"const": "PASS"}}},
+          "then": {
+            "properties": {
+              "reason_codes": {"const": ["RECONSTRUCTION_OPERATIONS_PROVISIONALLY_COMPLETE"]},
+              "provisional_language_trees": {"minItems": 2, "maxItems": 2},
+              "provisional_language_tree_fingerprints": {"minItems": 2, "maxItems": 2},
+              "provisional_bilingual_alignment_map": {"$ref": "#/$defs/bilingual_alignment_map"},
+              "provisional_bilingual_alignment_map_fingerprint": {"$ref": "#/$defs/fingerprint"},
+              "next_action": {"const": "BUILD_AND_VALIDATE_RECONSTRUCTION_ARTIFACT_AND_REPORT"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"processing_outcome": {"const": "BLOCK"}}},
+          "then": {
+            "properties": {
+              "provisional_language_trees": {"maxItems": 0},
+              "provisional_language_tree_fingerprints": {"maxItems": 0},
+              "provisional_bilingual_alignment_map": {"type": "null"},
+              "provisional_bilingual_alignment_map_fingerprint": {"type": "null"},
+              "next_action": {"const": "SELECT_VALIDATED_FALLBACK_OR_NO_RECORD"}
+            }
+          }
+        }
+      ]
+    },
+    "reason_code_catalogue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalogue_id", "version", "status", "reason_codes"],
+      "properties": {
+        "catalogue_id": {"const": "asklegal.hk-legislation.reconstruction-execution.reason-codes"},
+        "version": {"const": "1.0.0"},
+        "status": {"const": "FROZEN_PARTIAL"},
+        "reason_codes": {
+          "type": "array",
+          "minItems": 17,
+          "maxItems": 17,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["code", "meaning", "processing_outcome"],
+            "properties": {
+              "code": {"$ref": "#/$defs/reason_code"},
+              "meaning": {"type": "string", "minLength": 1},
+              "processing_outcome": {"enum": ["PASS", "BLOCK", "OPERATION"]}
+            }
+          }
+        }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule_id",
+        "version",
+        "stage",
+        "input_authority",
+        "operation_registry",
+        "canonical_tree_contract",
+        "renderer_contract",
+        "atomicity",
+        "output_authority",
+        "provider_rule"
+      ],
+      "properties": {
+        "rule_id": {"const": "HKLEG-RECON-EXEC-001"},
+        "version": {"const": "1.0.0"},
+        "stage": {"const": "DETERMINISTIC_RECONSTRUCTION_PLAN_EXECUTION"},
+        "input_authority": {"const": "EXACT_VALIDATED_PLAN_AND_DECLARED_CANONICAL_INPUTS_ONLY"},
+        "operation_registry": {"const": "HKRECON-OP-001_THROUGH_008_ONLY"},
+        "canonical_tree_contract": {"const": "1.0.0"},
+        "renderer_contract": {"const": "asklegal.hk-legislation.canonical-ordinary-bilingual-renderer/1.0.0"},
+        "atomicity": {"const": "COMPLETE_PLAN_ROLLBACK_ON_ANY_OPERATION_OR_FINAL_GATE_FAILURE"},
+        "output_authority": {"const": "PROVISIONAL_CANONICAL_TREES_AND_ALIGNMENT_ONLY"},
+        "provider_rule": {"const": "NO_REPORT_ARTIFACT_RECORD_PROVIDER_OR_EXTERNAL_EFFECT"}
+      }
+    },
+    "fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fixture_id", "title", "synthetic", "status", "input_fingerprint", "input", "expected_artifact"],
+      "properties": {
+        "fixture_id": {"$ref": "#/$defs/fixture_id"},
+        "title": {"type": "string", "minLength": 1},
+        "synthetic": {"const": true},
+        "status": {"const": "FROZEN_PARTIAL"},
+        "input_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "input": {"$ref": "#/$defs/execution_request"},
+        "expected_artifact": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "fingerprint"],
+          "properties": {
+            "path": {"type": "string", "pattern": "^expected/reconstruction-execution/HKLEG-RECON-EXEC-FIX-(00[1-9]|01[0-3])\\.json$"},
+            "fingerprint": {"$ref": "#/$defs/fingerprint"}
+          }
+        }
+      }
+    },
+    "fixture_catalogue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalogue_id", "version", "status", "accepted_complete_universe", "fixtures"],
+      "properties": {
+        "catalogue_id": {"const": "asklegal.hk-legislation.reconstruction-execution.fixtures"},
+        "version": {"const": "1.0.0"},
+        "status": {"const": "FROZEN_PARTIAL"},
+        "accepted_complete_universe": {"const": false},
+        "fixtures": {
+          "type": "array",
+          "minItems": 13,
+          "maxItems": 13,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["fixture_id", "path", "fixture_fingerprint", "expected_path", "expected_fingerprint"],
+            "properties": {
+              "fixture_id": {"$ref": "#/$defs/fixture_id"},
+              "path": {"type": "string", "pattern": "^fixtures/deterministic/HKLEG-RECON-EXEC-FIX-(00[1-9]|01[0-3])\\.json$"},
+              "fixture_fingerprint": {"$ref": "#/$defs/fingerprint"},
+              "expected_path": {"type": "string", "pattern": "^expected/reconstruction-execution/HKLEG-RECON-EXEC-FIX-(00[1-9]|01[0-3])\\.json$"},
+              "expected_fingerprint": {"$ref": "#/$defs/fingerprint"}
+            }
+          }
+        }
+      }
+    }
+  },
+  "$ref": "#/$defs/execution_request"
+}

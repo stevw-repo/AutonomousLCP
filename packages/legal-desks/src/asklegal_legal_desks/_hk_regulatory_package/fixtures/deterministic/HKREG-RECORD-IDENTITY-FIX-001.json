@@ -1,0 +1,989 @@
+{
+  "fixture_id": "HKREG-RECORD-IDENTITY-FIX-001",
+  "contract_version": "1.0.0",
+  "synthetic_tokenizer": {
+    "profile_id": "synthetic-hkex-english-profile-1",
+    "profile_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tokenizer_id": "synthetic-codepoint-counter-1",
+    "admitted_for_real_records": false
+  },
+  "cases": [
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-001",
+      "request": {
+        "decision_id": "synthetic-hkex-record-identity-decision-001",
+        "construction": {
+          "tree": {
+            "tree_id": "synthetic-tree-current",
+            "component_id": "synthetic-component-main-2.01",
+            "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+            "branch_id": "synthetic-branch-current",
+            "branch_state": "CURRENT",
+            "component_class": "ORDINARY_RULE",
+            "component_label": "Synthetic Main Board Listing Rules",
+            "location_label": "Rule 2.01",
+            "official_heading": "Synthetic conformance fixture",
+            "root_source_unit_id": "context",
+            "source_units": [
+              {
+                "source_unit_id": "context",
+                "parent_source_unit_id": null,
+                "child_source_unit_ids": [
+                  "rule-a"
+                ],
+                "source_order": 0,
+                "kind": "HEADING",
+                "role": "CONTEXT_ONLY",
+                "text": "Rule 2 — Synthetic ordinary fixture",
+                "source_range": "synthetic-hkex-artifact#range-0",
+                "required_context_unit_ids": [],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+              },
+              {
+                "source_unit_id": "rule-a",
+                "parent_source_unit_id": "context",
+                "child_source_unit_ids": [],
+                "source_order": 1,
+                "kind": "BODY_TEXT",
+                "role": "PRIMARY",
+                "text": "2.01 An issuer must comply with the Exchange Listing Rules.",
+                "source_range": "synthetic-hkex-artifact#range-1",
+                "required_context_unit_ids": [
+                  "context"
+                ],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+              }
+            ],
+            "root_record_unit_ids": [
+              "record-root"
+            ],
+            "record_units": [
+              {
+                "record_unit_id": "record-root",
+                "primary_source_unit_ids": [
+                  "rule-a"
+                ],
+                "dependency_source_unit_ids": [
+                  "context"
+                ],
+                "referenced_locations": [],
+                "child_record_unit_ids": [],
+                "source_contract_state": "SUPPORTED",
+                "indivisible": true
+              }
+            ],
+            "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+            "source_artifact_fingerprints": [
+              "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            ]
+          },
+          "profile": {
+            "profile_id": "synthetic-hkex-english-profile-1",
+            "profile_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "tokenizer_id": "synthetic-codepoint-counter-1",
+            "max_text_tokens": 100000,
+            "max_metadata_bytes": 100000,
+            "country": "Hong Kong",
+            "jurisdiction": "Hong Kong",
+            "material_type": "regulatory_material",
+            "source": "Hong Kong Exchanges and Clearing Limited",
+            "authority_note": "None"
+          },
+          "effective_context": null
+        },
+        "root_record_unit_id": "record-root",
+        "part_number": 1,
+        "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+        "official_version_ids": [
+          "ofv_222222222222222222222222222222222222222222222222"
+        ],
+        "legal_location_ids": [
+          "loc_333333333333333333333333333333333333333333333333"
+        ],
+        "evidence_refs": [
+          {
+            "ref_type": "SOURCE_SNAPSHOT",
+            "ref_id": "evd_666666666666666666666666666666666666666666666666",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ],
+        "authority_note_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "evd_777777777777777777777777777777777777777777777777",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "authority_note_supporting_refs": [],
+        "current_legal_support": true,
+        "existing_records": [],
+        "predecessor_search_record_ids": [],
+        "change": "INITIAL",
+        "decision_evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "legal_desk_actor": "synthetic-hk-regulatory-legal-desk"
+      }
+    },
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-002",
+      "request": {
+        "decision_id": "synthetic-hkex-record-identity-decision-002",
+        "construction": {
+          "tree": {
+            "tree_id": "synthetic-tree-current",
+            "component_id": "synthetic-component-main-2.01",
+            "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+            "branch_id": "synthetic-branch-current",
+            "branch_state": "CURRENT",
+            "component_class": "ORDINARY_RULE",
+            "component_label": "Synthetic Main Board Listing Rules",
+            "location_label": "Rule 2.01",
+            "official_heading": "Synthetic conformance fixture",
+            "root_source_unit_id": "context",
+            "source_units": [
+              {
+                "source_unit_id": "context",
+                "parent_source_unit_id": null,
+                "child_source_unit_ids": [
+                  "rule-a"
+                ],
+                "source_order": 0,
+                "kind": "HEADING",
+                "role": "CONTEXT_ONLY",
+                "text": "Rule 2 — Synthetic ordinary fixture",
+                "source_range": "synthetic-hkex-artifact#range-0",
+                "required_context_unit_ids": [],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+              },
+              {
+                "source_unit_id": "rule-a",
+                "parent_source_unit_id": "context",
+                "child_source_unit_ids": [],
+                "source_order": 1,
+                "kind": "BODY_TEXT",
+                "role": "PRIMARY",
+                "text": "2.01 An issuer must comply with the Exchange Listing Rules.",
+                "source_range": "synthetic-hkex-artifact#range-1",
+                "required_context_unit_ids": [
+                  "context"
+                ],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+              }
+            ],
+            "root_record_unit_ids": [
+              "record-root"
+            ],
+            "record_units": [
+              {
+                "record_unit_id": "record-root",
+                "primary_source_unit_ids": [
+                  "rule-a"
+                ],
+                "dependency_source_unit_ids": [
+                  "context"
+                ],
+                "referenced_locations": [],
+                "child_record_unit_ids": [],
+                "source_contract_state": "SUPPORTED",
+                "indivisible": true
+              }
+            ],
+            "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+            "source_artifact_fingerprints": [
+              "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            ]
+          },
+          "profile": {
+            "profile_id": "synthetic-hkex-english-profile-1",
+            "profile_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "tokenizer_id": "synthetic-codepoint-counter-1",
+            "max_text_tokens": 100000,
+            "max_metadata_bytes": 100000,
+            "country": "Hong Kong",
+            "jurisdiction": "Hong Kong",
+            "material_type": "regulatory_material",
+            "source": "Hong Kong Exchanges and Clearing Limited",
+            "authority_note": "None"
+          },
+          "effective_context": null
+        },
+        "root_record_unit_id": "record-root",
+        "part_number": 1,
+        "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+        "official_version_ids": [
+          "ofv_222222222222222222222222222222222222222222222222"
+        ],
+        "legal_location_ids": [
+          "loc_333333333333333333333333333333333333333333333333"
+        ],
+        "evidence_refs": [
+          {
+            "ref_type": "SOURCE_SNAPSHOT",
+            "ref_id": "evd_666666666666666666666666666666666666666666666666",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ],
+        "authority_note_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "evd_777777777777777777777777777777777777777777777777",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "authority_note_supporting_refs": [],
+        "current_legal_support": true,
+        "existing_records": [
+          {
+            "search_record_id": "rec_444444444444444444444444444444444444444444444444",
+            "serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+            "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+            "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+            "currently_selected": true
+          }
+        ],
+        "predecessor_search_record_ids": [
+          "rec_444444444444444444444444444444444444444444444444"
+        ],
+        "change": "SIX_FIELD_UNCHANGED",
+        "decision_evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "legal_desk_actor": "synthetic-hk-regulatory-legal-desk"
+      }
+    },
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-003",
+      "request": {
+        "decision_id": "synthetic-hkex-record-identity-decision-003",
+        "construction": {
+          "tree": {
+            "tree_id": "synthetic-tree-current",
+            "component_id": "synthetic-component-main-2.01",
+            "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+            "branch_id": "synthetic-branch-current",
+            "branch_state": "CURRENT",
+            "component_class": "ORDINARY_RULE",
+            "component_label": "Synthetic Main Board Listing Rules",
+            "location_label": "Rule 2.01",
+            "official_heading": "Synthetic conformance fixture",
+            "root_source_unit_id": "context",
+            "source_units": [
+              {
+                "source_unit_id": "context",
+                "parent_source_unit_id": null,
+                "child_source_unit_ids": [
+                  "rule-a"
+                ],
+                "source_order": 0,
+                "kind": "HEADING",
+                "role": "CONTEXT_ONLY",
+                "text": "Rule 2 — Synthetic ordinary fixture",
+                "source_range": "synthetic-hkex-artifact#range-0",
+                "required_context_unit_ids": [],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+              },
+              {
+                "source_unit_id": "rule-a",
+                "parent_source_unit_id": "context",
+                "child_source_unit_ids": [],
+                "source_order": 1,
+                "kind": "BODY_TEXT",
+                "role": "PRIMARY",
+                "text": "2.01 An issuer must comply with the Exchange Listing Rules.",
+                "source_range": "synthetic-hkex-artifact#range-1",
+                "required_context_unit_ids": [
+                  "context"
+                ],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+              }
+            ],
+            "root_record_unit_ids": [
+              "record-root"
+            ],
+            "record_units": [
+              {
+                "record_unit_id": "record-root",
+                "primary_source_unit_ids": [
+                  "rule-a"
+                ],
+                "dependency_source_unit_ids": [
+                  "context"
+                ],
+                "referenced_locations": [],
+                "child_record_unit_ids": [],
+                "source_contract_state": "SUPPORTED",
+                "indivisible": true
+              }
+            ],
+            "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+            "source_artifact_fingerprints": [
+              "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            ]
+          },
+          "profile": {
+            "profile_id": "synthetic-hkex-english-profile-1",
+            "profile_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "tokenizer_id": "synthetic-codepoint-counter-1",
+            "max_text_tokens": 100000,
+            "max_metadata_bytes": 100000,
+            "country": "Hong Kong",
+            "jurisdiction": "Hong Kong",
+            "material_type": "regulatory_material",
+            "source": "Hong Kong Exchanges and Clearing Limited",
+            "authority_note": "None"
+          },
+          "effective_context": null
+        },
+        "root_record_unit_id": "record-root",
+        "part_number": 1,
+        "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+        "official_version_ids": [
+          "ofv_222222222222222222222222222222222222222222222222"
+        ],
+        "legal_location_ids": [
+          "loc_333333333333333333333333333333333333333333333333"
+        ],
+        "evidence_refs": [
+          {
+            "ref_type": "SOURCE_SNAPSHOT",
+            "ref_id": "evd_666666666666666666666666666666666666666666666666",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ],
+        "authority_note_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "evd_777777777777777777777777777777777777777777777777",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "authority_note_supporting_refs": [],
+        "current_legal_support": true,
+        "existing_records": [
+          {
+            "search_record_id": "rec_444444444444444444444444444444444444444444444444",
+            "serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+            "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+            "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+            "currently_selected": false
+          },
+          {
+            "search_record_id": "rec_555555555555555555555555555555555555555555555555",
+            "serving_payload_fingerprint": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+            "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+            "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+            "currently_selected": true
+          }
+        ],
+        "predecessor_search_record_ids": [
+          "rec_555555555555555555555555555555555555555555555555"
+        ],
+        "change": "REINSTATEMENT",
+        "decision_evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "legal_desk_actor": "synthetic-hk-regulatory-legal-desk"
+      }
+    },
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-004",
+      "request": {
+        "decision_id": "synthetic-hkex-record-identity-decision-004",
+        "construction": {
+          "tree": {
+            "tree_id": "synthetic-tree-transitional_current",
+            "component_id": "synthetic-component-main-2.01",
+            "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+            "branch_id": "synthetic-branch-transitional_current",
+            "branch_state": "TRANSITIONAL_CURRENT",
+            "component_class": "ORDINARY_RULE",
+            "component_label": "Synthetic Main Board Listing Rules",
+            "location_label": "Rule 2.01",
+            "official_heading": "Synthetic conformance fixture",
+            "root_source_unit_id": "context",
+            "source_units": [
+              {
+                "source_unit_id": "context",
+                "parent_source_unit_id": null,
+                "child_source_unit_ids": [
+                  "rule-a"
+                ],
+                "source_order": 0,
+                "kind": "HEADING",
+                "role": "CONTEXT_ONLY",
+                "text": "Rule 2 — Synthetic ordinary fixture",
+                "source_range": "synthetic-hkex-artifact#range-0",
+                "required_context_unit_ids": [],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+              },
+              {
+                "source_unit_id": "rule-a",
+                "parent_source_unit_id": "context",
+                "child_source_unit_ids": [],
+                "source_order": 1,
+                "kind": "BODY_TEXT",
+                "role": "PRIMARY",
+                "text": "2.01 An issuer must comply with the Exchange Listing Rules.",
+                "source_range": "synthetic-hkex-artifact#range-1",
+                "required_context_unit_ids": [
+                  "context"
+                ],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+              }
+            ],
+            "root_record_unit_ids": [
+              "record-root"
+            ],
+            "record_units": [
+              {
+                "record_unit_id": "record-root",
+                "primary_source_unit_ids": [
+                  "rule-a"
+                ],
+                "dependency_source_unit_ids": [
+                  "context"
+                ],
+                "referenced_locations": [],
+                "child_record_unit_ids": [],
+                "source_contract_state": "SUPPORTED",
+                "indivisible": true
+              }
+            ],
+            "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+            "source_artifact_fingerprints": [
+              "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            ]
+          },
+          "profile": {
+            "profile_id": "synthetic-hkex-english-profile-1",
+            "profile_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "tokenizer_id": "synthetic-codepoint-counter-1",
+            "max_text_tokens": 100000,
+            "max_metadata_bytes": 100000,
+            "country": "Hong Kong",
+            "jurisdiction": "Hong Kong",
+            "material_type": "regulatory_material",
+            "source": "Hong Kong Exchanges and Clearing Limited",
+            "authority_note": "None"
+          },
+          "effective_context": "Applies to synthetic pre-2026 issuers"
+        },
+        "root_record_unit_id": "record-root",
+        "part_number": 1,
+        "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+        "official_version_ids": [
+          "ofv_222222222222222222222222222222222222222222222222"
+        ],
+        "legal_location_ids": [
+          "loc_333333333333333333333333333333333333333333333333"
+        ],
+        "evidence_refs": [
+          {
+            "ref_type": "SOURCE_SNAPSHOT",
+            "ref_id": "evd_666666666666666666666666666666666666666666666666",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ],
+        "authority_note_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "evd_777777777777777777777777777777777777777777777777",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "authority_note_supporting_refs": [],
+        "current_legal_support": true,
+        "existing_records": [
+          {
+            "search_record_id": "rec_444444444444444444444444444444444444444444444444",
+            "serving_payload_fingerprint": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+            "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+            "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+            "currently_selected": true
+          }
+        ],
+        "predecessor_search_record_ids": [
+          "rec_444444444444444444444444444444444444444444444444"
+        ],
+        "change": "APPLICABILITY_CONTEXT_CHANGED",
+        "decision_evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "legal_desk_actor": "synthetic-hk-regulatory-legal-desk"
+      }
+    },
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-005",
+      "request": {
+        "decision_id": "synthetic-hkex-record-identity-decision-005",
+        "construction": {
+          "tree": {
+            "tree_id": "synthetic-tree-current",
+            "component_id": "synthetic-component-main-2.01",
+            "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+            "branch_id": "synthetic-branch-current",
+            "branch_state": "CURRENT",
+            "component_class": "ORDINARY_RULE",
+            "component_label": "Synthetic Main Board Listing Rules",
+            "location_label": "Rule 2.01",
+            "official_heading": "Synthetic conformance fixture",
+            "root_source_unit_id": "context",
+            "source_units": [
+              {
+                "source_unit_id": "context",
+                "parent_source_unit_id": null,
+                "child_source_unit_ids": [
+                  "rule-a"
+                ],
+                "source_order": 0,
+                "kind": "HEADING",
+                "role": "CONTEXT_ONLY",
+                "text": "Rule 2 — Synthetic ordinary fixture",
+                "source_range": "synthetic-hkex-artifact#range-0",
+                "required_context_unit_ids": [],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+              },
+              {
+                "source_unit_id": "rule-a",
+                "parent_source_unit_id": "context",
+                "child_source_unit_ids": [],
+                "source_order": 1,
+                "kind": "BODY_TEXT",
+                "role": "PRIMARY",
+                "text": "2.01 An issuer must comply with the Exchange Listing Rules.",
+                "source_range": "synthetic-hkex-artifact#range-1",
+                "required_context_unit_ids": [
+                  "context"
+                ],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+              }
+            ],
+            "root_record_unit_ids": [
+              "record-root"
+            ],
+            "record_units": [
+              {
+                "record_unit_id": "record-root",
+                "primary_source_unit_ids": [
+                  "rule-a"
+                ],
+                "dependency_source_unit_ids": [
+                  "context"
+                ],
+                "referenced_locations": [],
+                "child_record_unit_ids": [],
+                "source_contract_state": "SUPPORTED",
+                "indivisible": true
+              }
+            ],
+            "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+            "source_artifact_fingerprints": [
+              "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            ]
+          },
+          "profile": {
+            "profile_id": "synthetic-hkex-english-profile-1",
+            "profile_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "tokenizer_id": "synthetic-codepoint-counter-1",
+            "max_text_tokens": 100000,
+            "max_metadata_bytes": 100000,
+            "country": "Hong Kong",
+            "jurisdiction": "Hong Kong",
+            "material_type": "regulatory_material",
+            "source": "Hong Kong Exchanges and Clearing Limited",
+            "authority_note": "None"
+          },
+          "effective_context": null
+        },
+        "root_record_unit_id": "record-root",
+        "part_number": 1,
+        "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+        "official_version_ids": [
+          "ofv_222222222222222222222222222222222222222222222222"
+        ],
+        "legal_location_ids": [
+          "loc_333333333333333333333333333333333333333333333333"
+        ],
+        "evidence_refs": [
+          {
+            "ref_type": "SOURCE_SNAPSHOT",
+            "ref_id": "evd_666666666666666666666666666666666666666666666666",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ],
+        "authority_note_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "evd_777777777777777777777777777777777777777777777777",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "authority_note_supporting_refs": [],
+        "current_legal_support": true,
+        "existing_records": [
+          {
+            "search_record_id": "rec_444444444444444444444444444444444444444444444444",
+            "serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+            "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+            "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+            "currently_selected": true
+          }
+        ],
+        "predecessor_search_record_ids": [
+          "rec_444444444444444444444444444444444444444444444444"
+        ],
+        "change": "AUTHORITY_NOTE_CHANGED",
+        "decision_evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "legal_desk_actor": "synthetic-hk-regulatory-legal-desk"
+      }
+    },
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-006",
+      "request": {
+        "decision_id": "synthetic-hkex-record-identity-decision-006",
+        "construction": {
+          "tree": {
+            "tree_id": "synthetic-tree-current",
+            "component_id": "synthetic-component-main-2.01",
+            "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+            "branch_id": "synthetic-branch-current",
+            "branch_state": "CURRENT",
+            "component_class": "ORDINARY_RULE",
+            "component_label": "Synthetic Main Board Listing Rules",
+            "location_label": "Rule 2.01",
+            "official_heading": "Synthetic conformance fixture",
+            "root_source_unit_id": "context",
+            "source_units": [
+              {
+                "source_unit_id": "context",
+                "parent_source_unit_id": null,
+                "child_source_unit_ids": [
+                  "rule-a"
+                ],
+                "source_order": 0,
+                "kind": "HEADING",
+                "role": "CONTEXT_ONLY",
+                "text": "Rule 2 — Synthetic ordinary fixture",
+                "source_range": "synthetic-hkex-artifact#range-0",
+                "required_context_unit_ids": [],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+              },
+              {
+                "source_unit_id": "rule-a",
+                "parent_source_unit_id": "context",
+                "child_source_unit_ids": [],
+                "source_order": 1,
+                "kind": "BODY_TEXT",
+                "role": "PRIMARY",
+                "text": "2.01 An issuer must comply with the Exchange Listing Rules.",
+                "source_range": "synthetic-hkex-artifact#range-1",
+                "required_context_unit_ids": [
+                  "context"
+                ],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+              }
+            ],
+            "root_record_unit_ids": [
+              "record-root"
+            ],
+            "record_units": [
+              {
+                "record_unit_id": "record-root",
+                "primary_source_unit_ids": [
+                  "rule-a"
+                ],
+                "dependency_source_unit_ids": [
+                  "context"
+                ],
+                "referenced_locations": [],
+                "child_record_unit_ids": [],
+                "source_contract_state": "SUPPORTED",
+                "indivisible": true
+              }
+            ],
+            "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+            "source_artifact_fingerprints": [
+              "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            ]
+          },
+          "profile": {
+            "profile_id": "synthetic-hkex-english-profile-1",
+            "profile_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "tokenizer_id": "synthetic-codepoint-counter-1",
+            "max_text_tokens": 100000,
+            "max_metadata_bytes": 100000,
+            "country": "Hong Kong",
+            "jurisdiction": "Hong Kong",
+            "material_type": "regulatory_material",
+            "source": "Hong Kong Exchanges and Clearing Limited",
+            "authority_note": "None"
+          },
+          "effective_context": null
+        },
+        "root_record_unit_id": "record-root",
+        "part_number": 1,
+        "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+        "official_version_ids": [
+          "ofv_222222222222222222222222222222222222222222222222"
+        ],
+        "legal_location_ids": [
+          "loc_333333333333333333333333333333333333333333333333"
+        ],
+        "evidence_refs": [
+          {
+            "ref_type": "SOURCE_SNAPSHOT",
+            "ref_id": "evd_666666666666666666666666666666666666666666666666",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ],
+        "authority_note_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "evd_777777777777777777777777777777777777777777777777",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "authority_note_supporting_refs": [],
+        "current_legal_support": false,
+        "existing_records": [],
+        "predecessor_search_record_ids": [],
+        "change": "INITIAL",
+        "decision_evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "legal_desk_actor": "synthetic-hk-regulatory-legal-desk"
+      }
+    },
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-007",
+      "request": {
+        "decision_id": "synthetic-hkex-record-identity-decision-007",
+        "construction": {
+          "tree": {
+            "tree_id": "synthetic-tree-future_fixed_date",
+            "component_id": "synthetic-component-main-2.01",
+            "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+            "branch_id": "synthetic-branch-future_fixed_date",
+            "branch_state": "FUTURE_FIXED_DATE",
+            "component_class": "ORDINARY_RULE",
+            "component_label": "Synthetic Main Board Listing Rules",
+            "location_label": "Rule 2.01",
+            "official_heading": "Synthetic conformance fixture",
+            "root_source_unit_id": "context",
+            "source_units": [
+              {
+                "source_unit_id": "context",
+                "parent_source_unit_id": null,
+                "child_source_unit_ids": [
+                  "rule-a"
+                ],
+                "source_order": 0,
+                "kind": "HEADING",
+                "role": "CONTEXT_ONLY",
+                "text": "Rule 2 — Synthetic ordinary fixture",
+                "source_range": "synthetic-hkex-artifact#range-0",
+                "required_context_unit_ids": [],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+              },
+              {
+                "source_unit_id": "rule-a",
+                "parent_source_unit_id": "context",
+                "child_source_unit_ids": [],
+                "source_order": 1,
+                "kind": "BODY_TEXT",
+                "role": "PRIMARY",
+                "text": "2.01 An issuer must comply with the Exchange Listing Rules.",
+                "source_range": "synthetic-hkex-artifact#range-1",
+                "required_context_unit_ids": [
+                  "context"
+                ],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+              }
+            ],
+            "root_record_unit_ids": [
+              "record-root"
+            ],
+            "record_units": [
+              {
+                "record_unit_id": "record-root",
+                "primary_source_unit_ids": [
+                  "rule-a"
+                ],
+                "dependency_source_unit_ids": [
+                  "context"
+                ],
+                "referenced_locations": [],
+                "child_record_unit_ids": [],
+                "source_contract_state": "SUPPORTED",
+                "indivisible": true
+              }
+            ],
+            "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+            "source_artifact_fingerprints": [
+              "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            ]
+          },
+          "profile": {
+            "profile_id": "synthetic-hkex-english-profile-1",
+            "profile_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "tokenizer_id": "synthetic-codepoint-counter-1",
+            "max_text_tokens": 100000,
+            "max_metadata_bytes": 100000,
+            "country": "Hong Kong",
+            "jurisdiction": "Hong Kong",
+            "material_type": "regulatory_material",
+            "source": "Hong Kong Exchanges and Clearing Limited",
+            "authority_note": "None"
+          },
+          "effective_context": null
+        },
+        "root_record_unit_id": "record-root",
+        "part_number": 1,
+        "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+        "official_version_ids": [
+          "ofv_222222222222222222222222222222222222222222222222"
+        ],
+        "legal_location_ids": [
+          "loc_333333333333333333333333333333333333333333333333"
+        ],
+        "evidence_refs": [
+          {
+            "ref_type": "SOURCE_SNAPSHOT",
+            "ref_id": "evd_666666666666666666666666666666666666666666666666",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ],
+        "authority_note_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "evd_777777777777777777777777777777777777777777777777",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "authority_note_supporting_refs": [],
+        "current_legal_support": true,
+        "existing_records": [],
+        "predecessor_search_record_ids": [],
+        "change": "INITIAL",
+        "decision_evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "legal_desk_actor": "synthetic-hk-regulatory-legal-desk"
+      }
+    },
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-008",
+      "request": {
+        "decision_id": "synthetic-hkex-record-identity-decision-008",
+        "construction": {
+          "tree": {
+            "tree_id": "synthetic-tree-current",
+            "component_id": "synthetic-component-main-2.01",
+            "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+            "branch_id": "synthetic-branch-current",
+            "branch_state": "CURRENT",
+            "component_class": "ORDINARY_RULE",
+            "component_label": "Synthetic Main Board Listing Rules",
+            "location_label": "Rule 2.01",
+            "official_heading": "Synthetic conformance fixture",
+            "root_source_unit_id": "context",
+            "source_units": [
+              {
+                "source_unit_id": "context",
+                "parent_source_unit_id": null,
+                "child_source_unit_ids": [
+                  "rule-a"
+                ],
+                "source_order": 0,
+                "kind": "HEADING",
+                "role": "CONTEXT_ONLY",
+                "text": "Rule 2 — Synthetic ordinary fixture",
+                "source_range": "synthetic-hkex-artifact#range-0",
+                "required_context_unit_ids": [],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+              },
+              {
+                "source_unit_id": "rule-a",
+                "parent_source_unit_id": "context",
+                "child_source_unit_ids": [],
+                "source_order": 1,
+                "kind": "BODY_TEXT",
+                "role": "PRIMARY",
+                "text": "2.01 An issuer must comply with the Exchange Listing Rules.",
+                "source_range": "synthetic-hkex-artifact#range-1",
+                "required_context_unit_ids": [
+                  "context"
+                ],
+                "meaning_bearing": true,
+                "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+              }
+            ],
+            "root_record_unit_ids": [
+              "record-root"
+            ],
+            "record_units": [
+              {
+                "record_unit_id": "record-root",
+                "primary_source_unit_ids": [
+                  "rule-a"
+                ],
+                "dependency_source_unit_ids": [
+                  "context"
+                ],
+                "referenced_locations": [],
+                "child_record_unit_ids": [],
+                "source_contract_state": "SUPPORTED",
+                "indivisible": true
+              }
+            ],
+            "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+            "source_artifact_fingerprints": [
+              "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            ]
+          },
+          "profile": {
+            "profile_id": "synthetic-hkex-english-profile-1",
+            "profile_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "tokenizer_id": "synthetic-codepoint-counter-1",
+            "max_text_tokens": 100000,
+            "max_metadata_bytes": 100000,
+            "country": "Hong Kong",
+            "jurisdiction": "Hong Kong",
+            "material_type": "regulatory_material",
+            "source": "Hong Kong Exchanges and Clearing Limited",
+            "authority_note": "None"
+          },
+          "effective_context": null
+        },
+        "root_record_unit_id": "record-root",
+        "part_number": 1,
+        "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+        "official_version_ids": [
+          "ofv_222222222222222222222222222222222222222222222222"
+        ],
+        "legal_location_ids": [
+          "loc_333333333333333333333333333333333333333333333333"
+        ],
+        "evidence_refs": [
+          {
+            "ref_type": "SOURCE_SNAPSHOT",
+            "ref_id": "evd_666666666666666666666666666666666666666666666666",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ],
+        "authority_note_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "evd_777777777777777777777777777777777777777777777777",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "authority_note_supporting_refs": [],
+        "current_legal_support": true,
+        "existing_records": [
+          {
+            "search_record_id": "rec_444444444444444444444444444444444444444444444444",
+            "serving_payload_fingerprint": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+            "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+            "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+            "currently_selected": true
+          }
+        ],
+        "predecessor_search_record_ids": [
+          "rec_444444444444444444444444444444444444444444444444"
+        ],
+        "change": "TRACEABILITY_ONLY",
+        "decision_evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "legal_desk_actor": "synthetic-hk-regulatory-legal-desk"
+      }
+    }
+  ]
+}

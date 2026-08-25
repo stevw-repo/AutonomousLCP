@@ -1,0 +1,45 @@
+{
+  "schema_id": "asklegal.hk-cases.treatment-discovery-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-TREAT-SEM-DIS-004",
+  "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-004",
+  "pair_memberships": [],
+  "scenario": "Unusual implicit material reference without a conventional citation",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.treatment-discovery-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "TREATMENT_DISCOVERY",
+    "execution_id": "treatment_discovery_execution_4",
+    "judgment_work_id": "synthetic_treatment_judgment_4",
+    "accepted_original_version_id": "synthetic_treatment_version_4",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "role": "OPERATIVE_MAJORITY",
+        "segment_ids": [
+          "segment_1"
+        ]
+      }
+    ],
+    "segments": [
+      {
+        "segment_id": "segment_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "language": "ENGLISH",
+        "exact_text": "The earlier harbour-master ruling cannot survive this reasoning.",
+        "text_fingerprint": "sha256:a3a9cc340f94e627e487ae26a399fe43226e1603df0858b233368a12cdc9157f",
+        "range_id": "range_1"
+      }
+    ],
+    "missing_required_segment_ids": [],
+    "segment_manifest_complete": true,
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-004.json",
+  "observation_path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-004.json",
+  "expected_path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-004.json"
+}

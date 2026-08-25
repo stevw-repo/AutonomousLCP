@@ -1,0 +1,70 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-BND-014",
+  "coverage_cell_id": "HKCASE-PROP-COV-SBND-014",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-013",
+      "role": "NEAR_MISS"
+    }
+  ],
+  "scenario": "Dissent states a material competing rule",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-boundary-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "boundary_execution_14",
+    "judgment_work_id": "boundary_judgment_14",
+    "judicial_decision_id": "synthetic_boundary_decision_14",
+    "official_version_id": "synthetic_boundary_version_14",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ],
+        "joined_opinion_id": null,
+        "expressly_adopted_opinion_ids": []
+      },
+      {
+        "opinion_id": "opinion_2",
+        "source_order": 2,
+        "role": "DISSENT",
+        "judge_ids": [
+          "judge_2"
+        ],
+        "joined_opinion_id": null,
+        "expressly_adopted_opinion_ids": []
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "The majority requires actual receipt.",
+        "text_fingerprint": "sha256:69e1e2743a914031fdb5a922827d08050a57301ac84db8be9bbdff9e1341910b",
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_2",
+        "source_order": 2,
+        "exact_text": "The dissent would treat proper dispatch as sufficient.",
+        "text_fingerprint": "sha256:89c86b2261776897d914ca151d746c7898862776db31dc3c6f3d0e433b001ed8",
+        "range_id": "range_2"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-014.json",
+  "observation_path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-014.json",
+  "expected_path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-014.json"
+}

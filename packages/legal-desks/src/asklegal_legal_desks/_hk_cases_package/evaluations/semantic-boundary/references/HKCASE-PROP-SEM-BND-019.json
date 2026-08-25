@@ -1,0 +1,132 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "reference_map_id": "boundary_reference_map_19",
+  "model_input_fingerprint": "sha256:96e363e90fba50798ad10524af379385dd19cc1d4d6c100e95800ce7784771f0",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "JOINT",
+      "judge_ids": [
+        "judge_1",
+        "judge_2",
+        "judge_3"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    },
+    {
+      "opinion_id": "opinion_2",
+      "role": "CONCURRENCE",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": "opinion_1",
+      "expressly_adopted_opinion_ids": []
+    },
+    {
+      "opinion_id": "opinion_3",
+      "role": "CONCURRENCE",
+      "judge_ids": [
+        "judge_2"
+      ],
+      "joined_opinion_id": "opinion_1",
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "COMMON_NOTICE_PATH",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "required_meaning_codes": [
+        "OBJECTIVE_NOTICE_RULE"
+      ],
+      "required_boundary_codes": [
+        "EXPRESS_COMMON_REASONING",
+        "OPERATIVE_COMMON_PATH"
+      ],
+      "forbidden_boundary_codes": [],
+      "required_range_ids": [
+        "range_1"
+      ]
+    },
+    {
+      "reference_proposition_id": "reference_prop_2",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "REMEDIAL_ADDITION",
+      "authority_role": "CONCURRENCE",
+      "opinion_path_ids": [
+        "opinion_2"
+      ],
+      "required_meaning_codes": [
+        "REMEDIAL_DISCRETION"
+      ],
+      "required_boundary_codes": [
+        "SEPARATE_ADDITIONAL_REASONING"
+      ],
+      "forbidden_boundary_codes": [],
+      "required_range_ids": [
+        "range_2"
+      ]
+    },
+    {
+      "reference_proposition_id": "reference_prop_3",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "PROCEDURAL_ADDITION",
+      "authority_role": "CONCURRENCE",
+      "opinion_path_ids": [
+        "opinion_3"
+      ],
+      "required_meaning_codes": [
+        "PROCEDURAL_FAIRNESS"
+      ],
+      "required_boundary_codes": [
+        "SEPARATE_ADDITIONAL_REASONING"
+      ],
+      "forbidden_boundary_codes": [],
+      "required_range_ids": [
+        "range_3"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_2"
+      ]
+    },
+    {
+      "unit_id": "unit_3",
+      "opinion_id": "opinion_3",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_3"
+      ]
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1",
+    "reference_prop_2",
+    "reference_prop_3"
+  ],
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

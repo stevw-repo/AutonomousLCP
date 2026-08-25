@@ -1,0 +1,90 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-BND-019",
+  "coverage_cell_id": "HKCASE-PROP-COV-SBND-019",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-015",
+      "role": "POSITIVE"
+    }
+  ],
+  "scenario": "Several judges expressly join one common path while differing elsewhere",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-boundary-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "boundary_execution_19",
+    "judgment_work_id": "boundary_judgment_19",
+    "judicial_decision_id": "synthetic_boundary_decision_19",
+    "official_version_id": "synthetic_boundary_version_19",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "JOINT",
+        "judge_ids": [
+          "judge_1",
+          "judge_2",
+          "judge_3"
+        ],
+        "joined_opinion_id": null,
+        "expressly_adopted_opinion_ids": []
+      },
+      {
+        "opinion_id": "opinion_2",
+        "source_order": 2,
+        "role": "CONCURRENCE",
+        "judge_ids": [
+          "judge_1"
+        ],
+        "joined_opinion_id": "opinion_1",
+        "expressly_adopted_opinion_ids": []
+      },
+      {
+        "opinion_id": "opinion_3",
+        "source_order": 3,
+        "role": "CONCURRENCE",
+        "judge_ids": [
+          "judge_2"
+        ],
+        "joined_opinion_id": "opinion_1",
+        "expressly_adopted_opinion_ids": []
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "All three judges expressly join the objective notice rule.",
+        "text_fingerprint": "sha256:60ea47700bf6aec17b41442c1f3d5e03ce8576617a7d9d6dd375cec7cbbb15e5",
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_2",
+        "source_order": 2,
+        "exact_text": "Judge one separately adds a remedial observation.",
+        "text_fingerprint": "sha256:0d8634463f5cde87f9906692ce58bba885413e27e5d4b7642ecb82f6688cf38f",
+        "range_id": "range_2"
+      },
+      {
+        "unit_id": "unit_3",
+        "opinion_id": "opinion_3",
+        "source_order": 3,
+        "exact_text": "Judge two separately adds a procedural observation.",
+        "text_fingerprint": "sha256:4e92ebb60277be31e8a370bc51bfdfe227dba869367e682a19892bfb3191e4d9",
+        "range_id": "range_3"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-019.json",
+  "observation_path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-019.json",
+  "expected_path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-019.json"
+}

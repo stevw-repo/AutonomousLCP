@@ -1,0 +1,39 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-RSK-018",
+  "coverage_cell_id": "HKCASE-PROP-COV-SRSK-018",
+  "pair_memberships": [],
+  "scenario": "Parser cannot enumerate an unsupported source structure",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-risk-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "risk_execution_18",
+    "judgment_work_id": "risk_judgment_18",
+    "judicial_decision_id": "synthetic_risk_decision_18",
+    "accepted_original_version_id": "synthetic_risk_original_18",
+    "court_family": "HKPC",
+    "original_language": "ENGLISH",
+    "segments": [
+      {
+        "segment_id": "segment_1",
+        "source_order": 1,
+        "exact_text": "An unsupported nested source structure cannot be faithfully enumerated.",
+        "text_fingerprint": "sha256:649a81e7d74fd8a6922314f5bc0a01397b4d105bf4607f6c33f668c5834dad46",
+        "range_id": "range_1"
+      }
+    ],
+    "dependency_ids": [],
+    "segment_manifest_complete": true,
+    "parser_supported": false,
+    "auxiliary_translations": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-018.json",
+  "observation_path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-018.json",
+  "expected_path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-018.json"
+}

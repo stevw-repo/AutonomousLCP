@@ -1,0 +1,66 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "reference_map_id": "content_reference_map_12",
+  "model_input_fingerprint": "sha256:6933a340bad62231dc5a444b27d9a2b8efd15face221d8057b9bf910ae0a3386",
+  "propositions": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "ACCEPTED",
+      "required_meaning_codes": [
+        "CUMULATIVE_THREE_ELEMENT_TEST"
+      ],
+      "forbidden_meaning_codes": [
+        "ALTERNATIVE_ELEMENTS"
+      ],
+      "required_content_codes": [
+        "COMPLETE_ELEMENTS",
+        "PRESERVED_STRUCTURE",
+        "RULE"
+      ],
+      "forbidden_content_codes": [
+        "FLATTENED_RELATIONSHIP"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "ANSWER",
+          "ordered_range_ids": [
+            "range_1",
+            "range_2"
+          ]
+        },
+        {
+          "role_code": "STRUCTURE",
+          "ordered_range_ids": [
+            "range_2"
+          ]
+        }
+      ],
+      "required_dependency_ids": [],
+      "exact_quotations": []
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1"
+  ],
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

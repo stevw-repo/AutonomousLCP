@@ -1,0 +1,616 @@
+{
+  "schema_id": "asklegal.hk-cases.admission-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-DET-ADM-008",
+  "case_id": "HKCASE-PROP-DET-ADM-008",
+  "coverage_cell_id": "HKCASE-PROP-COV-DADM-008",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-026",
+      "role": "POSITIVE"
+    }
+  ],
+  "synthetic_scenario": "Complete explicit catalogues, coverage cells, and pair roles",
+  "evidence_class": "SYNTHETIC_SOURCE_NEUTRAL",
+  "variants": [
+    {
+      "variant_id": "HKCASE-PROP-DET-ADM-008-V01",
+      "request": {
+        "schema_id": "asklegal.hk-cases.admission-request",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-ADMISSION-CONFORMANCE-001",
+        "assertion": "CATALOGUE_COMPLETENESS",
+        "correction": null,
+        "catalogue": {
+          "completeness_method": "EXPLICIT",
+          "case_ids": [
+            "HKCASE-PROP-SEM-MAT-001",
+            "HKCASE-PROP-SEM-MAT-002",
+            "HKCASE-PROP-SEM-MAT-003",
+            "HKCASE-PROP-SEM-MAT-004",
+            "HKCASE-PROP-SEM-MAT-005",
+            "HKCASE-PROP-SEM-MAT-006",
+            "HKCASE-PROP-SEM-MAT-007",
+            "HKCASE-PROP-SEM-MAT-008",
+            "HKCASE-PROP-SEM-MAT-009",
+            "HKCASE-PROP-SEM-MAT-010",
+            "HKCASE-PROP-SEM-MAT-011",
+            "HKCASE-PROP-SEM-MAT-012",
+            "HKCASE-PROP-SEM-MAT-013",
+            "HKCASE-PROP-SEM-MAT-014",
+            "HKCASE-PROP-SEM-MAT-015",
+            "HKCASE-PROP-SEM-MAT-016",
+            "HKCASE-PROP-SEM-MAT-017",
+            "HKCASE-PROP-SEM-MAT-018",
+            "HKCASE-PROP-SEM-CNT-001",
+            "HKCASE-PROP-SEM-CNT-002",
+            "HKCASE-PROP-SEM-CNT-003",
+            "HKCASE-PROP-SEM-CNT-004",
+            "HKCASE-PROP-SEM-CNT-005",
+            "HKCASE-PROP-SEM-CNT-006",
+            "HKCASE-PROP-SEM-CNT-007",
+            "HKCASE-PROP-SEM-CNT-008",
+            "HKCASE-PROP-SEM-CNT-009",
+            "HKCASE-PROP-SEM-CNT-010",
+            "HKCASE-PROP-SEM-CNT-011",
+            "HKCASE-PROP-SEM-CNT-012",
+            "HKCASE-PROP-SEM-CNT-013",
+            "HKCASE-PROP-SEM-CNT-014",
+            "HKCASE-PROP-SEM-CNT-015",
+            "HKCASE-PROP-SEM-CNT-016",
+            "HKCASE-PROP-SEM-CNT-017",
+            "HKCASE-PROP-SEM-CNT-018",
+            "HKCASE-PROP-SEM-BND-001",
+            "HKCASE-PROP-SEM-BND-002",
+            "HKCASE-PROP-SEM-BND-003",
+            "HKCASE-PROP-SEM-BND-004",
+            "HKCASE-PROP-SEM-BND-005",
+            "HKCASE-PROP-SEM-BND-006",
+            "HKCASE-PROP-SEM-BND-007",
+            "HKCASE-PROP-SEM-BND-008",
+            "HKCASE-PROP-SEM-BND-009",
+            "HKCASE-PROP-SEM-BND-010",
+            "HKCASE-PROP-SEM-BND-011",
+            "HKCASE-PROP-SEM-BND-012",
+            "HKCASE-PROP-SEM-BND-013",
+            "HKCASE-PROP-SEM-BND-014",
+            "HKCASE-PROP-SEM-BND-015",
+            "HKCASE-PROP-SEM-BND-016",
+            "HKCASE-PROP-SEM-BND-017",
+            "HKCASE-PROP-SEM-BND-018",
+            "HKCASE-PROP-SEM-BND-019",
+            "HKCASE-PROP-SEM-BND-020",
+            "HKCASE-PROP-SEM-BND-021",
+            "HKCASE-PROP-SEM-BND-022",
+            "HKCASE-PROP-SEM-RSK-001",
+            "HKCASE-PROP-SEM-RSK-002",
+            "HKCASE-PROP-SEM-RSK-003",
+            "HKCASE-PROP-SEM-RSK-004",
+            "HKCASE-PROP-SEM-RSK-005",
+            "HKCASE-PROP-SEM-RSK-006",
+            "HKCASE-PROP-SEM-RSK-007",
+            "HKCASE-PROP-SEM-RSK-008",
+            "HKCASE-PROP-SEM-RSK-009",
+            "HKCASE-PROP-SEM-RSK-010",
+            "HKCASE-PROP-SEM-RSK-011",
+            "HKCASE-PROP-SEM-RSK-012",
+            "HKCASE-PROP-SEM-RSK-013",
+            "HKCASE-PROP-SEM-RSK-014",
+            "HKCASE-PROP-SEM-RSK-015",
+            "HKCASE-PROP-SEM-RSK-016",
+            "HKCASE-PROP-SEM-RSK-017",
+            "HKCASE-PROP-SEM-RSK-018",
+            "HKCASE-PROP-SEM-RSK-019",
+            "HKCASE-PROP-SEM-RSK-020",
+            "HKCASE-PROP-DET-LED-001",
+            "HKCASE-PROP-DET-LED-002",
+            "HKCASE-PROP-DET-LED-003",
+            "HKCASE-PROP-DET-LED-004",
+            "HKCASE-PROP-DET-LED-005",
+            "HKCASE-PROP-DET-LED-006",
+            "HKCASE-PROP-DET-LED-007",
+            "HKCASE-PROP-DET-LED-008",
+            "HKCASE-PROP-DET-LED-009",
+            "HKCASE-PROP-DET-LED-010",
+            "HKCASE-PROP-DET-LED-011",
+            "HKCASE-PROP-DET-LED-012",
+            "HKCASE-PROP-DET-LED-013",
+            "HKCASE-PROP-DET-LED-014",
+            "HKCASE-PROP-DET-LED-015",
+            "HKCASE-PROP-DET-LED-016",
+            "HKCASE-PROP-DET-LED-017",
+            "HKCASE-PROP-DET-LED-018",
+            "HKCASE-PROP-DET-LED-019",
+            "HKCASE-PROP-DET-LED-020",
+            "HKCASE-PROP-DET-OUT-001",
+            "HKCASE-PROP-DET-OUT-002",
+            "HKCASE-PROP-DET-OUT-003",
+            "HKCASE-PROP-DET-OUT-004",
+            "HKCASE-PROP-DET-OUT-005",
+            "HKCASE-PROP-DET-OUT-006",
+            "HKCASE-PROP-DET-OUT-007",
+            "HKCASE-PROP-DET-OUT-008",
+            "HKCASE-PROP-DET-OUT-009",
+            "HKCASE-PROP-DET-OUT-010",
+            "HKCASE-PROP-DET-OUT-011",
+            "HKCASE-PROP-DET-OUT-012",
+            "HKCASE-PROP-DET-OUT-013",
+            "HKCASE-PROP-DET-OUT-014",
+            "HKCASE-PROP-DET-OUT-015",
+            "HKCASE-PROP-DET-OUT-016",
+            "HKCASE-PROP-DET-ADM-001",
+            "HKCASE-PROP-DET-ADM-002",
+            "HKCASE-PROP-DET-ADM-003",
+            "HKCASE-PROP-DET-ADM-004",
+            "HKCASE-PROP-DET-ADM-005",
+            "HKCASE-PROP-DET-ADM-006",
+            "HKCASE-PROP-DET-ADM-007",
+            "HKCASE-PROP-DET-ADM-008",
+            "HKCASE-PROP-DET-ADM-009",
+            "HKCASE-PROP-DET-ADM-010",
+            "HKCASE-PROP-DET-ADM-011",
+            "HKCASE-PROP-DET-ADM-012",
+            "HKCASE-PROP-DET-ADM-013",
+            "HKCASE-PROP-DET-ADM-014",
+            "HKCASE-PROP-DET-ADM-015",
+            "HKCASE-PROP-DET-ADM-016",
+            "HKCASE-PROP-DET-ADM-017",
+            "HKCASE-PROP-DET-ADM-018"
+          ],
+          "coverage_cell_ids": [
+            "HKCASE-PROP-COV-SMAT-001",
+            "HKCASE-PROP-COV-SMAT-002",
+            "HKCASE-PROP-COV-SMAT-003",
+            "HKCASE-PROP-COV-SMAT-004",
+            "HKCASE-PROP-COV-SMAT-005",
+            "HKCASE-PROP-COV-SMAT-006",
+            "HKCASE-PROP-COV-SMAT-007",
+            "HKCASE-PROP-COV-SMAT-008",
+            "HKCASE-PROP-COV-SMAT-009",
+            "HKCASE-PROP-COV-SMAT-010",
+            "HKCASE-PROP-COV-SMAT-011",
+            "HKCASE-PROP-COV-SMAT-012",
+            "HKCASE-PROP-COV-SMAT-013",
+            "HKCASE-PROP-COV-SMAT-014",
+            "HKCASE-PROP-COV-SMAT-015",
+            "HKCASE-PROP-COV-SMAT-016",
+            "HKCASE-PROP-COV-SMAT-017",
+            "HKCASE-PROP-COV-SMAT-018",
+            "HKCASE-PROP-COV-SCNT-001",
+            "HKCASE-PROP-COV-SCNT-002",
+            "HKCASE-PROP-COV-SCNT-003",
+            "HKCASE-PROP-COV-SCNT-004",
+            "HKCASE-PROP-COV-SCNT-005",
+            "HKCASE-PROP-COV-SCNT-006",
+            "HKCASE-PROP-COV-SCNT-007",
+            "HKCASE-PROP-COV-SCNT-008",
+            "HKCASE-PROP-COV-SCNT-009",
+            "HKCASE-PROP-COV-SCNT-010",
+            "HKCASE-PROP-COV-SCNT-011",
+            "HKCASE-PROP-COV-SCNT-012",
+            "HKCASE-PROP-COV-SCNT-013",
+            "HKCASE-PROP-COV-SCNT-014",
+            "HKCASE-PROP-COV-SCNT-015",
+            "HKCASE-PROP-COV-SCNT-016",
+            "HKCASE-PROP-COV-SCNT-017",
+            "HKCASE-PROP-COV-SCNT-018",
+            "HKCASE-PROP-COV-SBND-001",
+            "HKCASE-PROP-COV-SBND-002",
+            "HKCASE-PROP-COV-SBND-003",
+            "HKCASE-PROP-COV-SBND-004",
+            "HKCASE-PROP-COV-SBND-005",
+            "HKCASE-PROP-COV-SBND-006",
+            "HKCASE-PROP-COV-SBND-007",
+            "HKCASE-PROP-COV-SBND-008",
+            "HKCASE-PROP-COV-SBND-009",
+            "HKCASE-PROP-COV-SBND-010",
+            "HKCASE-PROP-COV-SBND-011",
+            "HKCASE-PROP-COV-SBND-012",
+            "HKCASE-PROP-COV-SBND-013",
+            "HKCASE-PROP-COV-SBND-014",
+            "HKCASE-PROP-COV-SBND-015",
+            "HKCASE-PROP-COV-SBND-016",
+            "HKCASE-PROP-COV-SBND-017",
+            "HKCASE-PROP-COV-SBND-018",
+            "HKCASE-PROP-COV-SBND-019",
+            "HKCASE-PROP-COV-SBND-020",
+            "HKCASE-PROP-COV-SBND-021",
+            "HKCASE-PROP-COV-SBND-022",
+            "HKCASE-PROP-COV-SRSK-001",
+            "HKCASE-PROP-COV-SRSK-002",
+            "HKCASE-PROP-COV-SRSK-003",
+            "HKCASE-PROP-COV-SRSK-004",
+            "HKCASE-PROP-COV-SRSK-005",
+            "HKCASE-PROP-COV-SRSK-006",
+            "HKCASE-PROP-COV-SRSK-007",
+            "HKCASE-PROP-COV-SRSK-008",
+            "HKCASE-PROP-COV-SRSK-009",
+            "HKCASE-PROP-COV-SRSK-010",
+            "HKCASE-PROP-COV-SRSK-011",
+            "HKCASE-PROP-COV-SRSK-012",
+            "HKCASE-PROP-COV-SRSK-013",
+            "HKCASE-PROP-COV-SRSK-014",
+            "HKCASE-PROP-COV-SRSK-015",
+            "HKCASE-PROP-COV-SRSK-016",
+            "HKCASE-PROP-COV-SRSK-017",
+            "HKCASE-PROP-COV-SRSK-018",
+            "HKCASE-PROP-COV-SRSK-019",
+            "HKCASE-PROP-COV-SRSK-020",
+            "HKCASE-PROP-COV-DLED-001",
+            "HKCASE-PROP-COV-DLED-002",
+            "HKCASE-PROP-COV-DLED-003",
+            "HKCASE-PROP-COV-DLED-004",
+            "HKCASE-PROP-COV-DLED-005",
+            "HKCASE-PROP-COV-DLED-006",
+            "HKCASE-PROP-COV-DLED-007",
+            "HKCASE-PROP-COV-DLED-008",
+            "HKCASE-PROP-COV-DLED-009",
+            "HKCASE-PROP-COV-DLED-010",
+            "HKCASE-PROP-COV-DLED-011",
+            "HKCASE-PROP-COV-DLED-012",
+            "HKCASE-PROP-COV-DLED-013",
+            "HKCASE-PROP-COV-DLED-014",
+            "HKCASE-PROP-COV-DLED-015",
+            "HKCASE-PROP-COV-DLED-016",
+            "HKCASE-PROP-COV-DLED-017",
+            "HKCASE-PROP-COV-DLED-018",
+            "HKCASE-PROP-COV-DLED-019",
+            "HKCASE-PROP-COV-DLED-020",
+            "HKCASE-PROP-COV-DOUT-001",
+            "HKCASE-PROP-COV-DOUT-002",
+            "HKCASE-PROP-COV-DOUT-003",
+            "HKCASE-PROP-COV-DOUT-004",
+            "HKCASE-PROP-COV-DOUT-005",
+            "HKCASE-PROP-COV-DOUT-006",
+            "HKCASE-PROP-COV-DOUT-007",
+            "HKCASE-PROP-COV-DOUT-008",
+            "HKCASE-PROP-COV-DOUT-009",
+            "HKCASE-PROP-COV-DOUT-010",
+            "HKCASE-PROP-COV-DOUT-011",
+            "HKCASE-PROP-COV-DOUT-012",
+            "HKCASE-PROP-COV-DOUT-013",
+            "HKCASE-PROP-COV-DOUT-014",
+            "HKCASE-PROP-COV-DOUT-015",
+            "HKCASE-PROP-COV-DOUT-016",
+            "HKCASE-PROP-COV-DADM-001",
+            "HKCASE-PROP-COV-DADM-002",
+            "HKCASE-PROP-COV-DADM-003",
+            "HKCASE-PROP-COV-DADM-004",
+            "HKCASE-PROP-COV-DADM-005",
+            "HKCASE-PROP-COV-DADM-006",
+            "HKCASE-PROP-COV-DADM-007",
+            "HKCASE-PROP-COV-DADM-008",
+            "HKCASE-PROP-COV-DADM-009",
+            "HKCASE-PROP-COV-DADM-010",
+            "HKCASE-PROP-COV-DADM-011",
+            "HKCASE-PROP-COV-DADM-012",
+            "HKCASE-PROP-COV-DADM-013",
+            "HKCASE-PROP-COV-DADM-014",
+            "HKCASE-PROP-COV-DADM-015",
+            "HKCASE-PROP-COV-DADM-016",
+            "HKCASE-PROP-COV-DADM-017",
+            "HKCASE-PROP-COV-DADM-018"
+          ],
+          "pair_memberships": [
+            {
+              "pair_id": "HKCASE-PROP-PAIR-001",
+              "case_id": "HKCASE-PROP-SEM-MAT-001",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-001",
+              "case_id": "HKCASE-PROP-SEM-MAT-013",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-002",
+              "case_id": "HKCASE-PROP-SEM-MAT-002",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-002",
+              "case_id": "HKCASE-PROP-SEM-MAT-003",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-003",
+              "case_id": "HKCASE-PROP-SEM-MAT-004",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-003",
+              "case_id": "HKCASE-PROP-SEM-MAT-005",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-004",
+              "case_id": "HKCASE-PROP-SEM-MAT-006",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-004",
+              "case_id": "HKCASE-PROP-SEM-MAT-007",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-005",
+              "case_id": "HKCASE-PROP-SEM-MAT-012",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-005",
+              "case_id": "HKCASE-PROP-SEM-MAT-013",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-006",
+              "case_id": "HKCASE-PROP-SEM-CNT-002",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-006",
+              "case_id": "HKCASE-PROP-SEM-CNT-008",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-007",
+              "case_id": "HKCASE-PROP-SEM-CNT-009",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-007",
+              "case_id": "HKCASE-PROP-SEM-CNT-014",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-008",
+              "case_id": "HKCASE-PROP-SEM-CNT-018",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-008",
+              "case_id": "HKCASE-PROP-SEM-CNT-017",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-009",
+              "case_id": "HKCASE-PROP-SEM-BND-001",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-009",
+              "case_id": "HKCASE-PROP-SEM-BND-003",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-010",
+              "case_id": "HKCASE-PROP-SEM-BND-005",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-010",
+              "case_id": "HKCASE-PROP-SEM-BND-007",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-011",
+              "case_id": "HKCASE-PROP-SEM-BND-010",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-011",
+              "case_id": "HKCASE-PROP-SEM-BND-013",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-012",
+              "case_id": "HKCASE-PROP-SEM-BND-016",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-012",
+              "case_id": "HKCASE-PROP-SEM-BND-017",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-013",
+              "case_id": "HKCASE-PROP-SEM-BND-010",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-013",
+              "case_id": "HKCASE-PROP-SEM-BND-014",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-014",
+              "case_id": "HKCASE-PROP-SEM-BND-005",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-014",
+              "case_id": "HKCASE-PROP-SEM-BND-021",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-015",
+              "case_id": "HKCASE-PROP-SEM-BND-019",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-015",
+              "case_id": "HKCASE-PROP-SEM-BND-018",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-016",
+              "case_id": "HKCASE-PROP-SEM-RSK-010",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-016",
+              "case_id": "HKCASE-PROP-SEM-RSK-011",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-017",
+              "case_id": "HKCASE-PROP-SEM-RSK-015",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-017",
+              "case_id": "HKCASE-PROP-SEM-RSK-014",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-018",
+              "case_id": "HKCASE-PROP-SEM-RSK-001",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-018",
+              "case_id": "HKCASE-PROP-SEM-RSK-007",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-019",
+              "case_id": "HKCASE-PROP-SEM-MAT-017",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-019",
+              "case_id": "HKCASE-PROP-SEM-RSK-016",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-020",
+              "case_id": "HKCASE-PROP-DET-LED-005",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-020",
+              "case_id": "HKCASE-PROP-DET-LED-006",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-021",
+              "case_id": "HKCASE-PROP-DET-LED-009",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-021",
+              "case_id": "HKCASE-PROP-DET-LED-010",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-022",
+              "case_id": "HKCASE-PROP-DET-OUT-001",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-022",
+              "case_id": "HKCASE-PROP-DET-OUT-002",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-023",
+              "case_id": "HKCASE-PROP-DET-OUT-003",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-023",
+              "case_id": "HKCASE-PROP-DET-OUT-004",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-024",
+              "case_id": "HKCASE-PROP-DET-OUT-005",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-024",
+              "case_id": "HKCASE-PROP-DET-OUT-006",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-025",
+              "case_id": "HKCASE-PROP-DET-OUT-007",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-025",
+              "case_id": "HKCASE-PROP-DET-OUT-008",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-026",
+              "case_id": "HKCASE-PROP-DET-ADM-008",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-026",
+              "case_id": "HKCASE-PROP-DET-ADM-009",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-027",
+              "case_id": "HKCASE-PROP-DET-ADM-010",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-027",
+              "case_id": "HKCASE-PROP-DET-ADM-011",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-028",
+              "case_id": "HKCASE-PROP-DET-ADM-012",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-028",
+              "case_id": "HKCASE-PROP-DET-ADM-013",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-029",
+              "case_id": "HKCASE-PROP-DET-ADM-014",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-029",
+              "case_id": "HKCASE-PROP-DET-ADM-015",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-030",
+              "case_id": "HKCASE-PROP-DET-ADM-017",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-030",
+              "case_id": "HKCASE-PROP-DET-ADM-018",
+              "role": "NEAR_MISS"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-031",
+              "case_id": "HKCASE-PROP-SEM-MAT-001",
+              "role": "POSITIVE"
+            },
+            {
+              "pair_id": "HKCASE-PROP-PAIR-031",
+              "case_id": "HKCASE-PROP-SEM-MAT-015",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        "evaluation_packet": null,
+        "sealed_package": null,
+        "reproducibility": null,
+        "side_effects": null,
+        "workflow_identity": null
+      }
+    }
+  ],
+  "external_effects": "NONE"
+}

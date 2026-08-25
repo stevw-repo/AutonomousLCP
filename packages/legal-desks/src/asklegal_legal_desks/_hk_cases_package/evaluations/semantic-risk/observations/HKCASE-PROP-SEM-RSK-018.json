@@ -1,0 +1,28 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:d113fdbf0f49c73bdbca7f0a69b141690f5a14641bdf49ab64c3796a7a1f6c51",
+  "workflow_result_fingerprint": "sha256:10a0f59344b119354fb5879e36e3578ec3d00893f521413ef5ba2e59427af96e",
+  "court_family": "HKPC",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_18",
+  "auxiliary_translation_version_ids": [],
+  "examined_segment_ids": [
+    "segment_1"
+  ],
+  "resolved_dependency_ids": [],
+  "candidates": [],
+  "disposition": "BLOCKED",
+  "selected_candidate_ids": [],
+  "coverage_gap_ids": [
+    "coverage_gap_unsupported_structure"
+  ],
+  "translation_use": "NONE",
+  "parser_supported": false,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

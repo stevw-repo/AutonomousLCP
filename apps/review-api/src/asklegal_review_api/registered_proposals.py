@@ -41,8 +41,31 @@ if TYPE_CHECKING:
 from asklegal_management_register import RegisterProjectionError
 
 _IDENTIFIER = re.compile(r"^(?:pmn|ppk)_[0-9a-f]{48}$")
+_ISSUED_ID = re.compile(r"^[a-z][a-z0-9]{2}_[0-9a-f]{48}$")
 _FINGERPRINT = re.compile(r"^sha256:[0-9a-f]{64}$")
+_SCHEMA_VERSION = re.compile(r"^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)$")
+_CODE = re.compile(r"^[A-Z][A-Z0-9_]*$")
+_UTC_TIMESTAMP = re.compile(
+    r"^[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])"
+    r"T(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:\.[0-9]{1,9})?Z$"
+)
 _PREDICATE_PARTS = 3
+_PROMOTION_EFFECT_BINDINGS = {
+    "BACKUP_MUTATION": ("MANAGE_BACKUP", "BACKUP_STORE"),
+    "EMBEDDING_PROVIDER_CALL": ("CALL_EMBEDDING_PROVIDER", "EMBEDDING_PROVIDER"),
+    "PINECONE_MUTATION": ("MUTATE_PINECONE", "SERVING_TARGET"),
+    "RELEASE_PUBLICATION": ("PUBLISH_RELEASE", "RELEASE_STORE"),
+    "ROUTING_ACTIVATION": ("ACTIVATE_ROUTING", "ROUTING_TARGET"),
+}
+_PROMOTION_STOP_CONDITIONS = (
+    "ATTEMPT_CEILING",
+    "AUTHORITY_INVALID",
+    "CANCELLATION_BEFORE_EFFECT",
+    "CAPABILITY_INACTIVE",
+    "DEADLINE",
+    "POSTCONDITION_MET",
+    "PRECONDITION_CHANGED",
+)
 _ROLE_PATHS = {
     "CHANGE_INVENTORY": "change-inventory/change-inventory.json",
     "CORPUS_RELEASES": "corpus-releases/releases.json",
@@ -206,16 +229,20 @@ def _detail(row: ReviewReadyProposalRow, vault: ImmutableVault) -> ProposalDetai
         expected_fingerprint=package_fingerprint,
     )
     members = _member_references(raw.get("members"), package_id)
+    traceability_shards = _traceability_references(raw.get("traceability_shards"), package_id)
     manifest_bytes = _read_exact(vault, manifest_reference)
     member_bytes = tuple(
         (role, path, reference, _read_exact(vault, reference)) for role, path, reference in members
     )
+    traceability_shard_bytes = tuple(
+        (path, reference, _read_exact(vault, reference)) for path, reference in traceability_shards
+    )
     root = _validate_package_manifest(
         manifest_bytes,
         package_id=package_id,
-        promotion_manifest_id=promotion_manifest_id,
-        promotion_fingerprint=promotion_fingerprint,
+        promotion_identity=(promotion_manifest_id, promotion_fingerprint),
         member_bytes=member_bytes,
+        traceability_shard_bytes=traceability_shard_bytes,
     )
     decision = _decision_projection(
         row,
@@ -403,6 +430,7 @@ def _receipt_document(row: ReviewReadyProposalRow) -> dict[str, JsonValue]:
         "package_id",
         "promotion_manifest_fingerprint",
         "promotion_manifest_id",
+        "traceability_shards",
     }
     if set(raw) != expected:
         raise ProposalProjectionError(ProposalProjectionErrorCode.FIELDS)
@@ -440,17 +468,49 @@ def _member_references(
     return tuple(result)
 
 
+def _traceability_references(
+    shards: JsonValue | None,
+    package_id: str,
+) -> tuple[tuple[str, ExactObjectReference], ...]:
+    if not isinstance(shards, list) or not shards:
+        raise ProposalProjectionError(ProposalProjectionErrorCode.INVENTORY)
+    result: list[tuple[str, ExactObjectReference]] = []
+    for value in shards:
+        if not isinstance(value, dict) or set(value) != {"path", "reference"}:
+            raise ProposalProjectionError(ProposalProjectionErrorCode.FIELDS)
+        path = _text(value, "path")
+        if re.fullmatch(r"entries/rts_[0-9a-f]{48}\.ndjson", path) is None:
+            raise ProposalProjectionError(ProposalProjectionErrorCode.INVENTORY)
+        result.append(
+            (
+                path,
+                _reference(
+                    value.get("reference"),
+                    expected_key=f"proposal-packages/{package_id}/traceability/{path}",
+                    allow_empty=True,
+                ),
+            )
+        )
+    if tuple(path for path, _reference_value in result) != tuple(
+        sorted({path for path, _reference_value in result})
+    ):
+        raise ProposalProjectionError(ProposalProjectionErrorCode.INVENTORY)
+    return tuple(result)
+
+
 def _reference(
     value: JsonValue | None,
     *,
     expected_key: str,
     expected_fingerprint: str | None = None,
+    allow_empty: bool = False,
 ) -> ExactObjectReference:
     expected = {"byte_length", "fingerprint", "logical_key", "vault", "version_id"}
     if not isinstance(value, dict) or set(value) != expected:
         raise ProposalProjectionError(ProposalProjectionErrorCode.REFERENCE)
     byte_length = value.get("byte_length")
-    if type(byte_length) is not int or byte_length < 1:
+    minimum_length = 0 if allow_empty else 1
+    if type(byte_length) is not int or byte_length < minimum_length:
         raise ProposalProjectionError(ProposalProjectionErrorCode.REFERENCE)
     if _text(value, "vault") != "PRIMARY" or _text(value, "logical_key") != expected_key:
         raise ProposalProjectionError(ProposalProjectionErrorCode.REFERENCE)
@@ -488,10 +548,11 @@ def _validate_package_manifest(
     content: bytes,
     *,
     package_id: str,
-    promotion_manifest_id: str,
-    promotion_fingerprint: str,
+    promotion_identity: tuple[str, str],
     member_bytes: tuple[tuple[str, str, ExactObjectReference, bytes], ...],
+    traceability_shard_bytes: tuple[tuple[str, ExactObjectReference, bytes], ...],
 ) -> _ProposalRoot:
+    promotion_manifest_id, promotion_fingerprint = promotion_identity
     try:
         value = parse_json_bytes(content, max_bytes=1_000_000)
     except ContractViolation as error:
@@ -551,7 +612,7 @@ def _validate_package_manifest(
     )
     if promotion_content is None:
         raise ProposalProjectionError(ProposalProjectionErrorCode.INVENTORY)
-    promotion = _promotion_facts(
+    promotion = promotion_facts_from_bytes(
         promotion_content,
         manifest_id=promotion_manifest_id,
         manifest_fingerprint=promotion_fingerprint,
@@ -572,6 +633,7 @@ def _validate_package_manifest(
             candidate_id,
             candidate_fingerprint,
         ),
+        {path: content for path, _reference_value, content in traceability_shard_bytes},
     )
     report = next(
         (reference for role, _path, reference, _content in member_bytes if role == "REVIEW_REPORT"),
@@ -601,11 +663,13 @@ def _validate_package_manifest(
 def _validate_proposal_member_semantics(
     members: tuple[tuple[str, str, ExactObjectReference, bytes], ...],
     bindings: ProposalMemberBindings,
+    traceability_shards_by_path: Mapping[str, bytes],
 ) -> None:
     try:
         validate_v1_proposal_members(
             {role: content for role, _path, _reference, content in members},
             bindings,
+            traceability_shards_by_path,
         )
     except ProposalMemberViolation as error:
         raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE) from error
@@ -623,23 +687,33 @@ class _PromotionFacts:
     validity_predicates: tuple[tuple[str, str, str], ...]
 
 
-def _promotion_facts(
+@dataclass(frozen=True, slots=True)
+class _PromotionActionBindings:
+    candidate_serving_state_fingerprint: str
+    desired_state_fingerprint: str
+    embedding_profile_fingerprint: str
+    valid_from: str
+    valid_until: str
+
+
+def promotion_facts_from_bytes(
     content: bytes,
     *,
     manifest_id: str,
     manifest_fingerprint: str,
 ) -> _PromotionFacts:
+    """Independently recover Approval facts from one exact executable manifest."""
     try:
         value = parse_json_bytes(content, max_bytes=1_000_000)
     except ContractViolation as error:
         raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE) from error
     expected = {
-        "action_ids",
+        "action_contract_version",
+        "actions",
         "base_serving_state_id",
         "batch_size",
         "candidate_serving_state_fingerprint",
         "candidate_serving_state_id",
-        "capability_enabled",
         "coverage_fingerprint",
         "desired_state_fingerprint",
         "embedding_profile_fingerprint",
@@ -662,7 +736,6 @@ def _promotion_facts(
         or _stable_id("pmn", actual_fingerprint) != manifest_id
     ):
         raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
-    actions = _string_sequence(value, "action_ids")
     retirements = _string_sequence(value, "exact_retirement_target_ids")
     predicates = _predicate_sequence(value)
     valid_from = _text(value, "valid_from")
@@ -678,17 +751,26 @@ def _promotion_facts(
     )
     batch_size = value.get("batch_size")
     if (
-        not actions
-        or len(actions) != len(set(actions))
-        or len(retirements) != len(set(retirements))
+        len(retirements) != len(set(retirements))
         or not predicates
         or len(predicates) != len(set(predicates))
         or valid_from >= valid_until
         or type(batch_size) is not int
         or batch_size < 1
-        or type(value.get("capability_enabled")) is not bool
     ):
         raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+    if _text(value, "action_contract_version") != "1.0.0":
+        raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+    _promotion_actions(
+        value,
+        _PromotionActionBindings(
+            fingerprints[0],
+            fingerprints[2],
+            fingerprints[3],
+            valid_from,
+            valid_until,
+        ),
+    )
     for field in ("environment", "freeze_date", "jurisdiction", "project_id"):
         _text(value, field)
     base_id = _exact_id(value, "base_serving_state_id", "srv")
@@ -702,6 +784,143 @@ def _promotion_facts(
         valid_until,
         predicates,
     )
+
+
+def _promotion_actions(
+    value: Mapping[str, JsonValue],
+    bindings: _PromotionActionBindings,
+) -> None:
+    raw_actions = value.get("actions")
+    if not isinstance(raw_actions, list) or not raw_actions:
+        raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+    expected_fields = {
+        "action_id",
+        "attempt_ceiling",
+        "capability_profile_ref",
+        "compensation",
+        "deadline",
+        "destination_class",
+        "effect_command_fingerprint",
+        "effect_type",
+        "expected_remote_precondition_ref",
+        "input_refs",
+        "owning_application",
+        "permitted_checkpoint",
+        "required_capability",
+        "retry_class",
+        "sequence",
+        "stable_idempotency_key",
+        "stop_conditions",
+        "success_postcondition_ref",
+    }
+    action_ids: list[str] = []
+    idempotency_keys: list[str] = []
+    for expected_sequence, action in enumerate(raw_actions, start=1):
+        if not isinstance(action, dict) or set(action) != expected_fields:
+            raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+        if action.get("sequence") != expected_sequence:
+            raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+        action_id = _text(action, "action_id")
+        checkpoint = _text(action, "permitted_checkpoint")
+        effect_type = _text(action, "effect_type")
+        binding = _PROMOTION_EFFECT_BINDINGS.get(effect_type)
+        if (
+            _CODE.fullmatch(action_id) is None
+            or _CODE.fullmatch(checkpoint) is None
+            or binding is None
+            or _text(action, "owning_application") != "PROMOTION_WORKER"
+            or _text(action, "required_capability") != binding[0]
+            or _text(action, "destination_class") != binding[1]
+        ):
+            raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+        inputs = _promotion_references(action.get("input_refs"))
+        capability = _promotion_reference(action.get("capability_profile_ref"))
+        if (
+            not inputs
+            or capability[0] != "CAPABILITY_PROFILE"
+            or not capability[1].startswith("cap_")
+        ):
+            raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+        required_inputs = {
+            "BACKUP_MUTATION": {("SERVING_STATE", bindings.candidate_serving_state_fingerprint)},
+            "EMBEDDING_PROVIDER_CALL": {
+                ("DESIRED_STATE_INVENTORY", bindings.desired_state_fingerprint),
+                ("EMBEDDING_PROFILE", bindings.embedding_profile_fingerprint),
+            },
+            "PINECONE_MUTATION": {
+                ("DESIRED_STATE_INVENTORY", bindings.desired_state_fingerprint),
+                ("SERVING_STATE", bindings.candidate_serving_state_fingerprint),
+            },
+            "RELEASE_PUBLICATION": {
+                ("DESIRED_STATE_INVENTORY", bindings.desired_state_fingerprint)
+            },
+            "ROUTING_ACTIVATION": {("SERVING_STATE", bindings.candidate_serving_state_fingerprint)},
+        }[effect_type]
+        if not required_inputs.issubset({(item[0], item[2]) for item in inputs}):
+            raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+        _sha256(action, "effect_command_fingerprint")
+        retry_class = _text(action, "retry_class")
+        attempt_ceiling = action.get("attempt_ceiling")
+        deadline = _text(action, "deadline")
+        if (
+            retry_class not in {"NEVER", "RECONCILE_BEFORE_RETRY", "SAFE_SAME_INTENT"}
+            or type(attempt_ceiling) is not int
+            or attempt_ceiling < 1
+            or (retry_class == "NEVER" and attempt_ceiling != 1)
+            or _UTC_TIMESTAMP.fullmatch(deadline) is None
+            or not bindings.valid_from < deadline <= bindings.valid_until
+            or action.get("stop_conditions") != list(_PROMOTION_STOP_CONDITIONS)
+        ):
+            raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+        _promotion_contract_reference(action.get("expected_remote_precondition_ref"))
+        _promotion_contract_reference(action.get("success_postcondition_ref"))
+        _promotion_compensation(action.get("compensation"))
+        action_ids.append(action_id)
+        idempotency_keys.append(_text(action, "stable_idempotency_key"))
+    if len(set(action_ids)) != len(action_ids) or len(set(idempotency_keys)) != len(
+        idempotency_keys
+    ):
+        raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+
+
+def _promotion_references(value: JsonValue | None) -> tuple[tuple[str, str, str], ...]:
+    if not isinstance(value, list):
+        raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+    result = tuple(_promotion_reference(item) for item in value)
+    if result != tuple(sorted(set(result))):
+        raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+    return result
+
+
+def _promotion_reference(value: JsonValue | None) -> tuple[str, str, str]:
+    if not isinstance(value, dict) or set(value) != {"fingerprint", "ref_id", "ref_type"}:
+        raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+    ref_type = _text(value, "ref_type")
+    ref_id = _text(value, "ref_id")
+    if _CODE.fullmatch(ref_type) is None or _ISSUED_ID.fullmatch(ref_id) is None:
+        raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+    return ref_type, ref_id, _sha256(value, "fingerprint")
+
+
+def _promotion_contract_reference(value: JsonValue | None) -> None:
+    if not isinstance(value, dict) or set(value) != {"contract_id", "fingerprint", "version"}:
+        raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+    _text(value, "contract_id")
+    if _SCHEMA_VERSION.fullmatch(_text(value, "version")) is None:
+        raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+    _sha256(value, "fingerprint")
+
+
+def _promotion_compensation(value: JsonValue | None) -> None:
+    if not isinstance(value, dict):
+        raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
+    mode = _text(value, "mode")
+    if mode == "NO_COMPENSATION" and set(value) == {"mode"}:
+        return
+    if mode == "DECLARED_COMPENSATION" and set(value) == {"contract_ref", "mode"}:
+        _promotion_contract_reference(value.get("contract_ref"))
+        return
+    raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
 
 
 def _string_sequence(document: Mapping[str, JsonValue], field: str) -> tuple[str, ...]:

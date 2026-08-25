@@ -1,0 +1,51 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:e13f23f85cb9cfed0a6bab29ffe08a2b507fc612c61ab59d4424fe90e1729058",
+  "workflow_result_fingerprint": "sha256:2e598fa7dff4e1a7e1b8b1ac58c6a2c3f57994f9948754aea04aff88e3aab8fb",
+  "court_family": "CFA",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_20",
+  "auxiliary_translation_version_ids": [],
+  "examined_segment_ids": [
+    "segment_1"
+  ],
+  "resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "CORRECTED_RELIANCE_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_20",
+      "meaning_codes": [
+        "DETRIMENTAL_RELIANCE",
+        "REASONABLE_RELIANCE"
+      ],
+      "risk_codes": [
+        "AFFECTED_PROPOSITION_REEVALUATED",
+        "PRIOR_RESULT_IMMUTABLE"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "Corrected reasons now require reasonable and detrimental reliance."
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "coverage_gap_ids": [],
+  "translation_use": "NONE",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [
+    "candidate_1"
+  ],
+  "prior_result_immutable": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

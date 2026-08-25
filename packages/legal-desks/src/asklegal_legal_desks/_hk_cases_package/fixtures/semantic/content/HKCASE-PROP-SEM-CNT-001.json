@@ -1,0 +1,48 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-CNT-001",
+  "coverage_cell_id": "HKCASE-PROP-COV-SCNT-001",
+  "pair_memberships": [],
+  "scenario": "Court states one rule in wording different from the reference map",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-content-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "content_execution_1",
+    "judgment_work_id": "content_judgment_1",
+    "judicial_decision_id": "synthetic_content_decision_1",
+    "official_version_id": "synthetic_content_version_1",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "Notice suffices when its substance would be understood by a reasonable recipient.",
+        "text_fingerprint": "sha256:3eaa67e752015bdd1a3acca783e5afbc5f66768c80cf32b967a8c9c85a17003a",
+        "range_available": true,
+        "range_id": "range_1"
+      }
+    ],
+    "dependencies": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-001.json",
+  "observation_path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-001.json",
+  "expected_path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-001.json"
+}

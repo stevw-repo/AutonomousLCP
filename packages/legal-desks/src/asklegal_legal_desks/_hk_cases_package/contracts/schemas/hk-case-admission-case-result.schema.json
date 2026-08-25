@@ -1,0 +1,320 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hk-case-admission-case-result.schema.json",
+  "title": "Hong Kong Case deterministic admission expected result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "fixture_id",
+    "variants",
+    "search_records_created",
+    "workflow_admissions_created",
+    "provider_calls_authorized",
+    "deployment_authorized",
+    "release_eligible",
+    "external_effects"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-cases.admission-case-result"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "fixture_id": {
+      "pattern": "^HKCASE-PROP-DET-ADM-[0-9]{3}$"
+    },
+    "variants": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "variant_id",
+          "result"
+        ],
+        "properties": {
+          "variant_id": {
+            "pattern": "^HKCASE-PROP-DET-ADM-[0-9]{3}-V[0-9]{2}$"
+          },
+          "result": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "https://ask.legal/schemas/hk-case-admission-result.schema.json",
+            "title": "Hong Kong Case correction and workflow-admission result",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "schema_id",
+              "schema_version",
+              "rule_id",
+              "request_fingerprint",
+              "outcome",
+              "reasons",
+              "reused_record_ids",
+              "reused_embedding_fingerprints",
+              "selected_current_record_ids",
+              "deselected_prior_record_ids",
+              "lineages",
+              "new_official_version_required",
+              "new_ledger_required",
+              "processing_history_appended",
+              "ledger_history_appended",
+              "impact_declaration_required",
+              "catalogue_fingerprint",
+              "leakage_fields",
+              "sealed_package_fingerprint",
+              "deterministic_artifact_fingerprint",
+              "attempted_capabilities",
+              "changed_workflow_component_roles",
+              "complete_evaluation_required",
+              "workflow_admission_eligible",
+              "workflow_admission_created",
+              "provider_calls_authorized",
+              "deployment_authorized",
+              "search_records_created",
+              "mutations_performed",
+              "release_eligible",
+              "external_effects"
+            ],
+            "properties": {
+              "schema_id": {
+                "const": "asklegal.hk-cases.admission-result"
+              },
+              "schema_version": {
+                "const": "1.0.0"
+              },
+              "rule_id": {
+                "const": "HKCASE-PROP-ADMISSION-CONFORMANCE-001"
+              },
+              "request_fingerprint": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "outcome": {
+                "enum": [
+                  "ELIGIBLE_FOR_WORKFLOW_ADMISSION",
+                  "FORBIDDEN_SIDE_EFFECT",
+                  "INVALID",
+                  "NOT_ADMITTED",
+                  "VALIDATED"
+                ]
+              },
+              "reasons": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "enum": [
+                    "CATALOGUE_COMPLETE",
+                    "CATALOGUE_INCOMPLETE",
+                    "CORRECTION_HISTORY_VALID",
+                    "CORRECTION_INVARIANT_INVALID",
+                    "DETERMINISTIC_ARTIFACT_DRIFT",
+                    "DETERMINISTIC_REPRODUCIBLE",
+                    "FORBIDDEN_SIDE_EFFECT_ATTEMPT",
+                    "PACKAGE_SHAPE_INVALID",
+                    "PACKET_LEAKAGE",
+                    "PACKET_NON_LEAKING",
+                    "SEALED_PACKAGE_INVALID",
+                    "SEALED_PACKAGE_VALID",
+                    "SIDE_EFFECT_MUTATION_DETECTED",
+                    "WORKFLOW_IDENTITY_MATCH",
+                    "WORKFLOW_IDENTITY_MISMATCH"
+                  ]
+                }
+              },
+              "reused_record_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "reused_embedding_fingerprints": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                }
+              },
+              "selected_current_record_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "deselected_prior_record_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "lineages": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "relation",
+                    "predecessor_record_ids",
+                    "successor_record_ids"
+                  ],
+                  "properties": {
+                    "relation": {
+                      "enum": [
+                        "FORWARD_SUCCESSOR",
+                        "MERGED_FROM",
+                        "SPLIT_FROM"
+                      ]
+                    },
+                    "predecessor_record_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                      }
+                    },
+                    "successor_record_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                      }
+                    }
+                  }
+                }
+              },
+              "new_official_version_required": {
+                "type": "boolean"
+              },
+              "new_ledger_required": {
+                "type": "boolean"
+              },
+              "processing_history_appended": {
+                "type": "boolean"
+              },
+              "ledger_history_appended": {
+                "type": "boolean"
+              },
+              "impact_declaration_required": {
+                "type": "boolean"
+              },
+              "catalogue_fingerprint": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "leakage_fields": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sealed_package_fingerprint": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "deterministic_artifact_fingerprint": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "attempted_capabilities": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "AZURE",
+                    "CREDENTIAL",
+                    "EMBEDDING",
+                    "MODEL",
+                    "NETWORK",
+                    "PINECONE",
+                    "PRODUCTION_STORE",
+                    "ROUTING",
+                    "SOURCE",
+                    "UNDECLARED_FILE"
+                  ]
+                }
+              },
+              "changed_workflow_component_roles": {
+                "type": "array",
+                "items": {
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "complete_evaluation_required": {
+                "type": "boolean"
+              },
+              "workflow_admission_eligible": {
+                "type": "boolean"
+              },
+              "workflow_admission_created": {
+                "const": false
+              },
+              "provider_calls_authorized": {
+                "const": false
+              },
+              "deployment_authorized": {
+                "const": false
+              },
+              "search_records_created": {
+                "const": 0
+              },
+              "mutations_performed": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "release_eligible": {
+                "const": false
+              },
+              "external_effects": {
+                "const": "NONE"
+              }
+            }
+          }
+        }
+      }
+    },
+    "search_records_created": {
+      "const": 0
+    },
+    "workflow_admissions_created": {
+      "const": 0
+    },
+    "provider_calls_authorized": {
+      "const": false
+    },
+    "deployment_authorized": {
+      "const": false
+    },
+    "release_eligible": {
+      "const": false
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

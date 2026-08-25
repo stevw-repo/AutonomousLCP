@@ -1,0 +1,104 @@
+{
+  "schema_id": "asklegal.hk-cases.admission-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-DET-ADM-002",
+  "case_id": "HKCASE-PROP-DET-ADM-002",
+  "coverage_cell_id": "HKCASE-PROP-COV-DADM-002",
+  "pair_memberships": [],
+  "synthetic_scenario": "Official correction changes proposition support or payload",
+  "evidence_class": "SYNTHETIC_SOURCE_NEUTRAL",
+  "variants": [
+    {
+      "variant_id": "HKCASE-PROP-DET-ADM-002-V01",
+      "request": {
+        "schema_id": "asklegal.hk-cases.admission-request",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-ADMISSION-CONFORMANCE-001",
+        "assertion": "CORRECTION",
+        "correction": {
+          "kind": "OFFICIAL_CORRECTION",
+          "prior_official_version_id": "version_1",
+          "current_official_version_id": "version_2",
+          "prior_ledger_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "current_ledger_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "prior_result_id": "result_1",
+          "current_result_id": "result_2",
+          "prior_admission_id": "admission_1",
+          "current_admission_id": "admission_1",
+          "prior_propositions": [
+            {
+              "proposition_id": "proposition_1",
+              "text_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "support_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "attribution_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "payload_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "current_propositions": [
+            {
+              "proposition_id": "proposition_2",
+              "text_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "support_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "attribution_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "payload_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            }
+          ],
+          "prior_records": [
+            {
+              "record_id": "record_1",
+              "proposition_ids": [
+                "proposition_1"
+              ],
+              "payload_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "embedding_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "selected": true
+            }
+          ],
+          "current_records": [
+            {
+              "record_id": "record_2",
+              "proposition_ids": [
+                "proposition_2"
+              ],
+              "payload_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "embedding_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "selected": true
+            }
+          ],
+          "affected_prior_proposition_ids": [
+            "proposition_1"
+          ],
+          "unaffected_reused_proposition_ids": [],
+          "introduced_proposition_ids": [],
+          "deselected_prior_record_ids": [
+            "record_1"
+          ],
+          "lineages": [
+            {
+              "relation": "FORWARD_SUCCESSOR",
+              "predecessor_record_ids": [
+                "record_1"
+              ],
+              "successor_record_ids": [
+                "record_2"
+              ]
+            }
+          ],
+          "component_changes": [],
+          "processing_history_appended": true,
+          "ledger_history_appended": true,
+          "impact_declaration_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "prior_ledger_mutated": false,
+          "prior_admission_mutated": false
+        },
+        "catalogue": null,
+        "evaluation_packet": null,
+        "sealed_package": null,
+        "reproducibility": null,
+        "side_effects": null,
+        "workflow_identity": null
+      }
+    }
+  ],
+  "external_effects": "NONE"
+}

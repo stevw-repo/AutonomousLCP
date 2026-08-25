@@ -1,0 +1,51 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "reference_map_id": "risk_reference_map_7",
+  "model_input_fingerprint": "sha256:24f910c26da364b85b318510278a71865bed96f68f39f2645ce1992e7f143ad7",
+  "court_family": "CFA",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_7",
+  "auxiliary_translation_version_ids": [
+    "synthetic_risk_translation_7_1"
+  ],
+  "expected_examined_segment_ids": [
+    "segment_1"
+  ],
+  "expected_resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "ORIGINAL_RELIANCE_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_7",
+      "required_meaning_codes": [
+        "REASONABLE_RELIANCE"
+      ],
+      "required_risk_codes": [
+        "AUXILIARY_TRANSLATION_NO_DUPLICATE",
+        "ORIGINAL_AUTHORITY_PRESERVED"
+      ],
+      "forbidden_risk_codes": [
+        "TRANSLATION_DUPLICATE",
+        "TRANSLATION_REPLACEMENT"
+      ],
+      "required_range_ids": [
+        "range_1"
+      ]
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1"
+  ],
+  "expected_coverage_gap_ids": [],
+  "expected_translation_use": "AUXILIARY_ONLY",
+  "expected_parser_supported": true,
+  "expected_re_evaluated_reference_proposition_ids": [],
+  "prior_result_immutable_required": false,
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

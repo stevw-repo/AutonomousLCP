@@ -132,6 +132,36 @@ class RegisteredExecutionAuthorizationCommand:
     event_bytes: bytes
 
 
+@dataclass(frozen=True, slots=True)
+class RegisteredExecutionBeginCommand:
+    """Exact inputs to one atomic authorized execution BEGIN and first intent."""
+
+    command_id: str
+    command_bytes: bytes
+    approval_id: str
+    proposal_package_id: str
+    decision_fingerprint: bytes
+    manifest_id: str
+    manifest_fingerprint: str
+    execution_lineage_id: str
+    execution_lineage_fingerprint: str
+    authorization_fingerprint: str
+    action_id: str
+    action_fingerprint: str
+    capability_profile_id: str
+    capability_profile_fingerprint: str
+    capability_evidence_id: str
+    capability_evidence_fingerprint: str
+    expires_at: str
+    event_id: str
+    event_bytes: bytes
+    effect_intent_id: str
+    effect_type: str
+    intent_bytes: bytes
+    effect_deadline: str
+    attempt_ceiling: int
+
+
 class RegisterEventStore:
     """Commit ordinary no-effect events and read exact Review-ready proposals."""
 
@@ -491,6 +521,107 @@ class RegisteredExecutionAuthorizationStore:
             connection.close()
 
 
+class RegisteredExecutionBeginStore:
+    """Atomically begin one authorized execution and append its first intent."""
+
+    def __init__(self, connection_factory: ConnectionFactory) -> None:
+        """Bind each BEGIN or replay query to a fresh connection."""
+        self._connection_factory = connection_factory
+
+    def begin(
+        self,
+        command: RegisteredExecutionBeginCommand,
+        *,
+        simulate_lost_ack: bool = False,
+    ) -> V1CommandResult:
+        """Begin exactly once or resolve an acknowledgement loss by command ID."""
+        command_fingerprint = sha256(command.command_bytes).digest()
+        connection = self._connection_factory()
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                "EXEC promotion.begin_registered_execution_v1 "
+                "@command_id = ?, @command_fingerprint = ?, @command_bytes = ?, "
+                "@approval_id = ?, @proposal_package_id = ?, @decision_fingerprint = ?, "
+                "@manifest_id = ?, @manifest_fingerprint = ?, @execution_lineage_id = ?, "
+                "@execution_lineage_fingerprint = ?, @authorization_fingerprint = ?, "
+                "@action_id = ?, @action_fingerprint = ?, @capability_profile_id = ?, "
+                "@capability_profile_fingerprint = ?, @capability_evidence_id = ?, "
+                "@capability_evidence_fingerprint = ?, @expires_at = ?, @event_id = ?, "
+                "@event_bytes = ?, @event_fingerprint = ?, @effect_intent_id = ?, "
+                "@effect_type = ?, @intent_bytes = ?, @intent_fingerprint = ?, "
+                "@effect_deadline = ?, @attempt_ceiling = ?",
+                (
+                    command.command_id,
+                    command_fingerprint,
+                    command.command_bytes,
+                    command.approval_id,
+                    command.proposal_package_id,
+                    command.decision_fingerprint,
+                    command.manifest_id,
+                    command.manifest_fingerprint,
+                    command.execution_lineage_id,
+                    command.execution_lineage_fingerprint,
+                    command.authorization_fingerprint,
+                    command.action_id,
+                    command.action_fingerprint,
+                    command.capability_profile_id,
+                    command.capability_profile_fingerprint,
+                    command.capability_evidence_id,
+                    command.capability_evidence_fingerprint,
+                    command.expires_at,
+                    command.event_id,
+                    command.event_bytes,
+                    sha256(command.event_bytes).digest(),
+                    command.effect_intent_id,
+                    command.effect_type,
+                    command.intent_bytes,
+                    sha256(command.intent_bytes).digest(),
+                    command.effect_deadline,
+                    command.attempt_ceiling,
+                ),
+            )
+            row = cursor.fetchone()
+            if row is None:
+                raise RuntimeError("begin_registered_execution_v1 returned no result")
+            result = _v1_command_result(row)
+            connection.commit()
+            if simulate_lost_ack:
+                raise AmbiguousCommit(command.command_id)
+        except Exception as error:
+            try:
+                connection.rollback()
+            except Exception:
+                pass
+            if isinstance(error, AmbiguousCommit):
+                return self.resolve(command.command_id, command_fingerprint)
+            if _is_fingerprint_mismatch(error):
+                raise CommandFingerprintMismatch(command.command_id) from error
+            raise
+        else:
+            return result
+        finally:
+            cursor.close()
+            connection.close()
+
+    def resolve(self, command_id: str, command_fingerprint: bytes) -> V1CommandResult:
+        """Resolve one uncertain execution BEGIN without resubmitting it."""
+        connection = self._connection_factory()
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                "EXEC register.resolve_command_v1 ?, ?, ?",
+                ("PROMOTION_WORKER", command_id, command_fingerprint),
+            )
+            row = cursor.fetchone()
+            if row is None:
+                raise AmbiguousCommit(command_id)
+            return _v1_command_result(row)
+        finally:
+            cursor.close()
+            connection.close()
+
+
 class ManagementRegisterStore:
     """Run one short stored-procedure command per fresh connection."""
 
@@ -690,8 +821,38 @@ class ClaimedEffect:
     effect_type: str
     aggregate_id: str
     intent_bytes: bytes
+    intent_fingerprint: bytes
+    claimant_id: str
     fencing_token: int
     attempt_ceiling: int
+    prior_attempt_count: int
+
+
+@dataclass(frozen=True, slots=True)
+class RecordedEffectReceipt:
+    """One terminal receipt selected by the register, original or replayed."""
+
+    effect_receipt_id: str
+    effect_intent_id: str
+    terminal_status: str
+    attempt_count: int
+    receipt_bytes: bytes
+    fencing_token: int | None
+    replayed: bool
+
+
+@dataclass(frozen=True, slots=True)
+class EffectReceiptRecord:
+    """Exact terminal-receipt arguments supplied to the register."""
+
+    effect_receipt_id: str
+    effect_intent_id: str
+    terminal_status: str
+    attempt_count: int
+    receipt_bytes: bytes
+    receipt_fingerprint: bytes
+    fencing_token: int | None
+    claimant_id: str | None = None
 
 
 class EffectHandoffStore:
@@ -846,63 +1007,125 @@ class EffectHandoffStore:
             connection.commit()
             if claim is None:
                 return None
-            fencing_token = _claim_fencing_token(claim)
+            fencing_token = _required_int(claim[3], "fencing_token")
             cursor.execute(
-                "SELECT intent_bytes, aggregate_id, attempt_ceiling"
-                " FROM register.effect_intent_fact WHERE effect_intent_id = ?",
-                (intent_id,),
+                "EXEC register.read_claimed_effect_v1 ?, ?, ?",
+                (intent_id, claimant_id, fencing_token),
             )
             detail = cursor.fetchone()
         finally:
             connection.close()
         if detail is None:
             return None
+        detail_intent_id = str(detail[0])
+        detail_effect_type = str(detail[1])
+        intent_bytes = _required_bytes(detail[3], "intent_bytes")
+        intent_fingerprint = _required_bytes(detail[4], "intent_fingerprint")
+        if (
+            detail_intent_id != intent_id
+            or detail_effect_type != str(candidate[1])
+            or sha256(intent_bytes).digest() != intent_fingerprint
+        ):
+            message = "claimed effect detail does not match its immutable listing"
+            raise RuntimeError(message)
         return ClaimedEffect(
-            intent_id,
-            str(candidate[1]),
-            str(detail[1]),
-            _required_bytes(detail[0], "intent_bytes"),
+            detail_intent_id,
+            detail_effect_type,
+            str(detail[2]),
+            intent_bytes,
+            intent_fingerprint,
+            claimant_id,
             fencing_token,
-            _required_int(detail[2], "attempt_ceiling"),
+            _required_int(detail[5], "attempt_ceiling"),
+            _required_int(detail[6], "prior_attempt_count"),
         )
+
+    def renew_claim(self, claim: ClaimedEffect, *, lease_seconds: int = 900) -> None:
+        """Renew only the exact still-live claimant and fencing token."""
+        connection = self._connection_factory()
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                "EXEC register.renew_effect_claim_v1 ?, ?, ?, ?",
+                (
+                    claim.effect_intent_id,
+                    claim.claimant_id,
+                    claim.fencing_token,
+                    lease_seconds,
+                ),
+            )
+            if cursor.fetchone() is None:
+                message = "renew_effect_claim_v1 returned no result"
+                raise RuntimeError(message)
+            connection.commit()
+        finally:
+            cursor.close()
+            connection.close()
+
+    def append_attempt(
+        self,
+        claim: ClaimedEffect,
+        *,
+        attempt_number: int,
+        event_code: str,
+        event_bytes: bytes,
+    ) -> None:
+        """Append one sanitized attempt under the exact live fence."""
+        connection = self._connection_factory()
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                "EXEC register.append_effect_attempt_v1 ?, ?, ?, ?, ?, ?, ?",
+                (
+                    claim.effect_intent_id,
+                    claim.claimant_id,
+                    claim.fencing_token,
+                    attempt_number,
+                    event_code,
+                    event_bytes,
+                    sha256(event_bytes).digest(),
+                ),
+            )
+            connection.commit()
+        finally:
+            cursor.close()
+            connection.close()
 
     def record_receipt(
         self,
-        *,
-        effect_receipt_id: str,
-        effect_intent_id: str,
-        terminal_status: str,
-        attempt_count: int,
-        receipt_bytes: bytes,
-        receipt_fingerprint: bytes,
-        fencing_token: int | None,
-        claimant_id: str | None = None,
-    ) -> None:
-        """Record the terminal outcome of one claimed effect."""
+        record: EffectReceiptRecord,
+    ) -> RecordedEffectReceipt:
+        """Record or exactly replay one terminal outcome and consume its result."""
         connection = self._connection_factory()
         cursor = connection.cursor()
         try:
             cursor.execute(
                 "EXEC register.record_effect_receipt_v1 ?, ?, ?, ?, ?, ?, ?, ?",
                 (
-                    effect_receipt_id,
-                    effect_intent_id,
-                    terminal_status,
-                    attempt_count,
-                    receipt_bytes,
-                    receipt_fingerprint,
-                    claimant_id,
-                    fencing_token,
+                    record.effect_receipt_id,
+                    record.effect_intent_id,
+                    record.terminal_status,
+                    record.attempt_count,
+                    record.receipt_bytes,
+                    record.receipt_fingerprint,
+                    record.claimant_id,
+                    record.fencing_token,
                 ),
             )
+            row = cursor.fetchone()
+            if row is None:
+                message = "record_effect_receipt_v1 returned no result"
+                raise RuntimeError(message)
             connection.commit()
+            return RecordedEffectReceipt(
+                str(row[0]),
+                str(row[1]),
+                str(row[2]),
+                _required_int(row[3], "attempt_count"),
+                _required_bytes(row[4], "receipt_bytes"),
+                row[5] if isinstance(row[5], int) else None,
+                bool(row[6]),
+            )
         finally:
+            cursor.close()
             connection.close()
-
-
-def _claim_fencing_token(row: tuple[object, ...]) -> int:
-    """Read the fencing token from a claim result, whatever its column order."""
-    for value in row:
-        if isinstance(value, int) and value > 0:
-            return value
-    return 1

@@ -1,0 +1,58 @@
+{
+  "schema_id": "asklegal.hk-regulatory.partition-decision-report",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-PARTITION-DECISION-001",
+  "case_id": "HKREG-DET-PAR-020",
+  "assertion_scope": "ARBITRARY_WINDOW",
+  "observed_decision": {
+    "schema_id": "asklegal.hk-regulatory.partition-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-PARTITION-DECISION-001",
+    "case_id": "HKREG-DET-PAR-020",
+    "outcome": "BLOCK",
+    "reason": "CHARACTER_VISUAL_WINDOW_CUT_REJECTED",
+    "partition_required": false,
+    "measurement_complete": true,
+    "branch_results": [],
+    "rejected_proposal_codes": [
+      "CHARACTER_VISUAL_OR_WINDOW"
+    ],
+    "quarantined_branch_ids": [],
+    "coverage_gap_ids": [],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.partition-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-PARTITION-DECISION-001",
+    "case_id": "HKREG-DET-PAR-020",
+    "outcome": "BLOCK",
+    "reason": "CHARACTER_VISUAL_WINDOW_CUT_REJECTED",
+    "partition_required": false,
+    "measurement_complete": true,
+    "branch_results": [],
+    "rejected_proposal_codes": [
+      "CHARACTER_VISUAL_OR_WINDOW"
+    ],
+    "quarantined_branch_ids": [],
+    "coverage_gap_ids": [],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "conformance_status": "PASS",
+  "source_authorized": false,
+  "provider_authorized": false,
+  "release_authorized": false,
+  "serving_authorized": false,
+  "deployment_authorized": false,
+  "external_effects": "NONE"
+}

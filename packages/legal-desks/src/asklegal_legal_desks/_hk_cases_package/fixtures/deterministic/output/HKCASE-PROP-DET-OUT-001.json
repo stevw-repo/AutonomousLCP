@@ -1,0 +1,378 @@
+{
+  "schema_id": "asklegal.hk-cases.output-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-DET-OUT-001",
+  "case_id": "HKCASE-PROP-DET-OUT-001",
+  "coverage_cell_id": "HKCASE-PROP-COV-DOUT-001",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-022",
+      "role": "POSITIVE"
+    }
+  ],
+  "synthetic_scenario": "Every discovered candidate has one exact final outcome",
+  "evidence_class": "SYNTHETIC_SOURCE_NEUTRAL",
+  "variants": [
+    {
+      "variant_id": "HKCASE-PROP-DET-OUT-001-V01",
+      "request": {
+        "schema_id": "asklegal.hk-cases.output-request",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-OUTPUT-CONFORMANCE-001",
+        "judicial_decision_id": "decision_output_1",
+        "official_version_id": "version_output_1",
+        "ledger_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "renderer_id": "HKCASE-ADR0060-LABELLED-1.0.0",
+        "tokenizer_profile_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "max_text_tokens": 10000,
+        "max_payload_bytes": 20000,
+        "source_map_available": true,
+        "discovered_candidate_ids": [
+          "candidate_1",
+          "candidate_rejected",
+          "candidate_merged",
+          "candidate_split",
+          "candidate_quarantined",
+          "candidate_blocked",
+          "candidate_split_a",
+          "candidate_split_b"
+        ],
+        "candidates": [
+          {
+            "candidate_id": "candidate_1",
+            "outcome": "ACCEPTED",
+            "proposition_ids": [
+              "proposition_1"
+            ],
+            "related_candidate_ids": [],
+            "reason_code": null
+          },
+          {
+            "candidate_id": "candidate_rejected",
+            "outcome": "REJECTED",
+            "proposition_ids": [],
+            "related_candidate_ids": [],
+            "reason_code": "NOT_MATERIAL"
+          },
+          {
+            "candidate_id": "candidate_merged",
+            "outcome": "MERGED",
+            "proposition_ids": [],
+            "related_candidate_ids": [
+              "candidate_1"
+            ],
+            "reason_code": "DUPLICATE_FRAGMENT"
+          },
+          {
+            "candidate_id": "candidate_split",
+            "outcome": "SPLIT",
+            "proposition_ids": [],
+            "related_candidate_ids": [
+              "candidate_split_a",
+              "candidate_split_b"
+            ],
+            "reason_code": "INDEPENDENT_ANSWERS"
+          },
+          {
+            "candidate_id": "candidate_quarantined",
+            "outcome": "QUARANTINED",
+            "proposition_ids": [],
+            "related_candidate_ids": [],
+            "reason_code": "ATTRIBUTION_UNCERTAIN"
+          },
+          {
+            "candidate_id": "candidate_blocked",
+            "outcome": "BLOCKED",
+            "proposition_ids": [],
+            "related_candidate_ids": [],
+            "reason_code": "SOURCE_SUPPORT_UNAVAILABLE"
+          },
+          {
+            "candidate_id": "candidate_split_a",
+            "outcome": "ACCEPTED",
+            "proposition_ids": [
+              "proposition_split_a"
+            ],
+            "related_candidate_ids": [],
+            "reason_code": null
+          },
+          {
+            "candidate_id": "candidate_split_b",
+            "outcome": "ACCEPTED",
+            "proposition_ids": [
+              "proposition_split_b"
+            ],
+            "related_candidate_ids": [],
+            "reason_code": null
+          }
+        ],
+        "source_units": [
+          {
+            "unit_id": "unit_output_1",
+            "source_order": 1,
+            "exact_text": "The issue is whether the statutory test applies. The Court held that it applies only where notice was given. Notice was given, so the appeal was dismissed."
+          }
+        ],
+        "source_ranges": [
+          {
+            "range_id": "range_issue",
+            "unit_id": "unit_output_1",
+            "start_byte": 0,
+            "end_byte": 48,
+            "exact_text_fingerprint": "sha256:05256d2daa530eb8d0463a0805f912ec40c17f882f19108d9fecc496335f59f7"
+          },
+          {
+            "range_id": "range_answer",
+            "unit_id": "unit_output_1",
+            "start_byte": 49,
+            "end_byte": 108,
+            "exact_text_fingerprint": "sha256:1e89c6cf34e276d2a0cbe0136d638ba7e74273862fe75d6f030f8ca5676ab3ff"
+          },
+          {
+            "range_id": "range_application",
+            "unit_id": "unit_output_1",
+            "start_byte": 109,
+            "end_byte": 155,
+            "exact_text_fingerprint": "sha256:62cb512b36fedc36c404f86a1d1ce6ba6dbdea433e1b5886bc5a0fe2ba7e1e2b"
+          },
+          {
+            "range_id": "range_result",
+            "unit_id": "unit_output_1",
+            "start_byte": 130,
+            "end_byte": 154,
+            "exact_text_fingerprint": "sha256:2038b1b9ff3797b4e49b596b1f5c2ac57b5f610cac09845b8a31b1e54d3b596c"
+          }
+        ],
+        "propositions": [
+          {
+            "proposition_id": "proposition_1",
+            "candidate_id": "candidate_1",
+            "case_name": "Synthetic Applicant v Synthetic Respondent",
+            "official_citation": "[2026] HKCFA 1",
+            "court": "Court of Final Appeal",
+            "decision_date": "2026-08-25",
+            "opinion_label": "Joint judgment",
+            "authority_role": "JOINT",
+            "legal_issue": "Whether the statutory test applies without notice.",
+            "derived_statement": "The statutory test applies only where notice was given.",
+            "material_context": "The appeal concerned an application made after notice.",
+            "qualifications": "The rule is limited to cases where notice was given.",
+            "application_and_result": "Notice was given and the appeal was dismissed.",
+            "evidence_links": [
+              {
+                "role": "ISSUE",
+                "range_id": "range_issue"
+              },
+              {
+                "role": "ANSWER",
+                "range_id": "range_answer"
+              },
+              {
+                "role": "CONTEXT",
+                "range_id": "range_application"
+              },
+              {
+                "role": "QUALIFICATION",
+                "range_id": "range_answer"
+              },
+              {
+                "role": "APPLICATION",
+                "range_id": "range_application"
+              },
+              {
+                "role": "RESULT",
+                "range_id": "range_result"
+              },
+              {
+                "role": "ATTRIBUTION",
+                "range_id": "range_answer"
+              },
+              {
+                "role": "QUOTATION",
+                "range_id": "range_answer"
+              }
+            ],
+            "quotations": [
+              {
+                "range_id": "range_answer",
+                "exact_text": "The Court held that it applies only where notice was given."
+              }
+            ],
+            "authority_note": "No admitted adverse later treatment in this synthetic fixture.",
+            "boundary_indivisible": false,
+            "coverage_gap_id": null
+          },
+          {
+            "proposition_id": "proposition_split_a",
+            "candidate_id": "candidate_split_a",
+            "case_name": "Synthetic Applicant v Synthetic Respondent",
+            "official_citation": "[2026] HKCFA 1",
+            "court": "Court of Final Appeal",
+            "decision_date": "2026-08-25",
+            "opinion_label": "Joint judgment",
+            "authority_role": "JOINT",
+            "legal_issue": "Whether the statutory test applies without notice.",
+            "derived_statement": "The first independently usable split proposition.",
+            "material_context": "The appeal concerned an application made after notice.",
+            "qualifications": "The rule is limited to cases where notice was given.",
+            "application_and_result": "Notice was given and the appeal was dismissed.",
+            "evidence_links": [
+              {
+                "role": "ISSUE",
+                "range_id": "range_issue"
+              },
+              {
+                "role": "ANSWER",
+                "range_id": "range_answer"
+              },
+              {
+                "role": "CONTEXT",
+                "range_id": "range_application"
+              },
+              {
+                "role": "QUALIFICATION",
+                "range_id": "range_answer"
+              },
+              {
+                "role": "APPLICATION",
+                "range_id": "range_application"
+              },
+              {
+                "role": "RESULT",
+                "range_id": "range_result"
+              },
+              {
+                "role": "ATTRIBUTION",
+                "range_id": "range_answer"
+              },
+              {
+                "role": "QUOTATION",
+                "range_id": "range_answer"
+              }
+            ],
+            "quotations": [
+              {
+                "range_id": "range_answer",
+                "exact_text": "The Court held that it applies only where notice was given."
+              }
+            ],
+            "authority_note": "No admitted adverse later treatment in this synthetic fixture.",
+            "boundary_indivisible": false,
+            "coverage_gap_id": null
+          },
+          {
+            "proposition_id": "proposition_split_b",
+            "candidate_id": "candidate_split_b",
+            "case_name": "Synthetic Applicant v Synthetic Respondent",
+            "official_citation": "[2026] HKCFA 1",
+            "court": "Court of Final Appeal",
+            "decision_date": "2026-08-25",
+            "opinion_label": "Joint judgment",
+            "authority_role": "JOINT",
+            "legal_issue": "Whether the statutory test applies without notice.",
+            "derived_statement": "The second independently usable split proposition.",
+            "material_context": "The appeal concerned an application made after notice.",
+            "qualifications": "The rule is limited to cases where notice was given.",
+            "application_and_result": "Notice was given and the appeal was dismissed.",
+            "evidence_links": [
+              {
+                "role": "ISSUE",
+                "range_id": "range_issue"
+              },
+              {
+                "role": "ANSWER",
+                "range_id": "range_answer"
+              },
+              {
+                "role": "CONTEXT",
+                "range_id": "range_application"
+              },
+              {
+                "role": "QUALIFICATION",
+                "range_id": "range_answer"
+              },
+              {
+                "role": "APPLICATION",
+                "range_id": "range_application"
+              },
+              {
+                "role": "RESULT",
+                "range_id": "range_result"
+              },
+              {
+                "role": "ATTRIBUTION",
+                "range_id": "range_answer"
+              },
+              {
+                "role": "QUOTATION",
+                "range_id": "range_answer"
+              }
+            ],
+            "quotations": [
+              {
+                "range_id": "range_answer",
+                "exact_text": "The Court held that it applies only where notice was given."
+              }
+            ],
+            "authority_note": "No admitted adverse later treatment in this synthetic fixture.",
+            "boundary_indivisible": false,
+            "coverage_gap_id": null
+          }
+        ],
+        "ledger_proposition_ids": [
+          "proposition_1",
+          "proposition_split_a",
+          "proposition_split_b"
+        ],
+        "proposed_records": [
+          {
+            "record_id": "record_1",
+            "proposition_id": "proposition_1",
+            "ledger_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "renderer_proposition_id": "proposition_1",
+            "text": "Case: Synthetic Applicant v Synthetic Respondent - [2026] HKCFA 1\nCourt and decision date: Court of Final Appeal - 2026-08-25\nOpinion and authority role: Joint judgment - JOINT\nLegal issue: Whether the statutory test applies without notice.\nProposition - derived statement: The statutory test applies only where notice was given.\nMaterial context: The appeal concerned an application made after notice.\nQualifications or exceptions: The rule is limited to cases where notice was given.\nApplication and relevant result: Notice was given and the appeal was dismissed.\nExact judgment support:\n[range_answer] The Court held that it applies only where notice was given.",
+            "country": "Hong Kong",
+            "jurisdiction": "Hong Kong",
+            "type": "case",
+            "source": "Hong Kong Judiciary",
+            "authority_note": "No admitted adverse later treatment in this synthetic fixture.",
+            "text_token_count": 664,
+            "payload_byte_count": 860,
+            "payload_fingerprint": "sha256:fa3ca67d6850106bac552e160cf5d25cc3e5422cfc1c588a75ec3e15976966b7"
+          },
+          {
+            "record_id": "record_2",
+            "proposition_id": "proposition_split_a",
+            "ledger_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "renderer_proposition_id": "proposition_split_a",
+            "text": "Case: Synthetic Applicant v Synthetic Respondent - [2026] HKCFA 1\nCourt and decision date: Court of Final Appeal - 2026-08-25\nOpinion and authority role: Joint judgment - JOINT\nLegal issue: Whether the statutory test applies without notice.\nProposition - derived statement: The first independently usable split proposition.\nMaterial context: The appeal concerned an application made after notice.\nQualifications or exceptions: The rule is limited to cases where notice was given.\nApplication and relevant result: Notice was given and the appeal was dismissed.\nExact judgment support:\n[range_answer] The Court held that it applies only where notice was given.",
+            "country": "Hong Kong",
+            "jurisdiction": "Hong Kong",
+            "type": "case",
+            "source": "Hong Kong Judiciary",
+            "authority_note": "No admitted adverse later treatment in this synthetic fixture.",
+            "text_token_count": 658,
+            "payload_byte_count": 854,
+            "payload_fingerprint": "sha256:fa1b860bbdd94f0ad84de10ea0008dcdc1673e0d1af992e3b9c160697d9a5549"
+          },
+          {
+            "record_id": "record_3",
+            "proposition_id": "proposition_split_b",
+            "ledger_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "renderer_proposition_id": "proposition_split_b",
+            "text": "Case: Synthetic Applicant v Synthetic Respondent - [2026] HKCFA 1\nCourt and decision date: Court of Final Appeal - 2026-08-25\nOpinion and authority role: Joint judgment - JOINT\nLegal issue: Whether the statutory test applies without notice.\nProposition - derived statement: The second independently usable split proposition.\nMaterial context: The appeal concerned an application made after notice.\nQualifications or exceptions: The rule is limited to cases where notice was given.\nApplication and relevant result: Notice was given and the appeal was dismissed.\nExact judgment support:\n[range_answer] The Court held that it applies only where notice was given.",
+            "country": "Hong Kong",
+            "jurisdiction": "Hong Kong",
+            "type": "case",
+            "source": "Hong Kong Judiciary",
+            "authority_note": "No admitted adverse later treatment in this synthetic fixture.",
+            "text_token_count": 659,
+            "payload_byte_count": 855,
+            "payload_fingerprint": "sha256:19f45d260bff3a4b2cd4f66bb52d8657e2004fb64c4df78587f009b072ba762f"
+          }
+        ]
+      }
+    }
+  ],
+  "external_effects": "NONE"
+}

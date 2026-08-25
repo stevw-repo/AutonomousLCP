@@ -1,0 +1,52 @@
+{
+  "schema_id": "asklegal.hk-cases.treatment-discovery-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-TREAT-SEM-DISCOVERY-EVALUATOR-001",
+  "reference_map_id": "treatment_discovery_reference_8",
+  "model_input_fingerprint": "sha256:4cabbc4e6ada39f0c6631b447a1c4a594a802889332568806be213d831e7270e",
+  "original_language": "ENGLISH",
+  "expected_opinion_ids": [
+    "opinion_1"
+  ],
+  "expected_segment_ids": [
+    "segment_1",
+    "segment_2",
+    "segment_3"
+  ],
+  "leads": [
+    {
+      "reference_lead_id": "reference_lead_1",
+      "opinion_id": "opinion_1",
+      "lead_kind": "FORMAL_CITATION",
+      "range_ids": [
+        "range_2"
+      ],
+      "identity_state": "RESOLVED",
+      "resolved_judgment_id": "earlier_judgment_8_1",
+      "material_candidate_expected": true
+    }
+  ],
+  "candidates": [
+    {
+      "reference_candidate_id": "reference_candidate_1",
+      "reference_lead_id": "reference_lead_1",
+      "opinion_id": "opinion_1",
+      "language": "ENGLISH",
+      "passage_range_ids": [
+        "range_2",
+        "range_3"
+      ],
+      "context_segment_ids": [
+        "segment_1",
+        "segment_2",
+        "segment_3"
+      ],
+      "correction_change": "NONE"
+    }
+  ],
+  "expected_disposition": "COMPLETE",
+  "expected_coverage_gap_ids": [],
+  "expected_judgment_proposition_count": 1,
+  "correction_comparison_required": false,
+  "adjudication_complete": true
+}

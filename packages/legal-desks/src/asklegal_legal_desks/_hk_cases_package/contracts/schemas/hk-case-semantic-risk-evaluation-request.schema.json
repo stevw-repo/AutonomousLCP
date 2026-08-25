@@ -1,0 +1,465 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "rule_id",
+    "evaluator_fingerprint",
+    "reference",
+    "observation"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-cases.semantic-risk-evaluation-request"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "rule_id": {
+      "const": "HKCASE-PROP-SEM-RISK-EVALUATOR-001"
+    },
+    "evaluator_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "reference_map_id",
+        "model_input_fingerprint",
+        "court_family",
+        "original_language",
+        "accepted_original_version_id",
+        "auxiliary_translation_version_ids",
+        "expected_examined_segment_ids",
+        "expected_resolved_dependency_ids",
+        "candidates",
+        "expected_disposition",
+        "expected_selected_reference_proposition_ids",
+        "expected_coverage_gap_ids",
+        "expected_translation_use",
+        "expected_parser_supported",
+        "expected_re_evaluated_reference_proposition_ids",
+        "prior_result_immutable_required",
+        "adjudication_complete",
+        "unresolved_reference_ambiguity"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-cases.semantic-risk-reference"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKCASE-PROP-SEM-RISK-EVALUATOR-001"
+        },
+        "reference_map_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,95}$"
+        },
+        "model_input_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "court_family": {
+          "enum": [
+            "CA",
+            "CFA",
+            "CFI",
+            "CT",
+            "HKPC",
+            "HKSUPERIOR"
+          ]
+        },
+        "original_language": {
+          "enum": [
+            "ENGLISH",
+            "MIXED",
+            "TRADITIONAL_CHINESE"
+          ]
+        },
+        "accepted_original_version_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,95}$"
+        },
+        "auxiliary_translation_version_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "expected_examined_segment_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "expected_resolved_dependency_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "reference_proposition_id",
+              "expected_resolution",
+              "issue_code",
+              "language",
+              "source_version_id",
+              "required_meaning_codes",
+              "required_risk_codes",
+              "required_range_ids",
+              "forbidden_risk_codes"
+            ],
+            "properties": {
+              "reference_proposition_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "expected_resolution": {
+                "enum": [
+                  "ACCEPTED",
+                  "QUARANTINED"
+                ]
+              },
+              "issue_code": {
+                "type": "string",
+                "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+              },
+              "language": {
+                "enum": [
+                  "ENGLISH",
+                  "MIXED",
+                  "TRADITIONAL_CHINESE"
+                ]
+              },
+              "source_version_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "required_meaning_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "required_risk_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "required_range_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "forbidden_risk_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              }
+            }
+          }
+        },
+        "expected_disposition": {
+          "enum": [
+            "ACCOUNTED_WITH_QUARANTINE",
+            "BLOCKED",
+            "COMPLETE_WITH_PROPOSITIONS"
+          ]
+        },
+        "expected_selected_reference_proposition_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "expected_coverage_gap_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "expected_translation_use": {
+          "enum": [
+            "AUXILIARY_ONLY",
+            "CONFLICT_ISOLATED",
+            "NONE"
+          ]
+        },
+        "expected_parser_supported": {
+          "type": "boolean"
+        },
+        "expected_re_evaluated_reference_proposition_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "prior_result_immutable_required": {
+          "type": "boolean"
+        },
+        "adjudication_complete": {
+          "type": "boolean"
+        },
+        "unresolved_reference_ambiguity": {
+          "type": "boolean"
+        }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "model_input_fingerprint",
+        "workflow_result_fingerprint",
+        "court_family",
+        "original_language",
+        "accepted_original_version_id",
+        "auxiliary_translation_version_ids",
+        "examined_segment_ids",
+        "resolved_dependency_ids",
+        "candidates",
+        "disposition",
+        "selected_candidate_ids",
+        "coverage_gap_ids",
+        "translation_use",
+        "parser_supported",
+        "complete_ledger",
+        "re_evaluated_candidate_ids",
+        "prior_result_immutable",
+        "source_text_treated_as_instruction",
+        "hidden_reference_received_by_workflow"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-cases.semantic-risk-observation"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKCASE-PROP-SEM-RISK-EVALUATOR-001"
+        },
+        "model_input_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "workflow_result_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "court_family": {
+          "enum": [
+            "CA",
+            "CFA",
+            "CFI",
+            "CT",
+            "HKPC",
+            "HKSUPERIOR"
+          ]
+        },
+        "original_language": {
+          "enum": [
+            "ENGLISH",
+            "MIXED",
+            "TRADITIONAL_CHINESE"
+          ]
+        },
+        "accepted_original_version_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,95}$"
+        },
+        "auxiliary_translation_version_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "examined_segment_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "resolved_dependency_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "candidate_id",
+              "resolution",
+              "issue_code",
+              "language",
+              "source_version_id",
+              "meaning_codes",
+              "risk_codes",
+              "range_ids",
+              "mapped_reference_proposition_id",
+              "derived_statement"
+            ],
+            "properties": {
+              "candidate_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "resolution": {
+                "enum": [
+                  "ACCEPTED",
+                  "QUARANTINED"
+                ]
+              },
+              "issue_code": {
+                "type": "string",
+                "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+              },
+              "language": {
+                "enum": [
+                  "ENGLISH",
+                  "MIXED",
+                  "TRADITIONAL_CHINESE"
+                ]
+              },
+              "source_version_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]{2,95}$"
+              },
+              "meaning_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "risk_codes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9_]{2,95}$"
+                }
+              },
+              "range_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                }
+              },
+              "mapped_reference_proposition_id": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]{2,95}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "derived_statement": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "disposition": {
+          "enum": [
+            "ACCOUNTED_WITH_QUARANTINE",
+            "BLOCKED",
+            "COMPLETE_WITH_PROPOSITIONS"
+          ]
+        },
+        "selected_candidate_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "coverage_gap_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "translation_use": {
+          "enum": [
+            "AUXILIARY_ONLY",
+            "CONFLICT_ISOLATED",
+            "NONE"
+          ]
+        },
+        "parser_supported": {
+          "type": "boolean"
+        },
+        "complete_ledger": {
+          "type": "boolean"
+        },
+        "re_evaluated_candidate_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "prior_result_immutable": {
+          "type": "boolean"
+        },
+        "source_text_treated_as_instruction": {
+          "type": "boolean"
+        },
+        "hidden_reference_received_by_workflow": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hk-case-semantic-risk-evaluation-request.schema.json"
+}

@@ -1,0 +1,2570 @@
+{
+  "schema_id": "asklegal.hk-regulatory.conformance-attestation",
+  "schema_version": "1.0.0",
+  "attestation_id": "rba_3934c1b573cb9a346ce131715d23db85981986644d96e389",
+  "attestation_kind": "REGULATORY_RULEBOOK_CONFORMANCE",
+  "jurisdiction": "HK",
+  "material_family": "REGULATORY_MATERIALS",
+  "rule_id": "HKREG-CONFORMANCE-ATTESTATION-001",
+  "evidence": {
+    "rulebook_package": {
+      "package_id": "rbp_5d8c04afcd2b48269373b2363ea82b1230d1a7be8ad43841",
+      "package_version": "0.14.0",
+      "package_fingerprint": "sha256:9fffbb23d5db0902c0b6f2deb5d1f8152bd459fbf7bae9c641bcf081499e92fb"
+    },
+    "suite": {
+      "universe": {
+        "path": "packages/legal-desks/src/asklegal_legal_desks/_hk_regulatory_package/catalogues/conformance-universe.json",
+        "byte_size": 138523,
+        "fingerprint": "sha256:2bf96c67b5bd043a986cebf988464e3e9de3c8a591d080816b2f3e6becd7f1e4"
+      },
+      "universe_fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14",
+      "case_count": 284,
+      "coverage_cell_count": 284,
+      "pair_count": 57
+    },
+    "processing_build": {
+      "members": [
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/__init__.py",
+          "byte_size": 54571,
+          "fingerprint": "sha256:c585d061928a60c4cacfe4eadce7108235b0d9690d03837bff16de433ad4cb86"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/engine.py",
+          "byte_size": 9294,
+          "fingerprint": "sha256:18edad6e4a7201bba3f0d3262c1b94f4c521e30b699f82104dfd78f6a9f9b2af"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_canonical_legislation.py",
+          "byte_size": 42004,
+          "fingerprint": "sha256:dcb3893ded96effeaeba8465477258dd467c41269a4a4fe56afd4572d1427411"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_admission.py",
+          "byte_size": 66903,
+          "fingerprint": "sha256:09ece95761ec5816dc40781988fd673aede134fd241adeca9e48ea85abd6eb40"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_coverage_ledger.py",
+          "byte_size": 28092,
+          "fingerprint": "sha256:9630618ab4b50a4df3ecec1b85eb66d86b640d5e7097ced23aa15e22296aa60e"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_listing.py",
+          "byte_size": 25271,
+          "fingerprint": "sha256:8f7d0279248196a14ef5f9b282afb2e12f6cf9382b533d0f43ba2d2fcf02162d"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_output.py",
+          "byte_size": 41006,
+          "fingerprint": "sha256:65b71920f2c84bc8b4967a3d98ba11434e5229fa0e01d2c4892fc0f522866dfb"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_semantic_boundary.py",
+          "byte_size": 36911,
+          "fingerprint": "sha256:58c79929462a553c5df404b8a6fd0cbf8c5fabdf48cfc0841c853de38d92129c"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_semantic_content.py",
+          "byte_size": 35916,
+          "fingerprint": "sha256:bc3ab83c475bcdbd9e8fc037a0223749e3f593abba1ac7880cc4ec95480580c9"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_semantic_materiality.py",
+          "byte_size": 30046,
+          "fingerprint": "sha256:1e776a27b7adcf0f731ad86804305d4250f1d8f48118a1d5aba4bd62a19a9f1e"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_semantic_risk.py",
+          "byte_size": 39485,
+          "fingerprint": "sha256:ca778a508d7f7f770e933c38aab1f27ee63f5c6e22be052114e48d6282da772f"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_semantic_task.py",
+          "byte_size": 33717,
+          "fingerprint": "sha256:88a12d07e914e3efb7bcf494f4a188f2438afc89a79da6daf623b030edd7aff7"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_treatment_discovery.py",
+          "byte_size": 38771,
+          "fingerprint": "sha256:ca110def9c9998dc901d6272f5f6599f99b9be90fdab7e1a48c8c3729cdde335"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_known_stale_fallback.py",
+          "byte_size": 16493,
+          "fingerprint": "sha256:b26a57af066dc202324f8ab6691d16d82df362c5fc4d572ea3d8c198867f6dad"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_legislation.py",
+          "byte_size": 359298,
+          "fingerprint": "sha256:fef51033222bac172e295a349bac969a61812007e9afb4e687c675d4f16d5ace"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_legislation_partition.py",
+          "byte_size": 54799,
+          "fingerprint": "sha256:42fb6de6f5f4842c5fa4faa972229e0e786e3e4f38c3def57a5f65af33a494e3"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_legislation_partition_package.py",
+          "byte_size": 11624,
+          "fingerprint": "sha256:108a620ac3232126c12f9723661c97a116bd4097f1ba028f473e487f78528d81"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_partition_release_consequence.py",
+          "byte_size": 17020,
+          "fingerprint": "sha256:9237128973f7e055443ce8851b486371807bf21a6c053d2332aa635bf5e83ec3"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_reconstruction_artifact.py",
+          "byte_size": 49529,
+          "fingerprint": "sha256:229dd4a50adca7e84903d69f4e8c1ae7eb5819cef692a18f02ab42e394290e7c"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_reconstruction_execution.py",
+          "byte_size": 77114,
+          "fingerprint": "sha256:1a0872d6d594af6fbf26fe78ef106fdbb1056ab39cdaf8d6d215a3b4085e19b2"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_reconstruction_reconciliation.py",
+          "byte_size": 17340,
+          "fingerprint": "sha256:77b76adf6d274a3adbcf62bbadbd2b5afef3fd83e2e3f3ddb540602b92777c5a"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_reconstruction_report.py",
+          "byte_size": 28746,
+          "fingerprint": "sha256:587ce9c502ba48c80ae97930c1f604f00db55b7d0e0d0565b215a88b36c6826e"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_conformance.py",
+          "byte_size": 16241,
+          "fingerprint": "sha256:30415ff5af5f8aa907d167e2420abf834a336cdacc3d6702c026d7088d7935ed"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_conformance_attestation.py",
+          "byte_size": 38034,
+          "fingerprint": "sha256:8de6e7ca06e58e616e9e2a9434e5d1d20272ea7b76d6e8e7c33c7b89d02bb6ae"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_conformance_boundary.py",
+          "byte_size": 47289,
+          "fingerprint": "sha256:1b747c6d1ae1c21667d96948052ba1f92d3233dd7adb29c3a0d53f7c7a150869"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_conformance_coverage.py",
+          "byte_size": 52908,
+          "fingerprint": "sha256:6b2a565a7fa3acd7644c2a2f9b0417d0c608664d91bf1845a15a441f5b4ef071"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_conformance_identity.py",
+          "byte_size": 55173,
+          "fingerprint": "sha256:f6f1018ca7453665e322f407a0951eca6df206e7d6d320d61d9513fef827eebd"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_conformance_package.py",
+          "byte_size": 44977,
+          "fingerprint": "sha256:bf28aacb2c405288b9ac4fdb131753d9a68ed1e693e8eccbe6e7f463e8d365e8"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_conformance_partition.py",
+          "byte_size": 43719,
+          "fingerprint": "sha256:3d4e0c6c4151c9a3da9b441d7790d078faa20463e9a3a988193d1cdc2ab009d2"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_conformance_rendering.py",
+          "byte_size": 38723,
+          "fingerprint": "sha256:ecd15768b5925f0f438ed944d50d7658967f65f801419b05f88b2fd5b551dd58"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_conformance_source.py",
+          "byte_size": 58455,
+          "fingerprint": "sha256:4b2f9bf919f29d5062b25107d3c8fce94b8652f52d29cd70cbc164488ef597ea"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_conformance_state.py",
+          "byte_size": 41690,
+          "fingerprint": "sha256:0a0b72ec960d4954bfbdc1d97b174970b08ec48e539f68b439606737138a04c8"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_continuity.py",
+          "byte_size": 21685,
+          "fingerprint": "sha256:4eb74086372c5b102ddd46a5ea6d71a92e18a446b9c5fbba55d41fcb371e9bcd"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_effective_state.py",
+          "byte_size": 27911,
+          "fingerprint": "sha256:fdd79d18de87526a14df42879bd6cb5dcd478b556314a04b5133e4366cf28ca5"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_english.py",
+          "byte_size": 53454,
+          "fingerprint": "sha256:61e15e93fdc898b90e6ce75b35a2b6ea1ae04c4cac3c1acb6cf763939b2e1cce"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_inventory.py",
+          "byte_size": 21581,
+          "fingerprint": "sha256:25da21bc83428166406ca06f89bd97914c6acd0d081c7fe7cc8e06a09db0c2b2"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_record_identity.py",
+          "byte_size": 32042,
+          "fingerprint": "sha256:f654ade6f6adea715f6287b01617896930710831515e5d2aae44101bff3b1389"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/loader.py",
+          "byte_size": 32229,
+          "fingerprint": "sha256:b2c525bc66cb28f7b13f55db291c6711c887e232c35598035ae292154746e03b"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/model.py",
+          "byte_size": 8831,
+          "fingerprint": "sha256:21df6498d60029099f2dcf5f0f7ed946ef4f77ced693e530285d01561672ecb8"
+        }
+      ],
+      "inventory_fingerprint": "sha256:c9f9a1ee834ca85baca2a88380e5693f97b1579360da501fc39aeba1fae6d219"
+    },
+    "dependency_lock": {
+      "path": "uv.lock",
+      "byte_size": 159136,
+      "fingerprint": "sha256:836a8b726f2154cf04b0c3e52daa32589923193d4a7c75d6e9cbc0aa04ffc13f"
+    },
+    "conformance_runner": {
+      "path": "tools/run_hk_regulatory_conformance.py",
+      "byte_size": 9546,
+      "fingerprint": "sha256:d66ee83696fe5f09b4fe01812952dcdb5a2163306bad3bd05470f01f005888bb"
+    },
+    "contract_set": {
+      "path": "contracts/package-manifest.json",
+      "byte_size": 31882,
+      "fingerprint": "sha256:c2070ed6fc0403156790670b767cbcbd204b6cf749d56753b04f49f7ef10b938"
+    },
+    "contract_set_fingerprint": "sha256:92b5193ca9fa45d2260ee2012cd350818136f4d12b1d93e763a67b827d15c455",
+    "case_results": {
+      "case_count": 284,
+      "members": [
+        {
+          "case_id": "HKREG-DEC-BND-001",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-001.json",
+            "byte_size": 2532,
+            "fingerprint": "sha256:d4066a6ffc18b862a852d9017a21776fbc204ee9c9b7a43acba8baf9b3e94a0c"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-002",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-002.json",
+            "byte_size": 2954,
+            "fingerprint": "sha256:380de54f12c4e8e0507ac267f8cb41da35590f15508232458753467fea60b6b1"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-003",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-003.json",
+            "byte_size": 2632,
+            "fingerprint": "sha256:e23dd8aa3fabd19543bced5ea4a710ec05d0ba0ac3be0cead86e2e748de323bf"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-004",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-004.json",
+            "byte_size": 2660,
+            "fingerprint": "sha256:b833a487e4bebd6fbee94b6c5faa5960f48696a45d1c96ce6195c3d7b552ef6c"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-005",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-005.json",
+            "byte_size": 2605,
+            "fingerprint": "sha256:dab76f3e8ce808877ed2fffa3e7738f646e0fe38546348e7ae6725a068ab7b06"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-006",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-006.json",
+            "byte_size": 2597,
+            "fingerprint": "sha256:4e401cb5d9ab1909a92fdecd2d0a3786247fce73a821caf26ec93c443725d5f6"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-007",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-007.json",
+            "byte_size": 2637,
+            "fingerprint": "sha256:6aba9647328864e627fd2dde838817a6d8e5e27365fcf7ba6954f70e6ce79b8d"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-008",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-008.json",
+            "byte_size": 2557,
+            "fingerprint": "sha256:735c2efefc9a21c87f63706f5764fdefe7194422eca776d935e98c1ffafc6c33"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-009",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-009.json",
+            "byte_size": 2127,
+            "fingerprint": "sha256:be35081f2d3939a257372a28e7e5cf9e4304aad2745e7b75305fde55169938b6"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-010",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-010.json",
+            "byte_size": 3109,
+            "fingerprint": "sha256:63aaca87e0cdfe24e100a04c90159555e96bd5cb62b071f7e0efdc4d6906abc7"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-011",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-011.json",
+            "byte_size": 2583,
+            "fingerprint": "sha256:43a82ed03946c2e1f1dac932f441d923fa08b278b320cae1161d5453766e29e1"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-012",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-012.json",
+            "byte_size": 2147,
+            "fingerprint": "sha256:51af2516f61bcaf37c6d5f531416fae3fdb425e24c38c9eaff30cf7af32102fc"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-013",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-013.json",
+            "byte_size": 2623,
+            "fingerprint": "sha256:15acfdeadb7e9acc35fc3eee2215087127e5d1e2e6b08c72220b59fb3a6fb763"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-014",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-014.json",
+            "byte_size": 2580,
+            "fingerprint": "sha256:66511d6737c0bfc60c2da6858f46458898982e931bee0b8bc01ee85b9d80753d"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-015",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-015.json",
+            "byte_size": 2610,
+            "fingerprint": "sha256:74583719679e8b68fe81a8a7a2e46615990badbdb4d2dc3cc78b2881d8671c75"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-016",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-016.json",
+            "byte_size": 2134,
+            "fingerprint": "sha256:dfb068cbecc73eef2bc4f3e5a4591b004bcbd2e885d9094c79f78d117b635799"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-017",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-017.json",
+            "byte_size": 2220,
+            "fingerprint": "sha256:bf9c6819cd5ed16d7916e51b40d97b58857e48be837bf4bc2b5019cfc420a826"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-018",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-018.json",
+            "byte_size": 2631,
+            "fingerprint": "sha256:fd07897e4e14fa1de53192cdee2ade1a1f750f087212f2e8210de0ad3a732cb2"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-019",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-019.json",
+            "byte_size": 2589,
+            "fingerprint": "sha256:da2b3fc9754c0fe37604dfc0990bfb040cae3e341cf78190364daea9b6ba99d8"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-020",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-020.json",
+            "byte_size": 3089,
+            "fingerprint": "sha256:313c1ebe7c995b379dc0e61993db21b16316b730f53e892d5534613d1ba1e263"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-021",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-021.json",
+            "byte_size": 2878,
+            "fingerprint": "sha256:9bc10603c1c0402d5059ccb74e1313624f1378155398beed8290b68315cf36c7"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-022",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-022.json",
+            "byte_size": 2888,
+            "fingerprint": "sha256:14b70e94cfc39ebdfdf396f579f5f8e42e2df18620270b6be559ab16a3773a4b"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-023",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-023.json",
+            "byte_size": 3570,
+            "fingerprint": "sha256:31be26a9dec2dc54f79f86991a1521fc2a58feb0d1db145ab4855cc0dafd023f"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-024",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-024.json",
+            "byte_size": 2940,
+            "fingerprint": "sha256:06dc87e1ac29f65d41d9c7f4be16ca1e21aaad7f3e17ed00b8ba21eb8b2cd509"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-025",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-025.json",
+            "byte_size": 2872,
+            "fingerprint": "sha256:4c2282975ae1a4b771fd7285ad6f75cc0437dca649b396c52f53eb9d0e36efcd"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-026",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-026.json",
+            "byte_size": 2884,
+            "fingerprint": "sha256:62d7686fbbc657cdd34e0380d237b8f0937ff5970c34db9a098dc32fbfb3ac56"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-027",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-027.json",
+            "byte_size": 2582,
+            "fingerprint": "sha256:ac841070a563dc2c496785c7a5d0bef8ce050b292b7a0f059d37dd6475885c15"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-028",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-028.json",
+            "byte_size": 2631,
+            "fingerprint": "sha256:090b1a00e6f4551688ea5d9d3cb1e51d3a66723f4a06bf9eed12111e835db8f7"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-029",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-029.json",
+            "byte_size": 2190,
+            "fingerprint": "sha256:c0ff8223abf73e84de693d4bab05c51f49ff9178b26e287ea6824a9ead007c32"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-BND-030",
+          "result": {
+            "path": "expected/conformance/boundary-decision/HKREG-DEC-BND-030.json",
+            "byte_size": 2972,
+            "fingerprint": "sha256:ff33484ea24a29bb3e4fb8452e4f90411146245f14447b0931df8a2954c41e06"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-001",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-001.json",
+            "byte_size": 2167,
+            "fingerprint": "sha256:394941d50a582b2c0dd8e658be84ffe9530725ebfa6afb7a6f8252f6e32dc566"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-002",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-002.json",
+            "byte_size": 2187,
+            "fingerprint": "sha256:fee2c79c8f08962f1cfc4f61da14a0c50814652dc19f5cfbcd03855d8e1dd733"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-003",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-003.json",
+            "byte_size": 2137,
+            "fingerprint": "sha256:3dfbf880abed3791a9457a032c0d8aed79a26da0033a7ec07d077c416980e143"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-004",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-004.json",
+            "byte_size": 2215,
+            "fingerprint": "sha256:9aa161f9f0d9bf4d4ef67f406f3013b991d92d4b16c950b2305f1ef02ae55304"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-005",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-005.json",
+            "byte_size": 2187,
+            "fingerprint": "sha256:fddc0a9cc77b1f8fd03d5ff6e0ba423f03a5d5e052f01a6090a909123282443b"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-006",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-006.json",
+            "byte_size": 2229,
+            "fingerprint": "sha256:3b24e96f50528554671498e1308757da20f6368dd05c857895d026f2e5b69b65"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-007",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-007.json",
+            "byte_size": 2187,
+            "fingerprint": "sha256:76b53be4f824aecd15eb94663d70ddcc91069961b365312feeb473703d2604d3"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-008",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-008.json",
+            "byte_size": 2229,
+            "fingerprint": "sha256:ccaf9a74acfa528d58a3e4379e25ad6860ba2786e4ffcb96d179203d2f2a4928"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-009",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-009.json",
+            "byte_size": 2253,
+            "fingerprint": "sha256:9a491fe72d8a40dfbe9e372a3ee628635610a4b96b82b099380d6f3690d0395f"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-010",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-010.json",
+            "byte_size": 2179,
+            "fingerprint": "sha256:204d78a276e6b7a9040ba80c7d9313c052426219e6a55d95b5f1b3264436a739"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-011",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-011.json",
+            "byte_size": 1979,
+            "fingerprint": "sha256:074e081323fa42c812dacd5ec2db6d682659dc8ba4919c81bb9d87dc5a579228"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-012",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-012.json",
+            "byte_size": 2095,
+            "fingerprint": "sha256:7a948c34a3d1e1611879a0b982a71ce2e649241bdd84511259ada67da285460f"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-013",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-013.json",
+            "byte_size": 2126,
+            "fingerprint": "sha256:a8c6939edb5a8daf09da0a42e465c8b8c7490e71f079979a831511d49f01996b"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-014",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-014.json",
+            "byte_size": 2120,
+            "fingerprint": "sha256:d2b9c84f4a0e6bd10bab6dd6fcb673a9816f97c55b50704f527956446aaa5a8b"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-015",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-015.json",
+            "byte_size": 2007,
+            "fingerprint": "sha256:6438d5e5c5855b0808f01a142bd17428a9c0d39d5c47af564d5f1371a4202d2c"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-016",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-016.json",
+            "byte_size": 1969,
+            "fingerprint": "sha256:1bf7e7f403d931d9e795acc463e4a4e5bb8f2ad7fa4f071cd5e7cf83befc472a"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-017",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-017.json",
+            "byte_size": 1995,
+            "fingerprint": "sha256:14c1584e3eb836187f65c665a38b48958695918a43a5c8a445edc59818e27a17"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-018",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-018.json",
+            "byte_size": 1966,
+            "fingerprint": "sha256:fc480796dc94d071560ea3f948d0f9b6379a5aa0c119be1d21afc43d3094a13b"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-019",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-019.json",
+            "byte_size": 2090,
+            "fingerprint": "sha256:387788d0b76d0315c0720de09502c7b84674867496936635954dedeb1570554b"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-020",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-020.json",
+            "byte_size": 2101,
+            "fingerprint": "sha256:2b1d7d06aa2d8b9d5a7efd36faebea7f5cb94edc5047261eb98473cd0e171c0b"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-021",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-021.json",
+            "byte_size": 2097,
+            "fingerprint": "sha256:3866a9c463b56b0b1972911c8ff5a625fcbd18d480777cf52a24d25400b2c8c3"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-022",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-022.json",
+            "byte_size": 2113,
+            "fingerprint": "sha256:5ad83d9b4d397e9428450435c79a1b3343d6a8927d3eadd0515781f0a8a328b4"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-023",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-023.json",
+            "byte_size": 2077,
+            "fingerprint": "sha256:717914b974ec2cb552c35878268f288b062a5eee3ee8c6f28b6bd9f5a3c94311"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-024",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-024.json",
+            "byte_size": 2077,
+            "fingerprint": "sha256:bd9d0a550815a5e5e66b6e050edd8f0fcc018cae97f69d98b60efe05c55531fb"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-025",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-025.json",
+            "byte_size": 2077,
+            "fingerprint": "sha256:d966e37c139077849f7ad99b72c5cacac2ca361dbae054a1f481f632e0e94108"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-026",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-026.json",
+            "byte_size": 2077,
+            "fingerprint": "sha256:d032ae880ecdd8dd42b8f1e8c5ca4ea8707526c9fc639cceca1ee6d31881f858"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-027",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-027.json",
+            "byte_size": 2077,
+            "fingerprint": "sha256:2e2d5af649ec79cd00a54b681a8feab5836e80f03b1e43f489d5635c9eebd74b"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-028",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-028.json",
+            "byte_size": 2077,
+            "fingerprint": "sha256:d5dcbb11740fbffb9421ec64cc9e11df20dec91b2ceb50ab27b4f3ed9702f594"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-029",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-029.json",
+            "byte_size": 2077,
+            "fingerprint": "sha256:7d8cdbaab9ad9fd1cd4e393ec5a977309eb3c2d12385569c73a70cc7cc7aacd3"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-030",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-030.json",
+            "byte_size": 2077,
+            "fingerprint": "sha256:7a43f895d7e6f46965c0c86719d2ec970113896a859db50faa162d97c7d179a6"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-031",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-031.json",
+            "byte_size": 2017,
+            "fingerprint": "sha256:0dc3c7671183d17ead12530ce9301a6285dd72a9356e81b6dffdee604bf0e27c"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-032",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-032.json",
+            "byte_size": 2017,
+            "fingerprint": "sha256:17dbf44e84a1ee831c2ac40abc1c7ad0fad85e6734cd9a3b18f8162afe09541d"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-033",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-033.json",
+            "byte_size": 2017,
+            "fingerprint": "sha256:d607576e3e0c73e22d5d7243ef37e3758f5a1d55909ddd00dfa44875e8a28275"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-034",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-034.json",
+            "byte_size": 2017,
+            "fingerprint": "sha256:cb0a1d5c233ec996f1846c79fd18e6a6a3bb3173c84cc4a3322d05b01026a126"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-035",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-035.json",
+            "byte_size": 2017,
+            "fingerprint": "sha256:b1cab829fbf798a53012d3b0f22f4609561a54a5e8828b08c8fc02a1b29a8e05"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-036",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-036.json",
+            "byte_size": 2017,
+            "fingerprint": "sha256:92831169e1260c65c2cb94033f123ede15138c62578fd90918396a4d40ce5501"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-037",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-037.json",
+            "byte_size": 2001,
+            "fingerprint": "sha256:465837a729f40688d9316f9a4daed6b5710b4ab4ef9d50b7ec35359da050d57c"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-038",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-038.json",
+            "byte_size": 2001,
+            "fingerprint": "sha256:a7d372e578c152dd7afda1a1218fccd0944ce92a3ca40b21b1b4fd06bea80009"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-039",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-039.json",
+            "byte_size": 2001,
+            "fingerprint": "sha256:89acc4abd1b1fed1546963a5e9ce0a76683b41e51ff077d061da97e08a7d5eaa"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-040",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-040.json",
+            "byte_size": 2001,
+            "fingerprint": "sha256:3695ed8de48ae0ee300abdaece17cef582093ae330e75e6c300197ab8b00f2b2"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-041",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-041.json",
+            "byte_size": 2023,
+            "fingerprint": "sha256:bd8ab46f219569c6d5e475023526661b71d36541d430054dd918acc46fec7e11"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-042",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-042.json",
+            "byte_size": 2023,
+            "fingerprint": "sha256:bee742dd6ff8ffe5d9f3c956303785d5d286b456d1c700977188ad69f1b47ddd"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-043",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-043.json",
+            "byte_size": 2023,
+            "fingerprint": "sha256:122b17d9248cc7ccf9854b2fbeb40595ee821ba08085d6bb15414718e51ac3ce"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-044",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-044.json",
+            "byte_size": 2030,
+            "fingerprint": "sha256:50b60a4614b9a03c3c98251cf031969b0f44603894b70649a88aa53f36e75e0d"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-045",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-045.json",
+            "byte_size": 2016,
+            "fingerprint": "sha256:003be9e27e3a2a9d327257d7ff147e5349c2bc3f8fdac777301e259835ac4d72"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-046",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-046.json",
+            "byte_size": 2120,
+            "fingerprint": "sha256:4f99082a46e9aa2f778792be7813276e716c4a2eb54235fc52ca1adc7bc91ae8"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-047",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-047.json",
+            "byte_size": 2054,
+            "fingerprint": "sha256:ebf894b3fb672aadd1bb43b64fe9a9459499a68a8aa6e678e15212a5658c1e33"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-048",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-048.json",
+            "byte_size": 2108,
+            "fingerprint": "sha256:c003d02a8c1e073b18741be8a7adef48c7ac27cdb966c04ce15abd8efd47ec21"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-049",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-049.json",
+            "byte_size": 2064,
+            "fingerprint": "sha256:a1611c7cb8d7c0d36f03b77aedab2bdb6ddd336f91641b316a72c826aabc165d"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-050",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-050.json",
+            "byte_size": 1968,
+            "fingerprint": "sha256:9d9485630a0873923d808d2dca1b0a6e23ac6b26b6cd54bfb47c15afb623e835"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-051",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-051.json",
+            "byte_size": 1970,
+            "fingerprint": "sha256:88f92b9c909cbc4b10bc27072e3338ca2e464c73ba14266ea70c7a671406cd1d"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-052",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-052.json",
+            "byte_size": 1974,
+            "fingerprint": "sha256:61093414f81b15f1e94691f0c9e8d12d9d7ad766459e931ca2a19736181d6798"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-053",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-053.json",
+            "byte_size": 1964,
+            "fingerprint": "sha256:219ff477d09507a68272649c16b07a7e0207c62a3966cb7d12ff4853345ba524"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-054",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-054.json",
+            "byte_size": 1970,
+            "fingerprint": "sha256:8ed94b84cc61de6824b3a12b3244c845414fa9d283afd24627a8e4e5123d8b57"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-055",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-055.json",
+            "byte_size": 1972,
+            "fingerprint": "sha256:795196ee5ee06aff8c63352fc4c5da2feccda456da1a3a8279e7122d4da7e81b"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-056",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-056.json",
+            "byte_size": 1995,
+            "fingerprint": "sha256:bc37f2ae52142c113f481f47492589fcfda5b1b444e688688357577f67065476"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-057",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-057.json",
+            "byte_size": 1979,
+            "fingerprint": "sha256:be0567c4b1d936a3a7f8f979e2a2a3ec668f693e2a32916d5169ee9ffb74aae4"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-058",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-058.json",
+            "byte_size": 1991,
+            "fingerprint": "sha256:13976650822023fd492459cd79b3f2a14426eef8ac70d78139666af14b7e88d0"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-059",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-059.json",
+            "byte_size": 1997,
+            "fingerprint": "sha256:8d026d78d984f40435d84a896d3384c85527259e11f2fd5e99c258e152e26a30"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-060",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-060.json",
+            "byte_size": 1989,
+            "fingerprint": "sha256:9c9917c01a0c4859ba9c8595df6346e910a5157884e64e893b6748bba4144599"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-061",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-061.json",
+            "byte_size": 1979,
+            "fingerprint": "sha256:8525d4f343fda722478cc36d03ea210e4cbe69c8f2f28292e9e527e9c85c7bef"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-SRC-062",
+          "result": {
+            "path": "expected/conformance/source-decision/HKREG-DEC-SRC-062.json",
+            "byte_size": 1997,
+            "fingerprint": "sha256:c86ddc68eb0e477c035fcba5d32da594d8adec02e134fed66538c598d6ecc939"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-001",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-001.json",
+            "byte_size": 2421,
+            "fingerprint": "sha256:7e9ca151b7421f306a49cc83ac280092d278e600e7def90aac1d3b7edf7724f6"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-002",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-002.json",
+            "byte_size": 2545,
+            "fingerprint": "sha256:c93cf8e3b88ffb730b787e57e41f649230ce0023ba0194835bf95ec96805a26e"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-003",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-003.json",
+            "byte_size": 2425,
+            "fingerprint": "sha256:57825f45c59af9a36cf464be45cecd4837436f36ef823ee8c96eea8a709fa525"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-004",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-004.json",
+            "byte_size": 2435,
+            "fingerprint": "sha256:6bc42d5c9e56cb6c4298ff6905ee46226066a3e59d34d1c2db53c75280738320"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-005",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-005.json",
+            "byte_size": 2385,
+            "fingerprint": "sha256:0494df5571146175c96dc6b2d6a8ed9157d425c76367412599dd597491170439"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-006",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-006.json",
+            "byte_size": 2403,
+            "fingerprint": "sha256:894e4eba4fc9f39178bdc9372ba5096433e1d8d23ee827bcad29084367f2e64f"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-007",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-007.json",
+            "byte_size": 2401,
+            "fingerprint": "sha256:34e5060ccf55353186d3c1257d6bf98021a1ca75c29901529ea6afe862b09bd1"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-008",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-008.json",
+            "byte_size": 1895,
+            "fingerprint": "sha256:d32a8817101545952a11ffdfca225a5ffaace576db768b0303b1d186fa70e28a"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-009",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-009.json",
+            "byte_size": 2436,
+            "fingerprint": "sha256:80d6357d33d46f065d265973a7eda180040d1c924801ba103d5c66d23bff3648"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-010",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-010.json",
+            "byte_size": 2586,
+            "fingerprint": "sha256:110fff7543dc2208f9f3dfef74830f7b98a8a46d8f11cb6efe4328348e0b9073"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-011",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-011.json",
+            "byte_size": 3006,
+            "fingerprint": "sha256:613a3654e63eecf0e8502432c89804afe95e9823dccd002992ad572605432817"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-012",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-012.json",
+            "byte_size": 2460,
+            "fingerprint": "sha256:f2855a914039e0ccab8274a09e8fee2de102965203da0497d8631cee8a5ec110"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-013",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-013.json",
+            "byte_size": 2472,
+            "fingerprint": "sha256:773f5b0aa6fceb673258ded2aa7ee9a613c6756c8b22e614ad63b9c37adfd6f8"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-014",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-014.json",
+            "byte_size": 2900,
+            "fingerprint": "sha256:da8b0f4312355bb3a304c421f22a93951bef644e7317d657fa56121d75ea21e6"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-015",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-015.json",
+            "byte_size": 2934,
+            "fingerprint": "sha256:9c252843b6341ec65b5bed3a157f7d70a6d75b41110e479db10fd123f17c2427"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-016",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-016.json",
+            "byte_size": 2976,
+            "fingerprint": "sha256:a67514cfb7a8f589f3d82314d3b33a6adda788ffb6c36cd3b0831eea34506db4"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-017",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-017.json",
+            "byte_size": 3024,
+            "fingerprint": "sha256:11e224404c301fc23d6a50d0c07e27a8f6eec5c9d0b6f888889bc82c40e218c6"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-018",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-018.json",
+            "byte_size": 2425,
+            "fingerprint": "sha256:2827444cacf4d057fa8c448a46b8534a256945c3f99cc2282205e531a5fdb9f0"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-019",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-019.json",
+            "byte_size": 2421,
+            "fingerprint": "sha256:ad745444959f804dd56cf04a130dd73393443201396735292fce6603839247d0"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-020",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-020.json",
+            "byte_size": 2401,
+            "fingerprint": "sha256:ef26afb0300fba544c0d4a2b3347627a14f215215defa01b18b5bd963fb6e4a6"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-021",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-021.json",
+            "byte_size": 2425,
+            "fingerprint": "sha256:4180c4ea52aa06d1db7b95b85007b4fb43ed402b880033f2c2bbd4ea0a954613"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-022",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-022.json",
+            "byte_size": 2407,
+            "fingerprint": "sha256:ca34a6ee41eea6c5c0f51ee8f4d6ed6893095e6463f7041010bd1341a2f11596"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-023",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-023.json",
+            "byte_size": 2421,
+            "fingerprint": "sha256:0f614651b119197d450163c4e52dfe5620f018c8de9159a0d57c54652fd5f19b"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-024",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-024.json",
+            "byte_size": 3501,
+            "fingerprint": "sha256:2b9bbd3b1b9be55ad2a2e408f2e099a05d3b9cf2042fcdacaa291d7ad4ec3f54"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-025",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-025.json",
+            "byte_size": 3013,
+            "fingerprint": "sha256:0fb8aa5865af1007cd0b9f9e21d53188e9897536cfcb14dcfcaa4e2283b74262"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-026",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-026.json",
+            "byte_size": 2411,
+            "fingerprint": "sha256:6937accbe91ea8f88c84f8bf5ca763efb740f63929e981feaeb3f51f141a25d6"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-027",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-027.json",
+            "byte_size": 2421,
+            "fingerprint": "sha256:14254ddb021014b57d5c4a7e6892c714bf1d4f8ed32a7ebc0fb65ef2354168f0"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-028",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-028.json",
+            "byte_size": 2401,
+            "fingerprint": "sha256:4320645d3fdeb755bd16625f0019cf9b02ebfe1f9fbbf659f0dd1855847a735f"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-029",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-029.json",
+            "byte_size": 2411,
+            "fingerprint": "sha256:68f28a95ee76a5bca665893f7ccdb509a32464401bdca0c06e53cb2d3508a443"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-030",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-030.json",
+            "byte_size": 2421,
+            "fingerprint": "sha256:f5c19cc0c5601c6f5251a2de326bbc2f2a14bd4256e210c0e8f82e6ca4afcaab"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-031",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-031.json",
+            "byte_size": 2435,
+            "fingerprint": "sha256:08d60c3333a5d778c7e5fc303f6b434ddafd4affd5a197a6ac5c49cd642d19ca"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-032",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-032.json",
+            "byte_size": 2411,
+            "fingerprint": "sha256:769099223b1616d3ae7bd476c18b336528c7e86ba76539118e432c3101dded01"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-033",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-033.json",
+            "byte_size": 2421,
+            "fingerprint": "sha256:1933fdb4543bb782b0cad99dbd06771da29af4ef4917f940f313239a74e8ac29"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-034",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-034.json",
+            "byte_size": 2435,
+            "fingerprint": "sha256:1e73b743a7bd4bba05938d5819335921d34f0d3101f14a414d8773b8c66ebd43"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-035",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-035.json",
+            "byte_size": 2411,
+            "fingerprint": "sha256:26d740fa7fdb9e63f8adbb8d3ccd27d5d8645186cc92d20facbeb2b50f4067fa"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-036",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-036.json",
+            "byte_size": 3258,
+            "fingerprint": "sha256:b9690bdc254844f4375777e68e5a2eb3a5097aef6ea9130ca9816b7a90b1f3b3"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-037",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-037.json",
+            "byte_size": 3296,
+            "fingerprint": "sha256:0944f71eac180707834dd9a0df413067d1e21a1b0049bbb9873f641c4dfb45bb"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-038",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-038.json",
+            "byte_size": 2614,
+            "fingerprint": "sha256:60431cf214c265a478a9e8376a8263bc82e7eda18b33d29841c6ec11bafd70e4"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-039",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-039.json",
+            "byte_size": 2545,
+            "fingerprint": "sha256:db10e8ab777a27379992b2496dc8027749af4daf64a0db363acf7459cbb76dea"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-040",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-040.json",
+            "byte_size": 2385,
+            "fingerprint": "sha256:4ab1e1ddcc9a34da5b023d0045b8c076ca4743b347d62270b22d771c43589d8d"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-041",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-041.json",
+            "byte_size": 2403,
+            "fingerprint": "sha256:ed585b4139103f29fad2edb6e64cdd9c929e92f2c27add1f05dae957313241aa"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-042",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-042.json",
+            "byte_size": 2565,
+            "fingerprint": "sha256:413821f57513d079698d22e8807ae6959102cd34ccb56fa21b4bcd525634dc9a"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-043",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-043.json",
+            "byte_size": 3636,
+            "fingerprint": "sha256:eb1ca61ceb611003399046f3304b133c6a61aaa2bbe96acd2f19020d1a916ae2"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-044",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-044.json",
+            "byte_size": 2407,
+            "fingerprint": "sha256:27b9f0609d90afbe9541a78ee41a6d947a4da65fefcd1fbc0be7ddb2f3b9c80f"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-045",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-045.json",
+            "byte_size": 2417,
+            "fingerprint": "sha256:c78e302fbb4d3595ffd3416f68373aa576a244b5f77349350a387630a88cf40c"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-046",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-046.json",
+            "byte_size": 2403,
+            "fingerprint": "sha256:df68ee50de880d93293b9111fec47ed40da372add619f175842c0d83a04b8b71"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-047",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-047.json",
+            "byte_size": 3077,
+            "fingerprint": "sha256:73d107d7d2140bcba0704678ff9c08a0417e9a9df9de94502f7c7fde60da8ee1"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-048",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-048.json",
+            "byte_size": 2433,
+            "fingerprint": "sha256:2c89ed0e83865fe5553cb49e85b1d645ac4b5735f369566aa4634b396c66c4a1"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-049",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-049.json",
+            "byte_size": 2413,
+            "fingerprint": "sha256:5bb0d1acfc5c43351f8ec8d882113bd6b152649910712a027e021e32c3444fbb"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-050",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-050.json",
+            "byte_size": 2438,
+            "fingerprint": "sha256:11891481a4e783c95a9814ae2c8fa837414f942b51a3bb477310d3e4bf25493b"
+          }
+        },
+        {
+          "case_id": "HKREG-DEC-STA-051",
+          "result": {
+            "path": "expected/conformance/state-decision/HKREG-DEC-STA-051.json",
+            "byte_size": 2407,
+            "fingerprint": "sha256:edf17293c659a9a4aeafaf867022948e49ce27807429ea5a4194fed23e1017e8"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-001",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-001.json",
+            "byte_size": 3454,
+            "fingerprint": "sha256:7f7f93bee42cc575343b564a675745ce862f989bad21de419c173820d915f258"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-002",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-002.json",
+            "byte_size": 2811,
+            "fingerprint": "sha256:7fdf6ed603621ffc9ec0f5027f3bb72240bea74b206b177c3f2c010665fbd21f"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-003",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-003.json",
+            "byte_size": 2782,
+            "fingerprint": "sha256:e28bc2508f18114f35f92c781b26977b2ba5fd7f028d448d8068829e92796e51"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-004",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-004.json",
+            "byte_size": 2774,
+            "fingerprint": "sha256:3b000fa78bff966166b79a70d7b216803b90e7b5a205c63d3c04bd87db99a125"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-005",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-005.json",
+            "byte_size": 2769,
+            "fingerprint": "sha256:206698619cff95cb242b167d5340413eeb73bf99dc7238907483d5466d845aa2"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-006",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-006.json",
+            "byte_size": 2780,
+            "fingerprint": "sha256:232bdf3f3d931bc0ad592da307a3c8198f0ea2b552aacb9c1d44fb54d3d67628"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-007",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-007.json",
+            "byte_size": 3444,
+            "fingerprint": "sha256:1922b02d6be7a3ec3411dc9b6dbc1fa660fb8ae8c3f2a1403d136bd803f548c8"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-008",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-008.json",
+            "byte_size": 3579,
+            "fingerprint": "sha256:d3626f920c007866a9b5a43622b4f18829c80bd9af34f5619c441a498d8693a9"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-009",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-009.json",
+            "byte_size": 3596,
+            "fingerprint": "sha256:db4ff1971e00116c8536a0386348bc76fe4414d9dbe79f904d41a19b1eedcdc7"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-010",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-010.json",
+            "byte_size": 3528,
+            "fingerprint": "sha256:c9c0797f2f2b19743eb8aa17c6b585ecb62c2804c0a4ed0bb4aa4ad62f924ecb"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-011",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-011.json",
+            "byte_size": 3560,
+            "fingerprint": "sha256:3e97c664884a75ee261502cdf1a7f9afb0041afc4756ff00899940d07de99885"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-012",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-012.json",
+            "byte_size": 3510,
+            "fingerprint": "sha256:fb314a9a0e604a85bfd65040cd0cb948c6b9657aefd947e58b1cea905300a33f"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-013",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-013.json",
+            "byte_size": 2877,
+            "fingerprint": "sha256:fa05dd2d93cab76421d88992a0aff8209b86073d106c0b35adc9a3b297df6004"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-014",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-014.json",
+            "byte_size": 3538,
+            "fingerprint": "sha256:513cba90bd3e060f2a71c00ff2eb96a3add9b39dce57dc11bcb9119236eecff7"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-015",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-015.json",
+            "byte_size": 3450,
+            "fingerprint": "sha256:54a5a82461ebe5460a2a0178cd8e80cf1ff6e7103bc44001c20c7f66d11e5b91"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-016",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-016.json",
+            "byte_size": 2806,
+            "fingerprint": "sha256:669903fe0aaf0f1e90294984c72976b2454ef9f12230f8094c686ad8b6085f63"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-017",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-017.json",
+            "byte_size": 3438,
+            "fingerprint": "sha256:f9d93084a3faad22ecf524d4cd666bd59973c13c57a31ae60a9bc7f92aab8854"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-018",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-018.json",
+            "byte_size": 3549,
+            "fingerprint": "sha256:723f36c2abfeb4372240f9c1ca5a6d108312bdba7f8afbb93895a75e230fdee2"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-019",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-019.json",
+            "byte_size": 3577,
+            "fingerprint": "sha256:e61b801c389b4012acdea922bee6b32d67aeb21658dfe19a2f4486ee311aba9c"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-COV-020",
+          "result": {
+            "path": "expected/conformance/coverage-decision/HKREG-DET-COV-020.json",
+            "byte_size": 2748,
+            "fingerprint": "sha256:7bab21af9df799d513b6ffa197f93dee5f808c1de4afefc7a793224d5025f7b1"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-001",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-001.json",
+            "byte_size": 2471,
+            "fingerprint": "sha256:4ca2b7768653b0a00a44fde44d38a94781e2af145cc76cbdbb33d89fbf40e81b"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-002",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-002.json",
+            "byte_size": 2494,
+            "fingerprint": "sha256:77bbdeace3d17cb8b3d97d61d3301926810073ed0ecebb7e6ec53ebf30d6455e"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-003",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-003.json",
+            "byte_size": 2520,
+            "fingerprint": "sha256:0109004d9ffeb03082542f2898cac777f427fe39c2199b742df0693a5fd0bf86"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-004",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-004.json",
+            "byte_size": 2592,
+            "fingerprint": "sha256:dc065fc9353277fb0e00dd1681df9e2de029f9b043475d50afd310c17960c700"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-005",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-005.json",
+            "byte_size": 2595,
+            "fingerprint": "sha256:3a56bc87449c879d03678ea44826791cc0a123dc38b52c5d32a2f25f5dd4036c"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-006",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-006.json",
+            "byte_size": 2616,
+            "fingerprint": "sha256:83c618e4323b73d11011129f9a87298e762eb49925da1959531e3a2f6cde5d96"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-007",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-007.json",
+            "byte_size": 2613,
+            "fingerprint": "sha256:15b2d435f29cbc9f6c9f1ae2e35778cb4ea7166f550f605c1887b7e7efdf4a7e"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-008",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-008.json",
+            "byte_size": 2619,
+            "fingerprint": "sha256:d855d1a8d02781e7440e615a167158730ec06ac0653343eb3728b1a8121db057"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-009",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-009.json",
+            "byte_size": 2787,
+            "fingerprint": "sha256:c10fe57f46073e09b211c8487a0bbe43db0a9741620f595f064f49da110d7b76"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-010",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-010.json",
+            "byte_size": 2596,
+            "fingerprint": "sha256:3e60305a0c66f7ed1c4523ef5026989a014f539eda3b98a6e8e9e1abb495b1e3"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-011",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-011.json",
+            "byte_size": 2499,
+            "fingerprint": "sha256:bf8b22564981921a39fc58c7159403ee3d55cb87996862e3063de483dca95fbb"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-012",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-012.json",
+            "byte_size": 2508,
+            "fingerprint": "sha256:a4ede4b561ab7612a2142a82d031f77942cfc048e3470edc36382637d2b4c444"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-013",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-013.json",
+            "byte_size": 2544,
+            "fingerprint": "sha256:12964820142b60ad4edd4051713703dc6d26853aa55bb4f2ca95a8c5a2052d64"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-014",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-014.json",
+            "byte_size": 2530,
+            "fingerprint": "sha256:f33a08c0659093d5c4095f19d71ea95f98e9f5643eb48119efe0fd62b0da3e95"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-015",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-015.json",
+            "byte_size": 2353,
+            "fingerprint": "sha256:e8f41b85eaa56d6ddbd132e03c8b76c90121adff663897bd664e16a72f5855ae"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-016",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-016.json",
+            "byte_size": 2323,
+            "fingerprint": "sha256:fe796292c8feffe6746cacda01fe8b8e57472fbbf10a410002761a5e7a64c4dc"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-017",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-017.json",
+            "byte_size": 2462,
+            "fingerprint": "sha256:ec79887ae4dc7ee866427b177af093f1a5b45fb1f9d1bb1604e91cbfdb17d5a6"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-018",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-018.json",
+            "byte_size": 2403,
+            "fingerprint": "sha256:cad06c823a27c966ed1af4dc5bdf9d947b2ce0d451286cd998198c17ecf8d6d1"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-019",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-019.json",
+            "byte_size": 2341,
+            "fingerprint": "sha256:d09e0bb97e7874bac518669255d6546983d85e9d495fe8d8c707dfe15e4321d8"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-020",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-020.json",
+            "byte_size": 2344,
+            "fingerprint": "sha256:c9dbe8829d92ea64fd23256cf71221f29c21db462c20078c3c2a8674e440dc8f"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-021",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-021.json",
+            "byte_size": 2414,
+            "fingerprint": "sha256:ffa6795402ac415e7367f154632299068ec41ea44cd826471516b223b0829f30"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-022",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-022.json",
+            "byte_size": 2336,
+            "fingerprint": "sha256:34d6d790adc82159d376ce555a5d2f2b87e6411dea9e88f5e6ecf70a57fe7929"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-023",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-023.json",
+            "byte_size": 2354,
+            "fingerprint": "sha256:4b9e27a796fcfcf1079ffe14906e2d69eeb82470874f5678f41737b617578785"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-IDN-024",
+          "result": {
+            "path": "expected/conformance/identity-decision/HKREG-DET-IDN-024.json",
+            "byte_size": 2420,
+            "fingerprint": "sha256:e6464544d9d19dad2ff187d198449ef865c5a1f73d0804bf7fa13f190fb45fcd"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-001",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-001.json",
+            "byte_size": 4290,
+            "fingerprint": "sha256:394b831288e41b2f37daa8e85555c5451d05d1c42a3bae79eb62126751bc9547"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-002",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-002.json",
+            "byte_size": 5901,
+            "fingerprint": "sha256:815a473f57951cbdda17b7562c57cb274a0203f19cbdfb6003185c3bb58b302a"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-003",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-003.json",
+            "byte_size": 5910,
+            "fingerprint": "sha256:8edec3daea5a05893c3d8c1d704879701ccbf3ba5eea16dc606991283bc44e06"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-004",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-004.json",
+            "byte_size": 5892,
+            "fingerprint": "sha256:02984c4e87ca4d2320dd88d0cb99812a086c0489aec68bbf796adb70376c5884"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-005",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-005.json",
+            "byte_size": 1887,
+            "fingerprint": "sha256:20d5cbd62020827f28e594ced18825764a5f63dae3089f55e97d05c1bd5e88b6"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-006",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-006.json",
+            "byte_size": 7327,
+            "fingerprint": "sha256:724c66aabcfac467cc4e7a88121bcc01deab70751701c21fd49c11949b88e0f2"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-007",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-007.json",
+            "byte_size": 5906,
+            "fingerprint": "sha256:877656d5ab2a746a78e8f4bf3f8dcc8ccbd36102e83d1e744728e66332e11f6a"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-008",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-008.json",
+            "byte_size": 8892,
+            "fingerprint": "sha256:391d3e31a0edc1609dbc00e8d465f7c01bcb6f984347706dad1e63e9f81c60f9"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-009",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-009.json",
+            "byte_size": 7417,
+            "fingerprint": "sha256:048e945cf1c6fff6f965ead52f6b8c1eb3ee700c894d684dfa8f312f1e5955ee"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-010",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-010.json",
+            "byte_size": 5901,
+            "fingerprint": "sha256:3382cdd0412edbf57d60ffd52a5a9a324d952c818b01cebdd4be2b086d23711f"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-011",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-011.json",
+            "byte_size": 5904,
+            "fingerprint": "sha256:4b81b4346bd782087469dd57bbc511620a6e5381f930f7fd1a6e35cf95506cc9"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-012",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-012.json",
+            "byte_size": 11457,
+            "fingerprint": "sha256:151daa165760af653614bb526b7d9280939f93e928b7b23ffd6b2eb95eb58628"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-013",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-013.json",
+            "byte_size": 5912,
+            "fingerprint": "sha256:af67c4c3841a13f7cd06f52ac2ce7c83a2d9c28384c8d0afff91088a67df718d"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-014",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-014.json",
+            "byte_size": 1864,
+            "fingerprint": "sha256:2c191d261d9b744605e30fbd351b6c60191ca491cdb3077c8f1f7062810b2c04"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-015",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-015.json",
+            "byte_size": 1858,
+            "fingerprint": "sha256:ea224a878e92aa2cf09ee2be11a23f07196cdaa2586f60f3efe5f63ea6a4f95c"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-016",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-016.json",
+            "byte_size": 5922,
+            "fingerprint": "sha256:323c4ef3436b82129ba1c4f3f404788be0c704579410d9ccfd308b558e20b9f7"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-017",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-017.json",
+            "byte_size": 1827,
+            "fingerprint": "sha256:bd858eb2cd3d7ca5d0ce55ca27d3bffee3ddcf6d854dab54918ab35a3f536673"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-018",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-018.json",
+            "byte_size": 1885,
+            "fingerprint": "sha256:f6b4daf746c67e1b72ee363b2c2fce009fb70b65e746f92d98930b776e71cad7"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-019",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-019.json",
+            "byte_size": 1895,
+            "fingerprint": "sha256:2cb03d475310ed90352f0e0481350482f36c67c4e081c4876699c519ca4c6a34"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-020",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-020.json",
+            "byte_size": 1895,
+            "fingerprint": "sha256:fd9e095bf46429616f28ecd3dab6b9eb8ab18e69054afdad26a4f28ca474fb7b"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-021",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-021.json",
+            "byte_size": 1851,
+            "fingerprint": "sha256:112789298e745e7b045b475a6b5cb09577e6b21a30ad158a61600328fc009398"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-022",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-022.json",
+            "byte_size": 8890,
+            "fingerprint": "sha256:917673d1eaf737811bdaf9d1d54d08e76ede26e99b671ae6072bc7b1171fd427"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-023",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-023.json",
+            "byte_size": 3046,
+            "fingerprint": "sha256:3c503e43a988a90aaa70166dd40e7696bb96e87e97e9baa51b3606d1e6df2d69"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PAR-024",
+          "result": {
+            "path": "expected/conformance/partition-decision/HKREG-DET-PAR-024.json",
+            "byte_size": 3051,
+            "fingerprint": "sha256:cd081983cb69bf88df80fc5f6ab8a986c943850c0a1fcb407bc38b7745db1f76"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-001",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-001.json",
+            "byte_size": 667,
+            "fingerprint": "sha256:96929258c211a4827ffdc695864d6f9b81d52a7512333ff5930aeffe1478a15b"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-002",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-002.json",
+            "byte_size": 685,
+            "fingerprint": "sha256:1831f00afe0723ef7eb81585e33da85abad73469aa1b87ea3836637052faca33"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-003",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-003.json",
+            "byte_size": 683,
+            "fingerprint": "sha256:badbf662e8fa10c3dca5f3b50c9dda5b7b8a725bc41980603fbd3b0fc64979a2"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-004",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-004.json",
+            "byte_size": 685,
+            "fingerprint": "sha256:99b929f0f674ce615de05ee597e3619613cfc24cf76f3952471a16d7e0b2d891"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-005",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-005.json",
+            "byte_size": 679,
+            "fingerprint": "sha256:0a04abdf9c41dc7ac7b7c193c543727375eff6d364d53cbf8b21a6a52f325c34"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-006",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-006.json",
+            "byte_size": 687,
+            "fingerprint": "sha256:6552f5f3124f3223dcc123aa39d3197c54a76556f6ef954212501c57fd34fed2"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-007",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-007.json",
+            "byte_size": 689,
+            "fingerprint": "sha256:c33f54a70b3d1c98c6c53fbb3659d7afbe976e4b681497e6b8e19409bebabc52"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-008",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-008.json",
+            "byte_size": 667,
+            "fingerprint": "sha256:23ce0dbceb3a94b5e9add6ac12f126762ca012c6f971a460559470d88cf435bf"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-009",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-009.json",
+            "byte_size": 691,
+            "fingerprint": "sha256:193fc8360dbd4ebcf19aad65a4b3c80fe150d8058f7a694714908b9ab2bb577b"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-010",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-010.json",
+            "byte_size": 698,
+            "fingerprint": "sha256:3f35f09483a08a579ff9cfe911dcd0d0301a81146d9ece991f321dea09b1a70d"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-011",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-011.json",
+            "byte_size": 688,
+            "fingerprint": "sha256:d35b24ea4dbd963013224e5c24e2d840a4d8f66b55ff0bafc4f54486ef625f0a"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-012",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-012.json",
+            "byte_size": 687,
+            "fingerprint": "sha256:1d148cd09ac08a3aa9a57b1d51c99ea66c96dbe76b13124e5761419a0f4c130e"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-013",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-013.json",
+            "byte_size": 697,
+            "fingerprint": "sha256:65ebeaa0fea2423aabc4f07c6005bcc191988e82aa82f3b28224052604a4d883"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-014",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-014.json",
+            "byte_size": 690,
+            "fingerprint": "sha256:74bd72415798e56c1b691e0286d8f1aaaf3a771eafebcf5f0d6a7fff0ae1bdfb"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-015",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-015.json",
+            "byte_size": 699,
+            "fingerprint": "sha256:03402eddf95f73f9cad902fa5ef0085f0732b45bdda0e7dc47e26a03969358fb"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-016",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-016.json",
+            "byte_size": 715,
+            "fingerprint": "sha256:fbe0dedfcbafad9fce9ff363b94c7643d25cd83b856917fa4c1898c26b229cc4"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-017",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-017.json",
+            "byte_size": 681,
+            "fingerprint": "sha256:5a7a09e330945bffd236278444c3407c8fcc35b4627c2c8f9289fb803467aacf"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-018",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-018.json",
+            "byte_size": 682,
+            "fingerprint": "sha256:8cecb6e7d5ec1db812a91cc3338c53fcea779c6e57aeb0e63e1c758aac4555f1"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-019",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-019.json",
+            "byte_size": 672,
+            "fingerprint": "sha256:af3f1cd6c5a482aef3cb80d011a7966de60aab555c53075238e2d9b405ad71f4"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-020",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-020.json",
+            "byte_size": 687,
+            "fingerprint": "sha256:d8fbc51ce501a2150c69a8d31447867f8d8118a289522723167884c1970a6e5e"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-021",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-021.json",
+            "byte_size": 688,
+            "fingerprint": "sha256:b32897d12ea23e8368b54392fda46c0243559dd2145088a5d41943b21fd2d4f1"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-022",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-022.json",
+            "byte_size": 691,
+            "fingerprint": "sha256:07c2b46487c195101cfde1169bce78d1c33d687459e9c50253ca36e84a07cc57"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-023",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-023.json",
+            "byte_size": 674,
+            "fingerprint": "sha256:20e4ff5267243be3805e1b5d2915b15101ce3947bb79e032f2b83eb4877ef3ce"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-024",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-024.json",
+            "byte_size": 679,
+            "fingerprint": "sha256:0585a8e73ef29deb60735b82cdc35b0a10de39993a0669e434762e10a6e2a40e"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-025",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-025.json",
+            "byte_size": 668,
+            "fingerprint": "sha256:67b0720c9e24bfa4af96c5968309d89c4d7bb6ac814ff3351d16c763fe98f411"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-026",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-026.json",
+            "byte_size": 673,
+            "fingerprint": "sha256:76e7cc087402ca6ebd068768a09f218fd25b4032d1536d73bb27ac14275dbdfd"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-027",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-027.json",
+            "byte_size": 685,
+            "fingerprint": "sha256:96bbcf63f55904d541f7190fe090c9b0b3b33558113e2263b1ce53a6dc256608"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-028",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-028.json",
+            "byte_size": 705,
+            "fingerprint": "sha256:8f38ae8b481b53b349bde27e3c402a575b00a97b1a29091e64eae0232bb30d9a"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-029",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-029.json",
+            "byte_size": 664,
+            "fingerprint": "sha256:f6ad4ce7d27e8d59eb8cd0bda89e252b6699e35c97fb12eecfa6c5cd9bb665c2"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-030",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-030.json",
+            "byte_size": 687,
+            "fingerprint": "sha256:67d458454b312055a92eaf156306ac21656fbb1c020d6b3e04ae442056871ca2"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-031",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-031.json",
+            "byte_size": 680,
+            "fingerprint": "sha256:4fc6ecddb599eedf0c856b36cb4ce4ae446388c2d80b1a878d4ee32826955b46"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-032",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-032.json",
+            "byte_size": 701,
+            "fingerprint": "sha256:eb99aaf0b3ddf194b0d518fb17e20746fc6a1e0a2b95b0340e31bb12ac38f383"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-033",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-033.json",
+            "byte_size": 705,
+            "fingerprint": "sha256:e87f029543533c2900035b99984f5c19f2a9b8f6216017fc2481c3b759c9c2a6"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-034",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-034.json",
+            "byte_size": 708,
+            "fingerprint": "sha256:a29a72e6c9973295401f1297389a1c5cb7a419fcdb2308c6b52f74bee3f8561d"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-035",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-035.json",
+            "byte_size": 714,
+            "fingerprint": "sha256:6fc04c39c580a16561050debd92a2bc5914785ef4f240f7212b5b871aec022b5"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-036",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-036.json",
+            "byte_size": 727,
+            "fingerprint": "sha256:e45e02f8d76216aacaba5d15a29d923068bbc8220de3a79670a28079bc3ac880"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-037",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-037.json",
+            "byte_size": 691,
+            "fingerprint": "sha256:3754aeb85a793bb7ed5cd26bdabad71e2a63371dc7c15e5ac480e5c6aa954ec8"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-PKG-038",
+          "result": {
+            "path": "expected/conformance/package-integrity/HKREG-DET-PKG-038.json",
+            "byte_size": 700,
+            "fingerprint": "sha256:df614225bd2b5329955c5dd27f46db26793ebdd1ce214903717112c001ede30c"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-001",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-001.json",
+            "byte_size": 3177,
+            "fingerprint": "sha256:c18ab7c5c8023c9c6c20eedcdc6e38e45253b1821488ce0cb189e98ebe26a911"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-002",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-002.json",
+            "byte_size": 3135,
+            "fingerprint": "sha256:2cec4bac56a54a4a7b0abfc9d8fe0582c961af064bb84b61a1a386cc36747c00"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-003",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-003.json",
+            "byte_size": 3359,
+            "fingerprint": "sha256:6145c8da4ff177f9dd68df9db69f1f04e67332d74fef90c4871547b9342077e6"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-004",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-004.json",
+            "byte_size": 3189,
+            "fingerprint": "sha256:a1ab3efde0909b4d7c7413d83582d794c6d8ee8bf85febf5fb26410e3805c908"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-005",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-005.json",
+            "byte_size": 3465,
+            "fingerprint": "sha256:117c7ebcdcbfe0c635087bd001a40a3a194f9b9a78a7259e00e5ad57f7768142"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-006",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-006.json",
+            "byte_size": 3191,
+            "fingerprint": "sha256:f42525b8ac5bf409b15cd1722d1ce2b9fd997b1de17845d5144a42001dc6f354"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-007",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-007.json",
+            "byte_size": 3705,
+            "fingerprint": "sha256:d07f855da91222a638ca2abcc25b118062f60dfc53bf68d7b7a8870035c7b0cf"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-008",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-008.json",
+            "byte_size": 3191,
+            "fingerprint": "sha256:3c865c430016fa037db50ae5d5138c1578a4c544ddd42d9084607eed386aa9d3"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-009",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-009.json",
+            "byte_size": 3405,
+            "fingerprint": "sha256:cc552c758eeb63817e66a8e1f39b8f236fc07d49ce0404a0310dd3c57b937ff6"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-010",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-010.json",
+            "byte_size": 3175,
+            "fingerprint": "sha256:470d0fbdd57f22350f907e618a65bd6c385c654d1ae75990feb0c243dbb220ee"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-011",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-011.json",
+            "byte_size": 3235,
+            "fingerprint": "sha256:e2e92937b3261dad6607b4d82bade464bae9e47931d2c2f90a0aba2d377ba9e2"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-012",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-012.json",
+            "byte_size": 3061,
+            "fingerprint": "sha256:e17aa37f200df517a7f65032373ae4efc5009415af43e3095a35ad2b8b8bf320"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-013",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-013.json",
+            "byte_size": 3283,
+            "fingerprint": "sha256:554282aa5f4c6f74337d8d968fdd47776604842866e1eb1bc3b3f4da39e89fab"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-014",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-014.json",
+            "byte_size": 3193,
+            "fingerprint": "sha256:cc5c27fe5ccd8edcc8c7c79cf59db856a6734585755f8d6d5a75ee1aa6cc2a2a"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-015",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-015.json",
+            "byte_size": 3335,
+            "fingerprint": "sha256:b6a7d94ab5a8d4be7fa616cf8f30096c6c41f7643b95f153ee4d10515025d054"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-016",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-016.json",
+            "byte_size": 3231,
+            "fingerprint": "sha256:1d401e79b5ac7a7b4a5b0be012acd0bb0f5413f378a594173d97d4672bd79267"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-017",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-017.json",
+            "byte_size": 3498,
+            "fingerprint": "sha256:e0e5f67fb9b336c48b7dc419745b988e4405482650f2cd970c3319125ad17896"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-018",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-018.json",
+            "byte_size": 2156,
+            "fingerprint": "sha256:6ff0d1d9906991a9f00c9e5b5e9cc581bab19d3c54c8608ce4f277e3e239a0ff"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-019",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-019.json",
+            "byte_size": 3402,
+            "fingerprint": "sha256:89795bbe6b62a58038f6d1c3340612c260fe0abfd49a1d2745f0c82cb283f99d"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-020",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-020.json",
+            "byte_size": 3640,
+            "fingerprint": "sha256:deb1aff68d57fa1565a098eed954b0cf5b3274cf2d93c5fe43bf2abeb2332a7f"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-021",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-021.json",
+            "byte_size": 3588,
+            "fingerprint": "sha256:43b62217e09daf1cf1ab8d6171cc7a89f17eacba7c95e6d9312147e2940e2504"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-022",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-022.json",
+            "byte_size": 3604,
+            "fingerprint": "sha256:b233c7a7691077e7645f56b227f59fb5639da4120e4eeb69e78b0d97c9fb0d5a"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-023",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-023.json",
+            "byte_size": 2216,
+            "fingerprint": "sha256:d4e21c612e4f0e580031eae2f66a4bcb517d505a4bd9bb444e1aad62b85240ac"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-024",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-024.json",
+            "byte_size": 3627,
+            "fingerprint": "sha256:9fce4981673707f6972bd800fd98576eb42884b7baae7f45c0a4064c9a498fef"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-025",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-025.json",
+            "byte_size": 3203,
+            "fingerprint": "sha256:06709464131e8288a2fbf6327057f277d346f7f77bda00e9080c82e9499027e7"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-026",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-026.json",
+            "byte_size": 3555,
+            "fingerprint": "sha256:5b2611b8cdc6c5026c6c2e8908b24df06ebd88abdc7114a35c77981e97d8e827"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-027",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-027.json",
+            "byte_size": 3199,
+            "fingerprint": "sha256:0b70e23e3ead8ed56f34874d9d3b460483a94d5df9d1c5e3d8feb4962a5a0352"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-028",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-028.json",
+            "byte_size": 2201,
+            "fingerprint": "sha256:fec188a13875743ea4a3c7c589f165f49f601d2d295ec373862d4e6e285df8c7"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-029",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-029.json",
+            "byte_size": 3189,
+            "fingerprint": "sha256:408d79fd5c98c398b77d85d13381670f3b1f0087f78144efbe8d22780c7a18fd"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-030",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-030.json",
+            "byte_size": 2263,
+            "fingerprint": "sha256:f1b643e8bbe8daab1dd9c223ee17844eaad3d74bddcdf592a15fab5c8db95629"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-031",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-031.json",
+            "byte_size": 2188,
+            "fingerprint": "sha256:67625f6e29ee66785e17ee0fb988e049633eb5288ce82f1bde25fd753fa5240a"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-032",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-032.json",
+            "byte_size": 3343,
+            "fingerprint": "sha256:b128b6eaf07cbc7b678abad888e3f7234809f943661b1591103c4d9e03337c6d"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-033",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-033.json",
+            "byte_size": 3291,
+            "fingerprint": "sha256:b5cfec8aacb741ed60cd2132fb6fa633247d3a08347abdc6ffe8a6d679b9ebdc"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-034",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-034.json",
+            "byte_size": 3325,
+            "fingerprint": "sha256:a84ccd9ea630c374549c15dea50c0268f8e00e81322250e6adbe3e3f2d8fe301"
+          }
+        },
+        {
+          "case_id": "HKREG-DET-RND-035",
+          "result": {
+            "path": "expected/conformance/rendering-decision/HKREG-DET-RND-035.json",
+            "byte_size": 3353,
+            "fingerprint": "sha256:155a23bcc2d7b8595d83adee3c2dbbd8ac83ed4dff7dde3fbb35e291c7b91b56"
+          }
+        }
+      ],
+      "result_set_fingerprint": "sha256:ef3072108871b2dd1fb945c06d144e00fa3a90be84a229488afbbc2f56ec32f8"
+    },
+    "reproducibility": {
+      "isolated_run_count": 2,
+      "runs": [
+        {
+          "run_id": "ISOLATED_RUN_1",
+          "case_count": 284,
+          "result_set_fingerprint": "sha256:ef3072108871b2dd1fb945c06d144e00fa3a90be84a229488afbbc2f56ec32f8",
+          "tree_fingerprint": "sha256:4a75c5643d662156c541a0a2d63cc46fdb9f0633c4c3c069858d77919f31f8b1"
+        },
+        {
+          "run_id": "ISOLATED_RUN_2",
+          "case_count": 284,
+          "result_set_fingerprint": "sha256:ef3072108871b2dd1fb945c06d144e00fa3a90be84a229488afbbc2f56ec32f8",
+          "tree_fingerprint": "sha256:4a75c5643d662156c541a0a2d63cc46fdb9f0633c4c3c069858d77919f31f8b1"
+        }
+      ],
+      "byte_identical": true
+    },
+    "architecture": {
+      "tool": {
+        "path": "tools/architecture_spike.py",
+        "byte_size": 23152,
+        "fingerprint": "sha256:3c03358c12d7d9c5999bf9ad64b4c7c081f3d5cb0af022ea809431c50ba4cb08"
+      },
+      "policy": {
+        "path": "tools/architecture_spike_manifest.json",
+        "byte_size": 10902,
+        "fingerprint": "sha256:967cb51799bb3f61e8c6ddd3909c5ef586c997dd58f7d4a6c54d67b475d8178b"
+      },
+      "applications": 5,
+      "packages": 14,
+      "dependency_edges": 80,
+      "capability_ports": 31,
+      "policy_fingerprint": "sha256:2dbd84feea7e568d2b89291f900e5ef8330a850a8978900c12e37d9b127baf86",
+      "report_fingerprint": "sha256:a1e7eb300235c79c0dc40c86a7834bc43f7b8364d5052dc0fa9759a428e3cae2",
+      "result": "PASS"
+    }
+  },
+  "final_result": "PASS",
+  "capability_claims": [
+    "BUILD_COMPATIBILITY"
+  ],
+  "real_source_evaluation": false,
+  "source_access_authorized": false,
+  "release_creation_authorized": false,
+  "approval_authorized": false,
+  "pinecone_authorized": false,
+  "deployment_authorized": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

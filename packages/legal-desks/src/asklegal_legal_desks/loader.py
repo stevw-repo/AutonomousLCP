@@ -15,6 +15,14 @@ from asklegal_contracts.json_types import checked_json_value
 if TYPE_CHECKING:
     from asklegal_contracts.json_types import JsonValue
 
+from .hk_regulatory_conformance_boundary import hkex_boundary_decision_case_from_document
+from .hk_regulatory_conformance_coverage import hkex_coverage_decision_case_from_document
+from .hk_regulatory_conformance_identity import hkex_identity_decision_case_from_document
+from .hk_regulatory_conformance_package import hkex_package_integrity_case_from_document
+from .hk_regulatory_conformance_partition import hkex_partition_decision_case_from_document
+from .hk_regulatory_conformance_rendering import hkex_rendering_decision_case_from_document
+from .hk_regulatory_conformance_source import hkex_source_decision_case_from_document
+from .hk_regulatory_conformance_state import hkex_state_decision_case_from_document
 from .model import (
     GenerativeTask,
     LegalDisposition,
@@ -28,6 +36,7 @@ from .model import (
     RulebookManifest,
     RuleDefinition,
     RulePredicate,
+    ScopeFamilyDefinition,
     SemanticTaskProfile,
     SourceDefinition,
 )
@@ -315,9 +324,15 @@ def _parse_sources(root: Path, manifest: RulebookManifest) -> tuple[SourceDefini
     return tuple(sources)
 
 
-def _parse_scopes(root: Path, sources: tuple[SourceDefinition, ...]) -> tuple[ReleaseScope, ...]:
+def _parse_scopes(
+    root: Path, sources: tuple[SourceDefinition, ...]
+) -> tuple[tuple[ReleaseScope, ...], tuple[ScopeFamilyDefinition, ...]]:
     document = _read_json(root / "scopes/release-scopes.json")
-    _exact_keys(document, frozenset({"complete_non_overlap", "scopes"}), "scopes")
+    if frozenset(document) not in {
+        frozenset({"complete_non_overlap", "scopes"}),
+        frozenset({"complete_non_overlap", "scopes", "scope_families"}),
+    }:
+        raise RulebookError(RulebookErrorCode.CONTRACT_MISMATCH, "scopes")
     if document["complete_non_overlap"] is not True:
         raise RulebookError(RulebookErrorCode.OVERLAPPING_SCOPES)
     source_ids = {source.source_id for source in sources}
@@ -368,9 +383,60 @@ def _parse_scopes(root: Path, sources: tuple[SourceDefinition, ...]) -> tuple[Re
                 blocker_codes,
             )
         )
-    if not scopes or len({scope.scope_id for scope in scopes}) != len(scopes):
+    if len({scope.scope_id for scope in scopes}) != len(scopes):
         raise RulebookError(RulebookErrorCode.OVERLAPPING_SCOPES)
-    return tuple(scopes)
+    families = _parse_scope_families(document.get("scope_families"), source_ids)
+    if not scopes and not families:
+        raise RulebookError(RulebookErrorCode.OVERLAPPING_SCOPES)
+    return tuple(scopes), families
+
+
+def _parse_scope_families(
+    value: JsonValue | None, source_ids: set[str]
+) -> tuple[ScopeFamilyDefinition, ...]:
+    if value is None:
+        return ()
+    families: list[ScopeFamilyDefinition] = []
+    for raw_family in _array(value, "scope_families"):
+        family = _object(raw_family, "scope_family")
+        _exact_keys(
+            family,
+            frozenset(
+                {
+                    "family_id",
+                    "ownership_key_pattern",
+                    "required_source_ids",
+                    "concrete_scope_rule",
+                    "blocker_codes",
+                }
+            ),
+            "scope_family",
+        )
+        required_sources = _strings(family["required_source_ids"], "family required_source_ids")
+        blockers = _strings(family["blocker_codes"], "family blocker_codes")
+        if not required_sources or not set(required_sources).issubset(source_ids) or not blockers:
+            raise RulebookError(RulebookErrorCode.INCOMPLETE_SOURCE_INVENTORY)
+        families.append(
+            ScopeFamilyDefinition(
+                family_id=_string(family["family_id"], "family_id"),
+                ownership_key_pattern=_string(
+                    family["ownership_key_pattern"], "ownership_key_pattern"
+                ),
+                required_source_ids=required_sources,
+                concrete_scope_rule=_string(family["concrete_scope_rule"], "concrete_scope_rule"),
+                blocker_codes=blockers,
+            )
+        )
+    identities = tuple(item.family_id for item in families)
+    patterns = tuple(item.ownership_key_pattern for item in families)
+    if (
+        not families
+        or identities != tuple(sorted(identities))
+        or len(set(identities)) != len(families)
+        or len(set(patterns)) != len(families)
+    ):
+        raise RulebookError(RulebookErrorCode.OVERLAPPING_SCOPES)
+    return tuple(families)
 
 
 def _parse_rules(root: Path, scopes: tuple[ReleaseScope, ...]) -> tuple[RuleDefinition, ...]:
@@ -449,6 +515,7 @@ def _validate_blocker_catalogue(
     root: Path,
     manifest: RulebookManifest,
     scopes: tuple[ReleaseScope, ...],
+    scope_families: tuple[ScopeFamilyDefinition, ...],
 ) -> None:
     defined: set[str] = set()
     for path in sorted((root / "catalogues").glob("*.json")):
@@ -465,6 +532,7 @@ def _validate_blocker_catalogue(
                 raise RulebookError(RulebookErrorCode.CONTRACT_MISMATCH, "duplicate blocker")
             defined.add(code)
     referenced = {code for scope in scopes for code in scope.blocker_codes}
+    referenced.update(code for family in scope_families for code in family.blocker_codes)
     if referenced != defined or not set(manifest.unresolved_policy_codes).issubset(referenced):
         raise RulebookError(RulebookErrorCode.UNKNOWN_CODE, "readiness blocker")
 
@@ -568,12 +636,43 @@ def _parse_profiles(
     return tuple(profiles)
 
 
+def _regulatory_conformance_fixture_identity(
+    document: dict[str, JsonValue],
+) -> tuple[str, str] | None:
+    schema_id = document.get("schema_id")
+    if schema_id == "asklegal.hk-regulatory.package-integrity-case":
+        case = hkex_package_integrity_case_from_document(document)
+    elif schema_id == "asklegal.hk-regulatory.source-decision-case":
+        case = hkex_source_decision_case_from_document(document)
+    elif schema_id == "asklegal.hk-regulatory.state-decision-case":
+        case = hkex_state_decision_case_from_document(document)
+    elif schema_id == "asklegal.hk-regulatory.boundary-decision-case":
+        case = hkex_boundary_decision_case_from_document(document)
+    elif schema_id == "asklegal.hk-regulatory.rendering-decision-case":
+        case = hkex_rendering_decision_case_from_document(document)
+    elif schema_id == "asklegal.hk-regulatory.partition-decision-case":
+        case = hkex_partition_decision_case_from_document(document)
+    elif schema_id == "asklegal.hk-regulatory.coverage-decision-case":
+        case = hkex_coverage_decision_case_from_document(document)
+    elif schema_id == "asklegal.hk-regulatory.identity-decision-case":
+        case = hkex_identity_decision_case_from_document(document)
+    else:
+        return None
+    return case.case_id, case.package_fingerprint
+
+
 def _fixture_and_evaluation_ids(root: Path) -> tuple[tuple[str, ...], tuple[str, ...]]:
     fixture_ids: list[str] = []
     fixture_inputs: set[str] = set()
     for path in sorted((root / "fixtures").rglob("*.json")):
         document = _read_json(path)
-        fixture_ids.append(_string(document.get("fixture_id"), "fixture_id"))
+        identity = _regulatory_conformance_fixture_identity(document)
+        if identity is not None:
+            fixture_id, input_fingerprint = identity
+            fixture_ids.append(fixture_id)
+            fixture_inputs.add(input_fingerprint)
+        else:
+            fixture_ids.append(_string(document.get("fixture_id"), "fixture_id"))
         input_fingerprint = document.get("input_fingerprint")
         if type(input_fingerprint) is str:
             fixture_inputs.add(input_fingerprint)
@@ -620,7 +719,7 @@ def load_rulebook_package(
         raise RulebookError(RulebookErrorCode.ENVIRONMENT_MISUSE, "real jurisdiction")
     _validate_inventory(root, manifest)
     sources = _parse_sources(root, manifest)
-    scopes = _parse_scopes(root, sources)
+    scopes, scope_families = _parse_scopes(root, sources)
     declared_readiness = dict(manifest.scope_readiness)
     if declared_readiness != {scope.scope_id: scope.readiness for scope in scopes}:
         raise RulebookError(RulebookErrorCode.CONTRACT_MISMATCH, "scope readiness")
@@ -628,7 +727,7 @@ def load_rulebook_package(
         manifest.legal_desk_owner.startswith("UNASSIGNED_")
     ):
         raise RulebookError(RulebookErrorCode.CONTRACT_MISMATCH, "legal desk owner")
-    _validate_blocker_catalogue(root, manifest, scopes)
+    _validate_blocker_catalogue(root, manifest, scopes, scope_families)
     rules = _parse_rules(root, scopes)
     profiles = _parse_profiles(root, environment, now)
     fixture_ids, evaluation_ids = _fixture_and_evaluation_ids(root)
@@ -651,6 +750,7 @@ def load_rulebook_package(
         manifest,
         sources,
         scopes,
+        scope_families,
         rules,
         profiles,
         fixture_ids,

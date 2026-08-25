@@ -1,0 +1,88 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:ff6ec46c6768f18f32219c3fd0b0e9dbe3b5506741815887c07b181506e7bc34",
+  "workflow_result_fingerprint": "sha256:6220d9b3a02b1dc6914c21f8c2b48aa253432738232ef2b35ba14434594068e2",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "LIMITATION_GROUND",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "LIMITATION_BAR"
+      ],
+      "boundary_codes": [
+        "INDEPENDENT_GROUND",
+        "SEPARATE_PROPOSITION"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "The claim is independently barred by limitation."
+    },
+    {
+      "candidate_id": "candidate_2",
+      "mapped_reference_proposition_id": "reference_prop_2",
+      "resolution": "ACCEPTED",
+      "issue_code": "DUTY_GROUND",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "NO_DUTY"
+      ],
+      "boundary_codes": [
+        "INDEPENDENT_GROUND",
+        "SEPARATE_PROPOSITION"
+      ],
+      "range_ids": [
+        "range_2"
+      ],
+      "derived_statement": "It also independently fails because no duty arose."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_2"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1",
+    "candidate_2"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

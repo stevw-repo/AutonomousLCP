@@ -1,0 +1,76 @@
+{
+  "alignment_map_fingerprint": "sha256:c94fc294943d0bf8faf930b099ae0561ab9f6701ab1a5c81ee4c2350ef3a7cf6",
+  "coverage_gap_required": false,
+  "disposition": "PASS",
+  "en_tree_fingerprint": "sha256:78ba44298abbc7e6e3c2c531ec6c63e6d3e2175753f875621211c85b466c1967",
+  "external_effects": "NONE",
+  "parts": [
+    {
+      "dependency_alignment_group_ids": [],
+      "en_dependency_source_unit_ids": [],
+      "en_primary_source_unit_ids": [
+        "en_body_1",
+        "en_note_marker_1",
+        "en_note_body_1"
+      ],
+      "measurement": {
+        "metadata_bytes": 639,
+        "metadata_limit": 100000,
+        "text_limit": 490,
+        "text_tokens": 481
+      },
+      "part_number": 1,
+      "primary_alignment_group_ids": [
+        "align_body_1",
+        "align_note_1"
+      ],
+      "primary_partition_node_ids": [
+        "partition_paragraph_1"
+      ],
+      "serving_payload_fingerprint": "sha256:4a2c6c8909c9b98df015b25f5ffcfcc431deb2f0b0f22bd9073d2c28431dba29",
+      "text": "[English — Authentic Text]\nInstrument: Sample Ordinance (Cap. 999)\nProvision: section 2\nServing part: 1 of 2\nHeading: Application\nText:\n(1) This Ordinance applies to every specified person.\n*\n* Statutory note attached to paragraph (1).\n\n[繁體中文 — 真確文本]\n法例：示例條例（第999章）\n條文：第2條\n服務部分：第1部分，共2部分\n標題：適用範圍\n正文：\n(1) 本條例適用於每名指明人士。\n※\n※ 附於第(1)款的法定註釋。",
+      "text_fingerprint": "sha256:d1ea14c0520ea6dea7965fd8da49ecd0c2bcf3afe96c42365e2337b93e6ac08e",
+      "total_parts": 2,
+      "zh_hant_dependency_source_unit_ids": [],
+      "zh_hant_primary_source_unit_ids": [
+        "zh_body_1",
+        "zh_note_marker_1",
+        "zh_note_body_1"
+      ]
+    },
+    {
+      "dependency_alignment_group_ids": [],
+      "en_dependency_source_unit_ids": [],
+      "en_primary_source_unit_ids": [
+        "en_body_2"
+      ],
+      "measurement": {
+        "metadata_bytes": 519,
+        "metadata_limit": 100000,
+        "text_limit": 490,
+        "text_tokens": 365
+      },
+      "part_number": 2,
+      "primary_alignment_group_ids": [
+        "align_body_2"
+      ],
+      "primary_partition_node_ids": [
+        "partition_paragraph_2"
+      ],
+      "serving_payload_fingerprint": "sha256:75e5a91d5f8aa6343c5999fdaa116b9c59996ca3412efae91a0ad1a607dde8c3",
+      "text": "[English — Authentic Text]\nInstrument: Sample Ordinance (Cap. 999)\nProvision: section 2\nServing part: 2 of 2\nHeading: Application\nText:\n(2) A person must keep the record.\n\n[繁體中文 — 真確文本]\n法例：示例條例（第999章）\n條文：第2條\n服務部分：第2部分，共2部分\n標題：適用範圍\n正文：\n(2) 任何人須備存該紀錄。",
+      "text_fingerprint": "sha256:c6fd6396a3ce675b3324658ae450d18370164f4f29a7ef8641d2cd9f20bd1b61",
+      "total_parts": 2,
+      "zh_hant_dependency_source_unit_ids": [],
+      "zh_hant_primary_source_unit_ids": [
+        "zh_body_2"
+      ]
+    }
+  ],
+  "profile_fingerprint": "sha256:c69c235a13a6dd71c4de2d27e0b027487c4a885d6bc265e3e7945c634a8fa634",
+  "profile_id": "psp_111111111111111111111111111111111111111111111111",
+  "quarantined_partition_node_ids": [],
+  "reason": "PASS_PARTITIONED",
+  "search_record_output": "NONE",
+  "zh_hant_tree_fingerprint": "sha256:b00c15cdf4f62ddc512c4da2a3a0fd37661d4a01d7f8d8c5d6df3b270d3b9b25"
+}

@@ -1,0 +1,45 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-materiality-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-MAT-009",
+  "coverage_cell_id": "HKCASE-PROP-COV-SMAT-009",
+  "pair_memberships": [],
+  "scenario": "Judgment announces only the disposition",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-materiality-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "semantic_execution_9",
+    "judgment_work_id": "semantic_judgment_9",
+    "judicial_decision_id": "synthetic_decision_9",
+    "official_version_id": "synthetic_version_9",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "For the reasons already given orally, the appeal is dismissed.",
+        "text_fingerprint": "sha256:99832c41e5c92ce1c9c46368c00b8a37a4e21a2aabab897765eac82389e4a968",
+        "range_id": "range_1"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-009.json",
+  "observation_path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-009.json",
+  "expected_path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-009.json"
+}

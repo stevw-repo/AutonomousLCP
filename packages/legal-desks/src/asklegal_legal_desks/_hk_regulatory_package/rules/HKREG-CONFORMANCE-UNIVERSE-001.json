@@ -1,0 +1,23 @@
+{
+  "schema_id": "asklegal.hk-regulatory-conformance-universe-rule",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-CONFORMANCE-UNIVERSE-001",
+  "status": "SOURCE_NEUTRAL_CONFORMANCE_UNIVERSE",
+  "accepted_adrs": [
+    "0074",
+    "0075"
+  ],
+  "input_schema": "contracts/schemas/hkex-conformance-universe.schema.json",
+  "catalogue": "catalogues/conformance-universe.json",
+  "required_case_count": 284,
+  "required_primary_coverage_cell_count": 284,
+  "required_high_risk_pair_count": 57,
+  "evidence_to_decision_case_count": 143,
+  "decision_to_artifact_case_count": 141,
+  "directory_discovery_forbidden": true,
+  "case_combination_or_omission_forbidden": true,
+  "executable_case_packages_complete": true,
+  "conformance_ready": false,
+  "activation_authority": false,
+  "external_effects": "NONE"
+}

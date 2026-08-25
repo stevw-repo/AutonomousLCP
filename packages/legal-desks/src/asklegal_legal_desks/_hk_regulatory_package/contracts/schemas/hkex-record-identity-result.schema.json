@@ -1,0 +1,354 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-record-identity-result.schema.json",
+  "title": "HKEX Search Record identity and traceability decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "contract_version",
+    "rule_id",
+    "decision_id",
+    "consequence",
+    "reason",
+    "selected_search_record_id",
+    "predecessor_search_record_ids",
+    "candidate_serving_payload_fingerprint",
+    "traceability_seed",
+    "current_legal_support",
+    "identity_decision_complete",
+    "register_allocation_required",
+    "selection_event_required",
+    "search_record_authorized",
+    "serving_ready"
+  ],
+  "$defs": {
+    "fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "issued_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]{2,15}_[0-9a-f]{48}$"
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref_type",
+        "ref_id",
+        "fingerprint"
+      ],
+      "properties": {
+        "ref_type": {
+          "enum": [
+            "ARTIFACT",
+            "DECISION",
+            "EVIDENCE",
+            "RULEBOOK",
+            "SOURCE_SNAPSHOT"
+          ]
+        },
+        "ref_id": {
+          "$ref": "#/$defs/issued_id"
+        },
+        "fingerprint": {
+          "$ref": "#/$defs/fingerprint"
+        }
+      }
+    },
+    "source_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_unit_id",
+        "role",
+        "source_range",
+        "content_fingerprint"
+      ],
+      "properties": {
+        "source_unit_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "enum": [
+            "PRIMARY",
+            "CONTEXT_ONLY",
+            "PRESENTATION_ONLY"
+          ]
+        },
+        "source_range": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_fingerprint": {
+          "$ref": "#/$defs/fingerprint"
+        }
+      }
+    },
+    "referenced_location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "locator",
+        "official_heading"
+      ],
+      "properties": {
+        "locator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "official_heading": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "traceability_seed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "serving_payload_fingerprint",
+        "serving_record_profile_id",
+        "tree_fingerprint",
+        "source_rule_id",
+        "source_artifact_fingerprints",
+        "legal_item_id",
+        "official_version_ids",
+        "legal_location_ids",
+        "primary_source_units",
+        "dependency_source_units",
+        "referenced_locations",
+        "evidence_refs",
+        "authority_note_fingerprint",
+        "authority_note_decision_ref",
+        "authority_note_supporting_refs",
+        "identity_decision_evidence_fingerprint",
+        "legal_desk_actor",
+        "root_record_unit_id",
+        "part_number",
+        "total_parts"
+      ],
+      "properties": {
+        "serving_payload_fingerprint": {
+          "$ref": "#/$defs/fingerprint"
+        },
+        "serving_record_profile_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tree_fingerprint": {
+          "$ref": "#/$defs/fingerprint"
+        },
+        "source_rule_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_artifact_fingerprints": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/fingerprint"
+          }
+        },
+        "legal_item_id": {
+          "type": "string",
+          "pattern": "^lit_[0-9a-f]{48}$"
+        },
+        "official_version_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^ofv_[0-9a-f]{48}$"
+          }
+        },
+        "legal_location_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^loc_[0-9a-f]{48}$"
+          }
+        },
+        "primary_source_units": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/source_binding"
+          }
+        },
+        "dependency_source_units": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source_binding"
+          }
+        },
+        "referenced_locations": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/referenced_location"
+          }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "authority_note_fingerprint": {
+          "$ref": "#/$defs/fingerprint"
+        },
+        "authority_note_decision_ref": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "ref_type": {
+                  "const": "DECISION"
+                }
+              }
+            }
+          ]
+        },
+        "authority_note_supporting_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "identity_decision_evidence_fingerprint": {
+          "$ref": "#/$defs/fingerprint"
+        },
+        "legal_desk_actor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "root_record_unit_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "part_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "total_parts": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  },
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contract_version": {
+      "const": "1.0.0"
+    },
+    "rule_id": {
+      "const": "HKREG-RECORD-IDENTITY-001"
+    },
+    "decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "consequence": {
+      "enum": [
+        "PRESERVE_SELECTED",
+        "RESELECT_PRESERVED",
+        "REQUIRE_NEW_FORWARD_SUCCESSOR",
+        "REQUIRE_NEW_INITIAL",
+        "BLOCK"
+      ]
+    },
+    "reason": {
+      "enum": [
+        "EXACT_SELECTED_PAYLOAD_PRESERVED",
+        "EXACT_PRESERVED_PAYLOAD_RESELECTED",
+        "UNSEEN_INITIAL_PAYLOAD_REQUIRES_ID",
+        "UNSEEN_CHANGED_PAYLOAD_REQUIRES_SUCCESSOR",
+        "CURRENT_LEGAL_SUPPORT_NOT_PROVED",
+        "CONSTRUCTION_NOT_CURRENT_CANDIDATE",
+        "DECLARED_CHANGE_CONFLICTS_WITH_PAYLOAD",
+        "REQUIRED_EXACT_PRESERVED_PAYLOAD_MISSING"
+      ]
+    },
+    "selected_search_record_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^rec_[0-9a-f]{48}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "predecessor_search_record_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^rec_[0-9a-f]{48}$"
+      }
+    },
+    "candidate_serving_payload_fingerprint": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/fingerprint"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "traceability_seed": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/traceability_seed"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "current_legal_support": {
+      "type": "boolean"
+    },
+    "identity_decision_complete": {
+      "type": "boolean"
+    },
+    "register_allocation_required": {
+      "type": "boolean"
+    },
+    "selection_event_required": {
+      "type": "boolean"
+    },
+    "search_record_authorized": {
+      "const": false
+    },
+    "serving_ready": {
+      "const": false
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.reconstruction-report.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-RECON-REPORT-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-RECON-REPORT-FIX-001.json",
+      "fixture_fingerprint": "sha256:ac739f26696ca54013167ebea026750f630da1eea8dc19122fe3af85dd90da01",
+      "expected_path": "expected/reconstruction-report/HKLEG-RECON-REPORT-FIX-001.json",
+      "expected_fingerprint": "sha256:5cfde867dc9fd167c6cac3f128f643381f19b2978e2fe14a4e989e7672b33f41"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-REPORT-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-RECON-REPORT-FIX-002.json",
+      "fixture_fingerprint": "sha256:95d45fdca96e2f8a155ba5d8fff72dc14452573aab6ff367eda09d047f289490",
+      "expected_path": "expected/reconstruction-report/HKLEG-RECON-REPORT-FIX-002.json",
+      "expected_fingerprint": "sha256:46799b4c402dd77d0b3fb01fc28534d00d02c8c394493b31355ef98e1bdb3386"
+    }
+  ]
+}

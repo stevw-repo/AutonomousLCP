@@ -1,0 +1,35 @@
+{
+  "schema_id": "asklegal.hk-regulatory-rendering-decision-rule",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-RENDERING-DECISION-001",
+  "status": "SOURCE_NEUTRAL_EXECUTABLE_CHECKPOINT",
+  "accepted_adrs": [
+    "0011",
+    "0050",
+    "0073",
+    "0074",
+    "0075"
+  ],
+  "case_schema": "contracts/schemas/hkex-rendering-decision-case.schema.json",
+  "report_schema": "contracts/schemas/hkex-rendering-decision-report.schema.json",
+  "catalogue_schema": "contracts/schemas/hkex-rendering-decision-catalogue.schema.json",
+  "catalogue": "catalogues/rendering-decision-cases.json",
+  "required_case_count": 35,
+  "required_primary_coverage_cell_count": 35,
+  "required_high_risk_pairs": [
+    "HKREG-PAIR-032",
+    "HKREG-PAIR-033",
+    "HKREG-PAIR-034",
+    "HKREG-PAIR-035",
+    "HKREG-PAIR-036",
+    "HKREG-PAIR-037",
+    "HKREG-PAIR-057"
+  ],
+  "complete_structured_decision_match_required": true,
+  "case_id_switching_forbidden": true,
+  "rendering_decision_checkpoint_complete": true,
+  "full_conformance_suite_complete": false,
+  "source_authority": false,
+  "activation_authority": false,
+  "external_effects": "NONE"
+}

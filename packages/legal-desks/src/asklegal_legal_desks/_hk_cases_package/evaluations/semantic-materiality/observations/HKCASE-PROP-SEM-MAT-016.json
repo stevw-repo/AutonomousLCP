@@ -1,0 +1,68 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-materiality-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-MATERIALITY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:20c4f6b8db2198e0ab91d1157750acab4030cdd6ca5fc5620284bcf2797113a8",
+  "workflow_result_fingerprint": "sha256:f6da5b8dba4002fe63dcf553e11fad3840e87af7d1773824d89cfe73296a2227",
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "authority_role": "OPERATIVE",
+      "meaning_codes": [
+        "FOOTNOTE_RULE",
+        "NONCONTIGUOUS_SUPPORT",
+        "MATERIAL_APPLICATION"
+      ],
+      "evidence_role_codes": [
+        "ANSWER",
+        "APPLICATION",
+        "ATTRIBUTION",
+        "CONTEXT",
+        "ISSUE",
+        "QUALIFICATION",
+        "QUOTATION",
+        "RESULT"
+      ],
+      "range_ids": [
+        "range_1",
+        "range_2",
+        "range_3"
+      ]
+    }
+  ],
+  "unit_observations": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ],
+      "handoff_ids": []
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ],
+      "handoff_ids": []
+    },
+    {
+      "unit_id": "unit_3",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ],
+      "handoff_ids": []
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "handoff_ids": [],
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

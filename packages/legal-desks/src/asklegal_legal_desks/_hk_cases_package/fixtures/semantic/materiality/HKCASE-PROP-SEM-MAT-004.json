@@ -1,0 +1,58 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-materiality-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-MAT-004",
+  "coverage_cell_id": "HKCASE-PROP-COV-SMAT-004",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-003",
+      "role": "POSITIVE"
+    }
+  ],
+  "scenario": "Court expressly adopts and applies an earlier quoted rule",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-materiality-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "semantic_execution_4",
+    "judgment_work_id": "semantic_judgment_4",
+    "judicial_decision_id": "synthetic_decision_4",
+    "official_version_id": "synthetic_version_4",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "The earlier court stated that reasonable notice is assessed objectively.",
+        "text_fingerprint": "sha256:638cae1780de015f7c9569a3cdccca3094177a344c7413a7839ae4952ce45943",
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "exact_text": "We expressly adopt that rule and apply it to the notice given here.",
+        "text_fingerprint": "sha256:db2293c65f4b2f61400967e45cab8ebc2c51d93b5485f86728ee7c565d236f90",
+        "range_id": "range_2"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-004.json",
+  "observation_path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-004.json",
+  "expected_path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-004.json"
+}

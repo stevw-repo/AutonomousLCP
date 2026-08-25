@@ -1,0 +1,2876 @@
+{
+  "schema_id": "asklegal.hk-regulatory.package-integrity-case",
+  "schema_version": "1.0.0",
+  "package_contract_version": "1.0.0",
+  "case_id": "HKREG-DET-PKG-010",
+  "suite_layer": "DECISION_TO_ARTIFACT",
+  "primary_checkpoint": "PACKAGE_INTEGRITY",
+  "frozen": true,
+  "synthetic_evidence_class": "SYNTHETIC_NO_REAL_AUTHORITY",
+  "contract_bindings": [
+    {
+      "contract_id": "asklegal.hk-regulatory.conformance-universe",
+      "version": "1.0.0",
+      "fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.package-integrity-case",
+      "version": "1.0.0",
+      "fingerprint": "sha256:a1a4e58ddd6c0af90b134748b4cdff10ad502e2145e398ea2adadd2396676658"
+    }
+  ],
+  "synthetic_cutoff": "2026-08-24T00:00:00Z",
+  "scope_id": "HKEX_CROSS_BOARD",
+  "prior_state": "NO_LIVE_STATE",
+  "primary_coverage_cell_ids": [
+    "HKREG-COV-DPKG-010"
+  ],
+  "secondary_coverage_cell_ids": [],
+  "pair_membership": null,
+  "declared_input_inventory": [
+    "source-evidence"
+  ],
+  "declared_reference_inventory": [
+    "asklegal.hk-regulatory.conformance-universe",
+    "asklegal.hk-regulatory.package-integrity-case"
+  ],
+  "declared_expected_inventory": [
+    "CASE_EXECUTION_REPORT"
+  ],
+  "required_result_dimensions": [
+    "AUTHORITY",
+    "FORBIDDEN_EFFECTS",
+    "PACKAGE_INTEGRITY"
+  ],
+  "assertion_scope": "EXPLICIT_INVENTORY",
+  "package_fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14",
+  "title": "Catalogue relies on a glob, range, filename convention, directory scan, or dynamic discovery",
+  "purpose": "Reject completeness by inference; require explicit inventory",
+  "expected_outcome": "REJECTED",
+  "expected_reason": "DYNAMIC_DISCOVERY_FORBIDDEN",
+  "facts": {
+    "closed_schema_violations": [],
+    "declared_artifacts": [
+      {
+        "path": "manifest.json",
+        "role": "PACKAGE_ROOT",
+        "media_type": "application/json",
+        "fingerprint": "sha256:02020c93f1c90647b56d7f6c03fdaef4e90439f745de710f7634aba7b5c36d26",
+        "required": true
+      },
+      {
+        "path": "catalogues/matrix.json",
+        "role": "CATALOGUE",
+        "media_type": "application/json",
+        "fingerprint": "sha256:42402a164a5e95b038f661918b622f148f57c34118d18f5593ed6a3c0c4846ca",
+        "required": true
+      },
+      {
+        "path": "cases/case.json",
+        "role": "CASE_DOCUMENT",
+        "media_type": "application/json",
+        "fingerprint": "sha256:fc5cf6db36dd00deb0c5e5dfa0e67d123b333f3e1e1ad0bbe96c9e241b3c57a6",
+        "required": true
+      },
+      {
+        "path": "inputs/source.json",
+        "role": "SOURCE_EVIDENCE",
+        "media_type": "application/json",
+        "fingerprint": "sha256:bc1443bf7d93a8f1f94a491f1151620afc8d887d9b5999518bedf76dfc70ff15",
+        "required": true
+      },
+      {
+        "path": "expected/result.json",
+        "role": "EXPECTED_ARTIFACT",
+        "media_type": "application/json",
+        "fingerprint": "sha256:fda48e1f88adc3c7baf76c02188cff248c195782180a59d40a55c14115e5f10b",
+        "required": false
+      }
+    ],
+    "virtual_artifacts": [
+      {
+        "path": "manifest.json",
+        "media_type": "application/json",
+        "content_base64": "eyJzY2hlbWFfaWQiOiJzeW50aGV0aWMtcGFja2FnZSIsInZlcnNpb24iOiIxIn0=",
+        "node_type": "REGULAR_FILE",
+        "content_class": "NORMAL",
+        "readable": true,
+        "schema_valid": true,
+        "canonical_bytes": true
+      },
+      {
+        "path": "catalogues/matrix.json",
+        "media_type": "application/json",
+        "content_base64": "eyJjZWxscyI6Mjg0LCJwYWlycyI6NTd9",
+        "node_type": "REGULAR_FILE",
+        "content_class": "NORMAL",
+        "readable": true,
+        "schema_valid": true,
+        "canonical_bytes": true
+      },
+      {
+        "path": "cases/case.json",
+        "media_type": "application/json",
+        "content_base64": "eyJmcm96ZW4iOnRydWUsImxheWVyIjoiREVDSVNJT05fVE9fQVJUSUZBQ1QifQ==",
+        "node_type": "REGULAR_FILE",
+        "content_class": "NORMAL",
+        "readable": true,
+        "schema_valid": true,
+        "canonical_bytes": true
+      },
+      {
+        "path": "inputs/source.json",
+        "media_type": "application/json",
+        "content_base64": "eyJ0ZXh0Ijoib3JkaW5hcnkgc3ludGhldGljIGV2aWRlbmNlIn0=",
+        "node_type": "REGULAR_FILE",
+        "content_class": "NORMAL",
+        "readable": true,
+        "schema_valid": true,
+        "canonical_bytes": true
+      },
+      {
+        "path": "expected/result.json",
+        "media_type": "application/json",
+        "content_base64": "eyJyZXN1bHQiOiJzeW50aGV0aWMgZXhwZWN0ZWQifQ==",
+        "node_type": "REGULAR_FILE",
+        "content_class": "NORMAL",
+        "readable": true,
+        "schema_valid": true,
+        "canonical_bytes": true
+      }
+    ],
+    "runner_access_paths": [
+      "manifest.json",
+      "catalogues/matrix.json",
+      "cases/case.json",
+      "inputs/source.json",
+      "expected/result.json"
+    ],
+    "discovery_methods": [
+      "GLOB"
+    ],
+    "input_slots": [
+      {
+        "slot_id": "source-evidence",
+        "state": "AVAILABLE",
+        "path": "inputs/source.json",
+        "fact_condition": "ORDINARY"
+      }
+    ],
+    "expected_artifacts": [
+      {
+        "role": "CASE_EXECUTION_REPORT",
+        "state": "EXACT",
+        "path": "expected/result.json",
+        "expected_fingerprint": "sha256:fda48e1f88adc3c7baf76c02188cff248c195782180a59d40a55c14115e5f10b",
+        "zero_count": null,
+        "checkpoint_applicable": true,
+        "matrix_proves_nonapplicable": false,
+        "implementation_completed": true
+      }
+    ],
+    "matrix": {
+      "required_cell_ids": [
+        "HKREG-COV-DSRC-001",
+        "HKREG-COV-DSRC-002",
+        "HKREG-COV-DSRC-003",
+        "HKREG-COV-DSRC-004",
+        "HKREG-COV-DSRC-005",
+        "HKREG-COV-DSRC-006",
+        "HKREG-COV-DSRC-007",
+        "HKREG-COV-DSRC-008",
+        "HKREG-COV-DSRC-009",
+        "HKREG-COV-DSRC-010",
+        "HKREG-COV-DSRC-011",
+        "HKREG-COV-DSRC-012",
+        "HKREG-COV-DSRC-013",
+        "HKREG-COV-DSRC-014",
+        "HKREG-COV-DSRC-015",
+        "HKREG-COV-DSRC-016",
+        "HKREG-COV-DSRC-017",
+        "HKREG-COV-DSRC-018",
+        "HKREG-COV-DSRC-019",
+        "HKREG-COV-DSRC-020",
+        "HKREG-COV-DSRC-021",
+        "HKREG-COV-DSRC-022",
+        "HKREG-COV-DSRC-023",
+        "HKREG-COV-DSRC-024",
+        "HKREG-COV-DSRC-025",
+        "HKREG-COV-DSRC-026",
+        "HKREG-COV-DSRC-027",
+        "HKREG-COV-DSRC-028",
+        "HKREG-COV-DSRC-029",
+        "HKREG-COV-DSRC-030",
+        "HKREG-COV-DSRC-031",
+        "HKREG-COV-DSRC-032",
+        "HKREG-COV-DSRC-033",
+        "HKREG-COV-DSRC-034",
+        "HKREG-COV-DSRC-035",
+        "HKREG-COV-DSRC-036",
+        "HKREG-COV-DSRC-037",
+        "HKREG-COV-DSRC-038",
+        "HKREG-COV-DSRC-039",
+        "HKREG-COV-DSRC-040",
+        "HKREG-COV-DSRC-041",
+        "HKREG-COV-DSRC-042",
+        "HKREG-COV-DSRC-043",
+        "HKREG-COV-DSRC-044",
+        "HKREG-COV-DSRC-045",
+        "HKREG-COV-DSRC-046",
+        "HKREG-COV-DSRC-047",
+        "HKREG-COV-DSRC-048",
+        "HKREG-COV-DSRC-049",
+        "HKREG-COV-DSRC-050",
+        "HKREG-COV-DSRC-051",
+        "HKREG-COV-DSRC-052",
+        "HKREG-COV-DSRC-053",
+        "HKREG-COV-DSRC-054",
+        "HKREG-COV-DSRC-055",
+        "HKREG-COV-DSRC-056",
+        "HKREG-COV-DSRC-057",
+        "HKREG-COV-DSRC-058",
+        "HKREG-COV-DSRC-059",
+        "HKREG-COV-DSRC-060",
+        "HKREG-COV-DSRC-061",
+        "HKREG-COV-DSRC-062",
+        "HKREG-COV-DSTA-001",
+        "HKREG-COV-DSTA-002",
+        "HKREG-COV-DSTA-003",
+        "HKREG-COV-DSTA-004",
+        "HKREG-COV-DSTA-005",
+        "HKREG-COV-DSTA-006",
+        "HKREG-COV-DSTA-007",
+        "HKREG-COV-DSTA-008",
+        "HKREG-COV-DSTA-009",
+        "HKREG-COV-DSTA-010",
+        "HKREG-COV-DSTA-011",
+        "HKREG-COV-DSTA-012",
+        "HKREG-COV-DSTA-013",
+        "HKREG-COV-DSTA-014",
+        "HKREG-COV-DSTA-015",
+        "HKREG-COV-DSTA-016",
+        "HKREG-COV-DSTA-017",
+        "HKREG-COV-DSTA-018",
+        "HKREG-COV-DSTA-019",
+        "HKREG-COV-DSTA-020",
+        "HKREG-COV-DSTA-021",
+        "HKREG-COV-DSTA-022",
+        "HKREG-COV-DSTA-023",
+        "HKREG-COV-DSTA-024",
+        "HKREG-COV-DSTA-025",
+        "HKREG-COV-DSTA-026",
+        "HKREG-COV-DSTA-027",
+        "HKREG-COV-DSTA-028",
+        "HKREG-COV-DSTA-029",
+        "HKREG-COV-DSTA-030",
+        "HKREG-COV-DSTA-031",
+        "HKREG-COV-DSTA-032",
+        "HKREG-COV-DSTA-033",
+        "HKREG-COV-DSTA-034",
+        "HKREG-COV-DSTA-035",
+        "HKREG-COV-DSTA-036",
+        "HKREG-COV-DSTA-037",
+        "HKREG-COV-DSTA-038",
+        "HKREG-COV-DSTA-039",
+        "HKREG-COV-DSTA-040",
+        "HKREG-COV-DSTA-041",
+        "HKREG-COV-DSTA-042",
+        "HKREG-COV-DSTA-043",
+        "HKREG-COV-DSTA-044",
+        "HKREG-COV-DSTA-045",
+        "HKREG-COV-DSTA-046",
+        "HKREG-COV-DSTA-047",
+        "HKREG-COV-DSTA-048",
+        "HKREG-COV-DSTA-049",
+        "HKREG-COV-DSTA-050",
+        "HKREG-COV-DSTA-051",
+        "HKREG-COV-DBND-001",
+        "HKREG-COV-DBND-002",
+        "HKREG-COV-DBND-003",
+        "HKREG-COV-DBND-004",
+        "HKREG-COV-DBND-005",
+        "HKREG-COV-DBND-006",
+        "HKREG-COV-DBND-007",
+        "HKREG-COV-DBND-008",
+        "HKREG-COV-DBND-009",
+        "HKREG-COV-DBND-010",
+        "HKREG-COV-DBND-011",
+        "HKREG-COV-DBND-012",
+        "HKREG-COV-DBND-013",
+        "HKREG-COV-DBND-014",
+        "HKREG-COV-DBND-015",
+        "HKREG-COV-DBND-016",
+        "HKREG-COV-DBND-017",
+        "HKREG-COV-DBND-018",
+        "HKREG-COV-DBND-019",
+        "HKREG-COV-DBND-020",
+        "HKREG-COV-DBND-021",
+        "HKREG-COV-DBND-022",
+        "HKREG-COV-DBND-023",
+        "HKREG-COV-DBND-024",
+        "HKREG-COV-DBND-025",
+        "HKREG-COV-DBND-026",
+        "HKREG-COV-DBND-027",
+        "HKREG-COV-DBND-028",
+        "HKREG-COV-DBND-029",
+        "HKREG-COV-DBND-030",
+        "HKREG-COV-DRND-001",
+        "HKREG-COV-DRND-002",
+        "HKREG-COV-DRND-003",
+        "HKREG-COV-DRND-004",
+        "HKREG-COV-DRND-005",
+        "HKREG-COV-DRND-006",
+        "HKREG-COV-DRND-007",
+        "HKREG-COV-DRND-008",
+        "HKREG-COV-DRND-009",
+        "HKREG-COV-DRND-010",
+        "HKREG-COV-DRND-011",
+        "HKREG-COV-DRND-012",
+        "HKREG-COV-DRND-013",
+        "HKREG-COV-DRND-014",
+        "HKREG-COV-DRND-015",
+        "HKREG-COV-DRND-016",
+        "HKREG-COV-DRND-017",
+        "HKREG-COV-DRND-018",
+        "HKREG-COV-DRND-019",
+        "HKREG-COV-DRND-020",
+        "HKREG-COV-DRND-021",
+        "HKREG-COV-DRND-022",
+        "HKREG-COV-DRND-023",
+        "HKREG-COV-DRND-024",
+        "HKREG-COV-DRND-025",
+        "HKREG-COV-DRND-026",
+        "HKREG-COV-DRND-027",
+        "HKREG-COV-DRND-028",
+        "HKREG-COV-DRND-029",
+        "HKREG-COV-DRND-030",
+        "HKREG-COV-DRND-031",
+        "HKREG-COV-DRND-032",
+        "HKREG-COV-DRND-033",
+        "HKREG-COV-DRND-034",
+        "HKREG-COV-DRND-035",
+        "HKREG-COV-DPAR-001",
+        "HKREG-COV-DPAR-002",
+        "HKREG-COV-DPAR-003",
+        "HKREG-COV-DPAR-004",
+        "HKREG-COV-DPAR-005",
+        "HKREG-COV-DPAR-006",
+        "HKREG-COV-DPAR-007",
+        "HKREG-COV-DPAR-008",
+        "HKREG-COV-DPAR-009",
+        "HKREG-COV-DPAR-010",
+        "HKREG-COV-DPAR-011",
+        "HKREG-COV-DPAR-012",
+        "HKREG-COV-DPAR-013",
+        "HKREG-COV-DPAR-014",
+        "HKREG-COV-DPAR-015",
+        "HKREG-COV-DPAR-016",
+        "HKREG-COV-DPAR-017",
+        "HKREG-COV-DPAR-018",
+        "HKREG-COV-DPAR-019",
+        "HKREG-COV-DPAR-020",
+        "HKREG-COV-DPAR-021",
+        "HKREG-COV-DPAR-022",
+        "HKREG-COV-DPAR-023",
+        "HKREG-COV-DPAR-024",
+        "HKREG-COV-DCOV-001",
+        "HKREG-COV-DCOV-002",
+        "HKREG-COV-DCOV-003",
+        "HKREG-COV-DCOV-004",
+        "HKREG-COV-DCOV-005",
+        "HKREG-COV-DCOV-006",
+        "HKREG-COV-DCOV-007",
+        "HKREG-COV-DCOV-008",
+        "HKREG-COV-DCOV-009",
+        "HKREG-COV-DCOV-010",
+        "HKREG-COV-DCOV-011",
+        "HKREG-COV-DCOV-012",
+        "HKREG-COV-DCOV-013",
+        "HKREG-COV-DCOV-014",
+        "HKREG-COV-DCOV-015",
+        "HKREG-COV-DCOV-016",
+        "HKREG-COV-DCOV-017",
+        "HKREG-COV-DCOV-018",
+        "HKREG-COV-DCOV-019",
+        "HKREG-COV-DCOV-020",
+        "HKREG-COV-DIDN-001",
+        "HKREG-COV-DIDN-002",
+        "HKREG-COV-DIDN-003",
+        "HKREG-COV-DIDN-004",
+        "HKREG-COV-DIDN-005",
+        "HKREG-COV-DIDN-006",
+        "HKREG-COV-DIDN-007",
+        "HKREG-COV-DIDN-008",
+        "HKREG-COV-DIDN-009",
+        "HKREG-COV-DIDN-010",
+        "HKREG-COV-DIDN-011",
+        "HKREG-COV-DIDN-012",
+        "HKREG-COV-DIDN-013",
+        "HKREG-COV-DIDN-014",
+        "HKREG-COV-DIDN-015",
+        "HKREG-COV-DIDN-016",
+        "HKREG-COV-DIDN-017",
+        "HKREG-COV-DIDN-018",
+        "HKREG-COV-DIDN-019",
+        "HKREG-COV-DIDN-020",
+        "HKREG-COV-DIDN-021",
+        "HKREG-COV-DIDN-022",
+        "HKREG-COV-DIDN-023",
+        "HKREG-COV-DIDN-024",
+        "HKREG-COV-DPKG-001",
+        "HKREG-COV-DPKG-002",
+        "HKREG-COV-DPKG-003",
+        "HKREG-COV-DPKG-004",
+        "HKREG-COV-DPKG-005",
+        "HKREG-COV-DPKG-006",
+        "HKREG-COV-DPKG-007",
+        "HKREG-COV-DPKG-008",
+        "HKREG-COV-DPKG-009",
+        "HKREG-COV-DPKG-010",
+        "HKREG-COV-DPKG-011",
+        "HKREG-COV-DPKG-012",
+        "HKREG-COV-DPKG-013",
+        "HKREG-COV-DPKG-014",
+        "HKREG-COV-DPKG-015",
+        "HKREG-COV-DPKG-016",
+        "HKREG-COV-DPKG-017",
+        "HKREG-COV-DPKG-018",
+        "HKREG-COV-DPKG-019",
+        "HKREG-COV-DPKG-020",
+        "HKREG-COV-DPKG-021",
+        "HKREG-COV-DPKG-022",
+        "HKREG-COV-DPKG-023",
+        "HKREG-COV-DPKG-024",
+        "HKREG-COV-DPKG-025",
+        "HKREG-COV-DPKG-026",
+        "HKREG-COV-DPKG-027",
+        "HKREG-COV-DPKG-028",
+        "HKREG-COV-DPKG-029",
+        "HKREG-COV-DPKG-030",
+        "HKREG-COV-DPKG-031",
+        "HKREG-COV-DPKG-032",
+        "HKREG-COV-DPKG-033",
+        "HKREG-COV-DPKG-034",
+        "HKREG-COV-DPKG-035",
+        "HKREG-COV-DPKG-036",
+        "HKREG-COV-DPKG-037",
+        "HKREG-COV-DPKG-038"
+      ],
+      "executable_case_ids": [
+        "HKREG-DEC-SRC-001",
+        "HKREG-DEC-SRC-002",
+        "HKREG-DEC-SRC-003",
+        "HKREG-DEC-SRC-004",
+        "HKREG-DEC-SRC-005",
+        "HKREG-DEC-SRC-006",
+        "HKREG-DEC-SRC-007",
+        "HKREG-DEC-SRC-008",
+        "HKREG-DEC-SRC-009",
+        "HKREG-DEC-SRC-010",
+        "HKREG-DEC-SRC-011",
+        "HKREG-DEC-SRC-012",
+        "HKREG-DEC-SRC-013",
+        "HKREG-DEC-SRC-014",
+        "HKREG-DEC-SRC-015",
+        "HKREG-DEC-SRC-016",
+        "HKREG-DEC-SRC-017",
+        "HKREG-DEC-SRC-018",
+        "HKREG-DEC-SRC-019",
+        "HKREG-DEC-SRC-020",
+        "HKREG-DEC-SRC-021",
+        "HKREG-DEC-SRC-022",
+        "HKREG-DEC-SRC-023",
+        "HKREG-DEC-SRC-024",
+        "HKREG-DEC-SRC-025",
+        "HKREG-DEC-SRC-026",
+        "HKREG-DEC-SRC-027",
+        "HKREG-DEC-SRC-028",
+        "HKREG-DEC-SRC-029",
+        "HKREG-DEC-SRC-030",
+        "HKREG-DEC-SRC-031",
+        "HKREG-DEC-SRC-032",
+        "HKREG-DEC-SRC-033",
+        "HKREG-DEC-SRC-034",
+        "HKREG-DEC-SRC-035",
+        "HKREG-DEC-SRC-036",
+        "HKREG-DEC-SRC-037",
+        "HKREG-DEC-SRC-038",
+        "HKREG-DEC-SRC-039",
+        "HKREG-DEC-SRC-040",
+        "HKREG-DEC-SRC-041",
+        "HKREG-DEC-SRC-042",
+        "HKREG-DEC-SRC-043",
+        "HKREG-DEC-SRC-044",
+        "HKREG-DEC-SRC-045",
+        "HKREG-DEC-SRC-046",
+        "HKREG-DEC-SRC-047",
+        "HKREG-DEC-SRC-048",
+        "HKREG-DEC-SRC-049",
+        "HKREG-DEC-SRC-050",
+        "HKREG-DEC-SRC-051",
+        "HKREG-DEC-SRC-052",
+        "HKREG-DEC-SRC-053",
+        "HKREG-DEC-SRC-054",
+        "HKREG-DEC-SRC-055",
+        "HKREG-DEC-SRC-056",
+        "HKREG-DEC-SRC-057",
+        "HKREG-DEC-SRC-058",
+        "HKREG-DEC-SRC-059",
+        "HKREG-DEC-SRC-060",
+        "HKREG-DEC-SRC-061",
+        "HKREG-DEC-SRC-062",
+        "HKREG-DEC-STA-001",
+        "HKREG-DEC-STA-002",
+        "HKREG-DEC-STA-003",
+        "HKREG-DEC-STA-004",
+        "HKREG-DEC-STA-005",
+        "HKREG-DEC-STA-006",
+        "HKREG-DEC-STA-007",
+        "HKREG-DEC-STA-008",
+        "HKREG-DEC-STA-009",
+        "HKREG-DEC-STA-010",
+        "HKREG-DEC-STA-011",
+        "HKREG-DEC-STA-012",
+        "HKREG-DEC-STA-013",
+        "HKREG-DEC-STA-014",
+        "HKREG-DEC-STA-015",
+        "HKREG-DEC-STA-016",
+        "HKREG-DEC-STA-017",
+        "HKREG-DEC-STA-018",
+        "HKREG-DEC-STA-019",
+        "HKREG-DEC-STA-020",
+        "HKREG-DEC-STA-021",
+        "HKREG-DEC-STA-022",
+        "HKREG-DEC-STA-023",
+        "HKREG-DEC-STA-024",
+        "HKREG-DEC-STA-025",
+        "HKREG-DEC-STA-026",
+        "HKREG-DEC-STA-027",
+        "HKREG-DEC-STA-028",
+        "HKREG-DEC-STA-029",
+        "HKREG-DEC-STA-030",
+        "HKREG-DEC-STA-031",
+        "HKREG-DEC-STA-032",
+        "HKREG-DEC-STA-033",
+        "HKREG-DEC-STA-034",
+        "HKREG-DEC-STA-035",
+        "HKREG-DEC-STA-036",
+        "HKREG-DEC-STA-037",
+        "HKREG-DEC-STA-038",
+        "HKREG-DEC-STA-039",
+        "HKREG-DEC-STA-040",
+        "HKREG-DEC-STA-041",
+        "HKREG-DEC-STA-042",
+        "HKREG-DEC-STA-043",
+        "HKREG-DEC-STA-044",
+        "HKREG-DEC-STA-045",
+        "HKREG-DEC-STA-046",
+        "HKREG-DEC-STA-047",
+        "HKREG-DEC-STA-048",
+        "HKREG-DEC-STA-049",
+        "HKREG-DEC-STA-050",
+        "HKREG-DEC-STA-051",
+        "HKREG-DEC-BND-001",
+        "HKREG-DEC-BND-002",
+        "HKREG-DEC-BND-003",
+        "HKREG-DEC-BND-004",
+        "HKREG-DEC-BND-005",
+        "HKREG-DEC-BND-006",
+        "HKREG-DEC-BND-007",
+        "HKREG-DEC-BND-008",
+        "HKREG-DEC-BND-009",
+        "HKREG-DEC-BND-010",
+        "HKREG-DEC-BND-011",
+        "HKREG-DEC-BND-012",
+        "HKREG-DEC-BND-013",
+        "HKREG-DEC-BND-014",
+        "HKREG-DEC-BND-015",
+        "HKREG-DEC-BND-016",
+        "HKREG-DEC-BND-017",
+        "HKREG-DEC-BND-018",
+        "HKREG-DEC-BND-019",
+        "HKREG-DEC-BND-020",
+        "HKREG-DEC-BND-021",
+        "HKREG-DEC-BND-022",
+        "HKREG-DEC-BND-023",
+        "HKREG-DEC-BND-024",
+        "HKREG-DEC-BND-025",
+        "HKREG-DEC-BND-026",
+        "HKREG-DEC-BND-027",
+        "HKREG-DEC-BND-028",
+        "HKREG-DEC-BND-029",
+        "HKREG-DEC-BND-030",
+        "HKREG-DET-RND-001",
+        "HKREG-DET-RND-002",
+        "HKREG-DET-RND-003",
+        "HKREG-DET-RND-004",
+        "HKREG-DET-RND-005",
+        "HKREG-DET-RND-006",
+        "HKREG-DET-RND-007",
+        "HKREG-DET-RND-008",
+        "HKREG-DET-RND-009",
+        "HKREG-DET-RND-010",
+        "HKREG-DET-RND-011",
+        "HKREG-DET-RND-012",
+        "HKREG-DET-RND-013",
+        "HKREG-DET-RND-014",
+        "HKREG-DET-RND-015",
+        "HKREG-DET-RND-016",
+        "HKREG-DET-RND-017",
+        "HKREG-DET-RND-018",
+        "HKREG-DET-RND-019",
+        "HKREG-DET-RND-020",
+        "HKREG-DET-RND-021",
+        "HKREG-DET-RND-022",
+        "HKREG-DET-RND-023",
+        "HKREG-DET-RND-024",
+        "HKREG-DET-RND-025",
+        "HKREG-DET-RND-026",
+        "HKREG-DET-RND-027",
+        "HKREG-DET-RND-028",
+        "HKREG-DET-RND-029",
+        "HKREG-DET-RND-030",
+        "HKREG-DET-RND-031",
+        "HKREG-DET-RND-032",
+        "HKREG-DET-RND-033",
+        "HKREG-DET-RND-034",
+        "HKREG-DET-RND-035",
+        "HKREG-DET-PAR-001",
+        "HKREG-DET-PAR-002",
+        "HKREG-DET-PAR-003",
+        "HKREG-DET-PAR-004",
+        "HKREG-DET-PAR-005",
+        "HKREG-DET-PAR-006",
+        "HKREG-DET-PAR-007",
+        "HKREG-DET-PAR-008",
+        "HKREG-DET-PAR-009",
+        "HKREG-DET-PAR-010",
+        "HKREG-DET-PAR-011",
+        "HKREG-DET-PAR-012",
+        "HKREG-DET-PAR-013",
+        "HKREG-DET-PAR-014",
+        "HKREG-DET-PAR-015",
+        "HKREG-DET-PAR-016",
+        "HKREG-DET-PAR-017",
+        "HKREG-DET-PAR-018",
+        "HKREG-DET-PAR-019",
+        "HKREG-DET-PAR-020",
+        "HKREG-DET-PAR-021",
+        "HKREG-DET-PAR-022",
+        "HKREG-DET-PAR-023",
+        "HKREG-DET-PAR-024",
+        "HKREG-DET-COV-001",
+        "HKREG-DET-COV-002",
+        "HKREG-DET-COV-003",
+        "HKREG-DET-COV-004",
+        "HKREG-DET-COV-005",
+        "HKREG-DET-COV-006",
+        "HKREG-DET-COV-007",
+        "HKREG-DET-COV-008",
+        "HKREG-DET-COV-009",
+        "HKREG-DET-COV-010",
+        "HKREG-DET-COV-011",
+        "HKREG-DET-COV-012",
+        "HKREG-DET-COV-013",
+        "HKREG-DET-COV-014",
+        "HKREG-DET-COV-015",
+        "HKREG-DET-COV-016",
+        "HKREG-DET-COV-017",
+        "HKREG-DET-COV-018",
+        "HKREG-DET-COV-019",
+        "HKREG-DET-COV-020",
+        "HKREG-DET-IDN-001",
+        "HKREG-DET-IDN-002",
+        "HKREG-DET-IDN-003",
+        "HKREG-DET-IDN-004",
+        "HKREG-DET-IDN-005",
+        "HKREG-DET-IDN-006",
+        "HKREG-DET-IDN-007",
+        "HKREG-DET-IDN-008",
+        "HKREG-DET-IDN-009",
+        "HKREG-DET-IDN-010",
+        "HKREG-DET-IDN-011",
+        "HKREG-DET-IDN-012",
+        "HKREG-DET-IDN-013",
+        "HKREG-DET-IDN-014",
+        "HKREG-DET-IDN-015",
+        "HKREG-DET-IDN-016",
+        "HKREG-DET-IDN-017",
+        "HKREG-DET-IDN-018",
+        "HKREG-DET-IDN-019",
+        "HKREG-DET-IDN-020",
+        "HKREG-DET-IDN-021",
+        "HKREG-DET-IDN-022",
+        "HKREG-DET-IDN-023",
+        "HKREG-DET-IDN-024",
+        "HKREG-DET-PKG-001",
+        "HKREG-DET-PKG-002",
+        "HKREG-DET-PKG-003",
+        "HKREG-DET-PKG-004",
+        "HKREG-DET-PKG-005",
+        "HKREG-DET-PKG-006",
+        "HKREG-DET-PKG-007",
+        "HKREG-DET-PKG-008",
+        "HKREG-DET-PKG-009",
+        "HKREG-DET-PKG-010",
+        "HKREG-DET-PKG-011",
+        "HKREG-DET-PKG-012",
+        "HKREG-DET-PKG-013",
+        "HKREG-DET-PKG-014",
+        "HKREG-DET-PKG-015",
+        "HKREG-DET-PKG-016",
+        "HKREG-DET-PKG-017",
+        "HKREG-DET-PKG-018",
+        "HKREG-DET-PKG-019",
+        "HKREG-DET-PKG-020",
+        "HKREG-DET-PKG-021",
+        "HKREG-DET-PKG-022",
+        "HKREG-DET-PKG-023",
+        "HKREG-DET-PKG-024",
+        "HKREG-DET-PKG-025",
+        "HKREG-DET-PKG-026",
+        "HKREG-DET-PKG-027",
+        "HKREG-DET-PKG-028",
+        "HKREG-DET-PKG-029",
+        "HKREG-DET-PKG-030",
+        "HKREG-DET-PKG-031",
+        "HKREG-DET-PKG-032",
+        "HKREG-DET-PKG-033",
+        "HKREG-DET-PKG-034",
+        "HKREG-DET-PKG-035",
+        "HKREG-DET-PKG-036",
+        "HKREG-DET-PKG-037",
+        "HKREG-DET-PKG-038"
+      ],
+      "primary_coverage": [
+        {
+          "cell_id": "HKREG-COV-DSRC-001",
+          "case_id": "HKREG-DEC-SRC-001"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-002",
+          "case_id": "HKREG-DEC-SRC-002"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-003",
+          "case_id": "HKREG-DEC-SRC-003"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-004",
+          "case_id": "HKREG-DEC-SRC-004"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-005",
+          "case_id": "HKREG-DEC-SRC-005"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-006",
+          "case_id": "HKREG-DEC-SRC-006"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-007",
+          "case_id": "HKREG-DEC-SRC-007"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-008",
+          "case_id": "HKREG-DEC-SRC-008"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-009",
+          "case_id": "HKREG-DEC-SRC-009"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-010",
+          "case_id": "HKREG-DEC-SRC-010"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-011",
+          "case_id": "HKREG-DEC-SRC-011"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-012",
+          "case_id": "HKREG-DEC-SRC-012"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-013",
+          "case_id": "HKREG-DEC-SRC-013"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-014",
+          "case_id": "HKREG-DEC-SRC-014"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-015",
+          "case_id": "HKREG-DEC-SRC-015"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-016",
+          "case_id": "HKREG-DEC-SRC-016"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-017",
+          "case_id": "HKREG-DEC-SRC-017"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-018",
+          "case_id": "HKREG-DEC-SRC-018"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-019",
+          "case_id": "HKREG-DEC-SRC-019"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-020",
+          "case_id": "HKREG-DEC-SRC-020"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-021",
+          "case_id": "HKREG-DEC-SRC-021"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-022",
+          "case_id": "HKREG-DEC-SRC-022"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-023",
+          "case_id": "HKREG-DEC-SRC-023"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-024",
+          "case_id": "HKREG-DEC-SRC-024"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-025",
+          "case_id": "HKREG-DEC-SRC-025"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-026",
+          "case_id": "HKREG-DEC-SRC-026"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-027",
+          "case_id": "HKREG-DEC-SRC-027"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-028",
+          "case_id": "HKREG-DEC-SRC-028"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-029",
+          "case_id": "HKREG-DEC-SRC-029"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-030",
+          "case_id": "HKREG-DEC-SRC-030"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-031",
+          "case_id": "HKREG-DEC-SRC-031"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-032",
+          "case_id": "HKREG-DEC-SRC-032"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-033",
+          "case_id": "HKREG-DEC-SRC-033"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-034",
+          "case_id": "HKREG-DEC-SRC-034"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-035",
+          "case_id": "HKREG-DEC-SRC-035"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-036",
+          "case_id": "HKREG-DEC-SRC-036"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-037",
+          "case_id": "HKREG-DEC-SRC-037"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-038",
+          "case_id": "HKREG-DEC-SRC-038"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-039",
+          "case_id": "HKREG-DEC-SRC-039"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-040",
+          "case_id": "HKREG-DEC-SRC-040"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-041",
+          "case_id": "HKREG-DEC-SRC-041"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-042",
+          "case_id": "HKREG-DEC-SRC-042"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-043",
+          "case_id": "HKREG-DEC-SRC-043"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-044",
+          "case_id": "HKREG-DEC-SRC-044"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-045",
+          "case_id": "HKREG-DEC-SRC-045"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-046",
+          "case_id": "HKREG-DEC-SRC-046"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-047",
+          "case_id": "HKREG-DEC-SRC-047"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-048",
+          "case_id": "HKREG-DEC-SRC-048"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-049",
+          "case_id": "HKREG-DEC-SRC-049"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-050",
+          "case_id": "HKREG-DEC-SRC-050"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-051",
+          "case_id": "HKREG-DEC-SRC-051"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-052",
+          "case_id": "HKREG-DEC-SRC-052"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-053",
+          "case_id": "HKREG-DEC-SRC-053"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-054",
+          "case_id": "HKREG-DEC-SRC-054"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-055",
+          "case_id": "HKREG-DEC-SRC-055"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-056",
+          "case_id": "HKREG-DEC-SRC-056"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-057",
+          "case_id": "HKREG-DEC-SRC-057"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-058",
+          "case_id": "HKREG-DEC-SRC-058"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-059",
+          "case_id": "HKREG-DEC-SRC-059"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-060",
+          "case_id": "HKREG-DEC-SRC-060"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-061",
+          "case_id": "HKREG-DEC-SRC-061"
+        },
+        {
+          "cell_id": "HKREG-COV-DSRC-062",
+          "case_id": "HKREG-DEC-SRC-062"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-001",
+          "case_id": "HKREG-DEC-STA-001"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-002",
+          "case_id": "HKREG-DEC-STA-002"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-003",
+          "case_id": "HKREG-DEC-STA-003"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-004",
+          "case_id": "HKREG-DEC-STA-004"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-005",
+          "case_id": "HKREG-DEC-STA-005"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-006",
+          "case_id": "HKREG-DEC-STA-006"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-007",
+          "case_id": "HKREG-DEC-STA-007"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-008",
+          "case_id": "HKREG-DEC-STA-008"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-009",
+          "case_id": "HKREG-DEC-STA-009"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-010",
+          "case_id": "HKREG-DEC-STA-010"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-011",
+          "case_id": "HKREG-DEC-STA-011"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-012",
+          "case_id": "HKREG-DEC-STA-012"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-013",
+          "case_id": "HKREG-DEC-STA-013"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-014",
+          "case_id": "HKREG-DEC-STA-014"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-015",
+          "case_id": "HKREG-DEC-STA-015"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-016",
+          "case_id": "HKREG-DEC-STA-016"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-017",
+          "case_id": "HKREG-DEC-STA-017"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-018",
+          "case_id": "HKREG-DEC-STA-018"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-019",
+          "case_id": "HKREG-DEC-STA-019"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-020",
+          "case_id": "HKREG-DEC-STA-020"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-021",
+          "case_id": "HKREG-DEC-STA-021"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-022",
+          "case_id": "HKREG-DEC-STA-022"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-023",
+          "case_id": "HKREG-DEC-STA-023"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-024",
+          "case_id": "HKREG-DEC-STA-024"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-025",
+          "case_id": "HKREG-DEC-STA-025"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-026",
+          "case_id": "HKREG-DEC-STA-026"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-027",
+          "case_id": "HKREG-DEC-STA-027"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-028",
+          "case_id": "HKREG-DEC-STA-028"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-029",
+          "case_id": "HKREG-DEC-STA-029"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-030",
+          "case_id": "HKREG-DEC-STA-030"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-031",
+          "case_id": "HKREG-DEC-STA-031"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-032",
+          "case_id": "HKREG-DEC-STA-032"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-033",
+          "case_id": "HKREG-DEC-STA-033"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-034",
+          "case_id": "HKREG-DEC-STA-034"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-035",
+          "case_id": "HKREG-DEC-STA-035"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-036",
+          "case_id": "HKREG-DEC-STA-036"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-037",
+          "case_id": "HKREG-DEC-STA-037"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-038",
+          "case_id": "HKREG-DEC-STA-038"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-039",
+          "case_id": "HKREG-DEC-STA-039"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-040",
+          "case_id": "HKREG-DEC-STA-040"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-041",
+          "case_id": "HKREG-DEC-STA-041"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-042",
+          "case_id": "HKREG-DEC-STA-042"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-043",
+          "case_id": "HKREG-DEC-STA-043"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-044",
+          "case_id": "HKREG-DEC-STA-044"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-045",
+          "case_id": "HKREG-DEC-STA-045"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-046",
+          "case_id": "HKREG-DEC-STA-046"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-047",
+          "case_id": "HKREG-DEC-STA-047"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-048",
+          "case_id": "HKREG-DEC-STA-048"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-049",
+          "case_id": "HKREG-DEC-STA-049"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-050",
+          "case_id": "HKREG-DEC-STA-050"
+        },
+        {
+          "cell_id": "HKREG-COV-DSTA-051",
+          "case_id": "HKREG-DEC-STA-051"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-001",
+          "case_id": "HKREG-DEC-BND-001"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-002",
+          "case_id": "HKREG-DEC-BND-002"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-003",
+          "case_id": "HKREG-DEC-BND-003"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-004",
+          "case_id": "HKREG-DEC-BND-004"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-005",
+          "case_id": "HKREG-DEC-BND-005"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-006",
+          "case_id": "HKREG-DEC-BND-006"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-007",
+          "case_id": "HKREG-DEC-BND-007"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-008",
+          "case_id": "HKREG-DEC-BND-008"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-009",
+          "case_id": "HKREG-DEC-BND-009"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-010",
+          "case_id": "HKREG-DEC-BND-010"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-011",
+          "case_id": "HKREG-DEC-BND-011"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-012",
+          "case_id": "HKREG-DEC-BND-012"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-013",
+          "case_id": "HKREG-DEC-BND-013"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-014",
+          "case_id": "HKREG-DEC-BND-014"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-015",
+          "case_id": "HKREG-DEC-BND-015"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-016",
+          "case_id": "HKREG-DEC-BND-016"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-017",
+          "case_id": "HKREG-DEC-BND-017"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-018",
+          "case_id": "HKREG-DEC-BND-018"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-019",
+          "case_id": "HKREG-DEC-BND-019"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-020",
+          "case_id": "HKREG-DEC-BND-020"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-021",
+          "case_id": "HKREG-DEC-BND-021"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-022",
+          "case_id": "HKREG-DEC-BND-022"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-023",
+          "case_id": "HKREG-DEC-BND-023"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-024",
+          "case_id": "HKREG-DEC-BND-024"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-025",
+          "case_id": "HKREG-DEC-BND-025"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-026",
+          "case_id": "HKREG-DEC-BND-026"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-027",
+          "case_id": "HKREG-DEC-BND-027"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-028",
+          "case_id": "HKREG-DEC-BND-028"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-029",
+          "case_id": "HKREG-DEC-BND-029"
+        },
+        {
+          "cell_id": "HKREG-COV-DBND-030",
+          "case_id": "HKREG-DEC-BND-030"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-001",
+          "case_id": "HKREG-DET-RND-001"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-002",
+          "case_id": "HKREG-DET-RND-002"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-003",
+          "case_id": "HKREG-DET-RND-003"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-004",
+          "case_id": "HKREG-DET-RND-004"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-005",
+          "case_id": "HKREG-DET-RND-005"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-006",
+          "case_id": "HKREG-DET-RND-006"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-007",
+          "case_id": "HKREG-DET-RND-007"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-008",
+          "case_id": "HKREG-DET-RND-008"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-009",
+          "case_id": "HKREG-DET-RND-009"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-010",
+          "case_id": "HKREG-DET-RND-010"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-011",
+          "case_id": "HKREG-DET-RND-011"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-012",
+          "case_id": "HKREG-DET-RND-012"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-013",
+          "case_id": "HKREG-DET-RND-013"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-014",
+          "case_id": "HKREG-DET-RND-014"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-015",
+          "case_id": "HKREG-DET-RND-015"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-016",
+          "case_id": "HKREG-DET-RND-016"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-017",
+          "case_id": "HKREG-DET-RND-017"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-018",
+          "case_id": "HKREG-DET-RND-018"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-019",
+          "case_id": "HKREG-DET-RND-019"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-020",
+          "case_id": "HKREG-DET-RND-020"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-021",
+          "case_id": "HKREG-DET-RND-021"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-022",
+          "case_id": "HKREG-DET-RND-022"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-023",
+          "case_id": "HKREG-DET-RND-023"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-024",
+          "case_id": "HKREG-DET-RND-024"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-025",
+          "case_id": "HKREG-DET-RND-025"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-026",
+          "case_id": "HKREG-DET-RND-026"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-027",
+          "case_id": "HKREG-DET-RND-027"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-028",
+          "case_id": "HKREG-DET-RND-028"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-029",
+          "case_id": "HKREG-DET-RND-029"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-030",
+          "case_id": "HKREG-DET-RND-030"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-031",
+          "case_id": "HKREG-DET-RND-031"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-032",
+          "case_id": "HKREG-DET-RND-032"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-033",
+          "case_id": "HKREG-DET-RND-033"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-034",
+          "case_id": "HKREG-DET-RND-034"
+        },
+        {
+          "cell_id": "HKREG-COV-DRND-035",
+          "case_id": "HKREG-DET-RND-035"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-001",
+          "case_id": "HKREG-DET-PAR-001"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-002",
+          "case_id": "HKREG-DET-PAR-002"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-003",
+          "case_id": "HKREG-DET-PAR-003"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-004",
+          "case_id": "HKREG-DET-PAR-004"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-005",
+          "case_id": "HKREG-DET-PAR-005"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-006",
+          "case_id": "HKREG-DET-PAR-006"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-007",
+          "case_id": "HKREG-DET-PAR-007"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-008",
+          "case_id": "HKREG-DET-PAR-008"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-009",
+          "case_id": "HKREG-DET-PAR-009"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-010",
+          "case_id": "HKREG-DET-PAR-010"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-011",
+          "case_id": "HKREG-DET-PAR-011"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-012",
+          "case_id": "HKREG-DET-PAR-012"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-013",
+          "case_id": "HKREG-DET-PAR-013"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-014",
+          "case_id": "HKREG-DET-PAR-014"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-015",
+          "case_id": "HKREG-DET-PAR-015"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-016",
+          "case_id": "HKREG-DET-PAR-016"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-017",
+          "case_id": "HKREG-DET-PAR-017"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-018",
+          "case_id": "HKREG-DET-PAR-018"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-019",
+          "case_id": "HKREG-DET-PAR-019"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-020",
+          "case_id": "HKREG-DET-PAR-020"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-021",
+          "case_id": "HKREG-DET-PAR-021"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-022",
+          "case_id": "HKREG-DET-PAR-022"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-023",
+          "case_id": "HKREG-DET-PAR-023"
+        },
+        {
+          "cell_id": "HKREG-COV-DPAR-024",
+          "case_id": "HKREG-DET-PAR-024"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-001",
+          "case_id": "HKREG-DET-COV-001"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-002",
+          "case_id": "HKREG-DET-COV-002"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-003",
+          "case_id": "HKREG-DET-COV-003"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-004",
+          "case_id": "HKREG-DET-COV-004"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-005",
+          "case_id": "HKREG-DET-COV-005"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-006",
+          "case_id": "HKREG-DET-COV-006"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-007",
+          "case_id": "HKREG-DET-COV-007"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-008",
+          "case_id": "HKREG-DET-COV-008"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-009",
+          "case_id": "HKREG-DET-COV-009"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-010",
+          "case_id": "HKREG-DET-COV-010"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-011",
+          "case_id": "HKREG-DET-COV-011"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-012",
+          "case_id": "HKREG-DET-COV-012"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-013",
+          "case_id": "HKREG-DET-COV-013"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-014",
+          "case_id": "HKREG-DET-COV-014"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-015",
+          "case_id": "HKREG-DET-COV-015"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-016",
+          "case_id": "HKREG-DET-COV-016"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-017",
+          "case_id": "HKREG-DET-COV-017"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-018",
+          "case_id": "HKREG-DET-COV-018"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-019",
+          "case_id": "HKREG-DET-COV-019"
+        },
+        {
+          "cell_id": "HKREG-COV-DCOV-020",
+          "case_id": "HKREG-DET-COV-020"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-001",
+          "case_id": "HKREG-DET-IDN-001"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-002",
+          "case_id": "HKREG-DET-IDN-002"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-003",
+          "case_id": "HKREG-DET-IDN-003"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-004",
+          "case_id": "HKREG-DET-IDN-004"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-005",
+          "case_id": "HKREG-DET-IDN-005"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-006",
+          "case_id": "HKREG-DET-IDN-006"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-007",
+          "case_id": "HKREG-DET-IDN-007"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-008",
+          "case_id": "HKREG-DET-IDN-008"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-009",
+          "case_id": "HKREG-DET-IDN-009"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-010",
+          "case_id": "HKREG-DET-IDN-010"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-011",
+          "case_id": "HKREG-DET-IDN-011"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-012",
+          "case_id": "HKREG-DET-IDN-012"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-013",
+          "case_id": "HKREG-DET-IDN-013"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-014",
+          "case_id": "HKREG-DET-IDN-014"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-015",
+          "case_id": "HKREG-DET-IDN-015"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-016",
+          "case_id": "HKREG-DET-IDN-016"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-017",
+          "case_id": "HKREG-DET-IDN-017"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-018",
+          "case_id": "HKREG-DET-IDN-018"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-019",
+          "case_id": "HKREG-DET-IDN-019"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-020",
+          "case_id": "HKREG-DET-IDN-020"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-021",
+          "case_id": "HKREG-DET-IDN-021"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-022",
+          "case_id": "HKREG-DET-IDN-022"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-023",
+          "case_id": "HKREG-DET-IDN-023"
+        },
+        {
+          "cell_id": "HKREG-COV-DIDN-024",
+          "case_id": "HKREG-DET-IDN-024"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-001",
+          "case_id": "HKREG-DET-PKG-001"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-002",
+          "case_id": "HKREG-DET-PKG-002"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-003",
+          "case_id": "HKREG-DET-PKG-003"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-004",
+          "case_id": "HKREG-DET-PKG-004"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-005",
+          "case_id": "HKREG-DET-PKG-005"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-006",
+          "case_id": "HKREG-DET-PKG-006"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-007",
+          "case_id": "HKREG-DET-PKG-007"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-008",
+          "case_id": "HKREG-DET-PKG-008"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-009",
+          "case_id": "HKREG-DET-PKG-009"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-010",
+          "case_id": "HKREG-DET-PKG-010"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-011",
+          "case_id": "HKREG-DET-PKG-011"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-012",
+          "case_id": "HKREG-DET-PKG-012"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-013",
+          "case_id": "HKREG-DET-PKG-013"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-014",
+          "case_id": "HKREG-DET-PKG-014"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-015",
+          "case_id": "HKREG-DET-PKG-015"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-016",
+          "case_id": "HKREG-DET-PKG-016"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-017",
+          "case_id": "HKREG-DET-PKG-017"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-018",
+          "case_id": "HKREG-DET-PKG-018"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-019",
+          "case_id": "HKREG-DET-PKG-019"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-020",
+          "case_id": "HKREG-DET-PKG-020"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-021",
+          "case_id": "HKREG-DET-PKG-021"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-022",
+          "case_id": "HKREG-DET-PKG-022"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-023",
+          "case_id": "HKREG-DET-PKG-023"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-024",
+          "case_id": "HKREG-DET-PKG-024"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-025",
+          "case_id": "HKREG-DET-PKG-025"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-026",
+          "case_id": "HKREG-DET-PKG-026"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-027",
+          "case_id": "HKREG-DET-PKG-027"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-028",
+          "case_id": "HKREG-DET-PKG-028"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-029",
+          "case_id": "HKREG-DET-PKG-029"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-030",
+          "case_id": "HKREG-DET-PKG-030"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-031",
+          "case_id": "HKREG-DET-PKG-031"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-032",
+          "case_id": "HKREG-DET-PKG-032"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-033",
+          "case_id": "HKREG-DET-PKG-033"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-034",
+          "case_id": "HKREG-DET-PKG-034"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-035",
+          "case_id": "HKREG-DET-PKG-035"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-036",
+          "case_id": "HKREG-DET-PKG-036"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-037",
+          "case_id": "HKREG-DET-PKG-037"
+        },
+        {
+          "cell_id": "HKREG-COV-DPKG-038",
+          "case_id": "HKREG-DET-PKG-038"
+        }
+      ],
+      "required_rule_ids": [
+        "HKREG-CONFORMANCE-UNIVERSE-001",
+        "HKREG-PACKAGE-INTEGRITY-001"
+      ],
+      "covered_rule_ids": [
+        "HKREG-CONFORMANCE-UNIVERSE-001",
+        "HKREG-PACKAGE-INTEGRITY-001"
+      ],
+      "required_result_branches": [
+        "PACKAGE_VALID",
+        "CLOSED_SCHEMA_VIOLATION",
+        "ARTIFACT_HASH_MISMATCH",
+        "UNDECLARED_FILE_ACCESS",
+        "REQUIRED_FILE_ABSENT",
+        "PATH_CONTAINMENT_INVALID",
+        "SYMLINK_FORBIDDEN",
+        "REMOTE_RESOURCE_FORBIDDEN",
+        "DYNAMIC_DISCOVERY_FORBIDDEN",
+        "INPUT_AVAILABLE_ADMITTED",
+        "INPUT_AVAILABLE_INVALID",
+        "DELIBERATE_ABSENCE_ADMITTED",
+        "UNREADABLE_CONDITION_ADMITTED",
+        "AVAILABLE_FACT_CONDITION_ADMITTED",
+        "EXACT_ARTIFACT_MATCHED",
+        "EXPECTED_EXACT_INVALID",
+        "ZERO_OUTPUT_PROVED",
+        "ZERO_OUTPUT_PROOF_INVALID",
+        "NOT_APPLICABLE_PROVED",
+        "NOT_APPLICABLE_INVALID",
+        "MATRIX_COMPLETE",
+        "MATRIX_INCOMPLETE",
+        "PAIR_COMPLETE",
+        "PAIR_INCOMPLETE",
+        "PROPOSAL_PACKET_CLEAN",
+        "PROPOSAL_TRUTH_LEAKAGE",
+        "FINGERPRINT_OR_TRUTH_MUTATION",
+        "REPRODUCIBLE",
+        "REPRODUCIBILITY_FAILURE",
+        "HOSTILE_TEXT_INERT",
+        "HOSTILE_INPUT_CONTROL_BREACH",
+        "FORBIDDEN_CAPABILITY_ATTEMPT",
+        "PACKAGE_VALIDITY_ONLY",
+        "BUILD_COMPATIBILITY_ONLY",
+        "AUTHORITY_BROADENING",
+        "ATTESTATION_MISMATCH",
+        "MEDIA_OR_PERMISSION_INVALID"
+      ],
+      "covered_result_branches": [
+        "PACKAGE_VALID",
+        "CLOSED_SCHEMA_VIOLATION",
+        "ARTIFACT_HASH_MISMATCH",
+        "UNDECLARED_FILE_ACCESS",
+        "REQUIRED_FILE_ABSENT",
+        "PATH_CONTAINMENT_INVALID",
+        "SYMLINK_FORBIDDEN",
+        "REMOTE_RESOURCE_FORBIDDEN",
+        "DYNAMIC_DISCOVERY_FORBIDDEN",
+        "INPUT_AVAILABLE_ADMITTED",
+        "INPUT_AVAILABLE_INVALID",
+        "DELIBERATE_ABSENCE_ADMITTED",
+        "UNREADABLE_CONDITION_ADMITTED",
+        "AVAILABLE_FACT_CONDITION_ADMITTED",
+        "EXACT_ARTIFACT_MATCHED",
+        "EXPECTED_EXACT_INVALID",
+        "ZERO_OUTPUT_PROVED",
+        "ZERO_OUTPUT_PROOF_INVALID",
+        "NOT_APPLICABLE_PROVED",
+        "NOT_APPLICABLE_INVALID",
+        "MATRIX_COMPLETE",
+        "MATRIX_INCOMPLETE",
+        "PAIR_COMPLETE",
+        "PAIR_INCOMPLETE",
+        "PROPOSAL_PACKET_CLEAN",
+        "PROPOSAL_TRUTH_LEAKAGE",
+        "FINGERPRINT_OR_TRUTH_MUTATION",
+        "REPRODUCIBLE",
+        "REPRODUCIBILITY_FAILURE",
+        "HOSTILE_TEXT_INERT",
+        "HOSTILE_INPUT_CONTROL_BREACH",
+        "FORBIDDEN_CAPABILITY_ATTEMPT",
+        "PACKAGE_VALIDITY_ONLY",
+        "BUILD_COMPATIBILITY_ONLY",
+        "AUTHORITY_BROADENING",
+        "ATTESTATION_MISMATCH",
+        "MEDIA_OR_PERMISSION_INVALID"
+      ],
+      "required_pair_ids": [
+        "HKREG-PAIR-001",
+        "HKREG-PAIR-002",
+        "HKREG-PAIR-003",
+        "HKREG-PAIR-004",
+        "HKREG-PAIR-005",
+        "HKREG-PAIR-006",
+        "HKREG-PAIR-007",
+        "HKREG-PAIR-008",
+        "HKREG-PAIR-009",
+        "HKREG-PAIR-010",
+        "HKREG-PAIR-011",
+        "HKREG-PAIR-012",
+        "HKREG-PAIR-013",
+        "HKREG-PAIR-014",
+        "HKREG-PAIR-015",
+        "HKREG-PAIR-016",
+        "HKREG-PAIR-017",
+        "HKREG-PAIR-018",
+        "HKREG-PAIR-019",
+        "HKREG-PAIR-020",
+        "HKREG-PAIR-021",
+        "HKREG-PAIR-022",
+        "HKREG-PAIR-023",
+        "HKREG-PAIR-024",
+        "HKREG-PAIR-025",
+        "HKREG-PAIR-026",
+        "HKREG-PAIR-027",
+        "HKREG-PAIR-028",
+        "HKREG-PAIR-029",
+        "HKREG-PAIR-030",
+        "HKREG-PAIR-031",
+        "HKREG-PAIR-032",
+        "HKREG-PAIR-033",
+        "HKREG-PAIR-034",
+        "HKREG-PAIR-035",
+        "HKREG-PAIR-036",
+        "HKREG-PAIR-037",
+        "HKREG-PAIR-038",
+        "HKREG-PAIR-039",
+        "HKREG-PAIR-040",
+        "HKREG-PAIR-041",
+        "HKREG-PAIR-042",
+        "HKREG-PAIR-043",
+        "HKREG-PAIR-044",
+        "HKREG-PAIR-045",
+        "HKREG-PAIR-046",
+        "HKREG-PAIR-047",
+        "HKREG-PAIR-048",
+        "HKREG-PAIR-049",
+        "HKREG-PAIR-050",
+        "HKREG-PAIR-051",
+        "HKREG-PAIR-052",
+        "HKREG-PAIR-053",
+        "HKREG-PAIR-054",
+        "HKREG-PAIR-055",
+        "HKREG-PAIR-056",
+        "HKREG-PAIR-057"
+      ],
+      "pairs": [
+        {
+          "pair_id": "HKREG-PAIR-001",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-SRC-001",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-SRC-002",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-002",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-SRC-003",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-SRC-004",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-003",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-SRC-005",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-SRC-006",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-004",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-SRC-007",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-SRC-008",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-005",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-SRC-009",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-SRC-010",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-006",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-SRC-011",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-SRC-012",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-007",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-SRC-015",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-SRC-016",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-008",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-SRC-018",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-SRC-019",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-009",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-SRC-020",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-SRC-021",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-010",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-SRC-027",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-SRC-031",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-011",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-SRC-028",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-SRC-036",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-012",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-SRC-044",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-SRC-055",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-013",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-SRC-046",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-SRC-052",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-014",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-SRC-056",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-SRC-057",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-015",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-SRC-058",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-SRC-059",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-016",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-STA-011",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-STA-036",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-017",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-STA-019",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-STA-018",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-018",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-STA-019",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-STA-020",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-019",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-STA-027",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-STA-026",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-020",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-STA-027",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-STA-028",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-021",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-STA-004",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-STA-029",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-022",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-STA-038",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-STA-037",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-023",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-STA-040",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-STA-042",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-024",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-STA-006",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-STA-045",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-025",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-BND-002",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-BND-003",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-026",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-BND-005",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-BND-006",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-027",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-BND-008",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-BND-009",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-028",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-BND-011",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-BND-012",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-029",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-BND-018",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-BND-019",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-030",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-BND-021",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-BND-022",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-031",
+          "members": [
+            {
+              "case_id": "HKREG-DEC-BND-027",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DEC-BND-028",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-032",
+          "members": [
+            {
+              "case_id": "HKREG-DET-RND-005",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-RND-006",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-033",
+          "members": [
+            {
+              "case_id": "HKREG-DET-RND-017",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-RND-018",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-034",
+          "members": [
+            {
+              "case_id": "HKREG-DET-RND-020",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-RND-021",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-035",
+          "members": [
+            {
+              "case_id": "HKREG-DET-RND-022",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-RND-023",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-036",
+          "members": [
+            {
+              "case_id": "HKREG-DET-RND-024",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-RND-025",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-037",
+          "members": [
+            {
+              "case_id": "HKREG-DET-RND-029",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-RND-030",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-038",
+          "members": [
+            {
+              "case_id": "HKREG-DET-PAR-001",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-PAR-006",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-039",
+          "members": [
+            {
+              "case_id": "HKREG-DET-PAR-016",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-PAR-017",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-040",
+          "members": [
+            {
+              "case_id": "HKREG-DET-PAR-022",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-PAR-023",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-041",
+          "members": [
+            {
+              "case_id": "HKREG-DET-COV-001",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-COV-008",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-042",
+          "members": [
+            {
+              "case_id": "HKREG-DET-COV-001",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-COV-009",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-043",
+          "members": [
+            {
+              "case_id": "HKREG-DET-COV-007",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-COV-010",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-044",
+          "members": [
+            {
+              "case_id": "HKREG-DET-COV-015",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-COV-016",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-045",
+          "members": [
+            {
+              "case_id": "HKREG-DET-COV-017",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-COV-018",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-046",
+          "members": [
+            {
+              "case_id": "HKREG-DET-IDN-002",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-IDN-004",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-047",
+          "members": [
+            {
+              "case_id": "HKREG-DET-IDN-014",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-IDN-010",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-048",
+          "members": [
+            {
+              "case_id": "HKREG-DET-IDN-011",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-IDN-004",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-049",
+          "members": [
+            {
+              "case_id": "HKREG-DET-IDN-022",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-IDN-023",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-050",
+          "members": [
+            {
+              "case_id": "HKREG-DET-PKG-011",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-PKG-012",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-051",
+          "members": [
+            {
+              "case_id": "HKREG-DET-PKG-013",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-PKG-014",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-052",
+          "members": [
+            {
+              "case_id": "HKREG-DET-PKG-017",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-PKG-018",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-053",
+          "members": [
+            {
+              "case_id": "HKREG-DET-PKG-019",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-PKG-020",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-054",
+          "members": [
+            {
+              "case_id": "HKREG-DET-PKG-025",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-PKG-026",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-055",
+          "members": [
+            {
+              "case_id": "HKREG-DET-PKG-029",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-PKG-030",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-056",
+          "members": [
+            {
+              "case_id": "HKREG-DET-PKG-031",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-PKG-032",
+              "role": "NEAR_MISS"
+            }
+          ]
+        },
+        {
+          "pair_id": "HKREG-PAIR-057",
+          "members": [
+            {
+              "case_id": "HKREG-DET-RND-014",
+              "role": "POSITIVE"
+            },
+            {
+              "case_id": "HKREG-DET-RND-015",
+              "role": "NEAR_MISS"
+            }
+          ]
+        }
+      ]
+    },
+    "proposal_packet_fields": [
+      "evidence_fingerprint",
+      "source_text",
+      "task_contract"
+    ],
+    "fingerprint_scope": "EXCLUDES_SELF",
+    "expected_truth_mutated": false,
+    "run_output_fingerprints": [
+      [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000065",
+        "sha256:0000000000000000000000000000000000000000000000000000000000000066",
+        "sha256:0000000000000000000000000000000000000000000000000000000000000067",
+        "sha256:0000000000000000000000000000000000000000000000000000000000000068",
+        "sha256:0000000000000000000000000000000000000000000000000000000000000069",
+        "sha256:000000000000000000000000000000000000000000000000000000000000006a"
+      ],
+      [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000065",
+        "sha256:0000000000000000000000000000000000000000000000000000000000000066",
+        "sha256:0000000000000000000000000000000000000000000000000000000000000067",
+        "sha256:0000000000000000000000000000000000000000000000000000000000000068",
+        "sha256:0000000000000000000000000000000000000000000000000000000000000069",
+        "sha256:000000000000000000000000000000000000000000000000000000000000006a"
+      ]
+    ],
+    "source_instruction_present": false,
+    "source_instruction_effects": [],
+    "attempted_capabilities": [],
+    "external_state_mutated": false,
+    "authority_claims": [],
+    "attestation": {
+      "complete": true,
+      "compatibility_only": true,
+      "current_bindings": [
+        {
+          "name": "architecture-tests",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "name": "dependency-lock",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "name": "processing-build",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "name": "reproducibility-report",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000004"
+        },
+        {
+          "name": "result-set",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000005"
+        },
+        {
+          "name": "rulebook",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000006"
+        },
+        {
+          "name": "runner",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        },
+        {
+          "name": "suite",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000008"
+        }
+      ],
+      "attested_bindings": [
+        {
+          "name": "architecture-tests",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "name": "dependency-lock",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "name": "processing-build",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "name": "reproducibility-report",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000004"
+        },
+        {
+          "name": "result-set",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000005"
+        },
+        {
+          "name": "rulebook",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000006"
+        },
+        {
+          "name": "runner",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        },
+        {
+          "name": "suite",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000008"
+        }
+      ]
+    }
+  },
+  "case_fingerprint": "sha256:029a9640d6f5ca41ad0b3f6fb26098e3075fbeee301407ea6a037beba9122008"
+}

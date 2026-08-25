@@ -1,0 +1,48 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:f97ec440fea13f2bc759572500ff0a5b1254b01797ffaeec09ce3ee96c0c3ba2",
+  "workflow_result_fingerprint": "sha256:240518509de6bae60c8829e1357123c3006404833b752a0a0d85524dc1e5450c",
+  "court_family": "CFI",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_14",
+  "auxiliary_translation_version_ids": [],
+  "examined_segment_ids": [
+    "segment_1"
+  ],
+  "resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "QUARANTINED",
+      "issue_code": "OVERLIMIT_INDIVISIBLE_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_14",
+      "meaning_codes": [
+        "INDIVISIBLE_CUMULATIVE_RULE"
+      ],
+      "risk_codes": [
+        "COVERAGE_GAP_CREATED",
+        "INDIVISIBLE_OVER_LIMIT"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": null
+    }
+  ],
+  "disposition": "ACCOUNTED_WITH_QUARANTINE",
+  "selected_candidate_ids": [],
+  "coverage_gap_ids": [
+    "coverage_gap_indivisible_over_limit"
+  ],
+  "translation_use": "NONE",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

@@ -1,0 +1,311 @@
+{
+  "schema_id": "asklegal.hk-regulatory.coverage-decision-catalogue",
+  "schema_version": "1.0.0",
+  "catalogue_id": "hk-regulatory-coverage-decision",
+  "catalogue_version": "1.0.0",
+  "status": "FROZEN_EXECUTABLE_CHECKPOINT",
+  "case_count": 20,
+  "primary_coverage_cell_count": 20,
+  "high_risk_pair_ids": [
+    "HKREG-PAIR-041",
+    "HKREG-PAIR-042",
+    "HKREG-PAIR-043",
+    "HKREG-PAIR-044",
+    "HKREG-PAIR-045"
+  ],
+  "entries": [
+    {
+      "case_id": "HKREG-DET-COV-001",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-001",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-041",
+          "role": "POSITIVE"
+        },
+        {
+          "pair_id": "HKREG-PAIR-042",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "PRIMARY_OWNERSHIP",
+      "expected_outcome": "PASS",
+      "expected_reason": "COMPLETE_PRIMARY_OWNERSHIP",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-001.json",
+      "fixture_fingerprint": "sha256:6f0606537447a9edd04e2bf4939d39c5c07b77caffac2676f6caa5c9100a17d5",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-001.json",
+      "expected_fingerprint": "sha256:7f7f93bee42cc575343b564a675745ce862f989bad21de419c173820d915f258"
+    },
+    {
+      "case_id": "HKREG-DET-COV-002",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-002",
+      "pair_memberships": [],
+      "assertion_scope": "BLOCKED_REQUIRED",
+      "expected_outcome": "COMPLETE_NOT_READY",
+      "expected_reason": "REQUIRED_UNIT_EXPLICITLY_BLOCKED",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-002.json",
+      "fixture_fingerprint": "sha256:5a2e1ff15e3b7eab66e475157719386fccca2c0675157b69d916042b6dcf5938",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-002.json",
+      "expected_fingerprint": "sha256:7fdf6ed603621ffc9ec0f5027f3bb72240bea74b206b177c3f2c010665fbd21f"
+    },
+    {
+      "case_id": "HKREG-DET-COV-003",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-003",
+      "pair_memberships": [],
+      "assertion_scope": "REPEATED_DEPENDENCY",
+      "expected_outcome": "PASS",
+      "expected_reason": "DEPENDENCY_REPETITION_ACCOUNTED",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-003.json",
+      "fixture_fingerprint": "sha256:c1f6e9d903ad8f5ec691f348aa49325a8ee64463d039adce9ff7f60040e2b656",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-003.json",
+      "expected_fingerprint": "sha256:e28bc2508f18114f35f92c781b26977b2ba5fd7f028d448d8068829e92796e51"
+    },
+    {
+      "case_id": "HKREG-DET-COV-004",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-004",
+      "pair_memberships": [],
+      "assertion_scope": "EXPLICIT_CLASSIFICATION",
+      "expected_outcome": "PASS",
+      "expected_reason": "CLASSIFICATIONS_ACCOUNTED",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-004.json",
+      "fixture_fingerprint": "sha256:e3822294ba155cf1c1cbc235538b4302fa1bfc2e25a577cb3a74da667114cf03",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-004.json",
+      "expected_fingerprint": "sha256:3b000fa78bff966166b79a70d7b216803b90e7b5a205c63d3c04bd87db99a125"
+    },
+    {
+      "case_id": "HKREG-DET-COV-005",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-005",
+      "pair_memberships": [],
+      "assertion_scope": "COMPLEX_ELEMENTS",
+      "expected_outcome": "PASS",
+      "expected_reason": "COMPLEX_ELEMENTS_ACCOUNTED",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-005.json",
+      "fixture_fingerprint": "sha256:f3d53f82de1b9b3f2c6d282e9742b6171d61086fb059fe346b66109fbec89028",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-005.json",
+      "expected_fingerprint": "sha256:206698619cff95cb242b167d5340413eeb73bf99dc7238907483d5466d845aa2"
+    },
+    {
+      "case_id": "HKREG-DET-COV-006",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-006",
+      "pair_memberships": [],
+      "assertion_scope": "NONCURRENT_OUTCOMES",
+      "expected_outcome": "PASS",
+      "expected_reason": "NONCURRENT_OUTCOMES_ACCOUNTED",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-006.json",
+      "fixture_fingerprint": "sha256:adeb124d89bacd39e8f0c2b7e37f82e5487b6186db7cb3f12f0a1dfca1007c0f",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-006.json",
+      "expected_fingerprint": "sha256:232bdf3f3d931bc0ad592da307a3c8198f0ea2b552aacb9c1d44fb54d3d67628"
+    },
+    {
+      "case_id": "HKREG-DET-COV-007",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-007",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-043",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "ORDER_AND_BOARD",
+      "expected_outcome": "PASS",
+      "expected_reason": "ORDER_AND_BOARD_PROVED",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-007.json",
+      "fixture_fingerprint": "sha256:6757a4a20aec787b767d8b4f561d6a37a82eba1367dd0481e0ddeb96b8fd2ff5",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-007.json",
+      "expected_fingerprint": "sha256:1922b02d6be7a3ec3411dc9b6dbc1fa660fb8ae8c3f2a1403d136bd803f548c8"
+    },
+    {
+      "case_id": "HKREG-DET-COV-008",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-008",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-041",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "MISSING_UNIT",
+      "expected_outcome": "INVALID",
+      "expected_reason": "MISSING_SOURCE_UNIT",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-008.json",
+      "fixture_fingerprint": "sha256:41acad8ccd28d6ab7ba459eb67f65b42c0e97d7fb5b011734899e61fd25c8dc3",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-008.json",
+      "expected_fingerprint": "sha256:d3626f920c007866a9b5a43622b4f18829c80bd9af34f5619c441a498d8693a9"
+    },
+    {
+      "case_id": "HKREG-DET-COV-009",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-009",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-042",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "DUPLICATE_PRIMARY",
+      "expected_outcome": "INVALID",
+      "expected_reason": "DUPLICATE_PRIMARY_OWNER",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-009.json",
+      "fixture_fingerprint": "sha256:bfafa1f36db1782365c7066ecc13a1b81739b8cb5f8fae86e0ca8f7ba9a456f0",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-009.json",
+      "expected_fingerprint": "sha256:db4ff1971e00116c8536a0386348bc76fe4414d9dbe79f904d41a19b1eedcdc7"
+    },
+    {
+      "case_id": "HKREG-DET-COV-010",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-010",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-043",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "REORDERED_PRIMARY",
+      "expected_outcome": "INVALID",
+      "expected_reason": "SOURCE_ORDER_CHANGED",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-010.json",
+      "fixture_fingerprint": "sha256:2bb3e521d6738bb5358f2313898d74709f9e842df630e3d7a574bf712423685b",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-010.json",
+      "expected_fingerprint": "sha256:c9c0797f2f2b19743eb8aa17c6b585ecb62c2804c0a4ed0bb4aa4ad62f924ecb"
+    },
+    {
+      "case_id": "HKREG-DET-COV-011",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-011",
+      "pair_memberships": [],
+      "assertion_scope": "ORPHAN_OUTPUT",
+      "expected_outcome": "INVALID",
+      "expected_reason": "ORPHANED_OUTPUT",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-011.json",
+      "fixture_fingerprint": "sha256:1d581334c1e9e8aa4f3adb4e673a5c733920209d02cb433352660190efc529ae",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-011.json",
+      "expected_fingerprint": "sha256:3e97c664884a75ee261502cdf1a7f9afb0041afc4756ff00899940d07de99885"
+    },
+    {
+      "case_id": "HKREG-DET-COV-012",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-012",
+      "pair_memberships": [],
+      "assertion_scope": "WRONG_BOARD",
+      "expected_outcome": "INVALID",
+      "expected_reason": "WRONG_BOARD_OWNER",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-012.json",
+      "fixture_fingerprint": "sha256:12786b8dbed448882344bbcc510b17c44c2400e2214df1732dd5e112aed3b712",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-012.json",
+      "expected_fingerprint": "sha256:fb314a9a0e604a85bfd65040cd0cb948c6b9657aefd947e58b1cea905300a33f"
+    },
+    {
+      "case_id": "HKREG-DET-COV-013",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-013",
+      "pair_memberships": [],
+      "assertion_scope": "DEPENDENCY_BINDING",
+      "expected_outcome": "INVALID",
+      "expected_reason": "DEPENDENCY_BINDING_INCOMPLETE",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-013.json",
+      "fixture_fingerprint": "sha256:6112b9ff7fdf6f949bdf46997b3e3c20b41da504550ce4c39516a852cb70eac5",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-013.json",
+      "expected_fingerprint": "sha256:fa05dd2d93cab76421d88992a0aff8209b86073d106c0b35adc9a3b297df6004"
+    },
+    {
+      "case_id": "HKREG-DET-COV-014",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-014",
+      "pair_memberships": [],
+      "assertion_scope": "SOURCE_FIDELITY",
+      "expected_outcome": "INVALID",
+      "expected_reason": "SOURCE_FIDELITY_CHANGED",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-014.json",
+      "fixture_fingerprint": "sha256:aedcffe66d45aef0be9b6be3d154c0021618839b2ec96aad1d88a4f3bb9fc406",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-014.json",
+      "expected_fingerprint": "sha256:513cba90bd3e060f2a71c00ff2eb96a3add9b39dce57dc11bcb9119236eecff7"
+    },
+    {
+      "case_id": "HKREG-DET-COV-015",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-015",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-044",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "BOARD_READY",
+      "expected_outcome": "PASS",
+      "expected_reason": "BOARD_READY_FOR_LATER_GATES",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-015.json",
+      "fixture_fingerprint": "sha256:8d81637d72bb452779517996acdba484ad081334343dad6cc7ddda7c3b311970",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-015.json",
+      "expected_fingerprint": "sha256:54a5a82461ebe5460a2a0178cd8e80cf1ff6e7103bc44001c20c7f66d11e5b91"
+    },
+    {
+      "case_id": "HKREG-DET-COV-016",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-016",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-044",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "QUARANTINED_CURRENT",
+      "expected_outcome": "COMPLETE_NOT_READY",
+      "expected_reason": "COMPLETE_BUT_BOARD_NOT_READY",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-016.json",
+      "fixture_fingerprint": "sha256:caa21197d44b9292eb3ae513f4ca1e12b70bdb8fb1101e09ce455d3373a9517f",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-016.json",
+      "expected_fingerprint": "sha256:669903fe0aaf0f1e90294984c72976b2454ef9f12230f8094c686ad8b6085f63"
+    },
+    {
+      "case_id": "HKREG-DET-COV-017",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-017",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-045",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "BOARD_ISOLATION",
+      "expected_outcome": "PASS",
+      "expected_reason": "BOARDS_INDEPENDENT",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-017.json",
+      "fixture_fingerprint": "sha256:a8bd9a1e1832dff7a7266706dd204ff50b7949ab1e810dbe3af87218d02c749a",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-017.json",
+      "expected_fingerprint": "sha256:f9d93084a3faad22ecf524d4cd666bd59973c13c57a31ae60a9bc7f92aab8854"
+    },
+    {
+      "case_id": "HKREG-DET-COV-018",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-018",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-045",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "SHARED_GAP",
+      "expected_outcome": "COMPLETE_NOT_READY",
+      "expected_reason": "SHARED_GAP_BLOCKS_BOTH",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-018.json",
+      "fixture_fingerprint": "sha256:daaaabd16b34fa53312d609b5964c6d6c44082aa17a81c44265b6737a3399481",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-018.json",
+      "expected_fingerprint": "sha256:723f36c2abfeb4372240f9c1ca5a6d108312bdba7f8afbb93895a75e230fdee2"
+    },
+    {
+      "case_id": "HKREG-DET-COV-019",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-019",
+      "pair_memberships": [],
+      "assertion_scope": "WEAK_PROXY",
+      "expected_outcome": "INVALID",
+      "expected_reason": "WEAK_PROXY_REJECTED",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-019.json",
+      "fixture_fingerprint": "sha256:ddb68f193ee2f94d5eb9d3bc280706260d517aaf1885ce2b1b6415909de3bf59",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-019.json",
+      "expected_fingerprint": "sha256:e61b801c389b4012acdea922bee6b32d67aeb21658dfe19a2f4486ee311aba9c"
+    },
+    {
+      "case_id": "HKREG-DET-COV-020",
+      "primary_coverage_cell_id": "HKREG-COV-DCOV-020",
+      "pair_memberships": [],
+      "assertion_scope": "ZERO_OUTPUT",
+      "expected_outcome": "PASS",
+      "expected_reason": "VALID_ZERO_OUTPUT",
+      "fixture_path": "fixtures/conformance/coverage-decision/HKREG-DET-COV-020.json",
+      "fixture_fingerprint": "sha256:1b2cb0e9e005a0785da18e6d8565837eb3a5b19ce9405b18786de83a54f23934",
+      "expected_path": "expected/conformance/coverage-decision/HKREG-DET-COV-020.json",
+      "expected_fingerprint": "sha256:7bab21af9df799d513b6ffa197f93dee5f808c1de4afefc7a793224d5025f7b1"
+    }
+  ],
+  "checkpoint_complete": true,
+  "full_conformance_suite_complete": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

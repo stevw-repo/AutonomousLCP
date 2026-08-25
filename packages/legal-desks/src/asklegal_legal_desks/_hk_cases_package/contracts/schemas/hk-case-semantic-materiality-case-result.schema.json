@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hk-case-semantic-materiality-case-result.schema.json",
+  "title": "Hong Kong Case frozen semantic materiality expected result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "fixture_id",
+    "result",
+    "provider_calls_authorized",
+    "workflow_admissions_created",
+    "search_records_created",
+    "release_eligible",
+    "external_effects"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-cases.semantic-materiality-case-result"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "fixture_id": {
+      "pattern": "^HKCASE-PROP-SEM-MAT-[0-9]{3}$"
+    },
+    "result": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://ask.legal/schemas/hk-case-semantic-materiality-result.schema.json",
+      "title": "Hong Kong Case semantic materiality evaluator result",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "request_fingerprint",
+        "reference_map_fingerprint",
+        "outcome",
+        "reasons",
+        "required_proposition_count",
+        "observed_proposition_count",
+        "matched_proposition_count",
+        "missing_reference_proposition_ids",
+        "unsupported_candidate_ids",
+        "complete_unit_count",
+        "provider_calls_authorized",
+        "workflow_admission_created",
+        "search_records_created",
+        "release_eligible",
+        "external_effects"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-cases.semantic-materiality-evaluation-result"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKCASE-PROP-SEM-MATERIALITY-EVALUATOR-001"
+        },
+        "request_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "reference_map_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "outcome": {
+          "enum": [
+            "EVALUATOR_BLOCKED",
+            "FAIL",
+            "PASS"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "AUTHORITY_ROLE_MISMATCH",
+              "COVERAGE_INCOMPLETE",
+              "DOWNSTREAM_SELECTION_MISMATCH",
+              "EVIDENCE_INCOMPLETE",
+              "EVALUATION_LEAKAGE",
+              "FALSE_ZERO",
+              "HANDOFF_MISMATCH",
+              "MEANING_MISMATCH",
+              "OBSERVATION_BINDING_INVALID",
+              "PASS",
+              "REFERENCE_BLOCKED",
+              "REFERENCE_INVALID",
+              "REQUIRED_PROPOSITION_MISSING",
+              "UNSUPPORTED_PROPOSITION"
+            ]
+          }
+        },
+        "required_proposition_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "observed_proposition_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matched_proposition_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "missing_reference_proposition_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "unsupported_candidate_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "complete_unit_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "provider_calls_authorized": {
+          "const": 0
+        },
+        "workflow_admission_created": {
+          "const": false
+        },
+        "search_records_created": {
+          "const": 0
+        },
+        "release_eligible": {
+          "const": false
+        },
+        "external_effects": {
+          "const": "NONE"
+        }
+      }
+    },
+    "provider_calls_authorized": {
+      "const": 0
+    },
+    "workflow_admissions_created": {
+      "const": 0
+    },
+    "search_records_created": {
+      "const": 0
+    },
+    "release_eligible": {
+      "const": false
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

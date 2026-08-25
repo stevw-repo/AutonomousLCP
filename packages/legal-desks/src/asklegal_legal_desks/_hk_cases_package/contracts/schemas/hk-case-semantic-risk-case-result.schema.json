@@ -1,0 +1,150 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "fixture_id",
+    "result"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-cases.semantic-risk-case-result"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "fixture_id": {
+      "type": "string",
+      "pattern": "^HKCASE-PROP-SEM-RSK-[0-9]{3}$"
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "request_fingerprint",
+        "reference_map_fingerprint",
+        "outcome",
+        "reasons",
+        "expected_candidate_count",
+        "observed_candidate_count",
+        "matched_candidate_count",
+        "accepted_candidate_count",
+        "quarantined_candidate_count",
+        "examined_segment_count",
+        "resolved_dependency_count",
+        "provider_calls_authorized",
+        "workflow_admission_created",
+        "search_records_created",
+        "release_eligible",
+        "external_effects"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-cases.semantic-risk-evaluation-result"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKCASE-PROP-SEM-RISK-EVALUATOR-001"
+        },
+        "request_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "reference_map_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "outcome": {
+          "enum": [
+            "EVALUATOR_BLOCKED",
+            "FAIL",
+            "PASS"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "CANDIDATE_INVENTORY_MISMATCH",
+              "CORRECTION_MISMATCH",
+              "COURT_FAMILY_MISMATCH",
+              "COVERAGE_GAP_MISMATCH",
+              "DEPENDENCY_MISMATCH",
+              "DISPOSITION_MISMATCH",
+              "EVALUATION_LEAKAGE",
+              "EVIDENCE_MISMATCH",
+              "LANGUAGE_MISMATCH",
+              "LEDGER_INCOMPLETE",
+              "MEANING_MISMATCH",
+              "OBSERVATION_BINDING_INVALID",
+              "ORIGINAL_AUTHORITY_MISMATCH",
+              "PARSER_SUPPORT_MISMATCH",
+              "PASS",
+              "REFERENCE_BLOCKED",
+              "REFERENCE_INVALID",
+              "RESOLUTION_MISMATCH",
+              "RISK_CONSEQUENCE_MISMATCH",
+              "SEGMENT_ACCOUNTING_MISMATCH",
+              "SELECTION_MISMATCH",
+              "STATEMENT_STATE_MISMATCH",
+              "TRANSLATION_USE_MISMATCH"
+            ]
+          }
+        },
+        "expected_candidate_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "observed_candidate_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matched_candidate_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "accepted_candidate_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "quarantined_candidate_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "examined_segment_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "resolved_dependency_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "provider_calls_authorized": {
+          "const": 0
+        },
+        "workflow_admission_created": {
+          "const": false
+        },
+        "search_records_created": {
+          "const": 0
+        },
+        "release_eligible": {
+          "const": false
+        },
+        "external_effects": {
+          "const": "NONE"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://ask.legal/schemas/hk-case-semantic-risk-result.schema.json"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hk-case-semantic-risk-case-result.schema.json"
+}

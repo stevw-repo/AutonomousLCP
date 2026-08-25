@@ -1,0 +1,3384 @@
+{
+  "schema_id": "asklegal.executable-source-rulebook-package",
+  "schema_version": "1.0.0",
+  "package_id": "rbp_4d1edecf99644933bf4f603c31b9b22f2d1f6b1e9fb47b92",
+  "package_version": "0.11.0",
+  "package_fingerprint": "sha256:545b9bb4ebb9dbfba16dc7bd3d54e1b83e698991331d4ffe30fe2c3ab82f77d9",
+  "jurisdiction": "HK",
+  "environment": "PRODUCTION",
+  "material_family": "CASES",
+  "legal_desk_owner": "UNASSIGNED_HONG_KONG_CASES_LEGAL_DESK",
+  "effective_cutoff": "2026-08-24T00:00:00Z",
+  "predecessor": null,
+  "contract_locks": [
+    "sha256:92b5193ca9fa45d2260ee2012cd350818136f4d12b1d93e763a67b827d15c455",
+    "sha256:c1c22ab94bb7ebdc95b6597c74856c430572a3887900deb1d57645fa186c33e4"
+  ],
+  "code_locks": [
+    "asklegal-legal-desks==0.1.0",
+    "asklegal-processing==0.1.0"
+  ],
+  "source_universe_fingerprint": "sha256:78c6e29c403e7e79725380e80b5e788084a472d0ba40b0773d424e61dafb0eaf",
+  "scope_readiness": [],
+  "unresolved_policy_codes": [
+    "HKCASE_BASELINE_UNBUILT",
+    "HKCASE_CONCRETE_SCOPE_BOUNDARIES_UNADMITTED",
+    "HKCASE_EVALUATIONS_UNADMITTED",
+    "HKCASE_OFFICIAL_CONNECTORS_UNADMITTED",
+    "HKCASE_ORIGINATING_FORMATS_UNADMITTED",
+    "HKCASE_PROPOSITION_WORKFLOW_UNADMITTED",
+    "HKCASE_TREATMENT_WORKFLOW_UNADMITTED"
+  ],
+  "impact_declaration": "SOURCE_AND_SCOPE_FAMILY_FOUNDATION_WITH_LISTING_ACCOUNTING_AND_COMPLETE_FIFTY_FOUR_CASE_SOURCE_NEUTRAL_DETERMINISTIC_CONFORMANCE_INCLUDING_CORRECTION_PACKAGE_SECURITY_AND_WORKFLOW_IDENTITY_PLUS_STRICT_EIGHT_KIND_ADR0066_SEMANTIC_TASK_PREFLIGHT_WITHOUT_PROVIDER_AND_ALL_EIGHTEEN_FROZEN_SEMANTIC_MATERIALITY_REFERENCE_EVALUATIONS_AND_ALL_EIGHTEEN_FROZEN_SEMANTIC_CONTENT_EVIDENCE_EVALUATIONS_AND_ALL_TWENTY_TWO_FROZEN_SEMANTIC_BOUNDARY_OPINION_EVALUATIONS_AND_ALL_TWENTY_FROZEN_SEMANTIC_RISK_SAFETY_EVALUATIONS_PLUS_ALL_THIRTEEN_FROZEN_SOURCE_NEUTRAL_WHOLE_JUDGMENT_TREATMENT_DISCOVERY_EVALUATIONS_WITH_COMPLETE_LEDGER_CORRECTION_LANGUAGE_OPINION_AND_SILENT_TRUNCATION_BOUNDARIES_ZERO_CONCRETE_SCOPES_NO_ACTIVATION_NO_REAL_SOURCE_OR_COVERAGE_CLAIM",
+  "minimum_engine_version": "1.0.0",
+  "files": [
+    {
+      "byte_size": 125,
+      "fingerprint": "sha256:f98b96757fd1432eed94f6b446dc8bb87915d30215f8fb11ca242d41c1cdb0cd",
+      "path": "attestations/NOT_READY.md",
+      "role": "ATTESTATION"
+    },
+    {
+      "byte_size": 10961,
+      "fingerprint": "sha256:fae6011e587bb57f550cc76c2c3fccc96c2d2b4116332ce48467dd42b5b4ddb6",
+      "path": "catalogues/admission-cases.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 11326,
+      "fingerprint": "sha256:ceeef597da327c630decaff73d13169a3850c55084f8181a928aedd77ceece10",
+      "path": "catalogues/coverage-ledger-cases.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 9403,
+      "fingerprint": "sha256:731a39dac3b189c0c7388b992839c27a9697d9c972767d21183a870b2d6608f5",
+      "path": "catalogues/output-cases.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 1790,
+      "fingerprint": "sha256:837509ec86d0c2d91709b61c940613d303bfbc5ffefc20d0a9bd7474a05fbb54",
+      "path": "catalogues/readiness-blockers.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 24121,
+      "fingerprint": "sha256:7e888a30dbced6afceda8de4390aa577f3f595fc384afc7ff0e1e06578315b71",
+      "path": "catalogues/semantic-boundary-cases.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 19075,
+      "fingerprint": "sha256:3aac7f05c4a44ea490afee3868bb7351b786b96d5d340b2927c957d0fe9987d7",
+      "path": "catalogues/semantic-content-cases.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 20368,
+      "fingerprint": "sha256:a05ec5d577c65e65acb36824271d424ce50942510b590e4b3c7dbc5c7bc2af5c",
+      "path": "catalogues/semantic-materiality-cases.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 21027,
+      "fingerprint": "sha256:bcc9ee57d397ed1e62c6fd49721d8fd8898d044d5eb4c00447a8f5682b48337f",
+      "path": "catalogues/semantic-risk-cases.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 4449,
+      "fingerprint": "sha256:22021f6045debe40e889e89ac623b12a8074a2a9ad83e0011cf10757a1cad9c2",
+      "path": "catalogues/semantic-task-preflight-cases.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 14158,
+      "fingerprint": "sha256:6f3a0cc448e44a98fe2f0251ee39346f25b2b8a3b39f9c1e3a5d6f34a86b2793",
+      "path": "catalogues/treatment-discovery-cases.json",
+      "role": "CATALOGUE"
+    },
+    {
+      "byte_size": 4916,
+      "fingerprint": "sha256:c686b84b481dc5efa8ba627977e1da2dcdf1c444afb919522a51c24284482284",
+      "path": "contracts/readiness-contract.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 10027,
+      "fingerprint": "sha256:fda3488dd198b4eb193d0c7f87fff930746af201e10a1e7322c7dd186fef82fe",
+      "path": "contracts/schemas/hk-case-admission-case-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 34029,
+      "fingerprint": "sha256:268050df5c7f13389ce9b73be4190b308a344081dc283126f7b8e59d21a5592c",
+      "path": "contracts/schemas/hk-case-admission-case.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 24178,
+      "fingerprint": "sha256:40bc307aeb19b1771e8b5ba0cdf9387300f886782b3cd212c2b306363ac3ed5a",
+      "path": "contracts/schemas/hk-case-admission-request.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 5975,
+      "fingerprint": "sha256:9dd79fbf2abab13af79e4100f307ad3f58dde8a44ace3c5958b3fe9d2451776f",
+      "path": "contracts/schemas/hk-case-admission-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 5796,
+      "fingerprint": "sha256:844d81d8c1f61f119ec16c4d7d8a21304518527bf00c99c94818eddda8432358",
+      "path": "contracts/schemas/hk-case-coverage-ledger-case-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 13765,
+      "fingerprint": "sha256:d9290e8870201aea99941912c130ce35a3b9a44306ee78071356c601b5bf2723",
+      "path": "contracts/schemas/hk-case-coverage-ledger-case.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 8489,
+      "fingerprint": "sha256:60f75bb636c92d6841bc76a6eb241b1cb98401c28c31c7be73e3563736bf807a",
+      "path": "contracts/schemas/hk-case-coverage-ledger-request.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 3213,
+      "fingerprint": "sha256:21fcb1733657b0d0c75370fe4cc7425319651523904b5a34685513adf7c1937f",
+      "path": "contracts/schemas/hk-case-coverage-ledger-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 7105,
+      "fingerprint": "sha256:a6a19f33acdf0a9db3021c6f0b20c5ce18759a073ecef2e1e8fe4747dfc17487",
+      "path": "contracts/schemas/hk-case-output-case-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 16929,
+      "fingerprint": "sha256:32405ab3f845f4da3cd647d2e91b8f630ddea5bdbfb21171d2e570769649447d",
+      "path": "contracts/schemas/hk-case-output-case.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 10710,
+      "fingerprint": "sha256:84f9e48a6ffc45a85185e8360bbd20c94120af44b9ba820f0a9f6625075e9562",
+      "path": "contracts/schemas/hk-case-output-request.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 4110,
+      "fingerprint": "sha256:8402e8717b6e9eb15974b03b938299b8cdb0606ccb51195216e1489280030567",
+      "path": "contracts/schemas/hk-case-output-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 4487,
+      "fingerprint": "sha256:f5a3471aa6998faa217d43761a2c0f84372953bf8c92c9e1ac78493fd87c77f7",
+      "path": "contracts/schemas/hk-case-semantic-boundary-case-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 6531,
+      "fingerprint": "sha256:e7e236932e0a5ac9a51e09898723b0616dff4b2a67d1ad5ae23a130dac0207fb",
+      "path": "contracts/schemas/hk-case-semantic-boundary-case.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 14693,
+      "fingerprint": "sha256:5acd2584a287c0a7375c6ba9884f3c2b6be37aa06a1e0cab34c84471f039a47f",
+      "path": "contracts/schemas/hk-case-semantic-boundary-evaluation-request.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 4241,
+      "fingerprint": "sha256:b0a860994c66131c6eb19edf8325f42f33c957bbd3075575fd971ffd06f6d656",
+      "path": "contracts/schemas/hk-case-semantic-boundary-model-input.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 2943,
+      "fingerprint": "sha256:b33271ba70ab55920b2a475d3e34231ac44e51ab4f98ddd30b6cd44aa90e160d",
+      "path": "contracts/schemas/hk-case-semantic-boundary-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 4281,
+      "fingerprint": "sha256:9ed8f622c2dc4c8a40c2edb78a4744ffc38c99506d7c315eae3a0c369a4a5196",
+      "path": "contracts/schemas/hk-case-semantic-content-case-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 7216,
+      "fingerprint": "sha256:1054b83ce2a74b2cce22759aced72ec7a04a3c3802474517186cb331a9040268",
+      "path": "contracts/schemas/hk-case-semantic-content-case.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 13050,
+      "fingerprint": "sha256:301f21971e195c8ced931d884d0b399e922cd2c50ca96a9e6679354b38234ab1",
+      "path": "contracts/schemas/hk-case-semantic-content-evaluation-request.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 4821,
+      "fingerprint": "sha256:859b8cd2ee6e4757b0a8b4ca620c8e763932f2e61977b453f549b421722efa16",
+      "path": "contracts/schemas/hk-case-semantic-content-model-input.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 2768,
+      "fingerprint": "sha256:a2cdaf294e1c29cd0e4b2e8f502c2ee5a422a1d3a4c221293c1235daaed45ba9",
+      "path": "contracts/schemas/hk-case-semantic-content-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 4435,
+      "fingerprint": "sha256:cc0d72302293f7a9f6927330d94bc8a719083d3bcdbdd26db2c2344ae3222d85",
+      "path": "contracts/schemas/hk-case-semantic-materiality-case-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 5924,
+      "fingerprint": "sha256:42e25f9432aced4f37fd05fa500bab62b57fe0dc18503f2bc272107ac17e02a7",
+      "path": "contracts/schemas/hk-case-semantic-materiality-case.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 9232,
+      "fingerprint": "sha256:aeacb8c80d4a04f5cc915c3b650a60273e4bd3c2aa62c069261184c61f734831",
+      "path": "contracts/schemas/hk-case-semantic-materiality-evaluation-request.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 3705,
+      "fingerprint": "sha256:c6a1d9d3a0ad2ce0d0a5d58e412b8e12398d928c2547e2f98a150df979687f23",
+      "path": "contracts/schemas/hk-case-semantic-materiality-model-input.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 2894,
+      "fingerprint": "sha256:46848ad848e85627f0bffa0490abc5e2070dcb9df5790462ebc93a7a5297f193",
+      "path": "contracts/schemas/hk-case-semantic-materiality-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 4132,
+      "fingerprint": "sha256:d6aad03982bc254550e0c8922825997063ec7cea5f901d8e3de36bc4251391c9",
+      "path": "contracts/schemas/hk-case-semantic-risk-case-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 5938,
+      "fingerprint": "sha256:69beee2e10c0f71f6536512e31da84a1c3777a80ceeb5a83562446698670ea21",
+      "path": "contracts/schemas/hk-case-semantic-risk-case.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 12844,
+      "fingerprint": "sha256:8073730bc50308dab88e6e75c46b48fb360016eb306e4872eda0cbe597480e1f",
+      "path": "contracts/schemas/hk-case-semantic-risk-evaluation-request.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 3693,
+      "fingerprint": "sha256:4dc1b3f017178cedd986482e6a9c6ed5595cd78cf84ac35851ee2d42a6c7afb0",
+      "path": "contracts/schemas/hk-case-semantic-risk-model-input.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 3061,
+      "fingerprint": "sha256:e912714c6256426f5b2eff2a5f9cfcf1f73b2b974a0f6f4eb2074d7670becbda",
+      "path": "contracts/schemas/hk-case-semantic-risk-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 4194,
+      "fingerprint": "sha256:eddd95535dbd3ac6697fa2fea4c3e2ac0864371a80b26beaaba2ce6e96ee9ad0",
+      "path": "contracts/schemas/hk-case-semantic-task-case-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 11725,
+      "fingerprint": "sha256:7ee6d2ad5c219a4ad8491837a44a765b8260676a3f853c6598806bf817bb5580",
+      "path": "contracts/schemas/hk-case-semantic-task-case.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 9129,
+      "fingerprint": "sha256:5b26251ed3742d24779d99eb60aa99c654f56e1f031cee4fbaa622b373ba0b6b",
+      "path": "contracts/schemas/hk-case-semantic-task-request.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 2679,
+      "fingerprint": "sha256:a3c2613b47378b9fcc8835231572022dbf57d1eacabeecec9938a902f4a33296",
+      "path": "contracts/schemas/hk-case-semantic-task-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 3477,
+      "fingerprint": "sha256:c5064a165478a1f9eff756b0c34f851dd613803dfca5536c995a353d21e26fdb",
+      "path": "contracts/schemas/hk-case-treatment-discovery-case-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 5862,
+      "fingerprint": "sha256:42dd451ad97eb160bd089dae33ae8388296cc066256620705a7aa007bcdef8b5",
+      "path": "contracts/schemas/hk-case-treatment-discovery-case.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 13630,
+      "fingerprint": "sha256:de2e7af65f7c48a9fd1732cdf28be5a8f3ce50a513d9daacd1ff6d4213700cc2",
+      "path": "contracts/schemas/hk-case-treatment-discovery-evaluation-request.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 3665,
+      "fingerprint": "sha256:6b83a4339d026bd6a877113525e691c19c512c485546592c92e202ec8f89db1b",
+      "path": "contracts/schemas/hk-case-treatment-discovery-model-input.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 2453,
+      "fingerprint": "sha256:501b307820bf6f852ba8b2e1f33e194e405d123ee39ad00bdcad25a32a807ea5",
+      "path": "contracts/schemas/hk-case-treatment-discovery-result.schema.json",
+      "role": "CONTRACT"
+    },
+    {
+      "byte_size": 3938,
+      "fingerprint": "sha256:fa1ef874f3c63532c33214ce4b861265ff6eff5bb9c8569b0f48c7f9e56530cc",
+      "path": "evaluations/NOT_READY.md",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2038,
+      "fingerprint": "sha256:44086a466ed573e87b72d154f85e09f4919e2eab811b57fc58d40104fa000cfd",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-001.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2090,
+      "fingerprint": "sha256:871c9d682aba5151f3f8d3e6acace0340183a7e9c38ec8c28ecd2a8601900bd9",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-002.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2297,
+      "fingerprint": "sha256:298e569a68f2c439050e7c4f375815e180acae65d4e1eb18ac731f566bb39bfa",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-003.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2344,
+      "fingerprint": "sha256:467e7eac30bdc3c6f28c3b1e4da509d1b3c79b56c554ef090bca87f3f9a49604",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-004.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1842,
+      "fingerprint": "sha256:f9afe6cb1c4532178f312ad69b652a013992e3b0825ffe79601fbfcd75ba5d99",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-005.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1692,
+      "fingerprint": "sha256:efb130c826f0b699b5be040f1dc89b64785654a92b6de7859c0b814aa456c3c2",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-006.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2339,
+      "fingerprint": "sha256:b7c97d10849675af1fe48593f94933caffa4b0c53ba54f27bb2b979d84a8cd51",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-007.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1868,
+      "fingerprint": "sha256:b1c41df0e406f1e07d8dc633a4044f5c9841e98eef131f485ffe5ee5e5601bbc",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-008.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2350,
+      "fingerprint": "sha256:21bf10138ad550216349e492c34007750b5c5733853e6a71f7937f7439fd9fc3",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-009.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1631,
+      "fingerprint": "sha256:6cd07a988f6888222a2c4e8c358430d212a779fa0792dfd9340b280c148e80b7",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-010.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1620,
+      "fingerprint": "sha256:16d326872947fc338a1ee00e4057b7bb8bd1eb20f9a709fe0764162694401379",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-011.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1888,
+      "fingerprint": "sha256:6545a8fcf0c7767cb78a2a352ca0e3031c3f22ff6120c79413a966a261d9ad15",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-012.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2561,
+      "fingerprint": "sha256:3aba0435549c3be66fc06396b9cbc926306d2c187181ddef981b977a48114e4c",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-013.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2511,
+      "fingerprint": "sha256:08361448d972dd0577faff82caace029be14220b215df15df25cdcf008058199",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-014.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2553,
+      "fingerprint": "sha256:6209a7501259afdf319ba476131f6bf81becfc692e92cc54a620673a3b08a402",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-015.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2127,
+      "fingerprint": "sha256:e04339e35ccbedb520b2d9490e9bd6291f9e75896e7e362f0cb7ef8f8ca3885a",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-016.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2538,
+      "fingerprint": "sha256:4d4071133c2c1a9f2c382816b018c80cbf99c6f4c09857b0d8613786a0f05d84",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-017.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 3328,
+      "fingerprint": "sha256:62a1fc3bcf08c20ac4c2375e92bdfdf5923da20beca207b2e742d76699e7d8df",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-018.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 3503,
+      "fingerprint": "sha256:67bd45b4c547949780d45495b0140c23e741365f93c72ce8c778dec4bd4f4097",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-019.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2314,
+      "fingerprint": "sha256:592df7bddb86992a80edc2bf276f6e2c824a5588d3ed9be69ff3581b886900d8",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-020.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2349,
+      "fingerprint": "sha256:f29c98d98c07a1d49f3ea345c46ac46c1770fc37b819ef39e877e597e5292d2c",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-021.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2520,
+      "fingerprint": "sha256:c9c39271bffd1b5d19603e942b9a2b4f5b856cc2076121a836e6e19087e8df9d",
+      "path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-022.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1947,
+      "fingerprint": "sha256:528f8676ec6145cd718f7e16715ffddd5d2f82046c426796835909bb19ac9fc7",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-001.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1944,
+      "fingerprint": "sha256:5e413a293c943e758b97da058d3f24ca1d76884c511a7bc60de779e9e2194bf4",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-002.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2229,
+      "fingerprint": "sha256:6fd3a66abb5f3b332dc9ed2e058dd899ba2d96015c98b45b1130d1c3ddf785d0",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-003.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2212,
+      "fingerprint": "sha256:f4380bf287d9b02621e3312b7264d46ee8ea9b37d40136ca30ae53b5668d0edc",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-004.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1805,
+      "fingerprint": "sha256:a4570878bff0045d3cc1bdf2dc896077629d1f55220c87b37434ee17a549ee7c",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-005.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1630,
+      "fingerprint": "sha256:63acce3ed30f13973fe5bc5071472e4706606222ddf46cadc6f6fc33bd3a500c",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-006.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2262,
+      "fingerprint": "sha256:ef707b24b4617db51bd00fe5e13771ab0d0bfb03f3e55f41b6010f115503b7d7",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-007.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1704,
+      "fingerprint": "sha256:8662800f84b41739baecfad9b75595f0f4de8c1886c56a5675d66ab137483804",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-008.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2207,
+      "fingerprint": "sha256:62957e4669dd207da96ba809924ec78a26532bd157a49ff41caa6bbe24b62a6f",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-009.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1517,
+      "fingerprint": "sha256:8218a6b78e73741fe63a98c1ec74d7df4b6fd460cd5472378c90c6f8958ac7fa",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-010.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1509,
+      "fingerprint": "sha256:5877bd039f5fc0516526fd1a814bc1f26089b7b89eb6d0b67c1d53cf70d0f96a",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-011.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1794,
+      "fingerprint": "sha256:7598268e806cb59f249b4d921593f578e3be6313646979d8ce0a3d6f213ab864",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-012.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2394,
+      "fingerprint": "sha256:ed8d07a7602461988b3358e7f61950c797fc21d4e69a2d0f27ba0f31feed6787",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-013.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2421,
+      "fingerprint": "sha256:6c783728040b5737b4617a800c2b553c2b17a0541d58a39e9ad4275e8c2fb0eb",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-014.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2404,
+      "fingerprint": "sha256:881ed07d8aff2cb8f7480230b5693be9dc220bc5ba5584c870850676a4c6e55b",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-015.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1991,
+      "fingerprint": "sha256:ba358b1704fa480ddc6adde36eca0e1dd1801c4258202c0199ef72ed02368b07",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-016.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2459,
+      "fingerprint": "sha256:0e92589787ad2b4d9550ebcd1cde842895c7b289d5b4fda25fd93e27079451ea",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-017.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 3410,
+      "fingerprint": "sha256:47d591938afb3a8926dfd0553380a4b8b8c1639a0318d68cd95e8b4fa5d59e69",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-018.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 3331,
+      "fingerprint": "sha256:b50a2cc0d177a08ea0c04db8e4bfbe9d0134849ee677f5cdb92ef92fd6fdd547",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-019.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2183,
+      "fingerprint": "sha256:21d176e721f65af56e3e23bcbc8b5c8780c15cda946692bac76e552d138b8429",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-020.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2279,
+      "fingerprint": "sha256:f9b2b2cee2b6a20b208eac443d87dedd8d9c18abd241f3902254d6fdd94f3aaa",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-021.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2433,
+      "fingerprint": "sha256:eb110976e71453e8183ba190e439df145a0489147eba28514c884f07718f4b21",
+      "path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-022.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1427,
+      "fingerprint": "sha256:193018fd5c9d2a887ebdb2cfcba1b14060c4047a02bf19e1113a94d11651d8f7",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-001.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1651,
+      "fingerprint": "sha256:d1125a95be7511d75d6a757b6a27c1c29373059d3f9b71003062c6e844493109",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-002.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1655,
+      "fingerprint": "sha256:0f83a0ba124528939a015c2885132a258497df02aebf6663eb3ebde5edab9742",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-003.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1677,
+      "fingerprint": "sha256:dc500739c247edc5d9df127da5ca7a710d938d95841e53b0a5b25428ac244c96",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-004.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1886,
+      "fingerprint": "sha256:c16fc68e3a6b7346054b444705b147fdc3823e0994d1964c666cf8733910fcfc",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-005.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1777,
+      "fingerprint": "sha256:c50b410afac28fd864ab3c504d0b55a0b8cbb046171bd98ace3adb30d9daa5c5",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-006.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1953,
+      "fingerprint": "sha256:b703412d3a35c27428228fe0a7e1d2cc01c3c9d69ac7c6c1d76216374b95457d",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-007.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1486,
+      "fingerprint": "sha256:5c3b35bca5761f388494ae2eaf99fb89fee928006804e36fd3cbf4c2d777d30f",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-008.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1954,
+      "fingerprint": "sha256:9f37d1ee9a04e00ec5377a9f6902b7b184715c9115dbe5c819386ed75f638bc6",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-009.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2193,
+      "fingerprint": "sha256:45b0390fdbd46f236899db84cd600fbd4377b38516ebdd1af965f9c74276a661",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-010.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1683,
+      "fingerprint": "sha256:07e0f227e33d94d5646c4d903dbfd25ede7538d18a5da3986309da5913b0332d",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-011.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1688,
+      "fingerprint": "sha256:4ca4f3ef6663fef030711cdc228e2f91992fcbe2595953014d55b24930beabf3",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-012.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1688,
+      "fingerprint": "sha256:5186e0ff6a5fbff7de024a9f366d8df994f7098bed6dbb90f6f28ac33689bf23",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-013.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 798,
+      "fingerprint": "sha256:00b07a2efabe52ac8ae526dcf4ba0bad24ea8fc2b105b0c3839a7c4f54ef027e",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-014.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1435,
+      "fingerprint": "sha256:3f43aaedc3ce0b94477e6ff1e8bfb8b1040fdf0de9a5a3a1b0449a95994efbd5",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-015.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1152,
+      "fingerprint": "sha256:d69c43f5626fd32227f223307dfbf8bbf82c1f4ecb05a03b9075f620d2e2cf22",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-016.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1575,
+      "fingerprint": "sha256:2a834fcb4ad562981d69154762109fdbce2305bfe59c768fe44a3f8097ddd857",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-017.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1732,
+      "fingerprint": "sha256:06820a4f68f20771519564a5181e9eb5746a292e65d41bf6b9678a44ade5172d",
+      "path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-018.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1408,
+      "fingerprint": "sha256:96449fb9dbbe0f86ca9b008b871fff546938ca507c6434e0971987a0ab3d83cc",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-001.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1654,
+      "fingerprint": "sha256:1ef118406d2b5869bb77a1c93f25aa6dedba78020d59be6fddf7c738b515be7d",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-002.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1655,
+      "fingerprint": "sha256:2ee80e695bc8322189b7c9939401ae36bc82a639d94411cb66e1e53600ab3849",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-003.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1663,
+      "fingerprint": "sha256:235cf981f2515f5b9c16ebb6a65e5f67e0fa23f858b418eb3c3eb84014c343b7",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-004.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1869,
+      "fingerprint": "sha256:d20d7932bdca040be8ad2631b71c8297533d88a48411a9585b8f3e2c8513c383",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-005.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1774,
+      "fingerprint": "sha256:9eb2adebee9602906dafcab775d24d5059174925c1c4567c9e3598fc10888340",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-006.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1946,
+      "fingerprint": "sha256:5b44c1cdec419521ad1c7a49de195902c14e43286eab64a69e1ffb0a6fb972b0",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-007.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1496,
+      "fingerprint": "sha256:29361fe619f379fd8a6c0664fc4d574865cc61d44ae7a9c1bd283f374e6ffda3",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-008.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1953,
+      "fingerprint": "sha256:2b46bcd88a4f8a869b3fc436abf382660530738bb492bca62446f34679de8ef2",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-009.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2239,
+      "fingerprint": "sha256:87ea2ed4c90daffe3ace312f92f8fb60097ad7e0b4d8ced2f019f6b5e448d3b2",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-010.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1672,
+      "fingerprint": "sha256:e7d7bda6404d37c81bddd6f850d8df4cf10d18ef31bd7a69d1e931ce4a1a68b7",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-011.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1687,
+      "fingerprint": "sha256:1340c28ead4ee78a7a7b885e180884f1e9a3ebf0716b4997627c6320534a88bf",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-012.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1693,
+      "fingerprint": "sha256:383013f041d23915f86bb52396d156718f858576a7ed6238cee31f4749895505",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-013.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 744,
+      "fingerprint": "sha256:a6639861b777a42d2cd2c7d7561f8965a8aeecf5e4c77a5ee27218bc756b6975",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-014.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1505,
+      "fingerprint": "sha256:b3e9dbaf24c53ccb1b42adc3e521c44a2df74d746632dde99f20c2941cf61f7b",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-015.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1195,
+      "fingerprint": "sha256:c8ffdc2a409be5be17d2fa9108a82cc63480538068726461e160681328ea3c8e",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-016.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1649,
+      "fingerprint": "sha256:bb31961bc9be8997e58037127afe23fc6ab13c29f360794fad35c124a4e394c9",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-017.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1714,
+      "fingerprint": "sha256:255e0ff6b0597c61358df59cf384bab9ca873377a287a96d41379630cb4643ad",
+      "path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-018.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1520,
+      "fingerprint": "sha256:0b1fb7b73484b9390095fb0f5f5492fec66bed0a9a494e42eeb6fe8baa3db071",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-001.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1322,
+      "fingerprint": "sha256:7bf39f345dbf6f0e24dc14a70ac979398ed8812360522b486276b307059b7e35",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-002.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 812,
+      "fingerprint": "sha256:36b8a3bc93a31193d328a85f0691d75e78ee364beb72028cf20c76df20a5fc41",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-003.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1573,
+      "fingerprint": "sha256:762a60d900e15aeaae9e1d9e7f6ade0b15e775818bdcfd8cc3bf8c28aaa93673",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-004.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 812,
+      "fingerprint": "sha256:bb0ed73909c79ea73fb750f87e1b17bb688954ce7447e679ac9fff1aef85055f",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-005.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1531,
+      "fingerprint": "sha256:6a28e467358d0e3711f328161f264737f0ca6f74965012921f65776cb9bb1bf6",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-006.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 768,
+      "fingerprint": "sha256:388daa424ba14ba628d40cfeed9eef3411cea44a018dd3cefeb68659a4401c7b",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-007.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 768,
+      "fingerprint": "sha256:23a7931854a2e5ce3b31eee0970481dbdc5f52c4b30bac7798d45939bb5aaf51",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-008.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 768,
+      "fingerprint": "sha256:f9215ba502bc8b4312a10fc08b3747f92d7fda7713781827d31b790208ed0b5f",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-009.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 768,
+      "fingerprint": "sha256:98e0a547914ee5649f87a55a397199822c4ffa7d602e9ba31be10a5fd39de921",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-010.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 768,
+      "fingerprint": "sha256:6bdac182ec3f7a55dd15efad64e6f6305f12910498bad465a719e2b9b66d06ea",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-011.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1310,
+      "fingerprint": "sha256:75dfca8f0b6c676d0647aa00a1b8518a7f2053eb8a7bce03bb5082af1fc1cd8f",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-012.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 768,
+      "fingerprint": "sha256:f412f98d95c89abac71ed7687d3759add863aa91dce6017d3f9dec0a0ec2bbc7",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-013.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2555,
+      "fingerprint": "sha256:9cfc6a4707e31154c62d9b384654a45135535979e04771756460ae0f241a294b",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-014.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 815,
+      "fingerprint": "sha256:8e7648cd91656a34fd8dd7eb1e623850229f544330e32af342cc68659055adbd",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-015.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1699,
+      "fingerprint": "sha256:a04aa282f313124721608731c6620fe56908816b8223e4dce7bd97232bd69bdf",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-016.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 812,
+      "fingerprint": "sha256:359c33b98d163b35fe8faa801190104b535dea458bd0689463f9920a1108d0c1",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-017.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1880,
+      "fingerprint": "sha256:5c78e5169ea5ed2786fd50487903adfbb2d2894c488b09af0d486b788387b5f7",
+      "path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-018.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1217,
+      "fingerprint": "sha256:112770751541a0f7d818c6549bb9dbe37dc25d690c1726cc0e856660f568295f",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-001.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1157,
+      "fingerprint": "sha256:51dd7e2fbf596a7331728991e09efda9818d6da4fdc392df5a37e3b256bcf183",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-002.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 599,
+      "fingerprint": "sha256:50fb05ed05c5eb212efaa85c1b29bf24ac1a2cc15d905b5ca04dedc0f5f52c6c",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-003.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1243,
+      "fingerprint": "sha256:48f805ebe8b8583c4763568c98606b4cad8dedd8b4cf56cde61883d29b1c6ded",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-004.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 599,
+      "fingerprint": "sha256:88c5bd1636894fa1501f2c627806fa2d9280fb07a04291ee3e7e6d17117d4f1b",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-005.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1257,
+      "fingerprint": "sha256:ec7327591dc1050509b2746b69cec6c9747e4861a62403bec94e0804bf32e5b9",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-006.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 579,
+      "fingerprint": "sha256:bbd91244e65fc5cc9ae87d7da1dde41b2adf897a8532ba5d95ef060bbf8500be",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-007.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 579,
+      "fingerprint": "sha256:ac3094be4e9300fddb7e3f5b2c75fefa348a977a932baa19b2305022191a9cb2",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-008.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 579,
+      "fingerprint": "sha256:1ff260a4b0e4ce00e07db947b4ff168ca8b272bf93e530e1b5b6ef2888fb37d4",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-009.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 580,
+      "fingerprint": "sha256:51c8702213edb8445f3123c3ddb761dddbb3f9864c3aec2cd777ba353ce9d1b7",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-010.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 580,
+      "fingerprint": "sha256:92027b9b6d976141bf067bfb78a2185530362916bf6bb076f3a965d0fa373c3a",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-011.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1182,
+      "fingerprint": "sha256:0d2d799e3ba01b5c08fc545445429613078768e3b11f664a35e3b43ff68edae7",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-012.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 580,
+      "fingerprint": "sha256:a2ab9ce9b72127c907c83e1f169dd0e5e48fee0b96fb29f6fe28030632a7c049",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-013.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2124,
+      "fingerprint": "sha256:5f479c4149cdb0fe055f5cd360a5a79be66797f3c748fb7d06020ef401ed2613",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-014.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 601,
+      "fingerprint": "sha256:40bd368b19fa19d7782d33b386ce97467e9acc48211bdceb6099f474a9780a05",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-015.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1255,
+      "fingerprint": "sha256:2c5dd05b8459f7aaf66592bcd42651d1d8716541a30a54f92feddad95b69010a",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-016.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 600,
+      "fingerprint": "sha256:2eb8676cc71e8528d9eb8344f7c65d1dfade3829b0655f931c2ffb7969f59709",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-017.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1557,
+      "fingerprint": "sha256:23a7efea579bb3fa6cc6d2efc646a77893e6b32d48a34b6d5fc356c9d8056c64",
+      "path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-018.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1598,
+      "fingerprint": "sha256:9ae6526080ff8de9cbf2fa63241198bc79c21a359cc0c6d34e0af009fb6af495",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-001.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1653,
+      "fingerprint": "sha256:76ba26ba23bce79cad0cc94210af8162d0b592a15672656355b13a37a7c4267e",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-002.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1631,
+      "fingerprint": "sha256:c54fa3001ef3038e05e8b528121379036720c1bafb0ea8f06a3dc69b76b282b3",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-003.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1756,
+      "fingerprint": "sha256:3781077dbd8449630aedfcd019026d8752c67407d12f312d96bef4b3c370ddab",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-004.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1612,
+      "fingerprint": "sha256:a37c435082364a98af86ac635d19d2414ef3de51360263837462a46d20bbb1b7",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-005.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2200,
+      "fingerprint": "sha256:3bef83247827e15f9c52e656a47908cdf5b2822bf0ace3a6f6fac2562dbf5c88",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-006.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1650,
+      "fingerprint": "sha256:22e41cb3ff4d5770f4ee52f6177ee6f2cbcf5db5ca426ce4f5c3200fdb5df43e",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-007.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1634,
+      "fingerprint": "sha256:4f5f7d751bc387530de80121f31b1aeed5b38d53b19ea06ca1f149a715e67c4f",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-008.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1581,
+      "fingerprint": "sha256:1872b6c86b65a4b59affcf77ccda4b37a54385b8aacc5a16a465b74f62c4158e",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-009.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2421,
+      "fingerprint": "sha256:55b0a37ff1c2bc39c7a1edd5797ab5be25e78604937519764b1f8150671bdbb1",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-010.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1001,
+      "fingerprint": "sha256:43f88eb2e9e5da686dbb38e35cbc3aecf908b075ef3b561a896da3e9867cc742",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-011.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1758,
+      "fingerprint": "sha256:f55fd4a72e8f1e447df3559d85e736a7e049d3b276849976f41ad72a8ae7b75c",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-012.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1801,
+      "fingerprint": "sha256:6ec29284aa8ab3fbaa77d3a34d90701496a10302f75eedbdf2c161c7d7bc4efb",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-013.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1558,
+      "fingerprint": "sha256:5f58bc269c3d8240f50728f338b55ed58862aa224a7324d626921e26e9b23388",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-014.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2210,
+      "fingerprint": "sha256:892fd8ba826cbd8b9ee4b973a6e1f66bd1e7be8500cc3298d007d68939ae4ff6",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-015.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1560,
+      "fingerprint": "sha256:35701fe6fdb25819a30de068261fba31cb0b7aeffd5d294723070c443510e658",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-016.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1570,
+      "fingerprint": "sha256:7f148cc8eb7604b8640e337e08811677b3fa4de16df57afc749f9581b7cd30a7",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-017.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1009,
+      "fingerprint": "sha256:504846e80833cd96f2e1f09e64347627b567fed03bdb102f6f05139b2f846172",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-018.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1724,
+      "fingerprint": "sha256:06baf43e79494b96dd5a2d1bcea7cb606e81cff18fc99cb22fbfc3d41efb2c67",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-019.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1649,
+      "fingerprint": "sha256:b83892cc02eff6d70ad6d6608d1cc74e68c0b18e98c7c04f16d867b014106e6c",
+      "path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-020.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1554,
+      "fingerprint": "sha256:1b5abeffdb1ddd1bf171103ba3bab0f05baf0c64c38c32bbe2a43587c44c436a",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-001.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1573,
+      "fingerprint": "sha256:59a542e239ccbbd73ac184c30f05c809cb2a6d3b1862ad75a330acabdd7cb567",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-002.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1550,
+      "fingerprint": "sha256:dbfef30534006ee993908befd5723ead63d2f48b94bb91aa25401cd6678a4bed",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-003.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1672,
+      "fingerprint": "sha256:730a354ee9eeb4b562dec83842ae64ddce42d7a5f5f77ab5190f638e84bd79be",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-004.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1528,
+      "fingerprint": "sha256:55aacc05413dbb6ddb242c5ccccac1d7cb39c4b7f78a5d58dcf2ee6221879ff8",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-005.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2071,
+      "fingerprint": "sha256:a7dc2f2e0b34b7838fd0abb3623199be26b12b285d26b3c7fbfc4626b68ee2d4",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-006.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1653,
+      "fingerprint": "sha256:ebe33a1e83503f84f4f95cba5dd540d4fd37a67ccf4c54cef25cc1f28a7c22f1",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-007.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1624,
+      "fingerprint": "sha256:5780af59ffe2dda170e33f9de7514b995670c96de70a16a57f9bfa26c1c094c3",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-008.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1519,
+      "fingerprint": "sha256:c2e47f25cbc34142e20bccf8e4fe678e6f34bd0b41d5fc3776dd28fd08de6a02",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-009.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2253,
+      "fingerprint": "sha256:e854b80ecb91d3204ed26717991be37d40676465f97784c89ba7369826d37afc",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-010.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 995,
+      "fingerprint": "sha256:db51d33534938ce1fae448c515e65cc459807bbd4a1de1a3412407d10ed0125b",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-011.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1646,
+      "fingerprint": "sha256:7b0f895e3817b29428d3292b07abe1235a7557bf29b7648768ca7b288d5bd639",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-012.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1684,
+      "fingerprint": "sha256:4b120d81d3de375328950c1fda13063272e3f2fba1090ef82631541eaa0d9f9a",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-013.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1587,
+      "fingerprint": "sha256:9d4ec826717a9ed868af2e268845acc38a3a6df477bad315d87c4bfef17fadf0",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-014.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2081,
+      "fingerprint": "sha256:f0b927571eaba5904f0c13063df4735d64d6a7b2c4d64f2b02d3af0af1ffda21",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-015.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1617,
+      "fingerprint": "sha256:efd05361628b89a4b73f46dd93defc5312f64d24c5fb074753ef1449f722935a",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-016.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1600,
+      "fingerprint": "sha256:28127a04ea513f7c02e63a95a7b8bdbc2274be93d0b0c6cb860ffa37fba5683e",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-017.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1003,
+      "fingerprint": "sha256:e625a8da7edc9630ff21f9a2d76cd063ff69dc76c024ab7321f82c14b734070e",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-018.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1611,
+      "fingerprint": "sha256:1a17c8fa4a06dd4947c358cc6c52377581e38a4b06cca446d2e6b19cca5c132c",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-019.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1620,
+      "fingerprint": "sha256:c1df616d7c01641292f5c422de1bbc54c8e13fb3c31087f643a8075960190ae8",
+      "path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-020.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 914,
+      "fingerprint": "sha256:bd99441322cabf840be68ff075b14edfdbd149c8430e65680f75dd84cd0e1903",
+      "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-001.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1961,
+      "fingerprint": "sha256:f58e551719e3b760b26b9396745b7b44cfea631971e2c7fc901bcfeda9857e50",
+      "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-002.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1614,
+      "fingerprint": "sha256:55b45ee55a8596aa108c50024e1010c5b54162317c8be54fea331abdea00171a",
+      "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-003.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1600,
+      "fingerprint": "sha256:79aa59a317cbeeeea8e1ae4e85ebbe7281ec381bac526b1c5bd1beb301de3626",
+      "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-004.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2364,
+      "fingerprint": "sha256:67df7de766b957feb985a9896d5edff41291c7271264fb5be59bbb6316b46f39",
+      "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-005.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2336,
+      "fingerprint": "sha256:eb3cd34621b2073df14841dbfbf16e90f5cd0d809986bac383b1be7d837e08ab",
+      "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-006.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1614,
+      "fingerprint": "sha256:fb3e04d03401cce1f43469df1ed4972392aa5f45d2e78a7f98b08d7081d2b9ea",
+      "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-007.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1709,
+      "fingerprint": "sha256:d1e232f8784ba4eba627164c385e1f359b4834c325a452b515c329d21cc90adb",
+      "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-008.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 972,
+      "fingerprint": "sha256:7a06fb53bc87995a61479592b69190513d9027fa4cc86e038108e2d4100ad1eb",
+      "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-009.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1236,
+      "fingerprint": "sha256:509a7ecfa5a59934941a4057246f4d6a1f530a32e6b0b08a5e24cc4b19b0ff62",
+      "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-010.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 3768,
+      "fingerprint": "sha256:37a01e623a68de23dbf4966ba81c75372878af71096e1edf4fe257b2f1d695cf",
+      "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-011.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1642,
+      "fingerprint": "sha256:23f9b2912b26571e6768b69beca9596a1f6ee85f6d361cf654370ca8c76c664b",
+      "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-012.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1668,
+      "fingerprint": "sha256:2578e48521329cffffe60518764c4941c7501741d3e9eeb85eb8dcb16bf153f5",
+      "path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-013.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 676,
+      "fingerprint": "sha256:f40c9581e03358e43f5bdfbf229ab0946cb4a88d2ba8ebee469ec7a6a979ff23",
+      "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-001.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1648,
+      "fingerprint": "sha256:7820556e13796b64d0547e84a30018d316778599701d184876a71b84558db6c1",
+      "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-002.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1320,
+      "fingerprint": "sha256:1f122b70c9ba1fb7a99231725cd8cbd60e81ec973a03673749a33e1a5d72c163",
+      "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-003.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1306,
+      "fingerprint": "sha256:a09e3ccd128e215235ff0271bce07954ddf07f73165c16892b1d21dc94e3765a",
+      "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-004.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 2020,
+      "fingerprint": "sha256:04ee37aedc89574d50f9dd60351ff916af2292fbfc3da05965208c7f00f72a58",
+      "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-005.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1986,
+      "fingerprint": "sha256:849a57463678285980ee89d3dc347b4f9cadffc48e31c2279c1dd493eb4cd319",
+      "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-006.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1320,
+      "fingerprint": "sha256:9a32c926af09df8697b388fabde20813b9e726425b2c7cc3efee3835485c8d75",
+      "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-007.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1415,
+      "fingerprint": "sha256:67b86d2c720f2d800667542da1776879d6e6bef54cde3abacb95f034630c30b3",
+      "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-008.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 733,
+      "fingerprint": "sha256:f81962ac456f6b52a0d584a98a96289b62e2f326dd4f52b17ab5a43e534d6a37",
+      "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-009.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 974,
+      "fingerprint": "sha256:17f0c42590728328ecd179c1b20cb5301eb583472643dcc5ca0172faf4102e3a",
+      "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-010.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 3307,
+      "fingerprint": "sha256:ca9732feb63306bd30eaa9cac7cff2bdb945534741f00363d891455889a19cd3",
+      "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-011.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1349,
+      "fingerprint": "sha256:38c4621a810cdb13c827c36864572229c30747a67c3f265b43ed122588945ddd",
+      "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-012.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1375,
+      "fingerprint": "sha256:2b493cc47071f6ab21e85426583b612d64e8dd9c6f1245b6562de42f3458dfd2",
+      "path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-013.json",
+      "role": "EVALUATION"
+    },
+    {
+      "byte_size": 1974,
+      "fingerprint": "sha256:460e7168ddbad933c75e1630a83d59a0336e640318d1ab781d4143fb030fe3ed",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 2115,
+      "fingerprint": "sha256:7b1d5f51889abee7166c2ae3db099d5aa635ba554d12a8004cf440a4f9b205ec",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-002.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 2171,
+      "fingerprint": "sha256:aea8f4e5a08c6be30f220e773237739a5743639d4f9bfa1373dfa4409461973c",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-003.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 2168,
+      "fingerprint": "sha256:18af5cdf84200d6d7228d4f0f985ced8dffe1a03c207ee66ddbed0c0d96e1958",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-004.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1998,
+      "fingerprint": "sha256:c10c3ed26e7884ac727ef5871fb367dc536ce35b04fbc9fa75146573ebc2b88e",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-005.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 2306,
+      "fingerprint": "sha256:426c9c57690d3b31b63f71aca479b2b61363f5d75fd79fabba6a8492502de4f4",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-006.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1975,
+      "fingerprint": "sha256:78d6212cd1b87121436d1e74b3d75e019a12a566462344380a8de16b6b8ed9b8",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1887,
+      "fingerprint": "sha256:45ef9ef3cd4fc24fc65acf6d4450d302cab80e130f8ac0549d8fd242de774a26",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-008.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 7686,
+      "fingerprint": "sha256:82f3954f98aa50184258449fecd0f3859cb32a036fd28dec52fc4df2818499fd",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-009.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1818,
+      "fingerprint": "sha256:76f864b20d00d32e4ba941f40cf387613f66172c4e83b7398b9cbccad2c6b932",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-010.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 9322,
+      "fingerprint": "sha256:f72fd3c85d93e1f0128b99ec911fe6827e336a4fa1d80e3a336dee10eb522320",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-011.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1889,
+      "fingerprint": "sha256:80ceb41ed258262e7ecc4cad68387dbdbaecb3c974d7f9d2f29f65abbefc18a5",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-012.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 4758,
+      "fingerprint": "sha256:81b1dda8bef20e8611ec24aba3698eaea8f126739b234639689ecca330cedc79",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-013.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1895,
+      "fingerprint": "sha256:375a0db4f961cf145c081b2a5302131d5486312efb92853a4a435167256c6f4c",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-014.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 6251,
+      "fingerprint": "sha256:6f57c7b84e7d3e7baa91da33da4fb83e583aa8bdc30dd6d804cf1f047d704232",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-015.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 2077,
+      "fingerprint": "sha256:3147b4a108f4f2b0e97252a2d91629b23735841e97766f1a47c59f6a1b4fc96c",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-016.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1844,
+      "fingerprint": "sha256:23a36f86d6f955593dfb5a039345940e562752e3885fe98cf1d4cc73e57a86f9",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-017.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1863,
+      "fingerprint": "sha256:01f9b934f8a72ac69c20de5380cb41194cd440f1b7f8864992b5384fe3e6840b",
+      "path": "expected/admission/HKCASE-PROP-DET-ADM-018.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1190,
+      "fingerprint": "sha256:85a31dcac5af43c8cf10f6b15ec05d344fbd970bf5efd8058ce22e6cdbf3fcd8",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1190,
+      "fingerprint": "sha256:0dc6b73beabc15a90e91292fd0b2215480c10dd5242eb3354f64c9b3c734477f",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-002.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1190,
+      "fingerprint": "sha256:5178396fbb84503184922b68d12a7663d6495e674ffda7309455e1e2cac94ac1",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-003.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1190,
+      "fingerprint": "sha256:37bd6d43094ba1a2bd247e2b1584387871e23645c1fe4409ead9de4c183175e9",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-004.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1190,
+      "fingerprint": "sha256:3454d67ec004603cdee8ff8bf78f951eda181eacd49c2c41fe09f1951f4b9e2b",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-005.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1193,
+      "fingerprint": "sha256:60d286b052693692fb1d2a4c8c48b5cdcf5fe4d006e2475c8a7cacd27c3b46c1",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-006.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1191,
+      "fingerprint": "sha256:a147aeb6cd874890e6507baec5dccc8b0da74ab43db2da4fd8e949c2d0f4a3a3",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1193,
+      "fingerprint": "sha256:71bbe448bf110149d83e5391502e730c9f03baa3435269a6ce54c66cd588e00e",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-008.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1190,
+      "fingerprint": "sha256:5633e2476e9ec8ae7dde6160b3268ff6cdc2b1f2c697d22dd1057ab596f937cb",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-009.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 2142,
+      "fingerprint": "sha256:854203a6ca306d84f912be4baeacc212682b9924e11b1e0ff525e37750a816c8",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-010.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1190,
+      "fingerprint": "sha256:265a4207d7c23882153be585bdcf957c134cdfa69942d77f39d3a27d40efb33e",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-011.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1190,
+      "fingerprint": "sha256:2726ba12a42a8fee476f01e4c445e4790e870891d165270029db0c54022382f8",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-012.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 2121,
+      "fingerprint": "sha256:cab001cdd953beed80dea29c0980e7510add5ae6b9d5e910ba6319755496306b",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-013.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1190,
+      "fingerprint": "sha256:b529c4fefb2cdafdfb9b95962b2eb84177d9dfdbdfbd0746fd2d1aa1d0ac90fe",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-014.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1190,
+      "fingerprint": "sha256:7f8cff2e27d7593a9b7db428118b94a3514d8b9cb34423fd36fdfaa6c1d4a90d",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-015.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1190,
+      "fingerprint": "sha256:0f1c3d581ae56bd1675dfab835e53841d5db2bf92fae1f95e163139b8d0c1467",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-016.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1212,
+      "fingerprint": "sha256:209a6dfa2222d1a8d54ce34a315943dd919e0f684e84d9e0cb482a8def9cfe19",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-017.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1206,
+      "fingerprint": "sha256:1b8fd5e862b2594771b0c051e2224ddae9bb0d6653d1148939f5a4dbbbcdacea",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-018.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1236,
+      "fingerprint": "sha256:d184c1c94a5a002d7004ea5bcd576c1e40abf2b25f030416c5f50f233ced2ecd",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-019.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 2130,
+      "fingerprint": "sha256:31bb804a2f773180b54d3aa944ab9690bdb8d2cb70f0dd3287c300f00854ee9a",
+      "path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-020.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 137,
+      "fingerprint": "sha256:cd78516a537bcd962497a93b075565f15aebb3e7a679f544b78a3e78923c92df",
+      "path": "expected/listing-accounting/HKCASE-LIST-FIX-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 2152,
+      "fingerprint": "sha256:4a7eef9c80a276e58e1be70680377cfb5dfb60538b84d37c569c9b6b9777099b",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1794,
+      "fingerprint": "sha256:8f244c4c319cdc6f39c5b626676a9df3103f0477b07c06425e5b325643b3c79d",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-002.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1921,
+      "fingerprint": "sha256:0de8ecab6aa3911edfd62e9ece16be3aefae793aff75660dda62dbc2a1908067",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-003.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1789,
+      "fingerprint": "sha256:b0dcd07d1dfc38ac50b9287d384e170b5080eb05aa83b9e89b6afc0cf4eb8994",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-004.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1921,
+      "fingerprint": "sha256:ddc0918a298f7f603d08977697320656822ff1683dbb078e42141cd700158a3d",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-005.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 6550,
+      "fingerprint": "sha256:02d242c0072b5c042b32c4db8c86052a69225e3449e60a8e140658d43dcf4331",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-006.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1921,
+      "fingerprint": "sha256:a15d44146540b3dd6c0663db234f0a4adc5b08b75286b88b56198e85b029d284",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 4869,
+      "fingerprint": "sha256:f1a96241421f7044c898ea48390de1a27ad788f3b1d57ad972dea5cc37b0c26f",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-008.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 3342,
+      "fingerprint": "sha256:00d67f4187f95cb23e5e858859674f542efa1cfa7bfb2157cf2aca604be3a1af",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-009.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1921,
+      "fingerprint": "sha256:fe2cda3161bd22769419ffa4340207809984c51c50170925d045c979c59cb936",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-010.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1921,
+      "fingerprint": "sha256:74b61961147991d0d14d8bb7ca2b7a8c7c7ad7feb6873e56b3a4e4f4db115d9e",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-011.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1921,
+      "fingerprint": "sha256:1bc60d08a182dbe8634d94bba41d13afb1b49f515f787b21c48704b6bca6062b",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-012.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1921,
+      "fingerprint": "sha256:dd2e73dc48d583e9f3f0391968b9f5150115eff417ca14affd7360317c6c5f4f",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-013.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 5270,
+      "fingerprint": "sha256:5cc35383e2263966a0c2f0c98d17540cc98ae997538fda0c9cdb762fc4e0d22c",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-014.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1891,
+      "fingerprint": "sha256:3addcb47e804aa473d77f78f3b43a839c5787a8037e405be696b15bb3676c235",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-015.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 5253,
+      "fingerprint": "sha256:43176ee9b785c49921e6da79c2d00b42c53896e508e97fddfe9de0cd6277d463",
+      "path": "expected/output/HKCASE-PROP-DET-OUT-016.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:40c43f4da97ce8a3139e971e38dbe01c1296de35b6526432ad22af8300bde068",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:76c509514a8ebf6b1062594e403aa598ead8f499b97867914f5a19ddddbbcb4e",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-002.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:88c1a2d0cde7a2ffe334895230010600cb6e3d23ee40ce0c4f6bf0986885753a",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-003.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:d77536d9ac870a78f8c40c5d4a82fd3b4fee80f7789c3e13b02591e83623a89e",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-004.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:e1ec9fca2f893fbc73ba887fc1dd18200af0faa4f15f6f41f7bcf5add6c46ba0",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-005.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:ab214ddcd95918488df6fad7175f389430e68397b3de5ee5e90a402b402e8b43",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-006.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:53bff6dd579a62fe0b6a208faefe0ed43adf0570d067a239b3dbdc7078edef0a",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:af7dd3337dba33f07170d60ba425322628183c91ee0a279b2d3578d74ab74a4e",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-008.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:bc0d5e55c996224e5f296a89ecca23ef400c0e37b3d33cab0d25281106b0720f",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-009.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:884625ca05fe013b56456b752095036462822fccd800e6c50f1c750c5c350265",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-010.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:f0fe3ab662f0c808fd0e6fe94ec1e88d746b104729db5615016080372f0205ae",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-011.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:95a4577c963031790ee10b58630b63d910cdd66de2eb4f4738ef46f6866c87bd",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-012.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:ef70897bc0346b7f94b45d1adf65df9b5b3f3c4e743d8a4eb67c1d66317d20ab",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-013.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:f4a0ab1c96bd3b64ca13f21d93fe21d3c9cdfe164453957feaf5642b417a76dd",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-014.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:e6db56f901ccac824f756a8ecf4d92fb2354e0a06308bf9b00ae040c01a13cb2",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-015.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:ffb1ebf9d51a245a16fb3672afff5859775d745cfe20110713f14a5852a88069",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-016.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:8969dca7f58facc432d36ef0f3daad41a3281242a937be56cbe7c1d18f3eeec4",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-017.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:b1a8308daf563138098ca3962c3beb8e444c0b6f2ca64eb10eec5a721f7f5d1c",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-018.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:8619e2cbd6913b4ac6db2a6ae1eb0e251898927dc682568a6058296a7ba0587d",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-019.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:3bc2f86298d15fc41c2249c5afeef63c59ee6664fffe26843b7ef99f11dcd1ae",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-020.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:e24309b004b0bec3ef9a3ccc59df4b2201f8010e5d8bd26fd2f58af253ca8b80",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-021.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:c15951ddab2f5123a6e1d7a24cec11c0a45baeae731d0696a76618531531f1f6",
+      "path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-022.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:34b0979bef7517250aa1bb6e4effa979244faf3e6bf036845d26b46979d0e8c9",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:5418edd4d8b9cff24a4cfcc908d68492cb50ee7af69856a259654ee3efaea012",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-002.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:3a5a3ef8ea9f7ebb2e91998fdd01fffd736fc5cbddf8026659c35b613b1b71d6",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-003.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:f759fa72bf7d4c9bd56201825bc547c2d47eff3e51990694f8927d4562502005",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-004.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:8a45bafd51758bb5be4d6245b9bb012c43a85e8e49b2cfa34b23fb4afbfb4115",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-005.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:8466c3c18637cc34369d123d87caa3a62bfb49f3969a2bf817a29022ebdcab5c",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-006.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:9542d0f1f58eab82d2b6d4f890e4524eb08fb86754c9cc4d43b9c2acf6a0a75b",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:fca930073aee7d76ec5780bbd81b0bfe63254f559a7f5488507881185f66df0e",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-008.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:95fa26d95f26d560ccc541a11ef3a4ed1cc6142a96abc9def600dc0b3348cfb0",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-009.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:816589ba0a7195be06c3e0bfa8b46155b894b68dbef70eb0871c415d88d7e94d",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-010.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:25a9b79aa3e175d9110e79383f7f2ab611b157746bfe5e2e25b876e30f730d56",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-011.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:39386c7d9a046be4bfa6881976bfa07f306a29c719d487278b15dd602760dffd",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-012.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:d9e88103069a89cfe22fc94aaf346458485abb265aa0a1895a1642a6a18e6be6",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-013.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:90b46995006fac4de7d23126ee8553b6c5a0af1d18c55fe6ada6a8e80608f859",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-014.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:e9ea77a3597f63219f4b7e9ef84aa00f669cb3036543f5c883a7a4aca1f6e342",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-015.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:8159cd4a05178ca98b4e0ef74b6441dc8cd5ff2e5ea05766d61593e8d39ce2f2",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-016.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:8fbad20e0d3955341a3c4b72ae76e1aef3c5f968f348fd5deee4fa51350fbcaa",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-017.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1128,
+      "fingerprint": "sha256:583733a3823a4eef3759a9a72d6ed4d7f262fcc82b8ede3157fd3e994244f982",
+      "path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-018.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:02e1b80fc7015e919169511e4db1e0f90ac2e5e87a8060dccb4d59304321eb90",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:1c3bdc595a1235717dde1eb9d27084c5b0e9d3138d75845a875a5de15961c697",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-002.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:7a64c78dc05957540f163970d4cfe5fa92418c5f037cdbb500761e22383d9242",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-003.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:76cbadbff3a62d911c1fa70ed4aa9007f803d3342e937a3ce096476dd60bee27",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-004.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:619b5f8e5d381a710f7d86358dee6a7588fb53ac0203b98805de7e43c3949f87",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-005.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:0b33900779d0a89d53e9460a8e71b24fe0c03c0f8ba4aef398334abbd7c69d72",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-006.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:6eed1b453b15bcab2376b5683165ee02d0fd49a545ee7e2c73317b3dc64a8ef6",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:102d331a2e9fa85942b2dabe14753b749f0554fc0d62181ead321d37eb7d0415",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-008.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:923a75a77387f9e243a414fc59a80e47caeeb7019d5045c802e00a5a24affb0c",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-009.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:3929b76f3344ab6a658863a41f486b9fad0f73d0af369c5e61c1e245683e213c",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-010.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:7a75c20e2b02e49df648469c622341b0ac20840fe71798bb9113c553a00d4d9b",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-011.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:1101def2ecee22194eef561750468707ffdff3f308ce8442c89b7c73f38bfbd0",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-012.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:2b9c6cee057d5f6940cc33a8cb5c70017ec0f6c876ad6a8be20a5fde99d6d7f4",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-013.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:c063740fe435c6ead6192b883ee628e55b304d9aa22e3ecb99c973d980a8332e",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-014.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:d0e2b16ec650afd69d4f26aa6a60e3edf4b11aafded689028c16fd5674d770cb",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-015.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:15b8cd6b9fad8342f1c2eb0b11ce85f3c591a62270cb8384112e6056d3fa053f",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-016.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:213902342287851616ddd7d847f9c7849d8c62a55466220fe2dd608c01f2b32c",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-017.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1155,
+      "fingerprint": "sha256:4ee6f0cf0193adc4d455793eef794b53342f9e75fda96306c82d8f1c89485e21",
+      "path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-018.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:76a499c8eb6824572ed78959fd0fdf9fc6458edc6fb1a5da11e1b7a96abe1356",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:3c6dbe84781000f9624e9cbf52f21adf9e347271d1747b52383684288ad5545e",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-002.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:0caef8783dfdfe1a1d439dc1faddb60f8803aeafb7c58d15489242948a6de6af",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-003.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:fd6ea456752a5a54c11b080b6256716938f6677d86b03170c17460153784192a",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-004.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:36f7bc3899568e6006c14789e678db3bb35d80e068a678a4698f7554b8a58918",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-005.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:efb29c14b3e94c8a11173389bc1a1c85b785ea483b55a64b9330d1cef6038e01",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-006.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:690f3761664bbe40a6c93720d36de358a6100d2fd0b1b2fcb4a9a7e74cdcf2ac",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:c923d3a4fbc7ac535121fd9ddf0a15965f7981f8dd5735b6ea92d0fcfc93503e",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-008.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:b55b9c96a99c9c71dd498a93591a537ebf034df611859b1498c71968b6b6cc14",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-009.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:6670fbbf9791cf0fa3b2ba1d59b8df465930be8cc20b76914a8d4f76af926815",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-010.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:18aa1006a0f62b8c0287048ac3bf08a3d72721cdc218769a07e0fbbce9b5f32c",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-011.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:c9a00f4f7d4899772c5b444d9e3eb7cf3388bf97e152c85b571bfabd5726b184",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-012.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:5c2ffaa8887e63f3dc49465ac11a9a63cf95f657e799b224afe13104b850f3ed",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-013.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:61e868b26edc0785c55a3810fde322a2592e3705875ddfe8c6aa45e8462ff188",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-014.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:ac7e290c36eb4ab21bca2ed5ae2bca3af445bb35b6b7272f55d99ec65f1b765b",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-015.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:ba441b72b3b0f36f5965a2c09a2b2edf096f6fb99a965bfd4313ca555eec9ab8",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-016.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:15827ccbf35da04fde7ec78c7dacab864e7297986c9b004668d7ad8fdccd0479",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-017.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:3b6cb84b743a0eeaeedc25a7583d3761fac6039e0c9a3c13c2f07082ce7d9800",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-018.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:b6fa988db9a853118794488be594ab0abfd9b8be2ba5ef20279a0e3bec957213",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-019.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 998,
+      "fingerprint": "sha256:04e369ff7d1f2ad41243addd60d14ad59424dc5c7db6d0e0632870d6e3c24812",
+      "path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-020.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1069,
+      "fingerprint": "sha256:87143a373a586df8adb1e5659879e59972d58dd44234e94f4f917beef73eb6d8",
+      "path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1070,
+      "fingerprint": "sha256:1fa35d0144ce1bc28f1b4db76b07cefa6b6dc8282bc0d2386ca30773c3ba9008",
+      "path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-002.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1069,
+      "fingerprint": "sha256:dcf2c07b4491abe0de4417cf64e117c7efa655cf90201f1d22b996cfe1c9dc88",
+      "path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-003.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1069,
+      "fingerprint": "sha256:0ab377059f2d423217fc2ad6a435cd4361f76bb2f183400536ce734adb9775b7",
+      "path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-004.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1069,
+      "fingerprint": "sha256:8601319833692d0436f1e3a21a1fd0eb0c40d186e8afeb4687e6d5364560c8b7",
+      "path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-005.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1070,
+      "fingerprint": "sha256:0e23630d2584abfd257e75c5758ff2dec9a1de80c2656208eaf477ce22c98470",
+      "path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-006.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1069,
+      "fingerprint": "sha256:a533ff992c8c3298967c2ef39a37feccd35c330b494bdbe533ac98db4674ef14",
+      "path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1069,
+      "fingerprint": "sha256:1af57b20538d5f2129dcb62dae3b29cfa69f0dddc44584b9695a56f17c378ed0",
+      "path": "expected/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-008.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1063,
+      "fingerprint": "sha256:d9719c5e4420162ee9c7973bb14e777f0883d424ca7314ab43fb22aa886cbef2",
+      "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-001.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1063,
+      "fingerprint": "sha256:929e1712e7d49094ad1777af51a5f9adfc9ba6944cb3ce9a46a2e4b86fe45bd1",
+      "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-002.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1063,
+      "fingerprint": "sha256:9bb2d63783208f5af34c90d8968e6f20aba510dd0cdb5674d1dbf76f0133f077",
+      "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-003.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1063,
+      "fingerprint": "sha256:60ea9bbf8e76ca9cff3e5d7a5d2c3a0083559515ecae3ea0984a7db84e163944",
+      "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-004.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1063,
+      "fingerprint": "sha256:923a8881c061dff0b0879998269158900ce39458712b6676af4f539498a6d324",
+      "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-005.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1063,
+      "fingerprint": "sha256:4e41664bf3a0df52ebb828fe04bf8a6f81143f8492503f07983716ee8a5df73c",
+      "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-006.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1063,
+      "fingerprint": "sha256:5e7bd2538add4a93a648782161997d0d7aa91861d1317e2ae64a2060ad5cb435",
+      "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-007.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1063,
+      "fingerprint": "sha256:83bcaac31dbd7b7a379e124d423528df348f3b9adea1cf2358fd8e7e8bb5ab4a",
+      "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-008.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1063,
+      "fingerprint": "sha256:9caf4d08bace8781d16f9abe902ee6247d8d21e2e006e707565cfdf169fc8bbb",
+      "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-009.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1063,
+      "fingerprint": "sha256:5872ff01cdbe4e90f82138df139e25d1e9a0f864ff6740c893cd175fdf3874f5",
+      "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-010.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1063,
+      "fingerprint": "sha256:a09bbc168405472f81435fad9f89733bb226e48414953e6d080d586d2d760628",
+      "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-011.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1063,
+      "fingerprint": "sha256:aa4906080756ee9abe15523dae9516be66969ed3e0e5c95c7d48129fa25e1e87",
+      "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-012.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 1063,
+      "fingerprint": "sha256:0d15f9c158c640ae8fa20990f4b81f791d008a91484535ca64babb37ecf2e69c",
+      "path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-013.json",
+      "role": "EXPECTED_ARTIFACT"
+    },
+    {
+      "byte_size": 237,
+      "fingerprint": "sha256:5050b6c7b1e89aef30f461d3c83e57d5127b252a5a67fe48503324e61078686f",
+      "path": "fixtures/deterministic/HKCASE-LIST-FIX-001.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 4038,
+      "fingerprint": "sha256:b3ebcf0852afae99cb8265781384463421cd5b2b11b6b15017c7e50dccc19701",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-001.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 4406,
+      "fingerprint": "sha256:94dababb3536f56b18dd3672beea4c379b21e1f22657db2f4e60f7c2e1f1e044",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-002.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 5968,
+      "fingerprint": "sha256:ec48724fa98b3724a500f97bdd27e372ea14ff434260758b5546efebe23d2ea5",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-003.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 5436,
+      "fingerprint": "sha256:f78443b0506ac41e92bcd2cace6d57aa803e73155ef28088f764fd368e24589e",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-004.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 5101,
+      "fingerprint": "sha256:db75b912f0cd54225a9a45f6a534643ed381b656eb95caa26572020f0e90a12e",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-005.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 6455,
+      "fingerprint": "sha256:2c2a77448ba45e550265b2ea9a6297f47a5483ab0d822e3e096518418ef86381",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-006.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 4679,
+      "fingerprint": "sha256:8383dbab94f3e4c069f20474ac6830ec65acb186d24bf99938fd6da1a7c4e503",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-007.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 21762,
+      "fingerprint": "sha256:a2bf7483bbae3f27935ac68dde3873f9fc54864c01f4c5ec081a225701533f3f",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-008.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 106507,
+      "fingerprint": "sha256:c3cc631597894a159808ff2128dcac7b1a9080b2b2546e71f880130cc81b639d",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-009.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1706,
+      "fingerprint": "sha256:d9af58f2fe8601c0924b3138595a564e4ce844909fd856b0019f79fe41ee7e1b",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-010.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 7806,
+      "fingerprint": "sha256:1d074df7d58f47d52eb4c05db4e23b094a80257ae89926fd2c52d560f101bdeb",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-011.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 3397,
+      "fingerprint": "sha256:0bd1614aae7cabe9f1fa4e412098baf374a1136f5eae1aaae62387e2ecc3a398",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-012.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 8967,
+      "fingerprint": "sha256:94a4276e8bf01b26ae06532eee662cc8cc39021cdb1fd9ef9dde6ae85c06965b",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-013.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 3197,
+      "fingerprint": "sha256:84fd98809128e33af9c405f951a7c6e5d8e9d0adda60b0aaee965227d1d67a5f",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-014.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 11013,
+      "fingerprint": "sha256:012ad3bc11dfd5852ac2d7904a122e3fc795c8c4de5606b7c123ac1167558e80",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-015.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1287,
+      "fingerprint": "sha256:6be9142ab0571122a674a8bc9f3c278b2d0defb9ef2767b368c85a6807313406",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-016.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 8551,
+      "fingerprint": "sha256:5b33c34f0e495080750151322a34fa73c73ab0bc62dc68914abff6faf213c456",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-017.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 8533,
+      "fingerprint": "sha256:1eb11585ef8a2916253af6e09f866f60f8c80a22c82151ef880916d4251e6dac",
+      "path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-018.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 3980,
+      "fingerprint": "sha256:92f3ec6cb1fcf72f91b3b070cce1d4f2a77c4d2480523ac03ae8f82574aaa455",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-001.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 5557,
+      "fingerprint": "sha256:b3a036e1421f8154940030e368b6caf7bd4735294954d8926d9cedbb0e1880e2",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-002.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 3968,
+      "fingerprint": "sha256:5d767614f0de62b5718473cac922c20d106360ad1d0cb45e3dd61ea207d88815",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-003.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 7936,
+      "fingerprint": "sha256:3242004cc1cbc066eb7c40cf881959223e240d56e383ec344b4797ce697117cb",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-004.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 4261,
+      "fingerprint": "sha256:11351db481d528676a1b14762aa1be75028b7275f00720d781d4a42f6f1decb0",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-005.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 4096,
+      "fingerprint": "sha256:4ccd756e99d929ad1b8838f8da16f7e33e0cc3957f0084c8f8e4ffc86b2fa495",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-006.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 3971,
+      "fingerprint": "sha256:880daa92b3f2d1d56a66194f77aa7f021503f3e3d596ef0a4f8e097bda873899",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-007.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 3991,
+      "fingerprint": "sha256:d18da9ae3fbf52a72b04ed72c2e3cb92b0fd8745d610d0d76e566a0947a27660",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-008.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 4347,
+      "fingerprint": "sha256:4acb2492efdc3bb496d8837dfc6ab42b93080dea83a6035f32af8ea1749a0d03",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-009.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 8221,
+      "fingerprint": "sha256:17a1c339c4630064830c781dd062fa6001d9ffdd9af67281193dc0bdd757faa1",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-010.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 3830,
+      "fingerprint": "sha256:83812cb190d797c7f83ab9d059dc08526c33cd338b59f8864f4a0e2b39f1ca09",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-011.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 3985,
+      "fingerprint": "sha256:75c66996d3f884e58b59ed1d2f028817b448b79116f9df08824586e5d02ce784",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-012.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 7551,
+      "fingerprint": "sha256:fc835d74364dd67347bee7fff690b3edc8b5245dbdc89e55c5c4ed863ed3b2c5",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-013.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 3995,
+      "fingerprint": "sha256:22050de5b51a72136f8abbe279c8768dd4f1062115f71e7940061784683ba5dc",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-014.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 3998,
+      "fingerprint": "sha256:3b60f4aa230134409be7827b433cde8d0044f6679281c91863ac855b20ffc5ee",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-015.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 4033,
+      "fingerprint": "sha256:eddefcb22837b49b110e14a23ac4540230a6503a3e37b673926dc2c50cc6ad69",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-016.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 3991,
+      "fingerprint": "sha256:d0af9b282286feccda3049a621172353bbcf5555946cd986ab4306abf6d4bf83",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-017.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 3780,
+      "fingerprint": "sha256:59758a7515d2e7248d2a3639e95ea4d6af283e8c1d18c370c1117aee3c778675",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-018.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 3887,
+      "fingerprint": "sha256:c7b3312148a47136788fe0567e40b3a1b0672eb8ac25fa1ea0181cbafcae5c69",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-019.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 7561,
+      "fingerprint": "sha256:59ec8e9db6b5f83d8c8a816d0c2be6f1cc3214eb2319da2c5b95001bf74b1b2d",
+      "path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-020.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 16111,
+      "fingerprint": "sha256:7a12c9bed969580d2ff4a3a73b1ca8f999be130cc7b1cc13cd8133c9780e3ea0",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-001.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 15836,
+      "fingerprint": "sha256:91e6bae1a7f41efa171d8cb18596ccd73c8fd1983eb9d4e40146d028d2b26452",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-002.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 6792,
+      "fingerprint": "sha256:1890961f1527bb8c8bc03d209e755ff540dda0c39111454d0be544c0b6df34de",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-003.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 6674,
+      "fingerprint": "sha256:b6f3bd50b2c03994639b2c0157189d7c5f78c0ad7de5ffc821c6de2545092d30",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-004.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 6797,
+      "fingerprint": "sha256:b26164af5d300380fbacb90865325a5c600c1dbd79e2381f2a56b2d88d535a8c",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-005.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 25643,
+      "fingerprint": "sha256:e7fa827ed8cb89c66fbb097583ad48274c2c17f92b7930c05f6dd0d8459b5494",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-006.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 6799,
+      "fingerprint": "sha256:bc00f52801d5ead7fe9d9e1a93162034b01456ce78e18c323ba31e410cb0e42d",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-007.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 19351,
+      "fingerprint": "sha256:0416debb6eb926bf00824221890b927cce7df0ba270dc16b7d57c05eb202ad7d",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-008.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 13124,
+      "fingerprint": "sha256:d523ec262035f722889e2928508e793d2bcb3453d5496089d18c86a5d4882bdb",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-009.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 6719,
+      "fingerprint": "sha256:7d4730bff909dbb93cea694055e26265f9fe652923435c04088b08cfecd011f9",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-010.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 6719,
+      "fingerprint": "sha256:4a7a66ed7f3cf371730c25092d8b351cd6090ebf53cedd0a99bf9b78754162a1",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-011.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 6595,
+      "fingerprint": "sha256:a591ccba76766b2c9e7e8341e4266857b390f39eb6089d6d60fbae411d0326cb",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-012.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 6723,
+      "fingerprint": "sha256:f8c4885e2170ef0b1f1dfb65d56cf2a4967a19881b5deb87ab2db303508255b5",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-013.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 17869,
+      "fingerprint": "sha256:e2a6768c4a396b02820490682801c6eea7b5548691c920f5830fffcde55625cd",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-014.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 5319,
+      "fingerprint": "sha256:2182504c107dd260f2b874bace061a06a3c5aa5d60de747580db0c417d8be660",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-015.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 17881,
+      "fingerprint": "sha256:f03745ae00637c0a3f23a4a644c6969ccb521f4bed2208cbf33bf881a2b07918",
+      "path": "fixtures/deterministic/output/HKCASE-PROP-DET-OUT-016.json",
+      "role": "DETERMINISTIC_FIXTURE"
+    },
+    {
+      "byte_size": 5867,
+      "fingerprint": "sha256:4e0e0bb17f1952a39ee6be7a93b1e48aeeb187a7049440f4c481ac685c41ceee",
+      "path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-001.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 5470,
+      "fingerprint": "sha256:1a891cc8866390a2a7660e2db8ab1ef9c9a05b4f98e061524f690df24f75266e",
+      "path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-002.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 5950,
+      "fingerprint": "sha256:c5d3efe3211dcd461f051ac8b90f159e76b788f7743506e98978112d323b785d",
+      "path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-003.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 6017,
+      "fingerprint": "sha256:5aab487d40db5b26aca3888a0ee5117c93dddd3b72591b12f30b8908448f10d5",
+      "path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-004.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 5957,
+      "fingerprint": "sha256:9271a41c91947700d09d51349b1ef281bcc750fa7402577715783eb7e81fa1f6",
+      "path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-005.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 5560,
+      "fingerprint": "sha256:34cde51189dbe0d5e047c8874305c4858dcf98a80925c8d85f49753827e56950",
+      "path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-006.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 5961,
+      "fingerprint": "sha256:f7138283828a719619b55427bc3f9a8a8d0658cc64ecbd6cc5b0c0cfc2c7a053",
+      "path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-007.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 6028,
+      "fingerprint": "sha256:636aafa078f2a09231510a9455dbfcf9a5e3f171d863cc92d83ad7a93980dc86",
+      "path": "fixtures/semantic-task/HKCASE-PROP-TASK-PREFLIGHT-008.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2425,
+      "fingerprint": "sha256:e37fa6b97c736a2829a19e63f70fe8a45928cc701f25017432dd51618bf71f1b",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-001.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2391,
+      "fingerprint": "sha256:4d23a16beab14280818cac8fe22c273b8a3b69cc2f5df4989fe1c28f79396d34",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-002.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2158,
+      "fingerprint": "sha256:f8f51b3e685872e5dd1b2328b5d510b873356a507c25de8e35571f788c92a638",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-003.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2061,
+      "fingerprint": "sha256:41f895f30f485f52fcab95f4747b6b688b0ca060e98522c6566c4dd2c4675aad",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-004.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2569,
+      "fingerprint": "sha256:c943dada74072df841a3866a890da761b6f877641d5bd95215a72b76aaf450f5",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-005.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2084,
+      "fingerprint": "sha256:fa68ebb8d1d4b213227d6da157edd1a506998f5ec680befad5f3a0c19c929281",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-006.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2170,
+      "fingerprint": "sha256:92da5df8cfb72286a9463d6a7b761ec89ca4fe4070f682b2aa9f0dd75c74f10c",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-007.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2105,
+      "fingerprint": "sha256:52ced75011ed9756422fe421d5f3ebae6f1aa766cf7d9c2192b888378481713a",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-008.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2083,
+      "fingerprint": "sha256:802888f86b74aade30862e576ffe1dec5fb2a6c4275a558269da229cf109b8c0",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-009.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1965,
+      "fingerprint": "sha256:29f1fef1414b9f52342549703f4b3f5c3faa9aa234434a35831c9defb679ca28",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-010.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1807,
+      "fingerprint": "sha256:ffbc4206a6a244f26a7afb94766861f774d2992f70db3340f9f6fbf0af0ddab0",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-011.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2275,
+      "fingerprint": "sha256:ae00059ec7666fb9d2eb5b1afef378ce6725eef2edef791bc86437c76a4565ed",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-012.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2442,
+      "fingerprint": "sha256:b5a739731e4a0e8468158e1f503213430c2b4fede581d96222655e1788d3ce82",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-013.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2375,
+      "fingerprint": "sha256:5141cce06825740fee9494f77ca7fee8f98849ac77c8cc3ebd48afdd59bcb4f7",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-014.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2352,
+      "fingerprint": "sha256:84862941d6aa6ddc915baf4b8e92b7ad302a6d9b421f8f1d77ed48c3b98265d9",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-015.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2482,
+      "fingerprint": "sha256:cc68d3ec8057555fb75586f9326079164978becf2477ab646519be616c2d5497",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-016.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2426,
+      "fingerprint": "sha256:26dca45cfc9d6eef21a4bd0dbf60717c0606b1ef053e3b73a18d94f38f2350d2",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-017.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2959,
+      "fingerprint": "sha256:94277c609f259089cec302dba8c169677b3007abef9d473398e3a539b0c5836b",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-018.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 3043,
+      "fingerprint": "sha256:fa615d4901d277d0c2ae1bb7cd1c57dc6240fdfe7aa2e291c985f71a2615c60b",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-019.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2085,
+      "fingerprint": "sha256:5e70d1b6e56b65ee43bd243ff1957860ec4c0415170b4d7226d8289e8e07b09a",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-020.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2178,
+      "fingerprint": "sha256:fa7c2f6d1406506f6099c95b82897622752905d0543da2b2b0fc99e642cb28ad",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-021.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2280,
+      "fingerprint": "sha256:4642e99b20a9ff0e515a17e6eb12396696096e70cb357e95a2c6c3400fa53ee5",
+      "path": "fixtures/semantic/boundary/HKCASE-PROP-SEM-BND-022.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1805,
+      "fingerprint": "sha256:003c74a76a3cae525b0e3bf13e46466ce503fb542b54b6a9807398d5e875090d",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-001.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2231,
+      "fingerprint": "sha256:b27b9039ba38d3c6b83d8b05931882b8cb4b18c616dcd5f5caa639abefd1d31b",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-002.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2164,
+      "fingerprint": "sha256:c5d995eefa1989bf383b8b315e035aadbc9e9fe08832eaf793ebaf4d4daa2880",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-003.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2160,
+      "fingerprint": "sha256:5be466026c11f54732765c9538e800209c5da5ed8dd9994c5995f0911572ed83",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-004.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2184,
+      "fingerprint": "sha256:865eae8c06f3d6e4faca1c3ad1412f7c07cf6bc7223e17177c78478f39511c91",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-005.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2593,
+      "fingerprint": "sha256:5ffef454042b178899efdc7545cde6851d2b694cdf567c2ff99cfbd0cc932c03",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-006.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2630,
+      "fingerprint": "sha256:81488adc53bc1541bb24d572650435e4435e980e0e97d9c58e6d67af81e4c2d0",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-007.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2278,
+      "fingerprint": "sha256:f08b603dab45d0e3d91a5cd858e25cc7defa620b1498cc93512724de9ba1fdfd",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-008.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2295,
+      "fingerprint": "sha256:cb246b7e8557460608c8574fc47c981f63b87ef75502e22d2e7f96a529d1410c",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-009.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 3389,
+      "fingerprint": "sha256:a9c61a12e878d83769fe8579bf22aa03cbd834a826d6eadb3da30192ecf14039",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-010.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2210,
+      "fingerprint": "sha256:36a9a9350b81644d96d86fbfae082cfd43f6041c685a89b8e3c7d130c0cb759c",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-011.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2178,
+      "fingerprint": "sha256:ad4ab186168a40685b98f4d27a598a81f3d8d3549fa77c33b996799b779ad6ef",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-012.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2318,
+      "fingerprint": "sha256:7c790a0f26bd39a23193ddd23079ecee975be3f1fc4dd5c3da9668fbed309f04",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-013.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2301,
+      "fingerprint": "sha256:09b534d9b0aa310c733cccc44e0b471d55a01b83247dbaf5dcc6a45393617b24",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-014.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2220,
+      "fingerprint": "sha256:3b031f004c74fd2706e4ed0cad093914ef00840d62fcb7a7c69da2c5342d06f3",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-015.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1804,
+      "fingerprint": "sha256:1168826a9dd10c24a5ff17b8f5c82e0726b48582d95254fd45706e2ed2dfb0fe",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-016.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2311,
+      "fingerprint": "sha256:93cb189022abbe4db1e38fa952e2fb064c5384199a4b0fc0c3a7fe49b514cc6a",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-017.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2316,
+      "fingerprint": "sha256:eacaae61758cb9346a228ff7ecc50d419284348408a05430804b7ea31e945bda",
+      "path": "fixtures/semantic/content/HKCASE-PROP-SEM-CNT-018.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2185,
+      "fingerprint": "sha256:f24f7ec5d43e66187c91ce1adf6d784886e38cf0e8debff590b6f9227cba185d",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-001.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1790,
+      "fingerprint": "sha256:b08112b559b2b8464b31c5ac2bd88ba7874c6a1896fa0928e0b9fda84e1098d6",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-002.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1759,
+      "fingerprint": "sha256:bd07e0cf4e8e6d9bff65ebc92d5d8d092bf9d54a8be86570e3ea2ac7bdee4ec1",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-003.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2113,
+      "fingerprint": "sha256:9bbd0a5dff5727e78ca71e27acc5e7468ce5044c21d1f352ec705c2b5f8e2871",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-004.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1767,
+      "fingerprint": "sha256:2277c9848943ca47e47f09bfb250517c2aed85b8f6a1d7c02c3a5ceed8a774a6",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-005.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2092,
+      "fingerprint": "sha256:6268e851b292f75fe862a04ccbf94219991fee5bc24b8d7cec8c075b69bf8b07",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-006.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1774,
+      "fingerprint": "sha256:b01b21a01480d6cd46a0da7678bb94fbba4f01b53efbb2cbb619b6d6d439fb80",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-007.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1719,
+      "fingerprint": "sha256:94984fc81cac7dc72c1d35528772f3869aecc8c055fa2cf3bf43f1de99be30f0",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-008.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1670,
+      "fingerprint": "sha256:b2604a616521a9f369698ad0d91940f2579a7763a74fc78140be7ddd5db400e7",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-009.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1690,
+      "fingerprint": "sha256:0ca149f805d92906bb14d1cfbb43ff574d552e1860af5a6ac3df9ccdd8d5672e",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-010.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1705,
+      "fingerprint": "sha256:87fbcb6ee6a46f06621a7ae5f80ad5152afd36e74bacdd5a6a94916c153f2f78",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-011.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1806,
+      "fingerprint": "sha256:3352b2c0e05b45543ed5ba4686140cc7b3a5df55c74c0c47905d274596d3c6fe",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-012.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1875,
+      "fingerprint": "sha256:f85f57ee636b667c0e35d7611d5b9d416ec27a85bf4ec918b516b70d2399fe29",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-013.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2385,
+      "fingerprint": "sha256:f2448b6d464f6e40012870825cd89cc34668d61f76a6af4590e77853983a5baa",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-014.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1791,
+      "fingerprint": "sha256:99ac543d2e40f1b5c2b5108fe56763156354eac720036d13d770eba576785839",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-015.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2358,
+      "fingerprint": "sha256:e6cb03ffa43cf56d2f9f76580e12b5621ce2ef02a9f5f3d0cc7f07f805854bc3",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-016.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1795,
+      "fingerprint": "sha256:e63e41fb03fd83b7b3291458ce132ce903107a9d9001f97eb3ef8381bc94601a",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-017.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2047,
+      "fingerprint": "sha256:a59ce367def102c0655cb42420d32a514e47992dc00729d2f8ef381f6bd2f950",
+      "path": "fixtures/semantic/materiality/HKCASE-PROP-SEM-MAT-018.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1699,
+      "fingerprint": "sha256:232d1edeb60ac0fbfb10e9e98e8141b63b1926afb9619045fa758a60ceb0a4ae",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-001.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1630,
+      "fingerprint": "sha256:dfcd0ac364c0ea1b9ed704e27036a95c1b7b7d11ee34db1e22769125185b363c",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-002.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1621,
+      "fingerprint": "sha256:45464f6c319b0fc9304198cf0f1d5f5eb69ef4c71ad71e7198665490274a3761",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-003.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1927,
+      "fingerprint": "sha256:2894a325aa51a3b95b5bb126fdaa77a30cbda569f08a0d653934ddd0f92d55da",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-004.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1641,
+      "fingerprint": "sha256:c97fb8b9eadf2c28393a05927e41fc14dc52be004ba105397915fe914e0369f9",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-005.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1924,
+      "fingerprint": "sha256:b06f4e7f9147d3141c2809e10da7b535027e848a3c5772aad48689692d228d20",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-006.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1859,
+      "fingerprint": "sha256:295a5e5224dabf0bf923e0492b9ed92e148a9fa0f9bb5da137d74abc77844b27",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-007.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1771,
+      "fingerprint": "sha256:642a8361acbe309d00af55259512d05f305fde77763f120ef7e305a67db7abfb",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-008.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1586,
+      "fingerprint": "sha256:f1cd975f9feff02b5d3e9d340c7353cfc9cca4efba75809fc7c5ca3c0c655f74",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-009.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2357,
+      "fingerprint": "sha256:a097e7e49db83a54be8e4e7b5cfd31d26ef48d9f2105e63b559cafc1f860d3ce",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-010.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1672,
+      "fingerprint": "sha256:548964d1552863de62c5cab2d3b63cb713f5b7d13753407da0a00d6706761330",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-011.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1926,
+      "fingerprint": "sha256:6ff5f08a6bc2c9100e7a5583022d1d9b27e6d123f58cbf488501556eaa12344a",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-012.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1979,
+      "fingerprint": "sha256:a55403dc56093fa615932b20c3f926e2fcf51b266dc8a8c88dd3844dfc452c68",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-013.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1697,
+      "fingerprint": "sha256:83a3685976c92e0daae9206c1c8938b21edab1d97e101ce192180ac67e6b1027",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-014.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1999,
+      "fingerprint": "sha256:433104f7c1054f699bb362e50efe85febded778b1ba52e42172513f146fc8d6e",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-015.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1702,
+      "fingerprint": "sha256:e5ee5592ffe80eaf8fbe8633d4648fbda30447a68886e726ea6079859415fa88",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-016.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1627,
+      "fingerprint": "sha256:59b993d7d3fe4903707a13cedad6d0a9719d36e7f399f090d6d879ee3fdfb300",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-017.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1619,
+      "fingerprint": "sha256:658f89a3fc5fd81e1a4b1ca969be673e5e09182a112b53d7fcb4f6efe42e8397",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-018.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1937,
+      "fingerprint": "sha256:5a00f7c59130b4251e54c84641f13cf866aece74e44310ba0116c3ec130ca987",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-019.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1617,
+      "fingerprint": "sha256:32ee049502e41095356819ec1949f862a82ec10a7142a3fdcbb239a2de91227a",
+      "path": "fixtures/semantic/risk/HKCASE-PROP-SEM-RSK-020.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1717,
+      "fingerprint": "sha256:28332dc3140e8412020984329c8d9e0eb2334c9ec6a2c9de45d9b7760e05c7c8",
+      "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-001.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2490,
+      "fingerprint": "sha256:49db4b155c1478187cb426c8c14d07ac3a4751cd384a7641914717fd3f66a8e8",
+      "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-002.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1721,
+      "fingerprint": "sha256:88a5768f34c9647dff5121de201230a301ba148581320b4b6d0c82eea09e630d",
+      "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-003.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1741,
+      "fingerprint": "sha256:84efb5340bfa2bf3773575987f1b92a8ee26e93deb8382d19a87aa1015fe78da",
+      "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-004.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2501,
+      "fingerprint": "sha256:20c9dd164a481bb73cd2f4f8aa2574a692e5a7bbbd54cb475cd09aefc4519f84",
+      "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-005.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2217,
+      "fingerprint": "sha256:d9d984805b0d412b0584c85024c8cdf42f1a6b5461938212ccfbba4da04f3812",
+      "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-006.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1754,
+      "fingerprint": "sha256:175bb4dce79de0fd0e8b07abc217f5f691c53d35e56003978c6d5f575bcdf80d",
+      "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-007.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2606,
+      "fingerprint": "sha256:7cbdb5a49193bdd24da88a6e5731b75164837bc254449d8bd94ff5adb2c02fcc",
+      "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-008.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2222,
+      "fingerprint": "sha256:6522e08e515666bd123b450e1e96b8ad69a9d72a119aff03fe44d1cb923529bb",
+      "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-009.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1736,
+      "fingerprint": "sha256:cef3c1e27eab22a7534cb5062f34f26cb718667ce7837c733fcb499ff09f3f67",
+      "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-010.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2864,
+      "fingerprint": "sha256:32fbe4df4df1dbe3144a1aadc721e4a165e8f33fe6bc3d019139a7d7fef96d5c",
+      "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-011.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 1772,
+      "fingerprint": "sha256:6de2e4ba10bbd2e7d1ae7766a6e6885c361b21d4736e6142d8f37412600bbc41",
+      "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-012.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 2091,
+      "fingerprint": "sha256:47e7dcecaae00e7220048d88efbdbfcd867c219b559e6a2205dd442ff8e515af",
+      "path": "fixtures/semantic/treatment-discovery/HKCASE-TREAT-SEM-DIS-013.json",
+      "role": "SEMANTIC_FIXTURE"
+    },
+    {
+      "byte_size": 17,
+      "fingerprint": "sha256:a4754c643bc18257422c83a20e9f4e16892e868cf342b1f8d070dc24fea29897",
+      "path": "profiles/semantic-profiles.json",
+      "role": "PROFILE"
+    },
+    {
+      "byte_size": 293,
+      "fingerprint": "sha256:4ade173bc49c5f8daf030052647b2c044133bddb75f5fb3629aa9196695b3ea3",
+      "path": "renderers/NOT_READY.md",
+      "role": "RENDERER"
+    },
+    {
+      "byte_size": 894,
+      "fingerprint": "sha256:965827b20cd6c43df98a9baff7542829491df2dc593bec73cb5cff252889e442",
+      "path": "rules/HKCASE-PROP-ADMISSION-CONFORMANCE-001.json",
+      "role": "RULES"
+    },
+    {
+      "byte_size": 502,
+      "fingerprint": "sha256:27e9b156cc7402952a4ed763d619d996b854ac8550a30eda900d4a30ec1d94f4",
+      "path": "rules/HKCASE-PROP-COVERAGE-LEDGER-001.json",
+      "role": "RULES"
+    },
+    {
+      "byte_size": 731,
+      "fingerprint": "sha256:3ce6c12e9e444d1b3acba5701e93b6bef43484c602c06cae68fef82c086aba31",
+      "path": "rules/HKCASE-PROP-OUTPUT-CONFORMANCE-001.json",
+      "role": "RULES"
+    },
+    {
+      "byte_size": 936,
+      "fingerprint": "sha256:3948cd40ee5449652ae82cb29a473d3de75689d122a328b0fad23f52394b6691",
+      "path": "rules/HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001.json",
+      "role": "RULES"
+    },
+    {
+      "byte_size": 757,
+      "fingerprint": "sha256:31cd42184093e2d02e29dc8dd94a0ceb365d609798733084d7b8de84e74fff9a",
+      "path": "rules/HKCASE-PROP-SEM-CONTENT-EVALUATOR-001.json",
+      "role": "RULES"
+    },
+    {
+      "byte_size": 1029,
+      "fingerprint": "sha256:5020c17024eba923b517e57163ab635f874b40dbf6a7dcedd18d2e6115ad78e7",
+      "path": "rules/HKCASE-PROP-SEM-MATERIALITY-EVALUATOR-001.json",
+      "role": "RULES"
+    },
+    {
+      "byte_size": 746,
+      "fingerprint": "sha256:71da503201192727047c338f24e5f4ba1dc9211da179a7db92550753cc91fca0",
+      "path": "rules/HKCASE-PROP-SEM-RISK-EVALUATOR-001.json",
+      "role": "RULES"
+    },
+    {
+      "byte_size": 1197,
+      "fingerprint": "sha256:3f35f2524b73b42a662ffefcfad82b82549fe187fd14c1af972f95a8685471e6",
+      "path": "rules/HKCASE-PROP-SEMANTIC-TASK-PREFLIGHT-001.json",
+      "role": "RULES"
+    },
+    {
+      "byte_size": 662,
+      "fingerprint": "sha256:4be67287db42c726b84b39442c13dc61f544e4708ad567803191b3bf925d49fe",
+      "path": "rules/HKCASE-TREAT-SEM-DISCOVERY-EVALUATOR-001.json",
+      "role": "RULES"
+    },
+    {
+      "byte_size": 14,
+      "fingerprint": "sha256:edc1771f53635ad1b4e70ca6c83eb12e817cec9f84507496d4e2eed64d88202d",
+      "path": "rules/terminal-rules.json",
+      "role": "RULES"
+    },
+    {
+      "byte_size": 3455,
+      "fingerprint": "sha256:4fd83d70a152ce6de0e93a68ab59fbd4b55485bc232c5ebe0fdbf211534f890b",
+      "path": "scopes/release-scopes.json",
+      "role": "SCOPE_REGISTRY"
+    },
+    {
+      "byte_size": 2670,
+      "fingerprint": "sha256:78c6e29c403e7e79725380e80b5e788084a472d0ba40b0773d424e61dafb0eaf",
+      "path": "sources/source-universe.json",
+      "role": "SOURCE_UNIVERSE"
+    }
+  ]
+}

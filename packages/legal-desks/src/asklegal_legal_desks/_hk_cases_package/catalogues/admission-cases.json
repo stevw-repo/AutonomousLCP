@@ -1,0 +1,236 @@
+{
+  "schema_id": "asklegal.hk-cases.admission-catalogue",
+  "schema_version": "1.0.0",
+  "catalogue_id": "hk-case-proposition-deterministic-admission-initial",
+  "case_count": 18,
+  "coverage_cell_count": 18,
+  "pair_ids": [
+    "HKCASE-PROP-PAIR-026",
+    "HKCASE-PROP-PAIR-027",
+    "HKCASE-PROP-PAIR-028",
+    "HKCASE-PROP-PAIR-029",
+    "HKCASE-PROP-PAIR-030"
+  ],
+  "entries": [
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-001",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-001",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-001.json",
+      "fixture_fingerprint": "sha256:b3ebcf0852afae99cb8265781384463421cd5b2b11b6b15017c7e50dccc19701",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-001.json",
+      "expected_fingerprint": "sha256:460e7168ddbad933c75e1630a83d59a0336e640318d1ab781d4143fb030fe3ed"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-002",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-002",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-002.json",
+      "fixture_fingerprint": "sha256:94dababb3536f56b18dd3672beea4c379b21e1f22657db2f4e60f7c2e1f1e044",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-002.json",
+      "expected_fingerprint": "sha256:7b1d5f51889abee7166c2ae3db099d5aa635ba554d12a8004cf440a4f9b205ec"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-003",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-003",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-003.json",
+      "fixture_fingerprint": "sha256:ec48724fa98b3724a500f97bdd27e372ea14ff434260758b5546efebe23d2ea5",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-003.json",
+      "expected_fingerprint": "sha256:aea8f4e5a08c6be30f220e773237739a5743639d4f9bfa1373dfa4409461973c"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-004",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-004",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-004.json",
+      "fixture_fingerprint": "sha256:f78443b0506ac41e92bcd2cace6d57aa803e73155ef28088f764fd368e24589e",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-004.json",
+      "expected_fingerprint": "sha256:18af5cdf84200d6d7228d4f0f985ced8dffe1a03c207ee66ddbed0c0d96e1958"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-005",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-005",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-005.json",
+      "fixture_fingerprint": "sha256:db75b912f0cd54225a9a45f6a534643ed381b656eb95caa26572020f0e90a12e",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-005.json",
+      "expected_fingerprint": "sha256:c10c3ed26e7884ac727ef5871fb367dc536ce35b04fbc9fa75146573ebc2b88e"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-006",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-006",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-006.json",
+      "fixture_fingerprint": "sha256:2c2a77448ba45e550265b2ea9a6297f47a5483ab0d822e3e096518418ef86381",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-006.json",
+      "expected_fingerprint": "sha256:426c9c57690d3b31b63f71aca479b2b61363f5d75fd79fabba6a8492502de4f4"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-007",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-007",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-007.json",
+      "fixture_fingerprint": "sha256:8383dbab94f3e4c069f20474ac6830ec65acb186d24bf99938fd6da1a7c4e503",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-007.json",
+      "expected_fingerprint": "sha256:78d6212cd1b87121436d1e74b3d75e019a12a566462344380a8de16b6b8ed9b8"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-008",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-008",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-026",
+          "role": "POSITIVE"
+        }
+      ],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-008.json",
+      "fixture_fingerprint": "sha256:a2bf7483bbae3f27935ac68dde3873f9fc54864c01f4c5ec081a225701533f3f",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-008.json",
+      "expected_fingerprint": "sha256:45ef9ef3cd4fc24fc65acf6d4450d302cab80e130f8ac0549d8fd242de774a26"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-009",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-009",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-026",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-009.json",
+      "fixture_fingerprint": "sha256:c3cc631597894a159808ff2128dcac7b1a9080b2b2546e71f880130cc81b639d",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-009.json",
+      "expected_fingerprint": "sha256:82f3954f98aa50184258449fecd0f3859cb32a036fd28dec52fc4df2818499fd"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-010",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-010",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-027",
+          "role": "POSITIVE"
+        }
+      ],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-010.json",
+      "fixture_fingerprint": "sha256:d9af58f2fe8601c0924b3138595a564e4ce844909fd856b0019f79fe41ee7e1b",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-010.json",
+      "expected_fingerprint": "sha256:76f864b20d00d32e4ba941f40cf387613f66172c4e83b7398b9cbccad2c6b932"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-011",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-011",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-027",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-011.json",
+      "fixture_fingerprint": "sha256:1d074df7d58f47d52eb4c05db4e23b094a80257ae89926fd2c52d560f101bdeb",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-011.json",
+      "expected_fingerprint": "sha256:f72fd3c85d93e1f0128b99ec911fe6827e336a4fa1d80e3a336dee10eb522320"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-012",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-012",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-028",
+          "role": "POSITIVE"
+        }
+      ],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-012.json",
+      "fixture_fingerprint": "sha256:0bd1614aae7cabe9f1fa4e412098baf374a1136f5eae1aaae62387e2ecc3a398",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-012.json",
+      "expected_fingerprint": "sha256:80ceb41ed258262e7ecc4cad68387dbdbaecb3c974d7f9d2f29f65abbefc18a5"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-013",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-013",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-028",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-013.json",
+      "fixture_fingerprint": "sha256:94a4276e8bf01b26ae06532eee662cc8cc39021cdb1fd9ef9dde6ae85c06965b",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-013.json",
+      "expected_fingerprint": "sha256:81b1dda8bef20e8611ec24aba3698eaea8f126739b234639689ecca330cedc79"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-014",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-014",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-029",
+          "role": "POSITIVE"
+        }
+      ],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-014.json",
+      "fixture_fingerprint": "sha256:84fd98809128e33af9c405f951a7c6e5d8e9d0adda60b0aaee965227d1d67a5f",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-014.json",
+      "expected_fingerprint": "sha256:375a0db4f961cf145c081b2a5302131d5486312efb92853a4a435167256c6f4c"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-015",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-015",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-029",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-015.json",
+      "fixture_fingerprint": "sha256:012ad3bc11dfd5852ac2d7904a122e3fc795c8c4de5606b7c123ac1167558e80",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-015.json",
+      "expected_fingerprint": "sha256:6f57c7b84e7d3e7baa91da33da4fb83e583aa8bdc30dd6d804cf1f047d704232"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-016",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-016",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-016.json",
+      "fixture_fingerprint": "sha256:6be9142ab0571122a674a8bc9f3c278b2d0defb9ef2767b368c85a6807313406",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-016.json",
+      "expected_fingerprint": "sha256:3147b4a108f4f2b0e97252a2d91629b23735841e97766f1a47c59f6a1b4fc96c"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-017",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-017",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-030",
+          "role": "POSITIVE"
+        }
+      ],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-017.json",
+      "fixture_fingerprint": "sha256:5b33c34f0e495080750151322a34fa73c73ab0bc62dc68914abff6faf213c456",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-017.json",
+      "expected_fingerprint": "sha256:23a36f86d6f955593dfb5a039345940e562752e3885fe98cf1d4cc73e57a86f9"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-ADM-018",
+      "coverage_cell_id": "HKCASE-PROP-COV-DADM-018",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-030",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "fixture_path": "fixtures/deterministic/admission/HKCASE-PROP-DET-ADM-018.json",
+      "fixture_fingerprint": "sha256:1eb11585ef8a2916253af6e09f866f60f8c80a22c82151ef880916d4251e6dac",
+      "expected_path": "expected/admission/HKCASE-PROP-DET-ADM-018.json",
+      "expected_fingerprint": "sha256:01f9b934f8a72ac69c20de5380cb41194cd440f1b7f8864992b5384fe3e6840b"
+    }
+  ],
+  "frozen_132_case_catalogue_fingerprint": "sha256:ec5f3e4c416918bdccc12e51533017c0e217d32e8f4e29eafe86bb1a206c0d0e",
+  "deterministic_case_count": 54,
+  "deterministic_checkpoint_complete": true,
+  "full_proposition_suite_complete": false,
+  "real_source_evidence": false,
+  "workflow_admission_created": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

@@ -1,0 +1,142 @@
+{
+  "schema_id": "https://contracts.asklegal.local/v1/hk-cases-source-register.schema.json",
+  "schema_version": "1.0.0",
+  "register_id": "hcr_000000000000000000000000000000000000000000000001",
+  "register_version": "2026-08-24.1",
+  "effective_date": "2026-08-24",
+  "status": "NOT_ADMITTED_FAIL_CLOSED",
+  "fingerprint": "sha256:c1c22ab94bb7ebdc95b6597c74856c430572a3887900deb1d57645fa186c33e4",
+  "access_boundary": {
+    "state": "LOCAL_CONTRACT_ONLY_NO_SOURCE_ACCESS",
+    "forbidden_effects": [
+      "CORPUS_PUBLICATION",
+      "DEPLOYMENT",
+      "MODEL_OR_EMBEDDING_CALL",
+      "PINECONE_MUTATION",
+      "PRODUCTION_ROUTING",
+      "REAL_SOURCE_ACCESS"
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "HK-CASE-COURT-REGISTRY",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000101",
+      "version": "1.0.0",
+      "endpoint_ids": [],
+      "rights_state": "UNVERIFIED",
+      "operational_state": "BLOCKED",
+      "outage_impact": "AFFECTED_WORK_BLOCKING",
+      "fact_authority": "KNOWN_ITEM_AUTHENTICITY_VERSION_OR_AVAILABILITY_FALLBACK",
+      "completeness_authority": "CANNOT_PROVE_COMPLETE_ONLINE_INVENTORY",
+      "blockers": [
+        "BOUNDED_REQUEST_PROCEDURE_UNADMITTED",
+        "EXACT_ENDPOINT_CONTRACT_REQUIRED",
+        "PUBLISHER_RIGHTS_EVIDENCE_UNADMITTED",
+        "SOURCE_ACCESS_AUTHORIZATION_UNADMITTED"
+      ]
+    },
+    {
+      "source_id": "HK-CASE-HKLII-DISCOVERY",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000102",
+      "version": "1.0.0",
+      "endpoint_ids": [],
+      "rights_state": "UNVERIFIED",
+      "operational_state": "BLOCKED",
+      "outage_impact": "NONBLOCKING",
+      "fact_authority": "DISCOVERY_ALIAS_CITATION_AND_TREATMENT_LEADS_ONLY",
+      "completeness_authority": "NEVER_PROVES_OFFICIAL_COMPLETENESS_OR_NO_CHANGE",
+      "blockers": [
+        "EXACT_ENDPOINT_CONTRACT_REQUIRED",
+        "NONCONTROLLING_DISCOVERY_PROFILE_UNADMITTED",
+        "PUBLISHER_RIGHTS_EVIDENCE_UNADMITTED",
+        "SOURCE_ACCESS_AUTHORIZATION_UNADMITTED"
+      ]
+    },
+    {
+      "source_id": "HK-CASE-JUDICIARY-JUDGMENT",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000103",
+      "version": "1.0.0",
+      "endpoint_ids": [],
+      "rights_state": "UNVERIFIED",
+      "operational_state": "BLOCKED",
+      "outage_impact": "AFFECTED_WORK_BLOCKING",
+      "fact_authority": "ORIGINAL_WORDING_VERSION_LANGUAGE_AND_OPINION_EVIDENCE",
+      "completeness_authority": "EVERY_ACQUIRED_IN_SCOPE_DECISION_REQUIRES_ACCEPTED_ORIGINAL",
+      "blockers": [
+        "EXACT_ENDPOINT_CONTRACT_REQUIRED",
+        "ORIGINATING_ARTIFACT_PROFILE_UNADMITTED",
+        "PUBLISHER_RIGHTS_EVIDENCE_UNADMITTED",
+        "SOURCE_ACCESS_AUTHORIZATION_UNADMITTED"
+      ]
+    },
+    {
+      "source_id": "HK-CASE-JUDICIARY-LIBRARY",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000104",
+      "version": "1.0.0",
+      "endpoint_ids": [],
+      "rights_state": "UNVERIFIED",
+      "operational_state": "BLOCKED",
+      "outage_impact": "AFFECTED_WORK_BLOCKING",
+      "fact_authority": "HISTORICAL_SUPERIOR_COURT_INVENTORY_AND_ORIGINATING_EVIDENCE",
+      "completeness_authority": "EVERY_PROMISED_HISTORICAL_SCOPE_REQUIRES_COMPLETE_ENUMERATION",
+      "blockers": [
+        "EXACT_ENDPOINT_CONTRACT_REQUIRED",
+        "HISTORICAL_INVENTORY_BOUNDARY_UNADMITTED",
+        "PUBLISHER_RIGHTS_EVIDENCE_UNADMITTED",
+        "SOURCE_ACCESS_AUTHORIZATION_UNADMITTED"
+      ]
+    },
+    {
+      "source_id": "HK-CASE-JUDICIARY-LRS-INVENTORY",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000105",
+      "version": "1.0.0",
+      "endpoint_ids": [],
+      "rights_state": "UNVERIFIED",
+      "operational_state": "BLOCKED",
+      "outage_impact": "RELEASE_BLOCKING",
+      "fact_authority": "CURRENT_OFFICIAL_LISTING_INVENTORY",
+      "completeness_authority": "EVERY_DUE_COURT_YEAR_PARTITION_MUST_COMPLETE",
+      "blockers": [
+        "COMPLETE_ENUMERATION_PROFILE_UNADMITTED",
+        "EXACT_ENDPOINT_CONTRACT_REQUIRED",
+        "PUBLISHER_RIGHTS_EVIDENCE_UNADMITTED",
+        "SOURCE_ACCESS_AUTHORIZATION_UNADMITTED"
+      ]
+    },
+    {
+      "source_id": "HK-CASE-JUDICIARY-TRANSLATION",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000106",
+      "version": "1.0.0",
+      "endpoint_ids": [],
+      "rights_state": "UNVERIFIED",
+      "operational_state": "BLOCKED",
+      "outage_impact": "NONBLOCKING",
+      "fact_authority": "LINKED_TRANSLATION_EVIDENCE_NOT_A_SECOND_AUTHORITY",
+      "completeness_authority": "TRANSLATION_ABSENCE_NEVER_CREATES_A_COVERAGE_GAP",
+      "blockers": [
+        "ARTIFACT_LINKAGE_PROFILE_UNADMITTED",
+        "EXACT_ENDPOINT_CONTRACT_REQUIRED",
+        "PUBLISHER_RIGHTS_EVIDENCE_UNADMITTED",
+        "SOURCE_ACCESS_AUTHORIZATION_UNADMITTED"
+      ]
+    },
+    {
+      "source_id": "HK-CASE-PRIVY-COUNCIL",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000107",
+      "version": "1.0.0",
+      "endpoint_ids": [],
+      "rights_state": "UNVERIFIED",
+      "operational_state": "BLOCKED",
+      "outage_impact": "AFFECTED_WORK_BLOCKING",
+      "fact_authority": "HONG_KONG_PRIVY_COUNCIL_INVENTORY_AND_ORIGINATING_EVIDENCE",
+      "completeness_authority": "EVERY_PROMISED_HKPC_SCOPE_REQUIRES_COMPLETE_ENUMERATION",
+      "blockers": [
+        "EXACT_ENDPOINT_CONTRACT_REQUIRED",
+        "HISTORICAL_INVENTORY_BOUNDARY_UNADMITTED",
+        "PUBLISHER_RIGHTS_EVIDENCE_UNADMITTED",
+        "SOURCE_ACCESS_AUTHORIZATION_UNADMITTED"
+      ]
+    }
+  ],
+  "endpoints": []
+}

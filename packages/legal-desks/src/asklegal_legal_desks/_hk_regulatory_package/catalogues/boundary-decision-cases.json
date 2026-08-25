@@ -1,0 +1,454 @@
+{
+  "schema_id": "asklegal.hk-regulatory.boundary-decision-catalogue",
+  "schema_version": "1.0.0",
+  "catalogue_id": "hk-regulatory-boundary-decision",
+  "catalogue_version": "1.0.0",
+  "status": "FROZEN_EXECUTABLE_CHECKPOINT",
+  "case_count": 30,
+  "primary_coverage_cell_count": 30,
+  "high_risk_pair_ids": [
+    "HKREG-PAIR-025",
+    "HKREG-PAIR-026",
+    "HKREG-PAIR-027",
+    "HKREG-PAIR-028",
+    "HKREG-PAIR-029",
+    "HKREG-PAIR-030",
+    "HKREG-PAIR-031"
+  ],
+  "entries": [
+    {
+      "case_id": "HKREG-DEC-BND-001",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-001",
+      "pair_memberships": [],
+      "assertion_scope": "NORMAL_UNIT",
+      "expected_outcome": "PASS",
+      "expected_reason": "ONE_COMPLETE_NORMAL_UNIT",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-001.json",
+      "fixture_fingerprint": "sha256:16a7108f50c82d113c15df1ea39362f8c9aadf66746bbdaac818f6925d859ea8",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-001.json",
+      "expected_fingerprint": "sha256:d4066a6ffc18b862a852d9017a21776fbc204ee9c9b7a43acba8baf9b3e94a0c"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-002",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-002",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-025",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "NORMAL_UNIT",
+      "expected_outcome": "PASS",
+      "expected_reason": "INDEPENDENT_CHILDREN_SELECTED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-002.json",
+      "fixture_fingerprint": "sha256:fcbe4c91597ebccde3a92070a97ff555996e9362f86e40475b9671062e500d52",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-002.json",
+      "expected_fingerprint": "sha256:380de54f12c4e8e0507ac267f8cb41da35590f15508232458753467fea60b6b1"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-003",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-003",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-025",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "NORMAL_UNIT",
+      "expected_outcome": "PASS",
+      "expected_reason": "INSEPARABLE_GROUP_PRESERVED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-003.json",
+      "fixture_fingerprint": "sha256:1f93099a810049dfe3cbe42f6f56c9f0bf84d42e5bdd6421952e3c43c71be74d",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-003.json",
+      "expected_fingerprint": "sha256:e23dd8aa3fabd19543bced5ea4a710ec05d0ba0ac3be0cead86e2e748de323bf"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-004",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-004",
+      "pair_memberships": [],
+      "assertion_scope": "NORMAL_UNIT",
+      "expected_outcome": "PASS",
+      "expected_reason": "INSEPARABLE_GROUP_PRESERVED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-004.json",
+      "fixture_fingerprint": "sha256:9f0b09a9109257f173edc1c75748b12b6cb536966774eedd76b570b8467adee2",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-004.json",
+      "expected_fingerprint": "sha256:b833a487e4bebd6fbee94b6c5faa5960f48696a45d1c96ce6195c3d7b552ef6c"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-005",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-005",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-026",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "GOVERNING_DEPENDENCY",
+      "expected_outcome": "PASS",
+      "expected_reason": "REQUIRED_DEPENDENCIES_PRESERVED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-005.json",
+      "fixture_fingerprint": "sha256:5638365bc7f561cc400b277e853bc1cb4ae73f9410162c06b0ea1468040358fd",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-005.json",
+      "expected_fingerprint": "sha256:dab76f3e8ce808877ed2fffa3e7738f646e0fe38546348e7ae6725a068ab7b06"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-006",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-006",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-026",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "GOVERNING_DEPENDENCY",
+      "expected_outcome": "BLOCK",
+      "expected_reason": "UNSAFE_CHILD_BOUNDARY_REJECTED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-006.json",
+      "fixture_fingerprint": "sha256:3fe0959a1f0d23c32085816549f16b69f3f08b716cf717f40186555c8cf0ea43",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-006.json",
+      "expected_fingerprint": "sha256:4e401cb5d9ab1909a92fdecd2d0a3786247fce73a821caf26ec93c443725d5f6"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-007",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-007",
+      "pair_memberships": [],
+      "assertion_scope": "GOVERNING_DEPENDENCY",
+      "expected_outcome": "PASS",
+      "expected_reason": "REQUIRED_DEPENDENCIES_PRESERVED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-007.json",
+      "fixture_fingerprint": "sha256:112e7e958e99c87c2f2c8d6710f659224244f8ebe048fc4f090964576ff5bb04",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-007.json",
+      "expected_fingerprint": "sha256:6aba9647328864e627fd2dde838817a6d8e5e27365fcf7ba6954f70e6ce79b8d"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-008",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-008",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-027",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "GOVERNING_DEPENDENCY",
+      "expected_outcome": "PASS",
+      "expected_reason": "NOTE_OWNER_PRESERVED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-008.json",
+      "fixture_fingerprint": "sha256:fb95e2ac6051f2a092211f77d8eee60e573250a65ccf6f5d5e798ff62257afe2",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-008.json",
+      "expected_fingerprint": "sha256:735c2efefc9a21c87f63706f5764fdefe7194422eca776d935e98c1ffafc6c33"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-009",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-009",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-027",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "GOVERNING_DEPENDENCY",
+      "expected_outcome": "BLOCK",
+      "expected_reason": "NOTE_OWNERSHIP_REJECTED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-009.json",
+      "fixture_fingerprint": "sha256:c6592e4e49d9cdd1028dd0b9ac43108a2ea13ff7f7cbe0cf5531c3a561bdb717",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-009.json",
+      "expected_fingerprint": "sha256:be35081f2d3939a257372a28e7e5cf9e4304aad2745e7b75305fde55169938b6"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-010",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-010",
+      "pair_memberships": [],
+      "assertion_scope": "DEFINITION",
+      "expected_outcome": "PASS",
+      "expected_reason": "TERM_DEFINITIONS_SELECTED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-010.json",
+      "fixture_fingerprint": "sha256:8c37a5f33e541c89c08496005f94de416fb8119866c3e91a816ad5cc4722052c",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-010.json",
+      "expected_fingerprint": "sha256:63aaca87e0cdfe24e100a04c90159555e96bd5cb62b071f7e0efdc4d6906abc7"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-011",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-011",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-028",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "DEFINITION",
+      "expected_outcome": "PASS",
+      "expected_reason": "GLOBAL_DEFINITION_SELECTED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-011.json",
+      "fixture_fingerprint": "sha256:9618018344e20eb37071eb4c635b83a42248707142fee68fc6405c76e8271767",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-011.json",
+      "expected_fingerprint": "sha256:43a82ed03946c2e1f1dac932f441d923fa08b278b320cae1161d5453766e29e1"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-012",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-012",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-028",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "DEFINITION",
+      "expected_outcome": "BLOCK",
+      "expected_reason": "GLOBAL_DEFINITION_DUPLICATION_REJECTED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-012.json",
+      "fixture_fingerprint": "sha256:5cfe17b3b438ed0d9e9f5ce0d99cfa5eb440e2d120c40d2ad691f25a363f35bf",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-012.json",
+      "expected_fingerprint": "sha256:51af2516f61bcaf37c6d5f531416fae3fdb425e24c38c9eaff30cf7af32102fc"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-013",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-013",
+      "pair_memberships": [],
+      "assertion_scope": "DEFINITION",
+      "expected_outcome": "PASS",
+      "expected_reason": "REQUIRED_DEPENDENCIES_PRESERVED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-013.json",
+      "fixture_fingerprint": "sha256:c26dc6f1049cea7e20765515c6eac247a27094e05e74e25b92fe942c09f40c3f",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-013.json",
+      "expected_fingerprint": "sha256:15acfdeadb7e9acc35fc3eee2215087127e5d1e2e6b08c72220b59fb3a6fb763"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-014",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-014",
+      "pair_memberships": [],
+      "assertion_scope": "NORMAL_UNIT",
+      "expected_outcome": "PASS",
+      "expected_reason": "ONE_COMPLETE_NORMAL_UNIT",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-014.json",
+      "fixture_fingerprint": "sha256:202add1faff4b8257738890f37143871d88ab14fbfd9db57eb55dd9c71e44a0a",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-014.json",
+      "expected_fingerprint": "sha256:66511d6737c0bfc60c2da6858f46458898982e931bee0b8bc01ee85b9d80753d"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-015",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-015",
+      "pair_memberships": [],
+      "assertion_scope": "NORMAL_UNIT",
+      "expected_outcome": "PASS",
+      "expected_reason": "ONE_COMPLETE_NORMAL_UNIT",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-015.json",
+      "fixture_fingerprint": "sha256:968abfbf85b7ed70de67784a3af026688b196913e495b8b2730122e75bb1099c",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-015.json",
+      "expected_fingerprint": "sha256:74583719679e8b68fe81a8a7a2e46615990badbdb4d2dc3cc78b2881d8671c75"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-016",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-016",
+      "pair_memberships": [],
+      "assertion_scope": "LEGAL_STRUCTURE",
+      "expected_outcome": "BLOCK",
+      "expected_reason": "PRESENTATION_IDENTITY_REJECTED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-016.json",
+      "fixture_fingerprint": "sha256:41c8d92c62bfa2a129b6b5645a59330468d68128ae3988efd5e9e0788d8677e8",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-016.json",
+      "expected_fingerprint": "sha256:dfb068cbecc73eef2bc4f3e5a4591b004bcbd2e885d9094c79f78d117b635799"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-017",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-017",
+      "pair_memberships": [],
+      "assertion_scope": "LEGAL_STRUCTURE",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "SOURCE_STRUCTURE_REVIEW_REQUIRED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-017.json",
+      "fixture_fingerprint": "sha256:af3fcdc55025bc36315e106de40bc4531d968e5779fcef20bea706e6654d9324",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-017.json",
+      "expected_fingerprint": "sha256:bf9c6819cd5ed16d7916e51b40d97b58857e48be837bf4bc2b5019cfc420a826"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-018",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-018",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-029",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "GOVERNING_DEPENDENCY",
+      "expected_outcome": "PASS",
+      "expected_reason": "REQUIRED_DEPENDENCIES_PRESERVED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-018.json",
+      "fixture_fingerprint": "sha256:11a4321bd244dcc8622297d91266b7f8b2e14b59affff70bdcdbc25dce937e0d",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-018.json",
+      "expected_fingerprint": "sha256:fd07897e4e14fa1de53192cdee2ade1a1f750f087212f2e8210de0ad3a732cb2"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-019",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-019",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-029",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "GOVERNING_DEPENDENCY",
+      "expected_outcome": "PASS",
+      "expected_reason": "BACKGROUND_EXCLUDED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-019.json",
+      "fixture_fingerprint": "sha256:41499a1852514769ecdd5b93d528c45dbd2200ea2bca55460cd3e4df7dd84abb",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-019.json",
+      "expected_fingerprint": "sha256:da2b3fc9754c0fe37604dfc0990bfb040cae3e341cf78190364daea9b6ba99d8"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-020",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-020",
+      "pair_memberships": [],
+      "assertion_scope": "GOVERNING_DEPENDENCY",
+      "expected_outcome": "PASS",
+      "expected_reason": "DEPENDENCY_OWNER_LINKED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-020.json",
+      "fixture_fingerprint": "sha256:76855fc2df5f1f810c5d0bd1e45da24f5e6dab0c4bf5546b965774cbbda2c511",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-020.json",
+      "expected_fingerprint": "sha256:313c1ebe7c995b379dc0e61993db21b16316b730f53e892d5534613d1ba1e263"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-021",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-021",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-030",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "CROSS_REFERENCE",
+      "expected_outcome": "PASS",
+      "expected_reason": "CROSS_REFERENCE_PRESERVED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-021.json",
+      "fixture_fingerprint": "sha256:38258f72f21b335acc8f058d8f54e80fa39a4ec93d6ef29f3db9f60c3b50d2cf",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-021.json",
+      "expected_fingerprint": "sha256:9bc10603c1c0402d5059ccb74e1313624f1378155398beed8290b68315cf36c7"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-022",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-022",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-030",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "CROSS_REFERENCE",
+      "expected_outcome": "BLOCK",
+      "expected_reason": "RECURSIVE_TARGET_COPY_REJECTED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-022.json",
+      "fixture_fingerprint": "sha256:1413d8ae81bd71c36a172d13db19fa9f1ad2164cf3bdd0c31bdbbf4848a6810b",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-022.json",
+      "expected_fingerprint": "sha256:14b70e94cfc39ebdfdf396f579f5f8e42e2df18620270b6be559ab16a3773a4b"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-023",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-023",
+      "pair_memberships": [],
+      "assertion_scope": "CROSS_REFERENCE",
+      "expected_outcome": "PASS",
+      "expected_reason": "REFERENCE_CHAIN_PRESERVED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-023.json",
+      "fixture_fingerprint": "sha256:c42809144f3f27083d99867e5791c14decaac78add16479f2abd8ae62561f6d0",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-023.json",
+      "expected_fingerprint": "sha256:31be26a9dec2dc54f79f86991a1521fc2a58feb0d1db145ab4855cc0dafd023f"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-024",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-024",
+      "pair_memberships": [],
+      "assertion_scope": "CROSS_REFERENCE",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "TARGET_RESOLUTION_REQUIRED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-024.json",
+      "fixture_fingerprint": "sha256:a880ed49975b7593f599ba37b659fb7ebc8c072d66dc4fbea603cce5861ea109",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-024.json",
+      "expected_fingerprint": "sha256:06dc87e1ac29f65d41d9c7f4be16ca1e21aaad7f3e17ed00b8ba21eb8b2cd509"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-025",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-025",
+      "pair_memberships": [],
+      "assertion_scope": "CROSS_REFERENCE",
+      "expected_outcome": "PASS",
+      "expected_reason": "CROSS_BOARD_REFERENCE_PRESERVED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-025.json",
+      "fixture_fingerprint": "sha256:d39cff8513b8a904ba54d68ed63ee3d4c1194f9c7856052b6530267bfb50aa7d",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-025.json",
+      "expected_fingerprint": "sha256:4c2282975ae1a4b771fd7285ad6f75cc0437dca649b396c52f53eb9d0e36efcd"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-026",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-026",
+      "pair_memberships": [],
+      "assertion_scope": "CROSS_REFERENCE",
+      "expected_outcome": "PASS",
+      "expected_reason": "RELATIONSHIP_REVISION_ONLY",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-026.json",
+      "fixture_fingerprint": "sha256:9bd8e49086ecb62c3bce14a53bffce586bf985573b9aa6e2d2ac9b66e051d989",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-026.json",
+      "expected_fingerprint": "sha256:62d7686fbbc657cdd34e0380d237b8f0937ff5970c34db9a098dc32fbfb3ac56"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-027",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-027",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-031",
+          "role": "POSITIVE"
+        }
+      ],
+      "assertion_scope": "NORMAL_UNIT",
+      "expected_outcome": "PASS",
+      "expected_reason": "INDEPENDENT_CHILDREN_SELECTED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-027.json",
+      "fixture_fingerprint": "sha256:6b58e07299db7449fe1d4aae371be279f1a13aab264adbd5748283ed1bb57e15",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-027.json",
+      "expected_fingerprint": "sha256:ac841070a563dc2c496785c7a5d0bef8ce050b292b7a0f059d37dd6475885c15"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-028",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-028",
+      "pair_memberships": [
+        {
+          "pair_id": "HKREG-PAIR-031",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "assertion_scope": "GOVERNING_DEPENDENCY",
+      "expected_outcome": "BLOCK",
+      "expected_reason": "UNSAFE_CHILD_BOUNDARY_REJECTED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-028.json",
+      "fixture_fingerprint": "sha256:5c24839ffbe1539c05c447001c6b075cd4ae4073db13f0d53c3b90c0788ca121",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-028.json",
+      "expected_fingerprint": "sha256:090b1a00e6f4551688ea5d9d3cb1e51d3a66723f4a06bf9eed12111e835db8f7"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-029",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-029",
+      "pair_memberships": [],
+      "assertion_scope": "NORMAL_UNIT",
+      "expected_outcome": "QUARANTINE",
+      "expected_reason": "COMPLETE_UNIT_OVER_LIMIT",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-029.json",
+      "fixture_fingerprint": "sha256:28850adadf7228eb4df9f5081e801f4f4fd3412747cdae33829a6cf16a7772df",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-029.json",
+      "expected_fingerprint": "sha256:c0ff8223abf73e84de693d4bab05c51f49ff9178b26e287ea6824a9ead007c32"
+    },
+    {
+      "case_id": "HKREG-DEC-BND-030",
+      "primary_coverage_cell_id": "HKREG-COV-DBND-030",
+      "pair_memberships": [],
+      "assertion_scope": "NORMAL_UNIT",
+      "expected_outcome": "BLOCK",
+      "expected_reason": "UNRELATED_PACKING_REJECTED",
+      "fixture_path": "fixtures/conformance/boundary-decision/HKREG-DEC-BND-030.json",
+      "fixture_fingerprint": "sha256:fd42af7267e3814b344903c497594dfe6aaac093ae5e3e5fb6c23601cdbd32fb",
+      "expected_path": "expected/conformance/boundary-decision/HKREG-DEC-BND-030.json",
+      "expected_fingerprint": "sha256:ff33484ea24a29bb3e4fb8452e4f90411146245f14447b0931df8a2954c41e06"
+    }
+  ],
+  "checkpoint_complete": true,
+  "full_conformance_suite_complete": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

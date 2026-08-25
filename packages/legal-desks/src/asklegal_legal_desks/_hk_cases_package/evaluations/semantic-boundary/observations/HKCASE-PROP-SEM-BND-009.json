@@ -1,0 +1,88 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:b028c10f345d5b59e51648a7a002fd6fe2a6dbf476c55c1e64b36bf8cd088e42",
+  "workflow_result_fingerprint": "sha256:9a2a4e5534cdffeb969c167434b61e33c0a210f8ba4c3b6de90d992439262969",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "JURISDICTION_RULE",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "VALID_SERVICE_JURISDICTION"
+      ],
+      "boundary_codes": [
+        "INDEPENDENT_LEGAL_ANSWER",
+        "SEPARATE_PROPOSITION"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "The court has jurisdiction only after valid service."
+    },
+    {
+      "candidate_id": "candidate_2",
+      "mapped_reference_proposition_id": "reference_prop_2",
+      "resolution": "ACCEPTED",
+      "issue_code": "MERITS_RULE",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "REASONABLE_RELIANCE_DEFENCE"
+      ],
+      "boundary_codes": [
+        "INDEPENDENT_LEGAL_ANSWER",
+        "SEPARATE_PROPOSITION"
+      ],
+      "range_ids": [
+        "range_2"
+      ],
+      "derived_statement": "On the merits the defence requires reasonable reliance."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_2"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1",
+    "candidate_2"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

@@ -1,0 +1,66 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "reference_map_id": "risk_reference_map_6",
+  "model_input_fingerprint": "sha256:e138c00f6ad81ead2b4609e98fd66686ce4ccd8242d4267b9cb09078ea320029",
+  "court_family": "HKPC",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_6",
+  "auxiliary_translation_version_ids": [],
+  "expected_examined_segment_ids": [
+    "segment_1",
+    "segment_2"
+  ],
+  "expected_resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "HKPC_NO_DUTY_GROUND",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_6",
+      "required_meaning_codes": [
+        "NO_DUTY"
+      ],
+      "required_risk_codes": [
+        "DECISION_IDENTITY_PRESERVED",
+        "OPERATIVE_BOARD_ATTRIBUTION"
+      ],
+      "forbidden_risk_codes": [],
+      "required_range_ids": [
+        "range_1"
+      ]
+    },
+    {
+      "reference_proposition_id": "reference_prop_2",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "HKPC_LIMITATION_CONCURRENCE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_6",
+      "required_meaning_codes": [
+        "LIMITATION_BAR"
+      ],
+      "required_risk_codes": [
+        "OPINION_IDENTITY_PRESERVED",
+        "SEPARATE_CONCURRENCE_ATTRIBUTION"
+      ],
+      "forbidden_risk_codes": [],
+      "required_range_ids": [
+        "range_2"
+      ]
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1",
+    "reference_prop_2"
+  ],
+  "expected_coverage_gap_ids": [],
+  "expected_translation_use": "NONE",
+  "expected_parser_supported": true,
+  "expected_re_evaluated_reference_proposition_ids": [],
+  "prior_result_immutable_required": false,
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

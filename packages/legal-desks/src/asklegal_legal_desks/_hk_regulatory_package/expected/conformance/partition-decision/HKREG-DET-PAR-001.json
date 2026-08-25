@@ -1,0 +1,136 @@
+{
+  "schema_id": "asklegal.hk-regulatory.partition-decision-report",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-PARTITION-DECISION-001",
+  "case_id": "HKREG-DET-PAR-001",
+  "assertion_scope": "EXACT_FIT",
+  "observed_decision": {
+    "schema_id": "asklegal.hk-regulatory.partition-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-PARTITION-DECISION-001",
+    "case_id": "HKREG-DET-PAR-001",
+    "outcome": "PASS",
+    "reason": "EXACT_FIT_UNSPLIT",
+    "partition_required": false,
+    "measurement_complete": true,
+    "branch_results": [
+      {
+        "branch_id": "synthetic-branch-current",
+        "root_record_unit_id": "record-root",
+        "disposition": "PASS",
+        "construction_reason": "PASS_UNSPLIT",
+        "unsplit_text_tokens": 693,
+        "unsplit_metadata_bytes": 877,
+        "text_limit": 693,
+        "metadata_limit": 877,
+        "parts": [
+          {
+            "part_number": 1,
+            "total_parts": 1,
+            "record_unit_ids": [
+              "record-root"
+            ],
+            "primary_source_unit_ids": [
+              "unit-a",
+              "unit-b",
+              "unit-c"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:809d6e047279452e27a2350f2ce562609a4108213ce505b18b75df3c5cde58c3",
+            "serving_payload_fingerprint": "sha256:8cc1596fd3a346f4a92a8bc45e24198c5b1fb4260b8eb0da8be5a781a969ff08",
+            "text_tokens": 693,
+            "metadata_bytes": 877,
+            "text_limit": 693,
+            "metadata_limit": 877,
+            "fits": true,
+            "serving_label": null
+          }
+        ],
+        "accounted_primary_source_unit_ids": [
+          "unit-a",
+          "unit-b",
+          "unit-c"
+        ]
+      }
+    ],
+    "rejected_proposal_codes": [],
+    "quarantined_branch_ids": [],
+    "coverage_gap_ids": [],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.partition-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-PARTITION-DECISION-001",
+    "case_id": "HKREG-DET-PAR-001",
+    "outcome": "PASS",
+    "reason": "EXACT_FIT_UNSPLIT",
+    "partition_required": false,
+    "measurement_complete": true,
+    "branch_results": [
+      {
+        "branch_id": "synthetic-branch-current",
+        "root_record_unit_id": "record-root",
+        "disposition": "PASS",
+        "construction_reason": "PASS_UNSPLIT",
+        "unsplit_text_tokens": 693,
+        "unsplit_metadata_bytes": 877,
+        "text_limit": 693,
+        "metadata_limit": 877,
+        "parts": [
+          {
+            "part_number": 1,
+            "total_parts": 1,
+            "record_unit_ids": [
+              "record-root"
+            ],
+            "primary_source_unit_ids": [
+              "unit-a",
+              "unit-b",
+              "unit-c"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:809d6e047279452e27a2350f2ce562609a4108213ce505b18b75df3c5cde58c3",
+            "serving_payload_fingerprint": "sha256:8cc1596fd3a346f4a92a8bc45e24198c5b1fb4260b8eb0da8be5a781a969ff08",
+            "text_tokens": 693,
+            "metadata_bytes": 877,
+            "text_limit": 693,
+            "metadata_limit": 877,
+            "fits": true,
+            "serving_label": null
+          }
+        ],
+        "accounted_primary_source_unit_ids": [
+          "unit-a",
+          "unit-b",
+          "unit-c"
+        ]
+      }
+    ],
+    "rejected_proposal_codes": [],
+    "quarantined_branch_ids": [],
+    "coverage_gap_ids": [],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "conformance_status": "PASS",
+  "source_authorized": false,
+  "provider_authorized": false,
+  "release_authorized": false,
+  "serving_authorized": false,
+  "deployment_authorized": false,
+  "external_effects": "NONE"
+}

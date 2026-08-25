@@ -1,0 +1,76 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:1ba5f07d9d61bf998f5ebdbebd1c9dc7c2af44c2d0d62b594de8cbb0abcdc283",
+  "workflow_result_fingerprint": "sha256:4be48ca1ca152f42b0fb29985cd03bddb3ab3144b97899b89bdab0111d3d5982",
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "meaning_codes": [
+        "LEAST_INTRUSIVE_MEANS_TEST",
+        "SHORTER_PERIOD_APPLICATION"
+      ],
+      "content_codes": [
+        "APPLICATION",
+        "RESULT",
+        "RULE"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "ANSWER",
+          "ordered_range_ids": [
+            "range_1"
+          ]
+        },
+        {
+          "role_code": "APPLICATION",
+          "ordered_range_ids": [
+            "range_2"
+          ]
+        },
+        {
+          "role_code": "RESULT",
+          "ordered_range_ids": [
+            "range_3"
+          ]
+        }
+      ],
+      "dependency_ids": [],
+      "selected_quotations": [],
+      "derived_statement": "A measure fails proportionality where an equally effective less intrusive measure exists."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_3",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

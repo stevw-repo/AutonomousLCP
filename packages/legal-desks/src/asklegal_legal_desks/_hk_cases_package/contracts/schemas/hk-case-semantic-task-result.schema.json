@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hk-case-semantic-task-result.schema.json",
+  "title": "Hong Kong Case semantic task preflight result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "rule_id",
+    "request_fingerprint",
+    "outcome",
+    "reasons",
+    "opinion_count",
+    "unit_count",
+    "primary_unit_count",
+    "assigned_primary_unit_count",
+    "supplied_unit_count",
+    "evidence_range_count",
+    "dependency_count",
+    "complete_judgment_assignment",
+    "provider_call_authorized",
+    "semantic_result_accepted",
+    "search_records_created",
+    "release_eligible",
+    "external_effects"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-cases.semantic-task-result"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "rule_id": {
+      "const": "HKCASE-PROP-SEMANTIC-TASK-PREFLIGHT-001"
+    },
+    "request_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "outcome": {
+      "enum": [
+        "BLOCKED",
+        "INVALID",
+        "VALID_REQUEST"
+      ]
+    },
+    "reasons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "enum": [
+          "ASSIGNED_PRIMARY_UNITS_INVALID",
+          "COMPLETE_COVERAGE_REQUIRED",
+          "CONSTRAINT_BOUNDARY_INVALID",
+          "DEPENDENCY_PACKET_INVALID",
+          "DUPLICATE_IDENTITY",
+          "EVIDENCE_RANGE_INVALID",
+          "OPINION_OR_UNIT_MANIFEST_INVALID",
+          "PRIOR_STAGE_BINDING_INVALID",
+          "SOURCE_EVIDENCE_UNAVAILABLE",
+          "TASK_KIND_MISMATCH",
+          "VALID_REQUEST",
+          "WORKFLOW_BINDING_INVALID"
+        ]
+      }
+    },
+    "opinion_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "unit_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "primary_unit_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "assigned_primary_unit_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "supplied_unit_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "evidence_range_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "dependency_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "complete_judgment_assignment": {
+      "type": "boolean"
+    },
+    "provider_call_authorized": {
+      "const": false
+    },
+    "semantic_result_accepted": {
+      "const": false
+    },
+    "search_records_created": {
+      "const": 0
+    },
+    "release_eligible": {
+      "const": false
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

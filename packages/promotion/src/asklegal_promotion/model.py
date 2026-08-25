@@ -8,6 +8,18 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from asklegal_corpus import CoverageStatusManifest, DesiredStateInventory
+    from asklegal_domain import (
+        ApplicationCode,
+        ContractReference,
+        DeclaredCompensation,
+        DestinationClass,
+        EffectCapability,
+        EffectType,
+        ImmutableReference,
+        NoCompensation,
+        RetryClass,
+        StopCondition,
+    )
     from asklegal_evidence_vault import ExactObjectReference
 
 
@@ -138,6 +150,34 @@ class EmbeddedVector:
 
 
 @dataclass(frozen=True, slots=True)
+class PromotionActionAuthority:
+    """Immutable manifest authority for one future Effect Intent.
+
+    Dynamic execution identities and timestamps are deliberately absent. Every
+    value the durable BEGIN transition must not choose for itself is present.
+    """
+
+    sequence: int
+    action_id: str
+    effect_type: EffectType
+    owning_application: ApplicationCode
+    permitted_checkpoint: str
+    input_refs: tuple[ImmutableReference, ...]
+    effect_command_fingerprint: str
+    required_capability: EffectCapability
+    capability_profile_ref: ImmutableReference
+    destination_class: DestinationClass
+    stable_idempotency_key: str
+    retry_class: RetryClass
+    attempt_ceiling: int
+    deadline: str
+    stop_conditions: tuple[StopCondition, ...]
+    expected_remote_precondition_ref: ContractReference
+    success_postcondition_ref: ContractReference
+    compensation: NoCompensation | DeclaredCompensation
+
+
+@dataclass(frozen=True, slots=True)
 class PromotionManifest:
     """Sole immutable local approval and execution envelope."""
 
@@ -158,14 +198,14 @@ class PromotionManifest:
     validity_predicates: tuple[tuple[str, str, str], ...]
     batch_size: int
     project_id: str
-    action_ids: tuple[str, ...]
+    action_contract_version: str
+    actions: tuple[PromotionActionAuthority, ...]
     exact_retirement_target_ids: tuple[str, ...]
-    capability_enabled: bool
 
 
 @dataclass(frozen=True, slots=True)
 class PromotionApprovalSnapshot:
-    """Exact manifest facts Review and Approval must recover from frozen bytes."""
+    """Exact manifest facts Review, Approval, and execution must recover."""
 
     manifest_id: str
     fingerprint: str
@@ -174,6 +214,8 @@ class PromotionApprovalSnapshot:
     valid_from: str
     valid_until: str
     validity_predicates: tuple[tuple[str, str, str], ...]
+    action_contract_version: str
+    actions: tuple[PromotionActionAuthority, ...]
 
 
 @dataclass(frozen=True, slots=True)
@@ -254,9 +296,9 @@ class PromotionPlan:
     validity_predicates: tuple[tuple[str, str, str], ...]
     batch_size: int
     project_id: str
-    action_ids: tuple[str, ...]
+    action_contract_version: str
+    actions: tuple[PromotionActionAuthority, ...]
     exact_retirement_target_ids: tuple[str, ...] = ()
-    capability_enabled: bool = False
 
 
 @dataclass(frozen=True, slots=True)
@@ -280,6 +322,14 @@ class ProposalMemberReceipt:
 
 
 @dataclass(frozen=True, slots=True)
+class TraceabilityShardReceipt:
+    """One declared ADR 0078 shard bound to an exact Primary Vault version."""
+
+    path: str
+    reference: ExactObjectReference
+
+
+@dataclass(frozen=True, slots=True)
 class StoredProposalPackage:
     """Portable exact-version receipt for one manifest-last proposal package."""
 
@@ -288,5 +338,6 @@ class StoredProposalPackage:
     promotion_manifest_id: str
     promotion_manifest_fingerprint: str
     members: tuple[ProposalMemberReceipt, ...]
+    traceability_shards: tuple[TraceabilityShardReceipt, ...]
     manifest_reference: ExactObjectReference
     receipt_fingerprint: str

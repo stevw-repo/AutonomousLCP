@@ -1,0 +1,234 @@
+{
+  "schema_id": "asklegal.hk-cases.admission-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-DET-ADM-011",
+  "case_id": "HKCASE-PROP-DET-ADM-011",
+  "coverage_cell_id": "HKCASE-PROP-COV-DADM-011",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-027",
+      "role": "NEAR_MISS"
+    }
+  ],
+  "synthetic_scenario": "Evaluation packet leaks answer-bearing metadata",
+  "evidence_class": "SYNTHETIC_SOURCE_NEUTRAL",
+  "variants": [
+    {
+      "variant_id": "HKCASE-PROP-DET-ADM-011-V01",
+      "request": {
+        "schema_id": "asklegal.hk-cases.admission-request",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-ADMISSION-CONFORMANCE-001",
+        "assertion": "EVALUATION_PACKET",
+        "correction": null,
+        "catalogue": null,
+        "evaluation_packet": {
+          "admitted_evidence_refs": [
+            "evidence_1",
+            "evidence_2"
+          ],
+          "packet_evidence_refs": [
+            "evidence_1",
+            "evidence_2"
+          ],
+          "admitted_task_contract_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "packet_task_contract_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "packet_metadata_fields": [
+            "source_text",
+            "opinion_inventory",
+            "coverage_units",
+            "evidence_range_ids",
+            "dependencies",
+            "task_contract",
+            "case_title"
+          ]
+        },
+        "sealed_package": null,
+        "reproducibility": null,
+        "side_effects": null,
+        "workflow_identity": null
+      }
+    },
+    {
+      "variant_id": "HKCASE-PROP-DET-ADM-011-V02",
+      "request": {
+        "schema_id": "asklegal.hk-cases.admission-request",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-ADMISSION-CONFORMANCE-001",
+        "assertion": "EVALUATION_PACKET",
+        "correction": null,
+        "catalogue": null,
+        "evaluation_packet": {
+          "admitted_evidence_refs": [
+            "evidence_1",
+            "evidence_2"
+          ],
+          "packet_evidence_refs": [
+            "evidence_1",
+            "evidence_2"
+          ],
+          "admitted_task_contract_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "packet_task_contract_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "packet_metadata_fields": [
+            "source_text",
+            "opinion_inventory",
+            "coverage_units",
+            "evidence_range_ids",
+            "dependencies",
+            "task_contract",
+            "expected_answer"
+          ]
+        },
+        "sealed_package": null,
+        "reproducibility": null,
+        "side_effects": null,
+        "workflow_identity": null
+      }
+    },
+    {
+      "variant_id": "HKCASE-PROP-DET-ADM-011-V03",
+      "request": {
+        "schema_id": "asklegal.hk-cases.admission-request",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-ADMISSION-CONFORMANCE-001",
+        "assertion": "EVALUATION_PACKET",
+        "correction": null,
+        "catalogue": null,
+        "evaluation_packet": {
+          "admitted_evidence_refs": [
+            "evidence_1",
+            "evidence_2"
+          ],
+          "packet_evidence_refs": [
+            "evidence_1",
+            "evidence_2"
+          ],
+          "admitted_task_contract_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "packet_task_contract_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "packet_metadata_fields": [
+            "source_text",
+            "opinion_inventory",
+            "coverage_units",
+            "evidence_range_ids",
+            "dependencies",
+            "task_contract",
+            "coverage_cell_id"
+          ]
+        },
+        "sealed_package": null,
+        "reproducibility": null,
+        "side_effects": null,
+        "workflow_identity": null
+      }
+    },
+    {
+      "variant_id": "HKCASE-PROP-DET-ADM-011-V04",
+      "request": {
+        "schema_id": "asklegal.hk-cases.admission-request",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-ADMISSION-CONFORMANCE-001",
+        "assertion": "EVALUATION_PACKET",
+        "correction": null,
+        "catalogue": null,
+        "evaluation_packet": {
+          "admitted_evidence_refs": [
+            "evidence_1",
+            "evidence_2"
+          ],
+          "packet_evidence_refs": [
+            "evidence_1",
+            "evidence_2"
+          ],
+          "admitted_task_contract_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "packet_task_contract_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "packet_metadata_fields": [
+            "source_text",
+            "opinion_inventory",
+            "coverage_units",
+            "evidence_range_ids",
+            "dependencies",
+            "task_contract",
+            "pair_role"
+          ]
+        },
+        "sealed_package": null,
+        "reproducibility": null,
+        "side_effects": null,
+        "workflow_identity": null
+      }
+    },
+    {
+      "variant_id": "HKCASE-PROP-DET-ADM-011-V05",
+      "request": {
+        "schema_id": "asklegal.hk-cases.admission-request",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-ADMISSION-CONFORMANCE-001",
+        "assertion": "EVALUATION_PACKET",
+        "correction": null,
+        "catalogue": null,
+        "evaluation_packet": {
+          "admitted_evidence_refs": [
+            "evidence_1",
+            "evidence_2"
+          ],
+          "packet_evidence_refs": [
+            "evidence_1",
+            "evidence_2"
+          ],
+          "admitted_task_contract_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "packet_task_contract_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "packet_metadata_fields": [
+            "source_text",
+            "opinion_inventory",
+            "coverage_units",
+            "evidence_range_ids",
+            "dependencies",
+            "task_contract",
+            "score"
+          ]
+        },
+        "sealed_package": null,
+        "reproducibility": null,
+        "side_effects": null,
+        "workflow_identity": null
+      }
+    },
+    {
+      "variant_id": "HKCASE-PROP-DET-ADM-011-V06",
+      "request": {
+        "schema_id": "asklegal.hk-cases.admission-request",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-ADMISSION-CONFORMANCE-001",
+        "assertion": "EVALUATION_PACKET",
+        "correction": null,
+        "catalogue": null,
+        "evaluation_packet": {
+          "admitted_evidence_refs": [
+            "evidence_1",
+            "evidence_2"
+          ],
+          "packet_evidence_refs": [
+            "evidence_1",
+            "evidence_2"
+          ],
+          "admitted_task_contract_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "packet_task_contract_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "packet_metadata_fields": [
+            "source_text",
+            "opinion_inventory",
+            "coverage_units",
+            "evidence_range_ids",
+            "dependencies",
+            "task_contract",
+            "critical_error_tag"
+          ]
+        },
+        "sealed_package": null,
+        "reproducibility": null,
+        "side_effects": null,
+        "workflow_identity": null
+      }
+    }
+  ],
+  "external_effects": "NONE"
+}

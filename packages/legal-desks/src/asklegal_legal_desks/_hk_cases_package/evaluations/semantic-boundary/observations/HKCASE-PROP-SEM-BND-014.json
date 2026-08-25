@@ -1,0 +1,97 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:a22f0d00198f39b0e1858242bcca5e94529af00a5a23683af579a47c72eb286f",
+  "workflow_result_fingerprint": "sha256:7d52e9fd648dc6bcdd0affa88e8c74391a4cd3626dec24780acb318c8ecc72f5",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    },
+    {
+      "opinion_id": "opinion_2",
+      "role": "DISSENT",
+      "judge_ids": [
+        "judge_2"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "MAJORITY_RECEIPT_RULE",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "ACTUAL_RECEIPT"
+      ],
+      "boundary_codes": [
+        "OPERATIVE_MAJORITY",
+        "SEPARATE_OPINION"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "The majority requires actual receipt."
+    },
+    {
+      "candidate_id": "candidate_2",
+      "mapped_reference_proposition_id": "reference_prop_2",
+      "resolution": "ACCEPTED",
+      "issue_code": "DISSENT_DISPATCH_RULE",
+      "authority_role": "DISSENT",
+      "opinion_path_ids": [
+        "opinion_2"
+      ],
+      "meaning_codes": [
+        "PROPER_DISPATCH_SUFFICIENT"
+      ],
+      "boundary_codes": [
+        "DISSENT_LABEL_REQUIRED",
+        "SEPARATE_OPINION"
+      ],
+      "range_ids": [
+        "range_2"
+      ],
+      "derived_statement": "The dissent would treat proper dispatch as sufficient."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_2"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1",
+    "candidate_2"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

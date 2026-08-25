@@ -1,0 +1,70 @@
+{
+  "schema_id": "asklegal.hk-cases.treatment-discovery-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-TREAT-SEM-DIS-008",
+  "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-008",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-TREAT-PAIR-001",
+      "role": "POSITIVE"
+    }
+  ],
+  "scenario": "Opinion-aware segments require cross-reference and declared context",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.treatment-discovery-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "TREATMENT_DISCOVERY",
+    "execution_id": "treatment_discovery_execution_8",
+    "judgment_work_id": "synthetic_treatment_judgment_8",
+    "accepted_original_version_id": "synthetic_treatment_version_8",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "role": "OPERATIVE_MAJORITY",
+        "segment_ids": [
+          "segment_1",
+          "segment_2",
+          "segment_3"
+        ]
+      }
+    ],
+    "segments": [
+      {
+        "segment_id": "segment_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "language": "ENGLISH",
+        "exact_text": "The governing issue is whether the exception in paragraph 42 applies.",
+        "text_fingerprint": "sha256:fabae2a7e072cb52aea28b2f66f37bbcdbcfa05e0b0d62f9a19b01b4037dc362",
+        "range_id": "range_1"
+      },
+      {
+        "segment_id": "segment_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "language": "ENGLISH",
+        "exact_text": "Paragraph 42 of Alpha v Beta confines the exception to urgent cases.",
+        "text_fingerprint": "sha256:b2cd9bb42bc3c73b41e816e818ce1afe779f897162f193564901243f4c1181c3",
+        "range_id": "range_2"
+      },
+      {
+        "segment_id": "segment_3",
+        "opinion_id": "opinion_1",
+        "source_order": 3,
+        "language": "ENGLISH",
+        "exact_text": "For those reasons we apply that confined exception here.",
+        "text_fingerprint": "sha256:2d670d3daa1145217f7ab4e77519d5020e8260705b8111919e4362fb414afb78",
+        "range_id": "range_3"
+      }
+    ],
+    "missing_required_segment_ids": [],
+    "segment_manifest_complete": true,
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-008.json",
+  "observation_path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-008.json",
+  "expected_path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-008.json"
+}

@@ -1,0 +1,53 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:35c71d0f25798a2caf97427a30e2abfe6fa562bc9c2f4c193e692e333923632c",
+  "workflow_result_fingerprint": "sha256:7f02ff950c955c8e20643f59adcbbf923f4055721f57554440309010038e1b4c",
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "QUARANTINED",
+      "meaning_codes": [
+        "UNRESOLVED_COMPLIANCE_STANDARD"
+      ],
+      "content_codes": [
+        "UNRESOLVED_AMBIGUITY"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "AMBIGUITY",
+          "ordered_range_ids": [
+            "range_1",
+            "range_2"
+          ]
+        }
+      ],
+      "dependency_ids": [],
+      "selected_quotations": [],
+      "derived_statement": null
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    }
+  ],
+  "disposition": "ACCOUNTED_WITH_QUARANTINE",
+  "selected_candidate_ids": [],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

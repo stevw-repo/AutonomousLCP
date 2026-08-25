@@ -1,0 +1,45 @@
+{
+  "schema_id": "asklegal.hk-cases.treatment-discovery-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-TREAT-SEM-DIS-012",
+  "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-012",
+  "pair_memberships": [],
+  "scenario": "Complete Traditional Chinese judgment uses ordinary judicial language",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.treatment-discovery-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "TREATMENT_DISCOVERY",
+    "execution_id": "treatment_discovery_execution_12",
+    "judgment_work_id": "synthetic_treatment_judgment_12",
+    "accepted_original_version_id": "synthetic_treatment_version_12",
+    "original_language": "TRADITIONAL_CHINESE",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "role": "OPERATIVE_MAJORITY",
+        "segment_ids": [
+          "segment_1"
+        ]
+      }
+    ],
+    "segments": [
+      {
+        "segment_id": "segment_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "language": "TRADITIONAL_CHINESE",
+        "exact_text": "本院不再依循陳訴李案所採納的原則，理由如下。",
+        "text_fingerprint": "sha256:ba43e378baad479c1a94ddc5354ae17b530be85f0a59ec329d429adab359b3ad",
+        "range_id": "range_1"
+      }
+    ],
+    "missing_required_segment_ids": [],
+    "segment_manifest_complete": true,
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-012.json",
+  "observation_path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-012.json",
+  "expected_path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-012.json"
+}

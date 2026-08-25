@@ -1,0 +1,97 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:3059ec28e2f13d473fad6a424a833b64c1453f159c09a6bf9741c4b00143f909",
+  "workflow_result_fingerprint": "sha256:3eaf00f6f96adc8a29f3cf3b61226a4e64c18077ea9aafc9670526462d73ec74",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    },
+    {
+      "opinion_id": "opinion_2",
+      "role": "CONCURRENCE",
+      "judge_ids": [
+        "judge_2"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "LEAD_CONSTRUCTION_RULE",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "STATUTORY_CONSTRUCTION"
+      ],
+      "boundary_codes": [
+        "LEAD_REASONING",
+        "SEPARATE_OPINION"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "The lead resolves the case on statutory construction."
+    },
+    {
+      "candidate_id": "candidate_2",
+      "mapped_reference_proposition_id": "reference_prop_2",
+      "resolution": "ACCEPTED",
+      "issue_code": "CONCURRENCE_FAIRNESS_RULE",
+      "authority_role": "CONCURRENCE",
+      "opinion_path_ids": [
+        "opinion_2"
+      ],
+      "meaning_codes": [
+        "FAIRNESS_NOTICE_RULE"
+      ],
+      "boundary_codes": [
+        "ADDITIONAL_REASONING",
+        "SEPARATE_OPINION"
+      ],
+      "range_ids": [
+        "range_2"
+      ],
+      "derived_statement": "The concurrence separately holds that procedural fairness also requires notice."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_2"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1",
+    "candidate_2"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

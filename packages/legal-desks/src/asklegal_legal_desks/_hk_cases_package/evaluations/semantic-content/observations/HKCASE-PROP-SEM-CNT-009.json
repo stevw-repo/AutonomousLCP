@@ -1,0 +1,74 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:1b419bf72d156f55c30e41b1239b4d4768b12a44c18f5a18ba4f07d3fdfe9d20",
+  "workflow_result_fingerprint": "sha256:d6d3b754042641d2e40fe5fb5335b8e4e499c7fa03cd9810368ccb90f288b1b0",
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "meaning_codes": [
+        "UNEQUIVOCAL_ELECTION_RULE",
+        "EXPRESS_ADOPTION"
+      ],
+      "content_codes": [
+        "ADOPTION",
+        "EXACT_QUOTATION",
+        "RULE"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "QUOTATION",
+          "ordered_range_ids": [
+            "range_1"
+          ]
+        },
+        {
+          "role_code": "ATTRIBUTION",
+          "ordered_range_ids": [
+            "range_2"
+          ]
+        },
+        {
+          "role_code": "RESULT",
+          "ordered_range_ids": [
+            "range_2"
+          ]
+        }
+      ],
+      "dependency_ids": [],
+      "selected_quotations": [
+        {
+          "range_id": "range_1",
+          "exact_text": "A waiver must be an unequivocal election between inconsistent rights."
+        }
+      ],
+      "derived_statement": "Waiver requires an unequivocal election between inconsistent rights."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

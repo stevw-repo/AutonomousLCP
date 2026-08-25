@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/contracts/hkex-effective-state-result/1.0.0",
+  "title": "HKEX applicability-branch effective-state result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "state",
+    "disposition",
+    "processing_outcome",
+    "reason",
+    "source_failure_choice",
+    "current_product_reconciled",
+    "search_record_authorized",
+    "serving_ready"
+  ],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "state": {
+      "enum": [
+        "CURRENT",
+        "TRANSITIONAL_CURRENT",
+        "FUTURE_FIXED_DATE",
+        "FUTURE_CONDITIONAL",
+        "SUPERSEDED",
+        "WITHDRAWN",
+        "UNKNOWN"
+      ]
+    },
+    "disposition": {
+      "enum": [
+        "SEARCHABLE_CURRENT_RULE_COMPONENT",
+        "REGULATORY_WAITING_ROOM",
+        "HISTORICAL",
+        "QUARANTINE"
+      ]
+    },
+    "processing_outcome": {"enum": ["PASS", "QUARANTINE"]},
+    "reason": {
+      "enum": [
+        "CURRENT_PRODUCT_MATCHED",
+        "TRANSITIONAL_CURRENT_PRODUCT_MATCHED",
+        "FUTURE_FIXED_DATE_PENDING",
+        "FUTURE_CONDITION_PROVED_UNMET",
+        "COMPLETE_SUCCESSOR_PROVED",
+        "WITHDRAWAL_WITHOUT_SUCCESSOR_PROVED",
+        "FINAL_PUBLICATION_NOT_PROVED",
+        "CURRENT_PRODUCT_CONFLICT",
+        "CURRENT_PRODUCT_EVIDENCE_INCOMPLETE",
+        "CONDITION_EVIDENCE_UNRESOLVED",
+        "RETIREMENT_EVIDENCE_INSUFFICIENT",
+        "UNRESOLVED_LEGAL_STATE_FACT",
+        "SOURCE_FAILURE_COULD_CHANGE_CURRENT",
+        "TRANSITION_END_UNRESOLVED"
+      ]
+    },
+    "source_failure_choice": {
+      "enum": ["NONE", "CARRY_FORWARD_LAST_APPROVED", "WITHHOLD", "NO_REBUILD"]
+    },
+    "current_product_reconciled": {"type": "boolean"},
+    "search_record_authorized": {"const": false},
+    "serving_ready": {"const": false}
+  }
+}

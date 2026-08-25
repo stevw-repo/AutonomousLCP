@@ -8,6 +8,14 @@ from .admission import (
     admit_response,
     classify_content,
 )
+from .hk_cases_official import (
+    HK_CASE_SOURCE_ACCESS_FORBIDDEN_EFFECTS,
+    HK_CASE_SOURCE_IDS,
+    HongKongCasesAccessBoundary,
+    HongKongCasesSourceProfile,
+    HongKongCasesSourceRegister,
+    load_hk_cases_source_register,
+)
 from .hkel_gazette import (
     CAPABILITY_CLAIM,
     GazetteEntry,
@@ -101,6 +109,8 @@ PACKAGE_ROLE: str = "source-connectors"
 
 __all__ = [
     "CAPABILITY_CLAIM",
+    "HK_CASE_SOURCE_ACCESS_FORBIDDEN_EFFECTS",
+    "HK_CASE_SOURCE_IDS",
     "HK_LEGISLATION_MONITORING_ASSIGNMENTS",
     "HK_LEGISLATION_SOURCE_IDS",
     "PACKAGE_ROLE",
@@ -121,6 +131,9 @@ __all__ = [
     "GazetteRegisterFailureCode",
     "GazetteRequestTiming",
     "HkelGazetteRegisterClient",
+    "HongKongCasesAccessBoundary",
+    "HongKongCasesSourceProfile",
+    "HongKongCasesSourceRegister",
     "HongKongLegislationSourceRegister",
     "HttpMethod",
     "LegalClearanceAttestation",
@@ -177,6 +190,7 @@ __all__ = [
     "classify_content",
     "due_official_source_ids",
     "due_official_source_profiles",
+    "load_hk_cases_source_register",
     "load_hk_legislation_source_register",
     "official_observation_profile",
 ]

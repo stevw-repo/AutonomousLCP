@@ -1,0 +1,64 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:84df8694e31660848bdafe013e9dba2673cd55f834abe3ce73268b44663a4b93",
+  "workflow_result_fingerprint": "sha256:1fe490781886976339e18ae6b72cda2ae9c4cc536a88f38f95976e81e8300919",
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "meaning_codes": [
+        "TWENTY_EIGHT_DAY_FILING_PERIOD"
+      ],
+      "content_codes": [
+        "CROSS_REFERENCE_RESOLVED",
+        "DEFINITION",
+        "RULE"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "ANSWER",
+          "ordered_range_ids": [
+            "range_1"
+          ]
+        },
+        {
+          "role_code": "DEFINITION",
+          "ordered_range_ids": [
+            "range_2"
+          ]
+        }
+      ],
+      "dependency_ids": [
+        "dependency_1"
+      ],
+      "selected_quotations": [],
+      "derived_statement": "The application must be filed within twenty-eight days after service."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "CONTEXT_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

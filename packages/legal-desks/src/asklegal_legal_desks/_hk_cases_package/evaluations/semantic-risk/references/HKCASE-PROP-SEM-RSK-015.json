@@ -1,0 +1,66 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "reference_map_id": "risk_reference_map_15",
+  "model_input_fingerprint": "sha256:d852d4a369166c16ea3a1033718c4a830e058e48fd09f15e5e169a253614b81b",
+  "court_family": "CFI",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_15",
+  "auxiliary_translation_version_ids": [],
+  "expected_examined_segment_ids": [
+    "segment_1",
+    "segment_2"
+  ],
+  "expected_resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "INDEPENDENT_SERVICE_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_15",
+      "required_meaning_codes": [
+        "VALID_SERVICE_REQUIRED"
+      ],
+      "required_risk_codes": [
+        "GENUINE_LEGAL_SPLIT",
+        "INDEPENDENT_COMPLETE_RECORD"
+      ],
+      "forbidden_risk_codes": [],
+      "required_range_ids": [
+        "range_1"
+      ]
+    },
+    {
+      "reference_proposition_id": "reference_prop_2",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "INDEPENDENT_MITIGATION_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_15",
+      "required_meaning_codes": [
+        "REASONABLE_MITIGATION"
+      ],
+      "required_risk_codes": [
+        "GENUINE_LEGAL_SPLIT",
+        "INDEPENDENT_COMPLETE_RECORD"
+      ],
+      "forbidden_risk_codes": [],
+      "required_range_ids": [
+        "range_2"
+      ]
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1",
+    "reference_prop_2"
+  ],
+  "expected_coverage_gap_ids": [],
+  "expected_translation_use": "NONE",
+  "expected_parser_supported": true,
+  "expected_re_evaluated_reference_proposition_ids": [],
+  "prior_result_immutable_required": false,
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

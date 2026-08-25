@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/contracts/hkex-component-continuity-request/1.0.0",
+  "title": "HKEX component continuity request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision_id",
+    "cutoff",
+    "event",
+    "support",
+    "predecessors",
+    "candidates",
+    "source_rule_id",
+    "evidence_refs",
+    "evidence_fingerprint",
+    "legal_desk_actor"
+  ],
+  "properties": {
+    "decision_id": {"$ref": "#/$defs/nonempty"},
+    "cutoff": {"type": "string", "format": "date-time"},
+    "event": {
+      "enum": [
+        "UNCHANGED",
+        "URL_MOVED",
+        "RENAMED",
+        "RENUMBERED",
+        "STRUCTURALLY_MOVED",
+        "TEXT_CORRECTED",
+        "REPLACED",
+        "SPLIT",
+        "MERGED",
+        "BOARD_TRANSFERRED",
+        "OFFICIALLY_WITHDRAWN",
+        "DISAPPEARED",
+        "REAPPEARED",
+        "NEW_COMPONENT"
+      ]
+    },
+    "support": {
+      "enum": ["PROVED", "AMBIGUOUS", "SIMILARITY_OR_ALIAS_ONLY", "MISSING_OR_CONFLICTING"]
+    },
+    "predecessors": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/predecessor"}
+    },
+    "candidates": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/candidate"}
+    },
+    "source_rule_id": {"const": "HKREG-COMPONENT-CONTINUITY-001"},
+    "evidence_refs": {"$ref": "#/$defs/nonemptyUniqueStrings"},
+    "evidence_fingerprint": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "legal_desk_actor": {"$ref": "#/$defs/nonempty"}
+  },
+  "$defs": {
+    "nonempty": {"type": "string", "minLength": 1},
+    "scope": {"enum": ["HK-REG-HKEX-GEM", "HK-REG-HKEX-MAIN-BOARD"]},
+    "nonemptyUniqueStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/nonempty"}
+    },
+    "predecessor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["component_id", "scope_id", "legal_location_id", "aliases", "evidence_refs"],
+      "properties": {
+        "component_id": {"$ref": "#/$defs/nonempty"},
+        "scope_id": {"$ref": "#/$defs/scope"},
+        "legal_location_id": {"$ref": "#/$defs/nonempty"},
+        "aliases": {"$ref": "#/$defs/nonemptyUniqueStrings"},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyUniqueStrings"}
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_id", "scope_id", "observed_locator", "aliases", "evidence_refs"],
+      "properties": {
+        "candidate_id": {"$ref": "#/$defs/nonempty"},
+        "scope_id": {"$ref": "#/$defs/scope"},
+        "observed_locator": {"$ref": "#/$defs/nonempty"},
+        "aliases": {"$ref": "#/$defs/nonemptyUniqueStrings"},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyUniqueStrings"}
+      }
+    }
+  }
+}

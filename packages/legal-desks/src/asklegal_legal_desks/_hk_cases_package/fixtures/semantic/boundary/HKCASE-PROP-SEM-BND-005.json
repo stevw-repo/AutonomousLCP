@@ -1,0 +1,72 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-BND-005",
+  "coverage_cell_id": "HKCASE-PROP-COV-SBND-005",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-010",
+      "role": "POSITIVE"
+    },
+    {
+      "pair_id": "HKCASE-PROP-PAIR-014",
+      "role": "POSITIVE"
+    }
+  ],
+  "scenario": "Same opinion repeats the same answer with identical issue scope and role",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-boundary-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "boundary_execution_5",
+    "judgment_work_id": "boundary_judgment_5",
+    "judicial_decision_id": "synthetic_boundary_decision_5",
+    "official_version_id": "synthetic_boundary_version_5",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ],
+        "joined_opinion_id": null,
+        "expressly_adopted_opinion_ids": []
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "Reasonable notice is assessed objectively.",
+        "text_fingerprint": "sha256:d0ea23ddd9fe8a20aa14f63c4479d19f93a1a89d767a8e816051f883c8643a67",
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "exact_text": "In other words the notice question is objective.",
+        "text_fingerprint": "sha256:dbe8539d7bc7d4ed64ddc4d491aa4b5669cd7af63d2f4ab51b638e9b71763d4a",
+        "range_id": "range_2"
+      },
+      {
+        "unit_id": "unit_3",
+        "opinion_id": "opinion_1",
+        "source_order": 3,
+        "exact_text": "We repeat that the recipient's subjective view is irrelevant.",
+        "text_fingerprint": "sha256:e8e4603adbd5f1915ba4e3f4474dc0f08e5d8381e10722a2a176a2c8f2f72301",
+        "range_id": "range_3"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-005.json",
+  "observation_path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-005.json",
+  "expected_path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-005.json"
+}

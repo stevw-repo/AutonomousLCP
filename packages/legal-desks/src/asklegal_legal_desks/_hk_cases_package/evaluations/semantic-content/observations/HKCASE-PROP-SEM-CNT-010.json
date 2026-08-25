@@ -1,0 +1,87 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:9b0f2816468753542af301964396e8f911ffb602325c112f53c05dbb6a351682",
+  "workflow_result_fingerprint": "sha256:48c367f8e9ba6c342fe69f878e390038bdc0b9e12da1b8c65d014f7e2d07bf46",
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "meaning_codes": [
+        "AUTHORISED_PURPOSE_RULE",
+        "DOMINANT_PURPOSE_LIMIT"
+      ],
+      "content_codes": [
+        "APPLICATION",
+        "NONCONTIGUOUS_EVIDENCE",
+        "QUALIFICATION",
+        "RULE"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "ANSWER",
+          "ordered_range_ids": [
+            "range_1"
+          ]
+        },
+        {
+          "role_code": "QUALIFICATION",
+          "ordered_range_ids": [
+            "range_3"
+          ]
+        },
+        {
+          "role_code": "APPLICATION",
+          "ordered_range_ids": [
+            "range_5"
+          ]
+        }
+      ],
+      "dependency_ids": [],
+      "selected_quotations": [],
+      "derived_statement": "A discretion is invalid when an unauthorised purpose is dominant, not merely incidental."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "NON_PROPOSITIONAL",
+      "candidate_ids": []
+    },
+    {
+      "unit_id": "unit_3",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_4",
+      "use": "NON_PROPOSITIONAL",
+      "candidate_ids": []
+    },
+    {
+      "unit_id": "unit_5",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

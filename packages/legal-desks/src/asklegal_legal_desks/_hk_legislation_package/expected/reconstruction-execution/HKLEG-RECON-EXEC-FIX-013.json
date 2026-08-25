@@ -1,0 +1,62 @@
+{
+  "rule_id": "HKLEG-RECON-EXEC-001",
+  "rule_trace": [
+    "HKLEG-RECON-PLAN-001",
+    "HKLEG-RECON-EXEC-001"
+  ],
+  "processing_outcome": "BLOCK",
+  "reason_codes": [
+    "RECONSTRUCTION_RENDERER_UNSUPPORTED"
+  ],
+  "reconstruction_plan_id": "rpl_000000000000000000000000000000000000000000000001",
+  "reconstruction_plan_fingerprint": "sha256:beebfdf7a8e021fd9989cf0bac6a9841e39d4deb4d6dac4c764079ec96911cc1",
+  "execution_mode": "OFFLINE_SYNTHETIC_CONFORMANCE",
+  "operation_results": [
+    {
+      "language": "en",
+      "operation_instance_id": "rop_000000000000000000000000000000000000000000000001",
+      "operation_type_id": "HKRECON-OP-008",
+      "atomic_group_id": "atomic-group-0001",
+      "result": "FAILED_PRECONDITION",
+      "actual_target_count": 2,
+      "matched_location_ids": [
+        "loc_000000000000000000000000000000000000000000000002",
+        "loc_000000000000000000000000000000000000000000000003"
+      ],
+      "matched_source_unit_ids": [],
+      "actual_before_state_fingerprint": "sha256:8597012958e19f190cb5c4aabfa379583c3f2690953ba765f991a0b52c6483a7",
+      "actual_after_state_fingerprint": null,
+      "provisional_output_tree_fingerprint": null,
+      "reason_codes": [
+        "RECONSTRUCTION_RENDERER_UNSUPPORTED"
+      ],
+      "atomic_group_result": "FAILED"
+    },
+    {
+      "language": "zh-Hant",
+      "operation_instance_id": "rop_000000000000000000000000000000000000000000000002",
+      "operation_type_id": "HKRECON-OP-008",
+      "atomic_group_id": "atomic-group-0001",
+      "result": "NOT_RUN_AFTER_ATOMIC_FAILURE",
+      "actual_target_count": 0,
+      "matched_location_ids": [],
+      "matched_source_unit_ids": [],
+      "actual_before_state_fingerprint": null,
+      "actual_after_state_fingerprint": null,
+      "provisional_output_tree_fingerprint": null,
+      "reason_codes": [
+        "RECONSTRUCTION_NOT_RUN_AFTER_ATOMIC_FAILURE"
+      ],
+      "atomic_group_result": "NOT_RUN"
+    }
+  ],
+  "provisional_language_trees": [],
+  "provisional_language_tree_fingerprints": [],
+  "provisional_bilingual_alignment_map": null,
+  "provisional_bilingual_alignment_map_fingerprint": null,
+  "execution_report_output": "NONE",
+  "reconstructed_artifact_output": "NONE",
+  "record_output": "NONE",
+  "external_effects": "NONE",
+  "next_action": "SELECT_VALIDATED_FALLBACK_OR_NO_RECORD"
+}

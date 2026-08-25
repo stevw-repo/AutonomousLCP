@@ -1,0 +1,237 @@
+{
+  "schema_id": "asklegal.hk-regulatory.coverage-decision-case",
+  "schema_version": "1.0.0",
+  "package_contract_version": "1.0.0",
+  "case_id": "HKREG-DET-COV-016",
+  "suite_layer": "DECISION_TO_ARTIFACT",
+  "primary_checkpoint": "SOURCE_UNIT_COVERAGE",
+  "frozen": true,
+  "synthetic_evidence_class": "SYNTHETIC_NO_REAL_AUTHORITY",
+  "contract_bindings": [
+    {
+      "contract_id": "asklegal.hk-regulatory.conformance-universe",
+      "version": "1.0.0",
+      "fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.coverage-decision-case",
+      "version": "1.0.0",
+      "fingerprint": "sha256:55ca192442fe71ecc2ddd8f25a80af68afda82e18bbb8301f7a2db76ff217ea8"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.english-record",
+      "version": "1.0.0",
+      "fingerprint": "sha256:f7448b87eefeb113e1617390d494219032848ec86fb10e8e0210dd68c1fbe5d9"
+    }
+  ],
+  "synthetic_cutoff": "2026-08-24T00:00:00Z",
+  "scope_id": "HKEX_CROSS_BOARD",
+  "prior_state": "SYNTHETIC_ACCEPTED_PREDECESSOR",
+  "primary_coverage_cell_ids": [
+    "HKREG-COV-DCOV-016"
+  ],
+  "secondary_coverage_cell_ids": [],
+  "pair_memberships": [
+    {
+      "pair_id": "HKREG-PAIR-044",
+      "role": "NEAR_MISS"
+    }
+  ],
+  "declared_input_inventory": [
+    "coverage-evidence"
+  ],
+  "declared_reference_inventory": [
+    "asklegal.hk-regulatory.conformance-universe",
+    "asklegal.hk-regulatory.coverage-decision-case",
+    "asklegal.hk-regulatory.english-record"
+  ],
+  "declared_expected_inventory": [
+    "COVERAGE_DECISION_REPORT"
+  ],
+  "assertion_scope": "QUARANTINED_CURRENT",
+  "required_result_dimensions": [
+    "BOARD_READINESS",
+    "DEPENDENCY_ACCOUNTING",
+    "FORBIDDEN_EFFECTS",
+    "SOURCE_FIDELITY",
+    "SOURCE_ORDER",
+    "SOURCE_UNIT_ACCOUNTING"
+  ],
+  "evidence_packet_fields": [
+    "declared_units",
+    "excluded_units",
+    "requests",
+    "shared_unbounded_gap",
+    "weak_proxy_checks"
+  ],
+  "supporting_evidence_ranges": [
+    "input/HKREG-DET-COV-016-coverage-evidence.json#facts"
+  ],
+  "rule_trace": [
+    "HKREG-COVERAGE-DECISION-001",
+    "HKREG-ENGLISH-RECORD-001"
+  ],
+  "established_facts": [
+    "SYNTHETIC_COVERAGE_FACT_PACKET_DECLARED"
+  ],
+  "unresolved_facts": [
+    "COMPLETE_BUT_BOARD_NOT_READY"
+  ],
+  "permitted_equivalent_results": [],
+  "critical_error_codes": [],
+  "package_fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14",
+  "title": "Complete proof exposes one quarantined required current unit",
+  "purpose": "Accounting is complete but the affected board is not serving-ready",
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.coverage-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-COVERAGE-DECISION-001",
+    "case_id": "HKREG-DET-COV-016",
+    "outcome": "COMPLETE_NOT_READY",
+    "reason": "COMPLETE_BUT_BOARD_NOT_READY",
+    "coverage_complete": true,
+    "source_fidelity_valid": true,
+    "source_order_valid": true,
+    "board_ownership_valid": true,
+    "dependency_accounting_valid": true,
+    "total_source_unit_count": 2,
+    "primary_owned_unit_count": 0,
+    "non_serving_unit_count": 2,
+    "board_results": [
+      {
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "inventory_bounded": true,
+        "coverage_complete": true,
+        "required_current_unit_count": 1,
+        "ready_current_unit_count": 0,
+        "blocked_or_quarantined_unit_count": 1,
+        "search_record_candidate_count": 0,
+        "later_gate_candidate_ready": false
+      }
+    ],
+    "violation_codes": [],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "evidence_packet": {
+    "slot_id": "coverage-evidence",
+    "state": "AVAILABLE",
+    "path": "input/HKREG-DET-COV-016-coverage-evidence.json",
+    "role": "ORDINARY",
+    "media_type": "application/json",
+    "content_fingerprint": "sha256:99ff56dade677a5f53eae0b1b9132319adff8a270f68583e93f07487f51aae81"
+  },
+  "facts": {
+    "requests": [
+      {
+        "tree": {
+          "tree_id": "synthetic-tree-current-coverage-blocked",
+          "component_id": "synthetic-component-main-2.01-coverage-blocked",
+          "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+          "branch_id": "synthetic-branch-current-coverage-blocked",
+          "branch_state": "CURRENT",
+          "component_class": "ORDINARY_RULE",
+          "component_label": "Synthetic Main Board Listing Rules",
+          "location_label": "Rule 2.01",
+          "official_heading": "Synthetic conformance fixture",
+          "root_source_unit_id": "context",
+          "source_units": [
+            {
+              "source_unit_id": "context",
+              "parent_source_unit_id": null,
+              "child_source_unit_ids": [
+                "rule-a"
+              ],
+              "source_order": 0,
+              "kind": "HEADING",
+              "role": "CONTEXT_ONLY",
+              "text": "Rule 2 — Synthetic ordinary fixture",
+              "source_range": "synthetic-hkex-artifact#range-0",
+              "required_context_unit_ids": [],
+              "meaning_bearing": true,
+              "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+            },
+            {
+              "source_unit_id": "rule-a",
+              "parent_source_unit_id": "context",
+              "child_source_unit_ids": [],
+              "source_order": 1,
+              "kind": "BODY_TEXT",
+              "role": "PRIMARY",
+              "text": "2.01 An issuer must comply with the Exchange Listing Rules.",
+              "source_range": "synthetic-hkex-artifact#range-1",
+              "required_context_unit_ids": [
+                "context"
+              ],
+              "meaning_bearing": true,
+              "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+            }
+          ],
+          "root_record_unit_ids": [
+            "record-root"
+          ],
+          "record_units": [
+            {
+              "record_unit_id": "record-root",
+              "primary_source_unit_ids": [
+                "rule-a"
+              ],
+              "dependency_source_unit_ids": [
+                "context"
+              ],
+              "referenced_locations": [],
+              "child_record_unit_ids": [],
+              "source_contract_state": "SUPPORTED",
+              "indivisible": true
+            }
+          ],
+          "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+          "source_artifact_fingerprints": [
+            "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          ]
+        },
+        "profile": {
+          "profile_id": "synthetic-hkex-english-profile-1",
+          "profile_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "tokenizer_id": "synthetic-codepoint-counter-1",
+          "max_text_tokens": 1,
+          "max_metadata_bytes": 100000,
+          "country": "Hong Kong",
+          "jurisdiction": "Hong Kong",
+          "material_type": "regulatory_material",
+          "source": "Hong Kong Exchanges and Clearing Limited",
+          "authority_note": "None"
+        },
+        "effective_context": null
+      }
+    ],
+    "declared_units": [
+      {
+        "unit_key": "synthetic-tree-current-coverage-blocked:context",
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "source_order": 0,
+        "outcome": "CONTEXT_ONLY",
+        "primary_owner_record_ids": [],
+        "dependency_uses": [],
+        "fidelity": "EXACT"
+      },
+      {
+        "unit_key": "synthetic-tree-current-coverage-blocked:rule-a",
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "source_order": 1,
+        "outcome": "QUARANTINED",
+        "primary_owner_record_ids": [],
+        "dependency_uses": [],
+        "fidelity": "EXACT"
+      }
+    ],
+    "excluded_units": [],
+    "shared_unbounded_gap": false,
+    "weak_proxy_checks": []
+  },
+  "case_fingerprint": "sha256:20c662afa20417fab1418eb73cdb355aa263fdba5b268d58e379d75ad99adfe7"
+}

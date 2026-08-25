@@ -1,0 +1,41 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "reference_map_id": "content_reference_map_16",
+  "model_input_fingerprint": "sha256:1907fabd0adb3cdda42c0ab55d1ee10d8d7eeb9734170e7d86aabeb421ffed7e",
+  "propositions": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "QUARANTINED",
+      "required_meaning_codes": [
+        "PRIOR_NOTICE_JURISDICTIONAL"
+      ],
+      "forbidden_meaning_codes": [
+        "NO_NOTICE_REQUIRED"
+      ],
+      "required_content_codes": [
+        "EXACT_LOCATOR_UNAVAILABLE"
+      ],
+      "forbidden_content_codes": [
+        "APPROXIMATE_EVIDENCE"
+      ],
+      "evidence_assertions": [],
+      "required_dependency_ids": [],
+      "exact_quotations": []
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    }
+  ],
+  "expected_disposition": "ACCOUNTED_WITH_QUARANTINE",
+  "expected_selected_reference_proposition_ids": [],
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

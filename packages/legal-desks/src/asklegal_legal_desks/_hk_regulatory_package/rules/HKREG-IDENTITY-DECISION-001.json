@@ -1,0 +1,37 @@
+{
+  "schema_id": "asklegal.hk-regulatory-identity-decision-rule",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-IDENTITY-DECISION-001",
+  "status": "SOURCE_NEUTRAL_EXECUTABLE_CHECKPOINT",
+  "accepted_adrs": [
+    "0011",
+    "0050",
+    "0069",
+    "0073",
+    "0074",
+    "0075",
+    "0078"
+  ],
+  "case_schema": "contracts/schemas/hkex-identity-decision-case.schema.json",
+  "report_schema": "contracts/schemas/hkex-identity-decision-report.schema.json",
+  "catalogue_schema": "contracts/schemas/hkex-identity-decision-catalogue.schema.json",
+  "catalogue": "catalogues/identity-decision-cases.json",
+  "required_case_count": 24,
+  "required_primary_coverage_cell_count": 24,
+  "required_high_risk_pairs": [
+    "HKREG-PAIR-046",
+    "HKREG-PAIR-047",
+    "HKREG-PAIR-048",
+    "HKREG-PAIR-049"
+  ],
+  "accepted_record_identity_rule_id": "HKREG-RECORD-IDENTITY-001",
+  "accepted_component_continuity_rule_id": "HKREG-COMPONENT-CONTINUITY-001",
+  "complete_structured_decision_match_required": true,
+  "case_id_switching_forbidden": true,
+  "identity_decision_checkpoint_complete": true,
+  "full_conformance_case_universe_executable": true,
+  "conformance_admission_complete": false,
+  "source_authority": false,
+  "activation_authority": false,
+  "external_effects": "NONE"
+}

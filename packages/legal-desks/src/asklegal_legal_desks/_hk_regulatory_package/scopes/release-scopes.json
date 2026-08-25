@@ -1,0 +1,59 @@
+{
+  "complete_non_overlap": true,
+  "scopes": [
+    {
+      "scope_id": "rsc_000000000000000000000000000000000000000000000301",
+      "ownership_keys": ["HK:REGULATORY:HK-REG-HKEX-GEM"],
+      "required_source_ids": [
+        "HK-REG-HKEX-CONSOLIDATED-RULEBOOKS",
+        "HK-REG-HKEX-FEES-RULES",
+        "HK-REG-HKEX-REGULATORY-FORMS",
+        "HK-REG-HKEX-RULE-UPDATES",
+        "HK-REG-HKEX-RULEBOOK-CATALOGUE"
+      ],
+      "zero_record_rule": "Zero records requires complete five-role source-entry, component, effective-state, and English source-unit accounting",
+      "withholding_rule": "Every unresolved membership, source, state, structure, English unit, or traceability result blocks or quarantines the smallest bounded GEM work",
+      "readiness": "NOT_READY",
+      "blocker_codes": [
+        "HKREG_BASELINE_UNBUILT",
+        "HKREG_COMPONENT_INVENTORY_UNBUILT",
+        "HKREG_CONFORMANCE_SUITE_UNADMITTED",
+        "HKREG_EFFECTIVE_STATE_REAL_EVIDENCE_UNADMITTED",
+        "HKREG_ENDPOINT_CONTRACTS_UNADMITTED",
+        "HKREG_ENGLISH_RECORD_WORKFLOW_UNADMITTED",
+        "HKREG_MODEL_PROFILES_UNADMITTED",
+        "HKREG_NAMED_OWNER_ATTESTATION_MISSING",
+        "HKREG_REAL_SOURCE_BYTES_MISSING",
+        "HKREG_RECORD_IDENTITY_REAL_EVIDENCE_UNADMITTED",
+        "HKREG_RETRIEVAL_EVALUATION_UNADMITTED"
+      ]
+    },
+    {
+      "scope_id": "rsc_000000000000000000000000000000000000000000000302",
+      "ownership_keys": ["HK:REGULATORY:HK-REG-HKEX-MAIN-BOARD"],
+      "required_source_ids": [
+        "HK-REG-HKEX-CONSOLIDATED-RULEBOOKS",
+        "HK-REG-HKEX-FEES-RULES",
+        "HK-REG-HKEX-REGULATORY-FORMS",
+        "HK-REG-HKEX-RULE-UPDATES",
+        "HK-REG-HKEX-RULEBOOK-CATALOGUE"
+      ],
+      "zero_record_rule": "Zero records requires complete five-role source-entry, component, effective-state, and English source-unit accounting",
+      "withholding_rule": "Every unresolved membership, source, state, structure, English unit, or traceability result blocks or quarantines the smallest bounded Main Board work",
+      "readiness": "NOT_READY",
+      "blocker_codes": [
+        "HKREG_BASELINE_UNBUILT",
+        "HKREG_COMPONENT_INVENTORY_UNBUILT",
+        "HKREG_CONFORMANCE_SUITE_UNADMITTED",
+        "HKREG_EFFECTIVE_STATE_REAL_EVIDENCE_UNADMITTED",
+        "HKREG_ENDPOINT_CONTRACTS_UNADMITTED",
+        "HKREG_ENGLISH_RECORD_WORKFLOW_UNADMITTED",
+        "HKREG_MODEL_PROFILES_UNADMITTED",
+        "HKREG_NAMED_OWNER_ATTESTATION_MISSING",
+        "HKREG_REAL_SOURCE_BYTES_MISSING",
+        "HKREG_RECORD_IDENTITY_REAL_EVIDENCE_UNADMITTED",
+        "HKREG_RETRIEVAL_EVALUATION_UNADMITTED"
+      ]
+    }
+  ]
+}

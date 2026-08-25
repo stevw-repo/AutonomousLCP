@@ -6,7 +6,7 @@ from pathlib import Path
 from threading import Event
 
 import pytest
-from asklegal_contracts import SchemaRegistry, fingerprint
+from asklegal_contracts import SchemaRegistry, fingerprint, parse_json_bytes
 from asklegal_contracts.json_types import checked_json_value
 from asklegal_corpus import (
     CorpusError,
@@ -14,12 +14,26 @@ from asklegal_corpus import (
     CoverageScopeStatus,
     CoverageState,
     CoverageWarning,
+    DesiredStateInventory,
     ServingRecord,
     SourceCoverageCycleBinding,
     compose_desired_state,
     freeze_corpus_release,
     freeze_coverage_status,
     freeze_v1_coverage_status,
+)
+from asklegal_domain import (
+    ApplicationCode,
+    ContractReference,
+    DeclaredCompensation,
+    DestinationClass,
+    EffectCapability,
+    EffectType,
+    ImmutableReference,
+    NoCompensation,
+    ReferenceType,
+    RetryClass,
+    StopCondition,
 )
 from asklegal_management_register_ports import (
     ApprovalError,
@@ -41,6 +55,7 @@ from asklegal_promotion import (
     LocalFailurePlan,
     LocalRoutingStore,
     LocalServingTargetStore,
+    PromotionActionAuthority,
     PromotionError,
     PromotionErrorCode,
     PromotionExecutionResult,
@@ -67,6 +82,114 @@ _BASE = "srv_" + "a" * 48
 _CANDIDATE = "srv_" + "b" * 48
 _STATE_FP = "sha256:" + "b" * 64
 _PREDICATES = (("configuration", "1.0.0", "sha256:" + "c" * 64),)
+
+
+def _action_contract(name: str, digit: str) -> ContractReference:
+    return ContractReference(name, "1.0.0", "sha256:" + digit * 64)
+
+
+def _action_reference(
+    ref_type: ReferenceType,
+    ref_id: str,
+    ref_fingerprint: str,
+) -> ImmutableReference:
+    return ImmutableReference(ref_type, ref_id, ref_fingerprint)
+
+
+def _actions(
+    desired: DesiredStateInventory,
+    profile: EmbeddingProfile,
+) -> tuple[PromotionActionAuthority, ...]:
+    desired_ref = _action_reference(
+        ReferenceType.DESIRED_STATE_INVENTORY,
+        desired.inventory_id,
+        desired.inventory_fingerprint,
+    )
+    profile_ref = _action_reference(
+        ReferenceType.EMBEDDING_PROFILE,
+        profile.profile_id,
+        profile.profile_fingerprint,
+    )
+    state_ref = _action_reference(ReferenceType.SERVING_STATE, _CANDIDATE, _STATE_FP)
+    stops = tuple(StopCondition)
+    specifications = (
+        (
+            "EMBED_RECORDS",
+            EffectType.EMBEDDING_PROVIDER_CALL,
+            EffectCapability.CALL_EMBEDDING_PROVIDER,
+            DestinationClass.EMBEDDING_PROVIDER,
+            (desired_ref, profile_ref),
+            RetryClass.RECONCILE_BEFORE_RETRY,
+            3,
+            NoCompensation(),
+        ),
+        (
+            "BUILD_TARGET",
+            EffectType.PINECONE_MUTATION,
+            EffectCapability.MUTATE_PINECONE,
+            DestinationClass.SERVING_TARGET,
+            (desired_ref, profile_ref, state_ref),
+            RetryClass.RECONCILE_BEFORE_RETRY,
+            3,
+            NoCompensation(),
+        ),
+        (
+            "CREATE_BACKUPS",
+            EffectType.BACKUP_MUTATION,
+            EffectCapability.MANAGE_BACKUP,
+            DestinationClass.BACKUP_STORE,
+            (state_ref,),
+            RetryClass.RECONCILE_BEFORE_RETRY,
+            2,
+            NoCompensation(),
+        ),
+        (
+            "ACTIVATE_ROUTING",
+            EffectType.ROUTING_ACTIVATION,
+            EffectCapability.ACTIVATE_ROUTING,
+            DestinationClass.ROUTING_TARGET,
+            (state_ref,),
+            RetryClass.NEVER,
+            1,
+            DeclaredCompensation(_action_contract("asklegal.routing-reverse-swap", "9")),
+        ),
+    )
+    return tuple(
+        PromotionActionAuthority(
+            sequence,
+            action_id,
+            effect_type,
+            ApplicationCode.PROMOTION_WORKER,
+            action_id,
+            input_refs,
+            "sha256:" + str(sequence) * 64,
+            capability,
+            _action_reference(
+                ReferenceType.CAPABILITY_PROFILE,
+                "cap_" + str(sequence) * 48,
+                "sha256:" + str(sequence + 4) * 64,
+            ),
+            destination,
+            f"synthetic-{sequence}-{action_id.lower()}",
+            retry_class,
+            ceiling,
+            "2026-08-17T00:00:00Z",
+            stops,
+            _action_contract(f"asklegal.{action_id.lower()}-precondition", "a"),
+            _action_contract(f"asklegal.{action_id.lower()}-postcondition", "b"),
+            compensation,
+        )
+        for sequence, (
+            action_id,
+            effect_type,
+            capability,
+            destination,
+            input_refs,
+            retry_class,
+            ceiling,
+            compensation,
+        ) in enumerate(specifications, start=1)
+    )
 
 
 def _profile(*, cost_limit: int = 10_000) -> EmbeddingProfile:
@@ -128,6 +251,7 @@ def _manifest(
             ),
         ),
     )
+    selected_profile = profile or _profile()
     return freeze_promotion_manifest(
         PromotionPlan(
             "dev",
@@ -141,13 +265,13 @@ def _manifest(
             _BASE,
             desired,
             coverage,
-            profile or _profile(),
+            selected_profile,
             _PREDICATES,
             2,
             "project1",
-            ("BUILD_TARGET", "ACTIVATE_ROUTING"),
+            "1.0.0",
+            _actions(desired, selected_profile),
             retirements,
-            capability_enabled=True,
         )
     )
 
@@ -170,9 +294,9 @@ def _plan_from_manifest(manifest: PromotionManifest) -> PromotionPlan:
         manifest.validity_predicates,
         manifest.batch_size,
         manifest.project_id,
-        manifest.action_ids,
+        manifest.action_contract_version,
+        manifest.actions,
         manifest.exact_retirement_target_ids,
-        manifest.capability_enabled,
     )
 
 
@@ -192,6 +316,42 @@ def test_canonical_manifest_bytes_recover_the_exact_approval_snapshot() -> None:
     assert snapshot.expected_base_serving_state_id == manifest.base_serving_state_id
     assert snapshot.candidate_serving_state_id == manifest.candidate_serving_state_id
     assert snapshot.validity_predicates == manifest.validity_predicates
+
+    document = parse_json_bytes(content, max_bytes=1_000_000)
+    assert isinstance(document, dict)
+    assert document["action_contract_version"] == "1.0.0"
+    assert "actions" in document
+    assert "action_ids" not in document
+    assert "capability_enabled" not in document
+
+
+def test_manifest_rejects_effect_binding_or_profile_input_invention() -> None:
+    """Freeze cannot repair a wrong capability or stale action input at runtime."""
+    manifest = _manifest()
+    plan = _plan_from_manifest(manifest)
+    first = plan.actions[0]
+    wrong_capability = replace(first, required_capability=EffectCapability.MANAGE_BACKUP)
+    with pytest.raises(PromotionError, match="action effect binding"):
+        freeze_promotion_manifest(replace(plan, actions=(wrong_capability, *plan.actions[1:])))
+
+    changed_profile = _profile(cost_limit=9_999)
+    with pytest.raises(PromotionError, match="action input binding"):
+        freeze_promotion_manifest(replace(plan, embedding_profile=changed_profile))
+
+
+def test_manifest_rejects_missing_stop_or_broadened_never_retry() -> None:
+    """Approval bytes cannot omit a stop rule or broaden a one-shot effect."""
+    manifest = _manifest()
+    plan = _plan_from_manifest(manifest)
+    first = plan.actions[0]
+    missing_stop = replace(first, stop_conditions=first.stop_conditions[:-1])
+    with pytest.raises(PromotionError, match="action completion authority"):
+        freeze_promotion_manifest(replace(plan, actions=(missing_stop, *plan.actions[1:])))
+
+    last = plan.actions[-1]
+    broadened = replace(last, attempt_ceiling=2)
+    with pytest.raises(PromotionError, match="action retry authority"):
+        freeze_promotion_manifest(replace(plan, actions=(*plan.actions[:-1], broadened)))
 
 
 @pytest.mark.parametrize("drift", ["BYTES", "IDENTITY", "FINGERPRINT"])

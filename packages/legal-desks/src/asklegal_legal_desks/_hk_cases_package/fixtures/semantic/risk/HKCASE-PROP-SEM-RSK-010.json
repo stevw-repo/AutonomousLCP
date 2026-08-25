@@ -1,0 +1,60 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-RSK-010",
+  "coverage_cell_id": "HKCASE-PROP-COV-SRSK-010",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-016",
+      "role": "POSITIVE"
+    }
+  ],
+  "scenario": "Long judgment uses complete opinion-aware segments and dependencies",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-risk-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "risk_execution_10",
+    "judgment_work_id": "risk_judgment_10",
+    "judicial_decision_id": "synthetic_risk_decision_10",
+    "accepted_original_version_id": "synthetic_risk_original_10",
+    "court_family": "CFA",
+    "original_language": "ENGLISH",
+    "segments": [
+      {
+        "segment_id": "segment_1",
+        "source_order": 1,
+        "exact_text": "Segment one states that jurisdiction requires valid service.",
+        "text_fingerprint": "sha256:34682a4a92a7b9aca09cab15d4a7eb4d17fe568f709b0b17f3a187a8222afc11",
+        "range_id": "range_1"
+      },
+      {
+        "segment_id": "segment_2",
+        "source_order": 2,
+        "exact_text": "Segment two qualifies service where deliberate evasion is proved.",
+        "text_fingerprint": "sha256:f90a436ea92742278b8ad4dd0f9560d9a4258f2142467209124dbc59f663d90b",
+        "range_id": "range_2"
+      },
+      {
+        "segment_id": "segment_3",
+        "source_order": 3,
+        "exact_text": "Segment three independently states the reasonable-reliance merits rule.",
+        "text_fingerprint": "sha256:e17dc98232319f9b92042c558c1f7ad3c3b7252cec4a7619cd9fe85659f1a21e",
+        "range_id": "range_3"
+      }
+    ],
+    "dependency_ids": [
+      "dependency_service_qualification"
+    ],
+    "segment_manifest_complete": true,
+    "parser_supported": true,
+    "auxiliary_translations": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-010.json",
+  "observation_path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-010.json",
+  "expected_path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-010.json"
+}

@@ -1,0 +1,16 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.reconstruction-reconciliation.reason-codes",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "reason_codes": [
+    {"code": "HKLEG_RECON_RECONCILE_UNCHANGED_SIGNAL", "meaning": "No changed HKeL signal requires large acquisition or comparison work.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_RECON_RECONCILE_CANDIDATE_OBSERVED", "meaning": "A changed signal opened bounded validation for the exact HKeL item.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_RECON_RECONCILE_HKEL_CANDIDATE_INVALID", "meaning": "The later HKeL candidate failed independent ordinary evidence gates and is not comparison truth.", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_RECON_RECONCILE_MATCH_CONFIRMED", "meaning": "Complete comparable canonical legal content matches exactly or differs only by permitted presentation.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_RECON_RECONCILE_COMPARISON_NOT_ISOLATABLE", "meaning": "Additional overlapping change prevents a fair common basis but does not block valid HKeL replacement.", "processing_outcome": "PASS"},
+    {"code": "HKLEG_RECON_RECONCILE_MATERIAL_MISMATCH", "meaning": "Comparable reconstructed and later HKeL legal content materially differs.", "processing_outcome": "QUARANTINE"},
+    {"code": "HKLEG_RECON_RECONCILE_LOCATION_ACCOUNTING_INCOMPLETE", "meaning": "The comparison inventory does not account for every reconstructed location.", "processing_outcome": "BLOCK"},
+    {"code": "HKLEG_RECON_RECONCILE_COMPONENT_SUSPENDED", "meaning": "A relied-on reconstruction component is defective and its complete impact set must be reprocessed.", "processing_outcome": "QUARANTINE"},
+    {"code": "HKLEG_RECON_RECONCILE_COMPONENT_REVALIDATED", "meaning": "A corrected component passed the required regression and impact gates.", "processing_outcome": "PASS"}
+  ]
+}

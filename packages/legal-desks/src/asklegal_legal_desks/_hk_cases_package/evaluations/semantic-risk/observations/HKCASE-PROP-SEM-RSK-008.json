@@ -1,0 +1,50 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:e95e21862a7ddc7c191ece7f4c1931ad5107a904e505cff36aa9c1f1617efb33",
+  "workflow_result_fingerprint": "sha256:66674ebe5ff4b04077f726e61aaae97d81f2b3cc88a4492e8dcf1af133c2443c",
+  "court_family": "CA",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_8",
+  "auxiliary_translation_version_ids": [
+    "synthetic_risk_translation_8_1"
+  ],
+  "examined_segment_ids": [
+    "segment_1"
+  ],
+  "resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "ORIGINAL_KNOWLEDGE_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_8",
+      "meaning_codes": [
+        "ACTUAL_KNOWLEDGE"
+      ],
+      "risk_codes": [
+        "ORIGINAL_RESULT_PRESERVED",
+        "TRANSLATION_CONFLICT_ISOLATED"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "The accepted original says actual knowledge is required."
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "coverage_gap_ids": [],
+  "translation_use": "CONFLICT_ISOLATED",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

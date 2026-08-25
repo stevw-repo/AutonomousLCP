@@ -1,0 +1,50 @@
+{
+  "rule_id": "HKCASE-PROP-SEMANTIC-TASK-PREFLIGHT-001",
+  "contract_version": "1.0.0",
+  "task_families": [
+    "hk-case-proposition-analysis/v1",
+    "hk-case-proposition-challenge/v1"
+  ],
+  "request_kinds": [
+    "FULL_JUDGMENT",
+    "EVIDENCE_PACKET",
+    "JUDGMENT_INTEGRATION",
+    "TARGETED_REANALYSIS",
+    "FULL_JUDGMENT_CHALLENGE",
+    "COVERAGE_PACKET_CHALLENGE",
+    "JUDGMENT_RESULT_CHALLENGE",
+    "FINAL_TARGETED_CHALLENGE"
+  ],
+  "request_kind_count": 8,
+  "workflow_component_roles": [
+    "COVERAGE_LEDGER",
+    "MODEL_SETTINGS",
+    "OUTPUT_SCHEMA",
+    "PARSER_PROFILE",
+    "PROCESSING_BUILD",
+    "PROMPT",
+    "SEGMENTATION_CONTRACT",
+    "SOURCE_RULEBOOK",
+    "STRUCTURE_CONTRACT",
+    "VALIDATOR"
+  ],
+  "required_evidence_roles": [
+    "ANSWER",
+    "APPLICATION",
+    "ATTRIBUTION",
+    "CONTEXT",
+    "ISSUE",
+    "QUALIFICATION",
+    "QUOTATION",
+    "RESULT"
+  ],
+  "frozen_semantic_case_count": 0,
+  "provider_calls_authorized": 0,
+  "semantic_results_accepted": 0,
+  "search_records_created": 0,
+  "release_eligible": false,
+  "real_source_evidence": false,
+  "workflow_admission_created": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

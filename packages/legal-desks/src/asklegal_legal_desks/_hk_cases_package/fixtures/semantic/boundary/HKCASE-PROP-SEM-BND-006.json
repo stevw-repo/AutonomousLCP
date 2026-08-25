@@ -1,0 +1,55 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-BND-006",
+  "coverage_cell_id": "HKCASE-PROP-COV-SBND-006",
+  "pair_memberships": [],
+  "scenario": "Same rule is applied to a second fact pattern without a distinct branch",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-boundary-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "boundary_execution_6",
+    "judgment_work_id": "boundary_judgment_6",
+    "judicial_decision_id": "synthetic_boundary_decision_6",
+    "official_version_id": "synthetic_boundary_version_6",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ],
+        "joined_opinion_id": null,
+        "expressly_adopted_opinion_ids": []
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "The objective notice rule defeats the first claim.",
+        "text_fingerprint": "sha256:25d1be66fca2de2d0fe86c5b997c352cbde003cefcdcb87d6accd827c483ed17",
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "exact_text": "The same rule also defeats the second claim.",
+        "text_fingerprint": "sha256:183351e5d191d984cbd2c09335b06f992b78cf6a15e73645ea945b6ba9688319",
+        "range_id": "range_2"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-006.json",
+  "observation_path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-006.json",
+  "expected_path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-006.json"
+}

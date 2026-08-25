@@ -1,0 +1,60 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-BND-021",
+  "coverage_cell_id": "HKCASE-PROP-COV-SBND-021",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-014",
+      "role": "NEAR_MISS"
+    }
+  ],
+  "scenario": "Similar wording has a different issue scope and legal effect",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-boundary-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "boundary_execution_21",
+    "judgment_work_id": "boundary_judgment_21",
+    "judicial_decision_id": "synthetic_boundary_decision_21",
+    "official_version_id": "synthetic_boundary_version_21",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ],
+        "joined_opinion_id": null,
+        "expressly_adopted_opinion_ids": []
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "Reasonable steps are required before statutory service.",
+        "text_fingerprint": "sha256:3ffcb1162534753c89fdbc420a00029fef44a365fee1b1a669cdfd9c73e77a5e",
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "exact_text": "Reasonable steps are separately required to mitigate loss.",
+        "text_fingerprint": "sha256:f2c340a289c7c3ecdcebc1dfd762c3b397b99bbc0e4b7c0b59a4da020f265677",
+        "range_id": "range_2"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-021.json",
+  "observation_path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-021.json",
+  "expected_path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-021.json"
+}

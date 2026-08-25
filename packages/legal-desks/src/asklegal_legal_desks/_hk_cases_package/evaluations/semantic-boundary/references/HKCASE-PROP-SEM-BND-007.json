@@ -1,0 +1,89 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "reference_map_id": "boundary_reference_map_7",
+  "model_input_fingerprint": "sha256:b7789c6e59265d436798c784641148f4b63833c26991d17fd18a8f0533c2a03c",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "ORDINARY_NOTICE_BRANCH",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "required_meaning_codes": [
+        "ACTUAL_DELIVERY"
+      ],
+      "required_boundary_codes": [
+        "DISTINCT_BRANCH",
+        "SEPARATE_PROPOSITION"
+      ],
+      "forbidden_boundary_codes": [
+        "REPETITION_MERGED"
+      ],
+      "required_range_ids": [
+        "range_1"
+      ]
+    },
+    {
+      "reference_proposition_id": "reference_prop_2",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "EVASION_NOTICE_BRANCH",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "required_meaning_codes": [
+        "DEEMED_DELIVERY_ON_EVASION"
+      ],
+      "required_boundary_codes": [
+        "DISTINCT_BRANCH",
+        "SEPARATE_PROPOSITION"
+      ],
+      "forbidden_boundary_codes": [
+        "REPETITION_MERGED"
+      ],
+      "required_range_ids": [
+        "range_2"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_2"
+      ]
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1",
+    "reference_prop_2"
+  ],
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

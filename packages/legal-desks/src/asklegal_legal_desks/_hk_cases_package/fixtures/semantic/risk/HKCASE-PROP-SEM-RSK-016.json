@@ -1,0 +1,44 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-RSK-016",
+  "coverage_cell_id": "HKCASE-PROP-COV-SRSK-016",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-019",
+      "role": "NEAR_MISS"
+    }
+  ],
+  "scenario": "Complete evidence leaves materiality genuinely uncertain",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-risk-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "risk_execution_16",
+    "judgment_work_id": "risk_judgment_16",
+    "judicial_decision_id": "synthetic_risk_decision_16",
+    "accepted_original_version_id": "synthetic_risk_original_16",
+    "court_family": "CA",
+    "original_language": "ENGLISH",
+    "segments": [
+      {
+        "segment_id": "segment_1",
+        "source_order": 1,
+        "exact_text": "The discussion may state a rule, but its material role cannot be resolved.",
+        "text_fingerprint": "sha256:89e1644f74920a5f006844ee746d7aeff33b2bd992ab05522f73711bf08a2c9d",
+        "range_id": "range_1"
+      }
+    ],
+    "dependency_ids": [],
+    "segment_manifest_complete": true,
+    "parser_supported": true,
+    "auxiliary_translations": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-risk/references/HKCASE-PROP-SEM-RSK-016.json",
+  "observation_path": "evaluations/semantic-risk/observations/HKCASE-PROP-SEM-RSK-016.json",
+  "expected_path": "expected/semantic-risk/HKCASE-PROP-SEM-RSK-016.json"
+}

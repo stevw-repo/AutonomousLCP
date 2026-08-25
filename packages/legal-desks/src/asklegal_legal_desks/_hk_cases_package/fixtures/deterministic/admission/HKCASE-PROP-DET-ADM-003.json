@@ -1,0 +1,130 @@
+{
+  "schema_id": "asklegal.hk-cases.admission-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-DET-ADM-003",
+  "case_id": "HKCASE-PROP-DET-ADM-003",
+  "coverage_cell_id": "HKCASE-PROP-COV-DADM-003",
+  "pair_memberships": [],
+  "synthetic_scenario": "Processing correction splits an improperly combined record",
+  "evidence_class": "SYNTHETIC_SOURCE_NEUTRAL",
+  "variants": [
+    {
+      "variant_id": "HKCASE-PROP-DET-ADM-003-V01",
+      "request": {
+        "schema_id": "asklegal.hk-cases.admission-request",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-ADMISSION-CONFORMANCE-001",
+        "assertion": "CORRECTION",
+        "correction": {
+          "kind": "SPLIT_CORRECTION",
+          "prior_official_version_id": "version_1",
+          "current_official_version_id": "version_1",
+          "prior_ledger_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "current_ledger_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "prior_result_id": "result_1",
+          "current_result_id": "result_2",
+          "prior_admission_id": "admission_1",
+          "current_admission_id": "admission_1",
+          "prior_propositions": [
+            {
+              "proposition_id": "proposition_a",
+              "text_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "support_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "attribution_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "payload_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            {
+              "proposition_id": "proposition_b",
+              "text_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "support_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "attribution_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "payload_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "current_propositions": [
+            {
+              "proposition_id": "proposition_a",
+              "text_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "support_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "attribution_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "payload_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            {
+              "proposition_id": "proposition_b",
+              "text_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "support_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "attribution_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "payload_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "prior_records": [
+            {
+              "record_id": "record_combined",
+              "proposition_ids": [
+                "proposition_a",
+                "proposition_b"
+              ],
+              "payload_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "embedding_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "selected": true
+            }
+          ],
+          "current_records": [
+            {
+              "record_id": "record_a",
+              "proposition_ids": [
+                "proposition_a"
+              ],
+              "payload_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "embedding_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "selected": true
+            },
+            {
+              "record_id": "record_b",
+              "proposition_ids": [
+                "proposition_b"
+              ],
+              "payload_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "embedding_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "selected": true
+            }
+          ],
+          "affected_prior_proposition_ids": [
+            "proposition_a",
+            "proposition_b"
+          ],
+          "unaffected_reused_proposition_ids": [],
+          "introduced_proposition_ids": [],
+          "deselected_prior_record_ids": [
+            "record_combined"
+          ],
+          "lineages": [
+            {
+              "relation": "SPLIT_FROM",
+              "predecessor_record_ids": [
+                "record_combined"
+              ],
+              "successor_record_ids": [
+                "record_a",
+                "record_b"
+              ]
+            }
+          ],
+          "component_changes": [],
+          "processing_history_appended": true,
+          "ledger_history_appended": true,
+          "impact_declaration_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "prior_ledger_mutated": false,
+          "prior_admission_mutated": false
+        },
+        "catalogue": null,
+        "evaluation_packet": null,
+        "sealed_package": null,
+        "reproducibility": null,
+        "side_effects": null,
+        "workflow_identity": null
+      }
+    }
+  ],
+  "external_effects": "NONE"
+}

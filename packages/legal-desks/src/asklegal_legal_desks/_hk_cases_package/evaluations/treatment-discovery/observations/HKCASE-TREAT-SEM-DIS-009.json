@@ -1,0 +1,29 @@
+{
+  "schema_id": "asklegal.hk-cases.treatment-discovery-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-TREAT-SEM-DISCOVERY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:65c30a553dad7cd967dd63077dd4333dd8ee85cdf2a8f8cb0313cb434d3c2a5f",
+  "workflow_result_fingerprint": "sha256:ebd539594598b6241932a7dd16d8d02148c0762b8d7f47a6c679bf002e301d1f",
+  "original_language": "ENGLISH",
+  "examined_opinion_ids": [
+    "opinion_1"
+  ],
+  "examined_segment_ids": [
+    "segment_1",
+    "segment_2"
+  ],
+  "leads": [],
+  "candidates": [],
+  "disposition": "INCOMPLETE",
+  "coverage_gap_ids": [
+    "coverage_gap_missing_context"
+  ],
+  "judgment_proposition_count": 1,
+  "complete_opinion_ledger": true,
+  "complete_segment_ledger": false,
+  "correction_comparison_complete": false,
+  "silence_establishes_no_treatment": false,
+  "legal_effect_decided": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

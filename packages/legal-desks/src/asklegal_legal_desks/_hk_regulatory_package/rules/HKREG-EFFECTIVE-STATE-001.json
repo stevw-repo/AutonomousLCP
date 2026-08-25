@@ -1,0 +1,17 @@
+{
+  "schema_id": "asklegal.hk-regulatory-effective-state-rule",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-EFFECTIVE-STATE-001",
+  "status": "SOURCE_NEUTRAL_CONFORMANCE",
+  "accepted_adr": "0071",
+  "input_schema": "contracts/schemas/hkex-effective-state-request.schema.json",
+  "result_schema": "contracts/schemas/hkex-effective-state-result.schema.json",
+  "decision_unit": "ONE_APPLICABILITY_BRANCH_AT_ONE_FROZEN_CUTOFF",
+  "controlling_product_reconciliation_required_before_current": true,
+  "clock_only_promotion_forbidden": true,
+  "missing_trigger_inference_forbidden": true,
+  "disappearance_as_retirement_forbidden": true,
+  "search_record_authority": false,
+  "serving_authority": false,
+  "external_effects": "NONE"
+}

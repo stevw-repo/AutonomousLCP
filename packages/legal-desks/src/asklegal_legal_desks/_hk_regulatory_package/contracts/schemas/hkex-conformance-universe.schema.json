@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-conformance-universe.schema.json",
+  "title": "HKEX Regulatory initial conformance universe",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "catalogue_id",
+    "catalogue_version",
+    "status",
+    "design_source_path",
+    "design_source_fingerprint",
+    "required_case_count",
+    "required_coverage_cell_count",
+    "required_pair_count",
+    "checkpoint_counts",
+    "cases",
+    "pair_index",
+    "case_packages_complete",
+    "conformance_ready",
+    "activation_authorized",
+    "external_effects"
+  ],
+  "$defs": {
+    "nonempty": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pair_membership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pair_id",
+        "role"
+      ],
+      "properties": {
+        "pair_id": {
+          "type": "string",
+          "pattern": "^HKREG-PAIR-\\d{3}$"
+        },
+        "role": {
+          "enum": [
+            "POSITIVE",
+            "NEAR_MISS"
+          ]
+        }
+      }
+    }
+  },
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-regulatory.conformance-universe"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "catalogue_id": {
+      "const": "hk-regulatory-initial"
+    },
+    "catalogue_version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "const": "FROZEN_EXECUTABLE_CASE_UNIVERSE"
+    },
+    "design_source_path": {
+      "const": "docs/design/HONG_KONG_REGULATORY_CONFORMANCE_CATALOGUE.md"
+    },
+    "design_source_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "required_case_count": {
+      "const": 284
+    },
+    "required_coverage_cell_count": {
+      "const": 284
+    },
+    "required_pair_count": {
+      "const": 57
+    },
+    "checkpoint_counts": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "checkpoint",
+          "layer",
+          "case_namespace",
+          "coverage_namespace",
+          "direct_case_count"
+        ],
+        "properties": {
+          "checkpoint": {
+            "enum": [
+              "SOURCE_FACT_AUTHORITY",
+              "EFFECTIVE_STATE",
+              "RECORD_BOUNDARY",
+              "CANONICAL_RENDERING",
+              "PARTITIONING",
+              "SOURCE_UNIT_COVERAGE",
+              "RECORD_IDENTITY",
+              "PACKAGE_INTEGRITY"
+            ]
+          },
+          "layer": {
+            "enum": [
+              "EVIDENCE_TO_DECISION",
+              "DECISION_TO_ARTIFACT"
+            ]
+          },
+          "case_namespace": {
+            "$ref": "#/$defs/nonempty"
+          },
+          "coverage_namespace": {
+            "$ref": "#/$defs/nonempty"
+          },
+          "direct_case_count": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 284,
+      "maxItems": 284,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "case_id",
+          "coverage_cell_id",
+          "layer",
+          "primary_checkpoint",
+          "synthetic_scenario",
+          "exact_required_result",
+          "pair_memberships"
+        ],
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "pattern": "^HKREG-(DEC-(SRC|STA|BND)|DET-(RND|PAR|COV|IDN|PKG))-\\d{3}$"
+          },
+          "coverage_cell_id": {
+            "type": "string",
+            "pattern": "^HKREG-COV-(DSRC|DSTA|DBND|DRND|DPAR|DCOV|DIDN|DPKG)-\\d{3}$"
+          },
+          "layer": {
+            "enum": [
+              "EVIDENCE_TO_DECISION",
+              "DECISION_TO_ARTIFACT"
+            ]
+          },
+          "primary_checkpoint": {
+            "enum": [
+              "SOURCE_FACT_AUTHORITY",
+              "EFFECTIVE_STATE",
+              "RECORD_BOUNDARY",
+              "CANONICAL_RENDERING",
+              "PARTITIONING",
+              "SOURCE_UNIT_COVERAGE",
+              "RECORD_IDENTITY",
+              "PACKAGE_INTEGRITY"
+            ]
+          },
+          "synthetic_scenario": {
+            "$ref": "#/$defs/nonempty"
+          },
+          "exact_required_result": {
+            "$ref": "#/$defs/nonempty"
+          },
+          "pair_memberships": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "$ref": "#/$defs/pair_membership"
+            }
+          }
+        }
+      }
+    },
+    "pair_index": {
+      "type": "array",
+      "minItems": 57,
+      "maxItems": 57,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "pair_id",
+          "positive_case_id",
+          "near_miss_case_id"
+        ],
+        "properties": {
+          "pair_id": {
+            "type": "string",
+            "pattern": "^HKREG-PAIR-\\d{3}$"
+          },
+          "positive_case_id": {
+            "$ref": "#/$defs/nonempty"
+          },
+          "near_miss_case_id": {
+            "$ref": "#/$defs/nonempty"
+          }
+        }
+      }
+    },
+    "case_packages_complete": {
+      "const": true
+    },
+    "conformance_ready": {
+      "const": false
+    },
+    "activation_authorized": {
+      "const": false
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

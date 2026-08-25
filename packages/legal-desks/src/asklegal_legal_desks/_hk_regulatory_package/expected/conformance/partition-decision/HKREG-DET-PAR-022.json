@@ -1,0 +1,260 @@
+{
+  "schema_id": "asklegal.hk-regulatory.partition-decision-report",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-PARTITION-DECISION-001",
+  "case_id": "HKREG-DET-PAR-022",
+  "assertion_scope": "RECURSION",
+  "observed_decision": {
+    "schema_id": "asklegal.hk-regulatory.partition-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-PARTITION-DECISION-001",
+    "case_id": "HKREG-DET-PAR-022",
+    "outcome": "PASS",
+    "reason": "RECURSIVE_OFFICIAL_PARTITIONED",
+    "partition_required": true,
+    "measurement_complete": true,
+    "branch_results": [
+      {
+        "branch_id": "synthetic-branch-current-nested",
+        "root_record_unit_id": "record-root",
+        "disposition": "PASS",
+        "construction_reason": "PASS_PARTITIONED",
+        "unsplit_text_tokens": 843,
+        "unsplit_metadata_bytes": 1028,
+        "text_limit": 600,
+        "metadata_limit": 100000,
+        "parts": [
+          {
+            "part_number": 1,
+            "total_parts": 4,
+            "record_unit_ids": [
+              "record-a"
+            ],
+            "primary_source_unit_ids": [
+              "unit-a"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:2803cd04a6a0528f81fae36ad8f1e33b3aeb3ea17125c8be42520b557549de40",
+            "serving_payload_fingerprint": "sha256:084e09f8c32025f66582225808d1feb314d7b44f81095d9164f96b2b1083763d",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 600,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 1 of 4"
+          },
+          {
+            "part_number": 2,
+            "total_parts": 4,
+            "record_unit_ids": [
+              "record-b1"
+            ],
+            "primary_source_unit_ids": [
+              "unit-b1"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:83009c1c6f34e92d69401dab16b7a448dedcf78ea2f6865d7edb0de6c0688d34",
+            "serving_payload_fingerprint": "sha256:9b9a341c950dbf9919fd415898a1d30e3affaef316c1abc208c8a377364b0f7a",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 600,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 2 of 4"
+          },
+          {
+            "part_number": 3,
+            "total_parts": 4,
+            "record_unit_ids": [
+              "record-b2"
+            ],
+            "primary_source_unit_ids": [
+              "unit-b2"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:ffafd6d169c61e63b3f1912a01b515a22e50c7cacebcd4f15f450ab3db0e12fc",
+            "serving_payload_fingerprint": "sha256:ed6b509367ec3c863689f97db7aa4bc886e72c74b46ae1db4428bd56a98d5171",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 600,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 3 of 4"
+          },
+          {
+            "part_number": 4,
+            "total_parts": 4,
+            "record_unit_ids": [
+              "record-c"
+            ],
+            "primary_source_unit_ids": [
+              "unit-c"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:d46c6d4877783659a5254d10abbcc3c9473ff47003984601949f12d7966aa1c0",
+            "serving_payload_fingerprint": "sha256:51a4c82452741bf46fe9e14ef3f769f44bf82cd3068bf18661d794fb59253b12",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 600,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 4 of 4"
+          }
+        ],
+        "accounted_primary_source_unit_ids": [
+          "unit-a",
+          "unit-b1",
+          "unit-b2",
+          "unit-c"
+        ]
+      }
+    ],
+    "rejected_proposal_codes": [],
+    "quarantined_branch_ids": [],
+    "coverage_gap_ids": [],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.partition-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-PARTITION-DECISION-001",
+    "case_id": "HKREG-DET-PAR-022",
+    "outcome": "PASS",
+    "reason": "RECURSIVE_OFFICIAL_PARTITIONED",
+    "partition_required": true,
+    "measurement_complete": true,
+    "branch_results": [
+      {
+        "branch_id": "synthetic-branch-current-nested",
+        "root_record_unit_id": "record-root",
+        "disposition": "PASS",
+        "construction_reason": "PASS_PARTITIONED",
+        "unsplit_text_tokens": 843,
+        "unsplit_metadata_bytes": 1028,
+        "text_limit": 600,
+        "metadata_limit": 100000,
+        "parts": [
+          {
+            "part_number": 1,
+            "total_parts": 4,
+            "record_unit_ids": [
+              "record-a"
+            ],
+            "primary_source_unit_ids": [
+              "unit-a"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:2803cd04a6a0528f81fae36ad8f1e33b3aeb3ea17125c8be42520b557549de40",
+            "serving_payload_fingerprint": "sha256:084e09f8c32025f66582225808d1feb314d7b44f81095d9164f96b2b1083763d",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 600,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 1 of 4"
+          },
+          {
+            "part_number": 2,
+            "total_parts": 4,
+            "record_unit_ids": [
+              "record-b1"
+            ],
+            "primary_source_unit_ids": [
+              "unit-b1"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:83009c1c6f34e92d69401dab16b7a448dedcf78ea2f6865d7edb0de6c0688d34",
+            "serving_payload_fingerprint": "sha256:9b9a341c950dbf9919fd415898a1d30e3affaef316c1abc208c8a377364b0f7a",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 600,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 2 of 4"
+          },
+          {
+            "part_number": 3,
+            "total_parts": 4,
+            "record_unit_ids": [
+              "record-b2"
+            ],
+            "primary_source_unit_ids": [
+              "unit-b2"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:ffafd6d169c61e63b3f1912a01b515a22e50c7cacebcd4f15f450ab3db0e12fc",
+            "serving_payload_fingerprint": "sha256:ed6b509367ec3c863689f97db7aa4bc886e72c74b46ae1db4428bd56a98d5171",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 600,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 3 of 4"
+          },
+          {
+            "part_number": 4,
+            "total_parts": 4,
+            "record_unit_ids": [
+              "record-c"
+            ],
+            "primary_source_unit_ids": [
+              "unit-c"
+            ],
+            "dependency_source_unit_ids": [
+              "context"
+            ],
+            "text_fingerprint": "sha256:d46c6d4877783659a5254d10abbcc3c9473ff47003984601949f12d7966aa1c0",
+            "serving_payload_fingerprint": "sha256:51a4c82452741bf46fe9e14ef3f769f44bf82cd3068bf18661d794fb59253b12",
+            "text_tokens": 483,
+            "metadata_bytes": 666,
+            "text_limit": 600,
+            "metadata_limit": 100000,
+            "fits": true,
+            "serving_label": "Serving part: 4 of 4"
+          }
+        ],
+        "accounted_primary_source_unit_ids": [
+          "unit-a",
+          "unit-b1",
+          "unit-b2",
+          "unit-c"
+        ]
+      }
+    ],
+    "rejected_proposal_codes": [],
+    "quarantined_branch_ids": [],
+    "coverage_gap_ids": [],
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "deployment_authorized": false,
+    "external_effects": "NONE"
+  },
+  "conformance_status": "PASS",
+  "source_authorized": false,
+  "provider_authorized": false,
+  "release_authorized": false,
+  "serving_authorized": false,
+  "deployment_authorized": false,
+  "external_effects": "NONE"
+}

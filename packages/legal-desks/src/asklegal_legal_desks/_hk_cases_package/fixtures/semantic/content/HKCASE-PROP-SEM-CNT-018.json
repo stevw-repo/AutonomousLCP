@@ -1,0 +1,63 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-CNT-018",
+  "coverage_cell_id": "HKCASE-PROP-COV-SCNT-018",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-008",
+      "role": "POSITIVE"
+    }
+  ],
+  "scenario": "Derived wording differs from the reference but preserves every meaning and limit",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-content-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "content_execution_18",
+    "judgment_work_id": "content_judgment_18",
+    "judicial_decision_id": "synthetic_content_decision_18",
+    "official_version_id": "synthetic_content_version_18",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "A principal is bound by an agent acting with apparent authority.",
+        "text_fingerprint": "sha256:facbc4292586783518aacd73282d2e8cb14d91fe226083fc84aa06b388e2dd80",
+        "range_available": true,
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "Apparent authority exists only where the third party reasonably relied after due inquiry.",
+        "text_fingerprint": "sha256:85b2639acf6052f54ccb8c6db779ac333ce3e24f2b27be34ba0ed5634fb82cd5",
+        "range_available": true,
+        "range_id": "range_2"
+      }
+    ],
+    "dependencies": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-018.json",
+  "observation_path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-018.json",
+  "expected_path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-018.json"
+}

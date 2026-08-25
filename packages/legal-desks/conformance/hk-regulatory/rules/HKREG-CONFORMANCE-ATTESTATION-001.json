@@ -1,0 +1,20 @@
+{
+  "schema_id": "asklegal.hk-regulatory.conformance-attestation-rule",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-CONFORMANCE-ATTESTATION-001",
+  "attestation_path": "attestations/HKREG-CONFORMANCE-ATTESTATION-001.json",
+  "required_case_count": 284,
+  "required_isolated_run_count": 2,
+  "required_terminal_result": "PASS",
+  "granted_capabilities": [
+    "BUILD_COMPATIBILITY"
+  ],
+  "real_source_evaluation": false,
+  "source_access_authorized": false,
+  "release_creation_authorized": false,
+  "approval_authorized": false,
+  "pinecone_authorized": false,
+  "deployment_authorized": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

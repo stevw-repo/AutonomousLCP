@@ -1,0 +1,69 @@
+{
+  "rule_id": "HKLEG-RECON-EXEC-001",
+  "rule_trace": [
+    "HKLEG-RECON-PLAN-001",
+    "HKLEG-RECON-EXEC-001"
+  ],
+  "processing_outcome": "BLOCK",
+  "reason_codes": [
+    "RECONSTRUCTION_BILINGUAL_ALIGNMENT_MISMATCH"
+  ],
+  "reconstruction_plan_id": "rpl_000000000000000000000000000000000000000000000001",
+  "reconstruction_plan_fingerprint": "sha256:876dd6456c920d91814547605a5c92dbc70ca33ce8b8ea8ab284d0b3c171c084",
+  "execution_mode": "OFFLINE_SYNTHETIC_CONFORMANCE",
+  "operation_results": [
+    {
+      "language": "en",
+      "operation_instance_id": "rop_000000000000000000000000000000000000000000000001",
+      "operation_type_id": "HKRECON-OP-003",
+      "atomic_group_id": "atomic-group-0001",
+      "result": "APPLIED",
+      "actual_target_count": 1,
+      "matched_location_ids": [
+        "loc_000000000000000000000000000000000000000000000003"
+      ],
+      "matched_source_unit_ids": [
+        "en_unit_000000000000000000000003_label",
+        "en_unit_000000000000000000000003_body"
+      ],
+      "actual_before_state_fingerprint": "sha256:ea573aa27cfb9cc89ae72fae157a644d6033fe154b23d2be7d16a9171ab4c34d",
+      "actual_after_state_fingerprint": "sha256:74819a6b28b6ae463fcd0eb52ebfb2f7a640e7fd8f508767b2792c73641f2730",
+      "provisional_output_tree_fingerprint": "sha256:e0d1c0dec4a88680db39b8999ba971b640524c9a939b1168214b3ce2ca665be7",
+      "reason_codes": [
+        "RECONSTRUCTION_OPERATION_APPLIED"
+      ],
+      "atomic_group_result": "ROLLED_BACK"
+    },
+    {
+      "language": "zh-Hant",
+      "operation_instance_id": "rop_000000000000000000000000000000000000000000000002",
+      "operation_type_id": "HKRECON-OP-003",
+      "atomic_group_id": "atomic-group-0001",
+      "result": "APPLIED",
+      "actual_target_count": 1,
+      "matched_location_ids": [
+        "loc_000000000000000000000000000000000000000000000003"
+      ],
+      "matched_source_unit_ids": [
+        "zh_unit_000000000000000000000003_label",
+        "zh_unit_000000000000000000000003_body"
+      ],
+      "actual_before_state_fingerprint": "sha256:6f6c7dcfba31f4537daf4908273b8c312e2bd6c5d234d2dd0ebcf74abde91042",
+      "actual_after_state_fingerprint": "sha256:524b2fc3ae8c96ef46953037471bf515438d36eb31a03094aac423609eb44c53",
+      "provisional_output_tree_fingerprint": "sha256:24f0393716efac6f8638ac8a429ed1b664e343089195b0fe903d350a747ba151",
+      "reason_codes": [
+        "RECONSTRUCTION_OPERATION_APPLIED"
+      ],
+      "atomic_group_result": "ROLLED_BACK"
+    }
+  ],
+  "provisional_language_trees": [],
+  "provisional_language_tree_fingerprints": [],
+  "provisional_bilingual_alignment_map": null,
+  "provisional_bilingual_alignment_map_fingerprint": null,
+  "execution_report_output": "NONE",
+  "reconstructed_artifact_output": "NONE",
+  "record_output": "NONE",
+  "external_effects": "NONE",
+  "next_action": "SELECT_VALIDATED_FALLBACK_OR_NO_RECORD"
+}

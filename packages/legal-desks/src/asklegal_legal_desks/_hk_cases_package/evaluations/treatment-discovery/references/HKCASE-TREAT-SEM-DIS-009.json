@@ -1,0 +1,24 @@
+{
+  "schema_id": "asklegal.hk-cases.treatment-discovery-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-TREAT-SEM-DISCOVERY-EVALUATOR-001",
+  "reference_map_id": "treatment_discovery_reference_9",
+  "model_input_fingerprint": "sha256:65c30a553dad7cd967dd63077dd4333dd8ee85cdf2a8f8cb0313cb434d3c2a5f",
+  "original_language": "ENGLISH",
+  "expected_opinion_ids": [
+    "opinion_1"
+  ],
+  "expected_segment_ids": [
+    "segment_1",
+    "segment_2"
+  ],
+  "leads": [],
+  "candidates": [],
+  "expected_disposition": "INCOMPLETE",
+  "expected_coverage_gap_ids": [
+    "coverage_gap_missing_context"
+  ],
+  "expected_judgment_proposition_count": 1,
+  "correction_comparison_required": false,
+  "adjudication_complete": true
+}

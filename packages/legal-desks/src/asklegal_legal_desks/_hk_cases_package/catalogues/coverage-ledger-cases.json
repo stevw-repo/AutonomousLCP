@@ -1,0 +1,218 @@
+{
+  "schema_id": "asklegal.hk-cases.coverage-ledger-catalogue",
+  "schema_version": "1.0.0",
+  "catalogue_id": "hk-case-proposition-deterministic-ledger-initial",
+  "case_count": 20,
+  "coverage_cell_count": 20,
+  "pair_ids": [
+    "HKCASE-PROP-PAIR-020",
+    "HKCASE-PROP-PAIR-021"
+  ],
+  "entries": [
+    {
+      "case_id": "HKCASE-PROP-DET-LED-001",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-001",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-001.json",
+      "fixture_fingerprint": "sha256:92f3ec6cb1fcf72f91b3b070cce1d4f2a77c4d2480523ac03ae8f82574aaa455",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-001.json",
+      "expected_fingerprint": "sha256:85a31dcac5af43c8cf10f6b15ec05d344fbd970bf5efd8058ce22e6cdbf3fcd8"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-002",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-002",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-002.json",
+      "fixture_fingerprint": "sha256:b3a036e1421f8154940030e368b6caf7bd4735294954d8926d9cedbb0e1880e2",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-002.json",
+      "expected_fingerprint": "sha256:0dc6b73beabc15a90e91292fd0b2215480c10dd5242eb3354f64c9b3c734477f"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-003",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-003",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-003.json",
+      "fixture_fingerprint": "sha256:5d767614f0de62b5718473cac922c20d106360ad1d0cb45e3dd61ea207d88815",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-003.json",
+      "expected_fingerprint": "sha256:5178396fbb84503184922b68d12a7663d6495e674ffda7309455e1e2cac94ac1"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-004",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-004",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-004.json",
+      "fixture_fingerprint": "sha256:3242004cc1cbc066eb7c40cf881959223e240d56e383ec344b4797ce697117cb",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-004.json",
+      "expected_fingerprint": "sha256:37bd6d43094ba1a2bd247e2b1584387871e23645c1fe4409ead9de4c183175e9"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-005",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-005",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-020",
+          "role": "POSITIVE"
+        }
+      ],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-005.json",
+      "fixture_fingerprint": "sha256:11351db481d528676a1b14762aa1be75028b7275f00720d781d4a42f6f1decb0",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-005.json",
+      "expected_fingerprint": "sha256:3454d67ec004603cdee8ff8bf78f951eda181eacd49c2c41fe09f1951f4b9e2b"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-006",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-006",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-020",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-006.json",
+      "fixture_fingerprint": "sha256:4ccd756e99d929ad1b8838f8da16f7e33e0cc3957f0084c8f8e4ffc86b2fa495",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-006.json",
+      "expected_fingerprint": "sha256:60d286b052693692fb1d2a4c8c48b5cdcf5fe4d006e2475c8a7cacd27c3b46c1"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-007",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-007",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-007.json",
+      "fixture_fingerprint": "sha256:880daa92b3f2d1d56a66194f77aa7f021503f3e3d596ef0a4f8e097bda873899",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-007.json",
+      "expected_fingerprint": "sha256:a147aeb6cd874890e6507baec5dccc8b0da74ab43db2da4fd8e949c2d0f4a3a3"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-008",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-008",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-008.json",
+      "fixture_fingerprint": "sha256:d18da9ae3fbf52a72b04ed72c2e3cb92b0fd8745d610d0d76e566a0947a27660",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-008.json",
+      "expected_fingerprint": "sha256:71bbe448bf110149d83e5391502e730c9f03baa3435269a6ce54c66cd588e00e"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-009",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-009",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-021",
+          "role": "POSITIVE"
+        }
+      ],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-009.json",
+      "fixture_fingerprint": "sha256:4acb2492efdc3bb496d8837dfc6ab42b93080dea83a6035f32af8ea1749a0d03",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-009.json",
+      "expected_fingerprint": "sha256:5633e2476e9ec8ae7dde6160b3268ff6cdc2b1f2c697d22dd1057ab596f937cb"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-010",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-010",
+      "pair_memberships": [
+        {
+          "pair_id": "HKCASE-PROP-PAIR-021",
+          "role": "NEAR_MISS"
+        }
+      ],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-010.json",
+      "fixture_fingerprint": "sha256:17a1c339c4630064830c781dd062fa6001d9ffdd9af67281193dc0bdd757faa1",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-010.json",
+      "expected_fingerprint": "sha256:854203a6ca306d84f912be4baeacc212682b9924e11b1e0ff525e37750a816c8"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-011",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-011",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-011.json",
+      "fixture_fingerprint": "sha256:83812cb190d797c7f83ab9d059dc08526c33cd338b59f8864f4a0e2b39f1ca09",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-011.json",
+      "expected_fingerprint": "sha256:265a4207d7c23882153be585bdcf957c134cdfa69942d77f39d3a27d40efb33e"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-012",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-012",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-012.json",
+      "fixture_fingerprint": "sha256:75c66996d3f884e58b59ed1d2f028817b448b79116f9df08824586e5d02ce784",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-012.json",
+      "expected_fingerprint": "sha256:2726ba12a42a8fee476f01e4c445e4790e870891d165270029db0c54022382f8"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-013",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-013",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-013.json",
+      "fixture_fingerprint": "sha256:fc835d74364dd67347bee7fff690b3edc8b5245dbdc89e55c5c4ed863ed3b2c5",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-013.json",
+      "expected_fingerprint": "sha256:cab001cdd953beed80dea29c0980e7510add5ae6b9d5e910ba6319755496306b"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-014",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-014",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-014.json",
+      "fixture_fingerprint": "sha256:22050de5b51a72136f8abbe279c8768dd4f1062115f71e7940061784683ba5dc",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-014.json",
+      "expected_fingerprint": "sha256:b529c4fefb2cdafdfb9b95962b2eb84177d9dfdbdfbd0746fd2d1aa1d0ac90fe"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-015",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-015",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-015.json",
+      "fixture_fingerprint": "sha256:3b60f4aa230134409be7827b433cde8d0044f6679281c91863ac855b20ffc5ee",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-015.json",
+      "expected_fingerprint": "sha256:7f8cff2e27d7593a9b7db428118b94a3514d8b9cb34423fd36fdfaa6c1d4a90d"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-016",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-016",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-016.json",
+      "fixture_fingerprint": "sha256:eddefcb22837b49b110e14a23ac4540230a6503a3e37b673926dc2c50cc6ad69",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-016.json",
+      "expected_fingerprint": "sha256:0f1c3d581ae56bd1675dfab835e53841d5db2bf92fae1f95e163139b8d0c1467"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-017",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-017",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-017.json",
+      "fixture_fingerprint": "sha256:d0af9b282286feccda3049a621172353bbcf5555946cd986ab4306abf6d4bf83",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-017.json",
+      "expected_fingerprint": "sha256:209a6dfa2222d1a8d54ce34a315943dd919e0f684e84d9e0cb482a8def9cfe19"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-018",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-018",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-018.json",
+      "fixture_fingerprint": "sha256:59758a7515d2e7248d2a3639e95ea4d6af283e8c1d18c370c1117aee3c778675",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-018.json",
+      "expected_fingerprint": "sha256:1b8fd5e862b2594771b0c051e2224ddae9bb0d6653d1148939f5a4dbbbcdacea"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-019",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-019",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-019.json",
+      "fixture_fingerprint": "sha256:c7b3312148a47136788fe0567e40b3a1b0672eb8ac25fa1ea0181cbafcae5c69",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-019.json",
+      "expected_fingerprint": "sha256:d184c1c94a5a002d7004ea5bcd576c1e40abf2b25f030416c5f50f233ced2ecd"
+    },
+    {
+      "case_id": "HKCASE-PROP-DET-LED-020",
+      "coverage_cell_id": "HKCASE-PROP-COV-DLED-020",
+      "pair_memberships": [],
+      "fixture_path": "fixtures/deterministic/coverage-ledger/HKCASE-PROP-DET-LED-020.json",
+      "fixture_fingerprint": "sha256:59ec8e9db6b5f83d8c8a816d0c2be6f1cc3214eb2319da2c5b95001bf74b1b2d",
+      "expected_path": "expected/coverage-ledger/HKCASE-PROP-DET-LED-020.json",
+      "expected_fingerprint": "sha256:31bb804a2f773180b54d3aa944ab9690bdb8d2cb70f0dd3287c300f00854ee9a"
+    }
+  ],
+  "checkpoint_complete": true,
+  "full_proposition_suite_complete": false,
+  "real_source_evidence": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

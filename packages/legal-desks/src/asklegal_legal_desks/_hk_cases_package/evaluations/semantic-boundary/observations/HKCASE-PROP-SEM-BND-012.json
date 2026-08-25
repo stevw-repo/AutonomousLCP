@@ -1,0 +1,72 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:1b0a1ee6fb4bc9935aefc623237f4975b6429086917ff02470b92eb75e7adc52",
+  "workflow_result_fingerprint": "sha256:b66488bb64e411faa0d46ed62910319182170dd5e8c1e4d468b7a5c919f402a1",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    },
+    {
+      "opinion_id": "opinion_2",
+      "role": "AGREEMENT_ONLY",
+      "judge_ids": [
+        "judge_2"
+      ],
+      "joined_opinion_id": "opinion_1",
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "LEAD_NOTICE_RULE",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "OPERATIVE_NOTICE_RULE"
+      ],
+      "boundary_codes": [
+        "AGREEMENT_ONLY_NO_DUPLICATE"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "The lead opinion states the operative notice rule."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_2",
+      "use": "AGREEMENT_ONLY",
+      "candidate_ids": []
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

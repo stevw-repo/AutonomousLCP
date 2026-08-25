@@ -1,0 +1,53 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "reference_map_id": "risk_reference_map_4",
+  "model_input_fingerprint": "sha256:1f5757cdad74943152738ee3ac75785d9565955694ba0a95f3d9f012705ba04c",
+  "court_family": "CT",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_4",
+  "auxiliary_translation_version_ids": [],
+  "expected_examined_segment_ids": [
+    "segment_1",
+    "segment_2"
+  ],
+  "expected_resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "CT_EXCLUSIONARY_CONDUCT_TEST",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_4",
+      "required_meaning_codes": [
+        "EXCLUSIONARY_CONDUCT",
+        "HARM",
+        "MARKET_POWER"
+      ],
+      "required_risk_codes": [
+        "COMPETITION_TERMINOLOGY_PRESERVED",
+        "OPERATIVE_TABLE_STRUCTURE"
+      ],
+      "forbidden_risk_codes": [
+        "INVENTED_GENERAL_LAW",
+        "TABLE_FLATTENED"
+      ],
+      "required_range_ids": [
+        "range_1",
+        "range_2"
+      ]
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1"
+  ],
+  "expected_coverage_gap_ids": [],
+  "expected_translation_use": "NONE",
+  "expected_parser_supported": true,
+  "expected_re_evaluated_reference_proposition_ids": [],
+  "prior_result_immutable_required": false,
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

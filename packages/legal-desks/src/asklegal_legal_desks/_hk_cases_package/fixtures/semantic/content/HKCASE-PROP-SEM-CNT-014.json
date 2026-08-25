@@ -1,0 +1,63 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-CNT-014",
+  "coverage_cell_id": "HKCASE-PROP-COV-SCNT-014",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-007",
+      "role": "NEAR_MISS"
+    }
+  ],
+  "scenario": "Quoted authority is not adopted and does no material work in the answer",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-content-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "content_execution_14",
+    "judgment_work_id": "content_judgment_14",
+    "judicial_decision_id": "synthetic_content_decision_14",
+    "official_version_id": "synthetic_content_version_14",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "structure_kind": "QUOTED_BLOCK",
+        "exact_text": "A waiver must be an unequivocal election between inconsistent rights.",
+        "text_fingerprint": "sha256:c6e246fc4f88b2d9a8dc26453d45efd89fb200d15a1c75ce8bd6d3236b52de09",
+        "range_available": true,
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "It is unnecessary to decide waiver and we express no view on that passage.",
+        "text_fingerprint": "sha256:e67049aff2eb17cee4a935ad35edc8248256e8a8b62d7857b4f631fa62e83466",
+        "range_available": true,
+        "range_id": "range_2"
+      }
+    ],
+    "dependencies": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-014.json",
+  "observation_path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-014.json",
+  "expected_path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-014.json"
+}

@@ -1,0 +1,30 @@
+{
+  "schema_id": "asklegal.hk-cases.treatment-discovery-case-result",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-TREAT-SEM-DIS-009",
+  "result": {
+    "schema_id": "asklegal.hk-cases.treatment-discovery-evaluation-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKCASE-TREAT-SEM-DISCOVERY-EVALUATOR-001",
+    "request_fingerprint": "sha256:e74b4725164479341466cbf7d5a49349885a42802a6bd937e93ac771feb86de0",
+    "reference_map_fingerprint": "sha256:0fc3e46802eac13cda188295ab9822b93108f76b535c02e2100621be790d6f02",
+    "outcome": "PASS",
+    "reasons": [
+      "PASS"
+    ],
+    "expected_lead_count": 0,
+    "observed_lead_count": 0,
+    "matched_lead_count": 0,
+    "expected_candidate_count": 0,
+    "observed_candidate_count": 0,
+    "matched_candidate_count": 0,
+    "examined_opinion_count": 1,
+    "examined_segment_count": 2,
+    "provider_calls_authorized": 0,
+    "treatment_relationships_created": 0,
+    "legal_effects_decided": 0,
+    "search_records_created": 0,
+    "release_eligible": false,
+    "external_effects": "NONE"
+  }
+}

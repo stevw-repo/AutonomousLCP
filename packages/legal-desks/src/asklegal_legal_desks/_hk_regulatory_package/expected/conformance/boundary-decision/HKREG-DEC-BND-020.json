@@ -1,0 +1,96 @@
+{
+  "schema_id": "asklegal.hk-regulatory.boundary-decision-report",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-BOUNDARY-DECISION-001",
+  "case_id": "HKREG-DEC-BND-020",
+  "assertion_scope": "GOVERNING_DEPENDENCY",
+  "observed_decision": {
+    "schema_id": "asklegal.hk-regulatory.boundary-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-BOUNDARY-DECISION-001",
+    "case_id": "HKREG-DEC-BND-020",
+    "outcome": "PASS",
+    "reason": "DEPENDENCY_OWNER_LINKED",
+    "responsibilities": [
+      {
+        "record_unit_id": "record-rule-20",
+        "kind": "NORMAL",
+        "primary_source_unit_ids": [
+          "rule-20"
+        ],
+        "dependency_source_unit_ids": [
+          "shared-dependency-20"
+        ]
+      }
+    ],
+    "dependency_owners": [
+      {
+        "source_unit_id": "shared-dependency-20",
+        "owner_record_unit_id": "record-shared-dependency-20",
+        "content_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      }
+    ],
+    "references": [],
+    "excluded_background_unit_ids": [],
+    "quarantined_unit_ids": [],
+    "rejected_candidate": false,
+    "source_contract_review_required": false,
+    "quarantined_branch": false,
+    "presentation_identity_rejected": false,
+    "relationship_revision_only": false,
+    "referring_payload_change_required": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.boundary-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-BOUNDARY-DECISION-001",
+    "case_id": "HKREG-DEC-BND-020",
+    "outcome": "PASS",
+    "reason": "DEPENDENCY_OWNER_LINKED",
+    "responsibilities": [
+      {
+        "record_unit_id": "record-rule-20",
+        "kind": "NORMAL",
+        "primary_source_unit_ids": [
+          "rule-20"
+        ],
+        "dependency_source_unit_ids": [
+          "shared-dependency-20"
+        ]
+      }
+    ],
+    "dependency_owners": [
+      {
+        "source_unit_id": "shared-dependency-20",
+        "owner_record_unit_id": "record-shared-dependency-20",
+        "content_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      }
+    ],
+    "references": [],
+    "excluded_background_unit_ids": [],
+    "quarantined_unit_ids": [],
+    "rejected_candidate": false,
+    "source_contract_review_required": false,
+    "quarantined_branch": false,
+    "presentation_identity_rejected": false,
+    "relationship_revision_only": false,
+    "referring_payload_change_required": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "conformance_status": "PASS",
+  "source_authorized": false,
+  "provider_authorized": false,
+  "release_authorized": false,
+  "serving_authorized": false,
+  "deployment_authorized": false,
+  "external_effects": "NONE"
+}

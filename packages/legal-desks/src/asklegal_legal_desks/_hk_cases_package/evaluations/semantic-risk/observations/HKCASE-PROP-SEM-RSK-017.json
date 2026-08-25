@@ -1,0 +1,48 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:cd0a1182bd3e4d60c1536dc2094a3aabc6ffc664818555b088e99d5f77e451c1",
+  "workflow_result_fingerprint": "sha256:c0b03ba7ddecfe49fc57e53b554dccf68a4cf6e1c5c0056f5b0961af7496cd00",
+  "court_family": "HKSUPERIOR",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_17",
+  "auxiliary_translation_version_ids": [],
+  "examined_segment_ids": [
+    "segment_1"
+  ],
+  "resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "QUARANTINED",
+      "issue_code": "UNCERTAIN_ATTRIBUTION_CANDIDATE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_17",
+      "meaning_codes": [
+        "POSSIBLE_NOTICE_RULE"
+      ],
+      "risk_codes": [
+        "ATTRIBUTION_UNCERTAIN",
+        "SMALLEST_BOUNDARY_QUARANTINED"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": null
+    }
+  ],
+  "disposition": "ACCOUNTED_WITH_QUARANTINE",
+  "selected_candidate_ids": [],
+  "coverage_gap_ids": [
+    "coverage_gap_attribution_uncertain"
+  ],
+  "translation_use": "NONE",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

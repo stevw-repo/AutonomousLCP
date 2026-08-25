@@ -1,0 +1,775 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-package-integrity-case.schema.json",
+  "title": "HKEX package-integrity conformance case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "package_contract_version",
+    "case_id",
+    "suite_layer",
+    "primary_checkpoint",
+    "frozen",
+    "synthetic_evidence_class",
+    "contract_bindings",
+    "synthetic_cutoff",
+    "scope_id",
+    "prior_state",
+    "primary_coverage_cell_ids",
+    "secondary_coverage_cell_ids",
+    "pair_membership",
+    "declared_input_inventory",
+    "declared_reference_inventory",
+    "declared_expected_inventory",
+    "required_result_dimensions",
+    "assertion_scope",
+    "package_fingerprint",
+    "title",
+    "purpose",
+    "expected_outcome",
+    "expected_reason",
+    "facts",
+    "case_fingerprint"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-regulatory.package-integrity-case"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "package_contract_version": {
+      "const": "1.0.0"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^HKREG-DET-PKG-(0[0-2][0-9]|03[0-8])$"
+    },
+    "suite_layer": {
+      "const": "DECISION_TO_ARTIFACT"
+    },
+    "primary_checkpoint": {
+      "const": "PACKAGE_INTEGRITY"
+    },
+    "frozen": {
+      "const": true
+    },
+    "synthetic_evidence_class": {
+      "const": "SYNTHETIC_NO_REAL_AUTHORITY"
+    },
+    "contract_bindings": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contract_id",
+          "version",
+          "fingerprint"
+        ],
+        "properties": {
+          "contract_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fingerprint": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "synthetic_cutoff": {
+      "const": "2026-08-24T00:00:00Z"
+    },
+    "scope_id": {
+      "const": "HKEX_CROSS_BOARD"
+    },
+    "prior_state": {
+      "const": "NO_LIVE_STATE"
+    },
+    "primary_coverage_cell_ids": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^HKREG-COV-DPKG-(0[0-2][0-9]|03[0-8])$"
+      }
+    },
+    "secondary_coverage_cell_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "pair_membership": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "pair_id",
+            "role"
+          ],
+          "properties": {
+            "pair_id": {
+              "type": "string",
+              "pattern": "^HKREG-PAIR-05[0-6]$"
+            },
+            "role": {
+              "enum": [
+                "POSITIVE",
+                "NEAR_MISS"
+              ]
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "declared_input_inventory": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "declared_reference_inventory": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "declared_expected_inventory": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required_result_dimensions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "assertion_scope": {
+      "enum": [
+        "COMPLETE_PACKAGE",
+        "CLOSED_SCHEMA",
+        "ARTIFACT_HASH",
+        "DECLARED_ACCESS",
+        "REQUIRED_FILE",
+        "ABSOLUTE_PATH",
+        "NORMALIZED_PATH",
+        "SYMLINK",
+        "REMOTE_RESOURCE",
+        "EXPLICIT_INVENTORY",
+        "AVAILABLE_INPUT",
+        "DELIBERATE_ABSENCE",
+        "UNREADABLE_INPUT",
+        "AVAILABLE_FACT_CONDITION",
+        "EXACT_OUTPUT",
+        "ZERO_OUTPUT",
+        "NOT_APPLICABLE_OUTPUT",
+        "MATRIX_COMPLETENESS",
+        "PAIR_COMPLETENESS",
+        "PROPOSAL_ISOLATION",
+        "IMMUTABLE_FINGERPRINT",
+        "REPRODUCIBILITY",
+        "HOSTILE_SOURCE_TEXT",
+        "LOCAL_CAPABILITY_DENIAL",
+        "EXTERNAL_CAPABILITY_DENIAL",
+        "AUTHORITY_CONTAINMENT",
+        "ATTESTATION_COMPATIBILITY",
+        "MEDIA_AND_PERMISSION"
+      ]
+    },
+    "package_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expected_outcome": {
+      "enum": [
+        "ACCEPTED",
+        "REJECTED"
+      ]
+    },
+    "expected_reason": {
+      "enum": [
+        "PACKAGE_VALID",
+        "CLOSED_SCHEMA_VIOLATION",
+        "ARTIFACT_HASH_MISMATCH",
+        "UNDECLARED_FILE_ACCESS",
+        "REQUIRED_FILE_ABSENT",
+        "PATH_CONTAINMENT_INVALID",
+        "SYMLINK_FORBIDDEN",
+        "REMOTE_RESOURCE_FORBIDDEN",
+        "DYNAMIC_DISCOVERY_FORBIDDEN",
+        "INPUT_AVAILABLE_ADMITTED",
+        "INPUT_AVAILABLE_INVALID",
+        "DELIBERATE_ABSENCE_ADMITTED",
+        "UNREADABLE_CONDITION_ADMITTED",
+        "AVAILABLE_FACT_CONDITION_ADMITTED",
+        "EXACT_ARTIFACT_MATCHED",
+        "EXPECTED_EXACT_INVALID",
+        "ZERO_OUTPUT_PROVED",
+        "ZERO_OUTPUT_PROOF_INVALID",
+        "NOT_APPLICABLE_PROVED",
+        "NOT_APPLICABLE_INVALID",
+        "MATRIX_COMPLETE",
+        "MATRIX_INCOMPLETE",
+        "PAIR_COMPLETE",
+        "PAIR_INCOMPLETE",
+        "PROPOSAL_PACKET_CLEAN",
+        "PROPOSAL_TRUTH_LEAKAGE",
+        "FINGERPRINT_OR_TRUTH_MUTATION",
+        "REPRODUCIBLE",
+        "REPRODUCIBILITY_FAILURE",
+        "HOSTILE_TEXT_INERT",
+        "HOSTILE_INPUT_CONTROL_BREACH",
+        "FORBIDDEN_CAPABILITY_ATTEMPT",
+        "PACKAGE_VALIDITY_ONLY",
+        "BUILD_COMPATIBILITY_ONLY",
+        "AUTHORITY_BROADENING",
+        "ATTESTATION_MISMATCH",
+        "MEDIA_OR_PERMISSION_INVALID"
+      ]
+    },
+    "facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "closed_schema_violations",
+        "declared_artifacts",
+        "virtual_artifacts",
+        "runner_access_paths",
+        "discovery_methods",
+        "input_slots",
+        "expected_artifacts",
+        "matrix",
+        "proposal_packet_fields",
+        "fingerprint_scope",
+        "expected_truth_mutated",
+        "run_output_fingerprints",
+        "source_instruction_present",
+        "source_instruction_effects",
+        "attempted_capabilities",
+        "external_state_mutated",
+        "authority_claims",
+        "attestation"
+      ],
+      "properties": {
+        "closed_schema_violations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "declared_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "role",
+              "media_type",
+              "fingerprint",
+              "required"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "role": {
+                "type": "string",
+                "minLength": 1
+              },
+              "media_type": {
+                "type": "string",
+                "minLength": 1
+              },
+              "fingerprint": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "required": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "virtual_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "media_type",
+              "content_base64",
+              "node_type",
+              "content_class",
+              "readable",
+              "schema_valid",
+              "canonical_bytes"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "media_type": {
+                "type": "string",
+                "minLength": 1
+              },
+              "content_base64": {
+                "type": "string",
+                "minLength": 1
+              },
+              "node_type": {
+                "enum": [
+                  "REGULAR_FILE",
+                  "SYMLINK"
+                ]
+              },
+              "content_class": {
+                "enum": [
+                  "NORMAL",
+                  "CORRUPT_OR_UNSUPPORTED"
+                ]
+              },
+              "readable": {
+                "type": "boolean"
+              },
+              "schema_valid": {
+                "type": "boolean"
+              },
+              "canonical_bytes": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "runner_access_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "discovery_methods": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "EXPLICIT_INVENTORY",
+              "GLOB",
+              "RANGE",
+              "FILENAME_CONVENTION",
+              "DIRECTORY_SCAN"
+            ]
+          }
+        },
+        "input_slots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "slot_id",
+              "state",
+              "path",
+              "fact_condition"
+            ],
+            "properties": {
+              "slot_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "state": {
+                "enum": [
+                  "AVAILABLE",
+                  "INTENTIONALLY_ABSENT",
+                  "UNREADABLE"
+                ]
+              },
+              "path": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "fact_condition": {
+                "enum": [
+                  "ORDINARY",
+                  "STALE",
+                  "CONFLICTING",
+                  "WRONG_BOARD",
+                  "DIFFERENT_VERSION"
+                ]
+              }
+            }
+          }
+        },
+        "expected_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "role",
+              "state",
+              "path",
+              "expected_fingerprint",
+              "zero_count",
+              "checkpoint_applicable",
+              "matrix_proves_nonapplicable",
+              "implementation_completed"
+            ],
+            "properties": {
+              "role": {
+                "type": "string",
+                "minLength": 1
+              },
+              "state": {
+                "enum": [
+                  "EXACT",
+                  "NONE",
+                  "NOT_APPLICABLE"
+                ]
+              },
+              "path": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "expected_fingerprint": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "zero_count": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "checkpoint_applicable": {
+                "type": "boolean"
+              },
+              "matrix_proves_nonapplicable": {
+                "type": "boolean"
+              },
+              "implementation_completed": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "matrix": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "required_cell_ids",
+            "executable_case_ids",
+            "primary_coverage",
+            "required_rule_ids",
+            "covered_rule_ids",
+            "required_result_branches",
+            "covered_result_branches",
+            "required_pair_ids",
+            "pairs"
+          ],
+          "properties": {
+            "required_cell_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "executable_case_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "primary_coverage": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "cell_id",
+                  "case_id"
+                ],
+                "properties": {
+                  "cell_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "case_id": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            },
+            "required_rule_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "covered_rule_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required_result_branches": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "covered_result_branches": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required_pair_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "pairs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "pair_id",
+                  "members"
+                ],
+                "properties": {
+                  "pair_id": {
+                    "type": "string",
+                    "pattern": "^HKREG-PAIR-\\d{3}$"
+                  },
+                  "members": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "case_id",
+                        "role"
+                      ],
+                      "properties": {
+                        "case_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "role": {
+                          "enum": [
+                            "POSITIVE",
+                            "NEAR_MISS"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "proposal_packet_fields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "fingerprint_scope": {
+          "enum": [
+            "EXCLUDES_SELF",
+            "INCLUDES_SELF"
+          ]
+        },
+        "expected_truth_mutated": {
+          "type": "boolean"
+        },
+        "run_output_fingerprints": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "source_instruction_present": {
+          "type": "boolean"
+        },
+        "source_instruction_effects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "attempted_capabilities": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "SOURCE",
+              "GENERATIVE_MODEL",
+              "EMBEDDING",
+              "NETWORK",
+              "CREDENTIAL",
+              "AZURE",
+              "PINECONE",
+              "BACKUP",
+              "ROUTING",
+              "PROMOTION",
+              "PRODUCTION_STORE",
+              "UNDECLARED_FILE",
+              "LIVE_STATE"
+            ]
+          }
+        },
+        "external_state_mutated": {
+          "type": "boolean"
+        },
+        "authority_claims": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "attestation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "complete",
+            "compatibility_only",
+            "current_bindings",
+            "attested_bindings"
+          ],
+          "properties": {
+            "complete": {
+              "type": "boolean"
+            },
+            "compatibility_only": {
+              "type": "boolean"
+            },
+            "current_bindings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "name",
+                  "fingerprint"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "fingerprint": {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  }
+                }
+              }
+            },
+            "attested_bindings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "name",
+                  "fingerprint"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "fingerprint": {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "case_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

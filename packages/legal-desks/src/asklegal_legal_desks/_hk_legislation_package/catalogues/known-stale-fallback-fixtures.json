@@ -1,0 +1,92 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.known-stale-fallback.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-KNOWN-STALE-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-KNOWN-STALE-FIX-001.json",
+      "fixture_fingerprint": "sha256:5bab6177ec46ce579089d2e77955f81006cbc8a7b70d29d697ae819d68917846",
+      "expected_path": "expected/known-stale-fallback/HKLEG-KNOWN-STALE-FIX-001.json",
+      "expected_fingerprint": "sha256:aaabe28870e921d8c9dbdbee4f265bdad15d51c015f4bc75a7d5374ad503aafd"
+    },
+    {
+      "fixture_id": "HKLEG-KNOWN-STALE-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-KNOWN-STALE-FIX-002.json",
+      "fixture_fingerprint": "sha256:c5f79608428a7082e943826052a6b3cf8bbc7cfe5860b252a8e339b6c42955fc",
+      "expected_path": "expected/known-stale-fallback/HKLEG-KNOWN-STALE-FIX-002.json",
+      "expected_fingerprint": "sha256:a0805cd3490b2788dbc4724a9d4a8b9c93141877ebcb5d35b7299191c1b1e11b"
+    },
+    {
+      "fixture_id": "HKLEG-KNOWN-STALE-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-KNOWN-STALE-FIX-003.json",
+      "fixture_fingerprint": "sha256:ea10978ca731b28fcfbcef5f145b7145645f2db448824fd492d733438d37bbec",
+      "expected_path": "expected/known-stale-fallback/HKLEG-KNOWN-STALE-FIX-003.json",
+      "expected_fingerprint": "sha256:658b35cde5fcc901cb6800bf84a9955fd679ddf6e375767080694f7c24145939"
+    },
+    {
+      "fixture_id": "HKLEG-KNOWN-STALE-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-KNOWN-STALE-FIX-004.json",
+      "fixture_fingerprint": "sha256:748fd5ccbb1e458ddee184f38bfa76473757ce04d7a38906fb2a8503bdb2695b",
+      "expected_path": "expected/known-stale-fallback/HKLEG-KNOWN-STALE-FIX-004.json",
+      "expected_fingerprint": "sha256:1af362e9d566d5350ad213688612f2ee49bb2cd32718b503d5709e7bc3c3e3d8"
+    },
+    {
+      "fixture_id": "HKLEG-KNOWN-STALE-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-KNOWN-STALE-FIX-005.json",
+      "fixture_fingerprint": "sha256:08cb07d8b89485620f400fe6b5a171f1a7766b7da14e7764449b614d67babed4",
+      "expected_path": "expected/known-stale-fallback/HKLEG-KNOWN-STALE-FIX-005.json",
+      "expected_fingerprint": "sha256:083a6855d86ec60aa7be5b7eaff2df509ce92b5319299d50853bac7bc92561c2"
+    },
+    {
+      "fixture_id": "HKLEG-KNOWN-STALE-FIX-006",
+      "path": "fixtures/deterministic/HKLEG-KNOWN-STALE-FIX-006.json",
+      "fixture_fingerprint": "sha256:a70022ef5d3715f38652cee6ea2e68c7fce6f1cefb2bc57b489f728a75e24ea5",
+      "expected_path": "expected/known-stale-fallback/HKLEG-KNOWN-STALE-FIX-006.json",
+      "expected_fingerprint": "sha256:9750cbea33926aa02a85b43c4aa38dfc3552302c13947766c946fc14223c7a6f"
+    },
+    {
+      "fixture_id": "HKLEG-KNOWN-STALE-FIX-007",
+      "path": "fixtures/deterministic/HKLEG-KNOWN-STALE-FIX-007.json",
+      "fixture_fingerprint": "sha256:5c02eb42dff5dde6107463f7b34437085ba66bf101d49d9498b8347c5f49df20",
+      "expected_path": "expected/known-stale-fallback/HKLEG-KNOWN-STALE-FIX-007.json",
+      "expected_fingerprint": "sha256:835fe2d35bea13fe1c029c914d2dcd6967a39f5932b751a5a5d76da2774c638d"
+    },
+    {
+      "fixture_id": "HKLEG-KNOWN-STALE-FIX-008",
+      "path": "fixtures/deterministic/HKLEG-KNOWN-STALE-FIX-008.json",
+      "fixture_fingerprint": "sha256:bee975aff488460ddcba9990628edbc17ff45953c0eb484c706043ec6efaf885",
+      "expected_path": "expected/known-stale-fallback/HKLEG-KNOWN-STALE-FIX-008.json",
+      "expected_fingerprint": "sha256:45e2f1beac546f7d9a2c5c1ec454ef3fda0c83bf3d3fb3c1d4dd0942f9b79de9"
+    },
+    {
+      "fixture_id": "HKLEG-KNOWN-STALE-FIX-009",
+      "path": "fixtures/deterministic/HKLEG-KNOWN-STALE-FIX-009.json",
+      "fixture_fingerprint": "sha256:39f6862a6c992661605ad63bac7a569a603bf7a7016d562ac53369695befd4f3",
+      "expected_path": "expected/known-stale-fallback/HKLEG-KNOWN-STALE-FIX-009.json",
+      "expected_fingerprint": "sha256:74765a0d81d6b135d3cdd41f3b98c635f85e008315a8b9046342562f48b679a6"
+    },
+    {
+      "fixture_id": "HKLEG-KNOWN-STALE-FIX-010",
+      "path": "fixtures/deterministic/HKLEG-KNOWN-STALE-FIX-010.json",
+      "fixture_fingerprint": "sha256:2fe9c962fb8e734d993ca51e2258ddb79b405ca8ed2c0e4206b9db6802b993a7",
+      "expected_path": "expected/known-stale-fallback/HKLEG-KNOWN-STALE-FIX-010.json",
+      "expected_fingerprint": "sha256:1bbe0c001fbd0bf0a2057ec1ec4dfcbc0919bf6ac8e69af352a0fe83b9040cfa"
+    },
+    {
+      "fixture_id": "HKLEG-KNOWN-STALE-FIX-011",
+      "path": "fixtures/deterministic/HKLEG-KNOWN-STALE-FIX-011.json",
+      "fixture_fingerprint": "sha256:c0ea33d59c6c209b99bb78f0a598478aa9e9fb26abfe03279a7bdd160cafd946",
+      "expected_path": "expected/known-stale-fallback/HKLEG-KNOWN-STALE-FIX-011.json",
+      "expected_fingerprint": "sha256:c346279cbcdd6b8f1de786d691a3ee0c1ddb0b1b80ada00f4c5118084c63612f"
+    },
+    {
+      "fixture_id": "HKLEG-KNOWN-STALE-FIX-012",
+      "path": "fixtures/deterministic/HKLEG-KNOWN-STALE-FIX-012.json",
+      "fixture_fingerprint": "sha256:f2d86449cfa5a4f3106babc20af6ffe35e95d5787af888ee1743f40840ad3d00",
+      "expected_path": "expected/known-stale-fallback/HKLEG-KNOWN-STALE-FIX-012.json",
+      "expected_fingerprint": "sha256:b6a25fe6f239975ef6dc7aa958fa35f0e16941cfc0a33b5b93e14f47f62b8351"
+    }
+  ]
+}

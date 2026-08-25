@@ -1,0 +1,51 @@
+{
+  "schema_id": "asklegal.hk-cases.admission-case-result",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-DET-ADM-012",
+  "variants": [
+    {
+      "variant_id": "HKCASE-PROP-DET-ADM-012-V01",
+      "result": {
+        "schema_id": "asklegal.hk-cases.admission-result",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-ADMISSION-CONFORMANCE-001",
+        "request_fingerprint": "sha256:6db90f9fe13d813e895666a450e02d8520f156b0bc918ebf427a410f6434c335",
+        "outcome": "VALIDATED",
+        "reasons": [
+          "SEALED_PACKAGE_VALID"
+        ],
+        "reused_record_ids": [],
+        "reused_embedding_fingerprints": [],
+        "selected_current_record_ids": [],
+        "deselected_prior_record_ids": [],
+        "lineages": [],
+        "new_official_version_required": false,
+        "new_ledger_required": false,
+        "processing_history_appended": false,
+        "ledger_history_appended": false,
+        "impact_declaration_required": false,
+        "catalogue_fingerprint": null,
+        "leakage_fields": [],
+        "sealed_package_fingerprint": "sha256:325220a840ee3a5b462226b986ae93789297434a00818148fe4a29f86ef9c9b0",
+        "deterministic_artifact_fingerprint": null,
+        "attempted_capabilities": [],
+        "changed_workflow_component_roles": [],
+        "complete_evaluation_required": false,
+        "workflow_admission_eligible": false,
+        "workflow_admission_created": false,
+        "provider_calls_authorized": false,
+        "deployment_authorized": false,
+        "search_records_created": 0,
+        "mutations_performed": 0,
+        "release_eligible": false,
+        "external_effects": "NONE"
+      }
+    }
+  ],
+  "search_records_created": 0,
+  "workflow_admissions_created": 0,
+  "provider_calls_authorized": false,
+  "deployment_authorized": false,
+  "release_eligible": false,
+  "external_effects": "NONE"
+}

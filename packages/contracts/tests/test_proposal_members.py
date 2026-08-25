@@ -26,7 +26,52 @@ def test_complete_semantic_proposal_is_admitted() -> None:
     """Every member can be recovered as one coherent review package."""
     fixture = semantic_proposal_fixture()
 
-    validate_v1_proposal_members(fixture.contents, fixture.bindings)
+    validate_v1_proposal_members(fixture.contents, fixture.bindings, fixture.traceability_shards)
+
+
+def test_traceability_reads_every_declared_shard_including_a_zero_entry_scope() -> None:
+    """A proved-empty selected scope remains an exact zero-byte package member."""
+    fixture = semantic_proposal_fixture(include_empty_scope=True)
+
+    validate_v1_proposal_members(fixture.contents, fixture.bindings, fixture.traceability_shards)
+
+    empty_path = next(path for path, content in fixture.traceability_shards.items() if not content)
+    missing = dict(fixture.traceability_shards)
+    del missing[empty_path]
+    with pytest.raises(ProposalMemberViolation, match="shard inventory"):
+        validate_v1_proposal_members(fixture.contents, fixture.bindings, missing)
+
+
+def test_traceability_shard_tamper_and_undeclared_content_are_rejected() -> None:
+    """The lookup root digest cannot substitute for every exact transitive byte."""
+    fixture = semantic_proposal_fixture()
+    path = next(iter(fixture.traceability_shards))
+    tampered = dict(fixture.traceability_shards)
+    tampered[path] += b"\n"
+    undeclared = dict(fixture.traceability_shards)
+    undeclared["entries/rts_" + "0" * 48 + ".ndjson"] = b""
+
+    with pytest.raises(ProposalMemberViolation, match="shard fingerprint"):
+        validate_v1_proposal_members(fixture.contents, fixture.bindings, tampered)
+    with pytest.raises(ProposalMemberViolation, match="shard inventory"):
+        validate_v1_proposal_members(fixture.contents, fixture.bindings, undeclared)
+
+
+def test_traceability_payload_binding_must_equal_desired_state() -> None:
+    """An exact shard cannot carry a different six-field payload fingerprint."""
+    fixture = semantic_proposal_fixture()
+    desired = parse_json_bytes(fixture.contents["DESIRED_STATE_INVENTORIES"], max_bytes=1_000_000)
+    assert isinstance(desired, dict)
+    records = desired["records"]
+    assert isinstance(records, list)
+    record = records[0]
+    assert isinstance(record, dict)
+    record["serving_payload_fingerprint"] = "sha256:" + "8" * 64
+    contents = dict(fixture.contents)
+    contents["DESIRED_STATE_INVENTORIES"] = canonicalize(desired)
+
+    with pytest.raises(ProposalMemberViolation, match="desired-state binding"):
+        validate_v1_proposal_members(contents, fixture.bindings, fixture.traceability_shards)
 
 
 @pytest.mark.parametrize(
@@ -51,7 +96,7 @@ def test_cross_member_or_admission_drift_is_rejected(
     contents[role] = _changed(contents[role], field, value)
 
     with pytest.raises(ProposalMemberViolation):
-        validate_v1_proposal_members(contents, fixture.bindings)
+        validate_v1_proposal_members(contents, fixture.bindings, fixture.traceability_shards)
 
 
 def test_placeholder_and_noncanonical_member_bytes_are_rejected() -> None:
@@ -63,9 +108,9 @@ def test_placeholder_and_noncanonical_member_bytes_are_rejected() -> None:
     noncanonical["CHANGE_INVENTORY"] += b"\n"
 
     with pytest.raises(ProposalMemberViolation, match="placeholder"):
-        validate_v1_proposal_members(placeholder, fixture.bindings)
+        validate_v1_proposal_members(placeholder, fixture.bindings, fixture.traceability_shards)
     with pytest.raises(ProposalMemberViolation, match="canonical object"):
-        validate_v1_proposal_members(noncanonical, fixture.bindings)
+        validate_v1_proposal_members(noncanonical, fixture.bindings, fixture.traceability_shards)
 
 
 def test_release_record_and_coverage_evidence_drift_are_rejected() -> None:
@@ -92,9 +137,9 @@ def test_release_record_and_coverage_evidence_drift_are_rejected() -> None:
     coverage_drift["COVERAGE_STATUS"] = canonicalize(coverage)
 
     with pytest.raises(ProposalMemberViolation, match="release inventory binding"):
-        validate_v1_proposal_members(release_drift, fixture.bindings)
+        validate_v1_proposal_members(release_drift, fixture.bindings, fixture.traceability_shards)
     with pytest.raises(ProposalMemberViolation, match="scope evidence"):
-        validate_v1_proposal_members(coverage_drift, fixture.bindings)
+        validate_v1_proposal_members(coverage_drift, fixture.bindings, fixture.traceability_shards)
 
 
 def test_executable_manifest_requires_exact_root_identity_and_base() -> None:
@@ -116,4 +161,44 @@ def test_executable_manifest_requires_exact_root_identity_and_base() -> None:
     )
 
     with pytest.raises(ProposalMemberViolation, match="base state"):
-        validate_v1_proposal_members(contents, bindings)
+        validate_v1_proposal_members(contents, bindings, fixture.traceability_shards)
+
+
+@pytest.mark.parametrize(
+    "drift",
+    ["EFFECT_BINDING", "INPUT_BINDING", "STOP_CONDITION", "EXTRA_FIELD"],
+)
+def test_executable_manifest_rejects_incomplete_action_authority(drift: str) -> None:
+    """Re-hashing cannot legitimize runtime-invented effect authority."""
+    fixture = semantic_proposal_fixture()
+    document = parse_json_bytes(fixture.contents["PROMOTION_MANIFEST"], max_bytes=1_000_000)
+    assert isinstance(document, dict)
+    actions = document["actions"]
+    assert isinstance(actions, list)
+    action = actions[0]
+    assert isinstance(action, dict)
+    if drift == "EFFECT_BINDING":
+        action["required_capability"] = "MANAGE_BACKUP"
+    elif drift == "INPUT_BINDING":
+        inputs = action["input_refs"]
+        assert isinstance(inputs, list)
+        action["input_refs"] = inputs[:1]
+    elif drift == "STOP_CONDITION":
+        stops = action["stop_conditions"]
+        assert isinstance(stops, list)
+        action["stop_conditions"] = stops[:-1]
+    else:
+        action["runtime_override"] = True
+    changed_manifest = canonicalize(document)
+    changed_fingerprint = f"sha256:{sha256(changed_manifest).hexdigest()}"
+    changed_id = "pmn_" + sha256(changed_fingerprint.encode()).hexdigest()[:48]
+    contents = dict(fixture.contents)
+    contents["PROMOTION_MANIFEST"] = changed_manifest
+    bindings = replace(
+        fixture.bindings,
+        promotion_manifest_id=changed_id,
+        promotion_manifest_fingerprint=changed_fingerprint,
+    )
+
+    with pytest.raises(ProposalMemberViolation, match="PROMOTION_MANIFEST"):
+        validate_v1_proposal_members(contents, bindings, fixture.traceability_shards)

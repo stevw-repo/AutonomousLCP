@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-partition-decision-catalogue.schema.json",
+  "title": "HKEX exact-limit and official-partition executable catalogue",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "catalogue_id",
+    "catalogue_version",
+    "status",
+    "case_count",
+    "primary_coverage_cell_count",
+    "high_risk_pair_ids",
+    "entries",
+    "checkpoint_complete",
+    "full_conformance_suite_complete",
+    "activation_authorized",
+    "external_effects"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-regulatory.partition-decision-catalogue"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "catalogue_id": {
+      "const": "hk-regulatory-partition-decision"
+    },
+    "catalogue_version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "const": "FROZEN_EXECUTABLE_CHECKPOINT"
+    },
+    "case_count": {
+      "const": 24
+    },
+    "primary_coverage_cell_count": {
+      "const": 24
+    },
+    "high_risk_pair_ids": {
+      "const": [
+        "HKREG-PAIR-038",
+        "HKREG-PAIR-039",
+        "HKREG-PAIR-040"
+      ]
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 24,
+      "maxItems": 24,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "case_id",
+          "primary_coverage_cell_id",
+          "pair_memberships",
+          "assertion_scope",
+          "expected_outcome",
+          "expected_reason",
+          "fixture_path",
+          "fixture_fingerprint",
+          "expected_path",
+          "expected_fingerprint"
+        ],
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "primary_coverage_cell_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pair_memberships": {
+            "type": "array",
+            "maxItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "pair_id",
+                "role"
+              ],
+              "properties": {
+                "pair_id": {
+                  "type": "string",
+                  "pattern": "^HKREG-PAIR-0(38|39|40)$"
+                },
+                "role": {
+                  "enum": [
+                    "POSITIVE",
+                    "NEAR_MISS"
+                  ]
+                }
+              }
+            }
+          },
+          "assertion_scope": {
+            "enum": [
+              "EXACT_FIT",
+              "TOKEN_OVERFLOW",
+              "METADATA_OVERFLOW",
+              "DUAL_OVERFLOW",
+              "MEASUREMENT_COMPLETENESS",
+              "FINAL_LABELS",
+              "CHILD_WHOLE",
+              "OVERSIZED_CHILD",
+              "LARGEST_FRONTIER",
+              "FEWEST_PARTS",
+              "EARLIEST_FULL",
+              "BRANCH_ISOLATION",
+              "FINAL_REMEASUREMENT",
+              "NORMAL_BOUNDARY",
+              "UNRELATED_PACKING",
+              "OFFICIAL_BOUNDARY",
+              "ARBITRARY_PAGE",
+              "ARBITRARY_SENTENCE",
+              "ARBITRARY_SIZE",
+              "ARBITRARY_WINDOW",
+              "CONTEXT_PRESERVATION",
+              "RECURSION",
+              "INDIVISIBLE",
+              "FIXED_METADATA"
+            ]
+          },
+          "expected_outcome": {
+            "enum": [
+              "PASS",
+              "BLOCK",
+              "QUARANTINE"
+            ]
+          },
+          "expected_reason": {
+            "enum": [
+              "EXACT_FIT_UNSPLIT",
+              "TOKEN_OVERFLOW_PARTITIONED",
+              "METADATA_OVERFLOW_PARTITIONED",
+              "DUAL_OVERFLOW_PARTITIONED",
+              "INCOMPLETE_MEASUREMENT_REJECTED",
+              "LABEL_OVERFLOW_RECOMPUTED",
+              "COMPLETE_CHILD_PRESERVED",
+              "OVERSIZED_CHILD_ONLY_REFINED",
+              "LARGEST_SAFE_FRONTIER_USED",
+              "FEWEST_PARTS_SELECTED",
+              "EARLIEST_FULL_SELECTED",
+              "BRANCH_DEPTHS_INDEPENDENT",
+              "FINAL_LABELS_REMEASURED",
+              "CROSS_NORMAL_BOUNDARY_REJECTED",
+              "UNRELATED_PACKING_REJECTED",
+              "OFFICIAL_BOUNDARY_PARTITIONED",
+              "PDF_PAGE_CUT_REJECTED",
+              "SENTENCE_PUNCTUATION_CUT_REJECTED",
+              "WHITESPACE_TOKEN_SIZE_CUT_REJECTED",
+              "CHARACTER_VISUAL_WINDOW_CUT_REJECTED",
+              "CONTEXT_REMOVAL_REJECTED",
+              "RECURSIVE_OFFICIAL_PARTITIONED",
+              "SMALLEST_COMPLETE_UNIT_QUARANTINED",
+              "FIXED_METADATA_OVER_LIMIT"
+            ]
+          },
+          "fixture_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fixture_fingerprint": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "expected_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expected_fingerprint": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "checkpoint_complete": {
+      "const": true
+    },
+    "full_conformance_suite_complete": {
+      "const": false
+    },
+    "activation_authorized": {
+      "const": false
+    },
+    "external_effects": {
+      "const": "NONE"
+    }
+  }
+}

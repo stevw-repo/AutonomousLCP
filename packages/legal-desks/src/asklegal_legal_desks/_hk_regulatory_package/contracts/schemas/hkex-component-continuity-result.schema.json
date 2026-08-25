@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/contracts/hkex-component-continuity-result/1.0.0",
+  "title": "HKEX component continuity result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "identity_consequence",
+    "lineage_type",
+    "processing_outcome",
+    "reason",
+    "preserved_component_ids",
+    "ended_component_ids",
+    "candidate_ids_requiring_allocation",
+    "continuity_decision_complete",
+    "inventory_admission_ready",
+    "search_record_authorized",
+    "serving_ready"
+  ],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "identity_consequence": {
+      "enum": [
+        "PRESERVE_EXISTING",
+        "PRESERVE_HISTORICAL",
+        "RESELECT_EXISTING",
+        "REQUIRE_NEW_UNRELATED",
+        "REQUIRE_NEW_ONE_TO_ONE",
+        "REQUIRE_NEW_ONE_TO_MANY",
+        "REQUIRE_NEW_MANY_TO_ONE",
+        "QUARANTINE"
+      ]
+    },
+    "lineage_type": {
+      "enum": ["NONE", "RENAME", "RENUMBER", "STRUCTURAL_MOVE", "CORRECTION", "REPLACEMENT", "SPLIT", "MERGE", "TRANSFER", "WITHDRAWAL", "REINSTATEMENT"]
+    },
+    "processing_outcome": {"enum": ["PASS", "QUARANTINE"]},
+    "reason": {
+      "enum": [
+        "EXACT_NO_CHANGE",
+        "PRESENTATION_ALIAS_CHANGED",
+        "SAME_COMPONENT_RENAMED",
+        "SAME_LOCATION_RENUMBERED",
+        "SAME_COMPONENT_STRUCTURALLY_MOVED",
+        "SAME_COMPONENT_TEXT_CORRECTED",
+        "DISTINCT_REPLACEMENT_REQUIRES_NEW_ID",
+        "SPLIT_REQUIRES_ONE_TO_MANY_IDS",
+        "MERGE_REQUIRES_MANY_TO_ONE_ID",
+        "BOARD_TRANSFER_REQUIRES_NEW_OWNER_ID",
+        "OFFICIAL_WITHDRAWAL_PRESERVES_HISTORY",
+        "DISAPPEARANCE_PROVES_NO_RETIREMENT",
+        "REAPPEARANCE_RESELECTS_PROVED_ID",
+        "NEW_COMPONENT_REQUIRES_REGISTER_ID",
+        "CONTINUITY_EVIDENCE_UNRESOLVED"
+      ]
+    },
+    "preserved_component_ids": {"$ref": "#/$defs/ids"},
+    "ended_component_ids": {"$ref": "#/$defs/ids"},
+    "candidate_ids_requiring_allocation": {"$ref": "#/$defs/ids"},
+    "continuity_decision_complete": {"type": "boolean"},
+    "inventory_admission_ready": {"type": "boolean"},
+    "search_record_authorized": {"const": false},
+    "serving_ready": {"const": false}
+  },
+  "$defs": {
+    "ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+  }
+}

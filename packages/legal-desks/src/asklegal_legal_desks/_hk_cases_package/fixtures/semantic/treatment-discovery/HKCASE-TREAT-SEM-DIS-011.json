@@ -1,0 +1,75 @@
+{
+  "schema_id": "asklegal.hk-cases.treatment-discovery-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-TREAT-SEM-DIS-011",
+  "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-011",
+  "pair_memberships": [],
+  "scenario": "Corrected reasons add remove change and preserve treatment candidates",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.treatment-discovery-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "TREATMENT_DISCOVERY",
+    "execution_id": "treatment_discovery_execution_11",
+    "judgment_work_id": "synthetic_treatment_judgment_11",
+    "accepted_original_version_id": "synthetic_treatment_version_11",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "role": "OPERATIVE_MAJORITY",
+        "segment_ids": [
+          "segment_1",
+          "segment_2",
+          "segment_3",
+          "segment_4"
+        ]
+      }
+    ],
+    "segments": [
+      {
+        "segment_id": "segment_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "language": "ENGLISH",
+        "exact_text": "The correction newly follows Alpha v Beta.",
+        "text_fingerprint": "sha256:c35c418f1c6507e539d825fce36ace69eca4c5ebfd55cff9a8d4389a5b5086f1",
+        "range_id": "range_1"
+      },
+      {
+        "segment_id": "segment_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "language": "ENGLISH",
+        "exact_text": "The prior criticism of Gamma v Delta has been removed.",
+        "text_fingerprint": "sha256:70570f5c46e16d4e07cb50602555429913d8e81233892402abb2d7dfb06709a9",
+        "range_id": "range_2"
+      },
+      {
+        "segment_id": "segment_3",
+        "opinion_id": "opinion_1",
+        "source_order": 3,
+        "language": "ENGLISH",
+        "exact_text": "The scope of the treatment of Epsilon v Zeta is changed.",
+        "text_fingerprint": "sha256:ba3bb24c9a2be9b4af4e6d1a7a164f738edaed6b98f97b769aad68b1830160d5",
+        "range_id": "range_3"
+      },
+      {
+        "segment_id": "segment_4",
+        "opinion_id": "opinion_1",
+        "source_order": 4,
+        "language": "ENGLISH",
+        "exact_text": "The application of Eta v Theta remains unchanged.",
+        "text_fingerprint": "sha256:331a35551b4aac78863c66db7442568bf633ce86e49e3315764aab6eb43a7ed2",
+        "range_id": "range_4"
+      }
+    ],
+    "missing_required_segment_ids": [],
+    "segment_manifest_complete": true,
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-011.json",
+  "observation_path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-011.json",
+  "expected_path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-011.json"
+}

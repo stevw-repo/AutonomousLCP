@@ -1,0 +1,18 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-materiality-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-MATERIALITY-EVALUATOR-001",
+  "reference_map_id": "reference_map_3",
+  "model_input_fingerprint": "sha256:fd4f1f5d02921160a6a4ed34f1a70d331abef1bdcdf498e3693d4095df6af524",
+  "coverage_unit_ids": [
+    "unit_1"
+  ],
+  "propositions": [],
+  "expected_disposition": "COMPLETE_NO_PROPOSITION",
+  "required_handoff_ids": [
+    "citation_1"
+  ],
+  "expected_selected_reference_proposition_ids": [],
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

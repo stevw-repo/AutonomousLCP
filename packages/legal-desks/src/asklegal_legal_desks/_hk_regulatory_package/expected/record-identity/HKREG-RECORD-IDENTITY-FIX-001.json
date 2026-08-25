@@ -1,0 +1,509 @@
+{
+  "fixture_id": "HKREG-RECORD-IDENTITY-FIX-001",
+  "contract_version": "1.0.0",
+  "cases": [
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-001",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-RECORD-IDENTITY-001",
+      "decision_id": "synthetic-hkex-record-identity-decision-001",
+      "consequence": "REQUIRE_NEW_INITIAL",
+      "reason": "UNSEEN_INITIAL_PAYLOAD_REQUIRES_ID",
+      "selected_search_record_id": null,
+      "predecessor_search_record_ids": [],
+      "candidate_serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+      "traceability_seed": {
+        "serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+        "serving_record_profile_id": "synthetic-hkex-english-profile-1",
+        "tree_fingerprint": "sha256:36a0373fe8b88582f64cf82836cc2807a59e1c141963a63c5a6768d5220e6473",
+        "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+        "source_artifact_fingerprints": [
+          "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        ],
+        "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+        "official_version_ids": [
+          "ofv_222222222222222222222222222222222222222222222222"
+        ],
+        "legal_location_ids": [
+          "loc_333333333333333333333333333333333333333333333333"
+        ],
+        "primary_source_units": [
+          {
+            "source_unit_id": "rule-a",
+            "role": "PRIMARY",
+            "source_range": "synthetic-hkex-artifact#range-1",
+            "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+          }
+        ],
+        "dependency_source_units": [
+          {
+            "source_unit_id": "context",
+            "role": "CONTEXT_ONLY",
+            "source_range": "synthetic-hkex-artifact#range-0",
+            "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+          }
+        ],
+        "referenced_locations": [],
+        "evidence_refs": [
+          {
+            "ref_type": "SOURCE_SNAPSHOT",
+            "ref_id": "evd_666666666666666666666666666666666666666666666666",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ],
+        "authority_note_fingerprint": "sha256:dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+        "authority_note_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "evd_777777777777777777777777777777777777777777777777",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "authority_note_supporting_refs": [],
+        "identity_decision_evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "legal_desk_actor": "synthetic-hk-regulatory-legal-desk",
+        "root_record_unit_id": "record-root",
+        "part_number": 1,
+        "total_parts": 1
+      },
+      "current_legal_support": true,
+      "identity_decision_complete": true,
+      "register_allocation_required": true,
+      "selection_event_required": true,
+      "search_record_authorized": false,
+      "serving_ready": false
+    },
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-002",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-RECORD-IDENTITY-001",
+      "decision_id": "synthetic-hkex-record-identity-decision-002",
+      "consequence": "PRESERVE_SELECTED",
+      "reason": "EXACT_SELECTED_PAYLOAD_PRESERVED",
+      "selected_search_record_id": "rec_444444444444444444444444444444444444444444444444",
+      "predecessor_search_record_ids": [],
+      "candidate_serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+      "traceability_seed": {
+        "serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+        "serving_record_profile_id": "synthetic-hkex-english-profile-1",
+        "tree_fingerprint": "sha256:36a0373fe8b88582f64cf82836cc2807a59e1c141963a63c5a6768d5220e6473",
+        "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+        "source_artifact_fingerprints": [
+          "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        ],
+        "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+        "official_version_ids": [
+          "ofv_222222222222222222222222222222222222222222222222"
+        ],
+        "legal_location_ids": [
+          "loc_333333333333333333333333333333333333333333333333"
+        ],
+        "primary_source_units": [
+          {
+            "source_unit_id": "rule-a",
+            "role": "PRIMARY",
+            "source_range": "synthetic-hkex-artifact#range-1",
+            "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+          }
+        ],
+        "dependency_source_units": [
+          {
+            "source_unit_id": "context",
+            "role": "CONTEXT_ONLY",
+            "source_range": "synthetic-hkex-artifact#range-0",
+            "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+          }
+        ],
+        "referenced_locations": [],
+        "evidence_refs": [
+          {
+            "ref_type": "SOURCE_SNAPSHOT",
+            "ref_id": "evd_666666666666666666666666666666666666666666666666",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ],
+        "authority_note_fingerprint": "sha256:dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+        "authority_note_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "evd_777777777777777777777777777777777777777777777777",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "authority_note_supporting_refs": [],
+        "identity_decision_evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "legal_desk_actor": "synthetic-hk-regulatory-legal-desk",
+        "root_record_unit_id": "record-root",
+        "part_number": 1,
+        "total_parts": 1
+      },
+      "current_legal_support": true,
+      "identity_decision_complete": true,
+      "register_allocation_required": false,
+      "selection_event_required": false,
+      "search_record_authorized": false,
+      "serving_ready": false
+    },
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-003",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-RECORD-IDENTITY-001",
+      "decision_id": "synthetic-hkex-record-identity-decision-003",
+      "consequence": "RESELECT_PRESERVED",
+      "reason": "EXACT_PRESERVED_PAYLOAD_RESELECTED",
+      "selected_search_record_id": "rec_444444444444444444444444444444444444444444444444",
+      "predecessor_search_record_ids": [],
+      "candidate_serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+      "traceability_seed": {
+        "serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+        "serving_record_profile_id": "synthetic-hkex-english-profile-1",
+        "tree_fingerprint": "sha256:36a0373fe8b88582f64cf82836cc2807a59e1c141963a63c5a6768d5220e6473",
+        "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+        "source_artifact_fingerprints": [
+          "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        ],
+        "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+        "official_version_ids": [
+          "ofv_222222222222222222222222222222222222222222222222"
+        ],
+        "legal_location_ids": [
+          "loc_333333333333333333333333333333333333333333333333"
+        ],
+        "primary_source_units": [
+          {
+            "source_unit_id": "rule-a",
+            "role": "PRIMARY",
+            "source_range": "synthetic-hkex-artifact#range-1",
+            "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+          }
+        ],
+        "dependency_source_units": [
+          {
+            "source_unit_id": "context",
+            "role": "CONTEXT_ONLY",
+            "source_range": "synthetic-hkex-artifact#range-0",
+            "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+          }
+        ],
+        "referenced_locations": [],
+        "evidence_refs": [
+          {
+            "ref_type": "SOURCE_SNAPSHOT",
+            "ref_id": "evd_666666666666666666666666666666666666666666666666",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ],
+        "authority_note_fingerprint": "sha256:dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+        "authority_note_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "evd_777777777777777777777777777777777777777777777777",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "authority_note_supporting_refs": [],
+        "identity_decision_evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "legal_desk_actor": "synthetic-hk-regulatory-legal-desk",
+        "root_record_unit_id": "record-root",
+        "part_number": 1,
+        "total_parts": 1
+      },
+      "current_legal_support": true,
+      "identity_decision_complete": true,
+      "register_allocation_required": false,
+      "selection_event_required": true,
+      "search_record_authorized": false,
+      "serving_ready": false
+    },
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-004",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-RECORD-IDENTITY-001",
+      "decision_id": "synthetic-hkex-record-identity-decision-004",
+      "consequence": "REQUIRE_NEW_FORWARD_SUCCESSOR",
+      "reason": "UNSEEN_CHANGED_PAYLOAD_REQUIRES_SUCCESSOR",
+      "selected_search_record_id": null,
+      "predecessor_search_record_ids": [
+        "rec_444444444444444444444444444444444444444444444444"
+      ],
+      "candidate_serving_payload_fingerprint": "sha256:c6787dc480832c46c8279fa351e6fd0e4453c2a5b8c54335fac331f6dd1d18da",
+      "traceability_seed": {
+        "serving_payload_fingerprint": "sha256:c6787dc480832c46c8279fa351e6fd0e4453c2a5b8c54335fac331f6dd1d18da",
+        "serving_record_profile_id": "synthetic-hkex-english-profile-1",
+        "tree_fingerprint": "sha256:d945479529a2ad4763e1e2e972be501e238ba3ce91c314d3de1dcff3b74bf13a",
+        "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+        "source_artifact_fingerprints": [
+          "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        ],
+        "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+        "official_version_ids": [
+          "ofv_222222222222222222222222222222222222222222222222"
+        ],
+        "legal_location_ids": [
+          "loc_333333333333333333333333333333333333333333333333"
+        ],
+        "primary_source_units": [
+          {
+            "source_unit_id": "rule-a",
+            "role": "PRIMARY",
+            "source_range": "synthetic-hkex-artifact#range-1",
+            "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+          }
+        ],
+        "dependency_source_units": [
+          {
+            "source_unit_id": "context",
+            "role": "CONTEXT_ONLY",
+            "source_range": "synthetic-hkex-artifact#range-0",
+            "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+          }
+        ],
+        "referenced_locations": [],
+        "evidence_refs": [
+          {
+            "ref_type": "SOURCE_SNAPSHOT",
+            "ref_id": "evd_666666666666666666666666666666666666666666666666",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ],
+        "authority_note_fingerprint": "sha256:dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+        "authority_note_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "evd_777777777777777777777777777777777777777777777777",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "authority_note_supporting_refs": [],
+        "identity_decision_evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "legal_desk_actor": "synthetic-hk-regulatory-legal-desk",
+        "root_record_unit_id": "record-root",
+        "part_number": 1,
+        "total_parts": 1
+      },
+      "current_legal_support": true,
+      "identity_decision_complete": true,
+      "register_allocation_required": true,
+      "selection_event_required": true,
+      "search_record_authorized": false,
+      "serving_ready": false
+    },
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-005",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-RECORD-IDENTITY-001",
+      "decision_id": "synthetic-hkex-record-identity-decision-005",
+      "consequence": "BLOCK",
+      "reason": "DECLARED_CHANGE_CONFLICTS_WITH_PAYLOAD",
+      "selected_search_record_id": null,
+      "predecessor_search_record_ids": [],
+      "candidate_serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+      "traceability_seed": {
+        "serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+        "serving_record_profile_id": "synthetic-hkex-english-profile-1",
+        "tree_fingerprint": "sha256:36a0373fe8b88582f64cf82836cc2807a59e1c141963a63c5a6768d5220e6473",
+        "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+        "source_artifact_fingerprints": [
+          "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        ],
+        "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+        "official_version_ids": [
+          "ofv_222222222222222222222222222222222222222222222222"
+        ],
+        "legal_location_ids": [
+          "loc_333333333333333333333333333333333333333333333333"
+        ],
+        "primary_source_units": [
+          {
+            "source_unit_id": "rule-a",
+            "role": "PRIMARY",
+            "source_range": "synthetic-hkex-artifact#range-1",
+            "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+          }
+        ],
+        "dependency_source_units": [
+          {
+            "source_unit_id": "context",
+            "role": "CONTEXT_ONLY",
+            "source_range": "synthetic-hkex-artifact#range-0",
+            "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+          }
+        ],
+        "referenced_locations": [],
+        "evidence_refs": [
+          {
+            "ref_type": "SOURCE_SNAPSHOT",
+            "ref_id": "evd_666666666666666666666666666666666666666666666666",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ],
+        "authority_note_fingerprint": "sha256:dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+        "authority_note_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "evd_777777777777777777777777777777777777777777777777",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "authority_note_supporting_refs": [],
+        "identity_decision_evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "legal_desk_actor": "synthetic-hk-regulatory-legal-desk",
+        "root_record_unit_id": "record-root",
+        "part_number": 1,
+        "total_parts": 1
+      },
+      "current_legal_support": true,
+      "identity_decision_complete": false,
+      "register_allocation_required": false,
+      "selection_event_required": false,
+      "search_record_authorized": false,
+      "serving_ready": false
+    },
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-006",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-RECORD-IDENTITY-001",
+      "decision_id": "synthetic-hkex-record-identity-decision-006",
+      "consequence": "BLOCK",
+      "reason": "CURRENT_LEGAL_SUPPORT_NOT_PROVED",
+      "selected_search_record_id": null,
+      "predecessor_search_record_ids": [],
+      "candidate_serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+      "traceability_seed": {
+        "serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+        "serving_record_profile_id": "synthetic-hkex-english-profile-1",
+        "tree_fingerprint": "sha256:36a0373fe8b88582f64cf82836cc2807a59e1c141963a63c5a6768d5220e6473",
+        "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+        "source_artifact_fingerprints": [
+          "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        ],
+        "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+        "official_version_ids": [
+          "ofv_222222222222222222222222222222222222222222222222"
+        ],
+        "legal_location_ids": [
+          "loc_333333333333333333333333333333333333333333333333"
+        ],
+        "primary_source_units": [
+          {
+            "source_unit_id": "rule-a",
+            "role": "PRIMARY",
+            "source_range": "synthetic-hkex-artifact#range-1",
+            "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+          }
+        ],
+        "dependency_source_units": [
+          {
+            "source_unit_id": "context",
+            "role": "CONTEXT_ONLY",
+            "source_range": "synthetic-hkex-artifact#range-0",
+            "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+          }
+        ],
+        "referenced_locations": [],
+        "evidence_refs": [
+          {
+            "ref_type": "SOURCE_SNAPSHOT",
+            "ref_id": "evd_666666666666666666666666666666666666666666666666",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ],
+        "authority_note_fingerprint": "sha256:dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+        "authority_note_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "evd_777777777777777777777777777777777777777777777777",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "authority_note_supporting_refs": [],
+        "identity_decision_evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "legal_desk_actor": "synthetic-hk-regulatory-legal-desk",
+        "root_record_unit_id": "record-root",
+        "part_number": 1,
+        "total_parts": 1
+      },
+      "current_legal_support": false,
+      "identity_decision_complete": false,
+      "register_allocation_required": false,
+      "selection_event_required": false,
+      "search_record_authorized": false,
+      "serving_ready": false
+    },
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-007",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-RECORD-IDENTITY-001",
+      "decision_id": "synthetic-hkex-record-identity-decision-007",
+      "consequence": "BLOCK",
+      "reason": "CONSTRUCTION_NOT_CURRENT_CANDIDATE",
+      "selected_search_record_id": null,
+      "predecessor_search_record_ids": [],
+      "candidate_serving_payload_fingerprint": null,
+      "traceability_seed": null,
+      "current_legal_support": true,
+      "identity_decision_complete": false,
+      "register_allocation_required": false,
+      "selection_event_required": false,
+      "search_record_authorized": false,
+      "serving_ready": false
+    },
+    {
+      "case_id": "HKREG-RECORD-IDENTITY-CASE-008",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-RECORD-IDENTITY-001",
+      "decision_id": "synthetic-hkex-record-identity-decision-008",
+      "consequence": "BLOCK",
+      "reason": "REQUIRED_EXACT_PRESERVED_PAYLOAD_MISSING",
+      "selected_search_record_id": null,
+      "predecessor_search_record_ids": [],
+      "candidate_serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+      "traceability_seed": {
+        "serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+        "serving_record_profile_id": "synthetic-hkex-english-profile-1",
+        "tree_fingerprint": "sha256:36a0373fe8b88582f64cf82836cc2807a59e1c141963a63c5a6768d5220e6473",
+        "source_rule_id": "HKREG-ENGLISH-RECORD-001",
+        "source_artifact_fingerprints": [
+          "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        ],
+        "legal_item_id": "lit_111111111111111111111111111111111111111111111111",
+        "official_version_ids": [
+          "ofv_222222222222222222222222222222222222222222222222"
+        ],
+        "legal_location_ids": [
+          "loc_333333333333333333333333333333333333333333333333"
+        ],
+        "primary_source_units": [
+          {
+            "source_unit_id": "rule-a",
+            "role": "PRIMARY",
+            "source_range": "synthetic-hkex-artifact#range-1",
+            "content_fingerprint": "sha256:53fa259e53993f117a55a11e2386336b2696089bf12c1d5e70c8fb48ad639047"
+          }
+        ],
+        "dependency_source_units": [
+          {
+            "source_unit_id": "context",
+            "role": "CONTEXT_ONLY",
+            "source_range": "synthetic-hkex-artifact#range-0",
+            "content_fingerprint": "sha256:ba6e697714c186d40cb1a229bfc98d2a83a7f87d9672213ec802fbcdb575ecfd"
+          }
+        ],
+        "referenced_locations": [],
+        "evidence_refs": [
+          {
+            "ref_type": "SOURCE_SNAPSHOT",
+            "ref_id": "evd_666666666666666666666666666666666666666666666666",
+            "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+          }
+        ],
+        "authority_note_fingerprint": "sha256:dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+        "authority_note_decision_ref": {
+          "ref_type": "DECISION",
+          "ref_id": "evd_777777777777777777777777777777777777777777777777",
+          "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "authority_note_supporting_refs": [],
+        "identity_decision_evidence_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "legal_desk_actor": "synthetic-hk-regulatory-legal-desk",
+        "root_record_unit_id": "record-root",
+        "part_number": 1,
+        "total_parts": 1
+      },
+      "current_legal_support": true,
+      "identity_decision_complete": false,
+      "register_allocation_required": false,
+      "selection_event_required": false,
+      "search_record_authorized": false,
+      "serving_ready": false
+    }
+  ]
+}

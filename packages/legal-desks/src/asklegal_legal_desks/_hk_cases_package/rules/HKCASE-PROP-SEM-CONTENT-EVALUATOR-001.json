@@ -1,0 +1,26 @@
+{
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "contract_version": "1.0.0",
+  "direct_case_count": 18,
+  "coverage_cell_count": 18,
+  "direct_high_risk_pair_ids": [
+    "HKCASE-PROP-PAIR-006",
+    "HKCASE-PROP-PAIR-007",
+    "HKCASE-PROP-PAIR-008"
+  ],
+  "complete_within_checkpoint_pair_ids": [
+    "HKCASE-PROP-PAIR-006",
+    "HKCASE-PROP-PAIR-007",
+    "HKCASE-PROP-PAIR-008"
+  ],
+  "model_facing_reference_fields": [],
+  "preferred_prose_equality_required": false,
+  "case_id_answer_switching_forbidden": true,
+  "provider_calls_authorized": 0,
+  "workflow_admission_created": false,
+  "search_records_created": 0,
+  "release_eligible": false,
+  "real_source_evidence": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

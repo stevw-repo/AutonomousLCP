@@ -1,0 +1,22 @@
+{
+  "rule_id": "HKCASE-PROP-OUTPUT-CONFORMANCE-001",
+  "contract_version": "1.0.0",
+  "renderer_id": "HKCASE-ADR0060-LABELLED-1.0.0",
+  "direct_case_count": 16,
+  "coverage_cell_count": 16,
+  "high_risk_pair_ids": [
+    "HKCASE-PROP-PAIR-022",
+    "HKCASE-PROP-PAIR-023",
+    "HKCASE-PROP-PAIR-024",
+    "HKCASE-PROP-PAIR-025"
+  ],
+  "fact_derived_execution": true,
+  "case_id_answer_switching_forbidden": true,
+  "synthetic_tokenizer_profile_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "search_records_created": 0,
+  "semantic_analysis_authorized": false,
+  "release_eligible": false,
+  "real_source_evidence": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

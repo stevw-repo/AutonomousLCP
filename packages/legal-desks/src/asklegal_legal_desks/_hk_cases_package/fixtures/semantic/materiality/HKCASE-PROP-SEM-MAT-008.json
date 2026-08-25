@@ -1,0 +1,45 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-materiality-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-MAT-008",
+  "coverage_cell_id": "HKCASE-PROP-COV-SMAT-008",
+  "pair_memberships": [],
+  "scenario": "Procedural chronology contains legal terminology but no legal answer",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-materiality-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "semantic_execution_8",
+    "judgment_work_id": "semantic_judgment_8",
+    "judicial_decision_id": "synthetic_decision_8",
+    "official_version_id": "synthetic_version_8",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "The application, statutory notice, hearing and adjournment occurred in that order.",
+        "text_fingerprint": "sha256:5be2f03f4dca2560627425e0975cba2aebc8d74e6c7b5e313d7cae54c302c19e",
+        "range_id": "range_1"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-008.json",
+  "observation_path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-008.json",
+  "expected_path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-008.json"
+}

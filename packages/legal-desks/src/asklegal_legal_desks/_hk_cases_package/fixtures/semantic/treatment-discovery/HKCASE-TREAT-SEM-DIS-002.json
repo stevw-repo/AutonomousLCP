@@ -1,0 +1,65 @@
+{
+  "schema_id": "asklegal.hk-cases.treatment-discovery-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-TREAT-SEM-DIS-002",
+  "coverage_cell_id": "HKCASE-TREAT-COV-SDIS-002",
+  "pair_memberships": [],
+  "scenario": "Several bare formal citations without treatment-bearing reasoning",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.treatment-discovery-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "TREATMENT_DISCOVERY",
+    "execution_id": "treatment_discovery_execution_2",
+    "judgment_work_id": "synthetic_treatment_judgment_2",
+    "accepted_original_version_id": "synthetic_treatment_version_2",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "role": "OPERATIVE_MAJORITY",
+        "segment_ids": [
+          "segment_1",
+          "segment_2",
+          "segment_3"
+        ]
+      }
+    ],
+    "segments": [
+      {
+        "segment_id": "segment_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "language": "ENGLISH",
+        "exact_text": "Counsel cited Alpha v Beta [2001] 1 HKLRD 1.",
+        "text_fingerprint": "sha256:4fb0c57f9cec3c7d9d13f512b2cc33f94dfc3c49f3aa161112a6576861177ea7",
+        "range_id": "range_1"
+      },
+      {
+        "segment_id": "segment_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "language": "ENGLISH",
+        "exact_text": "Reference was also made to Gamma v Delta [2002] 2 HKCFAR 2.",
+        "text_fingerprint": "sha256:57b79e8dda650c68fb28bc8861abe3f29a0747b0a465a7b40bee3d89997566de",
+        "range_id": "range_2"
+      },
+      {
+        "segment_id": "segment_3",
+        "opinion_id": "opinion_1",
+        "source_order": 3,
+        "language": "ENGLISH",
+        "exact_text": "The chronology appears in Epsilon v Zeta [2003] 3 HKLRD 3.",
+        "text_fingerprint": "sha256:c6ecd78df36c122108420193df35f67427a21e5787f397c4d2c30345d2500d69",
+        "range_id": "range_3"
+      }
+    ],
+    "missing_required_segment_ids": [],
+    "segment_manifest_complete": true,
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/treatment-discovery/references/HKCASE-TREAT-SEM-DIS-002.json",
+  "observation_path": "evaluations/treatment-discovery/observations/HKCASE-TREAT-SEM-DIS-002.json",
+  "expected_path": "expected/treatment-discovery/HKCASE-TREAT-SEM-DIS-002.json"
+}

@@ -1,0 +1,96 @@
+{
+  "schema_id": "asklegal.hk-regulatory.boundary-decision-report",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-BOUNDARY-DECISION-001",
+  "case_id": "HKREG-DEC-BND-030",
+  "assertion_scope": "NORMAL_UNIT",
+  "observed_decision": {
+    "schema_id": "asklegal.hk-regulatory.boundary-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-BOUNDARY-DECISION-001",
+    "case_id": "HKREG-DEC-BND-030",
+    "outcome": "BLOCK",
+    "reason": "UNRELATED_PACKING_REJECTED",
+    "responsibilities": [
+      {
+        "record_unit_id": "record-unrelated-a-30",
+        "kind": "NORMAL",
+        "primary_source_unit_ids": [
+          "unrelated-a-30"
+        ],
+        "dependency_source_unit_ids": []
+      },
+      {
+        "record_unit_id": "record-unrelated-b-30",
+        "kind": "NORMAL",
+        "primary_source_unit_ids": [
+          "unrelated-b-30"
+        ],
+        "dependency_source_unit_ids": []
+      }
+    ],
+    "dependency_owners": [],
+    "references": [],
+    "excluded_background_unit_ids": [],
+    "quarantined_unit_ids": [],
+    "rejected_candidate": true,
+    "source_contract_review_required": false,
+    "quarantined_branch": false,
+    "presentation_identity_rejected": false,
+    "relationship_revision_only": false,
+    "referring_payload_change_required": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.boundary-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-BOUNDARY-DECISION-001",
+    "case_id": "HKREG-DEC-BND-030",
+    "outcome": "BLOCK",
+    "reason": "UNRELATED_PACKING_REJECTED",
+    "responsibilities": [
+      {
+        "record_unit_id": "record-unrelated-a-30",
+        "kind": "NORMAL",
+        "primary_source_unit_ids": [
+          "unrelated-a-30"
+        ],
+        "dependency_source_unit_ids": []
+      },
+      {
+        "record_unit_id": "record-unrelated-b-30",
+        "kind": "NORMAL",
+        "primary_source_unit_ids": [
+          "unrelated-b-30"
+        ],
+        "dependency_source_unit_ids": []
+      }
+    ],
+    "dependency_owners": [],
+    "references": [],
+    "excluded_background_unit_ids": [],
+    "quarantined_unit_ids": [],
+    "rejected_candidate": true,
+    "source_contract_review_required": false,
+    "quarantined_branch": false,
+    "presentation_identity_rejected": false,
+    "relationship_revision_only": false,
+    "referring_payload_change_required": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "conformance_status": "PASS",
+  "source_authorized": false,
+  "provider_authorized": false,
+  "release_authorized": false,
+  "serving_authorized": false,
+  "deployment_authorized": false,
+  "external_effects": "NONE"
+}

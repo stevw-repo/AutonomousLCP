@@ -1,0 +1,322 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/hk-legislation-reconstructed-consolidation-artifact.schema.json",
+  "$defs": {
+    "fingerprint": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "local_id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9._:-]{0,127}$"},
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref_type", "ref_id", "fingerprint"],
+      "properties": {
+        "ref_type": {"$ref": "#/$defs/local_id"},
+        "ref_id": {"$ref": "#/$defs/local_id"},
+        "fingerprint": {"$ref": "#/$defs/fingerprint"}
+      }
+    },
+    "artifact_ref": {
+      "allOf": [
+        {"$ref": "#/$defs/reference"},
+        {"properties": {"ref_type": {"const": "ARTIFACT"}, "ref_id": {"type": "string", "pattern": "^art_[0-9a-f]{48}$"}}}
+      ]
+    },
+    "rca_ref": {
+      "allOf": [
+        {"$ref": "#/$defs/reference"},
+        {"properties": {"ref_type": {"const": "RECONSTRUCTED_CONSOLIDATION_ARTIFACT"}, "ref_id": {"type": "string", "pattern": "^rca_[0-9a-f]{48}$"}}}
+      ]
+    },
+    "plan_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref_type", "ref_id", "fingerprint"],
+      "properties": {
+        "ref_type": {"const": "RECONSTRUCTION_PLAN"},
+        "ref_id": {"type": "string", "pattern": "^rpl_[0-9a-f]{48}$"},
+        "fingerprint": {"$ref": "#/$defs/fingerprint"}
+      }
+    },
+    "contract_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_id", "version", "fingerprint"],
+      "properties": {
+        "contract_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9.-]{2,127}$"},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "fingerprint": {"$ref": "#/$defs/fingerprint"}
+      }
+    },
+    "artifact_contracts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_rulebook", "operation_registry", "source_tree", "renderer", "alignment", "identity", "lineage", "traceability", "artifact"],
+      "properties": {
+        "source_rulebook": {"$ref": "#/$defs/contract_ref"},
+        "operation_registry": {"$ref": "#/$defs/contract_ref"},
+        "source_tree": {"$ref": "#/$defs/contract_ref"},
+        "renderer": {"$ref": "#/$defs/contract_ref"},
+        "alignment": {"$ref": "#/$defs/contract_ref"},
+        "identity": {"$ref": "#/$defs/contract_ref"},
+        "lineage": {"$ref": "#/$defs/contract_ref"},
+        "traceability": {"$ref": "#/$defs/contract_ref"},
+        "artifact": {"$ref": "#/$defs/contract_ref"}
+      }
+    },
+    "file_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "media_type", "byte_size", "fingerprint"],
+      "properties": {
+        "role": {"enum": ["TREE_EN", "TREE_ZH_HANT", "SOURCE_UNITS_EN", "SOURCE_UNITS_ZH_HANT", "RECONSTRUCTED_LOCATION_UNITS", "BILINGUAL_ALIGNMENT_MAP", "DEPENDENCY_CLOSURE_PROOF", "SOURCE_UNIT_COVERAGE_PROOF", "DERIVATION_MAP", "IDENTITY_LINEAGE_RESULT"]},
+        "path": {"enum": ["trees/en.json", "trees/zh-Hant.json", "source-units/en.jsonl", "source-units/zh-Hant.jsonl", "reconstructed-location-units.jsonl", "bilingual-alignment-map.json", "dependency-closure-proof.json", "source-unit-coverage-proof.json", "derivation-map.json", "identity-lineage-result.json"]},
+        "media_type": {"enum": ["application/json", "application/x-ndjson"]},
+        "byte_size": {"type": "integer", "minimum": 1},
+        "fingerprint": {"$ref": "#/$defs/fingerprint"}
+      }
+    },
+    "package_inventory_entry": {
+      "oneOf": [
+        {"$ref": "#/$defs/file_entry"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["role", "path", "media_type", "byte_size", "fingerprint"],
+          "properties": {
+            "role": {"const": "MANIFEST"},
+            "path": {"const": "manifest.json"},
+            "media_type": {"const": "application/json"},
+            "byte_size": {"type": "integer", "minimum": 1},
+            "fingerprint": {"$ref": "#/$defs/fingerprint"}
+          }
+        }
+      ]
+    },
+    "serving_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["serving_mode", "authority_note_template_contract_ref", "ordinary_legislation_renderer_required", "ordinary_legislation_partitioning_required", "separate_material_type_forbidden", "separate_index_or_namespace_forbidden", "traceability_lookup_required"],
+      "properties": {
+        "serving_mode": {"const": "RECONSTRUCTED_CONSOLIDATION"},
+        "authority_note_template_contract_ref": {"$ref": "#/$defs/contract_ref"},
+        "ordinary_legislation_renderer_required": {"const": true},
+        "ordinary_legislation_partitioning_required": {"const": true},
+        "separate_material_type_forbidden": {"const": true},
+        "separate_index_or_namespace_forbidden": {"const": true},
+        "traceability_lookup_required": {"const": true}
+      }
+    },
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["$schema", "contract_version", "reconstructed_consolidation_artifact_id", "artifact_class", "jurisdiction", "material", "observation_cutoff", "legal_item_ref", "reconstruction_plan_ref", "base_official_version_ref", "base_evidence_class", "applicability_decision_ref", "coverage_gap_ref", "identity_lineage_decision_ref", "contracts", "files", "serving_requirements"],
+      "properties": {
+        "$schema": {"const": "https://contracts.asklegal.local/v1/hk-legislation-reconstructed-consolidation-artifact.schema.json"},
+        "contract_version": {"const": "1.0.0"},
+        "reconstructed_consolidation_artifact_id": {"type": "string", "pattern": "^rca_[0-9a-f]{48}$"},
+        "artifact_class": {"const": "RECONSTRUCTED_CONSOLIDATION"},
+        "jurisdiction": {"const": "HK"},
+        "material": {"const": "legislation"},
+        "observation_cutoff": {"type": "string", "format": "date-time"},
+        "legal_item_ref": {"$ref": "#/$defs/reference"},
+        "reconstruction_plan_ref": {"$ref": "#/$defs/plan_ref"},
+        "base_official_version_ref": {"$ref": "#/$defs/reference"},
+        "base_evidence_class": {"enum": ["VERIFIED", "ASSISTED"]},
+        "applicability_decision_ref": {"$ref": "#/$defs/reference"},
+        "coverage_gap_ref": {"$ref": "#/$defs/reference"},
+        "identity_lineage_decision_ref": {"$ref": "#/$defs/reference"},
+        "contracts": {"$ref": "#/$defs/artifact_contracts"},
+        "files": {"type": "array", "minItems": 10, "maxItems": 10, "uniqueItems": true, "items": {"$ref": "#/$defs/file_entry"}},
+        "serving_requirements": {"$ref": "#/$defs/serving_requirements"}
+      }
+    },
+    "source_unit_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_unit", "derivation_entry_id"],
+      "properties": {
+        "source_unit": {"$ref": "https://contracts.asklegal.local/v1/hk-legislation-canonical-language-tree.schema.json#/$defs/source_unit"},
+        "derivation_entry_id": {"$ref": "#/$defs/local_id"}
+      }
+    },
+    "location_role": {"enum": ["PRIMARY_AFFECTED_CONTENT", "REQUIRED_GOVERNING_CONTEXT", "DEPENDENT_REBUILT_CONTENT", "PROVEN_INDEPENDENT_BOUNDARY"]},
+    "location_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["legal_item_ref", "legal_location_ref", "applicability_decision_ref", "operative_state_decision_ref", "en_tree_node_ids", "en_source_unit_ids", "zh_hant_tree_node_ids", "zh_hant_source_unit_ids", "bilingual_alignment_group_ids", "governing_location_refs", "dependent_location_refs", "source_order", "structural_role", "en_location_fingerprint", "zh_hant_location_fingerprint", "location_role"],
+      "properties": {
+        "legal_item_ref": {"$ref": "#/$defs/reference"},
+        "legal_location_ref": {"$ref": "#/$defs/reference"},
+        "applicability_decision_ref": {"$ref": "#/$defs/reference"},
+        "operative_state_decision_ref": {"$ref": "#/$defs/reference"},
+        "en_tree_node_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/local_id"}},
+        "en_source_unit_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/local_id"}},
+        "zh_hant_tree_node_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/local_id"}},
+        "zh_hant_source_unit_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/local_id"}},
+        "bilingual_alignment_group_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/local_id"}},
+        "governing_location_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}},
+        "dependent_location_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}},
+        "source_order": {"type": "integer", "minimum": 0},
+        "structural_role": {"$ref": "#/$defs/local_id"},
+        "en_location_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "zh_hant_location_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "location_role": {"$ref": "#/$defs/location_role"}
+      }
+    },
+    "dependency_closure_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["$schema", "contract_version", "reconstruction_plan_ref", "primary_affected_location_refs", "governing_context_location_refs", "dependent_location_refs", "independent_sibling_boundary_refs", "artifact_location_refs", "ended_location_refs", "dependency_rule", "plan_closure_proof_fingerprint", "complete", "duplicate_free", "overlap_absent", "independent_boundaries_proved"],
+      "properties": {
+        "$schema": {"const": "asklegal://contracts/hk-legislation/reconstruction-artifact/dependency-closure-proof/1.0.0"},
+        "contract_version": {"const": "1.0.0"},
+        "reconstruction_plan_ref": {"$ref": "#/$defs/plan_ref"},
+        "primary_affected_location_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}},
+        "governing_context_location_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}},
+        "dependent_location_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}},
+        "independent_sibling_boundary_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}},
+        "artifact_location_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}},
+        "ended_location_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}},
+        "dependency_rule": {"$ref": "#/$defs/contract_ref"},
+        "plan_closure_proof_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "complete": {"const": true},
+        "duplicate_free": {"const": true},
+        "overlap_absent": {"const": true},
+        "independent_boundaries_proved": {"const": true}
+      }
+    },
+    "operation_ownership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operation_instance_id", "final_source_unit_ids", "deleted_base_source_unit_ids"],
+      "properties": {
+        "operation_instance_id": {"type": "string", "pattern": "^rop_[0-9a-f]{48}$"},
+        "final_source_unit_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/local_id"}},
+        "deleted_base_source_unit_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/local_id"}}
+      }
+    },
+    "language_coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["language", "final_source_unit_ids", "final_source_unit_inventory_fingerprint", "unchanged_base_source_unit_ids", "operation_result_source_unit_ids", "deleted_base_source_unit_ids", "operation_ownership", "complete", "duplicate_free", "exact_once_primary_ownership"],
+      "properties": {
+        "language": {"enum": ["en", "zh-Hant"]},
+        "final_source_unit_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/local_id"}},
+        "final_source_unit_inventory_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "unchanged_base_source_unit_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/local_id"}},
+        "operation_result_source_unit_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/local_id"}},
+        "deleted_base_source_unit_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/local_id"}},
+        "operation_ownership": {"type": "array", "items": {"$ref": "#/$defs/operation_ownership"}},
+        "complete": {"const": true},
+        "duplicate_free": {"const": true},
+        "exact_once_primary_ownership": {"const": true}
+      }
+    },
+    "source_unit_coverage_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["$schema", "contract_version", "reconstruction_plan_ref", "languages", "repeated_serving_dependencies_primary_only", "all_deletions_accounted"],
+      "properties": {
+        "$schema": {"const": "asklegal://contracts/hk-legislation/reconstruction-artifact/source-unit-coverage-proof/1.0.0"},
+        "contract_version": {"const": "1.0.0"},
+        "reconstruction_plan_ref": {"$ref": "#/$defs/plan_ref"},
+        "languages": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/language_coverage"}},
+        "repeated_serving_dependencies_primary_only": {"const": true},
+        "all_deletions_accounted": {"const": true}
+      }
+    },
+    "derivation_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["derivation_entry_id", "language", "source_unit_id", "tree_node_id", "derivation_class", "base_source_unit_id", "primary_operation_instance_id", "prior_operation_instance_ids", "amendment_source_unit_refs", "before_state_fingerprint", "final_content_fingerprint"],
+      "properties": {
+        "derivation_entry_id": {"$ref": "#/$defs/local_id"},
+        "language": {"enum": ["en", "zh-Hant"]},
+        "source_unit_id": {"$ref": "#/$defs/local_id"},
+        "tree_node_id": {"$ref": "#/$defs/local_id"},
+        "derivation_class": {"enum": ["UNCHANGED_BASE_UNIT", "OPERATION_RESULT_UNIT"]},
+        "base_source_unit_id": {"type": ["string", "null"], "pattern": "^[A-Za-z][A-Za-z0-9._:-]{0,127}$"},
+        "primary_operation_instance_id": {"type": ["string", "null"], "pattern": "^rop_[0-9a-f]{48}$"},
+        "prior_operation_instance_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^rop_[0-9a-f]{48}$"}},
+        "amendment_source_unit_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/artifact_ref"}},
+        "before_state_fingerprint": {"oneOf": [{"$ref": "#/$defs/fingerprint"}, {"type": "null"}]},
+        "final_content_fingerprint": {"$ref": "#/$defs/fingerprint"}
+      }
+    },
+    "structural_derivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["language", "tree_node_id", "derivation_class", "base_tree_node_id", "primary_operation_instance_id", "prior_operation_instance_ids", "final_subtree_fingerprint"],
+      "properties": {
+        "language": {"enum": ["en", "zh-Hant"]},
+        "tree_node_id": {"$ref": "#/$defs/local_id"},
+        "derivation_class": {"enum": ["UNCHANGED_BASE_NODE", "OPERATION_RESULT_NODE"]},
+        "base_tree_node_id": {"type": ["string", "null"], "pattern": "^[A-Za-z][A-Za-z0-9._:-]{0,127}$"},
+        "primary_operation_instance_id": {"type": ["string", "null"], "pattern": "^rop_[0-9a-f]{48}$"},
+        "prior_operation_instance_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^rop_[0-9a-f]{48}$"}},
+        "final_subtree_fingerprint": {"$ref": "#/$defs/fingerprint"}
+      }
+    },
+    "derivation_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["$schema", "contract_version", "reconstruction_plan_ref", "entries", "structural_derivations", "complete", "generated_derivation_forbidden"],
+      "properties": {
+        "$schema": {"const": "asklegal://contracts/hk-legislation/reconstruction-artifact/derivation-map/1.0.0"},
+        "contract_version": {"const": "1.0.0"},
+        "reconstruction_plan_ref": {"$ref": "#/$defs/plan_ref"},
+        "entries": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/derivation_entry"}},
+        "structural_derivations": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/structural_derivation"}},
+        "complete": {"const": true},
+        "generated_derivation_forbidden": {"const": true}
+      }
+    },
+    "lineage_link": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["link_type", "predecessor_ref", "successor_ref", "operation_instance_id", "decision_ref", "evidence_refs"],
+      "properties": {
+        "link_type": {"enum": ["INSERTION", "REMOVAL", "REPLACEMENT", "RENUMBER", "MOVE", "SPLIT", "MERGE"]},
+        "predecessor_ref": {"oneOf": [{"$ref": "#/$defs/reference"}, {"type": "null"}]},
+        "successor_ref": {"oneOf": [{"$ref": "#/$defs/reference"}, {"type": "null"}]},
+        "operation_instance_id": {"type": "string", "pattern": "^rop_[0-9a-f]{48}$"},
+        "decision_ref": {"$ref": "#/$defs/reference"},
+        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/artifact_ref"}}
+      }
+    },
+    "identity_lineage_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["$schema", "contract_version", "legal_item_ref", "identity_lineage_decision_ref", "retained_location_refs", "new_location_refs", "ended_location_refs", "retained_source_unit_ids", "new_source_unit_ids", "ended_source_unit_ids", "lineage_links", "acyclic", "plan_inventory_reconciled"],
+      "properties": {
+        "$schema": {"const": "asklegal://contracts/hk-legislation/reconstruction-artifact/identity-lineage-result/1.0.0"},
+        "contract_version": {"const": "1.0.0"},
+        "legal_item_ref": {"$ref": "#/$defs/reference"},
+        "identity_lineage_decision_ref": {"$ref": "#/$defs/reference"},
+        "retained_location_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}},
+        "new_location_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}},
+        "ended_location_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}},
+        "retained_source_unit_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/local_id"}},
+        "new_source_unit_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/local_id"}},
+        "ended_source_unit_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/local_id"}},
+        "lineage_links": {"type": "array", "items": {"$ref": "#/$defs/lineage_link"}},
+        "acyclic": {"const": true},
+        "plan_inventory_reconciled": {"const": true}
+      }
+    },
+    "package_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reconstructed_consolidation_artifact_ref", "root_fingerprint", "inventory", "files", "report_output", "record_output", "external_effects"],
+      "properties": {
+        "reconstructed_consolidation_artifact_ref": {"$ref": "#/$defs/rca_ref"},
+        "root_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "inventory": {"type": "array", "minItems": 11, "maxItems": 11, "items": {"$ref": "#/$defs/package_inventory_entry"}},
+        "files": {"type": "object"},
+        "report_output": {"const": "NONE"},
+        "record_output": {"const": "NONE"},
+        "external_effects": {"const": "NONE"}
+      }
+    }
+  },
+  "$ref": "#/$defs/manifest"
+}

@@ -1,0 +1,22 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-materiality-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-MATERIALITY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:d3f60d29d88b57fdd03b9ce58f3d00e0a29c6bdec29d834b58adb606767c3319",
+  "workflow_result_fingerprint": "sha256:70d3482cadc742396fe925ec5dd3b6e6d9afdb03bef5887b5f1d64d9a608744b",
+  "propositions": [],
+  "unit_observations": [
+    {
+      "unit_id": "unit_1",
+      "use": "NON_PROPOSITIONAL",
+      "candidate_ids": [],
+      "handoff_ids": []
+    }
+  ],
+  "disposition": "COMPLETE_NO_PROPOSITION",
+  "handoff_ids": [],
+  "selected_candidate_ids": [],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

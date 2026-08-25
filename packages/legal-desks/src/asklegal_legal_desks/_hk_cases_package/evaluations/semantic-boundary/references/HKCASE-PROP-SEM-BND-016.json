@@ -1,0 +1,80 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "reference_map_id": "boundary_reference_map_16",
+  "model_input_fingerprint": "sha256:d0692a9d7042ab57c4b3871e5a501d20bbfa3d464e78c3acb208fefec7e34a3b",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": [
+        "opinion_2"
+      ]
+    },
+    {
+      "opinion_id": "opinion_2",
+      "role": "CONCURRENCE",
+      "judge_ids": [
+        "judge_2"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "expected_resolution": "ACCEPTED",
+      "issue_code": "ADOPTED_RELIANCE_RULE",
+      "authority_role": "ADOPTED_OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1",
+        "opinion_2"
+      ],
+      "required_meaning_codes": [
+        "REASONABLE_RELIANCE",
+        "DUE_INQUIRY"
+      ],
+      "required_boundary_codes": [
+        "EXACT_ADOPTION_SCOPE",
+        "ONE_ADOPTED_REASONING_PATH"
+      ],
+      "forbidden_boundary_codes": [
+        "INFERRED_ADOPTION"
+      ],
+      "required_range_ids": [
+        "range_1",
+        "range_2"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_2",
+      "use": "PROPOSITION_EVIDENCE",
+      "reference_proposition_ids": [
+        "reference_prop_1"
+      ]
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "expected_selected_reference_proposition_ids": [
+    "reference_prop_1"
+  ],
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

@@ -1,6 +1,6 @@
 # AskLegal Legal Database Pipeline — Delivery Roadmap
 
-Updated: 2026-08-22
+Updated: 2026-08-25
 
 ## Purpose
 
@@ -96,13 +96,13 @@ substitution.
 
 - [x] Locked Python 3.14.7, Node 24.19.0, uv 0.12.5, workspace packages,
   architecture rules, and ordinary tests exist.
-- [x] Current ordinary developer suite passes: 959 passed, 4 skipped on
-  2026-08-22 through the complete shipping command.
+- [x] Current ordinary developer suite passes: 1501 passed, 4 skipped on
+  2026-08-25 through the complete shipping command.
 - [x] Clear strict Pyright without expanding the reviewed exception register:
   current repository-wide result is 0 errors, 0 warnings, and 0 information
   messages. The complete tracked tree is included; ignored local runtime state
   under `var/` is explicitly excluded and the exact exclusion is tested.
-- [x] Resolve all formatting drift: Ruff reports all 375 Python files formatted,
+- [x] Resolve all formatting drift: Ruff reports all 443 Python files formatted,
   while the dedicated grammar gate proves every documented host entrypoint still
   parses as Python 3.12.
 - [x] Make the ordinary shipping command run strict Pyright, Ruff lint, safe
@@ -184,7 +184,7 @@ and a full source cycle produces exact durable coverage accounting.
 
 ### HKV1-3 — Admit the Hong Kong Legislation package — NOT READY
 
-- [x] Three non-overlapping scopes, 32 offline rules, strict package loader, and
+- [x] Three non-overlapping scopes, 33 offline rules, strict package loader, and
   synthetic baseline/current-update fixtures exist.
 - [x] Implement deterministic default, fixed-date, appointed-date, conditional,
   and progressive partial-commencement classification at a frozen cutoff. The
@@ -215,16 +215,37 @@ and a full source cycle produces exact durable coverage accounting.
   III, and Instruments & Others evidence paths required by each scope.
 - [ ] Complete bilingual XML/PDF identity, language/version matching, structural
   parsing, canonical rendering, official-location splitting, and real tokenizer
-  measurement.
+  measurement. Package `0.41.0` freezes the source-neutral canonical language-
+  tree and bilingual-alignment schemas, supported textual renderer, and recursive
+  official-boundary partitioner with all twenty-two byte-locked ADR 0040 cases,
+  including the explicit effect-free ADR 0005 release/routing consequence for
+  an unsafe new Official Version. The shared ADR 0078 immutable traceability
+  lookup builder constructs
+  and validates canonical per-scope shards and a root manifest. Authentic HKeL
+  XML/XSD interpretation, PDF reconciliation, remaining complex structures,
+  legislation-specific traceability entries, and exact
+  admitted-tokenizer measurement remain.
 - [ ] Bind every publication, commencement, cessation/revival, amendment,
   correction, and editorial-event decision to preserved real evidence.
-- [ ] Implement the accepted reconstruction and known-stale analytical fallback
-  gates without presenting either as HKeL current official text. The first
-  13-case decision/challenge semantic gate is complete and can emit only an
-  untrusted structured candidate. The complete 21-case deterministic ADR 0084
-  Plan validator is also complete and mints no new identity or effect; Plan
-  execution, artifact, fallback-selection, and later-HKeL reconciliation gates
-  remain.
+- [x] Execute all eight ADR 0082 operations transactionally on verified canonical
+  authentic-language trees. The executor preserves or replaces exact source-unit
+  identities as required, validates complete final inventories and bilingual
+  alignment, enforces the frozen renderer contract for OP008, rolls back every
+  provisional operation on failure, and emits no Report, artifact, record, or
+  effect. This is synthetic conformance, not real-source admission.
+- [x] Build and independently re-read the immutable ADR 0085 eleven-member
+  artifact and ADR 0084 Execution Report. All eight operations produce complete
+  source-unit, structural, bilingual, dependency, derivation, identity, and
+  lineage accounting; deletion/replacement explicitly account ended locations.
+  PASS requires the exact artifact, BLOCK emits no artifact or record, and
+  FALLBACK requires a separate validated selection reference.
+- [x] Complete the remaining accepted reconstruction and known-stale analytical
+  fallback gates without presenting either as HKeL current official text. The
+  13-case decision/challenge semantic gate, 21-case deterministic ADR 0084 Plan
+  validator, schema/rule/catalogue/13-case canonical Plan executor, immutable ADR
+  0085 artifact, ADR 0084 Report, 12-case exact known-stale fallback selection,
+  and 12-case later-HKeL monitoring/reconciliation are complete. These gates are
+  source-neutral synthetic conformance and do not admit authentic HKeL formats.
 - [ ] Build complete-universe baseline, ordinary update, no-change, quarantine,
   withholding, Waiting Room, identity continuity, disposition, release
   accounting, and Coverage Gap fixtures from adjudicated real reference truth.
@@ -237,12 +258,125 @@ Exit gate: all three Hong Kong Legislation Corpus Releases account for every
 item at the frozen cutoff, contain only supported operative bilingual records,
 and reproduce byte-identically from retained evidence.
 
-### HKV1-4 — Build and admit Hong Kong Cases — NOT STARTED
+### HKV1-4 — Build and admit Hong Kong Cases — IN PROGRESS
 
-- [ ] Create an executable Hong Kong Cases package; none exists today.
-- [ ] Implement the official Judiciary judgment-listing source register and prove
-  complete enumeration for CFA, CA, CFI, Competition Tribunal, and the accepted
-  pre-1997 superior/Privy Council historical scopes.
+- [x] Create a source-neutral executable Hong Kong Cases package. Frozen package
+  `0.11.0` preserves the ADR 0046/0048 listing-accounting fixture, seven source
+  roles, six evidence-gated scope families, and the executable ADR 0062 Coverage
+  Ledger rule with all 20 permanent deterministic structure/ledger cases plus
+  the ADR 0060-0063 output rule with all 16 deterministic candidate/evidence/
+  renderer/output cases and the final 18 correction/package/security/workflow-
+  identity cases. It
+  deliberately contains zero concrete court-year scopes, semantic profiles,
+  evaluations, or activation authority and remains `NOT_READY`.
+- [x] Implement the source-neutral official-listing accounting kernel. It derives
+  exact `HK-CASE-{COURT_FAMILY}-{DECISION_YEAR}` ownership for CFA, CA, CFI,
+  Competition Tribunal, historical superior-court, and Hong Kong Privy Council
+  families; enforces all six ADR 0048 acquisition outcomes; keeps translations,
+  duplicates, exclusions, unavailable items, and Quarantine distinct; separates
+  inventory, originating-evidence, processing, and zero/one/many-record results;
+  and mechanically rejects HKLII as completeness evidence. Its closed seven-
+  role source universe separates current inventory, original wording, registry
+  fallback, Judiciary Library history, Privy Council history, optional
+  translations, and HKLII discovery. Its six-family registry names current and
+  historical inventory ownership without inventing concrete year boundaries.
+  A separate freeze function generates concrete court-year scopes only from one
+  complete sorted six-family evidence-bound set; active ranges must reach the
+  cutoff and historical ranges cannot drift beyond 1997. Seventeen synthetic
+  cases pass; no real source coverage is claimed.
+- [x] Implement the deterministic Case Proposition Coverage Ledger checkpoint.
+  It proves exact opinion/unit inventory, primary source coverage and order,
+  dependency fingerprints and cross-opinion adoption, one resolution and use
+  per unit, candidate accounting, zero-proposition, Quarantine, blocked, and
+  invalid outcomes across `HKCASE-PROP-DET-LED-001` through `020`. This completes
+  20 of ADR 0064's 132 cases and emits no Search Record or semantic authority.
+- [x] Implement the deterministic candidate, evidence, renderer, and output
+  checkpoint. All 16 `HKCASE-PROP-DET-OUT-NNN` cases and pairs P022-P025 now
+  execute exact candidate arithmetic, required evidence roles, UTF-8 source
+  ranges/quotation bytes, traceability, canonical labelled text, six-field
+  payloads, zero/one/many inventories, and hard token/byte-limit behavior. The
+  first two deterministic checkpoints are 36/132 and remain source-neutral.
+- [x] Complete the deterministic correction, package, security, and workflow-
+  identity checkpoint. All 18 `HKCASE-PROP-DET-ADM-NNN` cases and pairs
+  P026-P030 prove exact unchanged reuse, official/split/merge/new/partial
+  correction consequences, immutable impact history, explicit completeness of
+  all 132 case IDs, 132 primary coverage cells, and 31 pair roles, packet non-
+  leakage, sealed external-artifact matching, two-run reproducibility, denial
+  of every forbidden capability, and full workflow fingerprint equality. The
+  complete 54-case deterministic universe now executes. An exact match is only
+  eligible for a later dual-attested workflow admission; no admission, provider
+  call, Search Record, release, deployment, or real-source claim is created.
+- [x] Implement the source-neutral ADR 0065/0066 semantic-task preflight. The
+  two stable task families and all eight closed request kinds now require exact
+  workflow, judgment, opinion/unit, assignment, original-language byte/range,
+  dependency, prior-stage, allowed-object, evidence-role, and constraint
+  bindings. Eight supplementary schema-validated package fixtures execute and
+  reproduce. `VALID_REQUEST` authorizes no provider call, accepts no semantic
+  result, creates no record or release, and deliberately counts as zero of the
+  78 frozen semantic correctness cases.
+- [x] Execute the first frozen semantic checkpoint. All 18 `SEM-MAT` cases use
+  separately permissioned model-facing inputs, evaluator-only Reference
+  Proposition Maps, adjudicated observations, and a fact-derived comparator
+  that never receives the case ID. It proves propositions versus true zeroes,
+  familiar application, adopted versus unadopted quotation/submission,
+  material obiter, several-issue output, exact non-contiguous support,
+  citation/treatment handoffs, and extraction-versus-downstream-zero. Six
+  complete within-checkpoint high-risk pairs reject cross-member results; P019
+  is completed by `SEM-RSK-016` in the fourth checkpoint. This is synthetic evaluator conformance,
+  not a provider run, workflow admission, sealed real evaluation, or release.
+- [x] Execute the second frozen semantic checkpoint. All 18 `SEM-CNT` cases use
+  the same separated model-facing input, evaluator-only Reference Proposition
+  Map, and adjudicated-observation boundary. The fact-derived evaluator checks
+  qualifications, exceptions, definitions, burdens, thresholds, minimum
+  context, applications, results, exact quotation bytes, smallest ordered
+  non-contiguous evidence sets, structured elements, dependencies, complete
+  unit accounting, unresolved ambiguity, missing exact locators, quarantined
+  broadened paraphrases, and faithful equivalent wording without preferred-
+  prose equality or case-ID switching. Pairs P006-P008 reject both cross-member
+  observations. Together `SEM-MAT` and `SEM-CNT` execute 36/78 synthetic
+  semantic cases. No provider call, workflow admission, authentic
+  judgment evidence, Search Record, release, or external effect is created.
+- [x] Execute the third frozen semantic checkpoint. All 22 `SEM-BND` cases use
+  the same separated model-facing input, evaluator-only Reference Proposition
+  Map, and adjudicated-observation boundary. The fact-derived evaluator checks
+  cumulative tests versus independent grounds, repetition versus distinct
+  branches, issue scope, exact opinion paths, joint and agreement-only opinions,
+  concurrence, dissent, obiter, plurality, express adoption, evidence ranges,
+  unit accounting, selection, and quarantine. Pairs P009-P015 reject both
+  cross-member observations; unsupported plurality reasoning remains separately
+  attributed and quarantined rather than becoming a manufactured majority.
+  Together `SEM-MAT`, `SEM-CNT`, and `SEM-BND` execute 58/78 synthetic semantic
+  cases at this checkpoint. No provider call, workflow
+  admission, authentic judgment evidence, Search Record, release, or external
+  effect is created.
+- [x] Execute the fourth and final frozen semantic checkpoint. All 20 `SEM-RSK`
+  cases preserve exact original-language and court authority, auxiliary-only
+  translation use, mixed-language and historical formats, complete segment and
+  dependency accounting, supported parser structure, honest serving-limit
+  split or quarantine, uncertainty quarantine, source-text-as-evidence handling
+  for hostile quoted instructions, and immutable corrected-reasons re-
+  evaluation. Pairs P016-P018 reject cross-member observations and
+  `SEM-RSK-016` completes P019 against `SEM-MAT-017`. All 78 frozen synthetic
+  semantic cases now execute. This is still evaluator conformance, not provider
+  execution, sealed real-judgment evaluation, workflow admission, or release.
+- [x] Execute the first frozen later-treatment checkpoint. All 13
+  `HKCASE-TREAT-SEM-DIS-NNN` whole-judgment discovery cases use strict separated
+  model-facing inputs, evaluator-only truth, and post-run observations. They
+  prove complete opinion/segment and formal/implicit-lead accounting, material
+  candidate discovery, separate majority/dissent attribution, zero-proposition
+  independence, unresolved identity, correction comparison, original Chinese
+  and mixed-language handling, and P001 complete-context versus silent-
+  truncation rejection. This is 13/155 treatment cases and 13/53 treatment
+  semantic cases. Discovery makes no substantive treatment class or legal-
+  effect decision and authorizes no provider call, relationship, Search Record,
+  release, activation, or external effect.
+- [ ] Implement and admit the official Judiciary judgment-listing connectors and
+  prove complete enumeration for CFA, CA, CFI, Competition Tribunal, and the
+  accepted pre-1997 superior/Privy Council historical scopes. Strict source-
+  access register `2026-08-24.1` now freezes all seven roles, their exact fact/
+  completeness/outage authority, and all current admission blockers. It has
+  zero endpoints and expressly forbids real source access; no connector or
+  enumeration claim exists yet.
 - [ ] Preserve every listing, decision, official artifact, correction/reissue,
   alias, proceeding number, language, and official translation with exact
   accounting; use HKLII only as the accepted non-controlling cross-check.
@@ -252,7 +386,7 @@ and reproduce byte-identically from retained evidence.
   later-treatment workflow with exact supporting passages, attribution,
   plurality/dissent handling, uncertainty, challenge, and legal review.
 - [ ] Build the current-authority treatment graph, authority-note selection,
-  exact retirement/reselection behavior, Quarantine, Coverage Ledger, and
+  exact retirement/reselection behavior, Quarantine, full semantic/output ledger, and
   corpus-wide later-treatment reconciliation.
 - [ ] Create protected evaluation suites, reference proposition maps, blinded
   adjudication, multilingual/cross-language retrieval tests, workflow profiles,
@@ -265,21 +399,107 @@ Exit gate: every official listing in every promised court/year scope is
 accounted for, every searchable proposition is supported by exact judgment
 passages and current treatment evidence, and the Cases package is `READY`.
 
-### HKV1-5 — Build and admit HKEX Regulatory Materials — NOT STARTED
+### HKV1-5 — Build and admit HKEX Regulatory Materials — IN PROGRESS
 
-- [ ] Create the executable Hong Kong Regulatory Materials package; none exists
-  today.
+- [x] Create the executable Hong Kong Regulatory Materials package. Frozen
+  package `0.14.0` now contains the accepted Main Board and GEM ownership scopes,
+  five-role source universe, the inventory fixture, strict source-neutral ADR
+  0071 branch-state contract with 22 frozen cases, strict component-continuity
+  contract with 15 frozen cases, strict ADR 0073 English tree/render/partition/
+  coverage contract with eight frozen cases, strict immutable record identity/
+  traceability contract with eight frozen cases, the complete frozen ADR 0075
+  identity universe of 284 permanent cases/cells and all 57 high-risk pairs,
+  the complete executable 38-case package-integrity checkpoint and pairs
+  P050–P056, the complete executable 62-case Source Fact Authority/membership/
+  ownership/language checkpoint and pairs P001–P015, and eleven exact blockers.
+  It also contains the complete executable 51-case Applicability-branch
+  effective-state/transition checkpoint and pairs P016–P024. Atomic branch truth
+  is derived by ADR 0071; the strict wrapper separately preserves component
+  summaries, branch sets, record responsibilities, effective-fact ordering,
+  ADR 0005 outage consequences, gate denial, and UNKNOWN-repair rejection.
+  Package-integrity results are derived from closed virtual-package facts.
+  Source-decision results enumerate exact due source roles and compare every
+  structured decision field against separately frozen truth; neither evaluator
+  selects an answer from case ID. The complete executable 30-case Record
+  Boundary, governing-dependency, definition, source-structure, cross-reference,
+  and hard-limit checkpoint now preserves complete units, minimum dependency
+  closure, exact referring words and both board identities without target text,
+  explicit background exclusions, exact quarantine identities, and pairs
+  P025–P031. The complete executable 35-case Canonical English rendering,
+  table, fee, Regulatory Form, English-only serving, measurement, and
+  authority-note checkpoint preserves exact artifact bytes, both measurements,
+  source element closure, identity consequences, and P032–P037/P057 while
+  rejecting incomplete projections and Chinese serving paths. The complete
+  executable 24-case Exact-limit measurement and official-structure partition
+  checkpoint executes the accepted ADR 0073 recursive partitioner, preserves
+  exact final groups, labels, both measurements, branch isolation, quarantine,
+  and Coverage Gap identities, rejects unsupported cuts/context removal, and
+  completes P038–P040 without case-ID switching. The complete executable
+  20-case English source-unit coverage and per-board readiness checkpoint reuses
+  the accepted ADR 0073 coverage proof, binds exact primary/context/presentation
+  ownership, source order, board isolation and fidelity, rejects missing,
+  duplicate, orphaned, wrong-board and proxy-count substitutions, preserves
+  valid zero-output boards, and completes P041–P045 without case-ID switching.
+  The final 24-case Search Record identity, lineage, and traceability checkpoint
+  reuses the accepted immutable identity and component-continuity decisions,
+  distinguishes exact reuse/reselection from every six-field successor,
+  validates complete lookup ownership and one-to-one/split/merge lineage, and
+  rejects cycles, collisions, drift, or similarity-only continuity. All 284
+  permanent cases and all 57 pairs are therefore executable across the complete
+  eight-checkpoint source-neutral case universe. Authentic-source evaluation,
+  protected reference truth, generic terminal-rule inventory, profiles, both
+  real scope admissions, and activation authority remain empty, so the package
+  remains `NOT_READY` and cannot claim authentic-source conformance.
+- [x] Produce the separate immutable source-neutral Regulatory Rulebook
+  Conformance Attestation outside the package. Attestation
+  `rba_3934c1b573cb9a346ce131715d23db85981986644d96e389` binds exact package
+  `0.14.0`, the 284-case suite and complete result inventory, 39 processing
+  source members, dependency lock, isolated runner, contract set, two
+  byte-identical clean runs, and the successful architecture report. It grants
+  `BUILD_COMPATIBILITY` only; source access, real-source evaluation, release,
+  Approval, Pinecone, deployment, and activation remain false.
 - [ ] Implement and admit the accepted lean five-role HKEX source register and
   source-specific connectors without broad website crawling.
 - [ ] Freeze complete Main Board and GEM Rule Component Inventories covering
   Chapters, rules, notes, appendices, Practice Notes, Regulatory Forms, Fees
-  Rules, and explicit exclusions.
+  Rules, and explicit exclusions. The first deterministic accounting kernel now
+  keeps five-source observations, source-entry membership, component ownership/
+  structure, branch-derived state, disposition, processing, and per-board
+  candidate readiness separate. It never claims serving readiness.
 - [ ] Implement exact branch-level effective state, transitional/future material,
   publication evidence, approval inference, movement/renumbering, structure,
-  identity, and component ownership.
+  identity, and component ownership. Deterministic contract `1.0.0` now binds one
+  branch, component, board, Legal Location, cutoff, update/current-product
+  ranges, finality/approval basis, fixed date or all/any trigger facts,
+  transition/cohort, predecessor/successor, uncertainty, source-failure choice,
+  rule, and evidence fingerprint. It proves the seven branch states and separate
+  disposition/processing results without clock-only promotion, missing-trigger
+  inference, disappearance-as-retirement, reconstructed wording, a Search
+  Record, or serving authority. A second contract now proves exact identity
+  consequences for unchanged, URL move, rename, renumber, structural move,
+  correction, replacement, split, merge, board transfer, official withdrawal,
+  disappearance, reappearance, and genuinely new components. Register-issued
+  identity is never derived from aliases or similarity; new one-to-one, one-to-
+  many, many-to-one, and cross-board identities remain unissued until the
+  Management Register acts. Authentic source decisions and complete real
+  structure/ownership reconciliation remain.
 - [ ] Implement deterministic English serving records, controlled authority
   notes, source traceability, scope isolation, Quarantine, and complete release
-  accounting.
+  accounting. Source-neutral contract `1.0.0` now validates one complete ordered
+  prevailing-English tree per exact applicability branch, independent normal
+  record roots, transitive minimum governing context, exact source order and
+  single-parent partition ownership, cross-reference labels without target-text
+  copying, table/fee/Form completeness, NFC/LF canonical six-field rendering,
+  independent exact text-token and metadata-byte measurement, minimum-part
+  earliest-full official-child partitioning with actual labels, complete
+  primary/context/presentation accounting, Waiting Room/history/Quarantine, and
+  strict request/result decoding. It explicitly issues no Search Record and
+  grants no serving authority. A linked source-neutral identity/traceability
+  contract now preserves or reselects exact payloads, requires register-issued
+  initial or forward-successor IDs for unseen payloads, forbids backward lineage
+  on reselection, and emits a complete material traceability seed without
+  allocating an ID or mutating selection. Authentic HKEX trees, exact admitted
+  tokenizer, real register allocation/selection, and release accounting remain.
 - [ ] Prove Traditional Chinese and cross-language query quality for the selected
   multilingual retrieval/answer workflow even though serving text is English.
 - [ ] Freeze evaluations, model/embedding profiles, owners, legal/system
@@ -336,6 +556,15 @@ Exit gate: exact fingerprinted model, embedding, and target profiles are
 - [x] The complete M6 release, Approval, desired-state, backup, routing, rollback,
   and retirement behavior passes with deterministic local fakes.
 - [x] Six-field serving metadata is now carried in the current source branch.
+- [x] Build the exact shared ADR 0078 Record Traceability Lookup revision from
+  one Desired-State Inventory. It creates one canonical NDJSON shard per scope,
+  including zero-entry shards, and proves every record/profile/identity/
+  evidence/authority-note/scope/release/count/fingerprint binding before a
+  canonical root manifest is frozen.
+- [x] Replace the flattened synthetic `RECORD_TRACEABILITY` proposal member with
+  the exact lookup-root and shard inventory, then make Control, Review, and
+  Promotion independently read back and validate every declared immutable shard.
+  A root digest alone must not substitute for transitive byte verification.
 - [x] Remove the direct control-plane path that promotes an arbitrary model
   decision or `INSUFFICIENT_EVIDENCE` result.
 - [ ] Require immutable Corpus Releases, complete Desired-State Inventory,
@@ -355,7 +584,8 @@ Exit gate: exact fingerprinted model, embedding, and target profiles are
   effect intent. Migration `000004` projects that decision to Review and
   Promotion with direct fact-table access denied. Promotion now reconstructs
   the exact approved candidate after restart, independently rereads all twelve
-  Primary Vault objects, revalidates the executable manifest, decision,
+  fixed proposal objects plus every declared traceability shard, and revalidates
+  the executable manifest, decision,
   historical/current authority evidence, predicates, base state, command
   window, and one exact execution lineage. Migration `000005` gives only the
   Promotion role one specialized atomic single-use consumption procedure,
@@ -369,8 +599,18 @@ Exit gate: exact fingerprinted model, embedding, and target profiles are
   Migration `000007` now creates the Promotion-only no-effect
   `EXECUTION_PLANNED -> EXECUTION_AUTHORIZED` transition only after independently
   matching the exact consumed proposal, decision, manifest, `exe_` lineage,
-  worker identity, and validation evidence. Migrations `000003` through `000007`
-  pass a fresh disposable SQL Server proof.
+  worker identity, and validation evidence. Migration `000008` adds the
+  Promotion-only atomic `EXECUTION_AUTHORIZED -> EXECUTION_RUNNING` transition
+  and first exact Effect Intent. It binds the authorized lineage, approved
+  first-action bytes, exact capability-profile reference, and current
+  capability-evidence reference. Migration `000009` adds exact owner-scoped
+  readback of a currently fenced claim. The disabled first-intent handler
+  validates the canonical claimed intent and current action/capability
+  authority, renews the fence, records one sanitized attempt, reconciles a prior
+  unreceipted attempt instead of repeating it, and records only a strict terminal
+  receipt through an injected fake. Migrations `000003` through `000009` pass a
+  fresh disposable SQL Server proof. No handler is registered and no provider
+  effect is performed.
   Restart reconstruction, exact replay, competing decision, consumption, or
   terminal transition, role removal, stale version, manifest drift, and decision
   tamper fail closed. A shared semantic contract now validates all eleven
@@ -383,12 +623,22 @@ Exit gate: exact fingerprinted model, embedding, and target profiles are
 - [ ] Install command-bound write authority for the approved manifest. The
   retired `PROMOTION_WRITE_AUTHORIZED=true` deployment flag is now inert and the
   real service registers no effect handler. Durable no-effect authorization is
-  now proved, but the separately guarded `BEGIN` transition, first Effect Intent,
-  admitted capability/profile bindings, and effect handler remain unwired. The
-  current executable M6 manifest still exposes only opaque action IDs and a
-  global capability boolean; it must bind exact per-action effect, capability
-  profile, destination, retry/stop, pre/postcondition, and compensation authority
-  before `BEGIN` can safely create an intent.
+  now proved. Promotion Manifest action contract `1.0.0` has replaced opaque
+  action IDs and the global capability boolean with an ordered, exact per-action
+  effect type, owner, checkpoint, immutable inputs, effect-command fingerprint,
+  capability-profile reference, destination class, idempotency key, retry/deadline/
+  stop policy, remote precondition, success postcondition, and explicit
+  compensation. Control/Promotion and Review independently reject extra,
+  missing, misbound, stale-profile, or broadened action authority. The guarded
+  `BEGIN` service now resolves current exact capability evidence and migration
+  `000008` atomically appends version 2 plus the first Effect Intent. Restart,
+  exact replay, lost acknowledgement, stale/missing/misbound capability,
+  changed action, command tamper, and competing `BEGIN` fail closed. Real
+  capability-evidence composition and the proved first-intent handler remain
+  unwired and disabled. Migration `000009` keeps claim readback behind exact
+  owner and fencing-token checks; stale authority cancels before an attempt,
+  missing authority cannot invent a receipt, and a prior unreceipted attempt is
+  reconciled rather than repeated.
 - [ ] Carry and compare approved serving/text/profile fingerprints across every
   durable hop. The dormant serving-payload mapper now compares its received
   claim, but the complete approved durable chain is not implemented.
@@ -525,7 +775,7 @@ and a working call is not a deployment profile or an evaluation.
 | Area | Current state | Evidence or remaining gap |
 |---|---|---|
 | Overall design and architecture | **DESIGN ACCEPTED** | Architecture and implementation-facing design are accepted through ADR 0099, including all six M2–M7 protocols |
-| Hong Kong legal-policy design | Complete ordinary offline path and expanding official-source boundary implemented; real scopes `NOT_READY` | The package binds 14 source roles and all three scopes; 32 offline rules cover first-baseline, ordinary current update through complete release accounting, missing-consolidation routing, exact publication/enactment, commencement, cessation/revival, amendment/express-correction/editorial-event routing, and the bounded Reconstruction Plan decision/challenge semantic gate in 195 synthetic cases. Even the confirmed semantic result remains an untrusted candidate for later deterministic Plan validation. The readiness contract is generated from the complete frozen rule/fixture inventory. The strict source register binds 79 endpoints and records legal-team clearance for all roles; five roles are configured, five partially configured, one is technically blocked, and three are outside V1 scope. Technical reporting accounts for all roles, item URL binding is implemented, bilingual inventories are atomic, and bounded direct plus isolated Patchright discovery is proved. Real evidence, adjudicated evaluation, complete reconstruction/fallback proof, complete-universe proof, and activation remain. |
+| Hong Kong legal-policy design | Complete ordinary offline path and expanding official-source boundary implemented; real scopes `NOT_READY` | The package binds 14 source roles and all three scopes; 39 offline rules cover first-baseline, ordinary current update through complete release accounting, missing-consolidation routing, exact publication/enactment, commencement, cessation/revival, amendment/express-correction/editorial-event routing, the bounded Reconstruction Plan decision/challenge semantic gate, complete deterministic Plan validation, canonical effect-free Plan execution, the immutable eleven-member reconstruction artifact, the complete success/no-output Execution Report, exact known-stale fallback selection, later-HKeL monitoring/reconciliation, and all 22 source-neutral recursive bilingual serving-partition conditions in 277 synthetic cases. The readiness contract is generated from the complete frozen rule/fixture inventory. The strict source register binds 79 endpoints and records legal-team clearance for all roles; five roles are configured, five partially configured, one is technically blocked, and three are outside V1 scope. Technical reporting accounts for all roles, item URL binding is implemented, bilingual inventories are atomic, and bounded direct plus isolated Patchright discovery is proved. Real evidence, authentic-format and remaining Schedule/Form support, adjudicated evaluation, complete-universe proof, and activation remain. |
 | Normative machine contracts | Foundation through M6 contracts complete | Repository-owned Draft 2020-12 package 1.5.0 covers 74 shared objects and 27 cross-cutting fixtures, adding proposal-package and exact embedding profile/request/receipt contracts |
 | Python and Management Register foundations | All seven M1 checkpoints complete | Python 3.14.7 contract/type/package/architecture gates, synthetic image admission, the independent Node oracle, and separate real SQL Server and Durable Task emulator proofs pass |
 | Domain kernel and Management Register | **M2 COMPLETE** | Five lifecycle machines, operation objects, re-entry, typed store/fake, exact SQL prefix, procedures, ledger, recovery, and conformance proofs pass |
@@ -1133,8 +1383,9 @@ Exit gate:
    prove the complementary HKeL backcapture/recovery role without treating it
    as an upstream substitute. The stable
    Hong Kong Legislation baseline/current-update checkpoints exist but all three
-   scopes remain `NOT_READY`. Hong Kong Cases, HKEX Regulatory Materials, and
-   Hong Kong Principles have no executable real package; the Principles scope
+   scopes remain `NOT_READY`. Hong Kong Cases has a frozen non-activatable
+   package foundation but no executable real package; HKEX Regulatory Materials
+   and Hong Kong Principles have no executable real package; the Principles scope
    additionally needs publisher/source/licence selection before “full Hong Kong
    jurisdiction” is an honest release claim.
 4. **V1 admission work:** first close the live promotion trust-chain defects and

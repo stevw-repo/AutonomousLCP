@@ -1,0 +1,61 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-materiality-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-MAT-014",
+  "coverage_cell_id": "HKCASE-PROP-COV-SMAT-014",
+  "pair_memberships": [],
+  "scenario": "One judgment resolves several independently searchable legal issues",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-materiality-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "semantic_execution_14",
+    "judgment_work_id": "semantic_judgment_14",
+    "judicial_decision_id": "synthetic_decision_14",
+    "official_version_id": "synthetic_version_14",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "Jurisdiction exists only where the statutory gateway is satisfied.",
+        "text_fingerprint": "sha256:cea0fb1eb43fa072fc48cae57d1c6cbb8b3c2e7afffcda8e051b9237b6e7c316",
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "exact_text": "The limitation period begins when the claimant knows the essential facts.",
+        "text_fingerprint": "sha256:75fe4d04ed1612f856720ce7a2c8e05652471583a4b120dfb497af9f26d845e1",
+        "range_id": "range_2"
+      },
+      {
+        "unit_id": "unit_3",
+        "opinion_id": "opinion_1",
+        "source_order": 3,
+        "exact_text": "Restitution requires failure of the basis on which the payment was made.",
+        "text_fingerprint": "sha256:6b839cd012dec4f4516db143d8db26c67011804bf0d2db32bf4abc2019a10e06",
+        "range_id": "range_3"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-materiality/references/HKCASE-PROP-SEM-MAT-014.json",
+  "observation_path": "evaluations/semantic-materiality/observations/HKCASE-PROP-SEM-MAT-014.json",
+  "expected_path": "expected/semantic-materiality/HKCASE-PROP-SEM-MAT-014.json"
+}

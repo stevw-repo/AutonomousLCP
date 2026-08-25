@@ -1,0 +1,388 @@
+{
+  "rule_id": "HKLEG-RECON-EXEC-001",
+  "rule_trace": [
+    "HKLEG-RECON-PLAN-001",
+    "HKLEG-RECON-EXEC-001"
+  ],
+  "processing_outcome": "PASS",
+  "reason_codes": [
+    "RECONSTRUCTION_OPERATIONS_PROVISIONALLY_COMPLETE"
+  ],
+  "reconstruction_plan_id": "rpl_000000000000000000000000000000000000000000000001",
+  "reconstruction_plan_fingerprint": "sha256:69e7418b6c29abe6e6a1f1052a0a9d611a16cf81ad8d32d823914d9430f1cfea",
+  "execution_mode": "OFFLINE_SYNTHETIC_CONFORMANCE",
+  "operation_results": [
+    {
+      "language": "en",
+      "operation_instance_id": "rop_000000000000000000000000000000000000000000000001",
+      "operation_type_id": "HKRECON-OP-006",
+      "atomic_group_id": "atomic-group-0001",
+      "result": "APPLIED",
+      "actual_target_count": 1,
+      "matched_location_ids": [
+        "loc_000000000000000000000000000000000000000000000002"
+      ],
+      "matched_source_unit_ids": [
+        "en_unit_000000000000000000000002_label"
+      ],
+      "actual_before_state_fingerprint": "sha256:9d3dd9644ebd1386b9c0b2bc4c91f5c409311c0c20eb5ca775776a01f12065f2",
+      "actual_after_state_fingerprint": "sha256:e6debf686fb37fe9472e9489f5c9ab5ca74d8e5c20550166c8f0c14e2812bf81",
+      "provisional_output_tree_fingerprint": "sha256:068a6185088bde31190fe67998010c0ff87c8f678700359a69d6b31aad20ad34",
+      "reason_codes": [
+        "RECONSTRUCTION_OPERATION_APPLIED"
+      ],
+      "atomic_group_result": "APPLIED"
+    },
+    {
+      "language": "zh-Hant",
+      "operation_instance_id": "rop_000000000000000000000000000000000000000000000002",
+      "operation_type_id": "HKRECON-OP-006",
+      "atomic_group_id": "atomic-group-0001",
+      "result": "APPLIED",
+      "actual_target_count": 1,
+      "matched_location_ids": [
+        "loc_000000000000000000000000000000000000000000000002"
+      ],
+      "matched_source_unit_ids": [
+        "zh_unit_000000000000000000000002_label"
+      ],
+      "actual_before_state_fingerprint": "sha256:f0e2ca594504bcadef863eca11426a48dd34d8d2df6c7fb81aaa6b598492c519",
+      "actual_after_state_fingerprint": "sha256:d02d25dc59d075c79efa3abb8a2ee44642d38abc0f384fd7466663445635e673",
+      "provisional_output_tree_fingerprint": "sha256:7a225c0716accacb4872f0445e6d8a31ecdcbb03eeef5509fb15929e8ab1c797",
+      "reason_codes": [
+        "RECONSTRUCTION_OPERATION_APPLIED"
+      ],
+      "atomic_group_result": "APPLIED"
+    }
+  ],
+  "provisional_language_trees": [
+    {
+      "$schema": "https://contracts.asklegal.local/v1/hk-legislation-canonical-language-tree.schema.json",
+      "contract_version": "1.0.0",
+      "source_format": "SYNTHETIC_BASE",
+      "language": "en",
+      "legal_item_ref": {
+        "ref_type": "LEGAL_ITEM",
+        "ref_id": "li_reconstruction_test",
+        "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      "root_node_id": "node_000000000000000000000001",
+      "nodes": [
+        {
+          "tree_node_id": "node_000000000000000000000001",
+          "language": "en",
+          "legal_item_ref": {
+            "ref_type": "LEGAL_ITEM",
+            "ref_id": "li_reconstruction_test",
+            "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "legal_location_ref": {
+            "ref_type": "LEGAL_LOCATION",
+            "ref_id": "loc_000000000000000000000000000000000000000000000001",
+            "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+          },
+          "structural_type": "INSTRUMENT",
+          "parent_node_id": null,
+          "sibling_order": 0,
+          "owned_source_unit_ids": [
+            "en_unit_000000000000000000000001_title"
+          ],
+          "child_node_ids": [
+            "node_000000000000000000000002"
+          ],
+          "node_content_fingerprint": "sha256:6837a47820be17706748c86dee108c5e0f6ffa83d0750619c9df582de0fb5865",
+          "subtree_fingerprint": "sha256:a9f2130bae6596ce102c6cea96902903fbda109052f090f37e03d8faa813af90"
+        },
+        {
+          "tree_node_id": "node_000000000000000000000002",
+          "language": "en",
+          "legal_item_ref": {
+            "ref_type": "LEGAL_ITEM",
+            "ref_id": "li_reconstruction_test",
+            "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "legal_location_ref": {
+            "ref_type": "LEGAL_LOCATION",
+            "ref_id": "loc_000000000000000000000000000000000000000000000002",
+            "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+          },
+          "structural_type": "PROVISION",
+          "parent_node_id": "node_000000000000000000000001",
+          "sibling_order": 0,
+          "owned_source_unit_ids": [
+            "en_unit_000000000000000000000002_label",
+            "en_unit_000000000000000000000002_body"
+          ],
+          "child_node_ids": [],
+          "node_content_fingerprint": "sha256:aadebce377b9aad7944b00c2f0c8279c6e61847550c1da34e9c17b102b678ebf",
+          "subtree_fingerprint": "sha256:00c3a098357727663bc3b44bef2a33f8f5b2433310640057bc276546a70c0314"
+        }
+      ],
+      "source_units": [
+        {
+          "source_unit_id": "en_unit_000000000000000000000001_title",
+          "language": "en",
+          "tree_node_id": "node_000000000000000000000001",
+          "legal_item_ref": {
+            "ref_type": "LEGAL_ITEM",
+            "ref_id": "li_reconstruction_test",
+            "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "legal_location_ref": {
+            "ref_type": "LEGAL_LOCATION",
+            "ref_id": "loc_000000000000000000000000000000000000000000000001",
+            "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+          },
+          "unit_kind": "INSTRUMENT_TITLE",
+          "content": "Reconstruction Test en",
+          "asset_ref": null,
+          "source_order": 0,
+          "content_fingerprint": "sha256:8efdc7ca735c5780f2e6da7ef4660dd5eacd3dbc9ec8ffeac6b4280729682ae3"
+        },
+        {
+          "source_unit_id": "en_unit_000000000000000000000002_label",
+          "language": "en",
+          "tree_node_id": "node_000000000000000000000002",
+          "legal_item_ref": {
+            "ref_type": "LEGAL_ITEM",
+            "ref_id": "li_reconstruction_test",
+            "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "legal_location_ref": {
+            "ref_type": "LEGAL_LOCATION",
+            "ref_id": "loc_000000000000000000000000000000000000000000000002",
+            "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+          },
+          "unit_kind": "STRUCTURAL_LABEL",
+          "content": "1A",
+          "asset_ref": null,
+          "source_order": 0,
+          "content_fingerprint": "sha256:f235e81f274795ddfbb9b5a97f9df6367a87e29926c48b3ba2e0e62d37ffaa13"
+        },
+        {
+          "source_unit_id": "en_unit_000000000000000000000002_body",
+          "language": "en",
+          "tree_node_id": "node_000000000000000000000002",
+          "legal_item_ref": {
+            "ref_type": "LEGAL_ITEM",
+            "ref_id": "li_reconstruction_test",
+            "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "legal_location_ref": {
+            "ref_type": "LEGAL_LOCATION",
+            "ref_id": "loc_000000000000000000000000000000000000000000000002",
+            "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+          },
+          "unit_kind": "BODY_TEXT",
+          "content": "same-en",
+          "asset_ref": null,
+          "source_order": 1,
+          "content_fingerprint": "sha256:b79560f5984e64f6a3bb43c10e965cb35c538fb198e8108ba56417fc7f764dd2"
+        }
+      ]
+    },
+    {
+      "$schema": "https://contracts.asklegal.local/v1/hk-legislation-canonical-language-tree.schema.json",
+      "contract_version": "1.0.0",
+      "source_format": "SYNTHETIC_BASE",
+      "language": "zh-Hant",
+      "legal_item_ref": {
+        "ref_type": "LEGAL_ITEM",
+        "ref_id": "li_reconstruction_test",
+        "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      "root_node_id": "node_000000000000000000000001",
+      "nodes": [
+        {
+          "tree_node_id": "node_000000000000000000000001",
+          "language": "zh-Hant",
+          "legal_item_ref": {
+            "ref_type": "LEGAL_ITEM",
+            "ref_id": "li_reconstruction_test",
+            "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "legal_location_ref": {
+            "ref_type": "LEGAL_LOCATION",
+            "ref_id": "loc_000000000000000000000000000000000000000000000001",
+            "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+          },
+          "structural_type": "INSTRUMENT",
+          "parent_node_id": null,
+          "sibling_order": 0,
+          "owned_source_unit_ids": [
+            "zh_unit_000000000000000000000001_title"
+          ],
+          "child_node_ids": [
+            "node_000000000000000000000002"
+          ],
+          "node_content_fingerprint": "sha256:f2ee8fc90c278b497e073f7ab5a1f6eeb976b1c9fa1187ea5cf3a6d05417cfc9",
+          "subtree_fingerprint": "sha256:a706208a36e4ee52edabb68e630920dd2047bdd33132ae15911e286545390908"
+        },
+        {
+          "tree_node_id": "node_000000000000000000000002",
+          "language": "zh-Hant",
+          "legal_item_ref": {
+            "ref_type": "LEGAL_ITEM",
+            "ref_id": "li_reconstruction_test",
+            "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "legal_location_ref": {
+            "ref_type": "LEGAL_LOCATION",
+            "ref_id": "loc_000000000000000000000000000000000000000000000002",
+            "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+          },
+          "structural_type": "PROVISION",
+          "parent_node_id": "node_000000000000000000000001",
+          "sibling_order": 0,
+          "owned_source_unit_ids": [
+            "zh_unit_000000000000000000000002_label",
+            "zh_unit_000000000000000000000002_body"
+          ],
+          "child_node_ids": [],
+          "node_content_fingerprint": "sha256:acd2d5050c686457c265b714cc878b0bf544758a051cddf01992a6628378ced6",
+          "subtree_fingerprint": "sha256:4fff0f0b8a00b0e0525a9492c0473d042bce99ee94d88b2bc29385119f2c988a"
+        }
+      ],
+      "source_units": [
+        {
+          "source_unit_id": "zh_unit_000000000000000000000001_title",
+          "language": "zh-Hant",
+          "tree_node_id": "node_000000000000000000000001",
+          "legal_item_ref": {
+            "ref_type": "LEGAL_ITEM",
+            "ref_id": "li_reconstruction_test",
+            "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "legal_location_ref": {
+            "ref_type": "LEGAL_LOCATION",
+            "ref_id": "loc_000000000000000000000000000000000000000000000001",
+            "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+          },
+          "unit_kind": "INSTRUMENT_TITLE",
+          "content": "Reconstruction Test zh-Hant",
+          "asset_ref": null,
+          "source_order": 0,
+          "content_fingerprint": "sha256:58e230ba17004599a91345caa7cf036afbe4cc5313ca02416821c5e348b9e391"
+        },
+        {
+          "source_unit_id": "zh_unit_000000000000000000000002_label",
+          "language": "zh-Hant",
+          "tree_node_id": "node_000000000000000000000002",
+          "legal_item_ref": {
+            "ref_type": "LEGAL_ITEM",
+            "ref_id": "li_reconstruction_test",
+            "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "legal_location_ref": {
+            "ref_type": "LEGAL_LOCATION",
+            "ref_id": "loc_000000000000000000000000000000000000000000000002",
+            "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+          },
+          "unit_kind": "STRUCTURAL_LABEL",
+          "content": "1A",
+          "asset_ref": null,
+          "source_order": 0,
+          "content_fingerprint": "sha256:f235e81f274795ddfbb9b5a97f9df6367a87e29926c48b3ba2e0e62d37ffaa13"
+        },
+        {
+          "source_unit_id": "zh_unit_000000000000000000000002_body",
+          "language": "zh-Hant",
+          "tree_node_id": "node_000000000000000000000002",
+          "legal_item_ref": {
+            "ref_type": "LEGAL_ITEM",
+            "ref_id": "li_reconstruction_test",
+            "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "legal_location_ref": {
+            "ref_type": "LEGAL_LOCATION",
+            "ref_id": "loc_000000000000000000000000000000000000000000000002",
+            "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+          },
+          "unit_kind": "BODY_TEXT",
+          "content": "same-zh-Hant",
+          "asset_ref": null,
+          "source_order": 1,
+          "content_fingerprint": "sha256:b2307854aa4b85227289e2323ab315044e8bc621205230c16850e0329edad079"
+        }
+      ]
+    }
+  ],
+  "provisional_language_tree_fingerprints": [
+    "sha256:068a6185088bde31190fe67998010c0ff87c8f678700359a69d6b31aad20ad34",
+    "sha256:7a225c0716accacb4872f0445e6d8a31ecdcbb03eeef5509fb15929e8ab1c797"
+  ],
+  "provisional_bilingual_alignment_map": {
+    "$schema": "https://contracts.asklegal.local/v1/hk-legislation-bilingual-alignment-map.schema.json",
+    "contract_version": "1.0.0",
+    "legal_item_ref": {
+      "ref_type": "LEGAL_ITEM",
+      "ref_id": "li_reconstruction_test",
+      "fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "groups": [
+      {
+        "alignment_group_id": "align_0001",
+        "legal_location_ref": {
+          "ref_type": "LEGAL_LOCATION",
+          "ref_id": "loc_000000000000000000000000000000000000000000000001",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        "en_source_unit_ids": [
+          "en_unit_000000000000000000000001_title"
+        ],
+        "zh_hant_source_unit_ids": [
+          "zh_unit_000000000000000000000001_title"
+        ],
+        "mapping_evidence_ref": {
+          "ref_type": "BILINGUAL_MAPPING_EVIDENCE",
+          "ref_id": "map_000000000000000000000000000000000000000000000001",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        }
+      },
+      {
+        "alignment_group_id": "align_0002",
+        "legal_location_ref": {
+          "ref_type": "LEGAL_LOCATION",
+          "ref_id": "loc_000000000000000000000000000000000000000000000002",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        "en_source_unit_ids": [
+          "en_unit_000000000000000000000002_label"
+        ],
+        "zh_hant_source_unit_ids": [
+          "zh_unit_000000000000000000000002_label"
+        ],
+        "mapping_evidence_ref": {
+          "ref_type": "BILINGUAL_MAPPING_EVIDENCE",
+          "ref_id": "map_000000000000000000000000000000000000000000000001",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        }
+      },
+      {
+        "alignment_group_id": "align_0003",
+        "legal_location_ref": {
+          "ref_type": "LEGAL_LOCATION",
+          "ref_id": "loc_000000000000000000000000000000000000000000000002",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        "en_source_unit_ids": [
+          "en_unit_000000000000000000000002_body"
+        ],
+        "zh_hant_source_unit_ids": [
+          "zh_unit_000000000000000000000002_body"
+        ],
+        "mapping_evidence_ref": {
+          "ref_type": "BILINGUAL_MAPPING_EVIDENCE",
+          "ref_id": "map_000000000000000000000000000000000000000000000001",
+          "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        }
+      }
+    ]
+  },
+  "provisional_bilingual_alignment_map_fingerprint": "sha256:e198f00d4d8c27847e291ad365c475bb403e46b4b2c0e37804d3dd50632ceb81",
+  "execution_report_output": "NONE",
+  "reconstructed_artifact_output": "NONE",
+  "record_output": "NONE",
+  "external_effects": "NONE",
+  "next_action": "BUILD_AND_VALIDATE_RECONSTRUCTION_ARTIFACT_AND_REPORT"
+}

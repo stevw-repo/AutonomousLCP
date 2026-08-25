@@ -79,8 +79,19 @@ def _contents() -> dict[str, bytes]:
         candidate_serving_state_fingerprint="sha256:" + "c" * 64,
         embedding_profile_fingerprint="sha256:" + "f" * 64,
         validity_predicates=(("configuration", "1.0.0", "sha256:" + "a" * 64),),
-        capability_enabled=True,
     ).contents
+
+
+def _traceability_shards() -> dict[str, bytes]:
+    return semantic_proposal_fixture(
+        observation_cutoff="2026-08-16T00:00:00Z",
+        valid_until="2026-08-17T00:00:00Z",
+        base_serving_state_id="srv_" + "2" * 48,
+        candidate_serving_state_id="srv_" + "3" * 48,
+        candidate_serving_state_fingerprint="sha256:" + "c" * 64,
+        embedding_profile_fingerprint="sha256:" + "f" * 64,
+        validity_predicates=(("configuration", "1.0.0", "sha256:" + "a" * 64),),
+    ).traceability_shards
 
 
 def _inputs(contents: dict[str, bytes]) -> ProposalPackageInput:
@@ -101,9 +112,9 @@ def test_control_plane_prepares_and_reads_back_one_exact_proposal() -> None:
     contents = _contents()
     inputs = _inputs(contents)
     service = ProposalPreparationService(Path(__file__).parents[3] / "contracts")
-    package = service.prepare(contents, inputs)
+    package = service.prepare(contents, inputs, _traceability_shards())
     assert service.read(package.package_id) == package
-    assert service.prepare(contents, inputs) == package
+    assert service.prepare(contents, inputs, _traceability_shards()) == package
 
 
 def test_vault_receipt_survives_restart_and_replays_exactly(tmp_path: Path) -> None:
@@ -118,7 +129,7 @@ def test_vault_receipt_survives_restart_and_replays_exactly(tmp_path: Path) -> N
         retention,
     )
 
-    receipt = first.prepare(contents, inputs)
+    receipt = first.prepare(contents, inputs, _traceability_shards())
     restarted = VaultProposalPreparationService(
         Path(__file__).parents[3] / "contracts",
         vault,
@@ -126,13 +137,13 @@ def test_vault_receipt_survives_restart_and_replays_exactly(tmp_path: Path) -> N
     )
 
     expected = ProposalPreparationService(Path(__file__).parents[3] / "contracts").prepare(
-        contents, inputs
+        contents, inputs, _traceability_shards()
     )
     assert restarted.read(receipt) == expected
-    assert restarted.prepare(contents, inputs) == receipt
+    assert restarted.prepare(contents, inputs, _traceability_shards()) == receipt
     assert receipt.manifest_reference.logical_key.endswith("/proposal-manifest.json")
     assert tuple(member.role for member in receipt.members) == tuple(sorted(PROPOSAL_ROLE_PATHS))
-    assert vault.writes[len(PROPOSAL_ROLE_PATHS)].endswith("/proposal-manifest.json")
+    assert vault.writes[-1].endswith("/proposal-manifest.json")
 
 
 def test_vault_receipt_or_member_corruption_fails_closed(tmp_path: Path) -> None:
@@ -144,12 +155,45 @@ def test_vault_receipt_or_member_corruption_fails_closed(tmp_path: Path) -> None
         vault,
         RetentionProfile("proposal-v1", "2036-01-01T00:00:00Z"),
     )
-    receipt = service.prepare(contents, _inputs(contents))
+    receipt = service.prepare(contents, _inputs(contents), _traceability_shards())
 
     with pytest.raises(CorpusError, match="proposal receipt"):
         service.read(replace(receipt, receipt_fingerprint="sha256:" + "0" * 64))
 
     vault.inject_corruption(receipt.members[0].reference, b"changed")
+    with pytest.raises(CorruptEvidence):
+        service.read(receipt)
+
+
+def test_vault_receipt_reads_zero_entry_shard_and_rejects_transitive_corruption(
+    tmp_path: Path,
+) -> None:
+    """Control commits and rereads every declared shard, including zero bytes."""
+    fixture = semantic_proposal_fixture(
+        observation_cutoff="2026-08-16T00:00:00Z",
+        valid_until="2026-08-17T00:00:00Z",
+        base_serving_state_id="srv_" + "2" * 48,
+        candidate_serving_state_id="srv_" + "3" * 48,
+        candidate_serving_state_fingerprint="sha256:" + "c" * 64,
+        embedding_profile_fingerprint="sha256:" + "f" * 64,
+        validity_predicates=(("configuration", "1.0.0", "sha256:" + "a" * 64),),
+        include_empty_scope=True,
+    )
+    vault = LocalImmutableVault(tmp_path / "primary", VaultName.PRIMARY)
+    service = VaultProposalPreparationService(
+        Path(__file__).parents[3] / "contracts",
+        vault,
+        RetentionProfile("proposal-v1", "2036-01-01T00:00:00Z"),
+    )
+    receipt = service.prepare(
+        fixture.contents,
+        _inputs(fixture.contents),
+        fixture.traceability_shards,
+    )
+    empty = next(shard for shard in receipt.traceability_shards if shard.reference.byte_length == 0)
+
+    assert service.read(receipt).package_id == receipt.package_id
+    vault.inject_corruption(empty.reference, b"changed")
     with pytest.raises(CorruptEvidence):
         service.read(receipt)
 
@@ -165,7 +209,7 @@ def test_vault_read_rejects_correctly_hashed_semantic_placeholder(tmp_path: Path
     )
 
     with pytest.raises(CorpusError, match="proposal semantics"):
-        service.prepare(contents, _inputs(contents))
+        service.prepare(contents, _inputs(contents), _traceability_shards())
 
 
 def test_only_a_fully_reread_vault_receipt_becomes_review_ready(tmp_path: Path) -> None:
@@ -177,7 +221,7 @@ def test_only_a_fully_reread_vault_receipt_becomes_review_ready(tmp_path: Path) 
         vault,
         RetentionProfile("proposal-v1", "2036-01-01T00:00:00Z"),
     )
-    receipt = packages.prepare(contents, _inputs(contents))
+    receipt = packages.prepare(contents, _inputs(contents), _traceability_shards())
     register = RecordingRegister()
 
     result = ProposalRegistrationService(packages, register).register(

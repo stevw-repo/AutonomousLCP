@@ -1,0 +1,48 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:f5fde8ffca8fecd7e7381dbeee6e6fc6363ae9ccf8ca646c049c44b1317179ec",
+  "workflow_result_fingerprint": "sha256:969ba1e2a1ca18155ed3c518124649fcc813341e67ddd9465681cc49f930900d",
+  "court_family": "HKSUPERIOR",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_5",
+  "auxiliary_translation_version_ids": [],
+  "examined_segment_ids": [
+    "segment_1"
+  ],
+  "resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "HISTORICAL_DELIVERY_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_5",
+      "meaning_codes": [
+        "ACTUAL_DELIVERY"
+      ],
+      "risk_codes": [
+        "HISTORICAL_CITATION_PRESERVED",
+        "NO_MODERN_FORMAT_ASSUMPTION"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "Held, upon the authorities cited in the margin, that delivery must be actual."
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "coverage_gap_ids": [],
+  "translation_use": "NONE",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

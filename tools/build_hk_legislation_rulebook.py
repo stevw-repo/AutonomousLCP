@@ -165,6 +165,31 @@ FIXTURE_GROUPS = (
         "asklegal.hk-legislation.reconstruction-plan-validation.fixtures",
         "catalogues/reconstruction-plan-validation-fixtures.json",
     ),
+    (
+        tuple(f"HKLEG-RECON-EXEC-FIX-{index:03d}" for index in range(1, 14)),
+        "asklegal.hk-legislation.reconstruction-execution.fixtures",
+        "catalogues/reconstruction-execution-fixtures.json",
+    ),
+    (
+        tuple(f"HKLEG-RECON-REPORT-FIX-{index:03d}" for index in range(1, 3)),
+        "asklegal.hk-legislation.reconstruction-report.fixtures",
+        "catalogues/reconstruction-report-fixtures.json",
+    ),
+    (
+        tuple(f"HKLEG-KNOWN-STALE-FIX-{index:03d}" for index in range(1, 13)),
+        "asklegal.hk-legislation.known-stale-fallback.fixtures",
+        "catalogues/known-stale-fallback-fixtures.json",
+    ),
+    (
+        tuple(f"HKLEG-RECON-RCN-FIX-{index:03d}" for index in range(1, 13)),
+        "asklegal.hk-legislation.reconstruction-reconciliation.fixtures",
+        "catalogues/reconstruction-reconciliation-fixtures.json",
+    ),
+    (
+        tuple(f"HKLEG-RECON-ORP-FIX-{index:03d}" for index in range(1, 23)),
+        "asklegal.hk-legislation.reconstruction-overlong-partition.fixtures",
+        "catalogues/reconstruction-overlong-partition-fixtures.json",
+    ),
 )
 
 
@@ -190,8 +215,9 @@ def _refresh_fixture_locks() -> None:
         for fixture_id in fixture_ids:
             fixture_path = PACKAGE_ROOT / f"fixtures/deterministic/{fixture_id}.json"
             fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+            input_key = "batch_input" if "batch_input" in fixture else "input"
             fixture["input_fingerprint"] = _fingerprint(
-                rfc8785.dumps(cast("JsonValue", fixture["input"]))
+                rfc8785.dumps(cast("JsonValue", fixture[input_key]))
             )
             expected_path_text = fixture["expected_artifact"]["path"]
             expected_path = PACKAGE_ROOT / expected_path_text
@@ -282,7 +308,7 @@ def build_manifest() -> dict[str, JsonValue]:
         "schema_id": "asklegal.executable-source-rulebook-package",
         "schema_version": "1.0.0",
         "package_id": "rbp_866fd2858e653370aec45ffa71b551942fbc33e1b8c440ca",
-        "package_version": "0.27.0",
+        "package_version": "0.41.0",
         "package_fingerprint": "PENDING",
         "jurisdiction": "HK",
         "environment": "PRODUCTION",
@@ -317,6 +343,12 @@ def build_manifest() -> dict[str, JsonValue]:
             "ORDINARY_CURRENT_EVENT_"
             "RECONSTRUCTION_PLAN_SEMANTIC_DECISION_AND_CHALLENGE_"
             "DETERMINISTIC_RECONSTRUCTION_PLAN_VALIDATION_"
+            "CANONICAL_SOURCE_TREE_AND_ORDINARY_BILINGUAL_RENDERER_"
+            "DETERMINISTIC_CANONICAL_RECONSTRUCTION_EXECUTION_"
+            "IMMUTABLE_RECONSTRUCTION_ARTIFACT_AND_EXECUTION_REPORT_"
+            "DETERMINISTIC_KNOWN_STALE_FALLBACK_SELECTION_"
+            "DETERMINISTIC_LATER_HKEL_RECONCILIATION_"
+            "SOURCE_NEUTRAL_RECURSIVE_BILINGUAL_SERVING_PARTITION_"
             "CONFORMANCE_ONLY_"
             "NO_PROCESSING_ACTIVATION_OR_PRODUCTION_AUTHORITY"
         ),

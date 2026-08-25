@@ -1,0 +1,28 @@
+{
+  "rule_id": "HKCASE-PROP-ADMISSION-CONFORMANCE-001",
+  "contract_version": "1.0.0",
+  "direct_case_count": 18,
+  "coverage_cell_count": 18,
+  "high_risk_pair_ids": [
+    "HKCASE-PROP-PAIR-026",
+    "HKCASE-PROP-PAIR-027",
+    "HKCASE-PROP-PAIR-028",
+    "HKCASE-PROP-PAIR-029",
+    "HKCASE-PROP-PAIR-030"
+  ],
+  "frozen_case_count": 132,
+  "frozen_coverage_cell_count": 132,
+  "frozen_pair_count": 31,
+  "frozen_catalogue_fingerprint": "sha256:ec5f3e4c416918bdccc12e51533017c0e217d32e8f4e29eafe86bb1a206c0d0e",
+  "deterministic_case_count": 54,
+  "fact_derived_execution": true,
+  "case_id_answer_switching_forbidden": true,
+  "search_records_created": 0,
+  "workflow_admissions_created": 0,
+  "provider_calls_authorized": false,
+  "deployment_authorized": false,
+  "release_eligible": false,
+  "real_source_evidence": false,
+  "activation_authorized": false,
+  "external_effects": "NONE"
+}

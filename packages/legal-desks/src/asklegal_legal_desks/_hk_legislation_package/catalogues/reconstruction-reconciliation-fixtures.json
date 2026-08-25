@@ -1,0 +1,92 @@
+{
+  "catalogue_id": "asklegal.hk-legislation.reconstruction-reconciliation.fixtures",
+  "version": "1.0.0",
+  "status": "FROZEN_PARTIAL",
+  "accepted_complete_universe": false,
+  "fixtures": [
+    {
+      "fixture_id": "HKLEG-RECON-RCN-FIX-001",
+      "path": "fixtures/deterministic/HKLEG-RECON-RCN-FIX-001.json",
+      "fixture_fingerprint": "sha256:8df7fe09a6b2cd7313211352a9b0bf3797d4b65bc11273830580a384d803831b",
+      "expected_path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-001.json",
+      "expected_fingerprint": "sha256:dceece0ed532ddb5dcf6152969c8a2bf016ba4ecc4bc3c6bbe2728b510b4279f"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-RCN-FIX-002",
+      "path": "fixtures/deterministic/HKLEG-RECON-RCN-FIX-002.json",
+      "fixture_fingerprint": "sha256:375f1fea0b4f78884d5b61e2dd03d29682bd525a4022b69cb347cb0c603274aa",
+      "expected_path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-002.json",
+      "expected_fingerprint": "sha256:cd3441652674551d11eeb9bb6948ccce31c93b11dd40339061744d7499017f14"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-RCN-FIX-003",
+      "path": "fixtures/deterministic/HKLEG-RECON-RCN-FIX-003.json",
+      "fixture_fingerprint": "sha256:343f3ce415cbb8550a8d883962a8ab4a3cf07e058f4a477317d1e16f4dd379d3",
+      "expected_path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-003.json",
+      "expected_fingerprint": "sha256:10ce6e947fde82cb93fe491e2abd560fa154740752f798cede663e3dc0a781f5"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-RCN-FIX-004",
+      "path": "fixtures/deterministic/HKLEG-RECON-RCN-FIX-004.json",
+      "fixture_fingerprint": "sha256:2acc748b47c03acf32d32c7645bf7bc6c549d2658796a869c19bb9a2be953ee7",
+      "expected_path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-004.json",
+      "expected_fingerprint": "sha256:16aabdd8cc73b92e8b64651da147b6b777a8e46db9a86345118c5eb7231ad4fa"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-RCN-FIX-005",
+      "path": "fixtures/deterministic/HKLEG-RECON-RCN-FIX-005.json",
+      "fixture_fingerprint": "sha256:8f16eea13caf9510badee04ac157ca732268229574c52fed666c7f82ca234b35",
+      "expected_path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-005.json",
+      "expected_fingerprint": "sha256:de5c0fd97c8652ff6c370bbc65e190c749c03ab3d9613b457968aff935624542"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-RCN-FIX-006",
+      "path": "fixtures/deterministic/HKLEG-RECON-RCN-FIX-006.json",
+      "fixture_fingerprint": "sha256:4364398fbc7c45bee5729bfa472a128085a28e91955bee604a90d0211afe67e2",
+      "expected_path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-006.json",
+      "expected_fingerprint": "sha256:2dd8873595d34ef4c0fd52d8b1e4cc0ac114de24fb02f66331ff8f86066fdfbe"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-RCN-FIX-007",
+      "path": "fixtures/deterministic/HKLEG-RECON-RCN-FIX-007.json",
+      "fixture_fingerprint": "sha256:b886feb06b9e5fd4dea57529511351bd74c30f5207a21341c51e36215290da71",
+      "expected_path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-007.json",
+      "expected_fingerprint": "sha256:4f5771bd37fed39e4b032a7592f61a214e31f234d3975b40f5175751df0c780e"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-RCN-FIX-008",
+      "path": "fixtures/deterministic/HKLEG-RECON-RCN-FIX-008.json",
+      "fixture_fingerprint": "sha256:ce16da9d0c77808aeec9f2ffc25bba7a8d3711bb555620d8d3d8822f7cb8ea32",
+      "expected_path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-008.json",
+      "expected_fingerprint": "sha256:22f5a04050dfcb92313a9ab3b1f1248bfa6ddcc7250c9cfe8e2375ef7c017512"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-RCN-FIX-009",
+      "path": "fixtures/deterministic/HKLEG-RECON-RCN-FIX-009.json",
+      "fixture_fingerprint": "sha256:8e82b6947b6e99eadacd9b048c00878c67318231131a4a9f00fef09d160f8c2b",
+      "expected_path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-009.json",
+      "expected_fingerprint": "sha256:94b92ddfecd737d5cd9e7e7ef62f9ee7028d239ac97a99bb7747a5c43934d563"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-RCN-FIX-010",
+      "path": "fixtures/deterministic/HKLEG-RECON-RCN-FIX-010.json",
+      "fixture_fingerprint": "sha256:16b7b93eb8e2358cd9d84801d85eac591bb7587bf6a6bbfa56e8914fae77f7d4",
+      "expected_path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-010.json",
+      "expected_fingerprint": "sha256:e7c75cffa67039027db42100c468a247f84bd9086f128f50e85191ed6b8387dd"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-RCN-FIX-011",
+      "path": "fixtures/deterministic/HKLEG-RECON-RCN-FIX-011.json",
+      "fixture_fingerprint": "sha256:7a9d5b68f067db486f01e26d814478f37532875715642a8edbcfb583078ed082",
+      "expected_path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-011.json",
+      "expected_fingerprint": "sha256:6b20bd4e58a64f906e91352109df48ffc8764b2167605844b9db927e83d8469a"
+    },
+    {
+      "fixture_id": "HKLEG-RECON-RCN-FIX-012",
+      "path": "fixtures/deterministic/HKLEG-RECON-RCN-FIX-012.json",
+      "fixture_fingerprint": "sha256:3583a710a50e8a6eb537e2feeb750c40593f7685d66e9450f508ad13d4a00c0a",
+      "expected_path": "expected/reconstruction-reconciliation/HKLEG-RECON-RCN-FIX-012.json",
+      "expected_fingerprint": "sha256:b74b4165cce493c6ff1eb63fbc9d690c622a2fb6f8bbaac4f511357dde697180"
+    }
+  ]
+}

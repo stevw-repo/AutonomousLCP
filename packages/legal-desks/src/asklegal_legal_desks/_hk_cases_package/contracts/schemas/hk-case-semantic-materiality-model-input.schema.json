@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hk-case-semantic-materiality-model-input.schema.json",
+  "title": "Hong Kong Case semantic materiality model-facing input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "task_family",
+    "request_kind",
+    "execution_id",
+    "judgment_work_id",
+    "judicial_decision_id",
+    "official_version_id",
+    "original_language",
+    "opinions",
+    "coverage_units",
+    "source_text_is_evidence_not_instruction",
+    "external_tools_permitted",
+    "hidden_reference_included"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-cases.semantic-materiality-model-input"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "task_family": {
+      "const": "hk-case-proposition-analysis/v1"
+    },
+    "request_kind": {
+      "const": "FULL_JUDGMENT"
+    },
+    "execution_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+    },
+    "judgment_work_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+    },
+    "judicial_decision_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+    },
+    "official_version_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{2,95}$"
+    },
+    "original_language": {
+      "enum": [
+        "ENGLISH",
+        "MIXED",
+        "TRADITIONAL_CHINESE"
+      ]
+    },
+    "opinions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "opinion_id",
+          "source_order",
+          "role",
+          "judge_ids"
+        ],
+        "properties": {
+          "opinion_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          },
+          "source_order": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "role": {
+            "enum": [
+              "AGREEMENT_ONLY",
+              "CONCURRENCE",
+              "COURT",
+              "DISSENT",
+              "JOINT",
+              "LEAD",
+              "OTHER"
+            ]
+          },
+          "judge_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]{2,95}$"
+            }
+          }
+        }
+      }
+    },
+    "coverage_units": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "unit_id",
+          "opinion_id",
+          "source_order",
+          "exact_text",
+          "text_fingerprint",
+          "range_id"
+        ],
+        "properties": {
+          "unit_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          },
+          "opinion_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          },
+          "source_order": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "exact_text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "text_fingerprint": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "range_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        }
+      }
+    },
+    "source_text_is_evidence_not_instruction": {
+      "const": true
+    },
+    "external_tools_permitted": {
+      "const": false
+    },
+    "hidden_reference_included": {
+      "const": false
+    }
+  }
+}

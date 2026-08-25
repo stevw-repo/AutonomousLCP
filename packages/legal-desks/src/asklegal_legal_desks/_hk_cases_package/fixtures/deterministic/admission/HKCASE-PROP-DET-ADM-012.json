@@ -1,0 +1,89 @@
+{
+  "schema_id": "asklegal.hk-cases.admission-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-DET-ADM-012",
+  "case_id": "HKCASE-PROP-DET-ADM-012",
+  "coverage_cell_id": "HKCASE-PROP-COV-DADM-012",
+  "pair_memberships": [
+    {
+      "pair_id": "HKCASE-PROP-PAIR-028",
+      "role": "POSITIVE"
+    }
+  ],
+  "synthetic_scenario": "Registered sealed artifacts and fingerprints match",
+  "evidence_class": "SYNTHETIC_SOURCE_NEUTRAL",
+  "variants": [
+    {
+      "variant_id": "HKCASE-PROP-DET-ADM-012-V01",
+      "request": {
+        "schema_id": "asklegal.hk-cases.admission-request",
+        "schema_version": "1.0.0",
+        "rule_id": "HKCASE-PROP-ADMISSION-CONFORMANCE-001",
+        "assertion": "SEALED_PACKAGE_INTEGRITY",
+        "correction": null,
+        "catalogue": null,
+        "evaluation_packet": null,
+        "sealed_package": {
+          "registered_artifacts": [
+            {
+              "role": "PROTECTED_CATALOGUE",
+              "object_ref": "object_1",
+              "content_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "byte_size": 10
+            },
+            {
+              "role": "REFERENCE_PROPOSITION_MAP",
+              "object_ref": "object_2",
+              "content_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "byte_size": 20
+            },
+            {
+              "role": "SEALED_JUDGMENT",
+              "object_ref": "object_3",
+              "content_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "byte_size": 30
+            },
+            {
+              "role": "SELECTION_MATRIX",
+              "object_ref": "object_4",
+              "content_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "byte_size": 40
+            }
+          ],
+          "observed_artifacts": [
+            {
+              "role": "PROTECTED_CATALOGUE",
+              "object_ref": "object_1",
+              "content_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "byte_size": 10
+            },
+            {
+              "role": "REFERENCE_PROPOSITION_MAP",
+              "object_ref": "object_2",
+              "content_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "byte_size": 20
+            },
+            {
+              "role": "SEALED_JUDGMENT",
+              "object_ref": "object_3",
+              "content_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "byte_size": 30
+            },
+            {
+              "role": "SELECTION_MATRIX",
+              "object_ref": "object_4",
+              "content_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "byte_size": 40
+            }
+          ],
+          "registered_manifest_fingerprint": "sha256:325220a840ee3a5b462226b986ae93789297434a00818148fe4a29f86ef9c9b0",
+          "observed_manifest_fingerprint": "sha256:325220a840ee3a5b462226b986ae93789297434a00818148fe4a29f86ef9c9b0"
+        },
+        "reproducibility": null,
+        "side_effects": null,
+        "workflow_identity": null
+      }
+    }
+  ],
+  "external_effects": "NONE"
+}

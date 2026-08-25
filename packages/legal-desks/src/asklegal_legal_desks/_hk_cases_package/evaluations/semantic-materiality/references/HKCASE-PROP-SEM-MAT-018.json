@@ -1,0 +1,60 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-materiality-reference",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-MATERIALITY-EVALUATOR-001",
+  "reference_map_id": "reference_map_18",
+  "model_input_fingerprint": "sha256:a1b991a815a786204cffaafbd4c2d3fa991ecf4a9b9b872d1dd10070a07f908d",
+  "coverage_unit_ids": [
+    "unit_1",
+    "unit_2"
+  ],
+  "propositions": [
+    {
+      "reference_proposition_id": "reference_prop_1",
+      "authority_role": "OPERATIVE",
+      "required_meaning_codes": [
+        "DUTY_OF_CANDOUR"
+      ],
+      "forbidden_meaning_codes": [],
+      "required_evidence_role_codes": [
+        "ANSWER",
+        "APPLICATION",
+        "ATTRIBUTION",
+        "CONTEXT",
+        "ISSUE",
+        "QUALIFICATION",
+        "QUOTATION",
+        "RESULT"
+      ],
+      "required_range_ids": [
+        "range_1"
+      ]
+    },
+    {
+      "reference_proposition_id": "reference_prop_2",
+      "authority_role": "OPERATIVE",
+      "required_meaning_codes": [
+        "DELAY_RELIEF_RULE"
+      ],
+      "forbidden_meaning_codes": [],
+      "required_evidence_role_codes": [
+        "ANSWER",
+        "APPLICATION",
+        "ATTRIBUTION",
+        "CONTEXT",
+        "ISSUE",
+        "QUALIFICATION",
+        "QUOTATION",
+        "RESULT"
+      ],
+      "required_range_ids": [
+        "range_2"
+      ]
+    }
+  ],
+  "expected_disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "required_handoff_ids": [],
+  "expected_selected_reference_proposition_ids": [],
+  "adjudication_complete": true,
+  "unresolved_reference_ambiguity": false
+}

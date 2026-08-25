@@ -1,0 +1,56 @@
+{
+  "fixture_id": "HKLEG-KNOWN-STALE-FIX-009",
+  "title": "Unproved identity mapping prevents honest stale labelling",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:2010699311ea9dd57919fdffd8f316aa2ae80cf52c6e2bd41be63d3977deb95c",
+  "input": {
+    "selection_id": "ksf_999999999999999999999999999999999999999999999999",
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.fallback-009",
+    "coverage_gap_ref": {
+      "ref_type": "COVERAGE_GAP",
+      "ref_id": "cvg_999999999999999999999999999999999999999999999999",
+      "fingerprint": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "event_operative_at_cutoff": true,
+    "matching_current_consolidation_available": false,
+    "reconstruction_disposition": "INELIGIBLE_OR_FAILED",
+    "affected_location_ids": [
+      "section-4"
+    ],
+    "affected_location_scope": "EXACT",
+    "identity_mapping_proved": false,
+    "release_accounting_complete": true,
+    "candidate_versions": [
+      {
+        "official_version_ref": {
+          "ref_type": "OFFICIAL_VERSION",
+          "ref_id": "ovr_222222222222222222222222222222222222222222222222",
+          "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+        },
+        "version_date": "2026-07-01",
+        "evidence_class": "VERIFIED",
+        "applicable": true,
+        "accepted": true,
+        "independently_verifiable": true,
+        "integrity_valid": true,
+        "bilingual_complete": true,
+        "xml_copy_reconciled": true,
+        "source_text_unchanged": true,
+        "source_text_fingerprints": {
+          "en": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+          "zh-Hant": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+        }
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/known-stale-fallback/HKLEG-KNOWN-STALE-FIX-009.json",
+    "fingerprint": "sha256:74765a0d81d6b135d3cdd41f3b98c635f85e008315a8b9046342562f48b679a6"
+  }
+}

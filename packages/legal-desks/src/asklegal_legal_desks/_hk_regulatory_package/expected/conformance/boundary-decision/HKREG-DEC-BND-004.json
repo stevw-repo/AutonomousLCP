@@ -1,0 +1,84 @@
+{
+  "schema_id": "asklegal.hk-regulatory.boundary-decision-report",
+  "schema_version": "1.0.0",
+  "rule_id": "HKREG-BOUNDARY-DECISION-001",
+  "case_id": "HKREG-DEC-BND-004",
+  "assertion_scope": "NORMAL_UNIT",
+  "observed_decision": {
+    "schema_id": "asklegal.hk-regulatory.boundary-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-BOUNDARY-DECISION-001",
+    "case_id": "HKREG-DEC-BND-004",
+    "outcome": "PASS",
+    "reason": "INSEPARABLE_GROUP_PRESERVED",
+    "responsibilities": [
+      {
+        "record_unit_id": "record-rule-4",
+        "kind": "INSEPARABLE_GROUP",
+        "primary_source_unit_ids": [
+          "rule-4",
+          "alternative-4-a",
+          "alternative-4-b"
+        ],
+        "dependency_source_unit_ids": []
+      }
+    ],
+    "dependency_owners": [],
+    "references": [],
+    "excluded_background_unit_ids": [],
+    "quarantined_unit_ids": [],
+    "rejected_candidate": false,
+    "source_contract_review_required": false,
+    "quarantined_branch": false,
+    "presentation_identity_rejected": false,
+    "relationship_revision_only": false,
+    "referring_payload_change_required": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.boundary-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-BOUNDARY-DECISION-001",
+    "case_id": "HKREG-DEC-BND-004",
+    "outcome": "PASS",
+    "reason": "INSEPARABLE_GROUP_PRESERVED",
+    "responsibilities": [
+      {
+        "record_unit_id": "record-rule-4",
+        "kind": "INSEPARABLE_GROUP",
+        "primary_source_unit_ids": [
+          "rule-4",
+          "alternative-4-a",
+          "alternative-4-b"
+        ],
+        "dependency_source_unit_ids": []
+      }
+    ],
+    "dependency_owners": [],
+    "references": [],
+    "excluded_background_unit_ids": [],
+    "quarantined_unit_ids": [],
+    "rejected_candidate": false,
+    "source_contract_review_required": false,
+    "quarantined_branch": false,
+    "presentation_identity_rejected": false,
+    "relationship_revision_only": false,
+    "referring_payload_change_required": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "conformance_status": "PASS",
+  "source_authorized": false,
+  "provider_authorized": false,
+  "release_authorized": false,
+  "serving_authorized": false,
+  "deployment_authorized": false,
+  "external_effects": "NONE"
+}

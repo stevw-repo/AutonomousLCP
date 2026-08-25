@@ -1,0 +1,67 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-CONTENT-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:145829859b3c6e02d7636fea622d35d36272ccce18a6d65a2bd3119d4a2c359c",
+  "workflow_result_fingerprint": "sha256:1062b9f479c1496b2e48b412b48e74d7bcb9daf98b599482114d90407e602c4c",
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "meaning_codes": [
+        "LATE_NOTICE_CANNOT_CURE_JURISDICTION"
+      ],
+      "content_codes": [
+        "MINIMUM_CONTEXT",
+        "PROCEDURAL_TRIGGER",
+        "RULE"
+      ],
+      "evidence_assertions": [
+        {
+          "role_code": "CONTEXT",
+          "ordered_range_ids": [
+            "range_2"
+          ]
+        },
+        {
+          "role_code": "ANSWER",
+          "ordered_range_ids": [
+            "range_3"
+          ]
+        }
+      ],
+      "dependency_ids": [],
+      "selected_quotations": [],
+      "derived_statement": "Once the statutory hearing begins, later notice cannot cure the jurisdictional defect."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "use": "NON_PROPOSITIONAL",
+      "candidate_ids": []
+    },
+    {
+      "unit_id": "unit_2",
+      "use": "CONTEXT_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_3",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

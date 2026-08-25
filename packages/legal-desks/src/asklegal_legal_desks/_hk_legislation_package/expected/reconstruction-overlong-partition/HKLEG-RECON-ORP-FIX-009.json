@@ -1,0 +1,77 @@
+{
+  "alignment_map_fingerprint": "sha256:94f5857c3ab54c40a78c567ef9d5b02bd508ec819267921c05b2f075dff2a7b9",
+  "coverage_gap_required": false,
+  "disposition": "PASS",
+  "en_tree_fingerprint": "sha256:fb462a09484f047f7d0aedad1ca1c1cf0356fa801d2554e314f60d18341f12eb",
+  "external_effects": "NONE",
+  "parts": [
+    {
+      "dependency_alignment_group_ids": [],
+      "en_dependency_source_unit_ids": [],
+      "en_primary_source_unit_ids": [
+        "en_body_1"
+      ],
+      "measurement": {
+        "metadata_bytes": 841,
+        "metadata_limit": 100000,
+        "text_limit": 906,
+        "text_tokens": 687
+      },
+      "part_number": 1,
+      "primary_alignment_group_ids": [
+        "align_body_1"
+      ],
+      "primary_partition_node_ids": [
+        "partition_paragraph_1"
+      ],
+      "serving_payload_fingerprint": "sha256:bf3a0f3fe756cc1a9e3920fc15aeb3a2ce179c7a3c571dea3606deef232dde71",
+      "text": "[English — Authentic Text]\nInstrument: Sample Ordinance (Cap. 999)\nProvision: section 2\nServing part: 1 of 2\nHeading: Application\nText:\n(1) This Ordinance applies to every specified person. (1) This Ordinance applies to every specified person. (1) This Ordinance applies to every specified person. (1) This Ordinance applies to every specified person.\n\n[繁體中文 — 真確文本]\n法例：示例條例（第999章）\n條文：第2條\n服務部分：第1部分，共2部分\n標題：適用範圍\n正文：\n(1) 本條例適用於每名指明人士。 (1) 本條例適用於每名指明人士。 (1) 本條例適用於每名指明人士。 (1) 本條例適用於每名指明人士。",
+      "text_fingerprint": "sha256:34ac16476c7a374201766c32efcde5e89d8ce3ff5e5c3d8db7df6fe8611c1a19",
+      "total_parts": 2,
+      "zh_hant_dependency_source_unit_ids": [],
+      "zh_hant_primary_source_unit_ids": [
+        "zh_body_1"
+      ]
+    },
+    {
+      "dependency_alignment_group_ids": [
+        "align_heading"
+      ],
+      "en_dependency_source_unit_ids": [
+        "en_heading"
+      ],
+      "en_primary_source_unit_ids": [
+        "en_body_2"
+      ],
+      "measurement": {
+        "metadata_bytes": 813,
+        "metadata_limit": 100000,
+        "text_limit": 906,
+        "text_tokens": 655
+      },
+      "part_number": 2,
+      "primary_alignment_group_ids": [
+        "align_body_2"
+      ],
+      "primary_partition_node_ids": [
+        "partition_paragraph_2"
+      ],
+      "serving_payload_fingerprint": "sha256:890fb9f8b01e27b9bccc51af08499ebc92c34f242272c8b98e82f47b50844d3a",
+      "text": "[English — Authentic Text]\nInstrument: Sample Ordinance (Cap. 999)\nProvision: section 2\nServing part: 2 of 2\nHeading: Application\nParent context (repeated):\nApplication\nText:\n(2) A person must keep the record. (2) A person must keep the record. (2) A person must keep the record. (2) A person must keep the record.\n\n[繁體中文 — 真確文本]\n法例：示例條例（第999章）\n條文：第2條\n服務部分：第2部分，共2部分\n標題：適用範圍\n上層脈絡（重複）：\n適用範圍\n正文：\n(2) 任何人須備存該紀錄。 (2) 任何人須備存該紀錄。 (2) 任何人須備存該紀錄。 (2) 任何人須備存該紀錄。",
+      "text_fingerprint": "sha256:4df5c603337b7cdf371bce767682f9c302f06ab5ac0ff557e9e813f7fb7e32d5",
+      "total_parts": 2,
+      "zh_hant_dependency_source_unit_ids": [
+        "zh_heading"
+      ],
+      "zh_hant_primary_source_unit_ids": [
+        "zh_body_2"
+      ]
+    }
+  ],
+  "profile_fingerprint": "sha256:8068a8c211f4fbf1e4750d7c037d4edf415e8f41d9883055255710ba7f199d8c",
+  "profile_id": "psp_111111111111111111111111111111111111111111111111",
+  "quarantined_partition_node_ids": [],
+  "reason": "PASS_PARTITIONED",
+  "search_record_output": "NONE",
+  "zh_hant_tree_fingerprint": "sha256:a500365a4ec73703ee13f3129f4dc987a5b9dd5c4d787d83781229abb07310cc"
+}

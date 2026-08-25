@@ -1,0 +1,70 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-BOUNDARY-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:de443f8cdcd2ed560b791e919b45d4bd1e8be2c6c853e78d2c0fc35300b01225",
+  "workflow_result_fingerprint": "sha256:41e7abe3547c6a558f1cb57ee4da7de7d3c20cc135466d1e13ed67ba7e561ef4",
+  "opinions": [
+    {
+      "opinion_id": "opinion_1",
+      "role": "LEAD",
+      "judge_ids": [
+        "judge_1"
+      ],
+      "joined_opinion_id": null,
+      "expressly_adopted_opinion_ids": []
+    }
+  ],
+  "propositions": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "NOTICE_STANDARD",
+      "authority_role": "OPERATIVE",
+      "opinion_path_ids": [
+        "opinion_1"
+      ],
+      "meaning_codes": [
+        "OBJECTIVE_NOTICE_STANDARD"
+      ],
+      "boundary_codes": [
+        "MINIMUM_NONREPETITIVE_SUPPORT",
+        "REPETITION_MERGED"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "Reasonable notice is assessed objectively."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "unit_1",
+      "opinion_id": "opinion_1",
+      "use": "PROPOSITION_EVIDENCE",
+      "candidate_ids": [
+        "candidate_1"
+      ]
+    },
+    {
+      "unit_id": "unit_2",
+      "opinion_id": "opinion_1",
+      "use": "NON_PROPOSITIONAL",
+      "candidate_ids": []
+    },
+    {
+      "unit_id": "unit_3",
+      "opinion_id": "opinion_1",
+      "use": "NON_PROPOSITIONAL",
+      "candidate_ids": []
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "complete_ledger": true,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

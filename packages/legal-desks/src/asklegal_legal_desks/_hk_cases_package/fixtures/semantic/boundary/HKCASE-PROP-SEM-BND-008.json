@@ -1,0 +1,55 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-boundary-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-BND-008",
+  "coverage_cell_id": "HKCASE-PROP-COV-SBND-008",
+  "pair_memberships": [],
+  "scenario": "General rule and ordinary application jointly show the decision",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-boundary-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "boundary_execution_8",
+    "judgment_work_id": "boundary_judgment_8",
+    "judicial_decision_id": "synthetic_boundary_decision_8",
+    "official_version_id": "synthetic_boundary_version_8",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ],
+        "joined_opinion_id": null,
+        "expressly_adopted_opinion_ids": []
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "exact_text": "A restriction must be necessary to its legitimate aim.",
+        "text_fingerprint": "sha256:0da5b9f9fb0ed2dd94298f8b4c6fb5daaa3cf17dbf2e90d49d48567821dc1a72",
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "exact_text": "This restriction was unnecessary because a narrower measure sufficed.",
+        "text_fingerprint": "sha256:cd4b57b83629cf098951cc7777a24b2c81c6c98a4fa0bc37af04b0f71fa5c95f",
+        "range_id": "range_2"
+      }
+    ],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-boundary/references/HKCASE-PROP-SEM-BND-008.json",
+  "observation_path": "evaluations/semantic-boundary/observations/HKCASE-PROP-SEM-BND-008.json",
+  "expected_path": "expected/semantic-boundary/HKCASE-PROP-SEM-BND-008.json"
+}

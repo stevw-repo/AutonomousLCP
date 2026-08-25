@@ -1,0 +1,48 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-risk-observation",
+  "schema_version": "1.0.0",
+  "rule_id": "HKCASE-PROP-SEM-RISK-EVALUATOR-001",
+  "model_input_fingerprint": "sha256:b44e318ddc7992a64e699a6d56b4559893c70ac288ac53091c8cd83a410ca341",
+  "workflow_result_fingerprint": "sha256:b158a4d3c40fb7e5006858c41d7d2ac0304c74abc5e0e94274ea2b33d5ada97f",
+  "court_family": "CFA",
+  "original_language": "ENGLISH",
+  "accepted_original_version_id": "synthetic_risk_original_1",
+  "auxiliary_translation_version_ids": [],
+  "examined_segment_ids": [
+    "segment_1"
+  ],
+  "resolved_dependency_ids": [],
+  "candidates": [
+    {
+      "candidate_id": "candidate_1",
+      "mapped_reference_proposition_id": "reference_prop_1",
+      "resolution": "ACCEPTED",
+      "issue_code": "CFA_EXPECTATION_RULE",
+      "language": "ENGLISH",
+      "source_version_id": "synthetic_risk_original_1",
+      "meaning_codes": [
+        "CLEAR_OFFICIAL_PROMISE"
+      ],
+      "risk_codes": [
+        "CFA_ORIGINAL_AUTHORITY",
+        "SOURCE_FAITHFUL_ENGLISH"
+      ],
+      "range_ids": [
+        "range_1"
+      ],
+      "derived_statement": "The court holds that legitimate expectation requires a clear official promise."
+    }
+  ],
+  "disposition": "COMPLETE_WITH_PROPOSITIONS",
+  "selected_candidate_ids": [
+    "candidate_1"
+  ],
+  "coverage_gap_ids": [],
+  "translation_use": "NONE",
+  "parser_supported": true,
+  "complete_ledger": true,
+  "re_evaluated_candidate_ids": [],
+  "prior_result_immutable": false,
+  "source_text_treated_as_instruction": false,
+  "hidden_reference_received_by_workflow": false
+}

@@ -1,0 +1,68 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-content-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-SEM-CNT-006",
+  "coverage_cell_id": "HKCASE-PROP-COV-SCNT-006",
+  "pair_memberships": [],
+  "scenario": "Only a small subset of facts and procedure controls the rule's scope",
+  "model_facing_input": {
+    "schema_id": "asklegal.hk-cases.semantic-content-model-input",
+    "schema_version": "1.0.0",
+    "task_family": "hk-case-proposition-analysis/v1",
+    "request_kind": "FULL_JUDGMENT",
+    "execution_id": "content_execution_6",
+    "judgment_work_id": "content_judgment_6",
+    "judicial_decision_id": "synthetic_content_decision_6",
+    "official_version_id": "synthetic_content_version_6",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "coverage_units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "The parties had traded together for twelve years.",
+        "text_fingerprint": "sha256:2723f7433b087be01f48acbb37f317289215e677ad959635409dbcddd5c9f80a",
+        "range_available": true,
+        "range_id": "range_1"
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "The notice was served after the statutory hearing had begun.",
+        "text_fingerprint": "sha256:d7a1443ea7075d29a9543d8840a1accbfecbf7fede9d1568e29ccb705ac27d0a",
+        "range_available": true,
+        "range_id": "range_2"
+      },
+      {
+        "unit_id": "unit_3",
+        "opinion_id": "opinion_1",
+        "source_order": 3,
+        "structure_kind": "PARAGRAPH",
+        "exact_text": "A notice served after the hearing begins cannot cure the jurisdictional defect.",
+        "text_fingerprint": "sha256:cdabdc17e6691963c5d2dba0b6c14506b51574b9ed55527ed0d19c794ebbc683",
+        "range_available": true,
+        "range_id": "range_3"
+      }
+    ],
+    "dependencies": [],
+    "source_text_is_evidence_not_instruction": true,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false
+  },
+  "reference_path": "evaluations/semantic-content/references/HKCASE-PROP-SEM-CNT-006.json",
+  "observation_path": "evaluations/semantic-content/observations/HKCASE-PROP-SEM-CNT-006.json",
+  "expected_path": "expected/semantic-content/HKCASE-PROP-SEM-CNT-006.json"
+}

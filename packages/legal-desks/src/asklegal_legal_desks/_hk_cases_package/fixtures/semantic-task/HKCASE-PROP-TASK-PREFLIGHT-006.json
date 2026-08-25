@@ -1,0 +1,167 @@
+{
+  "schema_id": "asklegal.hk-cases.semantic-task-preflight-case",
+  "schema_version": "1.0.0",
+  "fixture_id": "HKCASE-PROP-TASK-PREFLIGHT-006",
+  "request_kind": "COVERAGE_PACKET_CHALLENGE",
+  "request": {
+    "schema_id": "asklegal.hk-cases.semantic-task-request",
+    "schema_version": "1.0.0",
+    "rule_id": "HKCASE-PROP-SEMANTIC-TASK-PREFLIGHT-001",
+    "task_family": "hk-case-proposition-challenge/v1",
+    "request_kind": "COVERAGE_PACKET_CHALLENGE",
+    "execution_id": "execution_1",
+    "attempt_id": "attempt_1",
+    "packet_id": "packet_1",
+    "judgment_work_id": "judgment_work_1",
+    "workflow_components": [
+      {
+        "component_role": "COVERAGE_LEDGER",
+        "fingerprint": "sha256:f3db05c11042b526b50e237d4d5b48fa9d1bc9fcee406da4b1acbd7c2202ee93"
+      },
+      {
+        "component_role": "MODEL_SETTINGS",
+        "fingerprint": "sha256:c79979f1354590318a2b907d21523856f441a3d2f081b23a39272772da653602"
+      },
+      {
+        "component_role": "OUTPUT_SCHEMA",
+        "fingerprint": "sha256:edd957cbf0625eb62dd470a13b7c60f8757177d8c7c5c746b43320b127e6d85f"
+      },
+      {
+        "component_role": "PARSER_PROFILE",
+        "fingerprint": "sha256:f8e7d334727ea58d7b268e37c53327673424dda735d96c1c88bfd134cd902ddb"
+      },
+      {
+        "component_role": "PROCESSING_BUILD",
+        "fingerprint": "sha256:55f126abdde70f5f0dfe2069fde49e424f236ee5b4fa17aa4c3c2c5ef1810db7"
+      },
+      {
+        "component_role": "PROMPT",
+        "fingerprint": "sha256:e05ad84d1966e543756a899324569a6996ed9ce5488fa50ab772bd35a3f1529c"
+      },
+      {
+        "component_role": "SEGMENTATION_CONTRACT",
+        "fingerprint": "sha256:9705d20c2f52dc5765965bd866d76c6b03818a7ef8e97e1ae590662aecb3e96d"
+      },
+      {
+        "component_role": "SOURCE_RULEBOOK",
+        "fingerprint": "sha256:49c5ab150eccac026dc86bc2cf3b27ca0d5e1ebc1b465e7060cce643e57c5de6"
+      },
+      {
+        "component_role": "STRUCTURE_CONTRACT",
+        "fingerprint": "sha256:014bbcd91fd5ae351592f391481ddcb9d5003b79853cd0977c1e7ccd0113048e"
+      },
+      {
+        "component_role": "VALIDATOR",
+        "fingerprint": "sha256:1661a6017b60229a08f91b57a466be92de8d5ca9070e3cea8f702d7b492ea8b5"
+      }
+    ],
+    "judicial_decision_id": "judicial_decision_1",
+    "official_version_id": "official_version_1",
+    "artifact_fingerprint": "sha256:c7c5c1d70c5dec4416ab6158afd0b223ef40c29b1dc1f97ed9428b94d4cadb1c",
+    "source_snapshot_fingerprint": "sha256:16a0eeb0791b6c92451fd284dd9f599e0a7dbe7f6ebea6e2d2d06c7f74aec112",
+    "cutoff": "2026-08-25",
+    "court": "Court of Final Appeal",
+    "decision_date": "2026-07-01",
+    "citation": "[2026] HKCFA 1",
+    "original_language": "ENGLISH",
+    "opinions": [
+      {
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "role": "LEAD",
+        "judge_ids": [
+          "judge_1"
+        ]
+      }
+    ],
+    "units": [
+      {
+        "unit_id": "unit_1",
+        "opinion_id": "opinion_1",
+        "source_order": 1,
+        "primary": true,
+        "text_fingerprint": "sha256:7378475ed5429bba8686bfcb5bc7b0459701769d0e7dcb3ea617991615438c4c",
+        "required_dependency_unit_ids": [
+          "unit_3"
+        ]
+      },
+      {
+        "unit_id": "unit_2",
+        "opinion_id": "opinion_1",
+        "source_order": 2,
+        "primary": true,
+        "text_fingerprint": "sha256:244d7a1bf3f6bc6c19505af26f9f294e775b1ccac19cc1a5631da67a4a5f26ec",
+        "required_dependency_unit_ids": []
+      },
+      {
+        "unit_id": "unit_3",
+        "opinion_id": "opinion_1",
+        "source_order": 3,
+        "primary": false,
+        "text_fingerprint": "sha256:cfce8581bc06fa8d62c7dd5b428bfff7eeabd1cd311b971c0464e54c26d953a4",
+        "required_dependency_unit_ids": []
+      }
+    ],
+    "assigned_primary_unit_ids": [
+      "unit_1"
+    ],
+    "supplied_units": [
+      {
+        "unit_id": "unit_1",
+        "exact_text": "The applicable test has three cumulative limbs."
+      },
+      {
+        "unit_id": "unit_3",
+        "exact_text": "The statutory definition supplies the relevant threshold."
+      }
+    ],
+    "evidence_ranges": [
+      {
+        "range_id": "range_1",
+        "unit_id": "unit_1",
+        "start_byte": 0,
+        "end_byte": 47,
+        "exact_text_fingerprint": "sha256:7378475ed5429bba8686bfcb5bc7b0459701769d0e7dcb3ea617991615438c4c"
+      },
+      {
+        "range_id": "range_3",
+        "unit_id": "unit_3",
+        "start_byte": 0,
+        "end_byte": 57,
+        "exact_text_fingerprint": "sha256:cfce8581bc06fa8d62c7dd5b428bfff7eeabd1cd311b971c0464e54c26d953a4"
+      }
+    ],
+    "dependencies": [
+      {
+        "assigned_unit_id": "unit_1",
+        "dependency_unit_id": "unit_3",
+        "dependency_text_fingerprint": "sha256:cfce8581bc06fa8d62c7dd5b428bfff7eeabd1cd311b971c0464e54c26d953a4"
+      }
+    ],
+    "allowed_object_ids": [
+      "unit_1",
+      "unit_3",
+      "range_1",
+      "range_3"
+    ],
+    "required_evidence_role_codes": [
+      "ANSWER",
+      "APPLICATION",
+      "ATTRIBUTION",
+      "CONTEXT",
+      "ISSUE",
+      "QUALIFICATION",
+      "QUOTATION",
+      "RESULT"
+    ],
+    "output_budget_bytes": 4096,
+    "validated_proposal_fingerprint": "sha256:ecd1378bc9dc130008f00d58db5d26f60db55934a49b949af7e6f6a8da2a2beb",
+    "reconciled_objection_fingerprint": null,
+    "source_text_is_instruction": false,
+    "external_tools_permitted": false,
+    "hidden_reference_included": false,
+    "confidence_score_requested": false,
+    "source_evidence_available": true
+  },
+  "provider_call_authorized": false
+}

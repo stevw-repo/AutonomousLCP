@@ -1,0 +1,349 @@
+{
+  "fixture_id": "HKREG-ENGLISH-RECORD-FIX-001",
+  "contract_version": "1.0.0",
+  "cases": [
+    {
+      "case_id": "HKREG-ENGLISH-CASE-001",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-ENGLISH-RECORD-001",
+      "tree_fingerprint": "sha256:36a0373fe8b88582f64cf82836cc2807a59e1c141963a63c5a6768d5220e6473",
+      "component_id": "synthetic-component-main-2.01",
+      "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+      "branch_id": "synthetic-branch-current",
+      "branch_state": "CURRENT",
+      "disposition": "PASS",
+      "reason": "PASS_UNSPLIT",
+      "record_results": [
+        {
+          "root_record_unit_id": "record-root",
+          "disposition": "PASS",
+          "reason": "PASS_UNSPLIT",
+          "parts": [
+            {
+              "part_number": 1,
+              "total_parts": 1,
+              "record_unit_ids": [
+                "record-root"
+              ],
+              "primary_source_unit_ids": [
+                "rule-a"
+              ],
+              "dependency_source_unit_ids": [
+                "context"
+              ],
+              "text": "Context:\nMaterial: HKEX Listing Rule — non-statutory exchange regulatory rule\nMarket: Main Board\nComponent: Synthetic Main Board Listing Rules\nLocation: Rule 2.01\nOfficial heading: Synthetic conformance fixture\n\nRequired governing context:\nRule 2 — Synthetic ordinary fixture\n\nEnglish rule text — prevailing language:\n2.01 An issuer must comply with the Exchange Listing Rules.",
+              "text_fingerprint": "sha256:209bc4fe061608d20565c57e9b3099402ac32033505d900e87a4248d8ffd6adf",
+              "serving_payload_fingerprint": "sha256:d4bf8d92b78ebdcb9daf630f16b0d5f857e01a78eafc772acf0263cc567dbf82",
+              "measurement": {
+                "text_tokens": 377,
+                "metadata_bytes": 559,
+                "text_limit": 100000,
+                "metadata_limit": 100000,
+                "fits": true
+              }
+            }
+          ],
+          "accounted_primary_source_unit_ids": [
+            "rule-a"
+          ]
+        }
+      ],
+      "primary_source_unit_ids": [
+        "rule-a"
+      ],
+      "context_only_source_unit_ids": [
+        "context"
+      ],
+      "presentation_only_source_unit_ids": [],
+      "primary_accounting_complete": true,
+      "serving_candidate_ready": true,
+      "search_record_authorized": false,
+      "serving_ready": false
+    },
+    {
+      "case_id": "HKREG-ENGLISH-CASE-002",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-ENGLISH-RECORD-001",
+      "tree_fingerprint": "sha256:d945479529a2ad4763e1e2e972be501e238ba3ce91c314d3de1dcff3b74bf13a",
+      "component_id": "synthetic-component-main-2.01",
+      "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+      "branch_id": "synthetic-branch-transitional_current",
+      "branch_state": "TRANSITIONAL_CURRENT",
+      "disposition": "PASS",
+      "reason": "PASS_UNSPLIT",
+      "record_results": [
+        {
+          "root_record_unit_id": "record-root",
+          "disposition": "PASS",
+          "reason": "PASS_UNSPLIT",
+          "parts": [
+            {
+              "part_number": 1,
+              "total_parts": 1,
+              "record_unit_ids": [
+                "record-root"
+              ],
+              "primary_source_unit_ids": [
+                "rule-a"
+              ],
+              "dependency_source_unit_ids": [
+                "context"
+              ],
+              "text": "Context:\nMaterial: HKEX Listing Rule — non-statutory exchange regulatory rule\nMarket: Main Board\nComponent: Synthetic Main Board Listing Rules\nLocation: Rule 2.01\nOfficial heading: Synthetic conformance fixture\nEffective context: Applies to synthetic pre-2026 issuers\n\nRequired governing context:\nRule 2 — Synthetic ordinary fixture\n\nEnglish rule text — prevailing language:\n2.01 An issuer must comply with the Exchange Listing Rules.",
+              "text_fingerprint": "sha256:2fbd8e641d1c945cea144cf219b3ac69fff41d18ffbeefd980010b4c931fc064",
+              "serving_payload_fingerprint": "sha256:c6787dc480832c46c8279fa351e6fd0e4453c2a5b8c54335fac331f6dd1d18da",
+              "measurement": {
+                "text_tokens": 434,
+                "metadata_bytes": 617,
+                "text_limit": 100000,
+                "metadata_limit": 100000,
+                "fits": true
+              }
+            }
+          ],
+          "accounted_primary_source_unit_ids": [
+            "rule-a"
+          ]
+        }
+      ],
+      "primary_source_unit_ids": [
+        "rule-a"
+      ],
+      "context_only_source_unit_ids": [
+        "context"
+      ],
+      "presentation_only_source_unit_ids": [],
+      "primary_accounting_complete": true,
+      "serving_candidate_ready": true,
+      "search_record_authorized": false,
+      "serving_ready": false
+    },
+    {
+      "case_id": "HKREG-ENGLISH-CASE-003",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-ENGLISH-RECORD-001",
+      "tree_fingerprint": "sha256:90d128f8e5594c8b1ca04a60365fec5a981e96df91cbb985e8e2ffb46267df89",
+      "component_id": "synthetic-component-main-2.01",
+      "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+      "branch_id": "synthetic-branch-future_fixed_date",
+      "branch_state": "FUTURE_FIXED_DATE",
+      "disposition": "WAITING_ROOM",
+      "reason": "FUTURE_BRANCH_ACCOUNTED",
+      "record_results": [],
+      "primary_source_unit_ids": [
+        "rule-a"
+      ],
+      "context_only_source_unit_ids": [
+        "context"
+      ],
+      "presentation_only_source_unit_ids": [],
+      "primary_accounting_complete": true,
+      "serving_candidate_ready": false,
+      "search_record_authorized": false,
+      "serving_ready": false
+    },
+    {
+      "case_id": "HKREG-ENGLISH-CASE-004",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-ENGLISH-RECORD-001",
+      "tree_fingerprint": "sha256:33677fbf7a2dbe3564894d6e10a4638a7428795aa3f5cdef5143159f63b0af3d",
+      "component_id": "synthetic-component-main-2.01",
+      "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+      "branch_id": "synthetic-branch-superseded",
+      "branch_state": "SUPERSEDED",
+      "disposition": "HISTORICAL",
+      "reason": "HISTORICAL_BRANCH_ACCOUNTED",
+      "record_results": [],
+      "primary_source_unit_ids": [
+        "rule-a"
+      ],
+      "context_only_source_unit_ids": [
+        "context"
+      ],
+      "presentation_only_source_unit_ids": [],
+      "primary_accounting_complete": true,
+      "serving_candidate_ready": false,
+      "search_record_authorized": false,
+      "serving_ready": false
+    },
+    {
+      "case_id": "HKREG-ENGLISH-CASE-005",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-ENGLISH-RECORD-001",
+      "tree_fingerprint": "sha256:240de55843f7308874c29cb5a1b73b4ae103af63a1177d52c02c68ae07fa18f2",
+      "component_id": "synthetic-component-main-2.01",
+      "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+      "branch_id": "synthetic-branch-unknown",
+      "branch_state": "UNKNOWN",
+      "disposition": "QUARANTINE",
+      "reason": "UNKNOWN_BRANCH_QUARANTINED",
+      "record_results": [],
+      "primary_source_unit_ids": [
+        "rule-a"
+      ],
+      "context_only_source_unit_ids": [
+        "context"
+      ],
+      "presentation_only_source_unit_ids": [],
+      "primary_accounting_complete": true,
+      "serving_candidate_ready": false,
+      "search_record_authorized": false,
+      "serving_ready": false
+    },
+    {
+      "case_id": "HKREG-ENGLISH-CASE-006",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-ENGLISH-RECORD-001",
+      "tree_fingerprint": "sha256:dc1efc1b56ea7a8b65d38d91aeb1e8c6455513d0aabbda47509c8fcd723e7c52",
+      "component_id": "synthetic-component-main-2.01",
+      "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+      "branch_id": "synthetic-branch-current",
+      "branch_state": "CURRENT",
+      "disposition": "PASS",
+      "reason": "PASS_PARTITIONED",
+      "record_results": [
+        {
+          "root_record_unit_id": "record-root",
+          "disposition": "PASS",
+          "reason": "PASS_PARTITIONED",
+          "parts": [
+            {
+              "part_number": 1,
+              "total_parts": 2,
+              "record_unit_ids": [
+                "record-unit-a",
+                "record-unit-b"
+              ],
+              "primary_source_unit_ids": [
+                "unit-a",
+                "unit-b"
+              ],
+              "dependency_source_unit_ids": [
+                "context"
+              ],
+              "text": "Context:\nMaterial: HKEX Listing Rule — non-statutory exchange regulatory rule\nMarket: Main Board\nComponent: Synthetic Main Board Listing Rules\nLocation: Rule 9\nOfficial heading: Synthetic conformance fixture\nServing part: 1 of 2\n\nRequired governing context:\nRule 9 — Synthetic partition fixture\n\nEnglish rule text — prevailing language:\n9.01 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n9.02 BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+              "text_fingerprint": "sha256:c48f23a496a6443a017207a871a99d9af3c4de6ed99427993a643e8d9609f912",
+              "serving_payload_fingerprint": "sha256:a7f84a8b4f711e72cab574cd955faf40b70495171a18fb448310ebe348c31ccf",
+              "measurement": {
+                "text_tokens": 588,
+                "metadata_bytes": 772,
+                "text_limit": 692,
+                "metadata_limit": 100000,
+                "fits": true
+              }
+            },
+            {
+              "part_number": 2,
+              "total_parts": 2,
+              "record_unit_ids": [
+                "record-unit-c"
+              ],
+              "primary_source_unit_ids": [
+                "unit-c"
+              ],
+              "dependency_source_unit_ids": [
+                "context"
+              ],
+              "text": "Context:\nMaterial: HKEX Listing Rule — non-statutory exchange regulatory rule\nMarket: Main Board\nComponent: Synthetic Main Board Listing Rules\nLocation: Rule 9\nOfficial heading: Synthetic conformance fixture\nServing part: 2 of 2\n\nRequired governing context:\nRule 9 — Synthetic partition fixture\n\nEnglish rule text — prevailing language:\n9.03 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+              "text_fingerprint": "sha256:f171921561c1fe4f6029cb28d5ce315150125c23313b0513924225980b97a0a8",
+              "serving_payload_fingerprint": "sha256:1083a9bc67b622a8dde970bf4d489f8d4eea2088991a2a9f192f5a37e1251526",
+              "measurement": {
+                "text_tokens": 462,
+                "metadata_bytes": 645,
+                "text_limit": 692,
+                "metadata_limit": 100000,
+                "fits": true
+              }
+            }
+          ],
+          "accounted_primary_source_unit_ids": [
+            "unit-a",
+            "unit-b",
+            "unit-c"
+          ]
+        }
+      ],
+      "primary_source_unit_ids": [
+        "unit-a",
+        "unit-b",
+        "unit-c"
+      ],
+      "context_only_source_unit_ids": [
+        "context"
+      ],
+      "presentation_only_source_unit_ids": [],
+      "primary_accounting_complete": true,
+      "serving_candidate_ready": true,
+      "search_record_authorized": false,
+      "serving_ready": false
+    },
+    {
+      "case_id": "HKREG-ENGLISH-CASE-007",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-ENGLISH-RECORD-001",
+      "tree_fingerprint": "sha256:36a0373fe8b88582f64cf82836cc2807a59e1c141963a63c5a6768d5220e6473",
+      "component_id": "synthetic-component-main-2.01",
+      "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+      "branch_id": "synthetic-branch-current",
+      "branch_state": "CURRENT",
+      "disposition": "QUARANTINE",
+      "reason": "SMALLEST_COMPLETE_UNIT_OVER_LIMIT",
+      "record_results": [
+        {
+          "root_record_unit_id": "record-root",
+          "disposition": "QUARANTINE",
+          "reason": "SMALLEST_COMPLETE_UNIT_OVER_LIMIT",
+          "parts": [],
+          "accounted_primary_source_unit_ids": [
+            "rule-a"
+          ]
+        }
+      ],
+      "primary_source_unit_ids": [
+        "rule-a"
+      ],
+      "context_only_source_unit_ids": [
+        "context"
+      ],
+      "presentation_only_source_unit_ids": [],
+      "primary_accounting_complete": true,
+      "serving_candidate_ready": false,
+      "search_record_authorized": false,
+      "serving_ready": false
+    },
+    {
+      "case_id": "HKREG-ENGLISH-CASE-008",
+      "contract_version": "1.0.0",
+      "rule_id": "HKREG-ENGLISH-RECORD-001",
+      "tree_fingerprint": "sha256:fb1eda88df5a39b6dc7b1da634f241e471e7954c78d440889281360cac6bb96e",
+      "component_id": "synthetic-component-main-2.01",
+      "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+      "branch_id": "synthetic-branch-current",
+      "branch_state": "CURRENT",
+      "disposition": "QUARANTINE",
+      "reason": "SOURCE_BOUNDARY_UNKNOWN",
+      "record_results": [
+        {
+          "root_record_unit_id": "record-root",
+          "disposition": "QUARANTINE",
+          "reason": "SOURCE_BOUNDARY_UNKNOWN",
+          "parts": [],
+          "accounted_primary_source_unit_ids": [
+            "rule-a"
+          ]
+        }
+      ],
+      "primary_source_unit_ids": [
+        "rule-a"
+      ],
+      "context_only_source_unit_ids": [
+        "context"
+      ],
+      "presentation_only_source_unit_ids": [],
+      "primary_accounting_complete": true,
+      "serving_candidate_ready": false,
+      "search_record_authorized": false,
+      "serving_ready": false
+    }
+  ]
+}

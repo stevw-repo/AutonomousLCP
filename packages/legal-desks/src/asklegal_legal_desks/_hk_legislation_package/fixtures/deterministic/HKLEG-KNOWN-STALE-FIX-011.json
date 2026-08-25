@@ -1,0 +1,76 @@
+{
+  "fixture_id": "HKLEG-KNOWN-STALE-FIX-011",
+  "title": "Invalid latest applicable HKeL text does not revive an older version",
+  "synthetic": true,
+  "status": "FROZEN_PARTIAL",
+  "input_fingerprint": "sha256:e49e0c969206f7b7463f327655b59e5d9bd784cf949c7f6c3a53dbbdb54543ef",
+  "input": {
+    "selection_id": "ksf_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "cutoff": "2026-08-17T00:00:00Z",
+    "scope_id": "rsc_fa928755a873dbf8df5f4f2d333b672cd1d935af9bf99b95",
+    "object_id": "hkleg.synthetic.fallback-011",
+    "coverage_gap_ref": {
+      "ref_type": "COVERAGE_GAP",
+      "ref_id": "cvg_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "event_evidence_complete": true,
+    "event_evidence_authentic": true,
+    "event_evidence_conflicts": false,
+    "event_operative_at_cutoff": true,
+    "matching_current_consolidation_available": false,
+    "reconstruction_disposition": "INELIGIBLE_OR_FAILED",
+    "affected_location_ids": [
+      "section-4"
+    ],
+    "affected_location_scope": "EXACT",
+    "identity_mapping_proved": true,
+    "release_accounting_complete": true,
+    "candidate_versions": [
+      {
+        "official_version_ref": {
+          "ref_type": "OFFICIAL_VERSION",
+          "ref_id": "ovr_222222222222222222222222222222222222222222222222",
+          "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+        },
+        "version_date": "2026-07-01",
+        "evidence_class": "VERIFIED",
+        "applicable": true,
+        "accepted": true,
+        "independently_verifiable": true,
+        "integrity_valid": true,
+        "bilingual_complete": true,
+        "xml_copy_reconciled": true,
+        "source_text_unchanged": true,
+        "source_text_fingerprints": {
+          "en": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+          "zh-Hant": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+        }
+      },
+      {
+        "official_version_ref": {
+          "ref_type": "OFFICIAL_VERSION",
+          "ref_id": "ovr_333333333333333333333333333333333333333333333333",
+          "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+        },
+        "version_date": "2026-07-15",
+        "evidence_class": "ASSISTED",
+        "applicable": true,
+        "accepted": true,
+        "independently_verifiable": true,
+        "integrity_valid": false,
+        "bilingual_complete": true,
+        "xml_copy_reconciled": true,
+        "source_text_unchanged": true,
+        "source_text_fingerprints": {
+          "en": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+          "zh-Hant": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+        }
+      }
+    ]
+  },
+  "expected_artifact": {
+    "path": "expected/known-stale-fallback/HKLEG-KNOWN-STALE-FIX-011.json",
+    "fingerprint": "sha256:c346279cbcdd6b8f1de786d691a3ee0c1ddb0b1b80ada00f4c5118084c63612f"
+  }
+}

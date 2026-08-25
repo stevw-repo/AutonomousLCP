@@ -1,0 +1,28 @@
+{
+  "fixture_id": "HKLEG-RECON-RCN-FIX-009",
+  "rule_id": "HKLEG-RECON-RECONCILE-001",
+  "processing_outcome": "BLOCK",
+  "legal_disposition": "NOT_APPLICABLE",
+  "coverage_effect": "COVERAGE_GAP",
+  "source_contract_review_required": false,
+  "reason_codes": [
+    "HKLEG_RECON_RECONCILE_LOCATION_ACCOUNTING_INCOMPLETE"
+  ],
+  "rule_trace": [
+    "HKLEG-RECON-RECONCILE-001"
+  ],
+  "prior_monitoring_state": "AWAITING_HKEL_CONSOLIDATION",
+  "next_monitoring_state": "HKEL_CANDIDATE_OBSERVED",
+  "comparison_class": "EXACT_CANONICAL_MATCH",
+  "accounted_location_ids": [
+    "section-1"
+  ],
+  "mismatch_attribution_classes": [],
+  "suspension_scope": "NONE",
+  "serving_consequence": "ORDINARY_HKEL_CANDIDATE_NOT_YET_APPROVED",
+  "coverage_gap_consequence": "RETAIN_ACTIVE",
+  "artifact_mutation": "NONE",
+  "record_output": "NONE",
+  "external_effects": "NONE",
+  "next_action": "COMPLETE_COMPARISON_LOCATION_ACCOUNTING"
+}

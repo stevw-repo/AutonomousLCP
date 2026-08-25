@@ -1,0 +1,179 @@
+{
+  "schema_id": "asklegal.hk-regulatory.state-decision-case",
+  "schema_version": "1.0.0",
+  "package_contract_version": "1.0.0",
+  "case_id": "HKREG-DEC-STA-047",
+  "suite_layer": "EVIDENCE_TO_DECISION",
+  "primary_checkpoint": "EFFECTIVE_STATE",
+  "frozen": true,
+  "synthetic_evidence_class": "SYNTHETIC_NO_REAL_AUTHORITY",
+  "contract_bindings": [
+    {
+      "contract_id": "asklegal.hk-regulatory.conformance-universe",
+      "version": "1.0.0",
+      "fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14"
+    },
+    {
+      "contract_id": "asklegal.hk-regulatory.state-decision-case",
+      "version": "1.0.0",
+      "fingerprint": "sha256:24e334a3c967e76bbe21c862d7f5a6da98e7ce8cea2e73b8f0945db99e3f0099"
+    }
+  ],
+  "synthetic_cutoff": "2026-08-24T00:00:00Z",
+  "scope_id": "HKEX_CROSS_BOARD",
+  "prior_state": "SYNTHETIC_ACCEPTED_PREDECESSOR",
+  "primary_coverage_cell_ids": [
+    "HKREG-COV-DSTA-047"
+  ],
+  "secondary_coverage_cell_ids": [],
+  "pair_memberships": [],
+  "declared_input_inventory": [
+    "state-evidence"
+  ],
+  "declared_reference_inventory": [
+    "asklegal.hk-regulatory.conformance-universe",
+    "asklegal.hk-regulatory.state-decision-case"
+  ],
+  "declared_expected_inventory": [
+    "STATE_DECISION_REPORT"
+  ],
+  "assertion_scope": "SOURCE_FAILURE",
+  "required_result_dimensions": [
+    "APPLICABILITY",
+    "BRANCH_STATE",
+    "COMPONENT_STATE",
+    "PROCESSING",
+    "RECORD_RESPONSIBILITY",
+    "SOURCE_FAILURE"
+  ],
+  "evidence_packet_fields": [
+    "branches",
+    "carry_forward_support",
+    "complete_branch_set",
+    "effective_order_facts",
+    "limitation_metadata_complete",
+    "membership",
+    "other_required_gates_passed",
+    "repair_attempt",
+    "unsupported_retirement_basis",
+    "wording_relationship"
+  ],
+  "supporting_evidence_ranges": [
+    "input/HKREG-DEC-STA-047-state-evidence.json#facts"
+  ],
+  "rule_trace": [
+    "HKREG-EFFECTIVE-STATE-001",
+    "HKREG-STATE-DECISION-001"
+  ],
+  "established_facts": [
+    "SYNTHETIC_STATE_FACT_PACKET_DECLARED"
+  ],
+  "unresolved_facts": [],
+  "permitted_equivalent_results": [],
+  "critical_error_codes": [],
+  "package_fingerprint": "sha256:08811f9115365b21637728a4a0ab3234cf320e6030f0be2213c24bdfbd72fa14",
+  "title": "Technical outage supports explicit last-approved carry-forward",
+  "purpose": "Preserve last-approved status, last-verified date, Coverage Gap, warning, optional due time, and support; do not call it fresh",
+  "expected_decision": {
+    "schema_id": "asklegal.hk-regulatory.state-decision-result",
+    "schema_version": "1.0.0",
+    "rule_id": "HKREG-STATE-DECISION-001",
+    "case_id": "HKREG-DEC-STA-047",
+    "outcome": "PASS",
+    "reason": "LAST_APPROVED_CARRY_FORWARD",
+    "not_applicable": false,
+    "branch_decisions": [
+      {
+        "branch_id": "branch-047",
+        "state": "UNKNOWN",
+        "disposition": "QUARANTINE",
+        "processing_outcome": "QUARANTINE",
+        "reason": "SOURCE_FAILURE_COULD_CHANGE_CURRENT",
+        "applicability_context": null
+      }
+    ],
+    "component_state": null,
+    "record_responsibility": "NONE",
+    "ordered_branch_ids": [],
+    "source_failure_choice": "CARRY_FORWARD_LAST_APPROVED",
+    "carry_forward_support": {
+      "last_approved_status": "APPROVED_CURRENT",
+      "last_verified_at": "2026-08-23T18:00:00+08:00",
+      "coverage_gap_id": "coverage-gap-047",
+      "warning_code": "LAST_APPROVED_NOT_FRESH",
+      "next_due_at": "2026-08-24T06:00:00+08:00",
+      "support_ref": "evidence:last-approved-047"
+    },
+    "rebuild_target_authorized": false,
+    "repair_rejected": false,
+    "search_record_authorized": false,
+    "embedding_authorized": false,
+    "release_authorized": false,
+    "serving_authorized": false,
+    "external_effects": "NONE"
+  },
+  "evidence_packet": {
+    "slot_id": "state-evidence",
+    "state": "AVAILABLE",
+    "path": "input/HKREG-DEC-STA-047-state-evidence.json",
+    "role": "ORDINARY",
+    "media_type": "application/json",
+    "content_fingerprint": "sha256:ade07b563b4e4ef9ab96e7e2c8514f54f5dc67fa1fc76f9cfe6e9e9cd0a20744"
+  },
+  "facts": {
+    "membership": "RULE_COMPONENT",
+    "branches": [
+      {
+        "decision_id": "decision-branch-047",
+        "branch_id": "branch-047",
+        "component_id": "component-conformance",
+        "scope_id": "HK-REG-HKEX-MAIN-BOARD",
+        "legal_location_id": "location-branch-047",
+        "cutoff": "2026-08-24T00:00:00+08:00",
+        "update_part_id": "update-part-branch-047",
+        "update_source_ranges": [
+          "evidence-update#branch-047"
+        ],
+        "current_product_ranges": [
+          "evidence-current#branch-047"
+        ],
+        "basis": "ORDINARY",
+        "finality": "FINAL_PUBLICATION_APPROVAL_INFERRED",
+        "effective_at": null,
+        "condition_operator": null,
+        "conditions": [],
+        "transition_state": "ORDINARY",
+        "applicability_context": null,
+        "retirement_evidence": "NONE",
+        "predecessor_branch_id": null,
+        "successor_branch_ids": [],
+        "current_product_reconciliation": "MATCH",
+        "uncertainty_codes": [],
+        "source_failure_impact": "COULD_CHANGE_CURRENT",
+        "source_failure_choice": "CARRY_FORWARD_LAST_APPROVED",
+        "source_rule_id": "HKREG-EFFECTIVE-STATE-001",
+        "evidence_refs": [
+          "evidence-current-branch-047",
+          "evidence-update-branch-047"
+        ],
+        "evidence_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    ],
+    "complete_branch_set": false,
+    "wording_relationship": "NOT_EVALUATED",
+    "limitation_metadata_complete": false,
+    "effective_order_facts": [],
+    "carry_forward_support": {
+      "last_approved_status": "APPROVED_CURRENT",
+      "last_verified_at": "2026-08-23T18:00:00+08:00",
+      "coverage_gap_id": "coverage-gap-047",
+      "warning_code": "LAST_APPROVED_NOT_FRESH",
+      "next_due_at": "2026-08-24T06:00:00+08:00",
+      "support_ref": "evidence:last-approved-047"
+    },
+    "other_required_gates_passed": true,
+    "repair_attempt": "NONE",
+    "unsupported_retirement_basis": "NONE"
+  },
+  "case_fingerprint": "sha256:ec7823ecefb3b443d1082c66ebde66ec6d9b715be48bca73ed0dd50480bbb72b"
+}

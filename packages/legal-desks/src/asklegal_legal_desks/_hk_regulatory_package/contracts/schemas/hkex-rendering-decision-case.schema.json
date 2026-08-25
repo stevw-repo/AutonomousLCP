@@ -1,0 +1,716 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ask.legal/schemas/hkex-rendering-decision-case.schema.json",
+  "title": "HKEX canonical-rendering conformance case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "package_contract_version",
+    "case_id",
+    "suite_layer",
+    "primary_checkpoint",
+    "frozen",
+    "synthetic_evidence_class",
+    "contract_bindings",
+    "synthetic_cutoff",
+    "scope_id",
+    "prior_state",
+    "primary_coverage_cell_ids",
+    "secondary_coverage_cell_ids",
+    "pair_memberships",
+    "declared_input_inventory",
+    "declared_reference_inventory",
+    "declared_expected_inventory",
+    "assertion_scope",
+    "required_result_dimensions",
+    "evidence_packet_fields",
+    "supporting_evidence_ranges",
+    "rule_trace",
+    "established_facts",
+    "unresolved_facts",
+    "permitted_equivalent_results",
+    "critical_error_codes",
+    "package_fingerprint",
+    "title",
+    "purpose",
+    "expected_decision",
+    "evidence_packet",
+    "facts",
+    "case_fingerprint"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "asklegal.hk-regulatory.rendering-decision-case"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "package_contract_version": {
+      "const": "1.0.0"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^HKREG-DET-RND-(0[0-2][0-9]|03[0-5])$"
+    },
+    "suite_layer": {
+      "const": "DECISION_TO_ARTIFACT"
+    },
+    "primary_checkpoint": {
+      "const": "CANONICAL_RENDERING"
+    },
+    "frozen": {
+      "const": true
+    },
+    "synthetic_evidence_class": {
+      "const": "SYNTHETIC_NO_REAL_AUTHORITY"
+    },
+    "contract_bindings": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contract_id",
+          "version",
+          "fingerprint"
+        ],
+        "properties": {
+          "contract_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fingerprint": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "synthetic_cutoff": {
+      "const": "2026-08-24T00:00:00Z"
+    },
+    "scope_id": {
+      "const": "HKEX_CROSS_BOARD"
+    },
+    "prior_state": {
+      "const": "SYNTHETIC_ACCEPTED_PREDECESSOR"
+    },
+    "primary_coverage_cell_ids": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "secondary_coverage_cell_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "pair_memberships": {
+      "type": "array",
+      "maxItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "pair_id",
+          "role"
+        ],
+        "properties": {
+          "pair_id": {
+            "type": "string",
+            "pattern": "^HKREG-PAIR-0(3[2-7]|57)$"
+          },
+          "role": {
+            "enum": [
+              "POSITIVE",
+              "NEAR_MISS"
+            ]
+          }
+        }
+      }
+    },
+    "declared_input_inventory": {
+      "const": [
+        "rendering-evidence"
+      ]
+    },
+    "declared_reference_inventory": {
+      "const": [
+        "asklegal.hk-regulatory.conformance-universe",
+        "asklegal.hk-regulatory.rendering-decision-case"
+      ]
+    },
+    "declared_expected_inventory": {
+      "const": [
+        "RENDERING_DECISION_REPORT"
+      ]
+    },
+    "assertion_scope": {
+      "enum": [
+        "ORDINARY",
+        "TABLE",
+        "FEE",
+        "FORM",
+        "LANGUAGE",
+        "UNCERTAINTY",
+        "AUTHORITY_NOTE"
+      ]
+    },
+    "required_result_dimensions": {
+      "const": [
+        "AUTHORITY_NOTE",
+        "CANONICAL_BYTES",
+        "IDENTITY_CONSEQUENCE",
+        "MEASUREMENT",
+        "PROCESSING",
+        "SOURCE_FIDELITY",
+        "VECTOR_RESPONSIBILITY"
+      ]
+    },
+    "evidence_packet_fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "supporting_evidence_ranges": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "rule_trace": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "established_facts": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "unresolved_facts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "permitted_equivalent_results": {
+      "const": []
+    },
+    "critical_error_codes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "package_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expected_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "rule_id",
+        "case_id",
+        "outcome",
+        "reason",
+        "canonical_text",
+        "authority_note",
+        "embedding_input",
+        "text_tokens",
+        "metadata_bytes",
+        "text_limit",
+        "metadata_limit",
+        "fits",
+        "omitted_element_ids",
+        "rejected_element_ids",
+        "quarantined_element_ids",
+        "identity_consequence",
+        "vector_responsibility",
+        "search_record_authorized",
+        "embedding_authorized",
+        "release_authorized",
+        "serving_authorized",
+        "external_effects"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "asklegal.hk-regulatory.rendering-decision-result"
+        },
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "rule_id": {
+          "const": "HKREG-RENDERING-DECISION-001"
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^HKREG-DET-RND-(0[0-2][0-9]|03[0-5])$"
+        },
+        "outcome": {
+          "enum": [
+            "PASS",
+            "BLOCK",
+            "QUARANTINE"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "CANONICAL_RENDERED",
+            "BOARD_ISOLATION_PRESERVED",
+            "OFFICIAL_HEADING_INCLUDED",
+            "OFFICIAL_HEADING_OMITTED",
+            "EFFECTIVE_CONTEXT_INCLUDED",
+            "EFFECTIVE_CONTEXT_OMITTED",
+            "GOVERNING_CONTEXT_INCLUDED",
+            "GOVERNING_CONTEXT_OMITTED",
+            "REFERENCE_RENDERED",
+            "REFERENCE_OMITTED",
+            "SOURCE_FIDELITY_PRESERVED",
+            "CANONICAL_NORMALIZED",
+            "FORBIDDEN_CONTENT_EXCLUDED",
+            "AUTHORITY_NONE_SEPARATE",
+            "AUTHORITY_WARNING_SEPARATE",
+            "COMPLETE_MEASUREMENT",
+            "TABLE_COMPLETE",
+            "TABLE_INCOMPLETE",
+            "TABLE_SPAN_PRESERVED",
+            "PRESENTATION_CHANGE_STABLE",
+            "MATERIAL_TABLE_CHANGE",
+            "FEE_COMPLETE",
+            "FEE_INCOMPLETE",
+            "FORM_COMPLETE",
+            "PRESENTATION_CONTROL_OMITTED",
+            "FORM_STRUCTURE_COMPLETE",
+            "NEUTRAL_MARKERS_PRESERVED",
+            "FORM_FRAGMENTATION_REJECTED",
+            "ENGLISH_ONLY_SERVING",
+            "CHINESE_SERVING_REJECTED",
+            "SOURCE_AMBIGUITY_QUARANTINED",
+            "TRANSITION_WARNING_SEPARATE",
+            "MARKET_WARNING_SEPARATE",
+            "SOURCE_WARNING_SEPARATE",
+            "REPRESENTATION_WARNING_SEPARATE"
+          ]
+        },
+        "canonical_text": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "authority_note": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "embedding_input": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "text_tokens": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "metadata_bytes": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "text_limit": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "metadata_limit": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fits": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "omitted_element_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "rejected_element_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "quarantined_element_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "identity_consequence": {
+          "enum": [
+            "NOT_EVALUATED",
+            "PRESERVE_EXISTING",
+            "NEW_RECORD_REQUIRED"
+          ]
+        },
+        "vector_responsibility": {
+          "enum": [
+            "NONE",
+            "ONE_ENGLISH_TEXT"
+          ]
+        },
+        "search_record_authorized": {
+          "const": false
+        },
+        "embedding_authorized": {
+          "const": false
+        },
+        "release_authorized": {
+          "const": false
+        },
+        "serving_authorized": {
+          "const": false
+        },
+        "external_effects": {
+          "const": "NONE"
+        }
+      }
+    },
+    "evidence_packet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot_id",
+        "state",
+        "path",
+        "role",
+        "media_type",
+        "content_fingerprint"
+      ],
+      "properties": {
+        "slot_id": {
+          "const": "rendering-evidence"
+        },
+        "state": {
+          "const": "AVAILABLE"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "const": "ORDINARY"
+        },
+        "media_type": {
+          "const": "application/json"
+        },
+        "content_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope_id",
+        "component_label",
+        "location_label",
+        "official_heading",
+        "effective_context",
+        "dependency_lines",
+        "references",
+        "primary_lines",
+        "projection_kind",
+        "required_element_ids",
+        "present_element_ids",
+        "presentation_only_element_ids",
+        "forbidden_element_ids",
+        "optional_chinese_evidence_present",
+        "chinese_text_inserted",
+        "chinese_duplicate_requested",
+        "parallel_vector_requested",
+        "source_ambiguity",
+        "presentation_only_change",
+        "material_projection_change",
+        "authority_note",
+        "tokenizer_id",
+        "tokenizer_fingerprint",
+        "max_text_tokens",
+        "max_metadata_bytes"
+      ],
+      "properties": {
+        "scope_id": {
+          "enum": [
+            "HK-REG-HKEX-GEM",
+            "HK-REG-HKEX-MAIN-BOARD"
+          ]
+        },
+        "component_label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "location_label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "official_heading": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "effective_context": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dependency_lines": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "locator",
+              "official_heading"
+            ],
+            "properties": {
+              "locator": {
+                "type": "string",
+                "minLength": 1
+              },
+              "official_heading": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "primary_lines": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "projection_kind": {
+          "enum": [
+            "ORDINARY",
+            "TABLE",
+            "FEE",
+            "FORM"
+          ]
+        },
+        "required_element_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "present_element_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "presentation_only_element_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "forbidden_element_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "optional_chinese_evidence_present": {
+          "type": "boolean"
+        },
+        "chinese_text_inserted": {
+          "type": "boolean"
+        },
+        "chinese_duplicate_requested": {
+          "type": "boolean"
+        },
+        "parallel_vector_requested": {
+          "type": "boolean"
+        },
+        "source_ambiguity": {
+          "type": "boolean"
+        },
+        "presentation_only_change": {
+          "type": "boolean"
+        },
+        "material_projection_change": {
+          "type": "boolean"
+        },
+        "authority_note": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tokenizer_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tokenizer_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "max_text_tokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_metadata_bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "case_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

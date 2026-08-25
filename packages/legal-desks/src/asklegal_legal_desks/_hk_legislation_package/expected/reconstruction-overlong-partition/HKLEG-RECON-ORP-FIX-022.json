@@ -1,0 +1,66 @@
+{
+  "approval_required": false,
+  "affirmative_record_change_proved": true,
+  "audit_history_ref": {
+    "ref_type": "AUDIT_HISTORY",
+    "ref_id": "audit_partition",
+    "fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "coverage_gap_ref": {
+    "ref_type": "COVERAGE_GAP",
+    "ref_id": "gap_partition",
+    "fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "coverage_gap_required": true,
+  "continued_serving_supported": false,
+  "decided_at": "2026-08-24T00:00:00Z",
+  "decision": "NO_JURISDICTION_REBUILD",
+  "decision_evidence_ref": {
+    "ref_type": "DECISION_EVIDENCE",
+    "ref_id": "evidence_partition",
+    "fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "decision_reason": "Changed official material cannot be partitioned safely and no complete withholding release is yet supportable.",
+  "decision_ref": {
+    "ref_type": "LEGAL_DESK_DECISION",
+    "ref_id": "decision_partition",
+    "fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "disposition": "PASS",
+  "existing_records_materially_misleading": true,
+  "external_effects": "NONE",
+  "last_verified_at": "2026-08-20T00:00:00Z",
+  "legal_desk_author": "hk-legislation-legal-desk",
+  "new_official_version_ref": {
+    "ref_type": "OFFICIAL_VERSION",
+    "ref_id": "ov_new",
+    "fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "partition_result_fingerprint": "sha256:51f91df928f8ad112f0691cda56cb93851bc4a3e4ea7033786a91003ae5f5688",
+  "parts": [],
+  "predecessor_retirement": "FORBIDDEN",
+  "previous_official_version_ref": {
+    "ref_type": "OFFICIAL_VERSION",
+    "ref_id": "ov_previous",
+    "fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "previous_release_ref": {
+    "ref_type": "CORPUS_RELEASE",
+    "ref_id": "rel_previous",
+    "fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "previous_target_ref": {
+    "ref_type": "SERVING_TARGET",
+    "ref_id": "target_previous",
+    "fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "reason": "EXPLICIT_UNSAFE_NEW_VERSION_CONSEQUENCE",
+  "release_action": "NO_NEW_DESIRED_STATE",
+  "review_deadline": "2026-08-31T00:00:00Z",
+  "routing_action": "RETAIN_PREVIOUS_VERIFIED_TARGET",
+  "search_record_output": "NONE",
+  "selected_release_ref": null,
+  "warning": "Coverage gap: the new Official Version cannot be served safely; the previous verified target remains active.",
+  "withholding_release_ref": null,
+  "withholding_supported": false
+}

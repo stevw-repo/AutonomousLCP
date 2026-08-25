@@ -26,6 +26,7 @@ from asklegal_promotion import (
     PromotionError,
     ProposalMemberReceipt,
     StoredProposalPackage,
+    TraceabilityShardReceipt,
     promotion_approval_snapshot_from_bytes,
     proposal_receipt_document,
     proposal_receipt_fingerprint,
@@ -62,9 +63,10 @@ class ProposalPreparationService:
         self,
         contents_by_role: Mapping[str, bytes],
         inputs: ProposalPackageInput,
+        traceability_shards_by_path: Mapping[str, bytes],
     ) -> ProposalPackage:
         """Commit a schema-valid proposal root only after every member is frozen."""
-        package = freeze_proposal_package(contents_by_role, inputs)
+        package = freeze_proposal_package(contents_by_role, inputs, traceability_shards_by_path)
         value = parse_json_bytes(package.manifest_bytes, max_bytes=1_000_000)
         self._schemas.validate(
             value,
@@ -107,22 +109,38 @@ class VaultProposalPreparationService:
         self,
         contents_by_role: Mapping[str, bytes],
         inputs: ProposalPackageInput,
+        traceability_shards_by_path: Mapping[str, bytes],
     ) -> StoredProposalPackage:
         """Write members first, commit the root last, then verify every exact version."""
-        package = freeze_proposal_package(contents_by_role, inputs)
+        package = freeze_proposal_package(contents_by_role, inputs, traceability_shards_by_path)
         self._validate_manifest(package.manifest_bytes)
-        members = tuple(
-            ProposalMemberReceipt(
-                artifact.role,
-                artifact.path,
-                self._vault.conditional_create(
-                    self._member_key(package.package_id, artifact.path),
-                    artifact.content,
-                    self._retention,
-                ).reference,
+        members: list[ProposalMemberReceipt] = []
+        traceability_shards: tuple[TraceabilityShardReceipt, ...] = ()
+        for artifact in package.artifacts:
+            if artifact.role == "RECORD_TRACEABILITY":
+                traceability_shards = tuple(
+                    TraceabilityShardReceipt(
+                        path,
+                        self._vault.conditional_create(
+                            self._traceability_shard_key(package.package_id, path),
+                            traceability_shards_by_path[path],
+                            self._retention,
+                        ).reference,
+                    )
+                    for path in sorted(traceability_shards_by_path)
+                )
+            members.append(
+                ProposalMemberReceipt(
+                    artifact.role,
+                    artifact.path,
+                    self._vault.conditional_create(
+                        self._member_key(package.package_id, artifact.path),
+                        artifact.content,
+                        self._retention,
+                    ).reference,
+                )
             )
-            for artifact in package.artifacts
-        )
+        frozen_members = tuple(members)
         manifest_reference = self._vault.conditional_create(
             self._manifest_key(package.package_id),
             package.manifest_bytes,
@@ -133,7 +151,8 @@ class VaultProposalPreparationService:
             package.fingerprint,
             package.promotion_manifest_id,
             package.promotion_manifest_fingerprint,
-            members,
+            frozen_members,
+            traceability_shards,
             manifest_reference,
             "",
         )
@@ -143,6 +162,7 @@ class VaultProposalPreparationService:
             provisional.promotion_manifest_id,
             provisional.promotion_manifest_fingerprint,
             provisional.members,
+            provisional.traceability_shards,
             provisional.manifest_reference,
             proposal_receipt_fingerprint(provisional),
         )
@@ -170,6 +190,10 @@ class VaultProposalPreparationService:
     @staticmethod
     def _manifest_key(package_id: str) -> str:
         return f"proposal-packages/{package_id}/proposal-manifest.json"
+
+    @staticmethod
+    def _traceability_shard_key(package_id: str, path: str) -> str:
+        return f"proposal-packages/{package_id}/traceability/{path}"
 
 
 class ProposalRegistrationService:
