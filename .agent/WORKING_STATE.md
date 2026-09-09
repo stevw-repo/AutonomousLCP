@@ -20,8 +20,10 @@ repository. Any unavailable recovery or external input must remain visibly
   `https://github.com/stevw-repo/AutonomousLCP.git`. Commit
   `456268baea08dacedd8a3db708d4a0ab5c21ca6b` (`Complete Hong Kong V1 local
   execution path`) and continuity commit
-  `db47a5f9af08b15a8fa7e632ae4094922b5acc42` were pushed without force to
-  `origin/main` on 2026-09-10.
+  `db47a5f9af08b15a8fa7e632ae4094922b5acc42`, followed by runtime/credential
+  closure commit `aae7dbd8fe936ad46675313399fe965a48afc475` (`Close local V1
+  runtime and credential bootstrap`),
+  were pushed without force to `origin/main` on 2026-09-10.
 - Standing authority cannot supply the local sudo password, create a genuine
   named-human Approval decision, manufacture publisher facts, or accept unseen
   third-party terms. Never place credentials in chat, Git, plans, reports, or
@@ -189,13 +191,14 @@ repository. Any unavailable recovery or external input must remain visibly
 - Generated a new ignored private 25-file credential candidate with nine new
   credentials and retained only its value-free receipt. No credential was
   installed, sealed, sent to a vault, or printed.
-- Commit `456268baea08dacedd8a3db708d4a0ab5c21ca6b` was pushed to the renamed
-  GitHub `origin/main`. No source/browser request, terms acceptance,
+- Commits `456268baea08dacedd8a3db708d4a0ab5c21ca6b`,
+  `db47a5f9af08b15a8fa7e632ae4094922b5acc42`, and
+  `aae7dbd8fe936ad46675313399fe965a48afc475` were pushed to the
+  renamed GitHub `origin/main`. No source/browser request, terms acceptance,
   Azure/model/embedding/Pinecone call, vault IAM mutation, credential install,
   SQL/Scheduler mutation, service restart, firewall/routing change, reboot,
   deletion, or release publication has yet occurred in this continuation.
 
-The pushed baseline is synchronized with `origin/main`; the worktree is now
-intentionally dirty only with the post-push runtime-closure repairs above.
-Preserve those concurrent edits. Ignored `var/` contains private/runtime
-evidence and must not enter Git.
+The pushed implementation is synchronized with `origin/main`. This continuity
+update is the only post-push tracked change pending its own handoff commit.
+Ignored `var/` contains private/runtime evidence and must not enter Git.
