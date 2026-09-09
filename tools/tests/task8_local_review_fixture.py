@@ -68,6 +68,8 @@ class _FixtureOptions:
     readiness_target_members: tuple[tuple[str, str, str], ...] | None = None
     live_profile: tuple[PromotionManifest, str, str, str] | None = None
     records_are_replacements: bool = False
+    addition_record_ids: tuple[str, ...] = ()
+    manifest_factory_name: str = "task8_v1_manifest_fixture"
 
 
 def _fingerprint(content: bytes) -> str:
@@ -158,6 +160,7 @@ def _semantic_member_material(
     manifest: PromotionManifest,
     *,
     records_are_replacements: bool = False,
+    addition_record_ids: tuple[str, ...] = (),
 ) -> tuple[dict[str, bytes], dict[str, bytes]]:
     """Build all non-manifest members and exact traceability shards."""
     observation_cutoff = manifest.desired_state.observation_cutoff
@@ -201,7 +204,14 @@ def _semantic_member_material(
         shard_path = f"entries/{shard_id}.ndjson"
         entries: list[bytes] = []
         for record_index, item in enumerate(records_by_scope[scope], start=1):
-            evidence = item.record.evidence_refs[0]
+            evidence_references = [
+                {
+                    "fingerprint": "sha256:" + "5" * 64,
+                    "ref_id": evidence,
+                    "ref_type": "EVIDENCE",
+                }
+                for evidence in item.record.evidence_refs
+            ]
             entries.append(
                 canonicalize(
                     checked_json_value(
@@ -215,17 +225,11 @@ def _semantic_member_material(
                                 "rendered_value_fingerprint": _fingerprint(
                                     item.record.authority_note.encode()
                                 ),
-                                "supporting_evidence_refs": [],
+                                "supporting_evidence_refs": evidence_references,
                             },
                             "corpus_release_id": item.release_id,
                             "display_citation_ids": [],
-                            "evidence_refs": [
-                                {
-                                    "fingerprint": "sha256:" + "5" * 64,
-                                    "ref_id": evidence,
-                                    "ref_type": "EVIDENCE",
-                                }
-                            ],
+                            "evidence_refs": evidence_references,
                             "grouping_ids": [],
                             "legal_item_id": _numbered_id("lit", record_index),
                             "legal_location_ids": [_numbered_id("loc", record_index)],
@@ -252,18 +256,24 @@ def _semantic_member_material(
             }
         )
     all_evidence = sorted(set(evidence_refs) | set(validation_refs))
+    all_record_ids = [item.record_id for item in manifest.desired_state.records]
+    additions = list(addition_record_ids) if records_are_replacements else all_record_ids
+    if len(set(additions)) != len(additions) or not set(additions).issubset(all_record_ids):
+        message = "fixture addition record identities must be exact desired-state members"
+        raise ValueError(message)
+    replacements = (
+        [record_id for record_id in all_record_ids if record_id not in set(additions)]
+        if records_are_replacements
+        else []
+    )
     contents = {
         "CHANGE_INVENTORY": canonicalize(
             checked_json_value(
                 {
-                    "additions": []
-                    if records_are_replacements
-                    else [item.record_id for item in manifest.desired_state.records],
+                    "additions": additions,
                     "carried_forward": [],
                     "observation_cutoff": observation_cutoff,
-                    "replacements": [item.record_id for item in manifest.desired_state.records]
-                    if records_are_replacements
-                    else [],
+                    "replacements": replacements,
                     "retirements": [],
                     "unchanged": [],
                     "withholdings": [],
@@ -404,7 +414,7 @@ def _write_review_fixture(
         str(repository_root / "apps/promotion-worker/tests/test_m6_promotion.py")
     )
     manifest_factory = cast(
-        "Callable[[], PromotionManifest]", namespace["task8_v1_manifest_fixture"]
+        "Callable[[], PromotionManifest]", namespace[options.manifest_factory_name]
     )
     plan_factory = cast(
         "Callable[[PromotionManifest], PromotionPlan]", namespace["task8_plan_from_manifest"]
@@ -423,10 +433,13 @@ def _write_review_fixture(
         base.embedding_profile.profile_fingerprint,
         observation_cutoff,
     )
-    record_ids = tuple(item.record_id for item in base.desired_state.records)
-    target_members = options.readiness_target_members or (
-        (record_ids[0], _SCOPES[0], "CASES"),
-        (record_ids[1], _SCOPES[2], "LEGISLATION"),
+    target_members = options.readiness_target_members or tuple(
+        (
+            item.record_id,
+            item.scope_id,
+            "CASES" if item.scope_id == _SCOPES[0] else "LEGISLATION",
+        )
+        for item in base.desired_state.records
     )
     readiness = freeze_hk_v1_review_readiness(
         tuple(
@@ -473,6 +486,7 @@ def _write_review_fixture(
     contents, shards = _semantic_member_material(
         base,
         records_are_replacements=options.records_are_replacements,
+        addition_record_ids=options.addition_record_ids,
     )
     declarations = tuple(
         ProposalArtifactProjection(
@@ -603,11 +617,15 @@ def write_task8_interview_review_fixture(
     root: Path,
     repository_root: Path,
 ) -> LocalReviewFixture:
-    """Write the interview variant whose two records replace predecessor search records."""
+    """Write the demo variant with new Case B plus two predecessor replacements."""
     return _write_review_fixture(
         root,
         repository_root,
-        _FixtureOptions(records_are_replacements=True),
+        _FixtureOptions(
+            records_are_replacements=True,
+            addition_record_ids=("rec_" + "3" * 48,),
+            manifest_factory_name="task8_interview_v1_manifest_fixture",
+        ),
     )
 
 

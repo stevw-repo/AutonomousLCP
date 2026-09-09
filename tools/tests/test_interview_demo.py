@@ -97,9 +97,9 @@ async def _assert_report_visible(app: FastAPI) -> None:
     assert response.headers["content-type"] == "application/json"
     assert response.headers["cache-control"] == "no-store"
     assert response.headers["x-content-type-options"] == "nosniff"
-    assert response.json()["schema_id"] == "asklegal.offline-interview-change-report/v1"
+    assert response.json()["schema_id"] == "asklegal.offline-demo-change-report/v1"
     assert response.json()["change_counts"] == {
-        "additions": 0,
+        "additions": 1,
         "replacements": 2,
         "retirements": 0,
         "unchanged": 0,
@@ -107,9 +107,11 @@ async def _assert_report_visible(app: FastAPI) -> None:
     }
     assert [change["material_type"] for change in response.json()["changes"]] == [
         "Case",
+        "Case",
         "Legislation",
     ]
     assert [change["action"] for change in response.json()["changes"]] == [
+        "ADDED",
         "UPDATED",
         "UPDATED",
     ]

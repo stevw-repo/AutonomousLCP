@@ -7689,16 +7689,20 @@ state or report and therefore requires no rollback.
 ## 2026-09-10 — Make the interview review screen legal-change-first
 
 The interview POC uses a single simplified review view: compact pipeline
-status, two proposed legal changes, coverage checked, one whole-package human
+status, three proposed legal changes, coverage checked, one whole-package human
 decision, and collapsed evidence/technical data. Demo mode connects locally
 without showing credential or one-item proposal-management mechanics; the
 generic Review application retains its normal authentication surface.
 
-The two proposed replacements are explicitly fictional and synthetic: a later
-Court of Appeal example that follows an earlier proposition on reasons while
-distinguishing urgent interim relief, and an operative section-amendment example
-changing 14 days to 21 days with an effective date before the review cutoff.
-They demonstrate case-treatment and current-law amendment handling without
-asserting any real Hong Kong judgment or enactment. The report must derive its
-counts and displayed records from the frozen change inventory and desired state,
-not from presentation-only claims.
+The proposed records are explicitly fictional and synthetic: a new Court of
+Appeal Case B; a separate replacement of Case A's authority note recording that
+Case B follows its reasons proposition while distinguishing urgent interim
+relief; and an operative section-amendment replacement changing 14 days to 21
+days with an effective date before the review cutoff. This supersedes the first
+two-record presentation, which showed Case A's treatment without independently
+including the new Case B that caused it. The three-record form demonstrates
+case ingestion, case-treatment propagation, and current-law amendment handling
+without asserting any real Hong Kong judgment or enactment. The report must
+derive its counts and displayed records from the frozen change inventory and
+desired state, not from presentation-only claims. Visible product copy describes
+a synthetic legal-update demo and does not call itself an interview.

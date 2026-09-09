@@ -30,18 +30,18 @@ credential is contacted.
 2. Point to **Pipeline status**. Explain that the first three stages are
    automated, human review is the governance boundary, and promotion cannot
    proceed without a decision.
-3. Move to **Proposed legal changes**. Walk through the case-law treatment and
-   legislation amendment cards. Emphasise the before/after legal meaning and
-   the effect on search.
+3. Move to **Proposed legal changes**. Walk through the new Case B, its separate
+   treatment update to Case A, and the legislation amendment. Emphasise the
+   causal link between the first two cards and the effect of each on search.
 4. Move to **Coverage checked**. Explain that the system reports both changed
    scopes and explicitly checked scopes with no change; silence is not treated
    as completeness.
 5. Open **Evidence and complete change data** briefly. Explain that the readable
    cards are backed by record IDs and retained evidence references rather than
    presentation-only text.
-6. Enter a decision note such as `Reviewed the treatment, amendment, effective
-   date and scope coverage.` Then click **Approve all updates** or **Reject
-   update**.
+6. Enter a decision note such as `Reviewed new Case B, its treatment of Case A,
+   the amendment, effective date and scope coverage.` Then click **Approve all
+   updates** or **Reject update**.
 7. Point out that the decision applies to the exact frozen package. Any change
    to a record or its evidence requires a new review.
 
@@ -99,8 +99,9 @@ it cannot silently turn a new interpretation into served legal data.
 
 ### Proposed legal changes: summary numbers
 
-The page shows **2 proposed updates**. Both are replacements of existing search
-records, not two brand-new unrelated records. That distinction matters:
+The page shows **3 proposed updates**: one addition and two replacements. Case B
+is the addition. Case A's treatment note and the operative form of section 12
+are replacements. That distinction matters:
 
 - an addition introduces a new search record;
 - a replacement supersedes the served form of a known record while preserving
@@ -109,16 +110,34 @@ records, not two brand-new unrelated records. That distinction matters:
 - a withholding deliberately prevents uncertain material from entering the
   serving set.
 
-This fixture has two replacements and no additions, retirements, or
+This fixture has one addition, two replacements, and no retirements or
 withholdings.
 
 The second number shows **2 scopes checked — no change**. This is positive
 coverage information. It tells the reviewer that those scopes were evaluated
 and produced no proposed update; they were not silently skipped.
 
-### Case law treatment card
+### New Case B card
 
-The fictional example says that a later Court of Appeal decision:
+The first legal card is the fictional new authority that caused the treatment
+change. Demo Court of Appeal Case B becomes independently searchable. Its
+fictional holding says that a public decision-maker must give intelligible
+reasons that reveal its reasoning, while the content and timing of reasons for
+urgent interim relief depend on context.
+
+Case B has its own record ID, evidence reference, source, text, and authority
+note. It is classified as **ADDED**, not hidden inside Case A's metadata. This
+is the causal input that makes the next treatment update coherent.
+
+Its search impact is twofold: researchers can find Case B directly, and the
+system can use its observed relationship to update the authority context of
+Case A. Case B's text describes its treatment of Case A; Case B's own authority
+note correctly says that no later treatment of Case B exists in this fixture.
+
+### Treatment of earlier Case A card
+
+The next card propagates Case B's observed treatment back to the existing Case
+A proposition. It says that the later Court of Appeal decision:
 
 - **followed** an earlier case on the duty to give reasons; and
 - **distinguished** that earlier case in the different context of urgent
@@ -130,17 +149,17 @@ fact pattern or legal setting meant that the earlier result did not control
 that part of the later dispute. One later judgment can do both for different
 propositions or contexts.
 
-The demo does **not** rewrite or erase the earlier judgment. The earlier
+This is a separate **UPDATED** record. The demo does **not** rewrite or erase the earlier judgment. The earlier
 proposition remains searchable. The proposed replacement updates its authority
 note so a researcher can see the later treatment. In a fuller system, treatment
 is proposition-specific rather than a single crude label on an entire case.
 
 The visible fields mean:
 
-- **Updated search record** — this is a replacement in the desired serving
+- **Updated search record** — Case A's authority-context record is a replacement in the desired serving
   state.
-- **Narrative** — a readable fictional explanation of followed and
-  distinguished treatment.
+- **Narrative** — Case A's proposition plus a readable fictional explanation
+  of Case B's followed and distinguished treatment.
 - **Search impact** — the earlier proposition stays discoverable, with later
   treatment attached to its authority context.
 - **Evidence basis** — a readable summary of why the record changes.
@@ -206,7 +225,7 @@ The two metrics mean:
 - **Legal scopes checked** — how many declared scopes have an explicit
   disposition in this proposal.
 - **Search records affected** — how many records are members of the proposed
-  update.
+  update: new Case B, updated Case A treatment, and updated section 12.
 
 The coverage list currently shows:
 

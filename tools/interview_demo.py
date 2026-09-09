@@ -242,6 +242,13 @@ def _write_report(root: Path, artifact_root: Path) -> Path:
                 "text": record.get("text"),
             }
         )
+    added_records.sort(
+        key=lambda record: (
+            0 if record.get("action") == "ADDED" else 1,
+            str(record.get("material_type")),
+            str(record.get("record_id")),
+        )
+    )
     counts = {
         name: len(value) if isinstance(value, list) else 0
         for name, value in (
@@ -259,7 +266,7 @@ def _write_report(root: Path, artifact_root: Path) -> Path:
             "demonstration": "LOCAL_SYNTHETIC_OFFLINE_POC",
             "no_change_scope_ids": no_change_scopes,
             "observation_cutoff": inventory.get("observation_cutoff"),
-            "schema_id": "asklegal.offline-interview-change-report/v1",
+            "schema_id": "asklegal.offline-demo-change-report/v1",
             "statement": (
                 f"{counts['additions']} records added; {counts['replacements']} replaced; "
                 f"{counts['retirements']} retired; {counts['withholdings']} withheld."

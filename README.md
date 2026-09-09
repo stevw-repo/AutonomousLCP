@@ -341,9 +341,10 @@ browser. The screen and retained summary explicitly identify this as an
 offline synthetic POC: the browser decision is retained locally, while no live
 Hong Kong publisher, model provider, Pinecone project, deployment, or real
 credential is used. Use `--prepare-only` to validate and seed the demo without
-starting the server. The prepared proposal demonstrates two fictional changes:
-a later-case treatment that follows and distinguishes an earlier proposition,
-and an operative section amendment that changes a deadline from 14 to 21 days.
+starting the server. The prepared proposal demonstrates three coordinated
+fictional changes: a new later Case B, the resulting treatment update to the
+earlier Case A proposition, and an operative section amendment that changes a
+deadline from 14 to 21 days.
 The complete screen-by-screen explanation, suggested walkthrough, interviewer
 questions, and claim boundaries are in
 [`docs/runbooks/INTERVIEW_DEMO_PRESENTER_GUIDE.md`](docs/runbooks/INTERVIEW_DEMO_PRESENTER_GUIDE.md).

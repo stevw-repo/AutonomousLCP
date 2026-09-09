@@ -117,16 +117,27 @@ function metric(label, value) {
 
 function changeItem(change) {
   const item = node("li", "change-item");
-  const heading = change.material_type === "Case" ? "Case law treatment" : "Legislation amendment";
-  const searchImpact = change.material_type === "Case"
-    ? "Search impact: The earlier proposition remains searchable; its authority note now records the later treatment."
-    : "Search impact: Current-law search uses the operative 21-day wording instead of the previous 14-day wording.";
+  const newCase = change.material_type === "Case" && change.action === "ADDED";
+  const heading = newCase
+    ? "New case: Demo Court of Appeal Case B"
+    : change.material_type === "Case"
+      ? "Treatment of earlier Demo Case A"
+      : "Legislation amendment";
+  const searchImpact = newCase
+    ? "Search impact: Case B becomes independently searchable and supplies the later authority behind the treatment update to Case A."
+    : change.material_type === "Case"
+      ? "Search impact: The earlier proposition remains searchable; its authority note now records the later treatment by Case B."
+      : "Search impact: Current-law search uses the operative 21-day wording instead of the previous 14-day wording.";
+  const evidenceBasis = newCase
+    ? "The retained synthetic Case B record contains the new holding and its treatment of Case A."
+    : change.authority_note;
   item.append(
     node("strong", "", heading),
     node("p", "", `${readable(change.action)} search record`),
     node("p", "", change.text),
     node("p", "", searchImpact),
-    node("p", "", `Evidence basis: ${change.authority_note}`),
+    node("p", "", `Evidence basis: ${evidenceBasis}`),
+    ...(newCase ? [node("p", "", `Authority status: ${change.authority_note}`)] : []),
     node("p", "", `Source: ${change.source} · Scope: ${scopeLabels[change.scope_id] || change.scope_id}`),
     node("p", "", `${change.evidence_refs.length} retained source reference${change.evidence_refs.length === 1 ? "" : "s"} available in the technical record.`),
   );

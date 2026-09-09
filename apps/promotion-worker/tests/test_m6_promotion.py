@@ -343,61 +343,110 @@ def task8_no_routing_actions(
     )
 
 
-def _v1_manifest() -> PromotionManifest:
+def _v1_manifest(*, include_new_case: bool = False) -> PromotionManifest:
     """Create one source-cycle-complete canonical V1 manifest for service tests."""
     generic = _manifest()
     generic_records = tuple(item.record for item in generic.desired_state.records)
-    hk_records = (
-        replace(
-            generic_records[0],
-            text=(
-                "SYNTHETIC INTERVIEW EXAMPLE — In fictional Demo Court of Appeal Case B "
-                "(2026), the court followed fictional Demo Case A on the duty to give "
-                "reasons but distinguished it on urgent interim relief. No real Hong Kong "
-                "judgment is represented."
-            ),
-            country="HK",
-            jurisdiction="hkg",
-            material_type="Case",
-            source="Synthetic Hong Kong Judiciary demo fixture",
-            authority_note=(
-                "Synthetic case-treatment update: fictional Case B follows Case A on reasons "
-                "and distinguishes it on urgent interim relief."
-            ),
+    case_a_treatment = replace(
+        generic_records[0],
+        text=(
+            "SYNTHETIC DEMO EXAMPLE — Fictional Demo Case A states a duty to give "
+            "reasons. Later treatment: fictional Demo Court of Appeal Case B (2026) "
+            "followed that proposition but distinguished its application to urgent "
+            "interim relief. No real Hong Kong judgment is represented."
+        )
+        if include_new_case
+        else (
+            "SYNTHETIC INTERVIEW EXAMPLE — In fictional Demo Court of Appeal Case B "
+            "(2026), the court followed fictional Demo Case A on the duty to give "
+            "reasons but distinguished it on urgent interim relief. No real Hong Kong "
+            "judgment is represented."
         ),
-        replace(
-            generic_records[1],
-            text=(
-                "SYNTHETIC INTERVIEW EXAMPLE — Fictional Demo Ordinance section 12: before "
-                "amendment, notice was required within 14 days; after amendment, notice is "
-                "required within 21 days; fictional effective date 2026-08-01. No real Hong "
-                "Kong enactment is represented."
-            ),
-            country="HK",
-            jurisdiction="hkg",
-            material_type="Legislation",
-            source="Synthetic Hong Kong e-Legislation demo fixture",
-            authority_note=(
-                "Synthetic legislation amendment: fictional section 12 changes 14 days to "
-                "21 days with fictional effective date 2026-08-01."
-            ),
+        country="HK",
+        jurisdiction="hkg",
+        material_type="Case",
+        source="Synthetic Hong Kong Judiciary demo fixture",
+        authority_note=(
+            "Synthetic case-treatment update: fictional Case B follows Case A on reasons "
+            "and distinguishes it on urgent interim relief."
+        ),
+        evidence_refs=("evi_" + "1" * 48, "evi_" + "3" * 48)
+        if include_new_case
+        else ("evi_" + "1" * 48,),
+    )
+    new_case_b = replace(
+        generic_records[0],
+        record_id="rec_" + "3" * 48,
+        text=(
+            "SYNTHETIC DEMO EXAMPLE — In fictional Demo Court of Appeal Case B (2026), "
+            "the court held that a public decision-maker must give intelligible reasons "
+            "that reveal its reasoning. It also held that the content and timing of reasons "
+            "for urgent interim relief depend on context. Case B followed Case A's general "
+            "duty-to-give-reasons proposition but distinguished Case A's non-urgent context. "
+            "No real Hong Kong judgment is represented."
+        ),
+        country="HK",
+        jurisdiction="hkg",
+        material_type="Case",
+        source="Synthetic Hong Kong Judiciary demo fixture",
+        authority_note=(
+            "No later treatment of fictional Case B is represented in this synthetic fixture."
+        ),
+        artifact_ref="art_" + "3" * 48,
+        evidence_refs=("evi_" + "3" * 48,),
+    )
+    legislation_amendment = replace(
+        generic_records[1],
+        text=(
+            "SYNTHETIC DEMO EXAMPLE — Fictional Demo Ordinance section 12: before "
+            "amendment, notice was required within 14 days; after amendment, notice is "
+            "required within 21 days; fictional effective date 2026-08-01. No real Hong "
+            "Kong enactment is represented."
+        )
+        if include_new_case
+        else (
+            "SYNTHETIC INTERVIEW EXAMPLE — Fictional Demo Ordinance section 12: before "
+            "amendment, notice was required within 14 days; after amendment, notice is "
+            "required within 21 days; fictional effective date 2026-08-01. No real Hong "
+            "Kong enactment is represented."
+        ),
+        country="HK",
+        jurisdiction="hkg",
+        material_type="Legislation",
+        source="Synthetic Hong Kong e-Legislation demo fixture",
+        authority_note=(
+            "Synthetic legislation amendment: fictional section 12 changes 14 days to "
+            "21 days with fictional effective date 2026-08-01."
         ),
     )
+    scoped_records: tuple[tuple[ServingRecord, ...], ...]
+    if include_new_case:
+        scoped_records = ((case_a_treatment, new_case_b), (), (legislation_amendment,), ())
+    else:
+        scoped_records = ((case_a_treatment,), (), (legislation_amendment,), ())
     releases = tuple(
         freeze_corpus_release(
             CorpusReleaseInput(
                 scope_id,
                 _NOW,
-                ("evi_" + str(index) * 48,),
+                (
+                    tuple(
+                        sorted(
+                            {evidence for record in records for evidence in record.evidence_refs}
+                        )
+                    )
+                    if include_new_case and records
+                    else ("evi_" + str(index) * 48,)
+                ),
                 ("val_" + str(index) * 48,),
                 zero_record_justification_refs=("evi_" + str(index + 4) * 48,)
-                if record is None
+                if not records
                 else (),
             ),
-            () if record is None else (record,),
+            records,
         )
-        for index, (scope_id, record) in enumerate(
-            zip(_HK_V1_SCOPES, (hk_records[0], None, hk_records[1], None), strict=True),
+        for index, (scope_id, records) in enumerate(
+            zip(_HK_V1_SCOPES, scoped_records, strict=True),
             start=1,
         )
     )
@@ -1063,3 +1112,8 @@ task8_approval = _approval
 task8_manifest_fixture = _manifest
 task8_plan_from_manifest = _plan_from_manifest
 task8_v1_manifest_fixture = _v1_manifest
+
+
+def task8_interview_v1_manifest_fixture() -> PromotionManifest:
+    """Expose the richer three-record demonstration fixture to the Review composer."""
+    return _v1_manifest(include_new_case=True)

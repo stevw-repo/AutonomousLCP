@@ -24,18 +24,19 @@ and are not blockers for this demonstration.
   retains a human APPROVE or REJECT decision in the local register.
 - In demo mode the page connects automatically and hides the credential panel,
   one-item proposal list, refresh/disconnect mechanics, target identifiers, and
-  visible fingerprints. The main view is now the compact pipeline status, two
+  visible fingerprints. The main view is now the compact pipeline status, three
   proposed changes, coverage checked, and the whole-package decision; audit
   material stays collapsed.
 - The same screen exposes a demo-only **What changed** report. It derives from
-  the frozen change inventory and desired state. The two replacement records
-  are a fictional later-case treatment (followed on reasons, distinguished on
-  urgent interim relief) and an operative fictional section amendment (14 days
-  to 21 days, effective before the cutoff). Each shows source, scope, search
+  the frozen change inventory and desired state. Its coordinated records are a
+  new fictional Case B, the resulting replacement of Case A's authority note
+  (followed on reasons, distinguished on urgent interim relief), and an
+  operative fictional section-amendment replacement (14 days to 21 days,
+  effective before the cutoff). Each shows source, scope, search
   impact, a readable evidence basis, and retained evidence count; raw canonical JSON stays collapsed. The
   report route is absent from the normal non-demo Review application.
 - `docs/runbooks/INTERVIEW_DEMO_PRESENTER_GUIDE.md` explains every visible
-  section, the two legal examples, a two-minute walkthrough, likely interviewer
+  section, the three legal changes, a two-minute walkthrough, likely interviewer
   questions, the exact claim boundary, and the local report paths.
 - The retained Review decision and the completed E2E proof are deliberately
   adjacent but separate. The UI does not claim that its click drove the already
@@ -77,6 +78,17 @@ non-serving check, use `./tools/run_interview_demo.sh --prepare-only`.
   39-test focused gate passed in 14.40 seconds; the independent rereview found
   no Critical or Important issue and one accepted minor limitation: source text
   itself stays in the collapsed synthetic evidence record.
+- The subsequent legal-lineage correction adds Case B as an independently
+  searchable new record with its own retained evidence reference; Case A's
+  treatment is a separate replacement bound to both the original Case A
+  evidence and the new Case B evidence. The inventory truthfully reports one
+  addition and two replacements. Visible product copy says “synthetic legal
+  update demo,” not “interview demo.”
+- The final combined demo/Review/M7/promotion-fixture gate passed 67 tests in
+  15.52 seconds. Ruff lint and format, scoped strict Pyright, JavaScript syntax,
+  the 421-file Python boundary gate, live localhost report readback, and diff
+  checks passed. Independent legal-lineage rereview found no Critical,
+  Important, or Minor issue.
 - No live source, Azure/model/embedding provider, Pinecone, Vault, SQL,
   Scheduler, deployment, credential, or third-party-terms effect is part of
   this POC.

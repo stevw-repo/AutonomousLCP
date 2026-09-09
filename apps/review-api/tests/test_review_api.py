@@ -780,8 +780,10 @@ def test_review_origin_proxy_evidence_readiness_and_browser_client() -> None:
         assert preflight.headers["access-control-allow-origin"] == "https://review.local.test"
         javascript = client.get("/review/app.js").text
         html = client.get("/review").text
-        assert client.get("/demo/change-report.json").status_code == 404
-        assert client.get("/demo/config.json").status_code == 404
+        assert [
+            client.get("/demo/change-report.json").status_code,
+            client.get("/demo/config.json").status_code,
+        ] == [404, 404]
         assert "review-token" in html
         assert all(
             expected in html
@@ -795,6 +797,7 @@ def test_review_origin_proxy_evidence_readiness_and_browser_client() -> None:
                 "Human review",
             )
         )
+        assert "interview" not in html.lower()
         assert "crypto.getRandomValues" in javascript
         assert all(
             expected in javascript
@@ -807,6 +810,8 @@ def test_review_origin_proxy_evidence_readiness_and_browser_client() -> None:
                 "Search impact: The earlier proposition remains searchable",
                 "Evidence basis:",
                 "This does not affect production.",
+                "New case: Demo Court of Appeal Case B",
+                "Treatment of earlier Demo Case A",
             )
         )
         assert "/decisions" in javascript
