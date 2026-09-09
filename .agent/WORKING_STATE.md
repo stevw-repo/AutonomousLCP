@@ -66,11 +66,14 @@ because their code exists.
 
 ## Exact next steps
 
-1. Reconcile the repository's exact Python-boundary line registry after the
-   Review changes and rerun that one gate.
-2. Commit and push the POC to `origin/main` as explicitly requested by the user.
-3. Use the one-command launcher for the interview; treat any later live
-   integration work as a separate scope decision.
+The POC implementation is committed and pushed to `origin/main` as commit
+`11bea99` (`Add offline interview demo`). The independent review closed with
+no Critical, Important, or Minor findings; the global Python-boundary gate
+passed 421 files / 551 exact reviewed exceptions.
+
+1. Use the one-command launcher for the interview.
+2. Treat any later live integration work as a separate scope decision rather
+   than a prerequisite for the POC.
 
 No sudo password or API key is needed for these steps. Ignored `var/` state and
 all credentials must remain out of Git.
