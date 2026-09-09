@@ -11,12 +11,15 @@ runtime_uid=3008
 # configuration, so the unit always starts from a clean one.
 docker rm -f "$container" >/dev/null 2>&1 || true
 
-# The secret reaches the container through the environment, never through
-# argv: `docker -e NAME` with no value passes the variable through.
-ROOT_ACCESS_KEY_ID="$(cat "$CREDENTIALS_DIRECTORY"/vault-primary-root-access)"
-export ROOT_ACCESS_KEY_ID
-ROOT_SECRET_ACCESS_KEY="$(cat "$CREDENTIALS_DIRECTORY"/vault-primary-root-secret)"
-export ROOT_SECRET_ACCESS_KEY
+# Root credentials are mounted as read-only files. They are read only by
+# the in-container shell, so Docker Config.Env and create argv retain no value.
+credential_dir='/run/asklegal/credentials/vault-primary'
+rm -rf "$credential_dir"
+mkdir -p "$credential_dir"
+install -o "$runtime_uid" -g "$runtime_uid" -m 0400 "$CREDENTIALS_DIRECTORY"/vault-primary-root-access "$credential_dir"/vault-primary-root-access
+install -o "$runtime_uid" -g "$runtime_uid" -m 0400 "$CREDENTIALS_DIRECTORY"/vault-primary-root-secret "$credential_dir"/vault-primary-root-secret
+chown "$runtime_uid":"$runtime_uid" "$credential_dir"
+chmod 0500 "$credential_dir"
 
 docker create \
   --name "$container" \
@@ -29,11 +32,15 @@ docker create \
   -e 'VGW_CERT=/etc/asklegal/tls/vault-primary/tls.crt' \
   -e 'VGW_KEY=/etc/asklegal/tls/vault-primary/tls.key' \
   -e 'VGW_IAM_DIR=/vault/iam' \
-  -e 'ROOT_ACCESS_KEY_ID' \
-  -e 'ROOT_SECRET_ACCESS_KEY' \
+  --mount "type=bind,src=${credential_dir}/vault-primary-root-access,dst=/run/asklegal/vault-primary-root-access,readonly" \
+  --mount "type=bind,src=${credential_dir}/vault-primary-root-secret,dst=/run/asklegal/vault-primary-root-secret,readonly" \
+  --entrypoint '/bin/sh' \
   -v '/srv/asklegal/vault-primary:/vault:rw' \
   -v '/etc/asklegal/tls/vault-primary:/etc/asklegal/tls/vault-primary:ro' \
   'ghcr.io/versity/versitygw@sha256:ef1c6bf0180abd9583da8a0466b3cba1cfc1ed368afebdf7280c0774081d2c82' \
+  '-ceu' \
+  'ROOT_ACCESS_KEY_ID="$(cat /run/asklegal/vault-primary-root-access)"; export ROOT_ACCESS_KEY_ID; ROOT_SECRET_ACCESS_KEY="$(cat /run/asklegal/vault-primary-root-secret)"; export ROOT_SECRET_ACCESS_KEY; exec /usr/local/bin/docker-entrypoint.sh "$@"' \
+  'asklegal-versity-file-entrypoint' \
   'posix' \
   '--versioning-dir' \
   '/vault/versions' \

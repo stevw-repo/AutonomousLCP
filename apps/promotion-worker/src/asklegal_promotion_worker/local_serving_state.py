@@ -2,8 +2,12 @@
 
 from __future__ import annotations
 
+import os
+import re
+from contextlib import suppress
 from hashlib import sha256
 from pathlib import Path
+from secrets import token_hex
 
 from asklegal_application_runtime import exclusive_local_state_lock
 from asklegal_contracts import canonicalize, parse_json_bytes
@@ -16,11 +20,68 @@ from asklegal_promotion import (
 )
 
 _SCHEMA = "asklegal.local-serving-state/v1"
+_INITIALIZATION_SCHEMA = "asklegal.local-serving-state-initialization/v1"
+_SERVING_STATE_ID = re.compile(r"^srv_[0-9a-f]{48}$")
+
+
+def _write_all(descriptor: int, content: bytes) -> None:
+    view = memoryview(content)
+    written = 0
+    while written < len(view):
+        count = os.write(descriptor, view[written:])
+        if count <= 0:
+            message = "short Serving State write"
+            raise OSError(message)
+        written += count
+
+
+def _fsync_directory(path: Path) -> None:
+    flags = os.O_RDONLY | os.O_DIRECTORY | os.O_CLOEXEC
+    if hasattr(os, "O_NOFOLLOW"):
+        flags |= os.O_NOFOLLOW
+    descriptor = os.open(path, flags)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def _create_exact(path: Path, content: bytes) -> None:
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_CLOEXEC
+    if hasattr(os, "O_NOFOLLOW"):
+        flags |= os.O_NOFOLLOW
+    descriptor = os.open(path, flags, 0o600)
+    try:
+        _write_all(descriptor, content)
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+    _fsync_directory(path.parent)
+    if path.is_symlink() or not path.is_file() or path.read_bytes() != content:
+        message = "Serving State create read-back failed"
+        raise OSError(message)
+
+
+def _replace_exact(path: Path, content: bytes) -> None:
+    temporary = path.with_name(f".{path.name}.{token_hex(16)}.tmp")
+    created = False
+    try:
+        _create_exact(temporary, content)
+        created = True
+        temporary.replace(path)
+        _fsync_directory(path.parent)
+        if path.is_symlink() or not path.is_file() or path.read_bytes() != content:
+            message = "Serving State replacement read-back failed"
+            raise OSError(message)
+    finally:
+        if created:
+            with suppress(FileNotFoundError):
+                temporary.unlink()
 
 
 def initial_serving_state_bytes(active_state_id: str) -> bytes:
     """Freeze an empty retained Serving State projection for one predecessor."""
-    if not active_state_id.startswith("srv_"):
+    if _SERVING_STATE_ID.fullmatch(active_state_id) is None:
         message = "invalid initial Serving State"
         raise ValueError(message)
     return canonicalize(
@@ -33,6 +94,50 @@ def initial_serving_state_bytes(active_state_id: str) -> bytes:
             }
         )
     )
+
+
+def open_or_initialize_serving_state(
+    state_path: Path,
+    active_state_id: str,
+) -> FileServingStateStore:
+    """Open one state or create its first Approval-bound base exactly once."""
+    marker_path = state_path.with_suffix(f"{state_path.suffix}.initialized")
+    expected_marker = canonicalize(
+        checked_json_value(
+            {
+                "active_state_id": active_state_id,
+                "schema_id": _INITIALIZATION_SCHEMA,
+            }
+        )
+    )
+    with exclusive_local_state_lock(state_path):
+        if marker_path.is_symlink() or state_path.is_symlink():
+            raise PromotionError(PromotionErrorCode.BASE_STATE_DRIFT)
+        if not state_path.exists():
+            if marker_path.exists():
+                raise PromotionError(PromotionErrorCode.BASE_STATE_DRIFT)
+            content = initial_serving_state_bytes(active_state_id)
+            _create_exact(state_path, content)
+        store = FileServingStateStore(state_path)
+        if marker_path.exists():
+            try:
+                marker_content = marker_path.read_bytes()
+                marker = parse_json_bytes(marker_content, max_bytes=1_000)
+            except (OSError, RuntimeError, ValueError) as error:
+                raise PromotionError(PromotionErrorCode.BASE_STATE_DRIFT) from error
+            if (
+                not marker_path.is_file()
+                or not isinstance(marker, dict)
+                or set(marker) != {"active_state_id", "schema_id"}
+                or marker.get("schema_id") != _INITIALIZATION_SCHEMA
+                or type(marker.get("active_state_id")) is not str
+                or _SERVING_STATE_ID.fullmatch(str(marker["active_state_id"])) is None
+                or canonicalize(marker) != marker_content
+            ):
+                raise PromotionError(PromotionErrorCode.BASE_STATE_DRIFT)
+        else:
+            _create_exact(marker_path, expected_marker)
+        return store
 
 
 def _candidate(value: ServingStateCandidate) -> dict[str, str]:
@@ -114,15 +219,17 @@ class FileServingStateStore:
                     expected_receipt.candidate_fingerprint,
                     replayed=True,
                 )
+            if retained == entry:
+                raise PromotionError(PromotionErrorCode.BASE_STATE_DRIFT)
             if (
                 document.get("active_state_id") != expected_base
                 or candidate.predecessor_state_id != expected_base
-                or retained is not None
             ):
                 raise PromotionError(PromotionErrorCode.BASE_STATE_DRIFT)
             next_document = dict(document)
             next_document["activation"] = checked_json_value(entry)
             next_document["active_state_id"] = candidate.state_id
+            next_document["rollback"] = None
             self._write(next_document)
             return expected_receipt
 
@@ -253,6 +360,7 @@ class FileServingStateStore:
         return value
 
     def _write(self, value: dict[str, JsonValue]) -> None:
-        temporary = self._state_path.with_suffix(".tmp")
-        temporary.write_bytes(canonicalize(checked_json_value(value)))
-        temporary.replace(self._state_path)
+        try:
+            _replace_exact(self._state_path, canonicalize(checked_json_value(value)))
+        except OSError as error:
+            raise PromotionError(PromotionErrorCode.BASE_STATE_DRIFT) from error

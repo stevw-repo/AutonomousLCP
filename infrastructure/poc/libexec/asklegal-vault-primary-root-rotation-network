@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ "$#" -ne 14 ]; then
+  printf 'PRIMARY_ROOT_ROTATION_NETWORK_INPUT_INVALID\n' >&2
+  exit 2
+fi
+[ "$1" = "--target" ] && [ "$3" = "--expect" ] && \
+  [ "$5" = "--plan" ] && [ "$7" = "--authorized-plan-fingerprint" ] && \
+  [ "$9" = "--control-plane-image-id" ] && [ "$11" = "--predecessor-directory" ] && \
+  [ "$13" = "--candidate-directory" ] || exit 2
+target="$2"
+expectation="$4"
+plan="$6"
+authorized_plan_fingerprint="$8"
+image_id="${10}"
+predecessor="${12}"
+candidate="${14}"
+[ "$target" = "candidate" ] || [ "$target" = "predecessor" ] || exit 2
+[ "$expectation" = "accepted" ] || [ "$expectation" = "rejected" ] || exit 2
+[ -f "$plan" ] && [ ! -L "$plan" ] && [ "$(stat -c '%a' "$plan")" = "600" ] || exit 2
+
+[ "$(printf '%s' "$image_id" | grep -Ec '^sha256:[0-9a-f]{64}$')" -eq 1 ] || exit 2
+/usr/bin/docker image inspect --format '{{.Id}}' "$image_id" | grep -Fx -- "$image_id" >/dev/null || exit 2
+
+snapshot_names=(embedding-provider model-egress-proxy model-provider pinecone-poc promotion-egress-proxy review-api review-client source-egress-proxy sql-acquisition sql-bootstrap-password sql-control sql-processing sql-promotion sql-review vault-primary-acquisition vault-primary-control vault-primary-processing vault-primary-promotion vault-primary-review vault-primary-root-access vault-primary-root-secret vault-recovery-acquisition vault-recovery-promotion vault-recovery-root-access vault-recovery-root-secret)
+application_names=(vault-primary-acquisition vault-primary-control vault-primary-processing vault-primary-promotion vault-primary-review)
+selected="$predecessor"
+[ "$target" = "candidate" ] && selected="$candidate"
+mounts=(--mount "type=bind,src=${plan},dst=/run/rotation/plan.json,readonly")
+for name in "${snapshot_names[@]}"; do
+  [ -f "$predecessor/$name" ] && [ ! -L "$predecessor/$name" ] || exit 2
+  [ -f "$candidate/$name" ] && [ ! -L "$candidate/$name" ] || exit 2
+  mounts+=(--mount "type=bind,src=${selected}/${name},dst=/run/rotation/snapshot/${name},readonly")
+done
+for name in "${application_names[@]}"; do
+  [ -f "$predecessor/$name" ] && [ ! -L "$predecessor/$name" ] || exit 2
+  mounts+=(--mount "type=bind,src=${predecessor}/${name},dst=/run/rotation/applications/${name},readonly")
+done
+
+container="asklegal-primary-root-rotation-once-$$"
+created=0
+cleanup() {
+  if [ "$created" -eq 1 ]; then
+    /usr/bin/docker rm -f "$container" >/dev/null 2>&1 || true
+  fi
+}
+trap cleanup EXIT
+
+/usr/bin/docker create --name "$container" \
+  --network asklegal-vault-primary \
+  --user 0:0 --read-only --cap-drop ALL --security-opt no-new-privileges \
+  --tmpfs /tmp:rw,noexec,nosuid,nodev,size=16m \
+  "${mounts[@]}" \
+  --mount type=bind,src=/etc/asklegal/trust/vault-primary-ca.pem,dst=/etc/asklegal/trust/vault-primary-ca.pem,readonly \
+  --entrypoint /opt/asklegal/bin/python "$image_id" \
+  -m asklegal_control_plane.vault_root_rotation \
+  --target "$target" --expect "$expectation" \
+  --credential-directory /run/rotation/snapshot \
+  --application-credential-directory /run/rotation/applications \
+  --plan /run/rotation/plan.json \
+  --authorized-plan-fingerprint "$authorized_plan_fingerprint" \
+  --expected-control-plane-image-id "$image_id" >/dev/null
+created=1
+/usr/bin/docker start --attach "$container"

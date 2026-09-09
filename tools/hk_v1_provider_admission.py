@@ -97,6 +97,10 @@ _PRIVATE_DIRECTORY_MODE = 0o700
 _PINECONE_DESCRIBE_CALLS = 3
 _ERROR = "PROVIDER_ADMISSION_INVALID"
 _AUTHORITY_SCHEMA = "asklegal.hk-v1-provider-execution-authority/v1"
+_CREATE_FRESH = "CREATE_FRESH"
+_REUSE_EMPTY_NAMESPACE = "REUSE_EMPTY_NAMESPACE"
+_EVALUATE_PROVED_NAMESPACE = "EVALUATE_PROVED_NAMESPACE"
+_TARGET_SETUP_MODES = frozenset({_CREATE_FRESH, _REUSE_EMPTY_NAMESPACE, _EVALUATE_PROVED_NAMESPACE})
 _OPERATIONS = [
     "AZURE_SEMANTIC",
     "AZURE_EMBEDDING",
@@ -105,6 +109,17 @@ _OPERATIONS = [
     "PINECONE_READBACK",
     "PINECONE_QUERY",
 ]
+
+
+def _operations_for_mode(mode: str) -> list[str]:
+    omitted: frozenset[str] = {
+        _CREATE_FRESH: frozenset[str](),
+        _REUSE_EMPTY_NAMESPACE: frozenset({"PINECONE_CREATE"}),
+        _EVALUATE_PROVED_NAMESPACE: frozenset({"PINECONE_CREATE", "PINECONE_UPSERT"}),
+    }.get(mode, frozenset(_OPERATIONS))
+    return [item for item in _OPERATIONS if item not in omitted]
+
+
 _SUITE_PATH = Path(__file__).resolve().parents[1] / "contracts/hk-v1-provider-golden-suite.json"
 _REPORT_KEYS = frozenset(
     {
@@ -191,6 +206,9 @@ class _ExecutionAuthority:
     pinecone_project_id: str
     pinecone_index: str
     namespace: str
+    target_setup_mode: str
+    pinecone_data_plane_host: str | None
+    source_target_setup_fingerprint: str | None
     max_semantic_calls: int
     max_embedding_calls: int
     max_pinecone_create_attempts: int
@@ -544,6 +562,7 @@ def _execution_authority(raw: bytes, *, now: str) -> _ExecutionAuthority:
         "output_root",
         "pinecone_index",
         "pinecone_project_id",
+        "pinecone_data_plane_host",
         "plan_fingerprint",
         "proposal_fingerprint",
         "run_id",
@@ -555,6 +574,8 @@ def _execution_authority(raw: bytes, *, now: str) -> _ExecutionAuthority:
         "state_root",
         "suite_fingerprint",
         "tokenizer_resource_fingerprint",
+        "target_setup_mode",
+        "source_target_setup_fingerprint",
     }
     run_id = document.get("run_id")
     fingerprints = (
@@ -565,15 +586,13 @@ def _execution_authority(raw: bytes, *, now: str) -> _ExecutionAuthority:
         document.get("tokenizer_resource_fingerprint"),
         document.get("plan_fingerprint"),
     )
-    integers = (
+    positive_integers = (
         document.get("max_semantic_calls"),
         document.get("max_embedding_calls"),
         document.get("max_input_tokens"),
         document.get("max_cost_microunits"),
-        document.get("max_pinecone_create_attempts"),
         document.get("max_pinecone_describe_calls"),
         document.get("max_pinecone_fetch_calls"),
-        document.get("max_pinecone_upsert_batches"),
         document.get("max_pinecone_full_readbacks"),
         document.get("max_pinecone_list_calls"),
         document.get("max_pinecone_queries"),
@@ -586,14 +605,53 @@ def _execution_authority(raw: bytes, *, now: str) -> _ExecutionAuthority:
         or document.get("schema_id") != _AUTHORITY_SCHEMA
         or document.get("schema_version") != 1
         or document.get("immutable") is not True
-        or document.get("allowed_operations") != _OPERATIONS
+        or document.get("target_setup_mode") not in _TARGET_SETUP_MODES
+        or document.get("allowed_operations")
+        != _operations_for_mode(cast("str", document.get("target_setup_mode")))
         or not _fingerprinted(document)
         or type(run_id) is not str
         or not run_id
         or any(
             type(value) is not str or _full_fingerprint(value) is False for value in fingerprints
         )
-        or any(type(value) is not int or value < 1 for value in integers)
+        or any(type(value) is not int or value < 1 for value in positive_integers)
+        or type(document.get("max_pinecone_create_attempts")) is not int
+        or cast("int", document["max_pinecone_create_attempts"]) < 0
+        or type(document.get("max_pinecone_upsert_batches")) is not int
+        or cast("int", document["max_pinecone_upsert_batches"]) < 0
+        or (
+            document.get("target_setup_mode") == _CREATE_FRESH
+            and document.get("max_pinecone_create_attempts") != 1
+        )
+        or (
+            document.get("target_setup_mode") == _REUSE_EMPTY_NAMESPACE
+            and (
+                document.get("max_pinecone_create_attempts") != 0
+                or type(document.get("pinecone_data_plane_host")) is not str
+                or not cast("str", document["pinecone_data_plane_host"]).startswith("https://")
+            )
+        )
+        or (
+            document.get("target_setup_mode") == _EVALUATE_PROVED_NAMESPACE
+            and (
+                document.get("max_pinecone_create_attempts") != 0
+                or document.get("max_pinecone_upsert_batches") != 0
+                or type(document.get("pinecone_data_plane_host")) is not str
+                or not cast("str", document["pinecone_data_plane_host"]).startswith("https://")
+                or not _full_fingerprint(document.get("source_target_setup_fingerprint"))
+            )
+        )
+        or (
+            document.get("target_setup_mode") == _CREATE_FRESH
+            and (
+                document.get("pinecone_data_plane_host") is not None
+                or document.get("source_target_setup_fingerprint") is not None
+            )
+        )
+        or (
+            document.get("target_setup_mode") == _REUSE_EMPTY_NAMESPACE
+            and document.get("source_target_setup_fingerprint") is not None
+        )
         or any(
             type(document.get(field)) is not str or not document.get(field)
             for field in (
@@ -639,6 +697,9 @@ def _execution_authority(raw: bytes, *, now: str) -> _ExecutionAuthority:
         cast("str", document["pinecone_project_id"]),
         cast("str", document["pinecone_index"]),
         cast("str", document["namespace"]),
+        cast("str", document["target_setup_mode"]),
+        cast("str | None", document["pinecone_data_plane_host"]),
+        cast("str | None", document["source_target_setup_fingerprint"]),
         cast("int", document["max_semantic_calls"]),
         cast("int", document["max_embedding_calls"]),
         cast("int", document["max_pinecone_create_attempts"]),
@@ -1054,6 +1115,9 @@ def _stable_retrieval(  # noqa: C901, PLR0912 - closed nested receipt projection
     setup = cast("dict[str, JsonValue]", setup_raw)
     setup.pop("fingerprint", None)
     setup.pop("run_id", None)
+    setup.pop("setup_mode", None)
+    setup.pop("setup_owner_run_id", None)
+    setup.pop("source_target_setup_fingerprint", None)
     setup_records = setup.get("records")
     if not isinstance(setup_records, list):
         _fail()
@@ -1098,6 +1162,11 @@ def _stable_retrieval(  # noqa: C901, PLR0912 - closed nested receipt projection
     calls = stable.get("target_provider_calls")
     if not isinstance(calls, list):
         _fail()
+    calls[:] = [
+        item
+        for item in cast("list[JsonValue]", calls)
+        if isinstance(item, dict) and item.get("operation") == "VECTOR_QUERY"
+    ]
     for raw_call in cast("list[JsonValue]", calls):
         if not isinstance(raw_call, dict):
             _fail()
@@ -1259,7 +1328,7 @@ _TARGET_CALL_KEYS = frozenset(
         "target_name",
     }
 )
-_TARGET_OPERATION_COUNTS = {
+_FRESH_TARGET_OPERATION_COUNTS = {
     "INDEX_CREATE": 1,
     "INDEX_DESCRIBE_OR_LIST": 3,
     "INDEX_STATS": 1,
@@ -1268,6 +1337,27 @@ _TARGET_OPERATION_COUNTS = {
     "VECTOR_QUERY": 4,
     "VECTOR_UPSERT": 2,
 }
+_TARGET_OPERATION_COUNTS = _FRESH_TARGET_OPERATION_COUNTS
+_REUSED_NAMESPACE_OPERATION_COUNTS = {
+    "INDEX_DESCRIBE_OR_LIST": 2,
+    "INDEX_STATS": 2,
+    "VECTOR_FETCH": 2,
+    "VECTOR_LIST": 2,
+    "VECTOR_QUERY": 4,
+    "VECTOR_UPSERT": 2,
+}
+_EVALUATE_NAMESPACE_OPERATION_COUNTS = {
+    "INDEX_DESCRIBE_OR_LIST": 2,
+    "INDEX_STATS": 1,
+    "VECTOR_FETCH": 2,
+    "VECTOR_LIST": 1,
+    "VECTOR_QUERY": 4,
+}
+_TARGET_OPERATIONS = (
+    frozenset(_FRESH_TARGET_OPERATION_COUNTS)
+    | frozenset(_REUSED_NAMESPACE_OPERATION_COUNTS)
+    | frozenset(_EVALUATE_NAMESPACE_OPERATION_COUNTS)
+)
 _TARGET_RECONCILIATION_COUNTS = {
     "INDEX_DESCRIBE_OR_LIST": 2,
     "VECTOR_FETCH": 2,
@@ -1277,10 +1367,26 @@ _TARGET_RECONCILIATION_COUNTS = {
 
 def _target_provider_ids(retrieval_document: dict[str, JsonValue]) -> tuple[str, ...]:
     raw_calls = retrieval_document.get("target_provider_calls")
-    if not isinstance(raw_calls, list) or len(raw_calls) not in {
-        sum(_TARGET_OPERATION_COUNTS.values()),
-        sum(_TARGET_OPERATION_COUNTS.values()) + sum(_TARGET_RECONCILIATION_COUNTS.values()),
-    }:
+    setup = retrieval_document.get("target_setup")
+    if not isinstance(setup, dict):
+        _fail()
+    setup_mode = setup.get("setup_mode")
+    operation_counts = (
+        _FRESH_TARGET_OPERATION_COUNTS
+        if setup_mode == _CREATE_FRESH
+        else _REUSED_NAMESPACE_OPERATION_COUNTS
+        if setup_mode == _REUSE_EMPTY_NAMESPACE
+        else _EVALUATE_NAMESPACE_OPERATION_COUNTS
+        if setup_mode == _EVALUATE_PROVED_NAMESPACE
+        else None
+    )
+    if operation_counts is None or not isinstance(raw_calls, list):
+        _fail()
+    if not (
+        sum(operation_counts.values())
+        <= len(raw_calls)
+        <= sum(operation_counts.values()) + sum(_TARGET_RECONCILIATION_COUNTS.values())
+    ):
         _fail()
     run_id = retrieval_document.get("run_id")
     target_name = retrieval_document.get("target_name")
@@ -1306,7 +1412,7 @@ def _target_provider_ids(retrieval_document: dict[str, JsonValue]) -> tuple[str,
             or call.get("target_name") != target_name
             or call.get("call_class") not in {"EVALUATION", "RECONCILIATION"}
             or type(operation) is not str
-            or operation not in _TARGET_OPERATION_COUNTS
+            or operation not in _TARGET_OPERATIONS
             or type(provider_id) is not str
             or provider_id in {"", "unreported"}
             or not _full_fingerprint(call.get("request_fingerprint"))
@@ -1329,8 +1435,11 @@ def _target_provider_ids(retrieval_document: dict[str, JsonValue]) -> tuple[str,
         selected_counts[operation] = selected_counts.get(operation, 0) + 1
     if (
         len(provider_ids) != len(set(provider_ids))
-        or counts != _TARGET_OPERATION_COUNTS
-        or reconciliation_counts not in ({}, _TARGET_RECONCILIATION_COUNTS)
+        or counts != operation_counts
+        or any(
+            count < 1 or count > _TARGET_RECONCILIATION_COUNTS.get(operation, 0)
+            for operation, count in reconciliation_counts.items()
+        )
         or len(authority_fingerprints) != 1
         or len(plan_fingerprints) != 1
     ):
@@ -1356,8 +1465,21 @@ def _require_target_calls_match_authority(
     _target_provider_ids(retrieval_document)
     raw_calls = cast("list[dict[str, JsonValue]]", retrieval_document["target_provider_calls"])
     raw_evaluation_calls = [call for call in raw_calls if call.get("call_class") == "EVALUATION"]
+    setup = retrieval_document.get("target_setup")
     if (
-        len(raw_evaluation_calls) != authority.expected_pinecone_provider_calls
+        not isinstance(setup, dict)
+        or setup.get("setup_mode") != authority.target_setup_mode
+        or setup.get("source_target_setup_fingerprint") != authority.source_target_setup_fingerprint
+        or setup.get("pinecone_project_id") != authority.pinecone_project_id
+        or setup.get("pinecone_data_plane_host")
+        != (
+            authority.pinecone_data_plane_host
+            if authority.target_setup_mode == _REUSE_EMPTY_NAMESPACE
+            else setup.get("pinecone_data_plane_host")
+        )
+        or setup.get("target_namespace") != authority.namespace
+        or setup.get("initial_namespace_record_count") != 0
+        or len(raw_evaluation_calls) != authority.expected_pinecone_provider_calls
         or len(raw_calls) - len(raw_evaluation_calls) > authority.max_pinecone_reconciliation_calls
         or any(
             call.get("authority_fingerprint") != authority.fingerprint
@@ -1370,7 +1492,28 @@ def _require_target_calls_match_authority(
         _fail()
 
 
-def _attempt_ids(  # noqa: C901 - closed nested receipt projection.
+def _setup_embedding_attempt_ids(
+    retrieval_document: dict[str, JsonValue],
+) -> tuple[list[str], list[str]]:
+    setup = retrieval_document.get("target_setup")
+    if not isinstance(setup, dict) or not isinstance(setup.get("records"), list):
+        _fail()
+    if setup.get("setup_mode") == _EVALUATE_PROVED_NAMESPACE:
+        return [], []
+    providers: list[str] = []
+    receipts: list[str] = []
+    for setup_record in cast("list[JsonValue]", setup["records"]):
+        if not isinstance(setup_record, dict):
+            _fail()
+        embedding = setup_record.get("embedding_receipt")
+        if not isinstance(embedding, dict):
+            _fail()
+        providers.append(str(embedding.get("provider_request_id")))
+        receipts.append(str(embedding.get("receipt_id")))
+    return providers, receipts
+
+
+def _attempt_ids(
     semantic_document: dict[str, JsonValue], retrieval_document: dict[str, JsonValue]
 ) -> tuple[
     tuple[str, ...],
@@ -1389,21 +1532,9 @@ def _attempt_ids(  # noqa: C901 - closed nested receipt projection.
                 _fail()
             semantic_provider.append(str(decision.get("provider_request_id")))
             semantic_effect.append(str(decision.get("effect_receipt_id")))
-    embedding_provider: list[str] = []
-    embedding_receipt: list[str] = []
+    embedding_provider, embedding_receipt = _setup_embedding_attempt_ids(retrieval_document)
     query_provider = list(_target_provider_ids(retrieval_document))
     query_receipt: list[str] = []
-    setup = retrieval_document.get("target_setup")
-    if not isinstance(setup, dict) or not isinstance(setup.get("records"), list):
-        _fail()
-    for setup_record in cast("list[JsonValue]", setup["records"]):
-        if not isinstance(setup_record, dict):
-            _fail()
-        embedding = setup_record.get("embedding_receipt")
-        if not isinstance(embedding, dict):
-            _fail()
-        embedding_provider.append(str(embedding.get("provider_request_id")))
-        embedding_receipt.append(str(embedding.get("receipt_id")))
     for case in _case_map(retrieval_document).values():
         embedding = case.get("embedding_receipt")
         query = case.get("query_receipt")
@@ -1501,6 +1632,31 @@ def _distinct_attempts(first: _Run, second: _Run) -> bool:
     )
 
 
+def _shared_target_setup(first: _Run, second: _Run) -> bool:
+    first_setup = first.retrieval_document.get("target_setup")
+    second_setup = second.retrieval_document.get("target_setup")
+    reused_once = (
+        isinstance(first_setup, dict)
+        and isinstance(second_setup, dict)
+        and first_setup.get("setup_mode") == _REUSE_EMPTY_NAMESPACE
+        and first_setup.get("setup_owner_run_id") == first.run_id
+        and first_setup.get("source_target_setup_fingerprint") is None
+        and second_setup.get("setup_mode") == _EVALUATE_PROVED_NAMESPACE
+        and second_setup.get("setup_owner_run_id") == first.run_id
+        and second_setup.get("source_target_setup_fingerprint") == first_setup.get("fingerprint")
+    )
+    fresh_twice = (
+        isinstance(first_setup, dict)
+        and isinstance(second_setup, dict)
+        and first_setup.get("setup_mode") == second_setup.get("setup_mode") == _CREATE_FRESH
+        and first_setup.get("setup_owner_run_id") == first.run_id
+        and second_setup.get("setup_owner_run_id") == second.run_id
+        and first_setup.get("source_target_setup_fingerprint") is None
+        and second_setup.get("source_target_setup_fingerprint") is None
+    )
+    return reused_once or fresh_twice
+
+
 def issue_provider_admission_evidence(
     *,
     semantic_run_1: bytes,
@@ -1516,6 +1672,7 @@ def issue_provider_admission_evidence(
         or _lineage(first) != _lineage(second)
         or first.stable_fingerprint != second.stable_fingerprint
         or not _distinct_attempts(first, second)
+        or not _shared_target_setup(first, second)
     ):
         _fail()
     document: dict[str, object] = {
@@ -1603,6 +1760,7 @@ def parse_provider_admission_evidence(raw: bytes) -> ProviderAdmissionEvidence:
         or _lineage(first) != _lineage(second)
         or first.stable_fingerprint != second.stable_fingerprint
         or not _distinct_attempts(first, second)
+        or not _shared_target_setup(first, second)
         or any(document.get(key) != value for key, value in expected.items())
     ):
         _fail()
@@ -1723,6 +1881,139 @@ def _state_root(arguments: argparse.Namespace, output_root: Path) -> Path:
     return state_root
 
 
+def _validated_source_target_setup(
+    raw: bytes,
+    suite: _GoldenSuite,
+    *,
+    target_binding: tuple[str, str, str, str, str, int],
+    prohibited_run_id: str,
+) -> dict[str, JsonValue]:
+    (
+        target_name,
+        project_id,
+        namespace,
+        data_plane_host,
+        target_fingerprint,
+        dimensions,
+    ) = target_binding
+    setup = _document(raw, maximum=_MAX_RECEIPT_BYTES)
+    records = setup.get("records")
+    expected_keys = {
+        "fingerprint",
+        "initial_namespace_record_count",
+        "pinecone_data_plane_host",
+        "pinecone_project_id",
+        "readback_inventory_fingerprint",
+        "record_count",
+        "records",
+        "run_id",
+        "setup_mode",
+        "setup_owner_run_id",
+        "source_target_setup_fingerprint",
+        "target_fingerprint",
+        "target_name",
+        "target_namespace",
+    }
+    golden = {
+        cast("str", record["record_id"]): (
+            case_id,
+            cast("str", record["payload_fingerprint"]),
+        )
+        for case_id, case in suite.retrieval.items()
+        for record in cast("list[dict[str, JsonValue]]", case["expected_records"])
+    }
+    source_run_id = setup.get("run_id")
+    if (
+        set(setup) != expected_keys
+        or not _fingerprinted(setup)
+        or setup.get("setup_mode") != _REUSE_EMPTY_NAMESPACE
+        or setup.get("source_target_setup_fingerprint") is not None
+        or setup.get("setup_owner_run_id") != setup.get("run_id")
+        or type(source_run_id) is not str
+        or not source_run_id
+        or source_run_id == prohibited_run_id
+        or setup.get("target_name") != target_name
+        or setup.get("target_fingerprint") != target_fingerprint
+        or setup.get("pinecone_project_id") != project_id
+        or setup.get("target_namespace") != namespace
+        or setup.get("pinecone_data_plane_host") != data_plane_host
+        or setup.get("initial_namespace_record_count") != 0
+        or setup.get("record_count") != len(golden)
+        or not isinstance(records, list)
+        or len(records) != len(golden)
+    ):
+        _fail()
+    retained: dict[str, dict[str, JsonValue]] = {}
+    inventory: list[dict[str, JsonValue]] = []
+    provider_ids: list[str] = []
+    receipt_ids: list[str] = []
+    for raw_record in cast("list[JsonValue]", records):
+        if not isinstance(raw_record, dict):
+            _fail()
+        record = cast("dict[str, JsonValue]", raw_record)
+        receipt = record.get("embedding_receipt")
+        record_id = record.get("record_id")
+        case_id = record.get("case_id")
+        if (
+            set(record) != {"case_id", "embedding_receipt", "payload_fingerprint", "record_id"}
+            or type(record_id) is not str
+            or record_id not in golden
+            or record_id in retained
+            or type(case_id) is not str
+            or (case_id, record.get("payload_fingerprint")) != golden[record_id]
+            or not isinstance(receipt, dict)
+        ):
+            _fail()
+        embedded = cast("dict[str, JsonValue]", receipt)
+        provider_id = embedded.get("provider_request_id")
+        receipt_id = embedded.get("receipt_id")
+        if (
+            set(embedded)
+            != {
+                "dimensions",
+                "input_tokens",
+                "latency_milliseconds",
+                "provider_request_id",
+                "receipt_id",
+                "request_id",
+                "result",
+                "vector_fingerprint",
+            }
+            or embedded.get("request_id") != retrieval_setup_request_id(source_run_id, case_id)
+            or embedded.get("result") != "SUCCEEDED"
+            or embedded.get("dimensions") != dimensions
+            or type(embedded.get("input_tokens")) is not int
+            or cast("int", embedded["input_tokens"]) < 1
+            or type(embedded.get("latency_milliseconds")) is not int
+            or cast("int", embedded["latency_milliseconds"]) < 0
+            or type(provider_id) is not str
+            or provider_id in {"", "unreported"}
+            or type(receipt_id) is not str
+            or not receipt_id
+            or not _full_fingerprint(embedded.get("vector_fingerprint"))
+        ):
+            _fail()
+        retained[record_id] = record
+        provider_ids.append(provider_id)
+        receipt_ids.append(receipt_id)
+        inventory.append(
+            {
+                "payload_fingerprint": record["payload_fingerprint"],
+                "record_id": record_id,
+                "vector_fingerprint": embedded["vector_fingerprint"],
+            }
+        )
+    if (
+        set(retained) != set(golden)
+        or len(provider_ids) != len(set(provider_ids))
+        or len(receipt_ids) != len(set(receipt_ids))
+        or setup.get("readback_inventory_fingerprint")
+        != "sha256:" + sha256(canonicalize(checked_json_value(inventory))).hexdigest()
+    ):
+        _fail()
+    return setup
+
+
 def _preflight_plan(arguments: argparse.Namespace) -> bytes:
     """Derive the exact single-run effect plan without constructing a transport."""
     suite = _load_suite()
@@ -1742,6 +2033,10 @@ def _preflight_plan(arguments: argparse.Namespace) -> bytes:
     pinecone = PineconeConfig.from_credential_json(
         _read(_argument_path(arguments.pinecone_credential))
     )
+    target_setup_mode = getattr(arguments, "target_setup_mode", _CREATE_FRESH)
+    pinecone_data_plane_host = getattr(arguments, "pinecone_data_plane_host", None)
+    prior_target_setup = getattr(arguments, "prior_target_setup", None)
+    source_target_setup_fingerprint: str | None = None
     output_root = _argument_path(arguments.output_root)
     state_root = _state_root(arguments, output_root)
     if (
@@ -1757,7 +2052,41 @@ def _preflight_plan(arguments: argparse.Namespace) -> bytes:
         or embedding.api_version != serving_profile.embedding.api_contract
         or pinecone.project_id != serving_profile.pinecone_project_id
         or not pinecone.index.startswith(serving_profile.index_prefix)
+        or target_setup_mode not in _TARGET_SETUP_MODES
+        or (
+            target_setup_mode != _CREATE_FRESH
+            and (
+                type(pinecone_data_plane_host) is not str
+                or not pinecone_data_plane_host.startswith("https://")
+                or pinecone_data_plane_host.endswith("/")
+            )
+        )
+        or (target_setup_mode == _CREATE_FRESH and pinecone_data_plane_host is not None)
     ):
+        _fail()
+    if target_setup_mode == _EVALUATE_PROVED_NAMESPACE:
+        if not isinstance(prior_target_setup, Path) or type(pinecone_data_plane_host) is not str:
+            _fail()
+        source_setup = _validated_source_target_setup(
+            _read(prior_target_setup),
+            suite,
+            target_binding=(
+                pinecone.index,
+                pinecone.project_id,
+                serving_profile.namespace,
+                pinecone_data_plane_host,
+                target_state_fingerprint(
+                    pinecone.index,
+                    serving_profile.dimensions,
+                    serving_profile.metric,
+                    serving_profile.namespace,
+                ),
+                serving_profile.dimensions,
+            ),
+            prohibited_run_id=arguments.run_id,
+        )
+        source_target_setup_fingerprint = cast("str", source_setup["fingerprint"])
+    elif prior_target_setup is not None:
         _fail()
     counter = ExactTokenCounter(
         semantic_profiles, serving_profile.embedding.tokenizer, tokenizer_raw
@@ -1786,24 +2115,31 @@ def _preflight_plan(arguments: argparse.Namespace) -> bytes:
     budget = preflight_provider_budget(tuple(planned), semantic_profiles)
     retrieval_tokens = sum(
         counter.count(cast("str", value["query_text"]))
-        + sum(
-            counter.count(cast("str", record["text"]))
-            for record in cast("list[dict[str, JsonValue]]", value["expected_records"])
+        + (
+            0
+            if target_setup_mode == _EVALUATE_PROVED_NAMESPACE
+            else sum(
+                counter.count(cast("str", record["text"]))
+                for record in cast("list[dict[str, JsonValue]]", value["expected_records"])
+            )
         )
         for value in suite.retrieval.values()
     )
     upsert_batches = (
-        len(retrieval_cases) + serving_profile.batch_size - 1
-    ) // serving_profile.batch_size
+        0
+        if target_setup_mode == _EVALUATE_PROVED_NAMESPACE
+        else (len(retrieval_cases) + serving_profile.batch_size - 1) // serving_profile.batch_size
+    )
     fetch_calls = (
         len(retrieval_cases) + serving_profile.readback_page_size - 1
     ) // serving_profile.readback_page_size
-    describe_calls = _PINECONE_DESCRIBE_CALLS
-    list_calls = 1
-    stats_calls = 1
+    create_attempts = 1 if target_setup_mode == _CREATE_FRESH else 0
+    describe_calls = _PINECONE_DESCRIBE_CALLS if target_setup_mode == _CREATE_FRESH else 2
+    list_calls = 2 if target_setup_mode == _REUSE_EMPTY_NAMESPACE else 1
+    stats_calls = 2 if target_setup_mode == _REUSE_EMPTY_NAMESPACE else 1
     provider_calls = (
         describe_calls
-        + 1
+        + create_attempts
         + upsert_batches
         + stats_calls
         + list_calls
@@ -1811,13 +2147,14 @@ def _preflight_plan(arguments: argparse.Namespace) -> bytes:
         + len(retrieval_cases)
     )
     document = {
-        "allowed_operations": _OPERATIONS,
+        "allowed_operations": _operations_for_mode(target_setup_mode),
         "embedding_deployment": embedding.deployment,
         "max_cost_microunits": budget.worst_case_cost_microunits
         + serving_profile.embedding.cost_limit_microunits,
-        "max_embedding_calls": len(retrieval_cases) * 2,
+        "max_embedding_calls": len(retrieval_cases)
+        * (1 if target_setup_mode == _EVALUATE_PROVED_NAMESPACE else 2),
         "max_input_tokens": budget.total_input_tokens + retrieval_tokens,
-        "max_pinecone_create_attempts": 1,
+        "max_pinecone_create_attempts": create_attempts,
         "max_pinecone_describe_calls": describe_calls,
         "max_pinecone_fetch_calls": fetch_calls,
         "max_pinecone_full_readbacks": 1,
@@ -1832,6 +2169,7 @@ def _preflight_plan(arguments: argparse.Namespace) -> bytes:
         "output_root": str(output_root),
         "pinecone_index": pinecone.index,
         "pinecone_project_id": pinecone.project_id,
+        "pinecone_data_plane_host": pinecone_data_plane_host,
         "proposal_fingerprint": arguments.proposal_fingerprint,
         "expected_pinecone_provider_calls": provider_calls,
         "run_id": arguments.run_id,
@@ -1843,6 +2181,8 @@ def _preflight_plan(arguments: argparse.Namespace) -> bytes:
         "state_root": str(state_root),
         "suite_fingerprint": suite.fingerprint,
         "tokenizer_resource_fingerprint": "sha256:" + sha256(tokenizer_raw).hexdigest(),
+        "target_setup_mode": target_setup_mode,
+        "source_target_setup_fingerprint": source_target_setup_fingerprint,
     }
     return _runtime_record(
         "asklegal.hk-v1-provider-execution-plan/v1",
@@ -1905,6 +2245,10 @@ def _live_configuration(arguments: argparse.Namespace) -> _LiveConfiguration:
         or authority.pinecone_project_id != pinecone.project_id
         or authority.pinecone_index != pinecone.index
         or authority.namespace != serving_profile.namespace
+        or authority.target_setup_mode != getattr(arguments, "target_setup_mode", _CREATE_FRESH)
+        or authority.pinecone_data_plane_host
+        != getattr(arguments, "pinecone_data_plane_host", None)
+        or authority.source_target_setup_fingerprint != plan.get("source_target_setup_fingerprint")
         or not isinstance(arguments.output_root, Path)
         or not arguments.output_root.is_absolute()
         or arguments.output_root.is_symlink()
@@ -1959,28 +2303,43 @@ def _live_configuration(arguments: argparse.Namespace) -> _LiveConfiguration:
     budget = preflight_provider_budget(tuple(planned), semantic_profiles)
     retrieval_tokens = sum(
         counter.count(cast("str", value["query_text"]))
-        + sum(
-            counter.count(cast("str", record["text"]))
-            for record in cast("list[dict[str, JsonValue]]", value["expected_records"])
+        + (
+            0
+            if authority.target_setup_mode == _EVALUATE_PROVED_NAMESPACE
+            else sum(
+                counter.count(cast("str", record["text"]))
+                for record in cast("list[dict[str, JsonValue]]", value["expected_records"])
+            )
         )
         for value in suite.retrieval.values()
     )
     if (
         authority.max_semantic_calls != len(planned)
-        or authority.max_embedding_calls != len(retrieval_cases) * 2
-        or authority.max_pinecone_create_attempts != 1
-        or authority.max_pinecone_describe_calls != _PINECONE_DESCRIBE_CALLS
+        or authority.max_embedding_calls
+        != len(retrieval_cases)
+        * (1 if authority.target_setup_mode == _EVALUATE_PROVED_NAMESPACE else 2)
+        or authority.max_pinecone_create_attempts
+        != (1 if authority.target_setup_mode == _CREATE_FRESH else 0)
+        or authority.max_pinecone_describe_calls
+        != (_PINECONE_DESCRIBE_CALLS if authority.target_setup_mode == _CREATE_FRESH else 2)
         or authority.max_pinecone_fetch_calls
         != (len(retrieval_cases) + serving_profile.readback_page_size - 1)
         // serving_profile.readback_page_size
         or authority.max_pinecone_upsert_batches
-        != (len(retrieval_cases) + serving_profile.batch_size - 1) // serving_profile.batch_size
+        != (
+            0
+            if authority.target_setup_mode == _EVALUATE_PROVED_NAMESPACE
+            else (len(retrieval_cases) + serving_profile.batch_size - 1)
+            // serving_profile.batch_size
+        )
         or authority.max_pinecone_full_readbacks != 1
-        or authority.max_pinecone_list_calls != 1
+        or authority.max_pinecone_list_calls
+        != (2 if authority.target_setup_mode == _REUSE_EMPTY_NAMESPACE else 1)
         or authority.max_pinecone_queries != len(retrieval_cases)
         or authority.max_pinecone_reconciliation_calls
         != sum(_TARGET_RECONCILIATION_COUNTS.values())
-        or authority.max_pinecone_stats_calls != 1
+        or authority.max_pinecone_stats_calls
+        != (2 if authority.target_setup_mode == _REUSE_EMPTY_NAMESPACE else 1)
         or authority.expected_pinecone_provider_calls
         != authority.max_pinecone_describe_calls
         + authority.max_pinecone_create_attempts
@@ -2032,6 +2391,7 @@ def _live_configuration(arguments: argparse.Namespace) -> _LiveConfiguration:
             provider_call_sink=gate.record_provider_call,
             namespace=serving_profile.namespace,
             page_size=serving_profile.readback_page_size,
+            expected_data_plane_host=authority.pinecone_data_plane_host,
         ),
         counter,
         gate,
@@ -2039,7 +2399,11 @@ def _live_configuration(arguments: argparse.Namespace) -> _LiveConfiguration:
 
 
 def _prepare_target(  # noqa: C901, PLR0912, PLR0915 - exact effect phase.
-    configuration: _LiveConfiguration, suite: _GoldenSuite, run_id: str
+    configuration: _LiveConfiguration,
+    suite: _GoldenSuite,
+    run_id: str,
+    precondition_path: Path | None = None,
+    prior_setup_path: Path | None = None,
 ) -> tuple[dict[str, JsonValue], TargetDefinition]:
     serving = configuration.serving_profile
     target = configuration.target
@@ -2053,21 +2417,135 @@ def _prepare_target(  # noqa: C901, PLR0912, PLR0915 - exact effect phase.
         serving.metric,
         serving.namespace,
     )
-    create_operation = f"creating index {target_name}"
-    configuration.authority_gate.select(create_operation)
-    if configuration.authority_gate.is_complete(create_operation):
-        if target.describe(target_name) != definition:
+    setup_mode = configuration.authority.target_setup_mode
+    data_plane_host: str
+    if setup_mode == _EVALUATE_PROVED_NAMESPACE:
+        if prior_setup_path is None:
             _fail()
-    elif configuration.authority_gate.is_in_flight(create_operation):
-        if target.describe(target_name) != definition:
+        source_setup = _validated_source_target_setup(
+            _read(prior_setup_path),
+            suite,
+            target_binding=(
+                target_name,
+                configuration.authority.pinecone_project_id,
+                serving.namespace,
+                cast("str", configuration.authority.pinecone_data_plane_host),
+                definition.state_fingerprint,
+                serving.dimensions,
+            ),
+            prohibited_run_id=run_id,
+        )
+        if (
+            source_setup.get("fingerprint")
+            != configuration.authority.source_target_setup_fingerprint
+            or target.describe(target_name) != definition
+        ):
             _fail()
-        configuration.authority_gate.complete(create_operation)
+        data_plane_host = target.data_plane_host(target_name)
+        if data_plane_host != configuration.authority.pinecone_data_plane_host:
+            _fail()
+        readback = target.enumerate(target_name)
+        source_records_by_id = {
+            cast("str", item["record_id"]): item
+            for item in cast("list[dict[str, JsonValue]]", source_setup["records"])
+        }
+        if (
+            target.namespace_vector_count(target_name) != len(source_records_by_id)
+            or set(source_records_by_id) != {record.record_id for record in readback}
+            or any(
+                source_records_by_id[record.record_id].get("payload_fingerprint")
+                != record.content_fingerprint
+                or cast(
+                    "dict[str, JsonValue]",
+                    source_records_by_id[record.record_id]["embedding_receipt"],
+                ).get("vector_fingerprint")
+                != live_vector_fingerprint(record.vector)
+                for record in readback
+            )
+        ):
+            _fail()
+        evaluation_setup: dict[str, JsonValue] = dict(source_setup)
+        evaluation_setup["run_id"] = run_id
+        evaluation_setup["setup_mode"] = setup_mode
+        evaluation_setup["source_target_setup_fingerprint"] = source_setup["fingerprint"]
+        evaluation_setup.pop("fingerprint")
+        evaluation_setup["fingerprint"] = (
+            "sha256:" + sha256(canonicalize(evaluation_setup)).hexdigest()
+        )
+        return evaluation_setup, definition
+    if setup_mode == _REUSE_EMPTY_NAMESPACE:
+        precondition: dict[str, JsonValue] | None = None
+        if precondition_path is not None and precondition_path.exists():
+            precondition = _runtime_parse(
+                precondition_path, "asklegal.hk-v1-provider-target-precondition/v1"
+            )
+            if any(
+                precondition.get(key) != value
+                for key, value in {
+                    "authority_fingerprint": configuration.authority.fingerprint,
+                    "data_plane_host": configuration.authority.pinecone_data_plane_host,
+                    "initial_namespace_record_count": 0,
+                    "namespace": serving.namespace,
+                    "pinecone_index": target_name,
+                    "pinecone_project_id": configuration.authority.pinecone_project_id,
+                    "run_id": run_id,
+                    "setup_mode": setup_mode,
+                    "target_fingerprint": definition.state_fingerprint,
+                }.items()
+            ):
+                _fail()
+            configuration.authority_gate.select_call_class("RECONCILIATION")
+            try:
+                if target.describe(target_name) != definition:
+                    _fail()
+                data_plane_host = target.data_plane_host(target_name)
+                if data_plane_host != configuration.authority.pinecone_data_plane_host:
+                    _fail()
+            finally:
+                configuration.authority_gate.select_call_class("EVALUATION")
+        else:
+            if target.describe(target_name) != definition:
+                _fail()
+            data_plane_host = target.data_plane_host(target_name)
+            if (
+                data_plane_host != configuration.authority.pinecone_data_plane_host
+                or target.namespace_vector_count(target_name) != 0
+                or target.enumerate(target_name) != ()
+            ):
+                _fail()
+            precondition_raw = _runtime_record(
+                "asklegal.hk-v1-provider-target-precondition/v1",
+                {
+                    "authority_fingerprint": configuration.authority.fingerprint,
+                    "data_plane_host": data_plane_host,
+                    "initial_namespace_record_count": 0,
+                    "namespace": serving.namespace,
+                    "pinecone_index": target_name,
+                    "pinecone_project_id": configuration.authority.pinecone_project_id,
+                    "run_id": run_id,
+                    "setup_mode": setup_mode,
+                    "target_fingerprint": definition.state_fingerprint,
+                },
+            )
+            if precondition_path is not None:
+                _write_exact(precondition_path, precondition_raw)
     else:
-        target.create(definition)
-        if target.describe(target_name) != definition:
-            _fail()
-        if configuration.authority_gate.is_in_flight(create_operation):
+        create_operation = f"creating index {target_name}"
+        configuration.authority_gate.select(create_operation)
+        if configuration.authority_gate.is_complete(create_operation):
+            if target.describe(target_name) != definition:
+                _fail()
+        elif configuration.authority_gate.is_in_flight(create_operation):
+            if target.describe(target_name) != definition:
+                _fail()
             configuration.authority_gate.complete(create_operation)
+        else:
+            target.create(definition)
+            if target.describe(target_name) != definition:
+                _fail()
+            if configuration.authority_gate.is_in_flight(create_operation):
+                configuration.authority_gate.complete(create_operation)
+        data_plane_host = target.data_plane_host(target_name)
     records: list[TargetRecord] = []
     retained: list[dict[str, JsonValue]] = []
     for case_id, value in suite.retrieval.items():
@@ -2134,15 +2612,30 @@ def _prepare_target(  # noqa: C901, PLR0912, PLR0915 - exact effect phase.
         if configuration.authority_gate.is_complete(operation):
             continue
         if configuration.authority_gate.is_in_flight(operation):
-            readback = {record.record_id: record for record in target.enumerate(target_name)}
-            if any(readback.get(record.record_id) != record for record in batch):
+            configuration.authority_gate.select_call_class("RECONCILIATION")
+            try:
+                readback = {record.record_id: record for record in target.enumerate(target_name)}
+            finally:
+                configuration.authority_gate.select_call_class("EVALUATION")
+            expected_by_id = {record.record_id: record for record in records}
+            completed = {
+                item.record_id
+                for prior_start in range(0, start, serving.batch_size)
+                if configuration.authority_gate.is_complete(
+                    f"upserting into {target_name} batch {prior_start // serving.batch_size + 1}"
+                )
+                for item in records[prior_start : prior_start + serving.batch_size]
+            }
+            required = completed | {record.record_id for record in batch}
+            if set(readback) - set(expected_by_id) or any(
+                readback.get(record_id) != expected_by_id[record_id] for record_id in required
+            ):
                 _fail()
             configuration.authority_gate.complete(operation)
             continue
         target.upsert_batch(target_name, batch)
         configuration.authority_gate.complete(operation)
-    stats = target.describe_stats(target_name)
-    if stats.get("totalVectorCount") != len(records):
+    if target.namespace_vector_count(target_name) != len(records):
         _fail()
     readback = target.enumerate(target_name)
     expected_readback = tuple(sorted(records, key=lambda item: item.record_id))
@@ -2164,6 +2657,13 @@ def _prepare_target(  # noqa: C901, PLR0912, PLR0915 - exact effect phase.
         "record_count": len(retained),
         "records": retained,
         "run_id": run_id,
+        "setup_mode": setup_mode,
+        "setup_owner_run_id": run_id,
+        "source_target_setup_fingerprint": None,
+        "pinecone_project_id": configuration.authority.pinecone_project_id,
+        "pinecone_data_plane_host": data_plane_host,
+        "target_namespace": serving.namespace,
+        "initial_namespace_record_count": 0,
         "target_fingerprint": definition.state_fingerprint,
         "target_name": definition.name,
     }
@@ -2262,6 +2762,7 @@ def _execute_locked(  # noqa: C901, PLR0912, PLR0915 - resumable closed phase ma
     semantic_path = output_root / "semantic-evaluation.json"
     retrieval_path = output_root / "retrieval-evaluation.json"
     target_setup_path = output_root / "target-setup.json"
+    target_precondition_path = output_root / "target-precondition.json"
     target_reconciliation_path = output_root / "target-reconciliation.json"
     if state.get("status") == "COMPLETE":
         semantic_raw = _read(semantic_path)
@@ -2308,6 +2809,15 @@ def _execute_locked(  # noqa: C901, PLR0912, PLR0915 - resumable closed phase ma
         if (
             not _fingerprinted(setup)
             or setup.get("run_id") != configuration.authority.run_id
+            or setup.get("setup_mode") != configuration.authority.target_setup_mode
+            or setup.get("pinecone_project_id") != configuration.authority.pinecone_project_id
+            or setup.get("target_namespace") != configuration.authority.namespace
+            or (
+                configuration.authority.target_setup_mode != _CREATE_FRESH
+                and setup.get("pinecone_data_plane_host")
+                != configuration.authority.pinecone_data_plane_host
+            )
+            or setup.get("initial_namespace_record_count") != 0
             or type(setup.get("target_name")) is not str
             or type(setup.get("target_fingerprint")) is not str
             or not isinstance(setup.get("records"), list)
@@ -2384,7 +2894,13 @@ def _execute_locked(  # noqa: C901, PLR0912, PLR0915 - resumable closed phase ma
                 ),
             )
     else:
-        setup, target = _prepare_target(configuration, suite, configuration.authority.run_id)
+        setup, target = _prepare_target(
+            configuration,
+            suite,
+            configuration.authority.run_id,
+            target_precondition_path,
+            getattr(arguments, "prior_target_setup", None),
+        )
         _write_exact(target_setup_path, canonicalize(setup))
     serving = configuration.serving_profile
     if (
@@ -2475,6 +2991,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--model-credential", type=Path)
     parser.add_argument("--embedding-credential", type=Path)
     parser.add_argument("--pinecone-credential", type=Path)
+    parser.add_argument(
+        "--target-setup-mode",
+        choices=sorted(_TARGET_SETUP_MODES),
+        default=_CREATE_FRESH,
+    )
+    parser.add_argument("--pinecone-data-plane-host")
+    parser.add_argument("--prior-target-setup", type=Path)
     parser.add_argument("--authority", type=Path)
     parser.add_argument("--proxy-host")
     parser.add_argument("--proxy-port", type=int)

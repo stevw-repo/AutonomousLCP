@@ -26,6 +26,7 @@ _VAULT_ACCESS_IDS = {
     "vault-recovery-acquisition": "asklegal-recovery-acquisition",
     "vault-recovery-promotion": "asklegal-recovery-promotion",
 }
+_PRIMARY_ROOT_NAMES = ("vault-primary-root-access", "vault-primary-root-secret")
 
 
 def test_deployment_inventory_matches_exact_sealing_contract() -> None:
@@ -72,18 +73,28 @@ def test_stage_changes_only_target_and_replays_without_secret_output(
         receipt_path=receipt,
         rotation_id=_ROTATION,
         secret_factory=lambda: next(generated),
+        root_access_factory=lambda: "new-primary-root-access-never-print",
+        root_secret_factory=lambda: "new-primary-root-secret-never-print",
     )
     assert stat_mode(candidate) == 0o700
     assert all(stat_mode(candidate / name) == 0o600 for name in deployment_credential_names())
     assert all(
         (candidate / name).read_bytes() == (source / name).read_bytes()
         for name in deployment_credential_names()
-        if name not in _VAULT_ACCESS_IDS
+        if name not in _VAULT_ACCESS_IDS and name not in _PRIMARY_ROOT_NAMES
     )
     assert all(
         (candidate / name).read_bytes() != (source / name).read_bytes()
         for name in _VAULT_ACCESS_IDS
     )
+    assert all(
+        (candidate / name).read_bytes() != (source / name).read_bytes()
+        for name in _PRIMARY_ROOT_NAMES
+    )
+    document = json.loads(raw)
+    assert document["rotated_credential_count"] == 9
+    assert document["unchanged_credential_count"] == 16
+    assert document["credential_names"] == sorted((*_VAULT_ACCESS_IDS, *_PRIMARY_ROOT_NAMES))
     assert all(
         json.loads((candidate / name).read_bytes())["access_key_id"] == access_key_id
         for name, access_key_id in _VAULT_ACCESS_IDS.items()
@@ -147,6 +158,8 @@ def test_symlinked_source_or_candidate_drift_fails_closed(tmp_path: Path) -> Non
         receipt_path=receipt,
         rotation_id=_ROTATION,
         secret_factory=lambda: next(generated),
+        root_access_factory=lambda: "new-primary-root-access-never-print",
+        root_secret_factory=lambda: "new-primary-root-secret-never-print",
     )
     (candidate / "sql-control").write_bytes(b"drift")
     with pytest.raises(VaultCredentialStagingError, match="CANDIDATE_DRIFT"):
@@ -194,6 +207,24 @@ def test_predecessor_secrets_cannot_be_permuted_into_candidates(tmp_path: Path) 
             secret_factory=lambda: next(permuted),
         )
     assert not (tmp_path / "candidate").exists()
+
+
+@pytest.mark.parametrize("part", ["access", "secret"])
+def test_primary_root_pair_must_change_as_one_disjoint_pair(tmp_path: Path, part: str) -> None:
+    """Reusing either compromised root component fails before candidate publication."""
+    source = _source(tmp_path)
+    old_access = (source / _PRIMARY_ROOT_NAMES[0]).read_text()
+    old_secret = (source / _PRIMARY_ROOT_NAMES[1]).read_text()
+    with pytest.raises(VaultCredentialStagingError, match="CANDIDATE_DRIFT"):
+        stage_vault_credential_rotation(
+            source_root=source,
+            candidate_root=(tmp_path / "candidate").resolve(),
+            receipt_path=(tmp_path / "receipt.json").resolve(),
+            rotation_id=_ROTATION,
+            secret_factory=(item for item in [f"new-{index}" for index in range(7)]).__next__,
+            root_access_factory=lambda: old_access if part == "access" else "new-root-access",
+            root_secret_factory=lambda: old_secret if part == "secret" else "new-root-secret",
+        )
 
 
 def test_overlapping_receipt_and_candidate_are_rejected_before_write(tmp_path: Path) -> None:

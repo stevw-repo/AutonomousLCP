@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import multiprocessing
 import runpy
+import stat
 import time
 from collections.abc import Callable
 from dataclasses import dataclass, replace
@@ -21,9 +22,9 @@ from asklegal_contracts import canonicalize
 from asklegal_contracts.json_types import checked_json_value
 from asklegal_domain import ImmutableReference, ReferenceType
 from asklegal_durable_task import OrchestrationStatus
-from asklegal_promotion import PromotionManifest, ServingStateCandidate
+from asklegal_promotion import PromotionError, PromotionManifest, ServingStateCandidate
 from asklegal_promotion.backup import freeze_backup_request
-from asklegal_promotion_worker import v1_service
+from asklegal_promotion_worker import local_serving_state, v1_infrastructure, v1_service
 from asklegal_promotion_worker.local_backup import (
     FileNativeBackupWriter,
     FileRecoveryBackupWriter,
@@ -38,6 +39,7 @@ from asklegal_promotion_worker.local_package import (
 from asklegal_promotion_worker.local_serving_state import (
     FileServingStateStore,
     initial_serving_state_bytes,
+    open_or_initialize_serving_state,
 )
 from asklegal_promotion_worker.service import PromotionService
 from asklegal_promotion_worker.v1_execution import (
@@ -146,6 +148,53 @@ def test_service_is_inert_for_unknown_local_approval(
     assert v1_service.run() == int(ServiceExitCode.NOT_READY)
 
 
+def test_stable_idle_configuration_does_not_require_future_serving_state(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A fresh worker can become healthy before its first approved proposal exists."""
+    state_root = tmp_path / "promotion"
+    state_root.mkdir()
+    for name in (
+        "package",
+        "native",
+        "recovery",
+    ):
+        (tmp_path / name).mkdir()
+    approval_ledger = tmp_path / "review" / "approval-register.json"
+    approval_ledger.parent.mkdir()
+    profile_path = tmp_path / "serving-profile.json"
+    tokenizer_path = tmp_path / "tokenizer.tiktoken"
+    profile_path.write_bytes(b"profile")
+    tokenizer_path.write_bytes(b"tokenizer")
+    environment = {
+        "ASKLEGAL_PROMOTION_APPROVAL_LEDGER": str(approval_ledger),
+        "ASKLEGAL_PROMOTION_CURRENT_SERVING_STATE": str(state_root / "current-serving-state"),
+        "ASKLEGAL_PROMOTION_EFFECT_INTENT_LEDGER": str(tmp_path / "effect-intents"),
+        "ASKLEGAL_PROMOTION_NATIVE_BACKUP_ROOT": str(tmp_path / "native"),
+        "ASKLEGAL_PROMOTION_PACKAGE_ROOT": str(tmp_path / "package"),
+        "ASKLEGAL_PROMOTION_RECOVERY_BACKUP_ROOT": str(tmp_path / "recovery"),
+        "ASKLEGAL_PROMOTION_SERVING_PROFILE": str(profile_path),
+        "ASKLEGAL_PROMOTION_STATE_ROOT": str(state_root),
+        "ASKLEGAL_PROMOTION_TOKENIZER_RESOURCE": str(tokenizer_path),
+    }
+
+    def fake_profile(_reader: object) -> object:
+        return SimpleNamespace(embedding=SimpleNamespace(tokenizer="test"))
+
+    def fake_counter(*_args: object) -> object:
+        return object()
+
+    monkeypatch.setattr(v1_infrastructure, "load_serving_capability_profile", fake_profile)
+    monkeypatch.setattr(v1_infrastructure, "ExactTokenizerResourceCounter", fake_counter)
+
+    trigger_root = v1_infrastructure.validate_v1_promotion_configuration(environment)
+
+    assert trigger_root == approval_ledger.parent / "promotion-triggers"
+    assert not (state_root / "current-serving-state").exists()
+    assert (tmp_path / "effect-intents").is_dir()
+
+
 def _reference(kind: ReferenceType, digit: str) -> ImmutableReference:
     prefix = "cap" if kind is ReferenceType.CAPABILITY_PROFILE else "art"
     return ImmutableReference(kind, f"{prefix}_{digit * 48}", f"sha256:{digit * 64}")
@@ -181,6 +230,121 @@ def test_file_serving_state_cas_readback_and_restart(tmp_path: Path) -> None:
         FileServingStateStore(state_path).rollback(candidate, activation.receipt_id).replayed
         is True
     )
+
+
+def test_first_approved_manifest_initializes_serving_state_once(tmp_path: Path) -> None:
+    """An idle installation needs no invented state, while deletion fails closed."""
+    state_path = tmp_path / "current-serving-state"
+    base = "srv_" + "1" * 48
+
+    first = open_or_initialize_serving_state(state_path, base)
+    assert first.active_state_id == base
+    assert open_or_initialize_serving_state(state_path, base).active_state_id == base
+    marker = state_path.with_suffix(".initialized")
+    assert marker.is_file()
+
+    candidate = ServingStateCandidate(
+        "srv_" + "2" * 48,
+        "sha256:" + "2" * 64,
+        base,
+        "asklegal-dev-candidate",
+        "sha256:" + "3" * 64,
+        "sha256:" + "4" * 64,
+        "emp_" + "5" * 48,
+        "sha256:" + "5" * 64,
+        "apr_" + "6" * 48,
+        "exe_" + "7" * 48,
+    )
+    first.activate(base, candidate)
+    assert (
+        open_or_initialize_serving_state(state_path, candidate.state_id).active_state_id
+        == candidate.state_id
+    )
+
+    state_path.unlink()
+    with pytest.raises(PromotionError):
+        open_or_initialize_serving_state(state_path, base)
+
+
+def test_file_serving_state_supports_a_second_distinct_promotion(tmp_path: Path) -> None:
+    """The retained current-state projection advances across successive releases."""
+    state_path = tmp_path / "current-serving-state"
+    base = "srv_" + "1" * 48
+    first = ServingStateCandidate(
+        "srv_" + "2" * 48,
+        "sha256:" + "2" * 64,
+        base,
+        "asklegal-dev-first",
+        "sha256:" + "3" * 64,
+        "sha256:" + "4" * 64,
+        "emp_" + "5" * 48,
+        "sha256:" + "5" * 64,
+        "apr_" + "6" * 48,
+        "exe_" + "7" * 48,
+    )
+    second = ServingStateCandidate(
+        "srv_" + "8" * 48,
+        "sha256:" + "8" * 64,
+        first.state_id,
+        "asklegal-dev-second",
+        "sha256:" + "9" * 64,
+        "sha256:" + "a" * 64,
+        "emp_" + "b" * 48,
+        "sha256:" + "b" * 64,
+        "apr_" + "c" * 48,
+        "exe_" + "d" * 48,
+    )
+
+    store = open_or_initialize_serving_state(state_path, base)
+    store.activate(base, first)
+    second_receipt = store.activate(first.state_id, second)
+
+    restarted = open_or_initialize_serving_state(state_path, second.state_id)
+    assert restarted.active_state_id == second.state_id
+    assert restarted.activate(first.state_id, second).replayed is True
+    rollback = restarted.rollback(second, second_receipt.receipt_id)
+    assert rollback.state_id == first.state_id
+    assert restarted.restore(second, rollback.receipt_id).state_id == second.state_id
+    assert stat.S_IMODE(state_path.stat().st_mode) == 0o600
+    assert stat.S_IMODE(state_path.with_suffix(".initialized").stat().st_mode) == 0o600
+
+
+def test_file_serving_state_does_not_follow_or_remove_temporary_symlink(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A pre-planted temporary path cannot redirect or be consumed by a state write."""
+    state_path = tmp_path / "current-serving-state"
+    base = "srv_" + "1" * 48
+    store = open_or_initialize_serving_state(state_path, base)
+    candidate = ServingStateCandidate(
+        "srv_" + "2" * 48,
+        "sha256:" + "2" * 64,
+        base,
+        "asklegal-dev-candidate",
+        "sha256:" + "3" * 64,
+        "sha256:" + "4" * 64,
+        "emp_" + "5" * 48,
+        "sha256:" + "5" * 64,
+        "apr_" + "6" * 48,
+        "exe_" + "7" * 48,
+    )
+    external = tmp_path / "external"
+    external.write_bytes(b"unchanged")
+    temporary = tmp_path / ".current-serving-state.fixed.tmp"
+    temporary.symlink_to(external)
+
+    def fixed_token(_size: int) -> str:
+        return "fixed"
+
+    monkeypatch.setattr(local_serving_state, "token_hex", fixed_token)
+
+    with pytest.raises(PromotionError):
+        store.activate(base, candidate)
+
+    assert external.read_bytes() == b"unchanged"
+    assert temporary.is_symlink()
+    assert store.active_state_id == base
 
 
 def test_distinct_file_backup_writers_replay_exact_readback(tmp_path: Path) -> None:

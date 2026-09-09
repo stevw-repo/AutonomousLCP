@@ -136,10 +136,12 @@ def _retrieval(
     run_id: str,
     *,
     drift_score: float | None = None,
-    authority_fingerprint: str | None = None,
-    plan_fingerprint: str | None = None,
+    call_bindings: tuple[str | None, str | None] = (None, None),
     reconciled: bool = False,
+    setup_options: tuple[str, dict[str, object] | None] = ("CREATE_FRESH", None),
 ) -> bytes:
+    setup_mode, source_setup = setup_options
+    authority_fingerprint, plan_fingerprint = call_bindings
     cases: list[dict[str, object]] = []
     setup_records: list[dict[str, object]] = []
     for index, raw_case in enumerate(cast("list[object]", _SUITE["retrieval_cases"])):
@@ -206,6 +208,8 @@ def _retrieval(
                 "record_id": expected["record_id"],
             }
         )
+    if source_setup is not None:
+        setup_records = deepcopy(cast("list[dict[str, object]]", source_setup["records"]))
     setup_inventory = [
         {
             "payload_fingerprint": item["payload_fingerprint"],
@@ -217,25 +221,61 @@ def _retrieval(
         for item in setup_records
     ]
     setup: dict[str, object] = {
+        "initial_namespace_record_count": 0,
+        "pinecone_data_plane_host": "https://testing-index-1.example.pinecone.io",
+        "pinecone_project_id": "project-1",
         "readback_inventory_fingerprint": _fingerprint(setup_inventory),
         "record_count": len(setup_records),
         "records": setup_records,
         "run_id": run_id,
+        "setup_mode": setup_mode,
+        "setup_owner_run_id": (
+            cast("str", source_setup["setup_owner_run_id"]) if source_setup is not None else run_id
+        ),
+        "source_target_setup_fingerprint": (
+            source_setup["fingerprint"] if source_setup is not None else None
+        ),
         "target_fingerprint": _TARGET_FP,
         "target_name": _TARGET,
+        "target_namespace": "provider-golden-v1",
     }
     setup["fingerprint"] = _fingerprint(setup)
+    setup_operations = {
+        "CREATE_FRESH": [
+            ("INDEX_DESCRIBE_OR_LIST", "GET", "describe-1"),
+            ("INDEX_CREATE", "POST", "create"),
+            ("INDEX_DESCRIBE_OR_LIST", "GET", "describe-2"),
+            ("INDEX_DESCRIBE_OR_LIST", "GET", "describe-3"),
+            ("VECTOR_UPSERT", "POST", "upsert-1"),
+            ("VECTOR_UPSERT", "POST", "upsert-2"),
+            ("INDEX_STATS", "POST", "stats"),
+            ("VECTOR_LIST", "GET", "list"),
+            ("VECTOR_FETCH", "GET", "fetch-1"),
+            ("VECTOR_FETCH", "GET", "fetch-2"),
+        ],
+        "REUSE_EMPTY_NAMESPACE": [
+            ("INDEX_DESCRIBE_OR_LIST", "GET", "describe-1"),
+            ("INDEX_DESCRIBE_OR_LIST", "GET", "describe-2"),
+            ("INDEX_STATS", "POST", "empty-stats"),
+            ("VECTOR_LIST", "GET", "empty-list"),
+            ("VECTOR_UPSERT", "POST", "upsert-1"),
+            ("VECTOR_UPSERT", "POST", "upsert-2"),
+            ("INDEX_STATS", "POST", "stats"),
+            ("VECTOR_LIST", "GET", "list"),
+            ("VECTOR_FETCH", "GET", "fetch-1"),
+            ("VECTOR_FETCH", "GET", "fetch-2"),
+        ],
+        "EVALUATE_PROVED_NAMESPACE": [
+            ("INDEX_DESCRIBE_OR_LIST", "GET", "describe-1"),
+            ("INDEX_DESCRIBE_OR_LIST", "GET", "describe-2"),
+            ("INDEX_STATS", "POST", "stats"),
+            ("VECTOR_LIST", "GET", "list"),
+            ("VECTOR_FETCH", "GET", "fetch-1"),
+            ("VECTOR_FETCH", "GET", "fetch-2"),
+        ],
+    }
     operation_methods = [
-        ("INDEX_DESCRIBE_OR_LIST", "GET", "describe-1"),
-        ("INDEX_CREATE", "POST", "create"),
-        ("INDEX_DESCRIBE_OR_LIST", "GET", "describe-2"),
-        ("INDEX_DESCRIBE_OR_LIST", "GET", "describe-3"),
-        ("VECTOR_UPSERT", "POST", "upsert-1"),
-        ("VECTOR_UPSERT", "POST", "upsert-2"),
-        ("INDEX_STATS", "POST", "stats"),
-        ("VECTOR_LIST", "GET", "list"),
-        ("VECTOR_FETCH", "GET", "fetch-1"),
-        ("VECTOR_FETCH", "GET", "fetch-2"),
+        *setup_operations[setup_mode],
         *[("VECTOR_QUERY", "POST", cast("str", case["case_id"])) for case in cases],
     ]
     if reconciled:
@@ -319,6 +359,34 @@ def test_two_matching_semantic_and_retrieval_executions_are_admitted() -> None:
     assert receipt.semantic_case_count == 3
     assert receipt.retrieval_case_count == 4
     assert receipt.suite_fingerprint == _SUITE_FP
+
+
+def test_one_empty_namespace_setup_is_shared_by_the_second_evaluation() -> None:
+    first_retrieval = _retrieval("provider-run-1", setup_options=("REUSE_EMPTY_NAMESPACE", None))
+    first_setup = cast(
+        "dict[str, object]", cast("dict[str, object]", json.loads(first_retrieval))["target_setup"]
+    )
+    second_retrieval = _retrieval(
+        "provider-run-2",
+        setup_options=("EVALUATE_PROVED_NAMESPACE", first_setup),
+    )
+
+    raw = issue_provider_admission_evidence(
+        semantic_run_1=_semantic("provider-run-1"),
+        retrieval_run_1=first_retrieval,
+        semantic_run_2=_semantic("provider-run-2"),
+        retrieval_run_2=second_retrieval,
+    )
+    document = cast("dict[str, object]", json.loads(raw))
+    runs = cast("list[dict[str, object]]", document["runs"])
+    first = cast("dict[str, object]", runs[0]["retrieval_evaluation"])
+    second = cast("dict[str, object]", runs[1]["retrieval_evaluation"])
+    assert cast("dict[str, object]", first["target_setup"])["setup_mode"] == (
+        "REUSE_EMPTY_NAMESPACE"
+    )
+    assert cast("dict[str, object]", second["target_setup"])["setup_mode"] == (
+        "EVALUATE_PROVED_NAMESPACE"
+    )
 
 
 @pytest.mark.parametrize(
@@ -482,7 +550,7 @@ def test_every_planned_target_operation_receipt_is_required(operation: str) -> N
         )
 
 
-@pytest.mark.parametrize("mutation", ["dropped", "duplicate", "wrong_run", "cost"])
+@pytest.mark.parametrize("mutation", ["duplicate", "wrong_run", "cost"])
 def test_reconciliation_call_ledger_is_exact_and_bound(mutation: str) -> None:
     retrieval_1 = _retrieval("provider-run-1", reconciled=True)
     retrieval_2 = cast(
@@ -490,18 +558,15 @@ def test_reconciliation_call_ledger_is_exact_and_bound(mutation: str) -> None:
     )
     calls = cast("list[dict[str, object]]", retrieval_2["target_provider_calls"])
     reconciliation = [call for call in calls if call["call_class"] == "RECONCILIATION"]
-    if mutation == "dropped":
-        calls.remove(reconciliation[-1])
+    changed = reconciliation[1]
+    if mutation == "duplicate":
+        changed["provider_request_id"] = reconciliation[0]["provider_request_id"]
+    elif mutation == "wrong_run":
+        changed["run_id"] = "provider-run-1"
     else:
-        changed = reconciliation[1]
-        if mutation == "duplicate":
-            changed["provider_request_id"] = reconciliation[0]["provider_request_id"]
-        elif mutation == "wrong_run":
-            changed["run_id"] = "provider-run-1"
-        else:
-            changed["provider_reported_cost_microunits"] = 1
-        changed.pop("fingerprint")
-        changed["fingerprint"] = _fingerprint(changed)
+        changed["provider_reported_cost_microunits"] = 1
+    changed.pop("fingerprint")
+    changed["fingerprint"] = _fingerprint(changed)
     retrieval_2.pop("fingerprint")
     retrieval_2["fingerprint"] = _fingerprint(retrieval_2)
     with pytest.raises(ProviderAdmissionError):
@@ -558,36 +623,46 @@ def _authority(
     expires_at: str = "2026-09-09T00:00:00Z",
     output_root: str = "/var/lib/asklegal/provider-run-1",
     state_root: str = "/var/lib/asklegal/provider-state",
+    execution: tuple[str, str | None, str | None, str] = (
+        "CREATE_FRESH",
+        None,
+        None,
+        "provider-run-1",
+    ),
 ) -> bytes:
+    target_setup_mode, data_plane_host, source_target_setup_fingerprint, run_id = execution
+    reused = target_setup_mode == "REUSE_EMPTY_NAMESPACE"
+    evaluating = target_setup_mode == "EVALUATE_PROVED_NAMESPACE"
     document: dict[str, object] = {
-        "allowed_operations": provider_admission._OPERATIONS,
+        "allowed_operations": provider_admission._operations_for_mode(target_setup_mode),
         "authority_id": "provider-gate-d-run-1",
         "authorized_by": "Named Local Reviewer",
         "embedding_deployment": "embedding-v1",
         "expires_at": expires_at,
         "immutable": True,
         "max_cost_microunits": 1000,
-        "max_embedding_calls": 8,
+        "max_embedding_calls": 4 if evaluating else 8,
         "max_input_tokens": 10000,
-        "max_pinecone_create_attempts": 1,
-        "max_pinecone_describe_calls": 3,
+        "max_pinecone_create_attempts": 0 if reused or evaluating else 1,
+        "max_pinecone_describe_calls": 2 if reused or evaluating else 3,
         "max_pinecone_fetch_calls": 2,
         "max_pinecone_full_readbacks": 1,
-        "max_pinecone_list_calls": 1,
+        "max_pinecone_list_calls": 2 if reused else 1,
         "max_pinecone_queries": 4,
         "max_pinecone_reconciliation_calls": 5,
-        "max_pinecone_stats_calls": 1,
-        "max_pinecone_upsert_batches": 2,
+        "max_pinecone_stats_calls": 2 if reused else 1,
+        "max_pinecone_upsert_batches": 0 if evaluating else 2,
         "max_semantic_calls": 6,
-        "expected_pinecone_provider_calls": 14,
+        "expected_pinecone_provider_calls": 10 if evaluating else 14,
         "namespace": "provider-golden-v1",
         "observation_cutoff": _CUTOFF,
         "output_root": output_root,
         "pinecone_index": _TARGET,
         "pinecone_project_id": "project-1",
+        "pinecone_data_plane_host": data_plane_host,
         "plan_fingerprint": "sha256:" + "7" * 64,
         "proposal_fingerprint": _PROPOSAL,
-        "run_id": "provider-run-1",
+        "run_id": run_id,
         "schema_id": "asklegal.hk-v1-provider-execution-authority/v1",
         "schema_version": 1,
         "semantic_deployment": "semantic-v1",
@@ -596,6 +671,8 @@ def _authority(
         "state_root": state_root,
         "suite_fingerprint": _SUITE_FP,
         "tokenizer_resource_fingerprint": "sha256:" + "6" * 64,
+        "target_setup_mode": target_setup_mode,
+        "source_target_setup_fingerprint": source_target_setup_fingerprint,
     }
     document["fingerprint"] = _fingerprint(document)
     return canonicalize(checked_json_value(document))
@@ -864,6 +941,156 @@ def test_real_preflight_cli_is_no_authority_and_no_transport_subprocess(tmp_path
     assert "--execute" in helped.stdout
 
 
+def test_reused_namespace_preflight_never_authorizes_index_creation(tmp_path: Path) -> None:
+    arguments = _preflight_arguments(tmp_path)
+    arguments.target_setup_mode = "REUSE_EMPTY_NAMESPACE"
+    arguments.pinecone_data_plane_host = "https://testing-index-1.example.pinecone.io"
+
+    plan = cast("dict[str, object]", json.loads(provider_admission._preflight_plan(arguments)))
+
+    assert plan["target_setup_mode"] == "REUSE_EMPTY_NAMESPACE"
+    assert plan["pinecone_data_plane_host"] == arguments.pinecone_data_plane_host
+    assert plan["max_pinecone_create_attempts"] == 0
+    assert plan["max_pinecone_describe_calls"] == 2
+    assert plan["max_pinecone_stats_calls"] == 2
+    assert plan["max_pinecone_list_calls"] == 2
+    assert plan["expected_pinecone_provider_calls"] == 14
+    assert "PINECONE_CREATE" not in cast("list[str]", plan["allowed_operations"])
+
+
+def test_second_run_preflight_is_read_only_for_the_shared_target_setup(tmp_path: Path) -> None:
+    arguments = _preflight_arguments(tmp_path)
+    host = "https://testing-index-1.example.pinecone.io"
+    arguments.target_setup_mode = "EVALUATE_PROVED_NAMESPACE"
+    arguments.pinecone_data_plane_host = host
+    source = cast(
+        "dict[str, object]",
+        cast(
+            "dict[str, object]",
+            json.loads(_retrieval("provider-run-0", setup_options=("REUSE_EMPTY_NAMESPACE", None))),
+        )["target_setup"],
+    )
+    source.update(
+        {
+            "pinecone_data_plane_host": host,
+            "pinecone_project_id": "proj1",
+            "target_fingerprint": provider_admission.target_state_fingerprint(
+                "asklegal-dev-provider-golden-v1", 4, "cosine", "synthetic-v1"
+            ),
+            "target_name": "asklegal-dev-provider-golden-v1",
+            "target_namespace": "synthetic-v1",
+        }
+    )
+    source.pop("fingerprint")
+    source["fingerprint"] = _fingerprint(source)
+    prior = (tmp_path / "prior-target-setup.json").resolve()
+    prior.write_bytes(canonicalize(checked_json_value(source)))
+    arguments.prior_target_setup = prior
+
+    plan = cast("dict[str, object]", json.loads(provider_admission._preflight_plan(arguments)))
+
+    assert plan["source_target_setup_fingerprint"] == source["fingerprint"]
+    assert plan["max_embedding_calls"] == 4
+    assert plan["max_pinecone_create_attempts"] == 0
+    assert plan["max_pinecone_upsert_batches"] == 0
+    assert plan["max_pinecone_list_calls"] == 1
+    assert plan["max_pinecone_stats_calls"] == 1
+    assert plan["expected_pinecone_provider_calls"] == 10
+    assert "PINECONE_CREATE" not in cast("list[str]", plan["allowed_operations"])
+    assert "PINECONE_UPSERT" not in cast("list[str]", plan["allowed_operations"])
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("readback_inventory_fingerprint", "sha256:" + "0" * 64),
+        ("target_fingerprint", "sha256:" + "9" * 64),
+    ],
+)
+def test_second_run_preflight_rejects_corrupt_source_target_setup(
+    tmp_path: Path, field: str, value: object
+) -> None:
+    arguments = _preflight_arguments(tmp_path)
+    host = "https://testing-index-1.example.pinecone.io"
+    arguments.target_setup_mode = "EVALUATE_PROVED_NAMESPACE"
+    arguments.pinecone_data_plane_host = host
+    arguments.run_id = "provider-run-2"
+    source = cast(
+        "dict[str, object]",
+        cast(
+            "dict[str, object]",
+            json.loads(_retrieval("provider-run-1", setup_options=("REUSE_EMPTY_NAMESPACE", None))),
+        )["target_setup"],
+    )
+    source.update(
+        {
+            "pinecone_data_plane_host": host,
+            "pinecone_project_id": "proj1",
+            "target_fingerprint": provider_admission.target_state_fingerprint(
+                "asklegal-dev-provider-golden-v1", 4, "cosine", "synthetic-v1"
+            ),
+            "target_name": "asklegal-dev-provider-golden-v1",
+            "target_namespace": "synthetic-v1",
+        }
+    )
+    source[field] = value
+    source.pop("fingerprint")
+    source["fingerprint"] = _fingerprint(source)
+    prior = (tmp_path / "prior-target-setup.json").resolve()
+    prior.write_bytes(canonicalize(checked_json_value(source)))
+    arguments.prior_target_setup = prior
+
+    with pytest.raises(ProviderAdmissionError):
+        provider_admission._preflight_plan(arguments)
+
+
+def test_second_run_live_configuration_accepts_its_exact_preflight_budget(tmp_path: Path) -> None:
+    arguments = _preflight_arguments(tmp_path)
+    host = "https://testing-index-1.example.pinecone.io"
+    arguments.target_setup_mode = "EVALUATE_PROVED_NAMESPACE"
+    arguments.pinecone_data_plane_host = host
+    arguments.run_id = "provider-run-2"
+    arguments.output_root = (tmp_path / "provider-run-2").resolve()
+    source = cast(
+        "dict[str, object]",
+        cast(
+            "dict[str, object]",
+            json.loads(_retrieval("provider-run-1", setup_options=("REUSE_EMPTY_NAMESPACE", None))),
+        )["target_setup"],
+    )
+    source.update(
+        {
+            "pinecone_data_plane_host": host,
+            "pinecone_project_id": "proj1",
+            "target_fingerprint": provider_admission.target_state_fingerprint(
+                "asklegal-dev-provider-golden-v1", 4, "cosine", "synthetic-v1"
+            ),
+            "target_name": "asklegal-dev-provider-golden-v1",
+            "target_namespace": "synthetic-v1",
+        }
+    )
+    source.pop("fingerprint")
+    source["fingerprint"] = _fingerprint(source)
+    prior = (tmp_path / "prior-target-setup.json").resolve()
+    prior.write_bytes(canonicalize(checked_json_value(source)))
+    arguments.prior_target_setup = prior
+    plan = cast("dict[str, object]", json.loads(provider_admission._preflight_plan(arguments)))
+    authority = (tmp_path / "execution-authority.json").resolve()
+    authority.write_bytes(
+        _authority_for_plan(plan, plan_fingerprint=cast("str", plan["fingerprint"]))
+    )
+    arguments.authority = authority
+    arguments.proxy_host = "127.0.0.1"
+    arguments.proxy_port = 1
+
+    configuration = provider_admission._live_configuration(arguments)
+
+    assert configuration.authority.target_setup_mode == "EVALUATE_PROVED_NAMESPACE"
+    assert configuration.authority.max_input_tokens == plan["max_input_tokens"]
+    assert configuration.authority.max_embedding_calls == 4
+    assert configuration.authority.max_pinecone_upsert_batches == 0
+
+
 def _authority_for_plan(plan: dict[str, object], **overrides: object) -> bytes:
     document = {
         key: value
@@ -1013,6 +1240,240 @@ def test_target_write_in_flight_without_receipt_is_not_repeated(tmp_path: Path) 
         gate.require_write("upserting into exact-target")
 
 
+def test_reused_namespace_must_be_empty_before_any_embedding_or_write(tmp_path: Path) -> None:
+    host = "https://testing-index-1.example.pinecone.io"
+    authority = provider_admission._execution_authority(
+        _authority(execution=("REUSE_EMPTY_NAMESPACE", host, None, "provider-run-1")),
+        now="2026-09-08T00:00:00Z",
+    )
+    gate = provider_admission._AuthorityGate(2, authority)
+    gate.bind(tmp_path)
+    serving = SimpleNamespace(
+        batch_size=2,
+        dimensions=4,
+        embedding=cast("object", None),
+        metric="cosine",
+        namespace="provider-golden-v1",
+    )
+    definition = TargetDefinition(
+        _TARGET,
+        provider_admission.target_state_fingerprint(_TARGET, 4, "cosine", "provider-golden-v1"),
+        4,
+        "cosine",
+        "provider-golden-v1",
+    )
+
+    class _NonemptyTarget:
+        target_name = _TARGET
+        create_calls = 0
+
+        def describe(self, _name: str) -> TargetDefinition:
+            return definition
+
+        def data_plane_host(self, _name: str) -> str:
+            return host
+
+        def namespace_vector_count(self, _name: str) -> int:
+            return 1
+
+        def enumerate(self, _name: str) -> tuple[TargetRecord, ...]:
+            message = "count must stop before inventory"
+            raise AssertionError(message)
+
+        def create(self, _definition: TargetDefinition) -> None:
+            self.create_calls += 1
+            message = "reuse mode must never create"
+            raise AssertionError(message)
+
+    target = _NonemptyTarget()
+    configuration = provider_admission._LiveConfiguration(
+        authority,
+        cast("object", None),  # type: ignore[arg-type]
+        serving,  # type: ignore[arg-type]
+        cast("object", None),  # type: ignore[arg-type]
+        cast("object", None),  # type: ignore[arg-type]
+        target,  # type: ignore[arg-type]
+        cast("object", None),  # type: ignore[arg-type]
+        gate,
+    )
+
+    with pytest.raises(ProviderAdmissionError):
+        provider_admission._prepare_target(
+            configuration, provider_admission._load_suite(), "provider-run-1"
+        )
+    assert target.create_calls == 0
+    assert gate.writes == 0
+
+
+def test_reused_empty_namespace_writes_four_records_and_resumes_without_create(
+    tmp_path: Path,
+) -> None:
+    host = "https://testing-index-1.example.pinecone.io"
+    authority = provider_admission._execution_authority(
+        _authority(execution=("REUSE_EMPTY_NAMESPACE", host, None, "provider-run-1")),
+        now="2026-09-08T00:00:00Z",
+    )
+    gate = provider_admission._AuthorityGate(2, authority)
+    gate.bind(tmp_path)
+    profile = EmbeddingProfile(
+        "emp_test",
+        _EMBEDDING_PROFILE,
+        "AZURE_OPENAI",
+        "HOSTED",
+        "HK",
+        "embedding-v1",
+        "embedding-model-v1",
+        "1",
+        "2026-01-01",
+        "o200k_base",
+        4,
+        "FLOAT32",
+        "UNIT_LENGTH",
+        "cosine",
+        100,
+        1000,
+        "2099-01-01T00:00:00Z",
+        ("dev",),
+    )
+    serving = SimpleNamespace(
+        batch_size=2,
+        dimensions=4,
+        embedding=profile,
+        metric="cosine",
+        namespace="provider-golden-v1",
+    )
+    definition = TargetDefinition(
+        _TARGET,
+        provider_admission.target_state_fingerprint(_TARGET, 4, "cosine", serving.namespace),
+        4,
+        "cosine",
+        serving.namespace,
+    )
+
+    class _Embedding:
+        def embed(self, profile: EmbeddingProfile, request: EmbeddingRequest) -> EmbeddedVector:
+            del profile
+            values = (float(request.batch_position + 1), 0.0, 0.0, 0.0)
+            vector_fingerprint = provider_admission.live_vector_fingerprint(values)
+            return EmbeddedVector(
+                values,
+                EmbeddingReceipt(
+                    "emc_" + sha256(request.request_id.encode()).hexdigest()[:48],
+                    request.request_id,
+                    "provider-" + request.request_id,
+                    4,
+                    vector_fingerprint,
+                    request.token_count,
+                    1,
+                    "SUCCEEDED",
+                ),
+            )
+
+    class _Counter:
+        def count(self, text: str) -> int:
+            return len(text.encode())
+
+    class _EmptyNamespaceTarget:
+        target_name = _TARGET
+
+        def __init__(self) -> None:
+            self.create_calls = 0
+            self.upsert_calls = 0
+            self.records: dict[str, TargetRecord] = {}
+
+        def describe(self, _name: str) -> TargetDefinition:
+            return definition
+
+        def data_plane_host(self, _name: str) -> str:
+            return host
+
+        def namespace_vector_count(self, _name: str) -> int:
+            return len(self.records)
+
+        def enumerate(self, _name: str) -> tuple[TargetRecord, ...]:
+            return tuple(sorted(self.records.values(), key=lambda item: item.record_id))
+
+        def upsert_batch(self, name: str, records: tuple[TargetRecord, ...]) -> None:
+            gate.require_write(f"upserting into {name}")
+            self.upsert_calls += 1
+            self.records.update({record.record_id: record for record in records})
+
+        def create(self, _definition: TargetDefinition) -> None:
+            self.create_calls += 1
+            message = "reuse mode must never create"
+            raise AssertionError(message)
+
+    target = _EmptyNamespaceTarget()
+    configuration = provider_admission._LiveConfiguration(
+        authority,
+        cast("object", None),  # type: ignore[arg-type]
+        serving,  # type: ignore[arg-type]
+        cast("object", None),  # type: ignore[arg-type]
+        _Embedding(),
+        target,  # type: ignore[arg-type]
+        _Counter(),  # type: ignore[arg-type]
+        gate,
+    )
+    precondition = (tmp_path / "target-precondition.json").resolve()
+
+    setup, actual_definition = provider_admission._prepare_target(
+        configuration, provider_admission._load_suite(), authority.run_id, precondition
+    )
+    replay_setup, replay_definition = provider_admission._prepare_target(
+        configuration, provider_admission._load_suite(), authority.run_id, precondition
+    )
+
+    assert actual_definition == replay_definition == definition
+    assert setup == replay_setup
+    assert setup["setup_mode"] == "REUSE_EMPTY_NAMESPACE"
+    assert setup["pinecone_data_plane_host"] == host
+    assert setup["record_count"] == 4
+    assert len(target.records) == 4
+    assert target.upsert_calls == 2
+    assert target.create_calls == 0
+    assert precondition.is_file()
+
+    owner_setup = (tmp_path / "owner-target-setup.json").resolve()
+    owner_setup.write_bytes(canonicalize(setup))
+    evaluation_authority = provider_admission._execution_authority(
+        _authority(
+            execution=(
+                "EVALUATE_PROVED_NAMESPACE",
+                host,
+                cast("str", setup["fingerprint"]),
+                "provider-run-2",
+            ),
+        ),
+        now="2026-09-08T00:00:00Z",
+    )
+    evaluation_gate = provider_admission._AuthorityGate(0, evaluation_authority)
+    evaluation_gate.bind((tmp_path / "evaluation-effects").resolve())
+    (tmp_path / "evaluation-effects").mkdir()
+    evaluation_configuration = provider_admission._LiveConfiguration(
+        evaluation_authority,
+        cast("object", None),  # type: ignore[arg-type]
+        serving,  # type: ignore[arg-type]
+        cast("object", None),  # type: ignore[arg-type]
+        cast("object", None),  # type: ignore[arg-type]
+        target,  # type: ignore[arg-type]
+        _Counter(),  # type: ignore[arg-type]
+        evaluation_gate,
+    )
+
+    evaluation_setup, evaluation_definition = provider_admission._prepare_target(
+        evaluation_configuration,
+        provider_admission._load_suite(),
+        evaluation_authority.run_id,
+        prior_setup_path=owner_setup,
+    )
+    assert evaluation_definition == definition
+    assert evaluation_setup["setup_mode"] == "EVALUATE_PROVED_NAMESPACE"
+    assert evaluation_setup["setup_owner_run_id"] == authority.run_id
+    assert evaluation_setup["source_target_setup_fingerprint"] == setup["fingerprint"]
+    assert target.upsert_calls == 2
+    assert evaluation_gate.writes == 0
+
+
 def test_lost_create_ack_is_adopted_by_exact_describe_without_repeating_write(  # noqa: C901
     tmp_path: Path,
 ) -> None:
@@ -1116,6 +1577,14 @@ def test_lost_create_ack_is_adopted_by_exact_describe_without_repeating_write(  
             assert target_name == self.target_name
             self._record("INDEX_STATS", "POST", "stats")
             return {"totalVectorCount": len(self.records)}
+
+        def namespace_vector_count(self, target_name: str) -> int:
+            self.describe_stats(target_name)
+            return len(self.records)
+
+        def data_plane_host(self, target_name: str) -> str:
+            assert target_name == self.target_name
+            return "https://testing-index-1.example.pinecone.io"
 
         def enumerate(self, target_name: str) -> tuple[TargetRecord, ...]:
             assert target_name == self.target_name
@@ -1269,7 +1738,11 @@ def _install_execute_fakes(  # noqa: C901, PLR0915 - complete injected phase har
     )
 
     def prepare_target(
-        _configuration: object, _suite: object, _run_id: str
+        _configuration: object,
+        _suite: object,
+        _run_id: str,
+        _precondition: Path | None = None,
+        _prior_setup: Path | None = None,
     ) -> tuple[dict[str, object], TargetDefinition]:
         counts["prepare"] += 1
         return setup, definition
@@ -1282,8 +1755,7 @@ def _install_execute_fakes(  # noqa: C901, PLR0915 - complete injected phase har
         counts["retrieval"] += 1
         return _retrieval(
             authority.run_id,
-            authority_fingerprint=authority.fingerprint,
-            plan_fingerprint=authority.plan_fingerprint,
+            call_bindings=(authority.fingerprint, authority.plan_fingerprint),
         )
 
     monkeypatch.setattr(provider_admission, "_live_configuration", lambda _args: configuration)
@@ -1339,10 +1811,12 @@ def test_single_run_resumes_each_retained_phase_without_repeating_completed_effe
     assert semantic == _semantic("provider-run-1")
     assert retrieval == _retrieval(
         "provider-run-1",
-        authority_fingerprint=provider_admission._execution_authority(
-            arguments.authority.read_bytes(), now=arguments.now
-        ).fingerprint,
-        plan_fingerprint="sha256:" + "7" * 64,
+        call_bindings=(
+            provider_admission._execution_authority(
+                arguments.authority.read_bytes(), now=arguments.now
+            ).fingerprint,
+            "sha256:" + "7" * 64,
+        ),
     )
     reconciliation_count = 0 if crash_after == "retrieval-evaluation.json" else 1
     expected_counts = {

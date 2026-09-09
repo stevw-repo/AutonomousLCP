@@ -8,6 +8,7 @@ import os
 import re
 import shutil
 import tempfile
+from collections.abc import Callable
 from dataclasses import dataclass, replace
 from enum import StrEnum
 from hashlib import sha256
@@ -392,7 +393,14 @@ def local_dependencies(
         client="asklegal-review-client",
         task_hub=None,
     )
-    configured_artifact_root = _resolve_review_artifact_root(artifact_root)
+    configured_artifact_base = artifact_root
+    if configured_artifact_base is None:
+        configured = os.environ.get("ASKLEGAL_LOCAL_REVIEW_ARTIFACT_ROOT")
+        if configured is None:
+            message = "ASKLEGAL_LOCAL_REVIEW_ARTIFACT_ROOT is required"
+            raise RuntimeError(message)
+        configured_artifact_base = Path(configured)
+    _resolve_review_artifact_root(configured_artifact_base)
     configured_root = state_root
     if configured_root is None:
         configured = os.environ.get("ASKLEGAL_LOCAL_REVIEW_STATE_ROOT")
@@ -401,29 +409,49 @@ def local_dependencies(
             raise RuntimeError(message)
         configured_root = Path(configured)
 
-    def read_snapshot() -> tuple[bytes, bytes, bytes]:
+    def read_snapshot() -> tuple[bytes, bytes, bytes, Callable[[str], bytes]] | None:
+        snapshot_root = _resolve_review_artifact_root(configured_artifact_base)
+        root_paths = (
+            snapshot_root / "hk-v1-two-family-proposal.json",
+            snapshot_root / "hk-v1-review-readiness.json",
+            snapshot_root / "hk-v1-review-package.json",
+        )
+        present = tuple(path.exists() or path.is_symlink() for path in root_paths)
+        if not any(present):
+            return None
+        if not all(present):
+            message = "LOCAL_REVIEW_SNAPSHOT_INCOMPLETE"
+            raise RuntimeError(message)
+
+        def read_member(path: str) -> bytes:
+            return _read_local_pipeline_artifact(
+                snapshot_root / path,
+                error_code="LOCAL_REVIEW_MEMBER_INVALID",
+                allow_empty=path.endswith(".ndjson"),
+            )
+
         return (
             _read_local_pipeline_artifact(
-                configured_artifact_root / "hk-v1-two-family-proposal.json",
+                root_paths[0],
                 error_code="LOCAL_TASK7_PROPOSAL_INVALID",
             ),
             _read_local_pipeline_artifact(
-                configured_artifact_root / "hk-v1-review-readiness.json",
+                root_paths[1],
                 error_code="LOCAL_TASK8_READINESS_INVALID",
             ),
             _read_local_pipeline_artifact(
-                configured_artifact_root / "hk-v1-review-package.json",
+                root_paths[2],
                 error_code="LOCAL_REVIEW_PACKAGE_INVALID",
             ),
+            read_member,
         )
 
-    task7_content, readiness_content, review_package_content = read_snapshot()
     registered_projections = RegisteredLocalReviewProjectionStore(
-        task7_content,
-        readiness_content,
-        review_package_content,
+        None,
+        None,
+        None,
         lambda path: _read_local_pipeline_artifact(
-            configured_artifact_root / path,
+            _resolve_review_artifact_root(configured_artifact_base) / path,
             error_code="LOCAL_REVIEW_MEMBER_INVALID",
             allow_empty=path.endswith(".ndjson"),
         ),
@@ -443,7 +471,9 @@ def local_dependencies(
     register = LocalRetainedApprovalRegister(
         registered_projections,
         configured_root / "approval-register.json",
-        approved_package_source_root=configured_artifact_root,
+        approved_package_source_root=lambda: _resolve_review_artifact_root(
+            configured_artifact_base
+        ),
     )
     configured_decision_time = os.environ.get("ASKLEGAL_LOCAL_REVIEW_DECISION_TIME")
     configured_command_expiry = os.environ.get("ASKLEGAL_LOCAL_REVIEW_COMMAND_EXPIRES_AT")
@@ -609,7 +639,7 @@ class LocalRetainedApprovalRegister(LocalCommandRegister):
         projections: ReviewProjectionStore,
         state_path: Path,
         promotion_trigger_root: Path | None = None,
-        approved_package_source_root: Path | None = None,
+        approved_package_source_root: Callable[[], Path] | None = None,
     ) -> None:
         """Open one restart-safe local ledger at an explicit retained path."""
         super().__init__()
@@ -685,9 +715,10 @@ class LocalRetainedApprovalRegister(LocalCommandRegister):
         if not isinstance(document, dict) or document.get("decision") != "APPROVED":
             return
         approval_id = document.get("approval_id")
-        source = self._approved_package_source_root
-        if type(approval_id) is not str or source is None:
+        source_reader = self._approved_package_source_root
+        if type(approval_id) is not str or source_reader is None:
             raise RuntimeError(_LOCAL_APPROVAL_LEDGER_INVALID)
+        source = source_reader()
         destination = self._state_path.parent / "approved-packages" / approval_id
         if destination.exists():
             if destination.is_symlink() or not destination.is_dir():

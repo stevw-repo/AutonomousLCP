@@ -3927,7 +3927,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/src/asklegal_promotion_worker/v1_infrastructure.py",
-            218,
+            271,
             BoundaryCode.IGNORED_ERROR,
         ),
         (
@@ -3938,7 +3938,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/src/asklegal_promotion_worker/v1_infrastructure.py",
-            416,
+            476,
             BoundaryCode.IGNORED_ERROR,
         ),
         (
@@ -3949,7 +3949,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/src/asklegal_promotion_worker/v1_infrastructure.py",
-            439,
+            499,
             BoundaryCode.IGNORED_ERROR,
         ),
         (
@@ -4269,7 +4269,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            54,
+            56,
             BoundaryCode.CAST,
         ),
         "the focused loader test obtains one typed callable from the repository-owned test module",
@@ -4277,7 +4277,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            60,
+            62,
             BoundaryCode.CAST,
         ),
         (
@@ -4288,7 +4288,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            293,
+            457,
             BoundaryCode.IGNORED_ERROR,
         ),
         (
@@ -4299,7 +4299,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            298,
+            462,
             BoundaryCode.CAST,
         ),
         (
@@ -4310,7 +4310,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            311,
+            475,
             BoundaryCode.CAST,
         ),
         (
@@ -4321,7 +4321,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            368,
+            532,
             BoundaryCode.IGNORED_ERROR,
         ),
         (
@@ -4332,7 +4332,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            419,
+            583,
             BoundaryCode.CAST,
         ),
         (
@@ -4343,7 +4343,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            436,
+            600,
             BoundaryCode.IGNORED_ERROR,
         ),
         (
@@ -4354,7 +4354,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            509,
+            673,
             BoundaryCode.CAST,
         ),
         (
@@ -4366,7 +4366,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            538,
+            702,
             BoundaryCode.CAST,
         ),
         (
@@ -4378,7 +4378,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            555,
+            719,
             BoundaryCode.CAST,
         ),
         (
@@ -4390,7 +4390,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            556,
+            720,
             BoundaryCode.CAST,
         ),
         (
@@ -4402,7 +4402,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            657,
+            821,
             BoundaryCode.CAST,
         ),
         (
@@ -4414,7 +4414,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            664,
+            828,
             BoundaryCode.CAST,
         ),
         (
@@ -4426,7 +4426,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            674,
+            838,
             BoundaryCode.CAST,
         ),
         (
@@ -4438,7 +4438,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            737,
+            901,
             BoundaryCode.CAST,
         ),
         (
@@ -4449,7 +4449,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            770,
+            934,
             BoundaryCode.CAST,
         ),
         (
@@ -4461,7 +4461,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            807,
+            971,
             BoundaryCode.CAST,
         ),
         (
@@ -4473,7 +4473,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            817,
+            981,
             BoundaryCode.CAST,
         ),
         (
@@ -4485,7 +4485,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            893,
+            1057,
             BoundaryCode.CAST,
         ),
         (
@@ -4497,7 +4497,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            942,
+            1106,
             BoundaryCode.CAST,
         ),
         (
@@ -4509,7 +4509,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            993,
+            1157,
             BoundaryCode.CAST,
         ),
         (
@@ -4521,7 +4521,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            1011,
+            1175,
             BoundaryCode.CAST,
         ),
         (
@@ -4532,7 +4532,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            1036,
+            1200,
             BoundaryCode.CAST,
         ),
         (
@@ -4544,7 +4544,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            1053,
+            1217,
             BoundaryCode.CAST,
         ),
         (
@@ -4556,7 +4556,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            1060,
+            1224,
             BoundaryCode.CAST,
         ),
         (
@@ -4568,7 +4568,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            1070,
+            1234,
             BoundaryCode.CAST,
         ),
         (
@@ -4580,7 +4580,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            1076,
+            1240,
             BoundaryCode.CAST,
         ),
         (
@@ -4592,7 +4592,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            1084,
+            1248,
             BoundaryCode.CAST,
         ),
         (
@@ -4604,7 +4604,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/promotion-worker/tests/test_v1_live_service_composition.py",
-            1085,
+            1249,
             BoundaryCode.CAST,
         ),
         (
@@ -4616,7 +4616,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/api.py",
-            503,
+            533,
             BoundaryCode.CAST,
         ),
         (
@@ -4627,7 +4627,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/api.py",
-            507,
+            537,
             BoundaryCode.CAST,
         ),
         (
@@ -4638,7 +4638,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/api.py",
-            1087,
+            1118,
             BoundaryCode.IGNORED_ERROR,
         ),
         (
@@ -4649,7 +4649,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/api.py",
-            1177,
+            1208,
             BoundaryCode.IGNORED_ERROR,
         ),
         (
@@ -4676,7 +4676,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/registered_proposals.py",
-            814,
+            853,
             BoundaryCode.CAST,
         ),
         (
@@ -4687,7 +4687,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/registered_proposals.py",
-            856,
+            902,
             BoundaryCode.CAST,
         ),
         (
@@ -4698,7 +4698,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/registered_proposals.py",
-            861,
+            907,
             BoundaryCode.CAST,
         ),
         (
@@ -4709,7 +4709,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/registered_proposals.py",
-            871,
+            917,
             BoundaryCode.CAST,
         ),
         (
@@ -4720,7 +4720,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/registered_proposals.py",
-            882,
+            928,
             BoundaryCode.IGNORED_ERROR,
         ),
         (
@@ -4731,7 +4731,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/registered_proposals.py",
-            1109,
+            1155,
             BoundaryCode.IGNORED_ERROR,
         ),
         (
@@ -4742,7 +4742,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/registered_proposals.py",
-            1308,
+            1354,
             BoundaryCode.IGNORED_ERROR,
         ),
         (

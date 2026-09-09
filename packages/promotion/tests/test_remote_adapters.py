@@ -317,6 +317,44 @@ def test_serving_target_readback_retains_the_admitted_namespace() -> None:
     )
 
 
+def test_serving_target_binds_the_exact_data_plane_host() -> None:
+    transport = StubTransport([_index_listing()])
+    store = PineconeServingTargetStore(
+        _pinecone(),
+        transport,
+        expected_data_plane_host=_DATA_PLANE,
+    )
+
+    assert store.data_plane_host(_INDEX) == _DATA_PLANE
+
+    drifted = PineconeServingTargetStore(
+        _pinecone(),
+        StubTransport([_index_listing()]),
+        expected_data_plane_host="https://different.example.pinecone.io",
+    )
+    with pytest.raises(PromotionError) as error:
+        drifted.data_plane_host(_INDEX)
+    assert error.value.code is PromotionErrorCode.INDEX_NAME_INVALID
+
+
+def test_serving_target_reads_the_namespace_count_not_the_global_count() -> None:
+    store = PineconeServingTargetStore(
+        _pinecone(),
+        StubTransport(
+            [
+                _index_listing(),
+                {
+                    "namespaces": {"hk-v1": {"vectorCount": 4}},
+                    "totalVectorCount": 999,
+                },
+            ]
+        ),
+        namespace="hk-v1",
+    )
+
+    assert store.namespace_vector_count(_INDEX) == 4
+
+
 def test_serving_target_writes_when_authorized() -> None:
     """An authorized upsert resolves the data plane and posts once."""
     transport = StubTransport([_index_listing(), {"upsertedCount": 1}])

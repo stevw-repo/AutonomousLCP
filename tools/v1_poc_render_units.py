@@ -12,9 +12,11 @@ Credentials never touch persistent plaintext. systemd decrypts each one into the
 unit's own `$CREDENTIALS_DIRECTORY`, which is a tmpfs owned by root. The five
 applications need a directory of files owned by their own runtime uid at mode
 0400, so each launcher copies them into `/run/asklegal/credentials/<service>` with
-that exact ownership before starting the container. The infrastructure images take
-their secrets from the environment instead; the launcher exports the value and
-passes the bare variable name to `docker`, so no secret ever appears in argv.
+that exact ownership before starting the container. SQL takes its bootstrap
+secret from the host launcher environment. The two Versity launchers instead
+mount their root credentials read-only and export them only inside the already-
+created container. This keeps values out of both Docker create argv and Docker's
+retained Config.Env while satisfying Versity's environment-only interface.
 
 Nothing here is admitted. The units are rendered disabled, the five application
 images are still local tags rather than digests, and installation, credential
@@ -202,6 +204,25 @@ def _credential_preamble(service: dict[str, object]) -> list[str]:
             body.append(f'{variable}="$(cat "$CREDENTIALS_DIRECTORY"/{name})"')
             body.append(f"export {variable}")
         return [*body, ""]
+    if delivery == "READ_ONLY_FILES_TO_IN_CONTAINER_ENVIRONMENT":
+        body = [
+            "# Root credentials are mounted as read-only files. They are read only by",
+            "# the in-container shell, so Docker Config.Env and create argv retain no value.",
+            f"credential_dir={_quote(f'{_CREDENTIAL_ROOT}/{service_id}')}",
+            'rm -rf "$credential_dir"',
+            'mkdir -p "$credential_dir"',
+        ]
+        body.extend(
+            f'install -o "$runtime_uid" -g "$runtime_uid" -m 0400 '
+            f'"$CREDENTIALS_DIRECTORY"/{name} "$credential_dir"/{name}'
+            for name in _strings(service.get("credential_names"))
+        )
+        return [
+            *body,
+            'chown "$runtime_uid":"$runtime_uid" "$credential_dir"',
+            'chmod 0500 "$credential_dir"',
+            "",
+        ]
     return []
 
 
@@ -231,10 +252,11 @@ def _create_arguments(service: dict[str, object]) -> list[str]:
         f"  -e {_quote(str(entry['name']) + '=' + str(entry['value']))}"
         for entry in _objects(service.get("environment"))
     )
-    create.extend(
-        f"  -e {_quote(str(entry['variable']))}"
-        for entry in _objects(service.get("credential_environment"))
-    )
+    if str(service.get("credential_delivery")) == "ENVIRONMENT_FROM_LOADED_CREDENTIAL":
+        create.extend(
+            f"  -e {_quote(str(entry['variable']))}"
+            for entry in _objects(service.get("credential_environment"))
+        )
     create.extend(
         f"  --cap-add {_quote(capability)}"
         for capability in _strings(service.get("capabilities_add"))
@@ -243,12 +265,34 @@ def _create_arguments(service: dict[str, object]) -> list[str]:
         target = f"/run/credentials/{unit_name}"
         create.append(f"  -e {_quote(f'CREDENTIALS_DIRECTORY={target}')}")
         create.append(f'  -v "$credential_dir":{_quote(target)}:ro')
+    if str(service.get("credential_delivery")) == "READ_ONLY_FILES_TO_IN_CONTAINER_ENVIRONMENT":
+        for entry in _objects(service.get("credential_environment")):
+            credential = str(entry["credential"])
+            target = f"/run/asklegal/{credential}"
+            create.append(
+                f'  --mount "type=bind,src=${{credential_dir}}/{credential},dst={target},readonly"'
+            )
+        create.append(f"  --entrypoint {_quote('/bin/sh')}")
     create.extend(
         f"  -v {_quote(f'{entry["source"]}:{entry["target"]}:{entry.get("mode", "ro")}')}"
         for entry in _objects(service.get("mounts"))
     )
     image = str(service["image"])
     create.append('  "$image_id"' if image.startswith("asklegal/") else f"  {_quote(image)}")
+    if str(service.get("credential_delivery")) == "READ_ONLY_FILES_TO_IN_CONTAINER_ENVIRONMENT":
+        assignments: list[str] = []
+        for entry in _objects(service.get("credential_environment")):
+            variable = str(entry["variable"])
+            credential = str(entry["credential"])
+            assignments.append(f'{variable}="$(cat /run/asklegal/{credential})"; export {variable}')
+        assignments.append('exec /usr/local/bin/docker-entrypoint.sh "$@"')
+        create.extend(
+            (
+                f"  {_quote('-ceu')}",
+                f"  {_quote('; '.join(assignments))}",
+                f"  {_quote('asklegal-versity-file-entrypoint')}",
+            )
+        )
     create.extend(f"  {_quote(argument)}" for argument in _strings(service.get("command")))
     return create
 
@@ -647,6 +691,11 @@ def _install_script(
             'install -o root -g root -m 0755 "$repository"/infrastructure/poc/libexec/'
             "asklegal-vault-application-rotation-network "
             "/usr/local/libexec/asklegal-vault-application-rotation-network"
+        ),
+        (
+            'install -o root -g root -m 0755 "$repository"/infrastructure/poc/libexec/'
+            "asklegal-vault-primary-root-rotation-network "
+            "/usr/local/libexec/asklegal-vault-primary-root-rotation-network"
         ),
         'migration_stage="$(mktemp -d /opt/asklegal/management-register/.migrations.XXXXXXXX)"',
         "trap 'rm -rf -- \"$migration_stage\"' EXIT",

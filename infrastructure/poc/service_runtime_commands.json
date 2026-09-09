@@ -85,7 +85,7 @@
           "alias": "vault-primary"
         }
       ],
-      "credential_delivery": "ENVIRONMENT_FROM_LOADED_CREDENTIAL",
+      "credential_delivery": "READ_ONLY_FILES_TO_IN_CONTAINER_ENVIRONMENT",
       "credential_names": [
         "vault-primary-root-access",
         "vault-primary-root-secret"
@@ -154,7 +154,7 @@
           "alias": "vault-recovery"
         }
       ],
-      "credential_delivery": "ENVIRONMENT_FROM_LOADED_CREDENTIAL",
+      "credential_delivery": "READ_ONLY_FILES_TO_IN_CONTAINER_ENVIRONMENT",
       "credential_names": [
         "vault-recovery-root-access",
         "vault-recovery-root-secret"

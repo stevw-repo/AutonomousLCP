@@ -32,7 +32,8 @@ case "$action" in
         -exec cp -a -- '{}' "$snapshot_stage/etc-systemd-system/" ';'
       for helper in \
         asklegal-register-migrate asklegal-vault-bootstrap \
-        asklegal-vault-application-rotation-network; do
+        asklegal-vault-application-rotation-network \
+        asklegal-vault-primary-root-rotation-network; do
         if [ -f "/usr/local/libexec/$helper" ] && [ ! -L "/usr/local/libexec/$helper" ]; then
           cp -a -- "/usr/local/libexec/$helper" "$snapshot_stage/bootstrap-helpers/$helper"
           printf 'present\n' > "$snapshot_stage/bootstrap-helpers/$helper.state"
@@ -73,7 +74,19 @@ case "$action" in
     install -d -o root -g root -m 0755 \
       /etc/asklegal/launch /etc/asklegal/config /usr/local/libexec \
       /opt/asklegal/management-register
-    install -o root -g root -m 0644 "$repository"/infrastructure/poc/config/* /etc/asklegal/config/
+    find "$repository/infrastructure/poc/config" -maxdepth 1 -type f \
+      -exec install -o root -g root -m 0644 '{}' /etc/asklegal/config/ ';'
+    install -d -o root -g root -m 0755 /etc/asklegal/config/hk-v1-promotion
+    profile_source="$repository/infrastructure/poc/config/hk-v1-promotion/serving-profile.json"
+    profile_stage=/etc/asklegal/config/hk-v1-promotion/.serving-profile.json.new
+    test "$(wc -l < "$profile_source")" -eq 1
+    head -c -1 -- "$profile_source" > "$profile_stage"
+    chown root:root "$profile_stage"
+    chmod 0644 "$profile_stage"
+    mv -f -- "$profile_stage" /etc/asklegal/config/hk-v1-promotion/serving-profile.json
+    install -o root -g root -m 0644 \
+      "$repository"/packages/processing/src/asklegal_processing/_resources/o200k_base.tiktoken \
+      /etc/asklegal/config/hk-v1-promotion/o200k_base.tiktoken
     install -o root -g root -m 0755 "$repository"/infrastructure/poc/units/launch/*.sh /etc/asklegal/launch/
     install -o root -g root -m 0755 \
       "$repository"/infrastructure/poc/libexec/asklegal-register-migrate \
@@ -84,6 +97,9 @@ case "$action" in
     install -o root -g root -m 0755 \
       "$repository"/infrastructure/poc/libexec/asklegal-vault-application-rotation-network \
       /usr/local/libexec/asklegal-vault-application-rotation-network
+    install -o root -g root -m 0755 \
+      "$repository"/infrastructure/poc/libexec/asklegal-vault-primary-root-rotation-network \
+      /usr/local/libexec/asklegal-vault-primary-root-rotation-network
     migration_stage="$state_dir/.management-register-migrations.new"
     rm -rf -- "$migration_stage"
     install -d -o root -g root -m 0755 "$migration_stage"
@@ -177,7 +193,8 @@ case "$action" in
     fi
     for helper in \
       asklegal-register-migrate asklegal-vault-bootstrap \
-      asklegal-vault-application-rotation-network; do
+      asklegal-vault-application-rotation-network \
+      asklegal-vault-primary-root-rotation-network; do
       rm -f -- "/usr/local/libexec/$helper"
       case "$(cat "$snapshot/bootstrap-helpers/$helper.state")" in
         present)

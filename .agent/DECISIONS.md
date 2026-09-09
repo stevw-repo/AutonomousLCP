@@ -7603,3 +7603,63 @@ SQL checkpoint inputs are produced by the running stack: requiring the live
 recovery result before phase-two startup creates a circular bootstrap deadlock.
 It follows the 2026-08-19 standing instruction to loosen prototype ceremony
 while preserving every rule against false success.
+
+## 2026-09-10 — Rotate the Primary vault root before application credentials
+
+A read-only Docker metadata inspection exposed the currently running Primary
+vault bootstrap/root credential pair. Never repeat it or retain a
+secret-derived verifier. The previously staged candidate changed only seven
+application credentials and left that root pair unchanged, so it cannot be
+deployed.
+
+The replacement sequence uses one 25-file candidate with nine changed names:
+the Primary root access/secret pair and the seven application credentials. A
+separate, restart-safe Primary-root transaction runs first. It preserves the
+existing Primary vault data, switches only the two root bindings, installs a
+value-free file-mounted Primary launcher and exact network helper, proves the
+new root works and the predecessor is rejected for an exact authentication
+reason, and restores the predecessor pair on failure. Plans and reports bind
+the staging, source/build image, vault-data, helper, and launcher identities but
+must not retain direct root plaintext digests.
+
+Only the exact terminal successful Primary-root report permits the existing
+seven-application IAM and sealed-file transaction. That later transaction must
+authenticate Primary administration with the rotated candidate root, while the
+unchanged Recovery root remains from the same candidate snapshot. This
+decision authorizes no credential value in Git, chat, argv, Docker environment,
+or retained evidence and does not claim either live transaction has run.
+
+## 2026-09-10 — Reuse one proved-empty Pinecone namespace asymmetrically
+
+The retained Pinecone index already exists, so V1 provider evaluation must not
+claim that it created a fresh index. Run 1 uses `REUSE_EMPTY_NAMESPACE`: it
+binds the exact project, index, HTTPS data-plane host, and namespace; proves the
+namespace inventory is empty; and writes exactly the four frozen evaluation
+records. Run 2 uses `EVALUATE_PROVED_NAMESPACE`: it cross-binds run 1's complete
+target-setup evidence, performs no create or upsert, and makes fresh semantic,
+query-embedding, and retrieval-query calls against the same immutable setup.
+
+The two runs remain independent evaluation attempts while sharing one setup.
+Every plan, authority, token/cost ceiling, call identity, target coordinate,
+geometry, and complete inventory remains exact. Pinecone deletion is excluded.
+This decision does not authorize a provider call before a real proposal,
+cutoff, preflight, and exact detached run authorities exist.
+
+## 2026-09-10 — Permit healthy cold Review and Promotion startup
+
+The local prototype must be able to start before its first proposal or
+promotion exists. Review therefore treats an entirely absent proposal-artifact
+generation as a healthy empty projection and atomically hot-loads the first
+complete generation; a partial/malformed cold set or disappearance/drift after
+activation still fails closed. The browser client accepts a local bearer only
+in memory, clears the entry field, stores nothing in browser storage, and sends
+exact ETag/idempotency-bound APPROVE or REJECT commands.
+
+Promotion may likewise start without a current Serving State file. The first
+exact approved manifest initializes its base once; later absence fails closed.
+The local store supports successive distinct promotions and retains exact
+activation/rollback/restore replay with symlink-safe mode-0600 durable writes.
+The checked-in V1_POC serving profile and tokenizer are staged as static,
+source/build-bound prototype configuration. They are not described as dynamic
+provider-manifest evidence, and none of these startup changes relaxes the
+Approval or real-effect authorization boundary.

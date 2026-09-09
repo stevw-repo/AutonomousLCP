@@ -138,7 +138,7 @@ def _receipt() -> bytes:
                 "record_id": "case-record-1",
             }
         ],
-        "run_id": "provider-run-1",
+        **_setup_envelope(serving.namespace),
         "target_fingerprint": target_fingerprint,
         "target_name": target_name,
     }
@@ -177,3 +177,16 @@ def test_retrieval_receipt_rejects_expected_record_removed_from_results() -> Non
     forged = json.dumps(document, sort_keys=True, separators=(",", ":")).encode()
     with pytest.raises(LiveRetrievalEvaluationError):
         parse_live_retrieval_evaluation(forged)
+
+
+def _setup_envelope(namespace: str) -> dict[str, object]:
+    return {
+        "initial_namespace_record_count": 0,
+        "pinecone_data_plane_host": "https://testing-index-1.example.pinecone.io",
+        "pinecone_project_id": "project-1",
+        "run_id": "provider-run-1",
+        "setup_mode": "CREATE_FRESH",
+        "setup_owner_run_id": "provider-run-1",
+        "source_target_setup_fingerprint": None,
+        "target_namespace": namespace,
+    }

@@ -134,6 +134,19 @@ def _sealed_app() -> FastAPI:
     return create_app(_sealed_dependencies())
 
 
+def _cold_dependencies(tmp_path: Path) -> ReviewDependencies:
+    artifact_root = tmp_path / "cold-artifacts"
+    artifact_root.mkdir()
+    state_root = tmp_path / "cold-state"
+    state_root.mkdir()
+    return local_dependencies(
+        state_root=state_root,
+        artifact_root=artifact_root,
+        authority_path=Path(os.environ["ASKLEGAL_LOCAL_REVIEW_AUTHORITY_PATH"]),
+        review_api_credential=CredentialMaterial(_SEALED_CREDENTIAL),
+    )
+
+
 def test_review_authenticates_only_the_exact_sealed_credential() -> None:
     """A source-known placeholder cannot impersonate the retained named reviewer."""
     with LocalClient(_sealed_app()) as client:
@@ -341,6 +354,26 @@ def test_review_decision_requires_named_human_and_exact_manifest() -> None:
         )
 
 
+def test_review_rejection_honors_exact_version_and_idempotency() -> None:
+    """A named human can reject once and receive the same result on exact replay."""
+    body = {
+        "action": "REJECT",
+        "manifest_fingerprint": _MANIFEST_FINGERPRINT,
+        "reason": "The package needs correction",
+    }
+    with LocalClient(_sealed_app()) as client:
+        first = _decision(client, body=body)
+        replay = _decision(client, body=body)
+        stale = _decision(client, body=body, command="cmd_" + "f" * 48)
+
+    assert first.status_code == 200
+    assert first.json()["result_code"] == "REJECTED"
+    assert replay.status_code == 200
+    assert replay.json()["resolution"] == "EXACT_REPLAY"
+    assert replay.json()["result_ref"] == first.json()["result_ref"]
+    assert stale.status_code == 412
+
+
 def test_review_commands_append_real_governance_facts_and_revoke_exactly() -> None:
     """HTTP decisions and revocations reach the authoritative Approval lifecycle."""
     deps = _sealed_dependencies()
@@ -428,7 +461,7 @@ def test_review_binds_one_atomically_published_generation(tmp_path: Path) -> Non
 
 
 def test_running_review_revalidates_replaced_package_without_restart() -> None:
-    """A long-running Review process neither caches nor serves a drifted package."""
+    """An active Review process fails closed for drift or disappearance."""
     deps = _sealed_dependencies()
     artifact = Path(os.environ["ASKLEGAL_LOCAL_REVIEW_ARTIFACT_ROOT"]) / (
         "hk-v1-two-family-proposal.json"
@@ -438,6 +471,68 @@ def test_running_review_revalidates_replaced_package_without_restart() -> None:
     assert deps.projections.check() is False
     artifact.write_bytes(original)
     assert deps.projections.check() is True
+    artifact.unlink()
+    assert deps.projections.check() is False
+    artifact.write_bytes(original)
+    assert deps.projections.check() is True
+
+
+def test_cold_review_is_ready_and_hot_loads_one_atomic_generation(tmp_path: Path) -> None:
+    """An empty Review stays healthy and discovers the later complete generation."""
+    deps = _cold_dependencies(tmp_path)
+    artifact_root = tmp_path / "cold-artifacts"
+    source = Path(os.environ["ASKLEGAL_LOCAL_REVIEW_ARTIFACT_ROOT"])
+    with LocalClient(create_app(deps)) as client:
+        assert client.get("/internal/ready").status_code == 200
+        empty = client.get("/api/v1/proposal-packages", headers=_TOKEN)
+        assert empty.status_code == 200
+        assert empty.json()["items"] == []
+        assert (
+            client.get(f"/api/v1/proposal-packages/{_PROPOSAL_ID}", headers=_TOKEN).status_code
+            == 404
+        )
+
+        generation = artifact_root / ".generations" / ("b" * 64)
+        shutil.copytree(source, generation)
+        (artifact_root / "current").symlink_to(Path(".generations") / generation.name)
+
+        loaded = client.get("/api/v1/proposal-packages", headers=_TOKEN)
+        assert loaded.status_code == 200
+        assert [item["proposal_id"] for item in loaded.json()["items"]] == [_PROPOSAL_ID]
+        detail = client.get(f"/api/v1/proposal-packages/{_PROPOSAL_ID}", headers=_TOKEN)
+        assert detail.status_code == 200
+        assert detail.headers["etag"] == '"v0"'
+        assert detail.json()["proposal"]["manifest_fingerprint"] == _MANIFEST_FINGERPRINT
+
+
+def test_cold_review_fails_closed_for_partial_or_malformed_package(tmp_path: Path) -> None:
+    """A partial live publication and a malformed cold publication never look ready."""
+    deps = _cold_dependencies(tmp_path)
+    artifact_root = tmp_path / "cold-artifacts"
+    source = Path(os.environ["ASKLEGAL_LOCAL_REVIEW_ARTIFACT_ROOT"])
+    artifact_root.joinpath("hk-v1-two-family-proposal.json").write_bytes(
+        source.joinpath("hk-v1-two-family-proposal.json").read_bytes()
+    )
+    with LocalClient(create_app(deps)) as client:
+        assert client.get("/internal/ready").status_code == 503
+        assert client.get("/api/v1/proposal-packages", headers=_TOKEN).status_code == 500
+
+    malformed_root = tmp_path / "malformed-artifacts"
+    malformed_root.mkdir()
+    for name in (
+        "hk-v1-two-family-proposal.json",
+        "hk-v1-review-readiness.json",
+        "hk-v1-review-package.json",
+    ):
+        malformed_root.joinpath(name).write_bytes(source.joinpath(name).read_bytes())
+    malformed_root.joinpath("hk-v1-review-readiness.json").write_bytes(b"{}")
+    with pytest.raises(ProposalProjectionError, match="PROPOSAL_PACKAGE_INVALID"):
+        local_dependencies(
+            state_root=tmp_path / "cold-state",
+            artifact_root=malformed_root,
+            authority_path=Path(os.environ["ASKLEGAL_LOCAL_REVIEW_AUTHORITY_PATH"]),
+            review_api_credential=CredentialMaterial(_SEALED_CREDENTIAL),
+        )
 
 
 def test_default_review_reads_and_hashes_every_declared_package_member() -> None:
@@ -684,10 +779,20 @@ def test_review_origin_proxy_evidence_readiness_and_browser_client() -> None:
         assert preflight.status_code == 200
         assert preflight.headers["access-control-allow-origin"] == "https://review.local.test"
         javascript = client.get("/review/app.js").text
-        assert "crypto.subtle" in javascript
-        assert "api://asklegal-review" in javascript
+        html = client.get("/review").text
+        assert "review-token" in html
+        assert "crypto.getRandomValues" in javascript
+        assert "/decisions" in javascript
+        assert 'submitDecision("APPROVE")' in javascript
+        assert 'submitDecision("REJECT")' in javascript
+        assert '"Idempotency-Key"' in javascript
+        assert '"If-Match"' in javascript
+        assert "pendingDecision.command" in javascript
+        assert "JSON.stringify(result.body, null, 2)" in javascript
+        assert 'tokenInput.value = ""' in javascript
         assert "localStorage" not in javascript
         assert "sessionStorage" not in javascript
+        assert "innerHTML" not in javascript
         assert "pinecone" not in javascript.lower()
         assert "control" not in javascript.lower()
         deps.configuration_source.drift()

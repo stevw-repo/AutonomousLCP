@@ -368,19 +368,19 @@ def parse_live_retrieval_evaluation(  # noqa: C901, PLR0912, PLR0915 - closed re
     setup = cast("dict[str, object]", target_setup)
     setup_records = setup.get("records")
     if (
-        set(setup)
-        != {
-            "fingerprint",
-            "readback_inventory_fingerprint",
-            "record_count",
-            "records",
-            "run_id",
-            "target_fingerprint",
-            "target_name",
-        }
-        or setup.get("run_id") != document.get("run_id")
-        or setup.get("target_name") != document.get("target_name")
-        or setup.get("target_fingerprint") != document.get("target_fingerprint")
+        not _valid_target_setup_envelope(
+            setup,
+            expected_run_id=(
+                document.get("run_id")  # bind the exact execution
+            ),
+            expected_target_name=(
+                document.get("target_name")  # bind the exact index
+            ),
+            expected_target_fingerprint=(
+                document.get("target_fingerprint")  # bind its exact definition
+            ),
+            expected_initial_count=0,
+        )
         or type(setup_records) is not list
         or not setup_records
         or setup.get("record_count") != len(cast("list[JsonValue]", setup_records))
@@ -432,7 +432,7 @@ def parse_live_retrieval_evaluation(  # noqa: C901, PLR0912, PLR0915 - closed re
                 "vector_fingerprint",
             }
             or retained.get("request_id")
-            != retrieval_setup_request_id(cast("str", document["run_id"]), case_id)
+            != retrieval_setup_request_id(cast("str", setup["setup_owner_run_id"]), case_id)
             or retained.get("result") != "SUCCEEDED"
             or type(retained.get("provider_request_id")) is not str
             or retained.get("provider_request_id") in {"", "unreported"}
@@ -605,4 +605,60 @@ def parse_live_retrieval_evaluation(  # noqa: C901, PLR0912, PLR0915 - closed re
         cast("str", document["target_fingerprint"]),
         len(case_ids),
         cast("str", document["fingerprint"]),
+    )
+
+
+def _valid_target_setup_envelope(
+    setup: dict[str, object],
+    *,
+    expected_run_id: object,
+    expected_target_name: object,
+    expected_target_fingerprint: object,
+    expected_initial_count: int,
+) -> bool:
+    """Validate the target identity and whether it was created or safely reused."""
+    expected_keys = {
+        "fingerprint",
+        "initial_namespace_record_count",
+        "pinecone_data_plane_host",
+        "pinecone_project_id",
+        "readback_inventory_fingerprint",
+        "record_count",
+        "records",
+        "run_id",
+        "setup_mode",
+        "setup_owner_run_id",
+        "source_target_setup_fingerprint",
+        "target_fingerprint",
+        "target_name",
+        "target_namespace",
+    }
+    host = setup.get("pinecone_data_plane_host")
+    return (
+        set(setup) == expected_keys
+        and setup.get("run_id") == expected_run_id
+        and setup.get("target_name") == expected_target_name
+        and setup.get("target_fingerprint") == expected_target_fingerprint
+        and setup.get("setup_mode")
+        in {"CREATE_FRESH", "REUSE_EMPTY_NAMESPACE", "EVALUATE_PROVED_NAMESPACE"}
+        and (
+            (
+                setup.get("setup_mode") == "EVALUATE_PROVED_NAMESPACE"
+                and type(setup.get("setup_owner_run_id")) is str
+                and setup.get("setup_owner_run_id") != expected_run_id
+                and _full_fingerprint(setup.get("source_target_setup_fingerprint"))
+            )
+            or (
+                setup.get("setup_mode") != "EVALUATE_PROVED_NAMESPACE"
+                and setup.get("setup_owner_run_id") == expected_run_id
+                and setup.get("source_target_setup_fingerprint") is None
+            )
+        )
+        and type(setup.get("pinecone_project_id")) is str
+        and bool(setup.get("pinecone_project_id"))
+        and type(setup.get("target_namespace")) is str
+        and bool(setup.get("target_namespace"))
+        and type(host) is str
+        and host.startswith("https://")
+        and setup.get("initial_namespace_record_count") == expected_initial_count
     )

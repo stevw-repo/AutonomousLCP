@@ -562,32 +562,41 @@ class RegisteredLocalReviewProjectionStore:
 
     def __init__(
         self,
-        task7_proposal: bytes,
-        readiness_artifact: bytes,
-        review_package: bytes,
+        task7_proposal: bytes | None,
+        readiness_artifact: bytes | None,
+        review_package: bytes | None,
         artifact_reader: Callable[[str], bytes],
-        snapshot_reader: Callable[[], tuple[bytes, bytes, bytes]] | None = None,
+        snapshot_reader: Callable[[], tuple[bytes, bytes, bytes, Callable[[str], bytes]] | None]
+        | None = None,
     ) -> None:
-        """Retain and cross-verify the exact Task 7, readiness, and package bytes."""
-        self._task7_proposal = bytes(task7_proposal)
-        self._readiness_artifact = bytes(readiness_artifact)
-        self._review_package = bytes(review_package)
+        """Retain one exact package, or wait safely for the first complete package."""
+        complete = (
+            task7_proposal is not None
+            and readiness_artifact is not None
+            and review_package is not None
+        )
+        if not complete and any(
+            value is not None for value in (task7_proposal, readiness_artifact, review_package)
+        ):
+            raise ProposalProjectionError(ProposalProjectionErrorCode.SNAPSHOT)
+        self._task7_proposal: bytes | None = None
+        self._readiness_artifact: bytes | None = None
+        self._review_package: bytes | None = None
         self._artifact_reader = artifact_reader
         self._snapshot_reader = snapshot_reader
         self._evidence_audit_path: Path | None = None
-        proposal = _task7_proposal_facts(self._task7_proposal)
-        self._proposal_fingerprint = proposal.fingerprint
-        readiness = _parse_hk_v1_review_readiness(
-            self._readiness_artifact, self._proposal_fingerprint
-        )
-        _validate_readiness_against_proposal(readiness, proposal)
-        self._detail = _parse_local_review_package(
-            self._review_package,
-            task7_proposal=self._task7_proposal,
-            readiness=readiness,
-            artifact_reader=self._artifact_reader,
-        )
+        self._proposal_fingerprint: str | None = None
+        self._detail: ProposalDetailProjection | None = None
         self._evidence_reads, self._evidence_audit_fingerprint = self._load_evidence_audit()
+        if complete:
+            if task7_proposal is None or readiness_artifact is None or review_package is None:
+                raise ProposalProjectionError(ProposalProjectionErrorCode.SNAPSHOT)
+            self._adopt_snapshot(
+                (task7_proposal, readiness_artifact, review_package),
+                artifact_reader,
+            )
+        else:
+            self._refresh()
 
     def bind_evidence_audit(self, path: Path) -> None:
         """Bind one retained audit ledger before this projection is served."""
@@ -609,14 +618,23 @@ class RegisteredLocalReviewProjectionStore:
     def retained_package(self) -> tuple[bytes, bytes]:
         """Reread and return the two exact immutable package artifacts."""
         self._refresh()
-        proposal = bytes(self._task7_proposal)
-        readiness = bytes(self._readiness_artifact)
+        if self._task7_proposal is None or self._readiness_artifact is None:
+            raise ProposalProjectionError(ProposalProjectionErrorCode.SNAPSHOT)
+        proposal = self._task7_proposal
+        readiness = self._readiness_artifact
         fingerprint = _task7_proposal_fingerprint(proposal)
         _parse_hk_v1_review_readiness(readiness, fingerprint)
         return proposal, readiness
 
     def _details(self) -> tuple[ProposalDetailProjection, ...]:
         self._refresh()
+        if (
+            self._task7_proposal is None
+            or self._readiness_artifact is None
+            or self._review_package is None
+            or self._detail is None
+        ):
+            return ()
         proposal_fingerprint = _task7_proposal_fingerprint(self._task7_proposal)
         readiness = _parse_hk_v1_review_readiness(self._readiness_artifact, proposal_fingerprint)
         detail = _parse_local_review_package(
@@ -633,13 +651,33 @@ class RegisteredLocalReviewProjectionStore:
         """Adopt one newly retained, fully verified package without process restart."""
         if self._snapshot_reader is None:
             return
-        task7, readiness_content, review_package = self._snapshot_reader()
-        if (
-            task7 == self._task7_proposal
-            and readiness_content == self._readiness_artifact
-            and review_package == self._review_package
-        ):
+        try:
+            snapshot = self._snapshot_reader()
+        except (OSError, RuntimeError, ValueError) as error:
+            raise ProposalProjectionError(ProposalProjectionErrorCode.SNAPSHOT) from error
+        if snapshot is None:
+            if self._task7_proposal is not None:
+                raise ProposalProjectionError(ProposalProjectionErrorCode.SNAPSHOT)
             return
+        task7, readiness_content, review_package, artifact_reader = snapshot
+        if self._task7_proposal is not None and (
+            task7 != self._task7_proposal
+            or readiness_content != self._readiness_artifact
+            or review_package != self._review_package
+        ):
+            raise ProposalProjectionError(ProposalProjectionErrorCode.SNAPSHOT)
+        self._adopt_snapshot(
+            (task7, readiness_content, review_package),
+            artifact_reader,
+        )
+
+    def _adopt_snapshot(
+        self,
+        snapshot: tuple[bytes, bytes, bytes],
+        artifact_reader: Callable[[str], bytes],
+    ) -> None:
+        """Validate all package bytes before making a new generation visible."""
+        task7, readiness_content, review_package = snapshot
         proposal = _task7_proposal_facts(task7)
         readiness = _parse_hk_v1_review_readiness(readiness_content, proposal.fingerprint)
         _validate_readiness_against_proposal(readiness, proposal)
@@ -647,11 +685,12 @@ class RegisteredLocalReviewProjectionStore:
             review_package,
             task7_proposal=task7,
             readiness=readiness,
-            artifact_reader=self._artifact_reader,
+            artifact_reader=artifact_reader,
         )
         self._task7_proposal = bytes(task7)
         self._readiness_artifact = bytes(readiness_content)
         self._review_package = bytes(review_package)
+        self._artifact_reader = artifact_reader
         self._proposal_fingerprint = proposal.fingerprint
         self._detail = detail
 
@@ -846,10 +885,17 @@ class RegisteredLocalReviewProjectionStore:
             previous = expected
         return rows, f"sha256:{sha256(content).hexdigest()}"
 
+    def _active_artifact_reader(self) -> Callable[[str], bytes]:
+        """Return the reader for one freshly verified active generation."""
+        self._refresh()
+        if self._detail is None:
+            raise ProposalProjectionError(ProposalProjectionErrorCode.SNAPSHOT)
+        return self._artifact_reader
+
     def read_evidence(self, evidence_id: str) -> bytes:
         """Return the exact retained traceability row that binds one evidence ID."""
-        self._refresh()
-        lookup_content = self._artifact_reader(_ROLE_PATHS["RECORD_TRACEABILITY"])
+        artifact_reader = self._active_artifact_reader()
+        lookup_content = artifact_reader(_ROLE_PATHS["RECORD_TRACEABILITY"])
         lookup = parse_json_bytes(lookup_content, max_bytes=2_000_000)
         if not isinstance(lookup, dict) or not isinstance(lookup.get("shards"), list):
             raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
@@ -861,7 +907,7 @@ class RegisteredLocalReviewProjectionStore:
             raw_shard = cast("dict[str, JsonValue]", raw_shard_value)
             if not isinstance(raw_shard.get("path"), str):
                 raise ProposalProjectionError(ProposalProjectionErrorCode.PACKAGE)
-            shard = self._artifact_reader(f"record-traceability/{raw_shard['path']}")
+            shard = artifact_reader(f"record-traceability/{raw_shard['path']}")
             for line in shard.splitlines(keepends=True):
                 if not line.strip():
                     continue

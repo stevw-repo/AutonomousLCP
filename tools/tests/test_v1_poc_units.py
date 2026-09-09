@@ -230,6 +230,55 @@ def test_secrets_never_reach_the_container_through_arguments(service_id: str) ->
             assert "ACCESS_KEY" not in stripped
 
 
+@pytest.mark.parametrize("service_id", ["vault-primary", "vault-recovery"])
+def test_versity_root_values_are_absent_from_docker_create_argv_and_config(
+    tmp_path: Path, service_id: str
+) -> None:
+    """The host never expands either root value before Docker retains its config."""
+    launcher = _rendered()[f"launch/{service_id}.sh"]
+    prefix = service_id
+    access = f"synthetic-{prefix}-root-access-never-retain"
+    secret = f"synthetic-{prefix}-root-secret-never-retain"
+    assert 'ROOT_ACCESS_KEY_ID="$(cat' not in launcher.split("docker create", maxsplit=1)[0]
+    assert 'ROOT_SECRET_ACCESS_KEY="$(cat' not in launcher.split("docker create", maxsplit=1)[0]
+    assert "-e 'ROOT_ACCESS_KEY_ID'" not in launcher
+    assert "-e 'ROOT_SECRET_ACCESS_KEY'" not in launcher
+    assert "--entrypoint '/bin/sh'" in launcher
+    assert f"dst=/run/asklegal/{prefix}-root-access,readonly" in launcher
+    assert f"dst=/run/asklegal/{prefix}-root-secret,readonly" in launcher
+
+    credential_root = tmp_path / "credentials"
+    credential_root.mkdir()
+    (credential_root / f"{prefix}-root-access").write_text(access)
+    (credential_root / f"{prefix}-root-secret").write_text(secret)
+    fake_bin = tmp_path / "bin"
+    fake_bin.mkdir()
+    log = tmp_path / "docker-argv"
+    docker = fake_bin / "docker"
+    docker.write_text('#!/usr/bin/bash\nprintf "%s\\0" "$@" >> "$FAKE_DOCKER_LOG"\n')
+    docker.chmod(0o755)
+    for command in ("install", "chown", "chmod", "rm", "mkdir"):
+        helper = fake_bin / command
+        helper.write_text("#!/usr/bin/bash\nexit 0\n")
+        helper.chmod(0o755)
+    script = tmp_path / "launcher.sh"
+    script.write_text(launcher)
+    result = subprocess.run(  # noqa: S603
+        ["/usr/bin/bash", str(script)],
+        check=False,
+        capture_output=True,
+        env={
+            "CREDENTIALS_DIRECTORY": str(credential_root),
+            "FAKE_DOCKER_LOG": str(log),
+            "PATH": str(fake_bin),
+        },
+    )
+    assert result.returncode == 0, result.stderr
+    argv = log.read_bytes()
+    assert access.encode() not in argv
+    assert secret.encode() not in argv
+
+
 def test_every_declared_credential_is_loaded_encrypted() -> None:
     """A credential the unit never loads would arrive as an empty file at runtime."""
     rendered = _rendered()
@@ -409,6 +458,8 @@ def test_bootstrap_units_are_rendered_and_dependencies_are_not_silently_dropped(
     assert "infrastructure/poc/libexec/asklegal-vault-bootstrap" in install
     assert "infrastructure/poc/libexec/asklegal-vault-application-rotation-network" in install
     assert "/usr/local/libexec/asklegal-vault-application-rotation-network" in install
+    assert "infrastructure/poc/libexec/asklegal-vault-primary-root-rotation-network" in install
+    assert "/usr/local/libexec/asklegal-vault-primary-root-rotation-network" in install
     assert "packages/management-register-adapter/migrations/." in install
     assert "/opt/asklegal/management-register/migrations" in install
     control = rendered["asklegal-control-plane.service"]

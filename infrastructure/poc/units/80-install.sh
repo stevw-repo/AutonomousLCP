@@ -37,6 +37,7 @@ install -o root -g root -m 0755 "$here"/launch/*.sh '/etc/asklegal/launch'/
 install -o root -g root -m 0755 "$repository"/infrastructure/poc/libexec/asklegal-register-migrate /usr/local/libexec/asklegal-register-migrate
 install -o root -g root -m 0755 "$repository"/infrastructure/poc/libexec/asklegal-vault-bootstrap /usr/local/libexec/asklegal-vault-bootstrap
 install -o root -g root -m 0755 "$repository"/infrastructure/poc/libexec/asklegal-vault-application-rotation-network /usr/local/libexec/asklegal-vault-application-rotation-network
+install -o root -g root -m 0755 "$repository"/infrastructure/poc/libexec/asklegal-vault-primary-root-rotation-network /usr/local/libexec/asklegal-vault-primary-root-rotation-network
 migration_stage="$(mktemp -d /opt/asklegal/management-register/.migrations.XXXXXXXX)"
 trap 'rm -rf -- "$migration_stage"' EXIT
 cp -a "$repository"/packages/management-register-adapter/migrations/. "$migration_stage"/

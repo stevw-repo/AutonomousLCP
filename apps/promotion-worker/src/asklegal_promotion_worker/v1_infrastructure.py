@@ -50,7 +50,10 @@ from asklegal_promotion.backup import (
 from asklegal_promotion_worker.local_approval import LocalRetainedPromotionApprovalStore
 from asklegal_promotion_worker.local_intents import retain_v1_effect_intents
 from asklegal_promotion_worker.local_package import load_v1_promotion_manifest_from_review_package
-from asklegal_promotion_worker.local_serving_state import FileServingStateStore
+from asklegal_promotion_worker.local_serving_state import (
+    FileServingStateStore,
+    open_or_initialize_serving_state,
+)
 from asklegal_promotion_worker.real_effects import (
     RetainedEffectIntentSource,
     V1RealEffectActivation,
@@ -167,6 +170,49 @@ def _configured_path(
     return path
 
 
+def _configured_future_file(environment: Mapping[str, str], key: str) -> Path:
+    """Resolve an exact writable file location that may not exist yet."""
+    value = environment.get(key)
+    if type(value) is not str or not value or value != value.strip():
+        _promotion_fail()
+    path = Path(value)
+    parent = path.parent
+    if (
+        not path.is_absolute()
+        or path == Path(path.anchor)
+        or path.is_symlink()
+        or (path.exists() and not path.is_file())
+        or (path.exists() and not os.access(path, os.R_OK | os.W_OK))
+        or parent.is_symlink()
+        or not parent.is_dir()
+        or not os.access(parent, os.R_OK | os.W_OK | os.X_OK)
+    ):
+        _promotion_fail()
+    return path
+
+
+def _configured_state_directory(environment: Mapping[str, str], key: str) -> Path:
+    """Create or reopen one application-owned stable state directory."""
+    value = environment.get(key)
+    if type(value) is not str or not value or value != value.strip():
+        _promotion_fail()
+    path = Path(value)
+    parent = path.parent
+    if (
+        not path.is_absolute()
+        or path == Path(path.anchor)
+        or path.is_symlink()
+        or parent.is_symlink()
+        or not parent.is_dir()
+        or not os.access(parent, os.R_OK | os.W_OK | os.X_OK)
+    ):
+        _promotion_fail()
+    path.mkdir(mode=0o700, exist_ok=True)
+    if path.is_symlink() or not path.is_dir() or not os.access(path, os.R_OK | os.W_OK | os.X_OK):
+        _promotion_fail()
+    return path
+
+
 def promotion_trigger_root(environment: Mapping[str, str]) -> Path:
     """Resolve the shared retained Review wakeup queue without requiring an item."""
     raw = environment.get(_INPUT_KEYS["approval_ledger"])
@@ -192,6 +238,12 @@ def validate_v1_promotion_configuration(environment: Mapping[str, str]) -> Path:
         for name, key in _INPUT_KEYS.items():
             if name == "approval_ledger":
                 continue
+            if name == "current_serving_state":
+                paths[name] = _configured_future_file(environment, key)
+                continue
+            if name == "effect_intents":
+                paths[name] = _configured_state_directory(environment, key)
+                continue
             paths[name] = _configured_path(
                 environment,
                 key,
@@ -203,11 +255,12 @@ def validate_v1_promotion_configuration(environment: Mapping[str, str]) -> Path:
             profile.embedding.tokenizer,
             paths["tokenizer_resource"].read_bytes(),
         )
-        serving_states = FileServingStateStore(paths["current_serving_state"])
         if paths["current_serving_state"].parent != paths["state_root"]:
             _promotion_fail()
-        if not serving_states.active_state_id:
-            _promotion_fail()
+        if paths["current_serving_state"].exists():
+            serving_states = FileServingStateStore(paths["current_serving_state"])
+            if not serving_states.active_state_id:
+                _promotion_fail()
         return promotion_trigger_root(environment)
     except PromotionCompositionError:
         raise
@@ -215,22 +268,26 @@ def validate_v1_promotion_configuration(environment: Mapping[str, str]) -> Path:
         raise PromotionCompositionError(_PROMOTION_CONFIGURATION_NOT_READY) from error
 
 
-def preflight_v1_promotion(  # noqa: C901, PLR0912 - closed retained-input trust boundary.
+def preflight_v1_promotion(  # noqa: C901, PLR0912, PLR0915 - closed trust boundary.
     environment: Mapping[str, str],
     *,
     trigger_path: Path | None = None,
 ) -> V1PromotionPreflight:
     """Validate every retained local input before credentials, transports, or effects."""
     try:
-        paths = {
-            name: _configured_path(
-                environment,
-                key,
-                directory=name.endswith("root") or name == "effect_intents",
-                writable=name in _WRITABLE_INPUTS,
-            )
-            for name, key in _INPUT_KEYS.items()
-        }
+        paths: dict[str, Path] = {}
+        for name, key in _INPUT_KEYS.items():
+            if name == "current_serving_state":
+                paths[name] = _configured_future_file(environment, key)
+            elif name == "effect_intents":
+                paths[name] = _configured_state_directory(environment, key)
+            else:
+                paths[name] = _configured_path(
+                    environment,
+                    key,
+                    directory=name.endswith("root") or name == "effect_intents",
+                    writable=name in _WRITABLE_INPUTS,
+                )
         configured_trigger = trigger_path
         if configured_trigger is None:
             raw_trigger = environment.get("ASKLEGAL_PROMOTION_TRIGGER")
@@ -311,7 +368,10 @@ def preflight_v1_promotion(  # noqa: C901, PLR0912 - closed retained-input trust
         )
         if paths["current_serving_state"].parent != paths["state_root"]:
             _promotion_fail()
-        serving_states = FileServingStateStore(paths["current_serving_state"])
+        serving_states = open_or_initialize_serving_state(
+            paths["current_serving_state"],
+            manifest.base_serving_state_id,
+        )
         state_content = serving_states.active_state_id
         permitted_states = {manifest.base_serving_state_id}
         if approval.execution_lineage_id == execution_id:

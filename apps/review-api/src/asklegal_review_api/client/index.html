@@ -1,12 +1,36 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>AskLegal Review</title></head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>AskLegal Review</title>
+</head>
 <body>
   <main>
     <h1>AskLegal proposal review</h1>
-    <p id="session">Sign in with the Review application to inspect immutable proposals.</p>
-    <button id="sign-in" type="button">Sign in</button>
-    <section aria-live="polite"><h2>Review-ready proposals</h2><ol id="proposals"></ol></section>
+    <section aria-labelledby="session-heading">
+      <h2 id="session-heading">Local reviewer session</h2>
+      <p>The credential remains only in this page's memory and is cleared from the field.</p>
+      <label for="review-token">Review bearer credential</label>
+      <input id="review-token" type="password" autocomplete="current-password" spellcheck="false">
+      <button id="connect" type="button">Connect</button>
+      <button id="disconnect" type="button" disabled>Disconnect</button>
+      <p id="session" role="status">Not connected.</p>
+    </section>
+    <section aria-labelledby="proposals-heading">
+      <h2 id="proposals-heading">Review-ready proposals</h2>
+      <button id="refresh" type="button" disabled>Refresh</button>
+      <ol id="proposals"></ol>
+    </section>
+    <section aria-labelledby="detail-heading">
+      <h2 id="detail-heading">Selected proposal package</h2>
+      <pre id="proposal-detail">Select a proposal to inspect its complete package.</pre>
+      <label for="decision-reason">Decision reason</label>
+      <textarea id="decision-reason" rows="5" maxlength="2000" disabled></textarea>
+      <button id="approve" type="button" disabled>Approve</button>
+      <button id="reject" type="button" disabled>Reject</button>
+      <p id="decision-result" role="status"></p>
+    </section>
   </main>
   <script type="module" src="/review/app.js"></script>
 </body>

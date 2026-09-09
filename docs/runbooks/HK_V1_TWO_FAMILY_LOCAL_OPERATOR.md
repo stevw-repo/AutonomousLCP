@@ -224,35 +224,107 @@ not clear that Gate F/final-admission blocker. Exit `2` is blocked, failed, or
 rollback-unverified. Reboot remains a later, separately planned and authorized
 operation.
 
-### 2. Credential batch and dual-network helper boundary
+### 2. Credential batch, Primary-root rotation, and dual-network helper boundary
 
-The current credential work is one exact value-free batch across the complete
-credential set, not the former single-credential `pinecone-poc` flow. Do not
-reuse the legacy `--credential-name` command examples or treat a rotation plan
-as proof that rotation completed. Host reconciliation may consume only the
-exact terminal successful batch result required by its finalized input
-contract.
+The current credential work stages one exact value-free batch that changes the
+seven application vault credentials plus both Primary vault root components.
+The other sixteen credentials remain byte-identical. Do not reuse the legacy
+single-credential `pinecone-poc` examples or treat any plan as proof that a
+rotation completed. Create the private plaintext input directory outside Git,
+then stage all nine replacements without a vault, IAM, service, or Docker
+effect:
+
+Host reconciliation may consume only the exact terminal successful batch
+result required by its finalized input contract.
+
+```bash
+umask 077
+sudo /absolute/path/to/AskLegal-LegalDBPipeline/.venv/bin/python \
+  -m tools.hk_v1_stage_vault_credential_rotation \
+  --source-root /absolute/path/to/private/current-plaintext-credentials \
+  --candidate-root /absolute/path/to/private/candidate-plaintext-credentials \
+  --receipt /absolute/path/to/hk-v1/credential/staging-receipt.json \
+  --rotation-id <rot_-plus-48-lowercase-hex>
+```
+
+Exit `0` prints only the staging fingerprint and candidate binding. The command
+must fail if either Primary root component or any application credential is
+reused. Preserve the private candidate directory until the later application
+rotation succeeds.
 
 Both the rendered `80-install.sh` path and authority-gated host phase two
 install
-`/usr/local/libexec/asklegal-vault-application-rotation-network` as a root-owned
-executable `0755` helper. Host rollback snapshots and restores its predecessor
-bytes or exact absence. The helper supplies the bounded dual-vault Docker
-network environment needed by the manifest-bound candidate control-plane
-image; its presence is neither credential authority nor proof of a successful
-rotation.
+`/usr/local/libexec/asklegal-vault-primary-root-rotation-network` and
+`/usr/local/libexec/asklegal-vault-application-rotation-network` as root-owned
+executables with mode `0755`. Host rollback snapshots and restores each
+predecessor or exact absence. These helpers supply the bounded Docker network
+environment needed by the manifest-bound candidate control-plane image; their
+presence is neither credential authority nor proof of a successful rotation.
+
+Rotate the Primary root pair before rotating application IAM. Root preflight
+reads exact staging, sealed-root, vault-data, source-tree, and candidate-image
+bindings and retains a value-free plan; it does not change credentials, IAM,
+services, vault data, or Docker:
+
+```bash
+sudo /absolute/path/to/AskLegal-LegalDBPipeline/.venv/bin/python \
+  -m tools.hk_v1_vault_primary_root_rotation preflight \
+  --staging-receipt /absolute/path/to/hk-v1/credential/staging-receipt.json \
+  --sealed-root /etc/asklegal/credentials \
+  --vault-data-root /srv/asklegal/vault-primary \
+  --application-build-results /absolute/path/to/AskLegal-LegalDBPipeline/var/hk-v1/host/application-build-results.json \
+  --application-image-inputs /absolute/path/to/AskLegal-LegalDBPipeline/infrastructure/poc/application_image_inputs.json \
+  --workspace-root /absolute/path/to/AskLegal-LegalDBPipeline \
+  --plan-output /absolute/path/to/hk-v1/credential/vault-primary-root-rotation-plan.json
+```
+
+After inspecting and authorizing that exact `plan_fingerprint`, execute with
+the same immutable inputs:
+
+```bash
+sudo /absolute/path/to/AskLegal-LegalDBPipeline/.venv/bin/python \
+  -m tools.hk_v1_vault_primary_root_rotation execute \
+  --staging-receipt /absolute/path/to/hk-v1/credential/staging-receipt.json \
+  --sealed-root /etc/asklegal/credentials \
+  --vault-data-root /srv/asklegal/vault-primary \
+  --application-build-results /absolute/path/to/AskLegal-LegalDBPipeline/var/hk-v1/host/application-build-results.json \
+  --application-image-inputs /absolute/path/to/AskLegal-LegalDBPipeline/infrastructure/poc/application_image_inputs.json \
+  --workspace-root /absolute/path/to/AskLegal-LegalDBPipeline \
+  --plan-output /absolute/path/to/hk-v1/credential/vault-primary-root-rotation-plan.json \
+  --state-root /absolute/path/to/private/vault-primary-root-rotation-state \
+  --runtime-credential-root /run/asklegal/credentials/vault-primary \
+  --report-output /absolute/path/to/hk-v1/credential/vault-primary-root-rotation-report.json \
+  --authorized-plan-fingerprint <exact-sha256-plan-fingerprint>
+```
+
+Execution stops the five dependent applications, bootstrap, and Primary vault;
+switches the two sealed root files; atomically installs the plan-bound
+value-free Primary launcher and root-network helper; and restarts against the
+same `/srv` vault data. Their exact predecessor bytes or absence are staged in
+the transaction state, but the hardened files deliberately remain installed
+during credential rollback so the restored old root cannot reappear in Docker
+configuration. This step does not depend on the later host phase-two
+installation. Success
+requires exact data identity, healthy dependants, no root value in Docker
+create arguments or `Config.Env`, new-root acceptance, and old-root rejection.
+Failure restores the old sealed pair, retains the hardened runtime files, and
+proves old-root acceptance plus new-root rejection. Only exit `0` and a strictly parsed
+terminal `SUCCEEDED` root report permit the seven-application transaction.
 
 The production entrypoint is
 `tools.hk_v1_vault_application_rotation`. Both modes require the exact staging
-receipt, private sealed root, current application-image input manifest, current
-source-bound application build results, and repository root. Preflight is
-read-only with respect to credentials, IAM, services, vaults, and Docker
-networks; it retains a canonical plan and production-adapter readiness result:
+receipt, successful Primary-root report, private sealed root, current
+application-image input manifest, current source-bound application build
+results, and repository root. Preflight is read-only with respect to
+credentials, IAM, services, vaults, and Docker networks; it retains a canonical
+plan and production-adapter readiness result:
 
 ```bash
 sudo /absolute/path/to/AskLegal-LegalDBPipeline/.venv/bin/python \
   -m tools.hk_v1_vault_application_rotation preflight \
   --staging-receipt /absolute/path/to/hk-v1/credential/staging-receipt.json \
+  --primary-root-rotation-plan /absolute/path/to/hk-v1/credential/vault-primary-root-rotation-plan.json \
+  --primary-root-rotation-report /absolute/path/to/hk-v1/credential/vault-primary-root-rotation-report.json \
   --sealed-root /absolute/path/to/private/sealed-bindings \
   --plan-output /absolute/path/to/hk-v1/credential/vault-application-rotation-plan.json \
   --preflight-output /absolute/path/to/hk-v1/credential/vault-application-rotation-preflight.json \
@@ -278,6 +350,8 @@ path:
 sudo /absolute/path/to/AskLegal-LegalDBPipeline/.venv/bin/python \
   -m tools.hk_v1_vault_application_rotation execute \
   --staging-receipt /absolute/path/to/hk-v1/credential/staging-receipt.json \
+  --primary-root-rotation-plan /absolute/path/to/hk-v1/credential/vault-primary-root-rotation-plan.json \
+  --primary-root-rotation-report /absolute/path/to/hk-v1/credential/vault-primary-root-rotation-report.json \
   --sealed-root /absolute/path/to/private/sealed-bindings \
   --plan-output /absolute/path/to/hk-v1/credential/vault-application-rotation-plan.json \
   --application-build-results /absolute/path/to/AskLegal-LegalDBPipeline/var/hk-v1/host/application-build-results.json \

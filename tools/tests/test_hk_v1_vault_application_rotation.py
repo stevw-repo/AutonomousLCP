@@ -55,6 +55,11 @@ from tools.hk_v1_vault_application_rotation import (
     rotation_plan_bytes,
     rotation_report_bytes,
 )
+from tools.hk_v1_vault_primary_root_rotation import (
+    PrimaryVaultRootRotationReport,
+    RootRotationState,
+    root_rotation_report_bytes,
+)
 
 _ROTATION = "rot_" + "1" * 48
 _SEALED = "sealed_" + "2" * 64
@@ -958,7 +963,7 @@ def test_runner_time_complete_path_swap_is_rejected_in_image(
                 "--candidate-directory",
                 str(prepared.candidate_root),
                 "--root-credential-directory",
-                str(prepared.source_root),
+                str(prepared.candidate_root),
             ]
             assert network_rotation.main(helper_argv) == 2
             captured = capsys.readouterr()
@@ -976,6 +981,44 @@ def test_runner_time_complete_path_swap_is_rejected_in_image(
     with pytest.raises(Exception, match="ROTATION_NETWORK_PROVIDER_FAILED"):
         adapter.replace(prepared.credentials.candidate)
     assert effect_calls == []
+
+
+def test_dual_network_uses_rotated_primary_root_from_candidate_snapshot(
+    tmp_path: Path,
+) -> None:
+    """Application IAM work cannot reuse the rejected predecessor Primary root."""
+    receipt = _staging(tmp_path)
+    prepared = prepare_vault_application_rotation(
+        receipt,
+        host=FakeHost(),
+        control_plane_candidate_image_id=_IMAGE,
+        application_build_results_fingerprint="sha256:" + "4" * 64,
+    )
+    plan_path = (tmp_path / "plan.json").resolve()
+    retain_rotation_plan(plan_path, prepared.plan)
+    assert (prepared.source_root / "vault-primary-root-access").read_bytes() != (
+        prepared.candidate_root / "vault-primary-root-access"
+    ).read_bytes()
+
+    class RootPathRunner(FakeCommandRunner):
+        def read(self, arguments: tuple[str, ...], *, max_bytes: int) -> bytes | None:
+            self.calls.append(arguments)
+            root_index = arguments.index("--root-credential-directory")
+            assert arguments[root_index + 1] == str(prepared.candidate_root)
+            assert arguments[root_index + 1] != str(prepared.source_root)
+            assert max_bytes >= 1
+            return None
+
+    runner = RootPathRunner()
+    adapter = DualNetworkRotationAdapter(
+        runner,
+        prepared,
+        plan_path=plan_path,
+        authorized_plan_fingerprint=prepared.plan.plan_fingerprint,
+    )
+    with pytest.raises(Exception, match="ROTATION_NETWORK_PROVIDER_FAILED"):
+        adapter.replace(prepared.credentials.candidate)
+    assert len(runner.calls) == 1
 
 
 def test_plaintext_cleanup_replays_after_each_irreversible_crash(
@@ -1134,6 +1177,68 @@ def test_cli_retains_value_free_plan_and_explicit_not_ready_readback(
     )
     plan = (tmp_path / "plan.json").resolve()
     preflight = (tmp_path / "preflight.json").resolve()
+    staged = json.loads(receipt.read_bytes())
+    root_plan = (tmp_path / "root-plan.json").resolve()
+    root_plan_body = {
+        "application_build_results_fingerprint": "sha256:" + "4" * 64,
+        "candidate_binding_ref": staged["candidate_binding_ref"],
+        "candidate_runtime_configuration_ref": "runtimecfg_" + "8" * 64,
+        "control_plane_candidate_image_id": _IMAGE,
+        "credential_names": ["vault-primary-root-access", "vault-primary-root-secret"],
+        "predecessor_binding_ref": staged["predecessor_binding_ref"],
+        "predecessor_runtime_configuration_ref": "runtimecfg_" + "7" * 64,
+        "predecessor_sealed_state_ref": "sealed_" + "6" * 64,
+        "rotation_id": _ROTATION,
+        "staging_receipt_fingerprint": staged["fingerprint"],
+        "stopped_units": [
+            "asklegal-acquisition-worker.service",
+            "asklegal-control-plane.service",
+            "asklegal-legal-processing-worker.service",
+            "asklegal-promotion-worker.service",
+            "asklegal-review-api.service",
+            "asklegal-vault-bootstrap.service",
+            "asklegal-vault-primary.service",
+        ],
+        "vault_data_state_ref": "vaultdata_" + "5" * 64,
+    }
+    root_plan_fingerprint = (
+        "sha256:" + sha256(canonicalize(checked_json_value(root_plan_body))).hexdigest()
+    )
+    root_plan.write_bytes(
+        canonicalize(
+            checked_json_value(
+                {
+                    **root_plan_body,
+                    "plan_fingerprint": root_plan_fingerprint,
+                    "schema_id": "asklegal.hk-v1-primary-vault-root-rotation-plan",
+                    "schema_version": "1.0.0",
+                }
+            )
+        )
+    )
+    root_plan.chmod(0o600)
+    root_report = (tmp_path / "root-report.json").resolve()
+    root_report.write_bytes(
+        root_rotation_report_bytes(
+            PrimaryVaultRootRotationReport(
+                plan_fingerprint=root_plan_fingerprint,
+                staging_receipt_fingerprint=staged["fingerprint"],
+                candidate_binding_ref=staged["candidate_binding_ref"],
+                rotation_id=_ROTATION,
+                state=RootRotationState.SUCCEEDED,
+                complete=True,
+                new_root_accepted=True,
+                old_root_rejected=True,
+                vault_data_preserved=True,
+                docker_configuration_value_free=True,
+                predecessor_restored=False,
+                candidate_sealed_absent=False,
+                staging_retained_for_application_rotation=True,
+                blocker_codes=(),
+            )
+        )
+    )
+    root_report.chmod(0o600)
 
     assert (
         main(
@@ -1141,6 +1246,10 @@ def test_cli_retains_value_free_plan_and_explicit_not_ready_readback(
                 "preflight",
                 "--staging-receipt",
                 str(receipt),
+                "--primary-root-rotation-plan",
+                str(root_plan),
+                "--primary-root-rotation-report",
+                str(root_report),
                 "--sealed-root",
                 str((tmp_path / "unused-sealed").resolve()),
                 "--plan-output",

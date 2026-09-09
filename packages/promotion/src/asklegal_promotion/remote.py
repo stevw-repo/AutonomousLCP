@@ -496,6 +496,7 @@ class PineconeServingTargetStore:
         provider_call_sink: Callable[[PineconeProviderCallReceipt], None] | None = None,
         namespace: str = "",
         page_size: int = _LIST_PAGE_LIMIT,
+        expected_data_plane_host: str | None = None,
     ) -> None:
         """Bind one project and transport to an optional effect-time gate."""
         self._config = config
@@ -503,6 +504,13 @@ class PineconeServingTargetStore:
         self._operation_gate = operation_gate
         self._provider_call_sink = provider_call_sink
         self._namespace = namespace
+        if expected_data_plane_host is not None and (
+            type(expected_data_plane_host) is not str
+            or not expected_data_plane_host.startswith("https://")
+            or expected_data_plane_host.endswith("/")
+        ):
+            raise PromotionError(PromotionErrorCode.PROFILE_INVALID, "data-plane host")
+        self._expected_data_plane_host = expected_data_plane_host
         if type(page_size) is not int or not 1 <= page_size <= _LIST_PAGE_LIMIT:
             raise PromotionError(PromotionErrorCode.PROFILE_INVALID, "readback page size")
         self._page_size = page_size
@@ -609,8 +617,18 @@ class PineconeServingTargetStore:
             message = f"index {name} reports no data-plane host"
             raise PromotionError(PromotionErrorCode.INDEX_NAME_INVALID, message)
         resolved = f"https://{host}"
+        if (
+            self._expected_data_plane_host is not None
+            and resolved != self._expected_data_plane_host
+        ):
+            message = f"index {name} reports a different data-plane host"
+            raise PromotionError(PromotionErrorCode.INDEX_NAME_INVALID, message)
         self._hosts[name] = resolved
         return resolved
+
+    def data_plane_host(self, name: str) -> str:
+        """Resolve and return the exact host bound to this index."""
+        return self._data_plane(name)
 
     def create(self, definition: TargetDefinition) -> None:
         """Create the target, or replay exactly if it already matches."""
@@ -937,7 +955,7 @@ class PineconeServingTargetStore:
             if returned != record:
                 raise PromotionError(PromotionErrorCode.RETRIEVAL_GATE_FAILED, "query readback")
 
-    def describe_stats(self, name: str) -> dict[str, object]:
+    def describe_stats(self, name: str) -> dict[str, JsonValue]:
         """Return the target's own statistics, for reconciliation and reporting."""
         self._require_target(name)
         response = self._send(
@@ -947,6 +965,22 @@ class PineconeServingTargetStore:
             {},
         )
         body = _object(response.payload, "index stats must be a JSON object")
-        result: dict[str, object] = {}
+        result: dict[str, JsonValue] = {}
         result.update(body)
         return result
+
+    def namespace_vector_count(self, name: str) -> int:
+        """Return the exact count for this adapter's namespace, never the global count."""
+        statistics = self.describe_stats(name)
+        namespaces = statistics.get("namespaces")
+        if not isinstance(namespaces, dict):
+            raise PromotionError(PromotionErrorCode.INVENTORY_MISMATCH, "namespace statistics")
+        raw = namespaces.get(self._namespace)
+        if raw is None:
+            return 0
+        if not isinstance(raw, dict):
+            raise PromotionError(PromotionErrorCode.INVENTORY_MISMATCH, "namespace statistics")
+        count = raw.get("vectorCount")
+        if type(count) is not int or count < 0:
+            raise PromotionError(PromotionErrorCode.INVENTORY_MISMATCH, "namespace vector count")
+        return count

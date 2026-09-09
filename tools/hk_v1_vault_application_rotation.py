@@ -70,6 +70,8 @@ _RECOVERY_NAMES = (
     "vault-recovery-promotion",
 )
 _ROTATED_NAMES = tuple(sorted((*_PRIMARY_NAMES, *_RECOVERY_NAMES)))
+_PRIMARY_ROOT_NAMES = ("vault-primary-root-access", "vault-primary-root-secret")
+_STAGED_ROTATED_NAMES = tuple(sorted((*_ROTATED_NAMES, *_PRIMARY_ROOT_NAMES)))
 _DEPENDENT_UNITS = (
     "asklegal-acquisition-worker.service",
     "asklegal-control-plane.service",
@@ -954,7 +956,7 @@ class DualNetworkRotationAdapter:
                 "--candidate-directory",
                 str(self._prepared.candidate_root),
                 "--root-credential-directory",
-                str(self._prepared.source_root),
+                str(self._prepared.candidate_root),
             ),
             max_bytes=_MAX_DOCUMENT_BYTES,
         )
@@ -2206,6 +2208,16 @@ def _snapshot_binding(values: dict[str, bytes]) -> str:
     return "binding_" + sha256(canonicalize(checked_json_value(inventory))).hexdigest()[:48]
 
 
+def credential_snapshot(root: Path) -> dict[str, bytes]:
+    """Expose the exact stable staging reader to the paired root transaction."""
+    return _credential_snapshot(root)
+
+
+def snapshot_binding(values: dict[str, bytes]) -> str:
+    """Expose the complete staging binding shared by both rotation transactions."""
+    return _snapshot_binding(values)
+
+
 def _access_sets(
     groups: tuple[tuple[VaultName, tuple[S3AccessCredential, ...]], ...],
 ) -> tuple[tuple[VaultName, tuple[str, ...]], ...]:
@@ -2304,6 +2316,17 @@ def _candidate_image_provenance(
     return results["control-plane"], "sha256:" + sha256(build_raw).hexdigest()
 
 
+def candidate_image_provenance(
+    *, build_results_path: Path, image_inputs_path: Path, workspace_root: Path
+) -> tuple[str, str]:
+    """Expose exact source-bound image provenance to the paired root transaction."""
+    return _candidate_image_provenance(
+        build_results_path=build_results_path,
+        image_inputs_path=image_inputs_path,
+        workspace_root=workspace_root,
+    )
+
+
 def _staging_receipt_binding(receipt_path: Path) -> _StagingReceiptBinding:
     """Parse the immutable value-free receipt even after its roots are retired."""
     if receipt_path.is_symlink() or not receipt_path.is_file():
@@ -2336,10 +2359,10 @@ def _staging_receipt_binding(receipt_path: Path) -> _StagingReceiptBinding:
         set(document) != expected_keys
         or document.get("schema_id") != _STAGING_SCHEMA
         or document.get("schema_version") != _VERSION
-        or document.get("credential_names") != list(_ROTATED_NAMES)
-        or document.get("rotated_credential_count") != len(_ROTATED_NAMES)
+        or document.get("credential_names") != list(_STAGED_ROTATED_NAMES)
+        or document.get("rotated_credential_count") != len(_STAGED_ROTATED_NAMES)
         or document.get("unchanged_credential_count")
-        != len(deployment_credential_names()) - len(_ROTATED_NAMES)
+        != len(deployment_credential_names()) - len(_STAGED_ROTATED_NAMES)
         or type(fingerprint) is not str
         or _FINGERPRINT.fullmatch(fingerprint) is None
         or fingerprint != _fingerprint(body)
@@ -2380,6 +2403,11 @@ def _staging_receipt_binding(receipt_path: Path) -> _StagingReceiptBinding:
         source_root=source_root,
         candidate_root=candidate_root,
     )
+
+
+def staging_receipt_binding(receipt_path: Path) -> _StagingReceiptBinding:
+    """Expose the canonical receipt binding to the paired root transaction."""
+    return _staging_receipt_binding(receipt_path)
 
 
 def prepare_vault_application_rotation(
@@ -3183,6 +3211,8 @@ def _parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("action", choices=("preflight", "execute"))
     parser.add_argument("--staging-receipt", required=True, type=Path)
+    parser.add_argument("--primary-root-rotation-plan", required=True, type=Path)
+    parser.add_argument("--primary-root-rotation-report", required=True, type=Path)
     parser.add_argument("--sealed-root", required=True, type=Path)
     parser.add_argument("--plan-output", required=True, type=Path)
     parser.add_argument("--preflight-output", type=Path)
@@ -3206,6 +3236,21 @@ def main(argv: Sequence[str] | None = None) -> int:
             workspace_root=arguments.workspace_root.absolute(),
         )
         receipt_path = arguments.staging_receipt.absolute()
+        root_report_path = arguments.primary_root_rotation_report.absolute()
+        root_plan_path = arguments.primary_root_rotation_plan.absolute()
+        # Local import avoids a module cycle: the Primary-root implementation
+        # deliberately reuses this module's canonical staging/image readers.
+        from tools.hk_v1_vault_primary_root_rotation import (  # noqa: PLC0415
+            validate_root_report_for_application_rotation,
+        )
+
+        validate_root_report_for_application_rotation(
+            root_report_path,
+            root_plan_path,
+            receipt_path,
+            control_plane_candidate_image_id=image_id,
+            application_build_results_fingerprint=build_results_fingerprint,
+        )
         plan_path = arguments.plan_output.absolute()
         staging_binding = _staging_receipt_binding(receipt_path)
         if arguments.action == "execute" and (

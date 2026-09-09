@@ -54,6 +54,7 @@ _UV = Path.home() / ".local/bin/uv"
 _LOCKED_UV_VERSION = "0.12.5"
 _SOURCE_ROOT_FILES = (
     ".python-version",
+    "infrastructure/poc/config/hk-v1-promotion/serving-profile.json",
     "infrastructure/poc/images/Dockerfile",
     "infrastructure/poc/libexec/asklegal-vault-application-rotation-network",
     "pyproject.toml",
