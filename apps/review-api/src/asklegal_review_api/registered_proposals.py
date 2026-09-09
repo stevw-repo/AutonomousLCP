@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable, Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from enum import StrEnum
 from hashlib import sha256
 from pathlib import Path
@@ -584,6 +584,7 @@ class RegisteredLocalReviewProjectionStore:
         self._review_package: bytes | None = None
         self._artifact_reader = artifact_reader
         self._snapshot_reader = snapshot_reader
+        self._decision_source: Callable[[str], ProposalDetailProjection | None] | None = None
         self._evidence_audit_path: Path | None = None
         self._proposal_fingerprint: str | None = None
         self._detail: ProposalDetailProjection | None = None
@@ -609,6 +610,15 @@ class RegisteredLocalReviewProjectionStore:
             raise ProposalProjectionError(ProposalProjectionErrorCode.SNAPSHOT)
         self._evidence_audit_path = path
         self._evidence_reads, self._evidence_audit_fingerprint = self._load_evidence_audit()
+
+    def bind_decision_source(
+        self,
+        source: Callable[[str], ProposalDetailProjection | None],
+    ) -> None:
+        """Overlay one authoritative retained decision source after ledger recovery."""
+        if self._decision_source is not None:
+            raise ProposalProjectionError(ProposalProjectionErrorCode.SNAPSHOT)
+        self._decision_source = source
 
     @property
     def evidence_reads(self) -> list[tuple[str, str]]:
@@ -645,7 +655,14 @@ class RegisteredLocalReviewProjectionStore:
         )
         if detail != self._detail:
             raise ProposalProjectionError(ProposalProjectionErrorCode.SNAPSHOT)
-        return (detail,)
+        if self._decision_source is None:
+            return (detail,)
+        decided = self._decision_source(detail.proposal.proposal_id)
+        if decided is None:
+            return (detail,)
+        if replace(decided, proposal=detail.proposal, decision=None) != detail:
+            raise ProposalProjectionError(ProposalProjectionErrorCode.SNAPSHOT)
+        return (decided,)
 
     def _refresh(self) -> None:
         """Adopt one newly retained, fully verified package without process restart."""

@@ -1116,7 +1116,10 @@ def _approve_through_api(
     if (
         browser.status_code != 200
         or javascript.status_code != 200
-        or "crypto.subtle" not in javascript.text
+        or "crypto.getRandomValues" not in javascript.text
+        or 'submitDecision("APPROVE")' not in javascript.text
+        or 'submitDecision("REJECT")' not in javascript.text
+        or '"If-Match"' not in javascript.text
         or "localStorage" in javascript.text
         or "sessionStorage" in javascript.text
     ):

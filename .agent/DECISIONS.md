@@ -7663,3 +7663,25 @@ The checked-in V1_POC serving profile and tokenizer are staged as static,
 source/build-bound prototype configuration. They are not described as dynamic
 provider-manifest evidence, and none of these startup changes relaxes the
 Approval or real-effect authorization boundary.
+
+## 2026-09-10 — Deliver an offline interview POC before live deployment
+
+The user clarified that the immediate deliverable is an interview demonstration,
+not a deployment-grade local production stack. The prior Task 10 sequence that
+made live Primary-root/application credential rotation, systemd deployment,
+publisher discovery, real provider calls, and Gate A–G admission prerequisites
+for the next deliverable is superseded for this immediate POC.
+
+The interview POC will use the already implemented local/synthetic pipeline and
+must be explicitly labelled **offline synthetic demonstration**. It should show
+the autonomous changed-source-to-proposal flow, evidence-bound processing, the
+actual local Review browser with a retained human APPROVE/REJECT decision, and
+the fake-target promotion/rollback/recovery proof. It may not claim live Hong
+Kong source acquisition, Azure/model quality, Pinecone mutation, deployment,
+production readiness, or publisher permission.
+
+No real Vault credential rotation, host mutation, cloud/provider request, or
+third-party source access is required for this POC. The rules against false
+success, malformed model output, unauthorized external writes, and unreviewed
+publisher terms remain unchanged. The unstarted root-rotation attempt had no
+state or report and therefore requires no rollback.

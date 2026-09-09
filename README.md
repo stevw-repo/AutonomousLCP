@@ -328,6 +328,21 @@ If proof output already exists, `prove` fails with
 `SYNTHETIC_STATE_RESET_REQUIRED`; rerun the exact marked-state `reset` command
 before proving again. It never deletes prior proof state implicitly.
 
+For an interviewer-facing demonstration, run:
+
+```bash
+./tools/run_interview_demo.sh
+```
+
+The command proves the golden synthetic pipeline, prints its nine-stage
+timeline, and serves the local Review workspace at
+`http://127.0.0.1:8002/review`. It prints the local demo token required by the
+browser. The screen and retained summary explicitly identify this as an
+offline synthetic POC: the browser decision is retained locally, while no live
+Hong Kong publisher, model provider, Pinecone project, deployment, or real
+credential is used. Use `--prepare-only` to validate and seed the demo without
+starting the server.
+
 M2 is complete locally. The framework-free domain now includes all five M2
 lifecycle machines, immutable command/effect contracts, explicit quarantine
 re-entry, and the typed Management Register boundary with a deterministic fake.

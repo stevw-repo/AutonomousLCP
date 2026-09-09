@@ -4616,7 +4616,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/api.py",
-            533,
+            539,
             BoundaryCode.CAST,
         ),
         (
@@ -4627,7 +4627,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/api.py",
-            537,
+            543,
             BoundaryCode.CAST,
         ),
         (
@@ -4638,7 +4638,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/api.py",
-            1118,
+            1151,
             BoundaryCode.IGNORED_ERROR,
         ),
         (
@@ -4649,7 +4649,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/api.py",
-            1208,
+            1269,
             BoundaryCode.IGNORED_ERROR,
         ),
         (
@@ -4676,7 +4676,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/registered_proposals.py",
-            853,
+            870,
             BoundaryCode.CAST,
         ),
         (
@@ -4687,7 +4687,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/registered_proposals.py",
-            902,
+            919,
             BoundaryCode.CAST,
         ),
         (
@@ -4698,7 +4698,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/registered_proposals.py",
-            907,
+            924,
             BoundaryCode.CAST,
         ),
         (
@@ -4709,7 +4709,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/registered_proposals.py",
-            917,
+            934,
             BoundaryCode.CAST,
         ),
         (
@@ -4720,7 +4720,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/registered_proposals.py",
-            928,
+            945,
             BoundaryCode.IGNORED_ERROR,
         ),
         (
@@ -4731,7 +4731,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/registered_proposals.py",
-            1155,
+            1172,
             BoundaryCode.IGNORED_ERROR,
         ),
         (
@@ -4742,7 +4742,7 @@ APPROVED_EXCEPTIONS: tuple[ApprovedException, ...] = (
     ApprovedException(
         ExceptionKey(
             "apps/review-api/src/asklegal_review_api/registered_proposals.py",
-            1354,
+            1371,
             BoundaryCode.IGNORED_ERROR,
         ),
         (

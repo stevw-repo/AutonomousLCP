@@ -15,6 +15,7 @@ from hashlib import sha256
 from importlib.resources import files
 from pathlib import Path
 from typing import Annotated, Literal, Never, Protocol, cast
+from urllib.parse import urlsplit
 
 from asklegal_application_runtime import (
     ApplicationConfiguration,
@@ -88,6 +89,7 @@ _MAX_LOCAL_PIPELINE_ARTIFACT_BYTES = 1_000_000
 _LOCAL_APPROVAL_LEDGER_INVALID = "LOCAL_APPROVAL_LEDGER_INVALID"
 _LOCAL_APPROVAL_LEDGER_CONFLICT = "LOCAL_APPROVAL_LEDGER_CONFLICT"
 _LOCAL_REVIEW_CREDENTIAL_INVALID = "LOCAL_REVIEW_CREDENTIAL_INVALID"
+_LOCAL_REVIEW_ORIGIN_INVALID = "LOCAL_REVIEW_ORIGIN_INVALID"
 _ARCHIVE_TEMP_MARKER = ".asklegal-review-approval-archive.tmp"
 _ARCHIVE_TEMP_SCHEMA = "asklegal.local-review-approval-archive-temp/v1"
 _ARCHIVE_TEMP_NAME = re.compile(r"^\.(apr_[0-9a-f]{48})\.[a-z0-9_-]{6,64}$")
@@ -318,6 +320,7 @@ class ReviewDependencies:
     projections: ReviewProjectionStore
     pagination: LocalPaginationStore
     governance: ReviewGovernance | None = None
+    allowed_origin: str = _REVIEW_ORIGIN
 
 
 class SealedReviewIdentityVerifier:
@@ -385,6 +388,7 @@ def local_dependencies(
     authority_path: Path | None = None,
     *,
     review_api_credential: CredentialMaterial,
+    allowed_origin: str = _REVIEW_ORIGIN,
 ) -> ReviewDependencies:
     """Create deterministic local Review dependencies from retained pipeline files."""
     configuration = build_local_configuration(
@@ -475,6 +479,7 @@ def local_dependencies(
             configured_artifact_base
         ),
     )
+    registered_projections.bind_decision_source(register.decision_for_proposal)
     configured_decision_time = os.environ.get("ASKLEGAL_LOCAL_REVIEW_DECISION_TIME")
     configured_command_expiry = os.environ.get("ASKLEGAL_LOCAL_REVIEW_COMMAND_EXPIRES_AT")
     if (configured_decision_time is None) != (configured_command_expiry is None):
@@ -513,6 +518,7 @@ def local_dependencies(
         projections=registered_projections,
         pagination=LocalPaginationStore(secret=b"local-pagination-key-not-a-production-secret"),
         governance=governance,
+        allowed_origin=allowed_origin,
     )
 
 
@@ -651,6 +657,7 @@ class LocalRetainedApprovalRegister(LocalCommandRegister):
         self._approved_package_source_root = approved_package_source_root
         self._registered: dict[str, tuple[bytes, V1CommandResult]] = {}
         self._winners: set[str] = set()
+        self._decided: dict[str, ProposalDetailProjection] = {}
         self._approved: dict[str, ProposalDetailProjection] = {}
         self._approved_packages: dict[str, tuple[bytes, bytes]] = {}
         self._approval_states: dict[str, ApprovalProjection] = {}
@@ -870,7 +877,9 @@ class LocalRetainedApprovalRegister(LocalCommandRegister):
         retained_package: tuple[bytes, bytes] | None = None,
     ) -> tuple[bytes, bytes] | None:
         document = parse_json_bytes(event_bytes, max_bytes=1_000_000)
-        if isinstance(document, dict) and document.get("decision") == "APPROVED":
+        if isinstance(document, dict) and document.get("decision") in {"APPROVED", "REJECTED"}:
+            decision_value = str(document.get("decision"))
+            is_approved = decision_value == "APPROVED"
             approval_id = document.get("approval_id")
             current_package = (
                 self._projections.retained_package()
@@ -878,7 +887,7 @@ class LocalRetainedApprovalRegister(LocalCommandRegister):
                 else None
             )
             projection_source = self._projections
-            if retained_package is not None and retained_package != current_package:
+            if is_approved and retained_package is not None and retained_package != current_package:
                 projection_source = self._archived_projection(str(approval_id))
                 current_package = projection_source.retained_package()
             base = projection_source.detail(target_id)
@@ -891,8 +900,6 @@ class LocalRetainedApprovalRegister(LocalCommandRegister):
             if (
                 isinstance(approval_id, str)
                 and base is not None
-                and readiness is not None
-                and current_package is not None
                 and isinstance(reviewer, dict)
                 and isinstance(authority, dict)
                 and isinstance(promotion, dict)
@@ -902,13 +909,25 @@ class LocalRetainedApprovalRegister(LocalCommandRegister):
                 and expected_base.get("ref_id") == base.base_serving_state_id
                 and expected_base.get("fingerprint") == base.base_serving_state_fingerprint
                 and document.get("valid_from") == base.valid_from
-                and document.get("review_readiness_fingerprint") == readiness.fingerprint
                 and validity == base.validity_predicates
-                and (retained_package is None or retained_package == current_package)
+                and (
+                    (
+                        is_approved
+                        and readiness is not None
+                        and current_package is not None
+                        and document.get("review_readiness_fingerprint") == readiness.fingerprint
+                        and (retained_package is None or retained_package == current_package)
+                    )
+                    or (
+                        not is_approved
+                        and document.get("review_readiness_fingerprint") is None
+                        and retained_package is None
+                    )
+                )
             ):
                 decision = ProposalDecisionProjection(
                     approval_id,
-                    "APPROVED",
+                    decision_value,
                     str(document.get("decision_time")),
                     str(reviewer.get("ref_id")),
                     str(reviewer.get("fingerprint")),
@@ -917,11 +936,17 @@ class LocalRetainedApprovalRegister(LocalCommandRegister):
                     str(document.get("reason")),
                     f"sha256:{sha256(event_bytes).hexdigest()}",
                 )
-                self._approved[approval_id] = replace(
+                decided = replace(
                     base,
-                    proposal=replace(base.proposal, status="APPROVED", review_version=1),
+                    proposal=replace(base.proposal, status=decision_value, review_version=1),
                     decision=decision,
                 )
+                self._decided[target_id] = decided
+                if not is_approved:
+                    return None
+                if current_package is None:  # Narrowed by the accepted approval condition.
+                    raise RuntimeError(_LOCAL_APPROVAL_LEDGER_INVALID)
+                self._approved[approval_id] = decided
                 self._approval_states[approval_id] = ApprovalProjection(
                     ApprovalDecision(
                         approval_id,
@@ -947,6 +972,10 @@ class LocalRetainedApprovalRegister(LocalCommandRegister):
         if approval_id in self._revoked:
             return None
         return self._approved.get(approval_id)
+
+    def decision_for_proposal(self, proposal_id: str) -> ProposalDetailProjection | None:
+        """Return one authoritative retained decision overlay by proposal identity."""
+        return self._decided.get(proposal_id)
 
     def get(self, approval_id: str) -> ApprovalProjection:
         """Read the same retained Approval projection consumed by promotion."""
@@ -1076,6 +1105,7 @@ class LocalRetainedApprovalRegister(LocalCommandRegister):
         dict[str, tuple[bytes, V1CommandResult]],
         set[str],
         dict[str, ProposalDetailProjection],
+        dict[str, ProposalDetailProjection],
         dict[str, tuple[bytes, bytes]],
         dict[str, ApprovalProjection],
         set[str],
@@ -1085,6 +1115,7 @@ class LocalRetainedApprovalRegister(LocalCommandRegister):
         return (
             dict(self._registered),
             set(self._winners),
+            dict(self._decided),
             dict(self._approved),
             dict(self._approved_packages),
             dict(self._approval_states),
@@ -1098,6 +1129,7 @@ class LocalRetainedApprovalRegister(LocalCommandRegister):
             dict[str, tuple[bytes, V1CommandResult]],
             set[str],
             dict[str, ProposalDetailProjection],
+            dict[str, ProposalDetailProjection],
             dict[str, tuple[bytes, bytes]],
             dict[str, ApprovalProjection],
             set[str],
@@ -1108,6 +1140,7 @@ class LocalRetainedApprovalRegister(LocalCommandRegister):
         (
             self._registered,
             self._winners,
+            self._decided,
             self._approved,
             self._approved_packages,
             self._approval_states,
@@ -1205,11 +1238,40 @@ class LocalRetainedApprovalRegister(LocalCommandRegister):
         self._loaded_state_fingerprint = f"sha256:{sha256(content).hexdigest()}"
 
 
+def _validate_allowed_origin(value: str) -> str:
+    """Accept one exact HTTPS origin or a loopback-only HTTP demo origin."""
+    if type(value) is not str or not value or value != value.strip():
+        raise ValueError(_LOCAL_REVIEW_ORIGIN_INVALID)
+    try:
+        parsed = urlsplit(value)
+        _ = parsed.port
+    except ValueError as error:
+        raise ValueError(_LOCAL_REVIEW_ORIGIN_INVALID) from error
+    if (
+        parsed.hostname is None
+        or parsed.username is not None
+        or parsed.password is not None
+        or parsed.path
+        or parsed.query
+        or parsed.fragment
+        or parsed.geturl() != value
+        or (
+            parsed.scheme != "https"
+            and not (
+                parsed.scheme == "http" and parsed.hostname in {"127.0.0.1", "localhost", "::1"}
+            )
+        )
+    ):
+        raise ValueError(_LOCAL_REVIEW_ORIGIN_INVALID)
+    return value
+
+
 def create_app(  # noqa: PLR0915 - routes are one explicit closed API surface.
     dependencies: ReviewDependencies,
 ) -> FastAPI:
     """Create the independent Review API and replaceable local browser shell."""
     deps = dependencies
+    allowed_origin = _validate_allowed_origin(deps.allowed_origin)
     app = FastAPI(
         title="AskLegal Review API",
         version="1.0.0",
@@ -1220,7 +1282,7 @@ def create_app(  # noqa: PLR0915 - routes are one explicit closed API surface.
     app.state.dependencies = deps
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=[_REVIEW_ORIGIN],
+        allow_origins=[allowed_origin],
         allow_credentials=False,
         allow_methods=["GET", "POST"],
         allow_headers=[
@@ -1274,13 +1336,20 @@ def create_app(  # noqa: PLR0915 - routes are one explicit closed API surface.
     )
     async def _list_proposals(
         principal: Annotated[Principal, Depends(reviewer)],
-        status: Annotated[Literal["REVIEW_READY"], Query()] = "REVIEW_READY",
+        status: Annotated[
+            Literal["REVIEW_READY", "APPROVED", "REJECTED"] | None,
+            Query(),
+        ] = None,
         limit: Annotated[int, Query(ge=1, le=100)] = 2,
         continuation: Annotated[str | None, Query(max_length=80)] = None,
     ) -> JSONResponse:
         snapshot, generation = deps.projections.load()
-        proposals = tuple(item for item in generation if item.status == status)
-        filters = (("status", status),)
+        proposals = (
+            generation
+            if status is None
+            else tuple(item for item in generation if item.status == status)
+        )
+        filters = (("status", "ALL" if status is None else status),)
         offset = 0
         cursor = None
         if continuation is not None:
@@ -1558,7 +1627,7 @@ def _authenticate(request: Request, dependencies: ReviewDependencies) -> Princip
     if {name.lower() for name in request.headers} & _FORGED_HEADERS:
         raise AuthorizationError(AuthorizationErrorCode.FORGED_PROXY_HEADER)
     origin = request.headers.get("Origin")
-    if origin is not None and origin != _REVIEW_ORIGIN:
+    if origin is not None and origin != dependencies.allowed_origin:
         raise AuthorizationError(AuthorizationErrorCode.ORIGIN)
     principal = dependencies.identity.verify(request.headers.get("Authorization"))
     authorize(

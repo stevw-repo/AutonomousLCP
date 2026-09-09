@@ -173,7 +173,7 @@ def test_review_startup_openapi_and_exact_surface() -> None:
     schema = app.openapi()
     assert (
         fingerprint(schema)
-        == "sha256:e75c34d9bd424553bdff1e74f5c78b0635eb2b2eee7406674d6f21eda7d483bd"
+        == "sha256:608931b89c4eb48f9a736524bdb3573136f8875f1635e14ba996c8ff43a1b522"
     )
     paths = schema["paths"]
     assert "/api/v1/proposal-packages" in paths
@@ -255,7 +255,7 @@ def test_review_pagination_is_stable_and_caller_bound() -> None:
     token = deps.pagination.issue(
         deps.pagination.next_cursor(
             snapshot=snapshot,
-            filters=(("status", "REVIEW_READY"),),
+            filters=(("status", "ALL"),),
             sort="proposal_id",
             subject="person-local-1",
             offset=0,
@@ -781,14 +781,34 @@ def test_review_origin_proxy_evidence_readiness_and_browser_client() -> None:
         javascript = client.get("/review/app.js").text
         html = client.get("/review").text
         assert "review-token" in html
+        assert all(
+            expected in html
+            for expected in (
+                "LOCAL SYNTHETIC OFFLINE POC",
+                "No live Hong Kong source",
+                'id="pipeline-stages"',
+                'id="proposal-summary"',
+                'id="raw-proposal"',
+                "Human review",
+            )
+        )
         assert "crypto.getRandomValues" in javascript
+        assert all(
+            expected in javascript
+            for expected in (
+                "renderProposalDetail",
+                "updatePipelineStages",
+                "target_members",
+                "scope_dispositions",
+            )
+        )
         assert "/decisions" in javascript
         assert 'submitDecision("APPROVE")' in javascript
         assert 'submitDecision("REJECT")' in javascript
         assert '"Idempotency-Key"' in javascript
         assert '"If-Match"' in javascript
         assert "pendingDecision.command" in javascript
-        assert "JSON.stringify(result.body, null, 2)" in javascript
+        assert "JSON.stringify(detail, null, 2)" in javascript
         assert 'tokenInput.value = ""' in javascript
         assert "localStorage" not in javascript
         assert "sessionStorage" not in javascript

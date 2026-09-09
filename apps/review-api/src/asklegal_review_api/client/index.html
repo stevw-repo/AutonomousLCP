@@ -3,34 +3,358 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>AskLegal Review</title>
+  <title>AskLegal · Local review</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172321;
+      --muted: #61706c;
+      --paper: #f6f7f2;
+      --surface: #ffffff;
+      --line: #dce3df;
+      --teal: #0d6b5d;
+      --teal-dark: #084b42;
+      --mint: #dff2eb;
+      --amber: #e8a126;
+      --amber-soft: #fff2d8;
+      --red: #a43f3f;
+      --shadow: 0 18px 45px rgb(24 53 46 / 8%);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 100% 0%, #d8eee5 0, transparent 34rem),
+        linear-gradient(180deg, #fbfcf8 0, var(--paper) 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    button, input, textarea { font: inherit; }
+
+    button {
+      border: 0;
+      border-radius: .65rem;
+      padding: .68rem 1rem;
+      color: #fff;
+      background: var(--teal);
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgb(13 107 93 / 20%);
+      background: var(--teal-dark);
+    }
+
+    button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible {
+      outline: 3px solid rgb(232 161 38 / 45%);
+      outline-offset: 2px;
+    }
+
+    button:disabled { cursor: not-allowed; opacity: .45; }
+
+    main {
+      width: min(1180px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2.5rem 0 4rem;
+    }
+
+    .hero {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .eyebrow {
+      margin: 0 0 .4rem;
+      color: var(--teal);
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: .35rem; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1; letter-spacing: -.045em; }
+    h2 { margin-bottom: .3rem; font-size: 1.2rem; }
+    h3 { margin-bottom: .6rem; font-size: 1rem; }
+    .hero-copy { max-width: 44rem; margin-bottom: 0; color: var(--muted); font-size: 1.05rem; }
+
+    .demo-banner {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: .25rem 1rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid #eac46f;
+      border-radius: .9rem;
+      background: var(--amber-soft);
+      box-shadow: var(--shadow);
+    }
+
+    .demo-banner strong {
+      grid-row: 1 / span 2;
+      padding: .35rem .55rem;
+      border-radius: .45rem;
+      color: #fff;
+      background: #8b5c08;
+      font-size: .72rem;
+      letter-spacing: .09em;
+    }
+
+    .demo-banner span { font-weight: 700; }
+    .demo-banner small { color: #735b2d; }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      background: rgb(255 255 255 / 92%);
+      box-shadow: var(--shadow);
+    }
+
+    .pipeline-card { margin-bottom: 1.25rem; padding: 1.25rem; }
+    .section-intro { margin-bottom: 1rem; color: var(--muted); }
+
+    #pipeline-stages {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: .7rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: stage;
+    }
+
+    .pipeline-stage {
+      min-height: 7rem;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: .8rem;
+      background: #fafbf8;
+      counter-increment: stage;
+    }
+
+    .pipeline-stage::before {
+      content: counter(stage, decimal-leading-zero);
+      display: block;
+      margin-bottom: .7rem;
+      color: var(--teal);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .pipeline-stage strong { display: block; font-size: .9rem; }
+    .stage-state { display: block; margin-top: .2rem; color: var(--muted); font-size: .78rem; }
+    .pipeline-stage[data-state="ready"] { border-color: #83b9a8; background: var(--mint); }
+    .pipeline-stage[data-state="attention"] { border-color: #e5bb62; background: var(--amber-soft); }
+    .pipeline-stage[data-state="stopped"] { border-color: #dca0a0; background: #fff0f0; }
+
+    .session-card {
+      display: flex;
+      align-items: end;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      padding: 1.15rem 1.25rem;
+    }
+
+    .session-copy { flex: 1; }
+    .session-copy p { margin-bottom: 0; color: var(--muted); font-size: .86rem; }
+    .credential-field { flex: 1; min-width: 15rem; }
+    label { display: block; margin-bottom: .35rem; color: #384944; font-size: .8rem; font-weight: 750; }
+    input, textarea {
+      width: 100%;
+      border: 1px solid #b9c7c1;
+      border-radius: .65rem;
+      padding: .72rem .8rem;
+      color: var(--ink);
+      background: #fff;
+    }
+    textarea { min-height: 7rem; resize: vertical; }
+    .button-row { display: flex; gap: .6rem; }
+    .secondary { color: var(--teal-dark); background: #e7efec; }
+    .secondary:hover:not(:disabled) { color: #fff; }
+    .danger { background: var(--red); }
+    #session { margin: .65rem 0 0; color: var(--muted); font-size: .86rem; }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(17rem, .75fr) minmax(0, 2fr);
+      gap: 1.25rem;
+      align-items: start;
+    }
+    .panel { padding: 1.25rem; }
+    .panel-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+    .panel-header h2 { margin-bottom: 0; }
+
+    #proposals { display: grid; gap: .65rem; margin: 0; padding: 0; list-style: none; }
+    .proposal-button {
+      width: 100%;
+      padding: .9rem;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: #fafbf8;
+      text-align: left;
+    }
+    .proposal-button:hover:not(:disabled) { color: var(--ink); background: var(--mint); }
+    .proposal-title { display: block; margin-bottom: .35rem; font-size: .9rem; }
+    .proposal-meta { display: block; color: var(--muted); font-size: .72rem; font-weight: 500; overflow-wrap: anywhere; }
+    .empty { margin: 1rem 0; color: var(--muted); text-align: center; }
+
+    .proposal-heading { display: flex; align-items: start; justify-content: space-between; gap: 1rem; margin-bottom: 1.1rem; }
+    .proposal-heading h3 { margin-bottom: .15rem; font-size: 1.35rem; }
+    .proposal-heading p { margin-bottom: 0; color: var(--muted); font-size: .82rem; }
+    .badge { flex: none; padding: .32rem .55rem; border-radius: 999px; color: var(--teal-dark); background: var(--mint); font-size: .7rem; font-weight: 850; letter-spacing: .04em; }
+    .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .65rem; margin-bottom: 1.2rem; }
+    .metric { padding: .8rem; border: 1px solid var(--line); border-radius: .75rem; background: #fafbf8; }
+    .metric span { display: block; color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; }
+    .metric strong { display: block; margin-top: .2rem; font-size: 1.05rem; overflow-wrap: anywhere; }
+
+    .summary-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 1rem; }
+    .summary-block { padding: 1rem; border: 1px solid var(--line); border-radius: .8rem; }
+    .scope-list, .limitations { margin: 0; padding: 0; list-style: none; }
+    .scope-list li { display: flex; justify-content: space-between; gap: .8rem; padding: .5rem 0; border-bottom: 1px solid #edf0ee; font-size: .84rem; }
+    .scope-list li:last-child { border-bottom: 0; }
+    .scope-result { color: var(--teal); font-weight: 800; }
+    .limitations li { position: relative; margin-bottom: .55rem; padding-left: 1rem; color: var(--muted); font-size: .8rem; }
+    .limitations li::before { content: "•"; position: absolute; left: 0; color: var(--amber); font-weight: 900; }
+
+    details { margin-top: 1rem; border-top: 1px solid var(--line); padding-top: .9rem; }
+    summary { color: var(--teal-dark); font-size: .82rem; font-weight: 800; cursor: pointer; }
+    pre { max-height: 26rem; overflow: auto; margin: .8rem 0 0; padding: 1rem; border-radius: .75rem; color: #d9efe7; background: #13241f; font: .75rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+    .decision-panel { margin-top: 1.25rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+    .decision-panel > p { color: var(--muted); font-size: .85rem; }
+    .decision-actions { display: flex; align-items: end; gap: 1rem; }
+    .decision-reason { flex: 1; }
+    #decision-result { min-height: 1.5rem; margin: .7rem 0 0; color: var(--teal-dark); font-size: .84rem; font-weight: 700; }
+
+    @media (max-width: 880px) {
+      #pipeline-stages { grid-template-columns: repeat(2, 1fr); }
+      .workspace, .summary-grid { grid-template-columns: 1fr; }
+      .metric-grid { grid-template-columns: repeat(2, 1fr); }
+      .session-card, .decision-actions { align-items: stretch; flex-direction: column; }
+      .credential-field { width: 100%; min-width: 0; }
+    }
+
+    @media (max-width: 520px) {
+      main { width: min(100% - 1rem, 1180px); padding-top: 1.25rem; }
+      .hero { align-items: start; flex-direction: column; gap: .5rem; }
+      #pipeline-stages, .metric-grid { grid-template-columns: 1fr; }
+      .demo-banner { grid-template-columns: 1fr; }
+      .demo-banner strong { grid-row: auto; justify-self: start; }
+      .button-row { flex-wrap: wrap; }
+    }
+  </style>
 </head>
 <body>
   <main>
-    <h1>AskLegal proposal review</h1>
-    <section aria-labelledby="session-heading">
-      <h2 id="session-heading">Local reviewer session</h2>
-      <p>The credential remains only in this page's memory and is cleared from the field.</p>
-      <label for="review-token">Review bearer credential</label>
-      <input id="review-token" type="password" autocomplete="current-password" spellcheck="false">
-      <button id="connect" type="button">Connect</button>
-      <button id="disconnect" type="button" disabled>Disconnect</button>
-      <p id="session" role="status">Not connected.</p>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">AskLegal autonomous data pipeline</p>
+        <h1>Human review checkpoint</h1>
+        <p class="hero-copy">Inspect one frozen legal-data proposal, then approve or reject the whole package.</p>
+      </div>
+    </header>
+
+    <aside class="demo-banner" aria-label="Demonstration limitation">
+      <strong>LOCAL SYNTHETIC OFFLINE POC</strong>
+      <span>This screen demonstrates the workflow with prepared synthetic evidence.</span>
+      <small>No live Hong Kong source, cloud model, vector database, or production system is contacted.</small>
+    </aside>
+
+    <section class="card pipeline-card" aria-labelledby="pipeline-heading">
+      <h2 id="pipeline-heading">Update journey</h2>
+      <p class="section-intro">The proposal stays frozen at the human checkpoint until you make a decision.</p>
+      <ol id="pipeline-stages">
+        <li class="pipeline-stage" data-stage="source" data-state="idle">
+          <strong>Synthetic update</strong>
+          <span class="stage-state">Waiting for demo input</span>
+        </li>
+        <li class="pipeline-stage" data-stage="evidence" data-state="idle">
+          <strong>Evidence package</strong>
+          <span class="stage-state">Waiting</span>
+        </li>
+        <li class="pipeline-stage" data-stage="processing" data-state="idle">
+          <strong>Legal processing</strong>
+          <span class="stage-state">Waiting</span>
+        </li>
+        <li class="pipeline-stage" data-stage="review" data-state="attention">
+          <strong>Human review</strong>
+          <span class="stage-state">Connect to inspect</span>
+        </li>
+        <li class="pipeline-stage" data-stage="promotion" data-state="idle">
+          <strong>Local promotion</strong>
+          <span class="stage-state">Not started</span>
+        </li>
+      </ol>
     </section>
-    <section aria-labelledby="proposals-heading">
-      <h2 id="proposals-heading">Review-ready proposals</h2>
-      <button id="refresh" type="button" disabled>Refresh</button>
-      <ol id="proposals"></ol>
+
+    <section class="card session-card" aria-labelledby="session-heading">
+      <div class="session-copy">
+        <h2 id="session-heading">Reviewer session</h2>
+        <p>The credential remains only in this page's memory and is cleared from the field.</p>
+        <p id="session" role="status">Not connected.</p>
+      </div>
+      <div class="credential-field">
+        <label for="review-token">Demo review credential</label>
+        <input id="review-token" type="password" autocomplete="current-password" spellcheck="false">
+      </div>
+      <div class="button-row">
+        <button id="connect" type="button">Connect</button>
+        <button id="disconnect" class="secondary" type="button" disabled>Disconnect</button>
+      </div>
     </section>
-    <section aria-labelledby="detail-heading">
-      <h2 id="detail-heading">Selected proposal package</h2>
-      <pre id="proposal-detail">Select a proposal to inspect its complete package.</pre>
-      <label for="decision-reason">Decision reason</label>
-      <textarea id="decision-reason" rows="5" maxlength="2000" disabled></textarea>
-      <button id="approve" type="button" disabled>Approve</button>
-      <button id="reject" type="button" disabled>Reject</button>
-      <p id="decision-result" role="status"></p>
-    </section>
+
+    <div class="workspace">
+      <section class="card panel" aria-labelledby="proposals-heading">
+        <div class="panel-header">
+          <h2 id="proposals-heading">Frozen proposals</h2>
+          <button id="refresh" class="secondary" type="button" disabled>Refresh</button>
+        </div>
+        <ol id="proposals">
+          <li class="empty">Connect to load the prepared proposal.</li>
+        </ol>
+      </section>
+
+      <section class="card panel" aria-labelledby="detail-heading">
+        <h2 id="detail-heading">Proposal review</h2>
+        <div id="proposal-summary" aria-live="polite">
+          <p class="empty">Select a proposal to inspect its complete package.</p>
+        </div>
+
+        <details id="raw-proposal">
+          <summary>Technical package JSON</summary>
+          <pre id="proposal-detail">No proposal selected.</pre>
+        </details>
+
+        <div class="decision-panel">
+          <h3>Your decision</h3>
+          <p>Approval is whole-package and final for this frozen proposal. Rejection stops local promotion.</p>
+          <div class="decision-actions">
+            <div class="decision-reason">
+              <label for="decision-reason">Decision reason</label>
+              <textarea id="decision-reason" rows="4" maxlength="2000" placeholder="Briefly explain your decision" disabled></textarea>
+            </div>
+            <div class="button-row">
+              <button id="approve" type="button" disabled>Approve proposal</button>
+              <button id="reject" class="danger" type="button" disabled>Reject proposal</button>
+            </div>
+          </div>
+          <p id="decision-result" role="status"></p>
+        </div>
+      </section>
+    </div>
   </main>
   <script type="module" src="/review/app.js"></script>
 </body>
