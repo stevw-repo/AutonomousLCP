@@ -15,6 +15,10 @@ const reasonInput = document.querySelector("#decision-reason");
 const approveButton = document.querySelector("#approve");
 const rejectButton = document.querySelector("#reject");
 const decisionResult = document.querySelector("#decision-result");
+const proofReport = document.querySelector("#proof-report");
+const reportDescription = document.querySelector("#report-description");
+const reportMetrics = document.querySelector("#report-metrics");
+const reportDetail = document.querySelector("#report-detail");
 
 const scopeLabels = {
   "HK-CASE-BINDING-POST-1997": "Binding-court case propositions",
@@ -104,6 +108,29 @@ function metric(label, value) {
   const item = node("div", "metric");
   item.append(node("span", "", label), node("strong", "", value));
   return item;
+}
+
+async function loadProofReport() {
+  try {
+    const response = await fetch("/demo/report.json", {credentials: "omit"});
+    if (!response.ok) return;
+    const report = await response.json();
+    reportDescription.textContent = report.proof.summary;
+    reportMetrics.replaceChildren(
+      metric("Result", readable(report.proof.result_code)),
+      metric("Verified facts", String(report.proof.fact_count)),
+      metric("Effects exercised", String(report.proof.effect_count)),
+      metric("Scenario", report.proof.scenario_id),
+    );
+    reportDetail.textContent = JSON.stringify({
+      fingerprint: report.proof.fingerprint,
+      authoritative_refs: report.proof.authoritative_refs,
+      limitations: report.limitations,
+    }, null, 2);
+    proofReport.dataset.ready = "true";
+  } catch (_error) {
+    // The production Review application has no synthetic demo report route.
+  }
 }
 
 function renderProposalDetail(detail) {
@@ -297,3 +324,4 @@ disconnectButton.addEventListener("click", disconnect);
 refreshButton.addEventListener("click", () => void loadProposals(selectedProposal?.id || null));
 approveButton.addEventListener("click", () => void submitDecision("APPROVE"));
 rejectButton.addEventListener("click", () => void submitDecision("REJECT"));
+void loadProofReport();

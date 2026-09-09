@@ -780,6 +780,7 @@ def test_review_origin_proxy_evidence_readiness_and_browser_client() -> None:
         assert preflight.headers["access-control-allow-origin"] == "https://review.local.test"
         javascript = client.get("/review/app.js").text
         html = client.get("/review").text
+        assert client.get("/demo/report.json").status_code == 404
         assert "review-token" in html
         assert all(
             expected in html
@@ -789,6 +790,7 @@ def test_review_origin_proxy_evidence_readiness_and_browser_client() -> None:
                 'id="pipeline-stages"',
                 'id="proposal-summary"',
                 'id="raw-proposal"',
+                'id="proof-report"',
                 "Human review",
             )
         )
@@ -800,6 +802,7 @@ def test_review_origin_proxy_evidence_readiness_and_browser_client() -> None:
                 "updatePipelineStages",
                 "target_members",
                 "scope_dispositions",
+                'fetch("/demo/report.json"',
             )
         )
         assert "/decisions" in javascript

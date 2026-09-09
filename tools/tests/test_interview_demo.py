@@ -89,6 +89,21 @@ async def _assert_retained_after_restart(app: FastAPI, proposal_id: str, expecte
     assert proposals.json()["items"][0]["status"] == expected
 
 
+async def _assert_report_visible(app: FastAPI) -> None:
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://127.0.0.1") as client:
+        response = await client.get("/demo/report.json")
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "application/json"
+    assert response.headers["cache-control"] == "no-store"
+    assert response.headers["x-content-type-options"] == "nosniff"
+    assert response.json()["schema_id"] == "asklegal.offline-interview-demo-report/v1"
+    assert response.json()["proof"]["result_code"] == "GOLDEN_FLOW_RECOVERED"
+    assert response.json()["proof"]["fact_count"] == 13
+    assert response.json()["proof"]["effect_count"] == 8
+    assert len(response.json()["stages"]) == 9
+
+
 @pytest.mark.parametrize(
     ("action", "expected"),
     [("APPROVE", "APPROVED"), ("REJECT", "REJECTED")],
@@ -117,6 +132,8 @@ def test_prepare_demo_runs_golden_proof_and_persists_separate_review_decision(
     assert isinstance(review_demo, dict)
     assert review_demo.get("ui_approval_drives_e2e_proof") is False
     assert (prepared.root / "e2e-proof/E2E-001/result.json").is_file()
+    assert (prepared.root / "demo-report.json").is_file()
+    asyncio.run(_assert_report_visible(prepared.review_app))
 
     asyncio.run(
         _review_round_trip(

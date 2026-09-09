@@ -28,6 +28,7 @@ from asklegal_application_runtime import CredentialMaterial
 from asklegal_contracts import canonicalize, parse_json_bytes
 from asklegal_contracts.json_types import checked_json_value
 from asklegal_review_api.api import ReviewDependencies, create_app, local_dependencies
+from fastapi.responses import Response
 from httpx import ASGITransport, AsyncClient
 
 from tools.local_conformance import prove_scenarios
@@ -55,6 +56,7 @@ _REVIEW_INVALID = "INTERVIEW_DEMO_REVIEW_VALIDATION_FAILED"
 _PROPOSAL_NOT_VISIBLE = "INTERVIEW_DEMO_PROPOSAL_NOT_VISIBLE"
 _PORT_NOT_INTEGER = "port must be an integer"
 _PORT_OUT_OF_RANGE = "port must be between 1024 and 65535"
+_REPORT_NAME = "demo-report.json"
 
 
 class InterviewDemoError(RuntimeError):
@@ -179,6 +181,51 @@ def _write_summary(root: Path, proof: ScenarioResult, fixture: LocalReviewFixtur
     (root / "demo-summary.json").write_bytes(canonicalize(summary) + b"\n")
 
 
+def _write_report(root: Path, proof: ScenarioResult, fixture: LocalReviewFixture) -> Path:
+    report = checked_json_value(
+        {
+            "demonstration": "LOCAL_SYNTHETIC_OFFLINE_POC",
+            "limitations": [
+                "No live Hong Kong publisher was contacted.",
+                "No cloud model or embedding provider was called.",
+                "No Pinecone or production serving target was changed.",
+                "The browser decision is retained locally but does not alter the completed proof.",
+            ],
+            "proof": {
+                "authoritative_refs": list(proof.authoritative_refs),
+                "effect_count": proof.effect_count,
+                "fact_count": proof.fact_count,
+                "fingerprint": proof.fingerprint,
+                "result_code": proof.result_code,
+                "scenario_id": proof.scenario_id,
+                "summary": proof.summary,
+            },
+            "review": {
+                "approval_persists_locally": True,
+                "proposal_id": fixture.proposal_id,
+                "promotion_manifest_fingerprint": fixture.promotion_manifest_fingerprint,
+                "ui_approval_drives_e2e_proof": False,
+            },
+            "schema_id": "asklegal.offline-interview-demo-report/v1",
+            "stages": [
+                "Scheduled synthetic update",
+                "Captured changed synthetic source",
+                "Preserved primary and recovery evidence",
+                "Applied legal rules and constructed candidate records",
+                "Froze release, coverage, and proposal package",
+                "Exercised the local human Review boundary",
+                "Built and verified a fake replacement target",
+                "Activated the verified candidate",
+                "Rolled back and recovered exact state",
+            ],
+            "statement": "offline synthetic pipeline proof completed",
+        }
+    )
+    path = root / _REPORT_NAME
+    path.write_bytes(canonicalize(report) + b"\n")
+    return path
+
+
 def prepare_interview_demo(
     *,
     workspace_root: Path = _ROOT,
@@ -204,6 +251,25 @@ def prepare_interview_demo(
             allowed_origin=f"http://127.0.0.1:{port}",
         )
     app = create_app(dependencies)
+    report_path = _write_report(root, proof, fixture)
+
+    async def _demo_report() -> Response:
+        return Response(
+            content=report_path.read_bytes(),
+            media_type="application/json",
+            headers={
+                "Cache-Control": "no-store",
+                "Content-Disposition": f'inline; filename="{_REPORT_NAME}"',
+                "X-Content-Type-Options": "nosniff",
+            },
+        )
+
+    app.add_api_route(
+        "/demo/report.json",
+        _demo_report,
+        methods=["GET"],
+        include_in_schema=False,
+    )
     asyncio.run(_validate_review_app(app, allowed_origin=f"http://127.0.0.1:{port}"))
     _write_summary(root, proof, fixture)
     return PreparedInterviewDemo(root, proof, fixture, dependencies, app)
@@ -241,7 +307,7 @@ def _print_demo(prepared: PreparedInterviewDemo, *, port: int) -> None:
                 f"{proof.effect_count} effects"
             ),
             f"E2E PROOF   {proof.fingerprint}",
-            f"SUMMARY     {prepared.root / 'demo-summary.json'}",
+            f"REPORT      {prepared.root / _REPORT_NAME}",
             "",
             "RETAINED REVIEW DEMO (separate from the completed E2E proof)",
             (

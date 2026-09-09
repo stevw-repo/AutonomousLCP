@@ -125,6 +125,14 @@
     .pipeline-card { margin-bottom: 1.25rem; padding: 1.25rem; }
     .section-intro { margin-bottom: 1rem; color: var(--muted); }
 
+    .report-card { display: none; margin-bottom: 1.25rem; padding: 1.25rem; }
+    .report-card[data-ready="true"] { display: block; }
+    .report-heading { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
+    .report-heading p { margin-bottom: 0; color: var(--muted); }
+    .report-link { flex: none; border-radius: .65rem; padding: .62rem .85rem; color: #fff; background: var(--teal); font-size: .8rem; font-weight: 800; text-decoration: none; }
+    .report-link:hover { background: var(--teal-dark); }
+    .report-summary { margin: 1rem 0 0; }
+
     #pipeline-stages {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -298,6 +306,21 @@
           <span class="stage-state">Not started</span>
         </li>
       </ol>
+    </section>
+
+    <section id="proof-report" class="card report-card" aria-labelledby="report-heading">
+      <div class="report-heading">
+        <div>
+          <h2 id="report-heading">Pipeline proof report</h2>
+          <p id="report-description">Loading the retained offline proof…</p>
+        </div>
+        <a class="report-link" href="/demo/report.json" target="_blank" rel="noopener">Open report JSON</a>
+      </div>
+      <div id="report-metrics" class="metric-grid report-summary"></div>
+      <details>
+        <summary>Evidence references and limitations</summary>
+        <pre id="report-detail">Loading report…</pre>
+      </details>
     </section>
 
     <section class="card session-card" aria-labelledby="session-heading">
