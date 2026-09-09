@@ -350,19 +350,37 @@ def _v1_manifest() -> PromotionManifest:
     hk_records = (
         replace(
             generic_records[0],
+            text=(
+                "SYNTHETIC INTERVIEW EXAMPLE — In fictional Demo Court of Appeal Case B "
+                "(2026), the court followed fictional Demo Case A on the duty to give "
+                "reasons but distinguished it on urgent interim relief. No real Hong Kong "
+                "judgment is represented."
+            ),
             country="HK",
             jurisdiction="hkg",
             material_type="Case",
-            source="Hong Kong Judiciary",
-            authority_note="Binding Hong Kong court decision.",
+            source="Synthetic Hong Kong Judiciary demo fixture",
+            authority_note=(
+                "Synthetic case-treatment update: fictional Case B follows Case A on reasons "
+                "and distinguishes it on urgent interim relief."
+            ),
         ),
         replace(
             generic_records[1],
+            text=(
+                "SYNTHETIC INTERVIEW EXAMPLE — Fictional Demo Ordinance section 12: before "
+                "amendment, notice was required within 14 days; after amendment, notice is "
+                "required within 21 days; fictional effective date 2026-08-01. No real Hong "
+                "Kong enactment is represented."
+            ),
             country="HK",
             jurisdiction="hkg",
             material_type="Legislation",
-            source="Hong Kong e-Legislation",
-            authority_note="Official Hong Kong legislation.",
+            source="Synthetic Hong Kong e-Legislation demo fixture",
+            authority_note=(
+                "Synthetic legislation amendment: fictional section 12 changes 14 days to "
+                "21 days with fictional effective date 2026-08-01."
+            ),
         ),
     )
     releases = tuple(

@@ -7685,3 +7685,20 @@ third-party source access is required for this POC. The rules against false
 success, malformed model output, unauthorized external writes, and unreviewed
 publisher terms remain unchanged. The unstarted root-rotation attempt had no
 state or report and therefore requires no rollback.
+
+## 2026-09-10 — Make the interview review screen legal-change-first
+
+The interview POC uses a single simplified review view: compact pipeline
+status, two proposed legal changes, coverage checked, one whole-package human
+decision, and collapsed evidence/technical data. Demo mode connects locally
+without showing credential or one-item proposal-management mechanics; the
+generic Review application retains its normal authentication surface.
+
+The two proposed replacements are explicitly fictional and synthetic: a later
+Court of Appeal example that follows an earlier proposition on reasons while
+distinguishing urgent interim relief, and an operative section-amendment example
+changing 14 days to 21 days with an effective date before the review cutoff.
+They demonstrate case-treatment and current-law amendment handling without
+asserting any real Hong Kong judgment or enactment. The report must derive its
+counts and displayed records from the frozen change inventory and desired state,
+not from presentation-only claims.

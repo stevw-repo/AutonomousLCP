@@ -34,7 +34,7 @@ from httpx import ASGITransport, AsyncClient
 from tools.local_conformance import prove_scenarios
 from tools.tests.task8_local_review_fixture import (
     LocalReviewFixture,
-    write_task8_local_review_fixture,
+    write_task8_interview_review_fixture,
 )
 
 if TYPE_CHECKING:
@@ -181,27 +181,33 @@ def _write_summary(root: Path, proof: ScenarioResult, fixture: LocalReviewFixtur
     (root / "demo-summary.json").write_bytes(canonicalize(summary) + b"\n")
 
 
+def _report_document(path: Path, *, max_bytes: int) -> dict[str, JsonValue]:
+    document = parse_json_bytes(path.read_bytes(), max_bytes=max_bytes)
+    if not isinstance(document, dict):
+        raise InterviewDemoError(_REVIEW_INVALID)
+    return document
+
+
 def _write_report(root: Path, artifact_root: Path) -> Path:
-    inventory = parse_json_bytes(
-        (artifact_root / "change-inventory/change-inventory.json").read_bytes(),
+    inventory = _report_document(
+        artifact_root / "change-inventory/change-inventory.json",
         max_bytes=100_000,
     )
-    desired = parse_json_bytes(
-        (artifact_root / "desired-state-inventories/inventories.json").read_bytes(),
+    desired = _report_document(
+        artifact_root / "desired-state-inventories/inventories.json",
         max_bytes=1_000_000,
     )
-    readiness = parse_json_bytes(
-        (artifact_root / "hk-v1-review-readiness.json").read_bytes(),
+    readiness = _report_document(
+        artifact_root / "hk-v1-review-readiness.json",
         max_bytes=1_000_000,
     )
-    if not isinstance(inventory, dict) or not isinstance(desired, dict):
-        raise InterviewDemoError(_REVIEW_INVALID)
-    if not isinstance(readiness, dict):
-        raise InterviewDemoError(_REVIEW_INVALID)
     additions = inventory.get("additions")
+    replacements = inventory.get("replacements")
     records = desired.get("records")
     scope_dispositions = readiness.get("scope_dispositions")
-    if not isinstance(additions, list) or not isinstance(records, list):
+    if not isinstance(additions, list) or not isinstance(replacements, list):
+        raise InterviewDemoError(_REVIEW_INVALID)
+    if not isinstance(records, list):
         raise InterviewDemoError(_REVIEW_INVALID)
     if not isinstance(scope_dispositions, list):
         raise InterviewDemoError(_REVIEW_INVALID)
@@ -214,13 +220,19 @@ def _write_report(root: Path, artifact_root: Path) -> Path:
             raise InterviewDemoError(_REVIEW_INVALID)
         no_change_scopes.append(scope_id)
     added_records: list[dict[str, JsonValue]] = []
-    addition_ids = {item for item in additions if isinstance(item, str)}
+    change_actions = {
+        **{item: "ADDED" for item in additions if isinstance(item, str)},
+        **{item: "UPDATED" for item in replacements if isinstance(item, str)},
+    }
     for record in records:
-        if not isinstance(record, dict) or record.get("record_id") not in addition_ids:
+        if not isinstance(record, dict):
+            continue
+        record_id = record.get("record_id")
+        if not isinstance(record_id, str) or record_id not in change_actions:
             continue
         added_records.append(
             {
-                "action": "ADDED",
+                "action": change_actions[record_id],
                 "authority_note": record.get("authority_note"),
                 "evidence_refs": record.get("evidence_refs"),
                 "material_type": record.get("material_type"),
@@ -273,7 +285,7 @@ def prepare_interview_demo(
     state_root = root / "review-state"
     authority_path = root / "review-authority.json"
     state_root.mkdir()
-    fixture = write_task8_local_review_fixture(artifact_root, repository_root)
+    fixture = write_task8_interview_review_fixture(artifact_root, repository_root)
     _write_review_authority(authority_path)
     with _fixed_review_window():
         dependencies = local_dependencies(
@@ -297,9 +309,22 @@ def prepare_interview_demo(
             },
         )
 
+    async def _demo_config() -> Response:
+        return Response(
+            content=canonicalize(checked_json_value({"review_token": _DEMO_TOKEN})),
+            media_type="application/json",
+            headers={"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"},
+        )
+
     app.add_api_route(
         "/demo/change-report.json",
         _demo_report,
+        methods=["GET"],
+        include_in_schema=False,
+    )
+    app.add_api_route(
+        "/demo/config.json",
+        _demo_config,
         methods=["GET"],
         include_in_schema=False,
     )

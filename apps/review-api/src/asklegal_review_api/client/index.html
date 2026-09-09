@@ -22,6 +22,7 @@
     }
 
     * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
 
     body {
       margin: 0;
@@ -131,7 +132,7 @@
     .report-heading p { margin-bottom: 0; color: var(--muted); }
     .report-link { flex: none; border-radius: .65rem; padding: .62rem .85rem; color: #fff; background: var(--teal); font-size: .8rem; font-weight: 800; text-decoration: none; }
     .report-link:hover { background: var(--teal-dark); }
-    .report-summary { margin: 1rem 0; }
+    .report-summary { grid-template-columns: repeat(2, minmax(0, 12rem)); margin: 1rem 0; }
     .change-list { display: grid; gap: .7rem; margin: 0; padding: 0; list-style: none; }
     .change-item { padding: .9rem; border: 1px solid var(--line); border-radius: .75rem; background: #fafbf8; }
     .change-item strong { display: block; margin-bottom: .2rem; }
@@ -148,8 +149,8 @@
     }
 
     .pipeline-stage {
-      min-height: 7rem;
-      padding: 1rem;
+      min-height: 5.4rem;
+      padding: .8rem;
       border: 1px solid var(--line);
       border-radius: .8rem;
       background: #fafbf8;
@@ -205,6 +206,7 @@
       gap: 1.25rem;
       align-items: start;
     }
+    .workspace[data-demo="true"] { grid-template-columns: 1fr; }
     .panel { padding: 1.25rem; }
     .panel-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
     .panel-header h2 { margin-bottom: 0; }
@@ -232,7 +234,7 @@
     .metric span { display: block; color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; }
     .metric strong { display: block; margin-top: .2rem; font-size: 1.05rem; overflow-wrap: anywhere; }
 
-    .summary-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 1rem; }
+    .summary-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
     .summary-block { padding: 1rem; border: 1px solid var(--line); border-radius: .8rem; }
     .scope-list, .limitations { margin: 0; padding: 0; list-style: none; }
     .scope-list li { display: flex; justify-content: space-between; gap: .8rem; padding: .5rem 0; border-bottom: 1px solid #edf0ee; font-size: .84rem; }
@@ -273,9 +275,9 @@
   <main>
     <header class="hero">
       <div>
-        <p class="eyebrow">AskLegal autonomous data pipeline</p>
-        <h1>Human review checkpoint</h1>
-        <p class="hero-copy">Inspect one frozen legal-data proposal, then approve or reject the whole package.</p>
+        <p class="eyebrow">AskLegal · synthetic interview demo</p>
+        <h1>Review a proposed legal update</h1>
+        <p class="hero-copy">See what changed, why it matters to search, and the evidence behind it. Then approve or reject the frozen update.</p>
       </div>
     </header>
 
@@ -286,19 +288,19 @@
     </aside>
 
     <section class="card pipeline-card" aria-labelledby="pipeline-heading">
-      <h2 id="pipeline-heading">Update journey</h2>
-      <p class="section-intro">The proposal stays frozen at the human checkpoint until you make a decision.</p>
+      <h2 id="pipeline-heading">Pipeline status</h2>
+      <p class="section-intro">The update stays frozen at human review until you make a decision.</p>
       <ol id="pipeline-stages">
         <li class="pipeline-stage" data-stage="source" data-state="idle">
-          <strong>Synthetic update</strong>
+          <strong>Change detected</strong>
           <span class="stage-state">Waiting for demo input</span>
         </li>
         <li class="pipeline-stage" data-stage="evidence" data-state="idle">
-          <strong>Evidence package</strong>
+          <strong>Evidence preserved</strong>
           <span class="stage-state">Waiting</span>
         </li>
         <li class="pipeline-stage" data-stage="processing" data-state="idle">
-          <strong>Legal processing</strong>
+          <strong>Legal analysis</strong>
           <span class="stage-state">Waiting</span>
         </li>
         <li class="pipeline-stage" data-stage="review" data-state="attention">
@@ -315,20 +317,19 @@
     <section id="change-report" class="card report-card" aria-labelledby="report-heading">
       <div class="report-heading">
         <div>
-          <h2 id="report-heading">What changed</h2>
+          <h2 id="report-heading">Proposed legal changes</h2>
           <p id="report-description">Loading the proposed legal-data changes…</p>
         </div>
-        <a class="report-link" href="/demo/change-report.json" target="_blank" rel="noopener">Open change report JSON</a>
       </div>
       <div id="report-metrics" class="metric-grid report-summary"></div>
       <ol id="change-list" class="change-list"></ol>
       <details>
-        <summary>Complete technical change report</summary>
+        <summary>Evidence and complete change data</summary>
         <pre id="report-detail">Loading changes…</pre>
       </details>
     </section>
 
-    <section class="card session-card" aria-labelledby="session-heading">
+    <section id="review-session" class="card session-card" aria-labelledby="session-heading">
       <div class="session-copy">
         <h2 id="session-heading">Reviewer session</h2>
         <p>The credential remains only in this page's memory and is cleared from the field.</p>
@@ -344,8 +345,8 @@
       </div>
     </section>
 
-    <div class="workspace">
-      <section class="card panel" aria-labelledby="proposals-heading">
+    <div id="review-workspace" class="workspace">
+      <section id="proposal-list-panel" class="card panel" aria-labelledby="proposals-heading">
         <div class="panel-header">
           <h2 id="proposals-heading">Frozen proposals</h2>
           <button id="refresh" class="secondary" type="button" disabled>Refresh</button>
@@ -356,27 +357,27 @@
       </section>
 
       <section class="card panel" aria-labelledby="detail-heading">
-        <h2 id="detail-heading">Proposal review</h2>
+        <h2 id="detail-heading">Coverage and decision</h2>
         <div id="proposal-summary" aria-live="polite">
           <p class="empty">Select a proposal to inspect its complete package.</p>
         </div>
 
         <details id="raw-proposal">
-          <summary>Technical package JSON</summary>
+          <summary>Evidence and technical package</summary>
           <pre id="proposal-detail">No proposal selected.</pre>
         </details>
 
         <div class="decision-panel">
           <h3>Your decision</h3>
-          <p>Approval is whole-package and final for this frozen proposal. Rejection stops local promotion.</p>
+          <p>Your decision applies to exactly the frozen update shown above. If any record or evidence changes, a new review is required.</p>
           <div class="decision-actions">
             <div class="decision-reason">
-              <label for="decision-reason">Decision reason</label>
-              <textarea id="decision-reason" rows="4" maxlength="2000" placeholder="Briefly explain your decision" disabled></textarea>
+              <label for="decision-reason">Decision note (required)</label>
+              <textarea id="decision-reason" rows="4" maxlength="2000" placeholder="Briefly record what you checked" disabled></textarea>
             </div>
             <div class="button-row">
-              <button id="approve" type="button" disabled>Approve proposal</button>
-              <button id="reject" class="danger" type="button" disabled>Reject proposal</button>
+              <button id="approve" type="button" disabled>Approve all updates</button>
+              <button id="reject" class="danger" type="button" disabled>Reject update</button>
             </div>
           </div>
           <p id="decision-result" role="status"></p>

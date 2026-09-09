@@ -2,6 +2,7 @@
 let accessToken = null;
 let selectedProposal = null;
 let pendingDecision = null;
+let localDemo = false;
 
 const tokenInput = document.querySelector("#review-token");
 const connectButton = document.querySelector("#connect");
@@ -20,6 +21,9 @@ const reportDescription = document.querySelector("#report-description");
 const reportMetrics = document.querySelector("#report-metrics");
 const reportDetail = document.querySelector("#report-detail");
 const changeList = document.querySelector("#change-list");
+const reviewSession = document.querySelector("#review-session");
+const reviewWorkspace = document.querySelector("#review-workspace");
+const proposalListPanel = document.querySelector("#proposal-list-panel");
 
 const scopeLabels = {
   "HK-CASE-BINDING-POST-1997": "Binding-court case propositions",
@@ -113,14 +117,27 @@ function metric(label, value) {
 
 function changeItem(change) {
   const item = node("li", "change-item");
+  const heading = change.material_type === "Case" ? "Case law treatment" : "Legislation amendment";
+  const searchImpact = change.material_type === "Case"
+    ? "Search impact: The earlier proposition remains searchable; its authority note now records the later treatment."
+    : "Search impact: Current-law search uses the operative 21-day wording instead of the previous 14-day wording.";
   item.append(
-    node("strong", "", `${readable(change.action)} ${change.material_type}`),
+    node("strong", "", heading),
+    node("p", "", `${readable(change.action)} search record`),
     node("p", "", change.text),
+    node("p", "", searchImpact),
+    node("p", "", `Evidence basis: ${change.authority_note}`),
     node("p", "", `Source: ${change.source} · Scope: ${scopeLabels[change.scope_id] || change.scope_id}`),
-    node("p", "", `Why included: ${change.authority_note}`),
-    node("p", "", `Evidence: ${change.evidence_refs.join(", ")}`),
+    node("p", "", `${change.evidence_refs.length} retained source reference${change.evidence_refs.length === 1 ? "" : "s"} available in the technical record.`),
   );
   return item;
+}
+
+function friendlyDecision(decision) {
+  if (localDemo) {
+    return `${readable(decision.decision)} locally by the demo reviewer. Reason: ${decision.reason}. This does not affect production.`;
+  }
+  return `${readable(decision.decision)} by ${decision.reviewer_identity_id}: ${decision.reason}`;
 }
 
 async function loadChangeReport() {
@@ -128,12 +145,11 @@ async function loadChangeReport() {
     const response = await fetch("/demo/change-report.json", {credentials: "omit"});
     if (!response.ok) return;
     const report = await response.json();
-    reportDescription.textContent = report.statement;
+    const proposedUpdates = report.change_counts.additions + report.change_counts.replacements;
+    reportDescription.textContent = `${proposedUpdates} search records are proposed for update.`;
     reportMetrics.replaceChildren(
-      metric("Added", String(report.change_counts.additions)),
-      metric("Replaced", String(report.change_counts.replacements)),
-      metric("Retired", String(report.change_counts.retirements)),
-      metric("Withheld", String(report.change_counts.withholdings)),
+      metric("Proposed updates", String(proposedUpdates)),
+      metric("Scopes checked — no change", String(report.no_change_scope_ids.length)),
     );
     changeList.replaceChildren(...report.changes.map(changeItem));
     reportDetail.textContent = JSON.stringify(report, null, 2);
@@ -148,44 +164,34 @@ function renderProposalDetail(detail) {
   const heading = node("div", "proposal-heading");
   const title = node("div");
   title.append(
-    node("h3", "", detail.proposal.title),
+    node("h3", "", "Hong Kong case law and legislation"),
     node("p", "", `Frozen at ${detail.observation_cutoff}`),
   );
   heading.append(title, node("span", "badge", readable(detail.proposal.status)));
 
   const metrics = node("div", "metric-grid");
   metrics.append(
-    metric("Scopes", String(readiness?.scope_dispositions?.length || 0)),
-    metric("Target records", String(readiness?.target_members?.length || 0)),
-    metric("Package members", String(detail.artifacts.length)),
-    metric("Review version", String(detail.proposal.review_version)),
+    metric("Legal scopes checked", String(readiness?.scope_dispositions?.length || 0)),
+    metric("Search records affected", String(readiness?.target_members?.length || 0)),
   );
 
   const summaryGrid = node("div", "summary-grid");
   const scopes = node("section", "summary-block");
-  scopes.append(node("h3", "", "Coverage decision"));
+  scopes.append(node("h3", "", "Coverage checked"));
   const scopeList = node("ul", "scope-list");
   for (const scope of readiness?.scope_dispositions || []) {
     const item = node("li");
     item.append(
       node("span", "", scopeLabels[scope.scope_id] || scope.scope_id),
-      node("span", "scope-result", readable(scope.result)),
+      node("span", "scope-result", scope.result === "NO_CHANGE" ? "Checked — no change" : "Checked — update included"),
     );
     scopeList.append(item);
   }
   scopes.append(scopeList);
 
-  const limits = node("section", "summary-block");
-  limits.append(node("h3", "", "POC boundaries"));
-  const limitationList = node("ul", "limitations");
-  for (const limitation of readiness?.limitations || []) {
-    limitationList.append(node("li", "", limitation));
-  }
-  limits.append(limitationList);
-  summaryGrid.append(scopes, limits);
+  summaryGrid.append(scopes);
 
-  const technical = node("p", "proposal-meta", `Package ${shortFingerprint(detail.package_fingerprint)} · target ${readiness?.target_name || "local fake"}`);
-  proposalSummary.replaceChildren(heading, metrics, summaryGrid, technical);
+  proposalSummary.replaceChildren(heading, metrics, summaryGrid);
   proposalDetail.textContent = JSON.stringify(detail, null, 2);
   updatePipelineStages(detail);
 }
@@ -220,7 +226,7 @@ async function selectProposal(proposalId) {
     approveButton.disabled = !decisionOpen;
     rejectButton.disabled = !decisionOpen;
     if (!decisionOpen) {
-      decisionResult.textContent = `${readable(result.body.decision.decision)} by ${result.body.decision.reviewer_identity_id}: ${result.body.decision.reason}`;
+      decisionResult.textContent = friendlyDecision(result.body.decision);
     }
   } catch (error) {
     proposalSummary.replaceChildren(node("p", "empty", `Unable to load proposal: ${error.message}`));
@@ -277,6 +283,23 @@ async function connect() {
   await loadProposals();
 }
 
+async function enableLocalDemo() {
+  try {
+    const response = await fetch("/demo/config.json", {credentials: "omit"});
+    if (!response.ok) return;
+    const config = await response.json();
+    if (typeof config.review_token !== "string" || config.review_token.length === 0) return;
+    localDemo = true;
+    accessToken = config.review_token;
+    reviewSession.hidden = true;
+    proposalListPanel.hidden = true;
+    reviewWorkspace.dataset.demo = "true";
+    await loadProposals();
+  } catch (_error) {
+    // Outside the local interview demo, the normal sign-in panel remains visible.
+  }
+}
+
 function disconnect() {
   accessToken = null;
   proposals.replaceChildren(node("li", "empty", "Connect to load the prepared proposal."));
@@ -303,7 +326,7 @@ async function submitDecision(action) {
     pendingDecision = {identity: requestIdentity, command: commandId()};
   }
   try {
-    const result = await requestJson(
+    await requestJson(
       `/api/v1/proposal-packages/${encodeURIComponent(proposal.id)}/decisions`,
       {
         method: "POST",
@@ -321,7 +344,6 @@ async function submitDecision(action) {
     );
     pendingDecision = null;
     await loadProposals(proposal.id);
-    decisionResult.textContent = `${action} ${result.body.result_code}: ${result.body.result_ref}`;
   } catch (error) {
     decisionResult.textContent = `${action} failed: ${error.message}`;
     approveButton.disabled = false;
@@ -334,4 +356,4 @@ disconnectButton.addEventListener("click", disconnect);
 refreshButton.addEventListener("click", () => void loadProposals(selectedProposal?.id || null));
 approveButton.addEventListener("click", () => void submitDecision("APPROVE"));
 rejectButton.addEventListener("click", () => void submitDecision("REJECT"));
-void loadChangeReport();
+void Promise.all([loadChangeReport(), enableLocalDemo()]);

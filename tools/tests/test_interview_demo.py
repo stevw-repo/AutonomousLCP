@@ -99,8 +99,8 @@ async def _assert_report_visible(app: FastAPI) -> None:
     assert response.headers["x-content-type-options"] == "nosniff"
     assert response.json()["schema_id"] == "asklegal.offline-interview-change-report/v1"
     assert response.json()["change_counts"] == {
-        "additions": 2,
-        "replacements": 0,
+        "additions": 0,
+        "replacements": 2,
         "retirements": 0,
         "unchanged": 0,
         "withholdings": 0,
@@ -109,10 +109,18 @@ async def _assert_report_visible(app: FastAPI) -> None:
         "Case",
         "Legislation",
     ]
+    assert [change["action"] for change in response.json()["changes"]] == [
+        "UPDATED",
+        "UPDATED",
+    ]
     assert response.json()["no_change_scope_ids"] == [
         "HK-LEG-CONSTITUTIONAL-AND-OTHER-INSTRUMENTS",
         "HK-LEG-SUBSIDIARY",
     ]
+    async with AsyncClient(transport=transport, base_url="http://127.0.0.1") as client:
+        config = await client.get("/demo/config.json")
+    assert config.status_code == 200
+    assert config.json() == {"review_token": _TOKEN}
 
 
 @pytest.mark.parametrize(

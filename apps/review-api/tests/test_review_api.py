@@ -781,6 +781,7 @@ def test_review_origin_proxy_evidence_readiness_and_browser_client() -> None:
         javascript = client.get("/review/app.js").text
         html = client.get("/review").text
         assert client.get("/demo/change-report.json").status_code == 404
+        assert client.get("/demo/config.json").status_code == 404
         assert "review-token" in html
         assert all(
             expected in html
@@ -803,6 +804,9 @@ def test_review_origin_proxy_evidence_readiness_and_browser_client() -> None:
                 "target_members",
                 "scope_dispositions",
                 'fetch("/demo/change-report.json"',
+                "Search impact: The earlier proposition remains searchable",
+                "Evidence basis:",
+                "This does not affect production.",
             )
         )
         assert "/decisions" in javascript

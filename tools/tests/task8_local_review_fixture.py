@@ -62,6 +62,14 @@ class LocalReviewFixture:
     readiness_fingerprint: str
 
 
+@dataclass(frozen=True, slots=True)
+class _FixtureOptions:
+    extra_limitations: tuple[str, ...] = ()
+    readiness_target_members: tuple[tuple[str, str, str], ...] | None = None
+    live_profile: tuple[PromotionManifest, str, str, str] | None = None
+    records_are_replacements: bool = False
+
+
 def _fingerprint(content: bytes) -> str:
     return f"sha256:{sha256(content).hexdigest()}"
 
@@ -148,6 +156,8 @@ def _numbered_id(prefix: str, number: int) -> str:
 
 def _semantic_member_material(
     manifest: PromotionManifest,
+    *,
+    records_are_replacements: bool = False,
 ) -> tuple[dict[str, bytes], dict[str, bytes]]:
     """Build all non-manifest members and exact traceability shards."""
     observation_cutoff = manifest.desired_state.observation_cutoff
@@ -246,10 +256,14 @@ def _semantic_member_material(
         "CHANGE_INVENTORY": canonicalize(
             checked_json_value(
                 {
-                    "additions": [item.record_id for item in manifest.desired_state.records],
+                    "additions": []
+                    if records_are_replacements
+                    else [item.record_id for item in manifest.desired_state.records],
                     "carried_forward": [],
                     "observation_cutoff": observation_cutoff,
-                    "replacements": [],
+                    "replacements": [item.record_id for item in manifest.desired_state.records]
+                    if records_are_replacements
+                    else [],
                     "retirements": [],
                     "unchanged": [],
                     "withholdings": [],
@@ -380,13 +394,10 @@ def _semantic_member_material(
     return contents, shards
 
 
-def write_task8_local_review_fixture(
+def _write_review_fixture(
     root: Path,
     repository_root: Path,
-    *,
-    extra_limitations: tuple[str, ...] = (),
-    readiness_target_members: tuple[tuple[str, str, str], ...] | None = None,
-    live_profile: tuple[PromotionManifest, str, str, str] | None = None,
+    options: _FixtureOptions,
 ) -> LocalReviewFixture:
     """Write all fourteen exact local Review inputs beneath one temporary root."""
     namespace = runpy.run_path(
@@ -398,6 +409,7 @@ def write_task8_local_review_fixture(
     plan_factory = cast(
         "Callable[[PromotionManifest], PromotionPlan]", namespace["task8_plan_from_manifest"]
     )
+    live_profile = options.live_profile
     base = live_profile[0] if live_profile is not None else manifest_factory()
     serving_profile_fingerprint = (
         live_profile[1] if live_profile is not None else "sha256:" + "8" * 64
@@ -412,7 +424,7 @@ def write_task8_local_review_fixture(
         observation_cutoff,
     )
     record_ids = tuple(item.record_id for item in base.desired_state.records)
-    target_members = readiness_target_members or (
+    target_members = options.readiness_target_members or (
         (record_ids[0], _SCOPES[0], "CASES"),
         (record_ids[1], _SCOPES[2], "LEGISLATION"),
     )
@@ -434,7 +446,7 @@ def write_task8_local_review_fixture(
         (
             "Cases begin on 1997-07-01.",
             "HKEX Regulatory Materials and Principles are outside V1.",
-            *extra_limitations,
+            *options.extra_limitations,
         ),
         "evaluation/model.json",
         "evaluation/retrieval.json",
@@ -458,7 +470,10 @@ def write_task8_local_review_fixture(
         task7_fingerprint,
     )
     readiness_content = hk_v1_review_readiness_bytes(readiness)
-    contents, shards = _semantic_member_material(base)
+    contents, shards = _semantic_member_material(
+        base,
+        records_are_replacements=options.records_are_replacements,
+    )
     declarations = tuple(
         ProposalArtifactProjection(
             role,
@@ -565,6 +580,34 @@ def write_task8_local_review_fixture(
         manifest.fingerprint,
         task7_fingerprint,
         readiness.fingerprint,
+    )
+
+
+def write_task8_local_review_fixture(
+    root: Path,
+    repository_root: Path,
+    *,
+    extra_limitations: tuple[str, ...] = (),
+    readiness_target_members: tuple[tuple[str, str, str], ...] | None = None,
+    live_profile: tuple[PromotionManifest, str, str, str] | None = None,
+) -> LocalReviewFixture:
+    """Write the standard exact local Review fixture beneath one temporary root."""
+    return _write_review_fixture(
+        root,
+        repository_root,
+        _FixtureOptions(extra_limitations, readiness_target_members, live_profile),
+    )
+
+
+def write_task8_interview_review_fixture(
+    root: Path,
+    repository_root: Path,
+) -> LocalReviewFixture:
+    """Write the interview variant whose two records replace predecessor search records."""
+    return _write_review_fixture(
+        root,
+        repository_root,
+        _FixtureOptions(records_are_replacements=True),
     )
 
 
