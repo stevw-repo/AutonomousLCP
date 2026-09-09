@@ -10,6 +10,10 @@ Hong Kong deployment. Live publisher access, cloud providers, Pinecone, Vault
 credential rotation, systemd deployment, and Gate A–G admission are deferred
 and are not blockers for this demonstration.
 
+The root `README.md` is a concise present-tense description of the complete
+pipeline vision. Development status, milestone history, demo instructions, and
+roadmap language remain exclusively in the continuity and design files.
+
 ## Implemented POC
 
 - `./tools/run_interview_demo.sh` is the one-command launcher. It works from
@@ -92,6 +96,10 @@ non-serving check, use `./tools/run_interview_demo.sh --prepare-only`.
 - No live source, Azure/model/embedding provider, Pinecone, Vault, SQL,
   Scheduler, deployment, credential, or third-party-terms effect is part of
   this POC.
+- The root README was reduced from 893 lines to 159 lines and now contains only
+  the final product description: source monitoring, evidence capture, legal
+  processing, releases, human approval, verified promotion, legal-data models,
+  capability boundaries, failure behavior, recovery, and auditability.
 
 ## Deferred work
 

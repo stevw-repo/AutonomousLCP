@@ -7706,3 +7706,15 @@ without asserting any real Hong Kong judgment or enactment. The report must
 derive its counts and displayed records from the frozen change inventory and
 desired state, not from presentation-only claims. Visible product copy describes
 a synthetic legal-update demo and does not call itself an interview.
+
+## 2026-09-10 — Use README only for the final product description
+
+The repository root README describes the complete operating vision of the
+AskLegal autonomous legal-database pipeline in direct present tense. It does not
+contain development status, milestone history, roadmap language, proof counts,
+demo instructions, unfinished-work disclosures, or implementation sequencing.
+
+Development truth and resumability remain in `.agent/WORKING_STATE.md`,
+`.agent/ROADMAP.md`, the design baseline, and ADRs. This keeps the public entry
+point brief and product-focused without deleting the repository's internal
+record of actual progress or authorization boundaries.
