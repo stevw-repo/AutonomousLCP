@@ -10,7 +10,7 @@ from asklegal_contracts import fingerprint, parse_json_bytes
 from .conftest import CONTRACTS_ROOT, REPOSITORY_ROOT
 
 EXPECTED_PACKAGE_FINGERPRINT = (
-    "sha256:92b5193ca9fa45d2260ee2012cd350818136f4d12b1d93e763a67b827d15c455"
+    "sha256:64c4544b2d9b6039f7b88de61d7605077d460637d5660a2776655400beb89d66"
 )
 
 

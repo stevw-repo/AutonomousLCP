@@ -15,6 +15,7 @@ APPLICATION_IMAGE_POLICY_PATH = Path("infrastructure/poc/application_image_input
 ARTIFACT_POLICY_PATH = Path("infrastructure/poc/artifact_admission.json")
 PACKAGE_POLICY_PATH = Path("tools/package_spike_manifest.json")
 TOPOLOGY_PATH = Path("infrastructure/poc/topology.json")
+LOCAL_OCI_PROOF_PATH = Path("var/hk-v1/host/application-image-oci-proof.json")
 _MAX_DOCUMENT_BYTES = 1_000_000
 _SOURCE_DATE_EPOCH = 315_532_800
 _SHA256 = re.compile(r"^sha256:[0-9a-f]{64}$")
@@ -58,6 +59,9 @@ _IMAGE_KEYS = frozenset(
 )
 _INPUT_PATHS = (
     ".python-version",
+    "infrastructure/poc/libexec/asklegal-vault-application-rotation-network",
+    "infrastructure/poc/patchright_runtime_inputs.json",
+    "infrastructure/poc/patchright_runtime_system_packages.json",
     "pyproject.toml",
     "tools/package_spike_manifest.json",
     "uv.lock",
@@ -66,7 +70,8 @@ _BASE_IMAGE_REF = (
     "docker.io/library/python@sha256:"
     "d6e0850f13fda0e2305d4c3c1c2f7930fe1042d34ddd958e49bba6ef685d0bb2"
 )
-_BLOCKERS = ("UBUNTU_24_04_X86_64_OCI_PROOF",)
+_POLICY_BLOCKERS = ("UBUNTU_24_04_X86_64_OCI_PROOF",)
+_PATCHRIGHT_CLOSURE_BLOCKER = "ACQUISITION_PATCHRIGHT_DEBIAN_SYSTEM_PACKAGE_CLOSURE_REQUIRED"
 _BUILD_DEFINITION = {
     "dockerfile": "infrastructure/poc/images/Dockerfile",
     "build_tool": "tools/v1_poc_build_images.py",
@@ -215,7 +220,7 @@ def _validate_build_blockers(policy: dict[str, object]) -> tuple[ApplicationImag
     findings: list[ApplicationImageFinding] = []
     if policy.get("build_definition") != _BUILD_DEFINITION:
         findings.append(ApplicationImageFinding(ApplicationImageCode.BLOCKER, "build definition"))
-    if _strings_or_empty(policy.get("required_blockers")) != _BLOCKERS:
+    if _strings_or_empty(policy.get("required_blockers")) != _POLICY_BLOCKERS:
         findings.append(ApplicationImageFinding(ApplicationImageCode.BLOCKER, "inventory"))
     return tuple(findings)
 
@@ -385,8 +390,16 @@ def validate_application_image_policy(
     return tuple(findings)
 
 
-def check_application_image_policy(root: Path) -> ApplicationImageReport:
-    """Validate the frozen application-image inputs and explicit blockers."""
+def check_application_image_policy(
+    root: Path,
+    oci_proof_path: Path | None = LOCAL_OCI_PROOF_PATH,
+) -> ApplicationImageReport:
+    """Validate frozen image inputs and discharge only a measured local OCI proof."""
+    from tools.v1_poc_patchright_runtime import (  # noqa: PLC0415
+        PatchrightRuntimeError,
+        verify_build_inputs,
+    )
+
     policy = _read_object(root / APPLICATION_IMAGE_POLICY_PATH)
     findings = validate_application_image_policy(
         policy,
@@ -402,10 +415,22 @@ def check_application_image_policy(root: Path) -> ApplicationImageReport:
     closures = {
         item for image in images for item in _strings(image["workspace_distribution_closure"])
     }
+    blockers: list[str] = list(_POLICY_BLOCKERS)
+    if oci_proof_path is not None and (root / oci_proof_path).is_file():
+        from tools.v1_poc_application_image_oci_proof import (  # noqa: PLC0415
+            check_local_oci_proof,
+        )
+
+        check_local_oci_proof(root, root / oci_proof_path)
+        blockers.remove("UBUNTU_24_04_X86_64_OCI_PROOF")
+    try:
+        verify_build_inputs(root)
+    except PatchrightRuntimeError:
+        blockers.append(_PATCHRIGHT_CLOSURE_BLOCKER)
     return ApplicationImageReport(
         images=len(images),
         workspace_distributions=len(closures),
-        blockers=_BLOCKERS,
+        blockers=tuple(blockers),
         admitted=sum(image.get("admitted") is True for image in images),
     )
 

@@ -206,11 +206,28 @@ def validate_wheelhouse(
     )
 
 
-def verify_wheelhouse_contents(root: Path, policy: dict[str, object]) -> int:
-    """Verify present wheel bytes; an absent wheelhouse verifies nothing and hides nothing."""
-    directory = root / "var/wheelhouse/wheels"
-    if not directory.is_dir():
-        return 0
+def _verify_requirements_contents(wheelhouse: Path, policy: dict[str, object]) -> None:
+    """Verify each exact requirements file copied into an image build context."""
+    applications = _string_object(policy.get("applications"))
+    if applications is None:
+        raise TypeError(_DOCUMENT_ROOT)
+    for application, raw_entry in sorted(applications.items()):
+        entry = _string_object(raw_entry)
+        if entry is None or type(entry.get("requirements_sha256")) is not str:
+            raise TypeError(_DOCUMENT_ROOT)
+        requirements = wheelhouse / f"{application}.txt"
+        try:
+            actual = hashlib.sha256(requirements.read_bytes()).hexdigest()
+        except OSError as error:
+            message = f"wheelhouse requirements missing: {application}"
+            raise ValueError(message) from error
+        if actual != entry["requirements_sha256"]:
+            message = f"wheelhouse requirements digest drift: {application}"
+            raise ValueError(message)
+
+
+def _verify_wheel_contents(directory: Path, policy: dict[str, object]) -> int:
+    """Verify every present wheel against the closed inventory."""
     wheels = _object_list(policy.get("wheels"))
     if wheels is None:
         raise TypeError(_DOCUMENT_ROOT)
@@ -236,6 +253,18 @@ def verify_wheelhouse_contents(root: Path, policy: dict[str, object]) -> int:
             message = f"wheelhouse digest drift: {filename}"
             raise ValueError(message)
     return len(expected)
+
+
+def verify_wheelhouse_contents(root: Path, policy: dict[str, object]) -> int:
+    """Verify present build inputs; an absent wheelhouse verifies nothing and hides nothing."""
+    wheelhouse = root / "var/wheelhouse"
+    if not wheelhouse.is_dir():
+        return 0
+    _verify_requirements_contents(wheelhouse, policy)
+    directory = wheelhouse / "wheels"
+    if not directory.is_dir():
+        return 0
+    return _verify_wheel_contents(directory, policy)
 
 
 def check_wheelhouse(root: Path) -> WheelhouseReport:

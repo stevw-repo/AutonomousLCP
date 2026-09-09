@@ -10,6 +10,7 @@ from asklegal_contracts.json_types import checked_json_value
 from asklegal_corpus import ProposalPackageInput, freeze_proposal_package
 from asklegal_evidence_vault import LocalImmutableVault, RetentionProfile, VaultName
 from asklegal_management_register import (
+    ApprovedPromotionClaim,
     RegisteredApprovalConsumptionCommand,
     RegisteredApprovalTerminalCommand,
     ReviewReadyProposalRow,
@@ -26,6 +27,7 @@ from asklegal_promotion import (
 )
 from asklegal_promotion_worker.registered_approval import (
     ApprovalConsumptionContext,
+    ApprovedPromotionQueue,
     CurrentReviewerAuthority,
     RegisteredApprovalCandidate,
     RegisteredApprovalConsumptionService,
@@ -55,6 +57,26 @@ _WORKER_FP = "sha256:" + "9" * 64
 _PREDICATES = (("configuration", "1.0.0", "sha256:" + "a" * 64),)
 
 
+def test_approved_promotion_queue_protocol_is_only_a_lease_and_acknowledgement_boundary() -> None:
+    """The worker-side type exposes no consume, authorize, begin, or provider action."""
+    claim = ApprovedPromotionClaim(
+        _PROPOSAL,
+        _APPROVAL,
+        _DECISION_FP,
+        _MANIFEST,
+        _MANIFEST_FP,
+        "pwr_" + "a" * 48,
+        "2026-08-27T12:05:00Z",
+        1,
+        1,
+    )
+    queue: ApprovedPromotionQueue = Queue(claim)
+
+    observed = queue.claim_next(claim.claimant_worker_id, claim.claimed_until)
+    assert observed == claim
+    queue.acknowledge_started(claim, _LINEAGE)
+
+
 class Candidates:
     """Mutable complete-reread fake."""
 
@@ -79,6 +101,28 @@ class Rows:
     def review_ready_proposals(self) -> tuple[ReviewReadyProposalRow, ...]:
         """Return the configured exact generation."""
         return self.rows
+
+
+class Queue:
+    """Provider-disabled handoff fake with no execution methods."""
+
+    def __init__(self, claim: ApprovedPromotionClaim) -> None:
+        """Bind one pre-existing queue lease."""
+        self.claim = claim
+        self.acknowledgements: list[tuple[ApprovedPromotionClaim, str]] = []
+
+    def claim_next(self, worker_id: str, claimed_until: str) -> ApprovedPromotionClaim | None:
+        """Return the supplied lease only for its exact claimant and expiry."""
+        if (worker_id, claimed_until) != (
+            self.claim.claimant_worker_id,
+            self.claim.claimed_until,
+        ):
+            return None
+        return self.claim
+
+    def acknowledge_started(self, claim: ApprovedPromotionClaim, execution_lineage_id: str) -> None:
+        """Record a caller-visible handoff without consuming any Approval."""
+        self.acknowledgements.append((claim, execution_lineage_id))
 
 
 class Authority:

@@ -21,6 +21,7 @@ from asklegal_corpus import (
     freeze_corpus_release,
     freeze_coverage_status,
     freeze_v1_coverage_status,
+    verify_v1_coverage_release_gate,
 )
 from asklegal_domain import (
     ApplicationCode,
@@ -35,9 +36,11 @@ from asklegal_domain import (
     RetryClass,
     StopCondition,
 )
+from asklegal_management_register import ServingStateVerificationError
 from asklegal_management_register_ports import (
     ApprovalError,
     ApprovalErrorCode,
+    ApprovalState,
     InMemoryApprovalRegister,
     ManifestSnapshot,
     ReviewerPrincipal,
@@ -49,11 +52,13 @@ from asklegal_promotion import (
     EmbeddingProfileInput,
     EmbeddingRequest,
     EmbeddingRequestInput,
+    EmbeddingTokenCounter,
     LocalBackupStore,
     LocalCoverageStore,
     LocalEmbeddingAdapter,
     LocalFailurePlan,
     LocalRoutingStore,
+    LocalServingStateStore,
     LocalServingTargetStore,
     PromotionActionAuthority,
     PromotionError,
@@ -64,7 +69,7 @@ from asklegal_promotion import (
     TargetDefinition,
     embedding_request,
     freeze_embedding_profile,
-    freeze_promotion_manifest,
+    freeze_generic_promotion_manifest,
     freeze_v1_promotion_manifest,
     pinecone_index_name,
     promotion_approval_snapshot_from_bytes,
@@ -82,6 +87,12 @@ _BASE = "srv_" + "a" * 48
 _CANDIDATE = "srv_" + "b" * 48
 _STATE_FP = "sha256:" + "b" * 64
 _PREDICATES = (("configuration", "1.0.0", "sha256:" + "c" * 64),)
+_HK_V1_SCOPES = (
+    "HK-CASE-BINDING-POST-1997",
+    "HK-LEG-CONSTITUTIONAL-AND-OTHER-INSTRUMENTS",
+    "HK-LEG-ORDINANCES",
+    "HK-LEG-SUBSIDIARY",
+)
 
 
 def _action_contract(name: str, digit: str) -> ContractReference:
@@ -202,7 +213,7 @@ def _profile(*, cost_limit: int = 10_000) -> EmbeddingProfile:
             "synthetic-model",
             "1.0.0",
             "local-v1",
-            "UTF8_BYTES",
+            "SYNTHETIC_EXACT_V1",
             4,
             "FLOAT32",
             "NONE",
@@ -213,6 +224,18 @@ def _profile(*, cost_limit: int = 10_000) -> EmbeddingProfile:
             ("dev",),
         )
     )
+
+
+class _SyntheticExactTokenCounter:
+    """Deterministic local tokenizer boundary independent of encoded byte length."""
+
+    tokenizer_id = "SYNTHETIC_EXACT_V1"
+
+    def count(self, text: str) -> int:
+        return len(text.split())
+
+
+_TOKEN_COUNTER = _SyntheticExactTokenCounter()
 
 
 def _manifest(
@@ -252,7 +275,7 @@ def _manifest(
         ),
     )
     selected_profile = profile or _profile()
-    return freeze_promotion_manifest(
+    return freeze_generic_promotion_manifest(
         PromotionPlan(
             "dev",
             "zzz",
@@ -300,6 +323,108 @@ def _plan_from_manifest(manifest: PromotionManifest) -> PromotionPlan:
     )
 
 
+def task8_no_routing_actions(
+    desired: DesiredStateInventory, profile: EmbeddingProfile
+) -> tuple[PromotionActionAuthority, ...]:
+    """Convert the compatibility routing fixture into the V1 no-routing action set."""
+    actions = _actions(desired, profile)
+    routing = actions[-1]
+    return (
+        *actions[:-1],
+        replace(
+            routing,
+            action_id="PUBLISH_RELEASE",
+            effect_type=EffectType.RELEASE_PUBLICATION,
+            required_capability=EffectCapability.PUBLISH_RELEASE,
+            destination_class=DestinationClass.RELEASE_STORE,
+            input_refs=(actions[0].input_refs[0],),
+            compensation=NoCompensation(),
+        ),
+    )
+
+
+def _v1_manifest() -> PromotionManifest:
+    """Create one source-cycle-complete canonical V1 manifest for service tests."""
+    generic = _manifest()
+    generic_records = tuple(item.record for item in generic.desired_state.records)
+    hk_records = (
+        replace(
+            generic_records[0],
+            country="HK",
+            jurisdiction="hkg",
+            material_type="Case",
+            source="Hong Kong Judiciary",
+            authority_note="Binding Hong Kong court decision.",
+        ),
+        replace(
+            generic_records[1],
+            country="HK",
+            jurisdiction="hkg",
+            material_type="Legislation",
+            source="Hong Kong e-Legislation",
+            authority_note="Official Hong Kong legislation.",
+        ),
+    )
+    releases = tuple(
+        freeze_corpus_release(
+            CorpusReleaseInput(
+                scope_id,
+                _NOW,
+                ("evi_" + str(index) * 48,),
+                ("val_" + str(index) * 48,),
+                zero_record_justification_refs=("evi_" + str(index + 4) * 48,)
+                if record is None
+                else (),
+            ),
+            () if record is None else (record,),
+        )
+        for index, (scope_id, record) in enumerate(
+            zip(_HK_V1_SCOPES, (hk_records[0], None, hk_records[1], None), strict=True),
+            start=1,
+        )
+    )
+    desired = compose_desired_state(
+        _HK_V1_SCOPES,
+        releases,
+        target_key="hkg-v1",
+        observation_cutoff=_NOW,
+    )
+    cycle = SourceCoverageCycleBinding(
+        vault="PRIMARY",
+        logical_key="poc/report/source-coverage-cycle/full_periodic/" + "a" * 64,
+        version_id="v" + "b" * 64,
+        fingerprint="sha256:" + "a" * 64,
+        byte_length=1024,
+        observation_cutoff=_NOW,
+        accounting_complete=True,
+        release_blocking=False,
+        missing_source_ids=(),
+        duplicate_source_ids=(),
+        gap_source_ids=(),
+    )
+    coverage = freeze_v1_coverage_status(
+        _CANDIDATE,
+        _NOW,
+        _HK_V1_SCOPES,
+        tuple(
+            CoverageScopeStatus(
+                scope_id, CoverageState.CURRENT, _NOW, (), (), (), CoverageWarning.NONE
+            )
+            for scope_id in _HK_V1_SCOPES
+        ),
+        cycle,
+    )
+    return freeze_v1_promotion_manifest(
+        replace(
+            _plan_from_manifest(generic),
+            jurisdiction="hkg",
+            desired_state=desired,
+            coverage_status=coverage,
+            actions=task8_no_routing_actions(desired, generic.embedding_profile),
+        )
+    )
+
+
 def test_canonical_manifest_bytes_recover_the_exact_approval_snapshot() -> None:
     """Review facts come from the executable bytes, not an identity-only wrapper."""
     manifest = _manifest()
@@ -332,11 +457,13 @@ def test_manifest_rejects_effect_binding_or_profile_input_invention() -> None:
     first = plan.actions[0]
     wrong_capability = replace(first, required_capability=EffectCapability.MANAGE_BACKUP)
     with pytest.raises(PromotionError, match="action effect binding"):
-        freeze_promotion_manifest(replace(plan, actions=(wrong_capability, *plan.actions[1:])))
+        freeze_generic_promotion_manifest(
+            replace(plan, actions=(wrong_capability, *plan.actions[1:]))
+        )
 
     changed_profile = _profile(cost_limit=9_999)
     with pytest.raises(PromotionError, match="action input binding"):
-        freeze_promotion_manifest(replace(plan, embedding_profile=changed_profile))
+        freeze_generic_promotion_manifest(replace(plan, embedding_profile=changed_profile))
 
 
 def test_manifest_rejects_missing_stop_or_broadened_never_retry() -> None:
@@ -346,12 +473,12 @@ def test_manifest_rejects_missing_stop_or_broadened_never_retry() -> None:
     first = plan.actions[0]
     missing_stop = replace(first, stop_conditions=first.stop_conditions[:-1])
     with pytest.raises(PromotionError, match="action completion authority"):
-        freeze_promotion_manifest(replace(plan, actions=(missing_stop, *plan.actions[1:])))
+        freeze_generic_promotion_manifest(replace(plan, actions=(missing_stop, *plan.actions[1:])))
 
     last = plan.actions[-1]
     broadened = replace(last, attempt_ceiling=2)
     with pytest.raises(PromotionError, match="action retry authority"):
-        freeze_promotion_manifest(replace(plan, actions=(*plan.actions[:-1], broadened)))
+        freeze_generic_promotion_manifest(replace(plan, actions=(*plan.actions[:-1], broadened)))
 
 
 @pytest.mark.parametrize("drift", ["BYTES", "IDENTITY", "FINGERPRINT"])
@@ -378,11 +505,11 @@ def test_approval_snapshot_rejects_any_manifest_binding_drift(drift: str) -> Non
     assert error.value.code is PromotionErrorCode.MANIFEST_DRIFT
 
 
-def test_v1_manifest_freeze_requires_complete_nonblocking_source_cycle() -> None:
-    """The V1 promotion envelope cannot omit or bypass source-cycle eligibility."""
+def test_generic_compatibility_manifest_still_requires_explicit_source_cycle_check() -> None:
+    """Legacy routing fixtures are explicitly non-V1 and do not redefine V1 activation."""
     legacy = _manifest()
     with pytest.raises(CorpusError, match="source cycle missing"):
-        freeze_v1_promotion_manifest(_plan_from_manifest(legacy))
+        verify_v1_coverage_release_gate(legacy.coverage_status)
 
     cycle = SourceCoverageCycleBinding(
         vault="PRIMARY",
@@ -408,7 +535,7 @@ def test_v1_manifest_freeze_requires_complete_nonblocking_source_cycle() -> None
         ),
         cycle,
     )
-    frozen = freeze_v1_promotion_manifest(
+    frozen = freeze_generic_promotion_manifest(
         replace(_plan_from_manifest(legacy), coverage_status=coverage)
     )
 
@@ -447,6 +574,7 @@ def _service(
     plan: LocalFailurePlan | None = None,
     coverage: LocalCoverageStore | None = None,
     embeddings: EmbeddingPort | None = None,
+    token_counter: EmbeddingTokenCounter = _TOKEN_COUNTER,
 ) -> tuple[
     PromotionService,
     str,
@@ -463,6 +591,7 @@ def _service(
         PromotionDependencies(
             approvals,
             embeddings or LocalEmbeddingAdapter(selected),
+            token_counter,
             targets,
             backups,
             routing,
@@ -492,6 +621,7 @@ def test_complete_replacement_target_is_verified_backed_up_and_cut_over() -> Non
     service, approval_id, targets, routing, backups = _service(manifest)
     result = _execute(service, manifest, approval_id)
     assert result.state == "EXECUTION_SUCCEEDED"
+    assert result.total_cost_microunits == 8
     assert len(result.embedding_receipt_ids) == 2
     assert targets.contains(result.target_name)
     assert routing.active_state_id == _CANDIDATE
@@ -501,6 +631,144 @@ def test_complete_replacement_target_is_verified_backed_up_and_cut_over() -> Non
     assert backups.receipts[0].native_verified
     assert backups.receipts[0].recovery_verified
     assert _execute(service, manifest, approval_id) == result
+
+
+def test_tokenizer_identity_drift_stops_before_approval_or_embedding_effect() -> None:
+    """A counter for another tokenizer cannot consume Approval or call the provider."""
+
+    class WrongCounter:
+        tokenizer_id = "OTHER_TOKENIZER"
+
+        def count(self, text: str) -> int:
+            message = "count must not run after identity mismatch"
+            raise AssertionError(message, text)
+
+    manifest = _manifest()
+    approvals, approval_id = _approval(manifest)
+    embeddings = LocalEmbeddingAdapter()
+    targets = LocalServingTargetStore()
+    service = PromotionService(
+        PromotionDependencies(
+            approvals,
+            embeddings,
+            WrongCounter(),
+            targets,
+            LocalBackupStore(),
+            LocalRoutingStore(_BASE),
+            LocalCoverageStore(manifest.coverage_status),
+        )
+    )
+
+    with pytest.raises(PromotionError) as failure:
+        _execute(service, manifest, approval_id)
+
+    assert failure.value.code is PromotionErrorCode.PROFILE_INVALID
+    assert approvals.get(approval_id).state is ApprovalState.APPROVED
+    assert embeddings.calls == []
+    assert not targets.contains(
+        pinecone_index_name("dev", "zzz", "20260816", _STATE_FP, "project1")
+    )
+
+
+def test_worker_rejects_adapter_token_receipt_drift_before_target_upsert() -> None:
+    """Every embedding implementation must echo the exact request token count."""
+
+    class DriftedReceiptAdapter(LocalEmbeddingAdapter):
+        def embed(self, profile: EmbeddingProfile, request: EmbeddingRequest) -> EmbeddedVector:
+            embedded = super().embed(profile, request)
+            return replace(
+                embedded,
+                receipt=replace(
+                    embedded.receipt,
+                    input_tokens=embedded.receipt.input_tokens + 1,
+                ),
+            )
+
+    manifest = _manifest()
+    service, approval_id, targets, _routing, _backups = _service(
+        manifest,
+        embeddings=DriftedReceiptAdapter(),
+    )
+
+    with pytest.raises(PromotionError) as failure:
+        _execute(service, manifest, approval_id)
+
+    assert failure.value.code is PromotionErrorCode.PROFILE_INVALID
+    target_name = pinecone_index_name("dev", "zzz", "20260816", _STATE_FP, "project1")
+    assert targets.enumerate(target_name) == ()
+
+
+def test_canonical_v1_service_never_calls_routing_and_activates_serving_state() -> None:
+    """The V1 execution path reaches Register Serving State only after local verification."""
+
+    class RoutingSpy:
+        """Fail if the V1 path attempts a forbidden Ask.Legal routing operation."""
+
+        active_state_id = _BASE
+
+        def activate(self, expected_base: str, candidate: str) -> str:
+            raise AssertionError((expected_base, candidate))
+
+        def verify_post_cutover(self, candidate: str) -> None:
+            raise AssertionError(candidate)
+
+        def rollback(self, candidate: str, predecessor: str) -> str:
+            raise AssertionError((candidate, predecessor))
+
+    manifest = _v1_manifest()
+    approvals, approval_id = _approval(manifest)
+    targets = LocalServingTargetStore()
+    backups = LocalBackupStore()
+    states = LocalServingStateStore(_BASE)
+    service = PromotionService(
+        PromotionDependencies(
+            approvals,
+            LocalEmbeddingAdapter(),
+            _TOKEN_COUNTER,
+            targets,
+            backups,
+            RoutingSpy(),
+            LocalCoverageStore(manifest.coverage_status),
+            states,
+        )
+    )
+    result = _execute(service, manifest, approval_id, "exe_" + "1" * 48)
+    assert result.state == "EXECUTION_SUCCEEDED"
+    assert targets.contains(result.target_name)
+    assert backups.receipts
+    assert states.active_state_id == manifest.candidate_serving_state_id
+
+
+def test_sql_verification_contract_rolls_back_the_exact_v1_serving_state() -> None:
+    """The SQL adapter's narrow post-read mismatch reaches the same rollback path as the fake."""
+
+    class VerificationDriftStore(LocalServingStateStore):
+        """Adapter-shaped state boundary that reports only a post-activation mismatch."""
+
+        def verify(self, candidate_state_id: str) -> None:
+            _ = candidate_state_id
+            code = "ASKLEGAL_SERVING_STATE_POST_ACTIVATION_DRIFT"
+            raise ServingStateVerificationError(code)
+
+    manifest = _v1_manifest()
+    approvals, approval_id = _approval(manifest)
+    states = VerificationDriftStore(_BASE)
+    service = PromotionService(
+        PromotionDependencies(
+            approvals,
+            LocalEmbeddingAdapter(),
+            _TOKEN_COUNTER,
+            LocalServingTargetStore(),
+            LocalBackupStore(),
+            LocalRoutingStore(_BASE),
+            LocalCoverageStore(manifest.coverage_status),
+            states,
+        )
+    )
+    result = _execute(service, manifest, approval_id, "exe_" + "1" * 48)
+    assert result.state == "EXECUTION_ROLLED_BACK"
+    assert result.rollback_receipt_ref
+    assert states.active_state_id == _BASE
 
 
 def test_embedding_profile_request_and_receipt_match_normative_contracts() -> None:
@@ -544,6 +812,7 @@ def test_embedding_profile_request_and_receipt_match_normative_contracts() -> No
             0,
         ),
         profile,
+        _TOKEN_COUNTER,
     )
     request_value = {
         "schema_id": "asklegal.embedding-request",
@@ -764,3 +1033,15 @@ def test_retirement_has_no_broad_selector_and_never_deletes_active_target() -> N
     active_manifest = _manifest(retirements=(result.target_name,))
     with pytest.raises(PromotionError):
         service.retire_exact(active_manifest, result.target_name)
+
+
+# Public fixture aliases consumed by the Task 8 promotion integration tests.
+TASK8_AT = _AT
+TASK8_BASE = _BASE
+TASK8_PREDICATES = _PREDICATES
+TASK8_TOKEN_COUNTER = _TOKEN_COUNTER
+task8_actions = _actions
+task8_approval = _approval
+task8_manifest_fixture = _manifest
+task8_plan_from_manifest = _plan_from_manifest
+task8_v1_manifest_fixture = _v1_manifest

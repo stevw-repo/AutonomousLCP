@@ -7,6 +7,7 @@ from enum import StrEnum
 
 from durabletask.azuremanaged.client import DurableTaskSchedulerClient
 from durabletask.azuremanaged.worker import DurableTaskSchedulerWorker
+from durabletask.client import OrchestrationStatus
 from durabletask.task import (
     ActivityContext,
     OrchestrationContext,
@@ -22,6 +23,7 @@ __all__ = [
     "ActivityContext",
     "ConcurrencyOptions",
     "OrchestrationContext",
+    "OrchestrationStatus",
     "Task",
     "TaskFailedError",
     "V1SchedulerError",

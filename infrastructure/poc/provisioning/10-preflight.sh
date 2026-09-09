@@ -56,7 +56,12 @@ check_package e2fsprogs "1.47.0-2.4~exp1ubuntu4.1"
 check_package nftables "1.0.9-1ubuntu0.1"
 check_package systemd "255.4-1ubuntu8.17"
 check_package systemd-timesyncd "255.4-1ubuntu8.17"
-check_package util-linux "2.39.3-9ubuntu6.5"
+check_package util-linux "2.39.3-9ubuntu6.6"
+if command -v setfacl >/dev/null; then
+  pass "setfacl available for cross-service handoffs"
+else
+  fail "setfacl unavailable; install the admitted acl package before provisioning"
+fi
 
 note "data disk"
 if blkid -U "3667a2bf-a59b-485c-b07a-2150c1a18d63" >/dev/null 2>&1; then
@@ -74,7 +79,7 @@ fi
 
 note "numeric identities are free"
 allocated="3000 3001 3002 3003 3004 3005 3006 3007 3008 3009"
-reserved="3010 3011 3012 3013 3014 10001"
+reserved="3010 3011 3012 3013 3014 3100 3101 3102 10001"
 for id in $allocated $reserved; do
   if getent passwd "$id" >/dev/null || getent group "$id" >/dev/null; then
     existing="$(getent passwd "$id" | cut -d: -f1)"

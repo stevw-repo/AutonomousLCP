@@ -178,7 +178,7 @@ class RegisteredExecutionBeginService:
             context,
             effect_intent_id,
         )
-        intent_document = _effect_intent_document(intent)
+        intent_document = effect_intent_document(intent)
         self._schemas.validate(
             intent_document,
             "schemas/operation-domain.schema.json#/$defs/effect_intent",
@@ -355,7 +355,8 @@ def _effect_intent(
     )
 
 
-def _effect_intent_document(intent: EffectIntent) -> dict[str, JsonValue]:
+def effect_intent_document(intent: EffectIntent) -> dict[str, JsonValue]:
+    """Return the canonical registered representation of one effect intent."""
     value = checked_json_value(
         {
             "aggregate_ref": _reference_document(intent.aggregate_ref),

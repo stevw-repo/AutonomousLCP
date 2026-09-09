@@ -64,6 +64,9 @@ def _review(environment: dict[str, str]) -> InfrastructureResult:
 
 
 def _acquisition(environment: dict[str, str]) -> InfrastructureResult:
+    environment["ASKLEGAL_HK_V1_DUE_STATE_ROOT"] = str(
+        Path(environment["CREDENTIALS_DIRECTORY"]).parent / "acquisition-due-cycle-state"
+    )
     infrastructure = load_acquisition(environment)
     return (
         infrastructure.sql,

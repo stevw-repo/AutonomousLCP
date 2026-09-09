@@ -7,6 +7,15 @@ set -euo pipefail
 container='asklegal-legal-processing-worker'
 runtime_uid=3003
 
+# Phase two atomically installs this authority-bound exact image set.
+deployment_manifest=/etc/asklegal/deployment-images
+[ -f "$deployment_manifest" ] && [ ! -L "$deployment_manifest" ]
+matches="$(grep -Ec '^legal-processing-worker sha256:[0-9a-f]{64}$' "$deployment_manifest")"
+[ "$matches" -eq 1 ]
+image_line="$(grep -E '^legal-processing-worker sha256:[0-9a-f]{64}$' "$deployment_manifest")"
+image_id="${image_line#* }"
+docker image inspect --format '{{.Id}}' "$image_id" | grep -Fx -- "$image_id" >/dev/null
+
 # A stale container from a previous boot would keep the name and the old
 # configuration, so the unit always starts from a clean one.
 docker rm -f "$container" >/dev/null 2>&1 || true
@@ -31,20 +40,32 @@ docker create \
   --user "$runtime_uid":"$runtime_uid" \
   --cap-drop ALL \
   --security-opt no-new-privileges \
+  -e 'ASKLEGAL_HK_V1_ACQUISITION_JOURNAL_ROOT=/var/lib/asklegal/acquisition/due-cycle' \
+  -e 'ASKLEGAL_HK_V1_ACCEPTANCE_INPUT_ROOT=/var/lib/asklegal/processing/acceptance-inputs' \
+  -e 'ASKLEGAL_HK_V1_CASE_PROCESSING_POLICY_PATH=/etc/asklegal/config/hk-v1-legal-processing/case-processing-policy.json' \
+  -e 'ASKLEGAL_HK_V1_PACKAGE_FACTS_ROOT=/etc/asklegal/config/hk-v1-legal-processing/package-facts' \
+  -e 'ASKLEGAL_HK_V1_PROCESSING_STATE_ROOT=/var/lib/asklegal/processing' \
+  -e 'ASKLEGAL_HK_V1_REVIEW_ARTIFACT_ROOT=/var/lib/asklegal/review-artifacts' \
+  -e 'ASKLEGAL_HK_V1_SEMANTIC_CAPABILITY_EVIDENCE_PATH=/etc/asklegal/config/hk-v1-legal-processing/semantic-capability-evidence.json' \
+  -e 'ASKLEGAL_HK_V1_SEMANTIC_PROFILE_PATH=/etc/asklegal/config/hk-v1-legal-processing/semantic-profile.json' \
   -e 'CREDENTIALS_DIRECTORY=/run/credentials/asklegal-legal-processing-worker.service' \
   -v "$credential_dir":'/run/credentials/asklegal-legal-processing-worker.service':ro \
+  -v '/var/lib/asklegal/acquisition/due-cycle:/var/lib/asklegal/acquisition/due-cycle:ro' \
+  -v '/var/lib/asklegal/processing:/var/lib/asklegal/processing:rw' \
+  -v '/etc/asklegal/config/hk-v1-legal-processing:/etc/asklegal/config/hk-v1-legal-processing:ro' \
+  -v '/var/lib/asklegal/review-artifacts:/var/lib/asklegal/review-artifacts:rw' \
   -v '/etc/asklegal/trust/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro' \
   -v '/etc/asklegal/trust/vault-primary-ca.pem:/etc/asklegal/trust/vault-primary-ca.pem:ro' \
   -v '/etc/asklegal/trust/vault-recovery-ca.pem:/etc/asklegal/trust/vault-recovery-ca.pem:ro' \
   -v '/etc/asklegal/tls/internal-ca.crt:/etc/asklegal/tls/internal-ca.crt:ro' \
-  'asklegal/legal-processing-worker:v1' >/dev/null
+  "$image_id" >/dev/null
 
 # Every network is attached before the process starts. Attaching after start
 # is a race: the readiness gate can run before a dependency is reachable.
 docker network connect --alias 'legal-processing-worker' 'asklegal-scheduler-general' "$container"
 docker network connect --alias 'legal-processing-worker' 'asklegal-vault-primary' "$container"
 docker network connect --alias 'legal-processing-worker' 'asklegal-telemetry' "$container"
-docker network connect --alias 'legal-processing-worker' 'asklegal-egress-model' "$container"
+docker network connect --ip '10.90.8.3' --alias 'legal-processing-worker' 'asklegal-egress-model' "$container"
 
 # `docker start --attach` keeps this script in the foreground so systemd can
 # supervise it; ExecStop stops the container itself.

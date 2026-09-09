@@ -111,7 +111,7 @@ def test_real_repository_has_exact_closed_architecture() -> None:
     assert check_repository(REPOSITORY_ROOT) == ()
     assert report.applications == 5
     assert report.packages == 14
-    assert report.dependency_edges == 80
+    assert report.dependency_edges == 81
     assert report.capability_ports == 31
     assert policy.exclusive_capability_owners == {
         "approval_command": "asklegal-review-api",
@@ -135,6 +135,7 @@ def test_real_repository_has_exact_closed_architecture() -> None:
     assert "proposal_package_prepare" in control.capability_ports
     assert "proposal_package_prepare" not in members["asklegal-promotion-worker"].capability_ports
     assert members["asklegal-acquisition-worker"].allowed_external_distributions == ("patchright",)
+    assert members["asklegal-processing"].allowed_external_distributions == ("tiktoken",)
     assert all(
         members[name].allowed_external_distributions == ()
         for name in (

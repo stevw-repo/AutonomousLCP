@@ -153,7 +153,11 @@ class _FakeS3Client:
     def head_object(self, **kwargs: object) -> Mapping[str, object]:
         self.calls.append(("head_object", dict(kwargs)))
         record, version = self._record_and_version(kwargs, "HeadObject")
-        return {"Metadata": record["metadata"], "VersionId": version}
+        return {
+            "Metadata": record["metadata"],
+            "VersionId": version,
+            "ContentLength": len(_bytes_record(record, "content")),
+        }
 
     def get_object_retention(self, **kwargs: object) -> Mapping[str, object]:
         self.calls.append(("get_object_retention", dict(kwargs)))
@@ -377,6 +381,19 @@ def test_s3_conditional_create_replay_retention_and_exact_read() -> None:
     assert put["ObjectLockMode"] == "COMPLIANCE"
     assert put["ObjectLockLegalHoldStatus"] == "OFF"
     assert put["ChecksumSHA256"] == base64_sha256(content)
+
+
+def test_s3_resolve_current_preserves_the_provider_version_reference() -> None:
+    """Read-only key resolution returns an `s3v_` reference, never a local hash version."""
+    client = _FakeS3Client()
+    vault = S3ImmutableVault(client, V1S3VaultSettings.for_vault(VaultName.PRIMARY))
+    key = "proof/provider-version.json"
+    assert vault.resolve_current(key) is None
+    receipt = vault.conditional_create(key, b"immutable", _RETENTION)
+    resolved = vault.resolve_current(key)
+    assert resolved == receipt.reference
+    assert resolved is not None
+    assert resolved.version_id.startswith("s3v_")
 
 
 def test_s3_readiness_requires_versioning_and_object_lock_without_writing() -> None:

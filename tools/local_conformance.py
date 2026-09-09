@@ -144,7 +144,7 @@ from asklegal_promotion import (
     PromotionPlan,
     TargetDefinition,
     freeze_embedding_profile,
-    freeze_promotion_manifest,
+    freeze_generic_promotion_manifest,
     promotion_manifest_bytes,
 )
 from asklegal_promotion_worker import (
@@ -170,6 +170,18 @@ from asklegal_source_connectors import (
 )
 from fastapi import FastAPI
 from httpx import ASGITransport, AsyncClient, Response
+
+
+class _SyntheticExactTokenCounter:
+    """Reserved local tokenizer with a closed whitespace-token contract."""
+
+    tokenizer_id = "SYNTHETIC_EXACT_V1"
+
+    def count(self, text: str) -> int:
+        return len(text.split())
+
+
+_TOKEN_COUNTER = _SyntheticExactTokenCounter()
 
 _ROOT = Path(__file__).resolve().parents[1]
 _STATE_ROOT = (_ROOT / "var/local-conformance").resolve()
@@ -692,7 +704,7 @@ def _promotion_manifest(
             "synthetic-model",
             "1.0.0",
             "local-v1",
-            "UTF8_BYTES",
+            "SYNTHETIC_EXACT_V1",
             4,
             "FLOAT32",
             "NONE",
@@ -703,7 +715,7 @@ def _promotion_manifest(
             ("dev",),
         )
     )
-    manifest = freeze_promotion_manifest(
+    manifest = freeze_generic_promotion_manifest(
         PromotionPlan(
             "dev",
             "zzz",
@@ -1157,6 +1169,7 @@ def _promotion_service(
         PromotionDependencies(
             approvals,
             LocalEmbeddingAdapter(fault),
+            _TOKEN_COUNTER,
             targets,
             backups,
             routing,
@@ -1447,6 +1460,7 @@ def _overlap_case() -> ScenarioResult:
         PromotionDependencies(
             approvals,
             blocker,
+            _TOKEN_COUNTER,
             targets,
             LocalBackupStore(),
             routing,
@@ -2006,7 +2020,7 @@ def _run_scenario(scenario_id: str, root: Path) -> ScenarioResult:
                 "synthetic-model",
                 "1.0.0",
                 "local-v1",
-                "UTF8_BYTES",
+                "SYNTHETIC_EXACT_V1",
                 4,
                 "FLOAT32",
                 "NONE",
@@ -2017,7 +2031,7 @@ def _run_scenario(scenario_id: str, root: Path) -> ScenarioResult:
                 ("dev",),
             )
         )
-        changed = freeze_promotion_manifest(
+        changed = freeze_generic_promotion_manifest(
             PromotionPlan(
                 manifest.environment,
                 manifest.jurisdiction,

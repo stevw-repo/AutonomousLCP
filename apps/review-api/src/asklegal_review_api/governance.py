@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
+from datetime import UTC, datetime, timedelta
 from hashlib import sha256
 from threading import RLock
 from typing import TYPE_CHECKING, Protocol
@@ -30,6 +31,11 @@ from asklegal_management_register_ports import (
     InMemoryApprovalRegister,
     ManifestSnapshot,
     ReviewerPrincipal,
+)
+
+from asklegal_review_api.registered_proposals import (
+    ProposalProjectionError,
+    validate_hk_v1_review_readiness,
 )
 
 if TYPE_CHECKING:
@@ -185,12 +191,45 @@ class ReviewDecisionWindow:
             message = "command expiry must follow decision time"
             raise ValueError(message)
 
+    def current(self) -> ReviewDecisionWindow:
+        """Serve as a deterministic window source for tests and exact replay."""
+        return self
+
+
+@dataclass(frozen=True, slots=True)
+class SystemReviewDecisionWindowSource:
+    """Create a fresh bounded Review-command window for every local decision."""
+
+    clock: Callable[[], datetime] = lambda: datetime.now(UTC)
+    ttl: timedelta = timedelta(minutes=5)
+
+    def current(self) -> ReviewDecisionWindow:
+        """Return one second-precise UTC window from the current local clock."""
+        now = self.clock()
+        if now.tzinfo is None or self.ttl <= timedelta(0):
+            message = "review clock must be timezone-aware and TTL positive"
+            raise ValueError(message)
+        decision = now.astimezone(UTC).replace(microsecond=0)
+        expiry = decision + self.ttl
+        return ReviewDecisionWindow(
+            decision.isoformat().replace("+00:00", "Z"),
+            expiry.isoformat().replace("+00:00", "Z"),
+        )
+
+
+class ReviewDecisionWindowSource(Protocol):
+    """Supply a fresh exact decision/command window when a command is handled."""
+
+    def current(self) -> ReviewDecisionWindow:
+        """Return the current exact decision window."""
+        ...
+
 
 @dataclass(frozen=True, slots=True)
 class RegisteredReviewGovernanceConfiguration:
     """Decision window plus optional durable registered-revocation boundary."""
 
-    window: ReviewDecisionWindow
+    window: ReviewDecisionWindowSource
     approved: RegisteredReviewApprovalSource | None = None
     revocations: RegisteredReviewRevocationWriter | None = None
 
@@ -219,11 +258,11 @@ class RegisteredReviewGovernanceService:
         self._schemas = schemas
         self._approved = configuration.approved
         self._revocations = configuration.revocations
-        self._decision_time = configuration.window.decision_time
-        self._command_expires_at = configuration.window.command_expires_at
+        self._window = configuration.window
 
-    def submit(self, command: ReviewCommand) -> CommandOutcome:
+    def submit(self, command: ReviewCommand) -> CommandOutcome:  # noqa: C901, PLR0912
         """Re-read, authorize, validate, and atomically record one decision."""
+        window = self._window.current()
         action = _required_string(command.body, "action")
         if action == "REVOKE":
             return self._revoke(command)
@@ -238,6 +277,29 @@ class RegisteredReviewGovernanceService:
         manifest_fingerprint = _required_string(command.body, "manifest_fingerprint")
         if manifest_fingerprint != proposal.proposal.manifest_fingerprint:
             raise LocalAdapterError(LocalAdapterErrorCode.STALE_VERSION)
+        if not proposal.valid_from <= window.decision_time <= proposal.valid_until:
+            raise LocalAdapterError(LocalAdapterErrorCode.STALE_VERSION)
+        two_family_bindings = tuple(
+            item
+            for item in proposal.validity_predicates
+            if item[0] == "HK_V1_TWO_FAMILY_PROPOSAL" and item[1] == "1.0.0"
+        )
+        if (
+            action == "APPROVE"
+            and (len(two_family_bindings) != 1 or proposal.hk_v1_readiness is None)
+            and two_family_bindings
+        ):
+            raise LocalAdapterError(LocalAdapterErrorCode.DISABLED)
+        if action == "APPROVE" and proposal.hk_v1_readiness is not None:
+            if len(two_family_bindings) != 1:
+                raise LocalAdapterError(LocalAdapterErrorCode.DISABLED)
+            try:
+                validate_hk_v1_review_readiness(
+                    proposal.hk_v1_readiness,
+                    two_family_bindings[0][2],
+                )
+            except ProposalProjectionError as error:
+                raise LocalAdapterError(LocalAdapterErrorCode.DISABLED) from error
         reason = _required_string(command.body, "reason")
         decision = "APPROVED" if action == "APPROVE" else "REJECTED"
         approval_id = _stable_id(
@@ -246,47 +308,48 @@ class RegisteredReviewGovernanceService:
             manifest_fingerprint,
             decision,
         )
-        document = checked_json_value(
-            {
-                "approval_id": approval_id,
-                "authority_evidence_ref": _reference(
-                    "EVIDENCE",
-                    evidence.authority_evidence_id,
-                    evidence.authority_evidence_fingerprint,
-                ),
-                "decision": decision,
-                "decision_time": self._decision_time,
-                "expected_base_serving_state_ref": _reference(
-                    "SERVING_STATE",
-                    proposal.base_serving_state_id,
-                    proposal.base_serving_state_fingerprint,
-                ),
-                "governance_policy_state": "CONFIGURED",
-                "immutable": True,
-                "promotion_manifest_ref": _reference(
-                    "PROMOTION_MANIFEST",
-                    proposal.promotion_manifest_id,
-                    manifest_fingerprint,
-                ),
-                "reason": reason,
-                "reviewer_identity_ref": _reference(
-                    "ACTOR",
-                    evidence.reviewer_identity_id,
-                    evidence.reviewer_identity_fingerprint,
-                ),
-                "schema_id": "asklegal.approval-decision",
-                "schema_version": "1.1.0",
-                "valid_from": proposal.valid_from,
-                "validity_condition_refs": [
-                    {
-                        "contract_id": contract_id,
-                        "fingerprint": condition_fingerprint,
-                        "version": version,
-                    }
-                    for contract_id, version, condition_fingerprint in proposal.validity_predicates
-                ],
-            }
-        )
+        decision_document: dict[str, JsonValue] = {
+            "approval_id": approval_id,
+            "authority_evidence_ref": _reference(
+                "EVIDENCE",
+                evidence.authority_evidence_id,
+                evidence.authority_evidence_fingerprint,
+            ),
+            "decision": decision,
+            "decision_time": window.decision_time,
+            "expected_base_serving_state_ref": _reference(
+                "SERVING_STATE",
+                proposal.base_serving_state_id,
+                proposal.base_serving_state_fingerprint,
+            ),
+            "governance_policy_state": "CONFIGURED",
+            "immutable": True,
+            "promotion_manifest_ref": _reference(
+                "PROMOTION_MANIFEST",
+                proposal.promotion_manifest_id,
+                manifest_fingerprint,
+            ),
+            "reason": reason,
+            "reviewer_identity_ref": _reference(
+                "ACTOR",
+                evidence.reviewer_identity_id,
+                evidence.reviewer_identity_fingerprint,
+            ),
+            "schema_id": "asklegal.approval-decision",
+            "schema_version": "1.1.0",
+            "valid_from": proposal.valid_from,
+            "validity_condition_refs": [
+                {
+                    "contract_id": contract_id,
+                    "fingerprint": condition_fingerprint,
+                    "version": version,
+                }
+                for contract_id, version, condition_fingerprint in proposal.validity_predicates
+            ],
+        }
+        if action == "APPROVE" and proposal.hk_v1_readiness is not None:
+            decision_document["review_readiness_fingerprint"] = proposal.hk_v1_readiness.fingerprint
+        document = checked_json_value(decision_document)
         self._schemas.validate(
             document,
             "schemas/promotion-domain.schema.json#/$defs/approval_decision",
@@ -313,7 +376,7 @@ class RegisteredReviewGovernanceService:
                 target_id=command.target,
                 expected_version=None,
                 expected_absent=True,
-                expires_at=self._command_expires_at,
+                expires_at=window.command_expires_at,
                 winner_key=f"proposal-decision:{proposal.promotion_manifest_id}",
                 event_id=f"evt_{sha256(event_bytes).hexdigest()[:48]}",
                 event_type="PROPOSAL_APPROVED" if decision == "APPROVED" else "PROPOSAL_REJECTED",
@@ -336,6 +399,7 @@ class RegisteredReviewGovernanceService:
 
     def _revoke(self, command: ReviewCommand) -> CommandOutcome:
         """Authorize and atomically revoke one exact unconsumed registered Approval."""
+        window = self._window.current()
         if command.expected_version != 1:
             raise LocalAdapterError(LocalAdapterErrorCode.STALE_VERSION)
         if self._approved is None or self._revocations is None:
@@ -382,7 +446,7 @@ class RegisteredReviewGovernanceService:
                     decision.approval_id,
                     decision.event_fingerprint,
                 ),
-                "event_time": self._decision_time,
+                "event_time": window.decision_time,
                 "event_type": "REVOKE",
                 "evidence_refs": _unique_references(authority_refs),
                 "execution_lineage_refs": [],
@@ -423,7 +487,7 @@ class RegisteredReviewGovernanceService:
                 bytes.fromhex(decision.event_fingerprint.removeprefix("sha256:")),
                 proposal.promotion_manifest_id,
                 manifest_fingerprint,
-                self._command_expires_at,
+                window.command_expires_at,
                 event_id,
                 canonicalize(event),
             )

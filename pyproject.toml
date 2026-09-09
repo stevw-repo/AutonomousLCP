@@ -70,7 +70,27 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
+"apps/control-plane/src/asklegal_control_plane/bootstrap.py" = ["S314"]
 "apps/control-plane/src/asklegal_control_plane/local_cli.py" = ["S603"]
+"apps/acquisition-worker/src/asklegal_acquisition_worker/gld_session.py" = [
+  "BLE001",
+  "C901",
+  "PLR0912",
+  "PLR0913",
+  "PLR0915",
+  "PLR0917",
+  "S603",
+  "TRY301",
+]
+"apps/acquisition-worker/tests/test_gld_session.py" = [
+  "ARG002",
+  "B009",
+  "C901",
+  "N802",
+  "PLW0108",
+  "S108",
+  "SLF001",
+]
 "packages/application-runtime/src/asklegal_application_runtime/local.py" = [
   "EM101",
   "TC002",
@@ -338,7 +358,7 @@ ignore = [
 include = [
   ".",
 ]
-exclude = [".venv", "node_modules", "var"]
+exclude = [".venv", "node_modules", "var", ".superpowers/sdd"]
 pythonVersion = "3.14"
 typeCheckingMode = "strict"
 venvPath = "."

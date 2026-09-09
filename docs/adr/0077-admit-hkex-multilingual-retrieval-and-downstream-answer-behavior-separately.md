@@ -13,6 +13,21 @@ depends_on:
 
 # Admit HKEX multilingual retrieval and downstream answer behavior separately
 
+## 2026-08-25 V1 amendment
+
+For the approved live V1, the requirement below for a complete Ask.Legal
+query-path evaluation and a three-layer Ask.Legal admission package is
+superseded. Ask.Legal query routing and administration are excluded from V1.
+V1 instead uses the compact fixed golden evaluation defined by the live
+specification, including English, Traditional Chinese, bilingual, and small
+cross-language retrieval checks. The exact Ask.Legal integration and the
+broader evaluation architecture in this ADR remain post-V1 work.
+
+V1 activation is the Management Register transition to the verified Serving
+State for the approved complete Pinecone index; it is not an Ask.Legal routing
+change. See the
+[Hong Kong Live V1 Execution Specification](../design/HK_V1_LIVE_EXECUTION_SPEC.md).
+
 ## Decision
 
 English-only Hong Kong Regulatory Materials may serve only after one immutable

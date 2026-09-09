@@ -1,22 +1,19 @@
-"""Disabled V1 Review API infrastructure composition."""
+"""V1 Review API infrastructure and retained local governance composition."""
 
+import os
 from collections.abc import Mapping
 from dataclasses import dataclass
-from hashlib import sha256
+from pathlib import Path
+from typing import Never
 
 from asklegal_application_runtime import (
     CallableProbe,
     CredentialMaterial,
     DependencyCode,
-    LocalCommandRegister,
-    LocalConfigurationSource,
-    LocalIdentityVerifier,
-    LocalPaginationStore,
     ReadinessProbe,
     SystemdCredentialDirectory,
     TcpReachabilityProbe,
     V1ReadinessGate,
-    build_local_configuration,
     destination_for,
 )
 from asklegal_evidence_vault import (
@@ -25,14 +22,56 @@ from asklegal_evidence_vault import (
     VaultName,
     create_exact_v1_s3_vault,
 )
-from asklegal_management_register import (
-    RegisterEventStore,
-    SqlServerPassword,
-    V1MssqlConnectionFactory,
-)
+from asklegal_management_register import SqlServerPassword, V1MssqlConnectionFactory
 
-from asklegal_review_api.api import ReviewDependencies
-from asklegal_review_api.registered_proposals import RegisteredReviewProjectionStore
+from asklegal_review_api.api import ReviewDependencies, local_dependencies
+
+_ARTIFACT_ROOT = "ASKLEGAL_LOCAL_REVIEW_ARTIFACT_ROOT"
+_STATE_ROOT = "ASKLEGAL_LOCAL_REVIEW_STATE_ROOT"
+_AUTHORITY_PATH = "ASKLEGAL_LOCAL_REVIEW_AUTHORITY_PATH"
+_COMPOSITION_NOT_READY = "LOCAL_REVIEW_CONFIGURATION_NOT_READY"
+
+
+class ReviewCompositionError(RuntimeError):
+    """One sanitized fail-closed local Review composition failure."""
+
+
+def _composition_fail() -> Never:
+    raise ReviewCompositionError(_COMPOSITION_NOT_READY)
+
+
+def _configured_directory(environment: Mapping[str, str], key: str, *, writable: bool) -> Path:
+    """Resolve one explicit existing non-symlink local authority directory."""
+    value = environment.get(key)
+    if type(value) is not str or not value or value != value.strip():
+        _composition_fail()
+    path = Path(value)
+    required_access = os.R_OK | os.X_OK | (os.W_OK if writable else 0)
+    if (
+        not path.is_absolute()
+        or path == Path(path.anchor)
+        or path.is_symlink()
+        or not path.is_dir()
+        or not os.access(path, required_access)
+    ):
+        _composition_fail()
+    return path
+
+
+def _configured_file(environment: Mapping[str, str], key: str) -> Path:
+    value = environment.get(key)
+    if type(value) is not str or not value or value != value.strip():
+        _composition_fail()
+    path = Path(value)
+    if (
+        not path.is_absolute()
+        or path == Path(path.anchor)
+        or path.is_symlink()
+        or not path.is_file()
+        or not os.access(path, os.R_OK)
+    ):
+        _composition_fail()
+    return path
 
 
 @dataclass(frozen=True, slots=True)
@@ -81,31 +120,23 @@ def readiness_gate(infrastructure: V1ReviewInfrastructure) -> V1ReadinessGate:
     return V1ReadinessGate("REVIEW_API", readiness_probes(infrastructure))
 
 
-def v1_dependencies(infrastructure: V1ReviewInfrastructure) -> ReviewDependencies:
-    """Compose real registered projections while keeping Review writes fail-closed.
-
-    Named-human authentication and durable Approval commands are not yet admitted.
-    An empty verifier therefore refuses the known local proof token, and `None`
-    governance makes every comment, decision, and revocation return `DISABLED`.
-    """
-    configuration = build_local_configuration(
-        "REVIEW_APPLICATION",
-        audience="api://asklegal-review",
-        client="asklegal-review-client",
-        task_hub=None,
-    )
-    pagination_secret = sha256(
-        b"asklegal-review-pagination-v1\x00" + infrastructure.review_api_credential.reveal()
-    ).digest()
-    return ReviewDependencies(
-        configuration=configuration,
-        configuration_source=LocalConfigurationSource(configuration),
-        identity=LocalIdentityVerifier({}),
-        register=LocalCommandRegister(),
-        projections=RegisteredReviewProjectionStore(
-            RegisterEventStore(infrastructure.sql),
-            infrastructure.primary_vault,
-        ),
-        pagination=LocalPaginationStore(secret=pagination_secret),
-        governance=None,
-    )
+def v1_dependencies(
+    infrastructure: V1ReviewInfrastructure,
+    environment: Mapping[str, str],
+) -> ReviewDependencies:
+    """Compose the retained Task 8 package, named-human, and Approval bridge."""
+    artifact_root = _configured_directory(environment, _ARTIFACT_ROOT, writable=False)
+    state_root = _configured_directory(environment, _STATE_ROOT, writable=True)
+    authority_path = _configured_file(environment, _AUTHORITY_PATH)
+    try:
+        dependencies = local_dependencies(
+            state_root=state_root,
+            artifact_root=artifact_root,
+            authority_path=authority_path,
+            review_api_credential=infrastructure.review_api_credential,
+        )
+    except (OSError, RuntimeError, TypeError, ValueError) as error:
+        raise ReviewCompositionError(_COMPOSITION_NOT_READY) from error
+    if dependencies.governance is None:
+        _composition_fail()
+    return dependencies

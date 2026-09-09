@@ -3,11 +3,15 @@
 from dataclasses import replace
 from json import dumps
 from pathlib import Path
+from urllib.parse import urlencode
 
 import pytest
 from asklegal_contracts import parse_json_bytes
 from asklegal_source_connectors import (
+    CAPABILITY_CLAIM,
     HK_LEGISLATION_SOURCE_IDS,
+    EndpointAccessMode,
+    HttpMethod,
     OfficialSourceState,
     PublisherRightsState,
     SignalUse,
@@ -27,23 +31,48 @@ def test_register_binds_the_complete_14_role_universe_and_stays_fail_closed() ->
     register = load_hk_legislation_source_register()
 
     assert len(register.sources) == 14
-    assert len(register.endpoints) == 79
+    assert len(register.endpoints) == 104
     assert {item.source_id for item in register.sources} == HK_LEGISLATION_SOURCE_IDS
     assert set(register.authorization.source_ids) == HK_LEGISLATION_SOURCE_IDS
     assert register.authorization.rss_policy == "DISCOVERY_OR_CHANGE_SIGNAL_ONLY"
     assert register.schema_version == "1.1.0"
-    assert register.register_version == "2026-08-21.1"
+    assert register.register_version == "2026-08-28.3"
     assert register.effective_date == "2026-08-21"
     assert register.status == "PARTIALLY_CONFIGURED_FAIL_CLOSED"
     assert register.operationally_admitted is False
     assert register.fingerprint == (
-        "sha256:93944064e78d314670476758ec4cde7cd042caca2f285858dc906bfb108794b4"
+        "sha256:be2dc02b4ef087ac2357ad96dc05be5a36127e2a7f395bffe5b7a98f6408de67"
     )
     assert register.legal_clearance.authority == "ASKLEGAL_LEGAL_TEAM"
     assert register.legal_clearance.reported_by == "PROJECT_USER"
     assert set(register.legal_clearance.source_ids) == HK_LEGISLATION_SOURCE_IDS
-    assert {item.version for item in register.sources} == {"1.1.0"}
-    assert {item.version for item in register.endpoints} == {"1.0.0"}
+    assert {item.version for item in register.sources} == {"1.1.0", "1.2.0", "1.3.0"}
+    assert {item.version for item in register.endpoints} == {"1.0.0", "1.1.0"}
+
+
+def test_publication_specifications_registers_the_shared_direct_client_check() -> None:
+    """The current HKeL session coordinate is a profile-bound exact GET."""
+    register = load_hk_legislation_source_register()
+    source = next(
+        item
+        for item in register.sources
+        if item.source_id == "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS"
+    )
+    endpoint = next(
+        item
+        for item in register.endpoints
+        if item.endpoint_id == "sep_000000000000000000000000000000000000000000000056"
+    )
+
+    assert source.version == "1.3.0"
+    assert endpoint.endpoint_id in source.endpoint_ids
+    assert endpoint.url == (
+        "https://www.elegislation.gov.hk/client-check?" + urlencode(CAPABILITY_CLAIM)
+    )
+    assert endpoint.access_mode is EndpointAccessMode.BROWSER_SESSION
+    assert endpoint.methods == (HttpMethod.GET,)
+    assert endpoint.evidence_role == "SESSION_CAPABILITY_CHECK"
+    assert endpoint.enabled is True
 
 
 def test_every_source_preserves_its_normalized_outage_impact() -> None:
@@ -70,24 +99,24 @@ def test_every_source_preserves_its_normalized_outage_impact() -> None:
     }
 
 
-def test_technically_complete_basic_law_role_joins_the_configured_sources() -> None:
+def test_basic_law_complete_membership_contract_is_configured() -> None:
     register = load_hk_legislation_source_register()
 
     assert register.configured_source_ids == (
         "HK-LEG-BASIC-LAW-PORTAL",
         "HK-LEG-HKEL-CURRENT-DATA",
         "HK-LEG-HKEL-CURRENT-INVENTORY",
+        "HK-LEG-HKEL-EDITORIAL-RECORDS",
         "HK-LEG-HKEL-PAST-DATA",
         "HK-LEG-HKEL-PAST-INVENTORY",
+        "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
     )
     assert register.partially_configured_source_ids == (
         "HK-LEG-GLD-EGAZETTE",
-        "HK-LEG-HKEL-EDITORIAL-RECORDS",
         # Gazette back-capture joined once its grid, pagination, locator, and PDF
         # address were observed and implemented; only the completeness rule and
         # its date-window consequence remain.
         "HK-LEG-HKEL-GAZETTE-BACKCAPTURE",
-        "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
         "HK-LEG-HKEL-VERIFIED-COPIES",
     )
     assert len(register.blocked_source_ids) == 1
@@ -96,7 +125,8 @@ def test_technically_complete_basic_law_role_joins_the_configured_sources() -> N
         for item in register.sources
         if item.operational_state is OfficialSourceState.CONFIGURED
     }
-    assert configured["HK-LEG-BASIC-LAW-PORTAL"].rights_state is (
+    sources = {item.source_id: item for item in register.sources}
+    assert sources["HK-LEG-BASIC-LAW-PORTAL"].rights_state is (
         PublisherRightsState.LEGAL_TEAM_CLEARED
     )
     assert all(not item.blockers for item in configured.values())
@@ -173,7 +203,19 @@ def test_verified_copy_inventory_is_direct_but_item_copy_paths_stay_disabled() -
     assert inventory.enabled
     assert inventory.complete_inventory_required
     assert inventory.signal_use is SignalUse.COMPLETE_INVENTORY
-    assert all(not item.enabled for item in endpoints if item is not inventory)
+    assert {item.endpoint_id for item in endpoints if item.enabled} == {
+        "sep_000000000000000000000000000000000000000000000016",
+        inventory.endpoint_id,
+    }
+    assert all(
+        not item.enabled
+        for item in endpoints
+        if item.endpoint_id
+        in {
+            "sep_000000000000000000000000000000000000000000000017",
+            "sep_000000000000000000000000000000000000000000000018",
+        }
+    )
 
 
 def test_all_enumerated_data_gov_resources_are_bound_exactly_once() -> None:
@@ -226,7 +268,8 @@ def test_legal_clearance_does_not_rewrite_observed_publisher_notices() -> None:
         PublisherRightsState.PRIOR_WRITTEN_AUTHORIZATION_REQUIRED
     )
     assert rights["National People's Congress"].conclusion is (PublisherRightsState.UNVERIFIED)
-    assert sources["HK-LEG-BASIC-LAW-PORTAL"].operational_state is (OfficialSourceState.CONFIGURED)
+    assert sources["HK-LEG-BASIC-LAW-PORTAL"].operational_state is OfficialSourceState.CONFIGURED
+    assert sources["HK-LEG-BASIC-LAW-PORTAL"].blockers == ()
     assert sources["HK-LEG-GLD-EGAZETTE"].blockers == ("RENDERED_SESSION_TRANSPORT_REQUIRED",)
 
 

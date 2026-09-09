@@ -64,11 +64,16 @@ def test_the_firewall_step_is_not_run_by_the_top_level_script() -> None:
     assert "dead-man" in firewall
 
 
-def test_the_firewall_never_touches_the_forward_path() -> None:
-    """Overriding Docker's FORWARD rules would break every container network."""
+def test_the_firewall_enforces_proxy_only_container_egress() -> None:
+    """Workers on routable bridges must not bypass their designated proxies."""
     firewall = render(REPOSITORY_ROOT)["60-firewall.sh"]
-    assert "hook forward" not in firewall
     assert "hook input" in firewall
+    assert "chain asklegal-container-egress" in firewall
+    assert "hook forward" in firewall
+    assert "policy drop" in firewall
+    assert "ip saddr != 10.90.0.0/16 accept" in firewall
+    assert "ip daddr 10.90.0.0/16 accept" in firewall
+    assert "ip saddr { 10.90.7.2, 10.90.8.2, 10.90.9.2 } accept" in firewall
 
 
 def test_identities_match_the_allocation_exactly() -> None:
@@ -83,6 +88,13 @@ def test_identities_match_the_allocation_exactly() -> None:
     for entry in typed_identities:
         assert f'create_identity "{entry["identity"]}" {entry["uid"]}' in script
     assert script.count('create_identity "') == len(typed_identities)
+
+
+def test_preflight_requires_acl_capability_before_shared_path_mutation() -> None:
+    """The cross-UID handoff contract must fail before provisioning if ACLs are unavailable."""
+    preflight = render(REPOSITORY_ROOT)["10-preflight.sh"]
+    assert "command -v setfacl" in preflight
+    assert "setfacl unavailable" in preflight
 
 
 def test_networks_match_the_topology_isolation_exactly() -> None:

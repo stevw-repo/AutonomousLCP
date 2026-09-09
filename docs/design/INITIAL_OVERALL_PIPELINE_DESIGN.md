@@ -8,6 +8,24 @@ Authorization: design and documentation only; this document does not authorize
 implementation, release publication, embedding-provider calls, Pinecone access,
 or any remote change.
 
+## 2026-08-25 live-V1 amendment
+
+This document intentionally preserves the broader four-family target and the
+eventual Ask.Legal routing architecture. They are broader than the approved
+live V1 and are not current V1 acceptance requirements. The V1 scope contains
+only all three Hong Kong Legislation scopes, binding-court Case propositions
+from 1 July 1997 onward, and current HKEX Main Board and GEM Listing Rules.
+Principles, pre-1-July-1997 Cases, full-judgment search records, Ask.Legal
+query/routing administration, and Azure application hosting are deferred or
+excluded as specified.
+
+For V1, a local named-human Approval automatically wakes Promotion, evaluation
+is compact, and activation is the Management Register's verified Serving State
+transition for the complete replacement Pinecone index. It is not the
+Ask.Legal routing arrow shown in the broader diagrams below. The controlling V1
+scope and acceptance contract is the
+[Hong Kong Live V1 Execution Specification](HK_V1_LIVE_EXECUTION_SPEC.md).
+
 ## 1. Executive summary
 
 Ask.Legal needs a low-touch system that regularly checks official legal

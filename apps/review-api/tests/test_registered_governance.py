@@ -1,11 +1,14 @@
 """Schema-valid named-human Review decision command proofs."""
 
 from dataclasses import replace
+from datetime import UTC, datetime, timedelta
 from hashlib import sha256
 from pathlib import Path
 
 import pytest
 from asklegal_application_runtime import (
+    HKV1ReviewReadinessProjection,
+    HKV1ScopeDispositionProjection,
     LocalAdapterError,
     LocalAdapterErrorCode,
     LocalReviewProjectionStore,
@@ -28,6 +31,11 @@ from asklegal_review_api.governance import (
     ReviewCommand,
     ReviewDecisionWindow,
     StaticReviewAuthoritySource,
+    SystemReviewDecisionWindowSource,
+)
+from asklegal_review_api.registered_proposals import (
+    ProposalProjectionError,
+    freeze_hk_v1_review_readiness,
 )
 
 _CONTRACTS = Path(__file__).parents[3] / "contracts"
@@ -156,6 +164,7 @@ def _service(
     writer: DecisionWriter,
     authority: StaticReviewAuthoritySource,
     approved: ApprovedSource | None = None,
+    window: ReviewDecisionWindow | None = None,
 ) -> tuple[RegisteredReviewGovernanceService, LocalReviewProjectionStore]:
     proposals = LocalReviewProjectionStore()
     return (
@@ -165,13 +174,38 @@ def _service(
             authority,
             SchemaRegistry.from_contracts_root(_CONTRACTS),
             RegisteredReviewGovernanceConfiguration(
-                ReviewDecisionWindow("2026-08-16T00:00:00Z", "2026-08-16T00:05:00Z"),
+                window or ReviewDecisionWindow("2026-08-16T00:00:00Z", "2026-08-16T00:05:00Z"),
                 approved,
                 writer if approved is not None else None,
             ),
         ),
         proposals,
     )
+
+
+def test_system_review_window_is_fresh_and_expired_proposal_cannot_be_approved() -> None:
+    """A long-running local Review process never stamps every decision with fixture time."""
+    moments = iter(
+        (
+            datetime(2026, 9, 8, 1, 2, 3, tzinfo=UTC),
+            datetime(2026, 9, 8, 1, 7, 3, tzinfo=UTC),
+        )
+    )
+    source = SystemReviewDecisionWindowSource(lambda: next(moments), timedelta(minutes=5))
+    assert source.current() == ReviewDecisionWindow("2026-09-08T01:02:03Z", "2026-09-08T01:07:03Z")
+    assert source.current() == ReviewDecisionWindow("2026-09-08T01:07:03Z", "2026-09-08T01:12:03Z")
+
+    writer = DecisionWriter()
+    authority, _evidence = _authority()
+    service, proposals = _service(
+        writer,
+        authority,
+        window=ReviewDecisionWindow("2026-08-18T00:00:00Z", "2026-08-18T00:05:00Z"),
+    )
+    with pytest.raises(LocalAdapterError) as expired:
+        service.submit(_command(proposals))
+    assert expired.value.code is LocalAdapterErrorCode.STALE_VERSION
+    assert writer.events == []
 
 
 def _command(
@@ -236,6 +270,177 @@ def test_named_human_approval_is_schema_valid_no_effect_and_restart_safe() -> No
         }
     ]
     assert event.event_id == "evt_" + sha256(event.event_bytes).hexdigest()[:48]
+
+
+def _hk_v1_readiness(manifest_fingerprint: str) -> HKV1ReviewReadinessProjection:
+    scopes = (
+        "HK-CASE-BINDING-POST-1997",
+        "HK-LEG-CONSTITUTIONAL-AND-OTHER-INSTRUMENTS",
+        "HK-LEG-ORDINANCES",
+        "HK-LEG-SUBSIDIARY",
+    )
+    zero_scopes = (
+        "HK-LEG-CONSTITUTIONAL-AND-OTHER-INSTRUMENTS",
+        "HK-LEG-SUBSIDIARY",
+    )
+    return freeze_hk_v1_review_readiness(
+        tuple(
+            HKV1ScopeDispositionProjection(
+                scope,
+                "NO_CHANGE" if scope in zero_scopes else "COMPLETE",
+                0,
+            )
+            for scope in scopes
+        ),
+        ("Cases begin on 1997-07-01.", "HKEX Regulatory Materials are post-V1."),
+        "evaluation/model.json",
+        "evaluation/retrieval.json",
+        "sha256:" + "6" * 64,
+        "sha256:" + "7" * 64,
+        "sha256:" + "8" * 64,
+        "synthetic-v1",
+        "sha256:" + "3" * 64,
+        (
+            ("rec_" + "1" * 48, "HK-CASE-BINDING-POST-1997", "CASES"),
+            ("rec_" + "2" * 48, "HK-LEG-ORDINANCES", "LEGISLATION"),
+        ),
+        zero_scopes,
+        "asklegal-local-hkg-20260906-candidate001",
+        "backup/native.json",
+        "backup/recovery.json",
+        "srv_" + "8" * 48,
+        manifest_fingerprint,
+    )
+
+
+def test_hk_v1_readiness_rejects_scope_results_inconsistent_with_membership() -> None:
+    """A zero-record scope cannot be displayed as a completed populated scope."""
+    scopes = (
+        "HK-CASE-BINDING-POST-1997",
+        "HK-LEG-CONSTITUTIONAL-AND-OTHER-INSTRUMENTS",
+        "HK-LEG-ORDINANCES",
+        "HK-LEG-SUBSIDIARY",
+    )
+    with pytest.raises(ProposalProjectionError):
+        freeze_hk_v1_review_readiness(
+            tuple(HKV1ScopeDispositionProjection(scope, "COMPLETE", 0) for scope in scopes),
+            ("HKEX is outside V1.",),
+            "evaluation/model.json",
+            "evaluation/retrieval.json",
+            "sha256:" + "6" * 64,
+            "sha256:" + "7" * 64,
+            "sha256:" + "8" * 64,
+            "synthetic-v1",
+            "sha256:" + "3" * 64,
+            (
+                ("rec_" + "1" * 48, scopes[0], "CASES"),
+                ("rec_" + "2" * 48, scopes[2], "LEGISLATION"),
+            ),
+            (scopes[1], scopes[3]),
+            "asklegal-local-hkg-20260906-candidate001",
+            "backup/native.json",
+            "backup/recovery.json",
+            "srv_" + "8" * 48,
+            "sha256:" + "4" * 64,
+        )
+
+
+def test_hk_v1_approval_requires_the_complete_displayed_review_surface() -> None:
+    """A named approval cannot outlive retryable or hidden Task 8 review facts."""
+    writer = DecisionWriter()
+    authority, _evidence = _authority()
+    service, proposals = _service(writer, authority)
+    detail = proposals.detail("proposal-1")
+    assert detail is not None
+    readiness = _hk_v1_readiness(detail.proposal.manifest_fingerprint)
+    predicates = tuple(
+        sorted(
+            (
+                *detail.validity_predicates,
+                (
+                    "HK_V1_TWO_FAMILY_PROPOSAL",
+                    "1.0.0",
+                    detail.proposal.manifest_fingerprint,
+                ),
+            )
+        )
+    )
+    proposals.details = tuple(
+        replace(item, hk_v1_readiness=readiness, validity_predicates=predicates)
+        if item.proposal.proposal_id == "proposal-1"
+        else item
+        for item in proposals.details
+    )
+
+    result = service.submit(_command(proposals))
+
+    assert result.result_code == "APPROVED"
+    assert readiness.retryable_count == 0
+    assert len(readiness.scope_dispositions) == 4
+    assert readiness.model_evaluation_ref
+    assert readiness.retrieval_evaluation_ref
+    assert readiness.native_backup_ref
+    assert readiness.recovery_backup_ref
+    assert readiness.rollback_state_id
+    document = parse_json_bytes(writer.events[0].event_bytes, max_bytes=1_000_000)
+    assert isinstance(document, dict)
+    assert document["review_readiness_fingerprint"] == readiness.fingerprint
+
+
+def test_two_family_approval_without_registered_readiness_is_refused() -> None:
+    """A two-family predicate cannot bypass the retained Task 8 review surface."""
+    writer = DecisionWriter()
+    authority, _evidence = _authority()
+    service, proposals = _service(writer, authority)
+    detail = proposals.detail("proposal-1")
+    assert detail is not None
+    predicates = tuple(
+        sorted(
+            (
+                *detail.validity_predicates,
+                (
+                    "HK_V1_TWO_FAMILY_PROPOSAL",
+                    "1.0.0",
+                    detail.proposal.manifest_fingerprint,
+                ),
+            )
+        )
+    )
+    proposals.details = tuple(
+        replace(item, validity_predicates=predicates)
+        if item.proposal.proposal_id == "proposal-1"
+        else item
+        for item in proposals.details
+    )
+
+    with pytest.raises(LocalAdapterError) as failure:
+        service.submit(_command(proposals))
+
+    assert failure.value.code is LocalAdapterErrorCode.DISABLED
+    assert writer.events == []
+
+
+def test_hk_v1_review_drift_blocks_approval_before_register_write() -> None:
+    """Changing a displayed fact after freeze invalidates the whole local approval."""
+    writer = DecisionWriter()
+    authority, _evidence = _authority()
+    service, proposals = _service(writer, authority)
+    detail = proposals.detail("proposal-1")
+    assert detail is not None
+    readiness = _hk_v1_readiness(detail.proposal.manifest_fingerprint)
+    drifted = replace(readiness, retryable_count=1)
+    proposals.details = tuple(
+        replace(item, hk_v1_readiness=drifted)
+        if item.proposal.proposal_id == "proposal-1"
+        else item
+        for item in proposals.details
+    )
+
+    with pytest.raises(LocalAdapterError) as failure:
+        service.submit(_command(proposals))
+
+    assert failure.value.code is LocalAdapterErrorCode.DISABLED
+    assert writer.events == []
 
 
 def test_rejection_is_a_terminal_decision_fact_not_an_approval_effect() -> None:

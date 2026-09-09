@@ -22,6 +22,14 @@ from .approval import (
     ReviewerPrincipal,
 )
 from .fake import InMemoryManagementRegister
+from .legal_identity import (
+    IssuedLegalIdentity,
+    IssuedSearchRecordIdentity,
+    LegalIdentityKind,
+    LegalIdentityRegister,
+    LegalIdentityRequest,
+    SearchRecordIdentityRequest,
+)
 from .legal_processing import (
     InMemoryLegalProcessingRegister,
     LegalProcessingRecord,
@@ -75,6 +83,11 @@ __all__ = [
     "InMemoryApprovalRegister",
     "InMemoryLegalProcessingRegister",
     "InMemoryManagementRegister",
+    "IssuedLegalIdentity",
+    "IssuedSearchRecordIdentity",
+    "LegalIdentityKind",
+    "LegalIdentityRegister",
+    "LegalIdentityRequest",
     "LegalProcessingRecord",
     "LegalProcessingRecordConflict",
     "LegalProcessingRegisterStore",
@@ -90,5 +103,6 @@ __all__ = [
     "RegisterSnapshot",
     "ReviewComment",
     "ReviewerPrincipal",
+    "SearchRecordIdentityRequest",
     "StaleFencingToken",
 ]

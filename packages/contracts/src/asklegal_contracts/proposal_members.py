@@ -16,6 +16,10 @@ from asklegal_contracts.strict_json import parse_json_bytes
 _FINGERPRINT = re.compile(r"^sha256:[0-9a-f]{64}$")
 _IDENTIFIER = re.compile(r"^[a-z][a-z0-9]*_[0-9a-f]{48}$")
 _RECORD_ID = re.compile(r"^rec_[0-9a-f]{48}$")
+_RELEASE_SCOPE_ID = re.compile(
+    r"^(?:rsc_[0-9a-f]{48}|HK-CASE-BINDING-POST-1997|"
+    r"HK-LEG-(?:CONSTITUTIONAL-AND-OTHER-INSTRUMENTS|ORDINANCES|SUBSIDIARY))$"
+)
 _ISSUED_ID = re.compile(r"^[a-z][a-z0-9]{2}_[0-9a-f]{48}$")
 _LOOKUP_ID = re.compile(r"^rtl_[0-9a-f]{48}$")
 _SHARD_ID = re.compile(r"^rts_[0-9a-f]{48}$")
@@ -279,6 +283,13 @@ def _identifier(role: str, value: Mapping[str, JsonValue], field: str, prefix: s
     return result
 
 
+def _release_scope_id(role: str, value: Mapping[str, JsonValue], field: str) -> str:
+    result = _text(role, value, field)
+    if _RELEASE_SCOPE_ID.fullmatch(result) is None:
+        _fail(role, field)
+    return result
+
+
 def _sha256(role: str, value: Mapping[str, JsonValue], field: str) -> str:
     result = _text(role, value, field)
     if _FINGERPRINT.fullmatch(result) is None:
@@ -381,7 +392,7 @@ def _corpus_releases(
                 "validation_refs",
             },
         )
-        scope_id = _identifier(role, release, "scope_id", "rsc")
+        scope_id = _release_scope_id(role, release, "scope_id")
         release_id = _identifier(role, release, "release_id", "rel")
         _exact(
             _text(role, release, "observation_cutoff"),
@@ -408,40 +419,54 @@ def _corpus_releases(
     )
 
 
+def _desired_root_fields(value: dict[str, JsonValue]) -> None:
+    role = "DESIRED_STATE_INVENTORIES"
+    identity_fields = {
+        "inventory_fingerprint",
+        "inventory_id",
+        "observation_cutoff",
+        "records",
+        "scope_releases",
+    }
+    executable_fields = {"records_fingerprint", "target_key"}
+    if set(value) not in (identity_fields, identity_fields | executable_fields):
+        _fail(role, "fields")
+    if executable_fields.issubset(value):
+        _sha256(role, value, "records_fingerprint")
+        _text(role, value, "target_key")
+
+
 def _desired_state(value: dict[str, JsonValue], bindings: ProposalMemberBindings) -> _DesiredFacts:
     role = "DESIRED_STATE_INVENTORIES"
-    _keys(
-        role,
-        value,
-        {
-            "inventory_fingerprint",
-            "inventory_id",
-            "observation_cutoff",
-            "records",
-            "scope_releases",
-        },
-    )
+    _desired_root_fields(value)
     _exact(_text(role, value, "observation_cutoff"), bindings.observation_cutoff, role, "cutoff")
     inventory_id = _identifier(role, value, "inventory_id", "dsi")
     inventory_fingerprint = _sha256(role, value, "inventory_fingerprint")
     raw_records = _objects(role, value, "records")
     records: list[_DesiredRecord] = []
+    payload_fields = {
+        "artifact_ref",
+        "authority_note",
+        "country",
+        "evidence_refs",
+        "jurisdiction",
+        "material_type",
+        "source",
+        "text",
+    }
     for record in raw_records:
-        _keys(
-            role,
-            record,
-            {
-                "record_id",
-                "release_id",
-                "scope_id",
-                "serving_payload_fingerprint",
-            },
-        )
+        identity_fields = {
+            "record_id",
+            "release_id",
+            "scope_id",
+            "serving_payload_fingerprint",
+        }
+        _desired_payload(record, identity_fields, payload_fields)
         records.append(
             _DesiredRecord(
                 _identifier(role, record, "record_id", "rec"),
                 _sha256(role, record, "serving_payload_fingerprint"),
-                _identifier(role, record, "scope_id", "rsc"),
+                _release_scope_id(role, record, "scope_id"),
                 _identifier(role, record, "release_id", "rel"),
             )
         )
@@ -460,7 +485,7 @@ def _desired_state(value: dict[str, JsonValue], bindings: ProposalMemberBindings
         scope_id = _string_value(role, raw[0], "scope_releases")
         release_id = _string_value(role, raw[1], "scope_releases")
         if (
-            re.fullmatch(r"rsc_[0-9a-f]{48}", scope_id) is None
+            _RELEASE_SCOPE_ID.fullmatch(scope_id) is None
             or re.fullmatch(r"rel_[0-9a-f]{48}", release_id) is None
         ):
             _fail(role, "scope_releases")
@@ -474,6 +499,21 @@ def _desired_state(value: dict[str, JsonValue], bindings: ProposalMemberBindings
         record_ids,
         tuple(records),
     )
+
+
+def _desired_payload(
+    record: dict[str, JsonValue],
+    identity_fields: set[str],
+    payload_fields: set[str],
+) -> None:
+    """Validate the optional complete executable payload without changing identity facts."""
+    role = "DESIRED_STATE_INVENTORIES"
+    if set(record) not in (identity_fields, identity_fields | payload_fields):
+        _fail(role, "record fields")
+    if payload_fields.issubset(record):
+        for field in payload_fields - {"evidence_refs"}:
+            _text(role, record, field)
+        _strings(role, record, "evidence_refs", nonempty=True)
 
 
 def _coverage(
@@ -511,7 +551,7 @@ def _coverage(
                 "warning",
             },
         )
-        scope_ids.append(_identifier(role, scope, "scope_id", "rsc"))
+        scope_ids.append(_release_scope_id(role, scope, "scope_id"))
         _text(role, scope, "last_verified_at")
         gaps = _strings(role, scope, "gap_refs")
         quarantines = _strings(role, scope, "quarantine_refs")
@@ -952,7 +992,7 @@ def _traceability_descriptors(
                 "release_scope_id",
             },
         )
-        scope_id = _identifier(role, descriptor, "release_scope_id", "rsc")
+        scope_id = _release_scope_id(role, descriptor, "release_scope_id")
         release_id = _identifier(role, descriptor, "corpus_release_id", "rel")
         shard_id = _text(role, descriptor, "lookup_shard_id")
         path = _text(role, descriptor, "path")
@@ -1106,7 +1146,7 @@ def _traceability_entry(value: dict[str, JsonValue], profile_ids: frozenset[str]
     return _DesiredRecord(
         _identifier(role, value, "search_record_id", "rec"),
         _sha256(role, value, "serving_payload_fingerprint"),
-        _identifier(role, value, "release_scope_id", "rsc"),
+        _release_scope_id(role, value, "release_scope_id"),
         _identifier(role, value, "corpus_release_id", "rel"),
     )
 

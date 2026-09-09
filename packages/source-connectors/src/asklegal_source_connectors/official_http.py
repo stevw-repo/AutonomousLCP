@@ -72,6 +72,8 @@ class OfficialFetchRequest:
         exact_text(self.endpoint_version, "endpoint_version")
         if type(self.method) is not HttpMethod:
             raise TypeError("method must be an exact HttpMethod")
+        if self.method not in {HttpMethod.GET, HttpMethod.HEAD}:
+            raise ValueError("SPECIALIZED_SESSION_METHOD_REQUIRED")
         if self.prior_fingerprint is not None and _SHA256.fullmatch(self.prior_fingerprint) is None:
             raise ValueError("prior_fingerprint must be an exact SHA-256 or None")
         if type(self.timeout_seconds) is not int or not 1 <= self.timeout_seconds <= 120:
@@ -199,6 +201,8 @@ class PolicyBoundOfficialHttpTransport:
         timeout_seconds: int,
     ) -> OfficialTransportResponse:
         """Run one exact endpoint call under its source-owned observation profile."""
+        if type(method) is not HttpMethod:
+            raise TypeError("method must be an exact HttpMethod")
         profile = official_observation_profile(self._register, endpoint.source_id)
         if timeout_seconds != profile.timeout_seconds:
             raise ValueError("request timeout drifted from the active source profile")
@@ -398,6 +402,10 @@ class StdlibOfficialHttpTransport:
         timeout_seconds: int,
     ) -> OfficialTransportResponse:
         """Fetch at most max_bytes plus one sentinel byte."""
+        if type(method) is not HttpMethod:
+            raise TypeError("method must be an exact HttpMethod")
+        if method not in {HttpMethod.GET, HttpMethod.HEAD}:
+            raise OfficialTransportFailure("SPECIALIZED_SESSION_METHOD_REQUIRED")
         parsed = urlsplit(endpoint.url)
         if parsed.scheme != "https" or parsed.hostname is None:
             raise OfficialTransportFailure("ENDPOINT_SCHEME_INVALID")
@@ -456,6 +464,8 @@ class ProxiedOfficialHttpTransport:
         proxy_port: int,
         max_redirects: int = 3,
         session_cookies: dict[str, str] | None = None,
+        *,
+        monotonic_clock: Callable[[], float] = time.monotonic,
     ) -> None:
         """Create a transport pinned to one proxy with default trust.
 
@@ -474,6 +484,7 @@ class ProxiedOfficialHttpTransport:
         self._proxy_port = proxy_port
         self._max_redirects = max_redirects
         self._session_cookies = dict(session_cookies or {})
+        self._monotonic_clock = monotonic_clock
 
     def with_session(self, cookies: dict[str, str]) -> Self:
         """Return a transport identical to this one but carrying `cookies`."""
@@ -482,6 +493,7 @@ class ProxiedOfficialHttpTransport:
             self._proxy_port,
             self._max_redirects,
             cookies,
+            monotonic_clock=self._monotonic_clock,
         )
 
     def request(
@@ -492,11 +504,16 @@ class ProxiedOfficialHttpTransport:
         timeout_seconds: int,
     ) -> OfficialTransportResponse:
         """Fetch at most max_bytes plus one sentinel byte through the proxy."""
+        if type(method) is not HttpMethod:
+            raise TypeError("method must be an exact HttpMethod")
+        if method not in {HttpMethod.GET, HttpMethod.HEAD}:
+            raise OfficialTransportFailure("SPECIALIZED_SESSION_METHOD_REQUIRED")
+        deadline = self._monotonic_clock() + timeout_seconds
         return self._fetch(
             endpoint,
             method,
-            timeout_seconds,
             _FetchState(cookies=dict(self._session_cookies)),
+            deadline,
         )
 
     def exchange(
@@ -575,8 +592,8 @@ class ProxiedOfficialHttpTransport:
         self,
         endpoint: OfficialEndpointContract,
         method: HttpMethod,
-        timeout_seconds: int,
         state: _FetchState,
+        deadline: float,
     ) -> OfficialTransportResponse:
         parsed = urlsplit(endpoint.url)
         if parsed.scheme != "https" or parsed.hostname is None:
@@ -589,7 +606,7 @@ class ProxiedOfficialHttpTransport:
         connection = HTTPSConnection(
             self._proxy_host,
             port=self._proxy_port,
-            timeout=timeout_seconds,
+            timeout=_remaining_transport_seconds(deadline, self._monotonic_clock),
             context=self._context,
         )
         try:
@@ -600,15 +617,23 @@ class ProxiedOfficialHttpTransport:
             }
             if state.cookies:
                 headers["Cookie"] = "; ".join(f"{k}={v}" for k, v in state.cookies.items())
+            _set_connection_deadline(connection, deadline, self._monotonic_clock)
             connection.request(method.value, request_target, headers=headers)
+            _set_connection_deadline(connection, deadline, self._monotonic_clock)
             response = connection.getresponse()
             for name, value in response.getheaders():
                 if name.lower() == "set-cookie":
                     _collect_cookies(value, state.cookies)
             location = response.getheader("Location") if _is_redirect(response.status) else None
             if location is None:
-                return _read_response(response, endpoint.url, endpoint.max_bytes)
-            response.read()
+                return _read_response_before_deadline(
+                    response,
+                    endpoint.url,
+                    endpoint.max_bytes,
+                    connection,
+                    deadline,
+                    self._monotonic_clock,
+                )
             target = _same_host_redirect(location, parsed.hostname)
         except (OSError, TimeoutError) as error:
             raise OfficialTransportFailure("BOUNDED_TRANSPORT_FAILURE") from error
@@ -619,8 +644,8 @@ class ProxiedOfficialHttpTransport:
         return self._fetch(
             endpoint,
             method,
-            timeout_seconds,
             _FetchState(target, state.depth + 1, state.cookies),
+            deadline,
         )
 
 
@@ -718,6 +743,65 @@ def _read_response(
     body = response.read(max_bytes + 1)
     truncated = len(body) > max_bytes
     bounded = body[:max_bytes]
+    content_length = response.headers.get("Content-Length")
+    try:
+        declared_length = int(content_length) if content_length is not None else len(bounded)
+    except ValueError:
+        declared_length = len(bounded) + 1
+    media_type = response.headers.get_content_type()
+    character_encoding = response.headers.get_content_charset() or (
+        "utf-8" if media_type.startswith("text/") or "xml" in media_type else "binary"
+    )
+    return OfficialTransportResponse(
+        response.status,
+        final_url,
+        media_type,
+        character_encoding,
+        bounded,
+        declared_length,
+        truncated,
+    )
+
+
+def _remaining_transport_seconds(deadline: float, monotonic_clock: Callable[[], float]) -> float:
+    """Return only the remaining shared call budget; never mint a fresh hop timeout."""
+    remaining = deadline - monotonic_clock()
+    if remaining <= 0:
+        raise OfficialTransportFailure("BOUNDED_TRANSPORT_DEADLINE_EXCEEDED")
+    return remaining
+
+
+def _set_connection_deadline(
+    connection: HTTPSConnection,
+    deadline: float,
+    monotonic_clock: Callable[[], float],
+) -> None:
+    """Apply the decreasing operation deadline to the current connected socket."""
+    remaining = _remaining_transport_seconds(deadline, monotonic_clock)
+    if connection.sock is not None:
+        connection.sock.settimeout(remaining)
+
+
+def _read_response_before_deadline(  # noqa: PLR0913, PLR0917
+    response: HTTPResponse,
+    final_url: str,
+    max_bytes: int,
+    connection: HTTPSConnection,
+    deadline: float,
+    monotonic_clock: Callable[[], float],
+) -> OfficialTransportResponse:
+    """Stream at most the admitted body plus one byte under one decreasing deadline."""
+    body = bytearray()
+    target = max_bytes + 1
+    while len(body) < target:
+        _set_connection_deadline(connection, deadline, monotonic_clock)
+        chunk = response.read(min(65_536, target - len(body)))
+        if not chunk:
+            break
+        body.extend(chunk)
+    _remaining_transport_seconds(deadline, monotonic_clock)
+    truncated = len(body) > max_bytes
+    bounded = bytes(body[:max_bytes])
     content_length = response.headers.get("Content-Length")
     try:
         declared_length = int(content_length) if content_length is not None else len(bounded)

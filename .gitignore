@@ -3,6 +3,7 @@
 .env.*
 !.env.example
 *.pem
+!tools/hkex-sectigo-r36.pem
 *.key
 secrets/
 

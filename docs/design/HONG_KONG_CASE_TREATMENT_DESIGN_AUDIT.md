@@ -4,6 +4,22 @@ Status: **Complete — catalogue accepted by ADR 0059**
 
 Audit date: 2026-08-13
 
+## 2026-08-25 V1 amendment
+
+The audit below remains the accepted broader Case-treatment architecture and
+its 155-case source-neutral catalogue history. For the approved live V1, its
+historical-family coverage is superseded by an inclusive 1 July 1997 Cases
+boundary; pre-cutoff superior-court and Privy Council material is excluded.
+The remaining-work requirement to prove every Ask.Legal query path is also
+post-V1 because V1 excludes Ask.Legal routing and query integration.
+
+V1 still requires proposition and treatment correctness from authentic
+post-cutoff evidence, but uses the compact fixed golden evaluation in the
+approved specification rather than treating a research-grade benchmark or
+complete Ask.Legal path as its acceptance gate. Activation is the Management
+Register's verified Serving State transition, not Ask.Legal routing. See the
+[Hong Kong Live V1 Execution Specification](HK_V1_LIVE_EXECUTION_SPEC.md).
+
 ## Verdict
 
 The Hong Kong later-treatment architecture is coherent after the corrections
@@ -84,10 +100,11 @@ may discover a possible relationship but cannot prove wording, treatment,
 authority, retirement, reinstatement, or no change. A missing judgment remains
 a Coverage Gap rather than a valid no-proposition decision.
 
-Exact Hong Kong source IDs, endpoint profiles, historical inventory boundaries,
-and format contracts still belong in the future Hong Kong Cases Source Register
-and Source Rulebook Package. That is specification work, not a missing product
-decision.
+The checked-in Hong Kong Cases Source Register and Source Rulebook Package now
+bind the implemented V1 Judiciary current-list, RSS, complete year-search, and
+listing-derived judgment-locator procedures. They do not claim live execution,
+publisher rights, or coverage outside the approved post-1-July-1997 V1 boundary;
+the broader historical inventory boundaries remain deferred.
 
 ### 2. Search and identity unit — coherent
 

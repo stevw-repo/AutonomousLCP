@@ -104,6 +104,7 @@ def _activities() -> pipeline.AcquisitionActivities:
         CredentialMaterial(b"http://proxy.invalid:3128"),
     )
     object.__setattr__(infrastructure, "primary_vault", _Vault())
+    object.__setattr__(infrastructure, "due_cycle_state_root", Path("/dev/null"))
     return pipeline.AcquisitionActivities(infrastructure)
 
 

@@ -2,19 +2,18 @@
   "schema_id": "https://contracts.asklegal.local/v1/hk-cases-source-register.schema.json",
   "schema_version": "1.0.0",
   "register_id": "hcr_000000000000000000000000000000000000000000000001",
-  "register_version": "2026-08-24.1",
-  "effective_date": "2026-08-24",
-  "status": "NOT_ADMITTED_FAIL_CLOSED",
-  "fingerprint": "sha256:c1c22ab94bb7ebdc95b6597c74856c430572a3887900deb1d57645fa186c33e4",
+  "register_version": "2026-09-06.1",
+  "effective_date": "2026-09-06",
+  "status": "AUTHORIZED_PARTIAL_FAIL_VISIBLE",
+  "fingerprint": "sha256:a697a7f7b9b1327169d368ebdef722ee71d6dae447057c8da2a502b5bcdbe13e",
   "access_boundary": {
-    "state": "LOCAL_CONTRACT_ONLY_NO_SOURCE_ACCESS",
+    "state": "USER_ATTESTED_PERMISSION_DOCUMENT_PENDING",
     "forbidden_effects": [
       "CORPUS_PUBLICATION",
       "DEPLOYMENT",
       "MODEL_OR_EMBEDDING_CALL",
       "PINECONE_MUTATION",
-      "PRODUCTION_ROUTING",
-      "REAL_SOURCE_ACCESS"
+      "PRODUCTION_ROUTING"
     ]
   },
   "sources": [
@@ -39,33 +38,33 @@
       "source_id": "HK-CASE-HKLII-DISCOVERY",
       "registered_source_id": "src_000000000000000000000000000000000000000000000102",
       "version": "1.0.0",
-      "endpoint_ids": [],
-      "rights_state": "UNVERIFIED",
-      "operational_state": "BLOCKED",
+      "endpoint_ids": [
+        "sep_000000000000000000000000000000000000000000000201"
+      ],
+      "rights_state": "USER_ATTESTED_PERMISSION_DOCUMENT_PENDING",
+      "operational_state": "PARTIALLY_CONFIGURED",
       "outage_impact": "NONBLOCKING",
       "fact_authority": "DISCOVERY_ALIAS_CITATION_AND_TREATMENT_LEADS_ONLY",
       "completeness_authority": "NEVER_PROVES_OFFICIAL_COMPLETENESS_OR_NO_CHANGE",
       "blockers": [
-        "EXACT_ENDPOINT_CONTRACT_REQUIRED",
         "NONCONTROLLING_DISCOVERY_PROFILE_UNADMITTED",
-        "PUBLISHER_RIGHTS_EVIDENCE_UNADMITTED",
-        "SOURCE_ACCESS_AUTHORIZATION_UNADMITTED"
+        "PERMISSION_DOCUMENT_PENDING"
       ]
     },
     {
       "source_id": "HK-CASE-JUDICIARY-JUDGMENT",
       "registered_source_id": "src_000000000000000000000000000000000000000000000103",
       "version": "1.0.0",
-      "endpoint_ids": [],
-      "rights_state": "UNVERIFIED",
-      "operational_state": "BLOCKED",
+      "endpoint_ids": [
+        "sep_000000000000000000000000000000000000000000000206"
+      ],
+      "rights_state": "USER_ATTESTED_PERMISSION_DOCUMENT_PENDING",
+      "operational_state": "PARTIALLY_CONFIGURED",
       "outage_impact": "AFFECTED_WORK_BLOCKING",
       "fact_authority": "ORIGINAL_WORDING_VERSION_LANGUAGE_AND_OPINION_EVIDENCE",
       "completeness_authority": "EVERY_ACQUIRED_IN_SCOPE_DECISION_REQUIRES_ACCEPTED_ORIGINAL",
       "blockers": [
-        "EXACT_ENDPOINT_CONTRACT_REQUIRED",
-        "ORIGINATING_ARTIFACT_PROFILE_UNADMITTED",
-        "PUBLISHER_RIGHTS_EVIDENCE_UNADMITTED",
+        "PERMISSION_DOCUMENT_PENDING",
         "SOURCE_ACCESS_AUTHORIZATION_UNADMITTED"
       ]
     },
@@ -90,17 +89,19 @@
       "source_id": "HK-CASE-JUDICIARY-LRS-INVENTORY",
       "registered_source_id": "src_000000000000000000000000000000000000000000000105",
       "version": "1.0.0",
-      "endpoint_ids": [],
-      "rights_state": "UNVERIFIED",
-      "operational_state": "BLOCKED",
+      "endpoint_ids": [
+        "sep_000000000000000000000000000000000000000000000202",
+        "sep_000000000000000000000000000000000000000000000203",
+        "sep_000000000000000000000000000000000000000000000204",
+        "sep_000000000000000000000000000000000000000000000205"
+      ],
+      "rights_state": "USER_ATTESTED_PERMISSION_DOCUMENT_PENDING",
+      "operational_state": "PARTIALLY_CONFIGURED",
       "outage_impact": "RELEASE_BLOCKING",
       "fact_authority": "CURRENT_OFFICIAL_LISTING_INVENTORY",
       "completeness_authority": "EVERY_DUE_COURT_YEAR_PARTITION_MUST_COMPLETE",
       "blockers": [
-        "COMPLETE_ENUMERATION_PROFILE_UNADMITTED",
-        "EXACT_ENDPOINT_CONTRACT_REQUIRED",
-        "PUBLISHER_RIGHTS_EVIDENCE_UNADMITTED",
-        "SOURCE_ACCESS_AUTHORIZATION_UNADMITTED"
+        "PERMISSION_DOCUMENT_PENDING"
       ]
     },
     {
@@ -138,5 +139,108 @@
       ]
     }
   ],
-  "endpoints": []
+  "endpoints": [
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000201",
+      "source_id": "HK-CASE-HKLII-DISCOVERY",
+      "version": "1.0.0",
+      "name": "HKLII_CASES_DISCOVERY",
+      "url": "https://www.hklii.hk/en/cases",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 8388608,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "NONCONTROLLING_CASE_DISCOVERY",
+      "enabled": true,
+      "invocation_kind": "DIRECT_REQUEST"
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000202",
+      "source_id": "HK-CASE-JUDICIARY-LRS-INVENTORY",
+      "version": "1.0.0",
+      "name": "JUDICIARY_CURRENT_JUDGMENTS",
+      "url": "https://legalref.judiciary.hk/lrs/common/index.jsp?target=newjudgments&lan=en",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET"],
+      "media_types": ["text/html"],
+      "max_bytes": 8388608,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "INCREMENTAL_CURRENT_LIST_DISCOVERY_ONLY",
+      "enabled": true,
+      "invocation_kind": "DIRECT_REQUEST"
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000205",
+      "source_id": "HK-CASE-JUDICIARY-LRS-INVENTORY",
+      "version": "1.0.0",
+      "name": "JUDICIARY_CURRENT_JUDGMENTS_SESSION_TARGET",
+      "url": "https://legalref.judiciary.hk/lrs/common/ju/newjudgments.jsp",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET"],
+      "media_types": ["text/html"],
+      "max_bytes": 8388608,
+      "complete_inventory_required": true,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_LISTING_SESSION_REDIRECT_TARGET_ONLY",
+      "enabled": true,
+      "invocation_kind": "REDIRECT_TARGET_ONLY"
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000203",
+      "source_id": "HK-CASE-JUDICIARY-LRS-INVENTORY",
+      "version": "1.0.0",
+      "name": "JUDICIARY_ALL_COURTS_RSS",
+      "url": "https://legalref.judiciary.hk/lrs/common/rss/newjudgments.all.xml",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["application/rss+xml", "application/xml", "text/xml"],
+      "max_bytes": 8388608,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_CHANGE_SIGNAL_ONLY",
+      "enabled": true,
+      "invocation_kind": "DIRECT_REQUEST"
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000204",
+      "source_id": "HK-CASE-JUDICIARY-LRS-INVENTORY",
+      "version": "1.0.13",
+      "name": "JUDICIARY_ADVANCED_YEAR_SEARCH",
+      "url": "https://legalref.judiciary.hk/lrs/common/search/search_result_form.jsp?isadvsearch=1&stem=1&selall2=1&selallct=1",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 8388608,
+      "complete_inventory_required": true,
+      "signal_use": "COMPLETE_INVENTORY",
+      "proves_no_change": false,
+      "evidence_role": "CONTROLLING_FULL_YEAR_RECONCILIATION_ENTRY_FORM",
+      "enabled": true,
+      "invocation_kind": "DIRECT_REQUEST"
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000206",
+      "source_id": "HK-CASE-JUDICIARY-JUDGMENT",
+      "version": "1.0.0",
+      "name": "JUDICIARY_DYNAMIC_JUDGMENT_DETAIL",
+      "url": "https://legalref.judiciary.hk/lrs/common/search/search_result_detail_frame.jsp",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET"],
+      "media_types": ["text/html"],
+      "max_bytes": 8388608,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "DYNAMIC_LISTING_DERIVED_JUDGMENT_LOCATOR_BOUNDARY",
+      "enabled": true,
+      "invocation_kind": "DIRECT_REQUEST"
+    }
+  ]
 }

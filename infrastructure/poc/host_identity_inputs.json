@@ -85,6 +85,7 @@
       "service_id": "vault-primary",
       "identity": "asklegal-vault-primary",
       "owned_write_paths": [
+        "/srv/asklegal/vault-primary/iam",
         "/srv/asklegal/vault-primary/objects",
         "/srv/asklegal/vault-primary/versions",
         "/srv/asklegal/vault-primary/sidecar"
@@ -97,6 +98,7 @@
       "service_id": "vault-recovery",
       "identity": "asklegal-vault-recovery",
       "owned_write_paths": [
+        "/srv/asklegal/vault-recovery/iam",
         "/srv/asklegal/vault-recovery/objects",
         "/srv/asklegal/vault-recovery/versions",
         "/srv/asklegal/vault-recovery/sidecar"

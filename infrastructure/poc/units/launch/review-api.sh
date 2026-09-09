@@ -7,6 +7,15 @@ set -euo pipefail
 container='asklegal-review-api'
 runtime_uid=3007
 
+# Phase two atomically installs this authority-bound exact image set.
+deployment_manifest=/etc/asklegal/deployment-images
+[ -f "$deployment_manifest" ] && [ ! -L "$deployment_manifest" ]
+matches="$(grep -Ec '^review-api sha256:[0-9a-f]{64}$' "$deployment_manifest")"
+[ "$matches" -eq 1 ]
+image_line="$(grep -E '^review-api sha256:[0-9a-f]{64}$' "$deployment_manifest")"
+image_id="${image_line#* }"
+docker image inspect --format '{{.Id}}' "$image_id" | grep -Fx -- "$image_id" >/dev/null
+
 # A stale container from a previous boot would keep the name and the old
 # configuration, so the unit always starts from a clean one.
 docker rm -f "$container" >/dev/null 2>&1 || true
@@ -30,14 +39,19 @@ docker create \
   --user "$runtime_uid":"$runtime_uid" \
   --cap-drop ALL \
   --security-opt no-new-privileges \
+  -e 'ASKLEGAL_LOCAL_REVIEW_ARTIFACT_ROOT=/var/lib/asklegal/review-artifacts' \
+  -e 'ASKLEGAL_LOCAL_REVIEW_STATE_ROOT=/var/lib/asklegal/review' \
+  -e 'ASKLEGAL_LOCAL_REVIEW_AUTHORITY_PATH=/var/lib/asklegal/review/review-authority.json' \
   -e 'CREDENTIALS_DIRECTORY=/run/credentials/asklegal-review-api.service' \
   -v "$credential_dir":'/run/credentials/asklegal-review-api.service':ro \
+  -v '/var/lib/asklegal/review:/var/lib/asklegal/review:rw' \
+  -v '/var/lib/asklegal/review-artifacts:/var/lib/asklegal/review-artifacts:ro' \
   -v '/etc/asklegal/trust/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro' \
   -v '/etc/asklegal/trust/vault-primary-ca.pem:/etc/asklegal/trust/vault-primary-ca.pem:ro' \
   -v '/etc/asklegal/trust/vault-recovery-ca.pem:/etc/asklegal/trust/vault-recovery-ca.pem:ro' \
   -v '/etc/asklegal/tls/internal-ca.crt:/etc/asklegal/tls/internal-ca.crt:ro' \
   -v '/etc/asklegal/tls/review-api:/etc/asklegal/tls/review-api:ro' \
-  'asklegal/review-api:v1' >/dev/null
+  "$image_id" >/dev/null
 
 # Every network is attached before the process starts. Attaching after start
 # is a race: the readiness gate can run before a dependency is reachable.

@@ -2,8 +2,8 @@
   "schema_id": "asklegal.executable-source-rulebook-package",
   "schema_version": "1.0.0",
   "package_id": "rbp_4d1edecf99644933bf4f603c31b9b22f2d1f6b1e9fb47b92",
-  "package_version": "0.11.0",
-  "package_fingerprint": "sha256:545b9bb4ebb9dbfba16dc7bd3d54e1b83e698991331d4ffe30fe2c3ab82f77d9",
+  "package_version": "0.13.0",
+  "package_fingerprint": "sha256:ce81651ac8c7952a8c3a0099ba68f7085a179d9cb75a2b420b25cbe4e1cce329",
   "jurisdiction": "HK",
   "environment": "PRODUCTION",
   "material_family": "CASES",
@@ -11,8 +11,8 @@
   "effective_cutoff": "2026-08-24T00:00:00Z",
   "predecessor": null,
   "contract_locks": [
-    "sha256:92b5193ca9fa45d2260ee2012cd350818136f4d12b1d93e763a67b827d15c455",
-    "sha256:c1c22ab94bb7ebdc95b6597c74856c430572a3887900deb1d57645fa186c33e4"
+    "sha256:64c4544b2d9b6039f7b88de61d7605077d460637d5660a2776655400beb89d66",
+    "sha256:a697a7f7b9b1327169d368ebdef722ee71d6dae447057c8da2a502b5bcdbe13e"
   ],
   "code_locks": [
     "asklegal-legal-desks==0.1.0",

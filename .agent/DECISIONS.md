@@ -3,6 +3,427 @@
 Only settled decisions belong here. Recommendations and unresolved choices stay
 in the design brief and `WORKING_STATE.md` until the user decides them.
 
+## 2026-09-06 — Bind Task 6 Cases through an injected worker-local input port
+
+The accepted Task 6 plan is implemented through a typed worker-local Cases
+production input port, parallel to the existing Legislation production input
+port. The port supplies exact retained-import receipt/object bindings, an
+already admitted current Judiciary advanced-search form body and its contract
+version, admitted current-list/RSS observations when the selected cycle mode
+uses them, non-controlling HKLII discrepancy references, and any accepted
+predecessor state. The acquisition activity builds and executes the work graph
+from those live typed inputs; a serialized caller may name a graph but may not
+smuggle source bytes or invent source facts.
+
+The existing `RetainedImportReceipt.imported_object_references` is the
+authoritative retained-prefix inventory, not merely its convenience
+`last_listing` field. Exact registered endpoint identities and locators recover
+the year/page coordinates, while retained bodies are read only through the
+existing vault/evidence reader and current form bytes are supplied explicitly
+by the input port. A missing, stale, malformed, or unconfigured input fails
+closed. It is therefore an implementation/configuration state, not a reason to
+invent data or request a new product decision.
+
+Task 6 does not enable semantic providers or claim a Case release. The current
+provider-disabled withholding APIs remain valid. Any Task 6 legal-processing
+change is limited to admitting complete acquisition-manifest references for
+later processing; incomplete or retryable year shards remain withheld. This
+decision grants no source/network access, provider action, release, Pinecone
+mutation, deployment, commit, push, or other external authority.
+
+## 2026-09-06 — Carry two load-bearing Task 5 breaker fixes into Task 6
+
+Task 5 exhausted its five scoped fix rounds and terminal rereview found two
+real load-bearing defects: the changed-archive verifier rejects authentic HKeL
+publisher backslash member paths, and restart C can combine Task-4
+attempt/report identity with B-cycle authority/execution identity in one
+imported journal payload. Neither defect is accepted or parked as correct
+behavior.
+
+Under the accepted subagent-driven plan's breaker rule, the smallest
+RED-to-GREEN corrections are mandatory prerequisites at the start of Task 6
+and remain inside Task 6 review. Task 5 stays explicitly unaccepted until that
+review proves both corrections. The tradeoff is a slightly wider Task 6 diff;
+the alternative—advancing Cases on a false authentic-archive claim and
+origin-incoherent journal evidence—is prohibited by the standing no-false-
+success rule. This routing grants no network, source, provider, Pinecone,
+commit, push, deployment, or other external authority.
+
+## 2026-09-03 — Use only the modern acquisition-journal schema for V1
+
+The user explicitly approves the bounded modern-journal-only design and directs
+the agent to finish the accepted two-family V1 autonomously without further
+routine approval requests. Compact pre-schema acquisition-journal migration is
+removed because no deployed or local runtime journal uses it and its synthetic
+migration state machine was the sole remaining Task 3 blocker. New cycles must
+bind the exact safety profile before any `STARTED` transition and use full modern
+payloads. Compact journal entries fail closed before transport.
+
+This does not delete or weaken retained HKeL or Judiciary source evidence. Task 4
+remains the explicit, verified, zero-network import path from those retained
+source reports and objects into a fresh modern acquisition journal. Existing
+authorization, false-success, strict model-output, publisher-rights, and
+external-write boundaries remain in force; the instruction removes routine
+ceremony, not those substantive gates.
+
+## 2026-09-03 — Authorize one additional bounded Task 3 repair round
+
+The user explicitly approves one additional repair-and-independent-review round
+beyond the subagent-driven plan's ordinary five-round limit. Its scope is only
+the two terminal Task 3 pacing findings: preserve the durable host floor for an
+ambiguous marker-free `WORKER_INTERRUPTED`, and classify legacy pacing from exact
+prior-start evidence rather than compact discovery alone. The round remains
+strict RED-to-GREEN and may not dispatch Task 4, resume HKEX or Authority 808,
+access a source or network, mutate retained evidence, commit, push, or deploy.
+
+If this additional rereview still finds a material blocker, stop and return to
+the user rather than extending the loop again.
+
+## 2026-09-01 — Adopt the corrected HKEX role-aware membership architecture
+
+The user explicitly approves the corrected HKEX architecture recommended after
+the first independent design review. Updates ownership is derived by exact
+root/complete-section position. Every raw attachment occurrence is retained;
+alias/raw twins collapse only to one canonical association per parent and
+target. Same-host admitted targets may be captured once and associated with
+multiple parents. Cross-host artifacts remain explicit, unfetched external
+references pending separate rights and source authority.
+
+The current traversal does not fetch redundant Updates container or member
+pages: the root hierarchy supplies semantic identities and the complete
+section supplies positional attachment ownership. Forms retains its bounded
+two-tier member-page and PDF traversal. Dynamic HTML attempts retain exact
+requested, redirect-hop, and final-URL facts, including failed identities, and
+the policy binds physical-start, pacing, and elapsed limits. Executor support
+must land before current-register activation. Fresh current HKEX authorization
+is execution-policy-fingerprint-sensitive; frozen A/B/C attempts retain their
+literal historical zero-effect replay pins.
+
+This approval authorizes rewriting the existing design and implementation plan
+and submitting them for fresh independent review. It does not by itself
+authorize production implementation, a successor authority, live source or
+network access, retained-evidence mutation, release, deployment, or any other
+external effect.
+
+## 2026-09-01 — Bind current HKEX update PDFs to their captured amendment sections
+
+The current HKEX register replaces only endpoint 317's fabricated Main Board
+`amend_mb.pdf` and endpoint 318's fabricated GEM `amend_gem.pdf`. Their exact
+current locators are respectively
+`https://en-rules.hkex.com.hk/sites/default/files/net_file_store/Update_154_Attachment.pdf`
+and
+`https://en-rules.hkex.com.hk/sites/default/files/net_file_store/Update_87_Attachment.pdf`,
+as linked in the retained official amendment-section pages. Endpoint versions
+advance to `1.0.1`, the Rule Updates source profile advances to `1.0.1`, and
+the register advances to `2026-09-01.1`, effective 2026-09-01.
+
+A current execution must prove exact captured-page membership between endpoint
+317 and `/entiresection/2`, and between endpoint 318 and
+`/entiresection/49`, before accepting either PDF body. The locator must be an
+exact query-free, fragment-free, traversal-free HTTPS PDF on
+`en-rules.hkex.com.hk`; missing or unsafe membership is
+`SOURCE_CONTRACT_CHANGED`. HTTP 404 and PDF-magic validation remain separately
+fail-visible. This is the narrowest repair for the authentic 404 root cause.
+
+Raw amendment href syntax is validated before `urljoin`: only exact absolute
+HTTPS and exact root-relative forms may resolve, with all whitespace/control/
+nonprintable characters and raw empty/dot/traversal segments rejected. The two
+frozen HKEX reports remain replayable only under separately enumerated exact
+attempt, cutoff, no-predecessor, authority, old-register, allowed-URL, and raw
+report-hash pins. No family-wide historical HKEX bypass is accepted.
+
+Authorities 803/804 and both retained attempt roots stay byte-identical under
+their historical register identity. The current register repair neither
+rewrites history nor authorizes a new authority, live attempt, complete
+executor, release, deployment, or production effect.
+
+## 2026-09-01 — Continue only a currently repaired Judiciary parser stop
+
+A Judiciary continuation may now bridge one final logical
+`SOURCE_CONTRACT_CHANGED` only when its final physical response is the exact
+retained HTTP-success `CAPTURED` HTML object, current versioned form/result
+validation accepts that same request and body, and canonical replay of every
+earlier captured endpoint derives the exact failed request tuple. The child
+excludes the old failed logical record, begins by refetching that exact tuple
+under the current result version, and retains all existing prefix,
+lineage, cumulative-budget, two-pass, global-equality, and zero-effect replay
+rules. Any parser body still rejected by the current contract, nonfinal
+failure, changed object/request/version/cutoff/identity, another result, or
+other semantic failure remains non-resumable.
+
+The authentic S body also corrects the sanitized direct-Word fixture's former
+year assumption: S's safe relative Word path has an earlier case-file year than
+its listing year. Result `1.0.12` therefore accepts an earlier path year only
+when it is at least 1997, is less than the listing year, and the filename ends
+`_<same-path-year>.doc`; the already admitted equal-year shape remains valid.
+The Word URL is still presentation metadata only and is never fetched.
+
+This decision authorizes no live T request, retained-evidence mutation,
+network access, commit, push, deployment, release, or production action.
+
+## 2026-09-01 — Advance current Judiciary direct-Word contract without altering retained replays
+
+The current Cases register is `2026-08-31.14`; form `1.0.13` maps only to
+result `1.0.12`. Result `1.0.12` accepts the exact observed direct-Word plus JU
+frame row only as validated presentation metadata and returns the existing
+canonical DIS detail locator. Form `1.0.13` carries an explicit exact `page`
+coordinate for every requested page. Historical P, Q, R, and S retain Cases
+`.13`, form `.12`, result `.11`, and their individually pinned authority,
+predecessor, policy, report, and allowed-URL identities. This separates current
+parser evolution from immutable replay identity and keeps all authorization
+checks fail-closed.
+
+## 2026-08-31 — Retry one closed class of Judiciary publisher server errors
+
+Current Judiciary transport policy is
+`JUDICIARY_TRANSPORT_ATTEMPTS_1.2.0`. A physical response may receive exactly
+one delayed second attempt when its integer status is one of `500`, `502`,
+`503`, or `504`, its final URL exactly equals the requested admitted HTTPS URL,
+and `redirect_rejected` is exactly false. The retained body and media type may
+vary within the existing bounded capture because publisher error pages are not
+stable contract content. The set is closed: `500` is the observed Q fact;
+`502`, `503`, and `504` are the corresponding transient gateway/service
+failures. `501` and `505` are excluded because they describe unsupported HTTP
+semantics rather than a transient publisher outage.
+
+Server error followed by a valid response retains both physical attempts and
+continues from the valid logical capture. A second eligible server error
+retains both, projects one logical `OUTAGE`, returns `SOURCE_OUTAGE`, and stops;
+there is never a third attempt. Every 4xx, redirect rejection, final-URL drift,
+truncation, empty HTTP 200, parser/reconciliation failure, and semantic contract
+failure remains non-retryable and fail-visible. Existing two-second spacing,
+request/byte/elapsed ceilings, exact maintenance recognition, and normalized
+transport-failure rules are unchanged.
+
+Policies `1.0.0` and `1.1.0` remain closed historical profiles. Attempt Q is
+frozen under schema `1.2.0`, predecessor P, Authority 796, Cases `.13`, form
+`1.0.12`, result `1.0.11`, its exact old-policy fingerprint and execution
+binding, raw report SHA-256, and admitted URLs. Its historical replay is
+zero-effect and keeps the original single status-500 physical attempt and
+logical `SOURCE_OUTAGE`; the new policy does not reinterpret retained history.
+
+There will be no whole-run restart and no authority churn merely to repeat Q.
+The next separate operational slice is a predecessor-bound child from Q's
+verified prefix, beginning again at 2006/page 259 under cumulative ceilings.
+This decision authorizes no live request, new authority, retained-evidence
+mutation, full-repository gate, commit, push, or deployment.
+
+## 2026-08-31 — Continue an exact Judiciary outage prefix without resetting ceilings
+
+A current Judiciary execution may continue one eligible retained predecessor
+only inside the same output root and only through the existing
+`--predecessor-attempt-id` argument. Eligibility is a schema-`1.1.0` or
+schema-`1.2.0` Judiciary report whose sole final logical failure is an exact
+transport `OUTAGE`, including the closed current publisher-maintenance sentinel.
+An observation stopped by request, retained-byte, or elapsed budget is never
+eligible: its cumulative ceiling is already exhausted and a new authority must
+not reset it. Parser, reconciliation, semantic contract, authorization,
+register, cutoff, or other non-transport failures are also non-resumable.
+
+The child report uses Judiciary-only schema `1.2.0`. Its logical endpoints are
+the independently reread and rehashed captured predecessor prefix followed by
+new suffix endpoints. Its physical transport ledger and ordinary observation
+accounting contain only new child work. A separate cumulative accounting object
+adds the full parent charge—including the excluded final failed request—to the
+child segment and enforces the existing ceilings. A closed continuation binding
+records the parent attempt and report digest, prefix count and digest, inherited
+accounting, child authority and execution fingerprints, and the exact next
+request independently derived by replaying the current writer. The first child
+transport request must equal that tuple; prefix reads never call transport.
+
+One parent may have at most one direct child, lineage must remain acyclic, and
+every referenced object remains content-addressed and independently verified.
+Exact child replay is zero-effect. Appending a child does not change the frozen
+parent report or its historical replay. The contract is generic over Judiciary
+pass 1, fresh full pass 2, and detail traversal; Attempt P is the first exact
+fixture, not a production special case. Its verified prefix has 3,265 captured
+records and its independently derived next request is 2006/page 259. Result
+`1.0.11`, form `1.0.12`, Cases `.13`, cutoff, register, and admitted URLs remain
+unchanged. This implementation decision authorizes no live continuation, new
+authority, retained-evidence mutation, network call, commit, push, deployment,
+or full repository gate.
+
+## 2026-08-31 — Classify one exact Judiciary maintenance response and resume from P
+
+Current Judiciary transport policy is
+`JUDICIARY_TRANSPORT_ATTEMPTS_1.1.0`. Before any result/form parser runs, it
+classifies as `OUTAGE` only the exact publisher-maintenance tuple observed in
+Attempt P: integer status `200`, exact media type `text/plain`, exactly 255
+body bytes whose SHA-256 is
+`39f0a4df3dc88efbd6216caeaa03dc9fd1acbed9e73a477508e86f7e4229594f`,
+`final_url` exactly equal to the capability-bound requested admitted HTTPS
+URL, and `redirect_rejected=false`. That tuple and the existing exact
+status-`0` normalized transport failure may receive one second attempt through
+the ordinary serial controller and its existing spacing and observation
+budgets. There is never a third attempt, and the HTTP URL embedded in the
+maintenance body is data, never a navigation target.
+
+Maintenance followed by a valid response retains both physical attempts and
+continues from the valid logical capture. Maintenance followed by the same
+exact maintenance tuple retains both, projects one logical `OUTAGE`, returns
+`SOURCE_OUTAGE`, and stops. Any changed status, media type, length, digest,
+final URL, requested scheme, or redirect fact receives no maintenance retry
+and remains fail-closed under the ordinary response/parser rules. This does
+not loosen false-success behavior.
+
+Report schema `1.1.0`, result `1.0.11`, form `1.0.12`, and Cases `.13` remain
+unchanged. Replay selects a closed policy from the report's exact embedded
+profile and fingerprint. Attempts N, O, and P remain bound to historical
+policy `JUDICIARY_TRANSPORT_ATTEMPTS_1.0.0` /
+`sha256:9993c64e7cc62654d773cf1e860699cd9b56737d1cea4c4c17ee016308bf8353`;
+Attempt P therefore remains physical `CAPTURED`, logical
+`SOURCE_CONTRACT_CHANGED`, and byte-identical under its exact old report and
+authorization pins.
+
+After this policy repair there will be no further whole-run Judiciary restart
+and no new authority merely to repeat the observation. The next separate
+implementation slice is predecessor-bound resumability from Attempt P's
+verified prefix. This decision authorizes no live request, continuation run,
+new authority, retained-evidence mutation, commit, push, or deployment.
+
+## 2026-08-31 — Retain and replay one exact Judiciary transport retry
+
+Current Judiciary acquisition uses report schema `1.1.0` and execution policy
+`JUDICIARY_TRANSPORT_ATTEMPTS_1.0.0`. Every returned physical Judiciary GET
+response is retained in a separate ordered `transport_attempts` projection;
+the existing `endpoints` projection continues to contain exactly one final
+logical result per endpoint. This separation keeps source-procedure counts,
+change detection, traversal order, and terminal derivation based on logical
+endpoints while preserving the physical evidence needed to prove retry
+behavior.
+
+One second attempt is permitted only when attempt 1 is exactly the normalized
+transport-failure tuple: integer status `0`, empty body, exact media type
+`application/octet-stream`, `final_url is None`, and
+`redirect_rejected is False`. The second start uses the ordinary serial
+controller and therefore occurs only after the exact two-second minimum start
+interval and only if the existing request, elapsed-time, and retained-byte
+ceilings still permit it. There is never a third attempt. A second failure
+remains `SOURCE_OUTAGE`. HTTP failures, empty HTTP 200, truncation, redirect
+rejection or drift, parser/reconciliation failure, and source-contract drift
+are never retried.
+
+New Judiciary reports also retain the exact execution-policy fingerprint and
+complete observation accounting. The authorization binding includes that
+policy fingerprint so a current retry-enabled run cannot be downgraded to the
+old one-attempt grammar. Replay must reread every attempt object and validate
+contiguous physical sequence, per-endpoint attempt numbering, URL/version/
+method/max-byte binding, start spacing, eligibility, final logical projection,
+and request/byte/elapsed accounting before any controller or transport is
+constructed. Historical Attempts A–M keep their exact old report bytes and
+one-attempt semantics under replay-only pins.
+
+This supersedes only the “one attempt per request with no blind retry” clause
+of **Proceed autonomously and bound the authentic Judiciary observation**.
+Its serial pacing, 50,000-start, 64-GiB, 72-hour, fail-visible, no-false-success,
+and zero-effect replay rules remain binding. The change is required because
+Attempts L and M independently stopped on isolated status-`0` empty transport
+events after 49 and 1,663 successful captures; repeating whole no-retry runs
+would make each request another single-point failure. This decision authorizes
+no evidence rewrite, new live attempt before review and the complete gate,
+commit, push, deployment, credential entry, challenge bypass, or external
+write.
+
+## 2026-08-30 — Bind the exact authentic Judiciary RS class attributes
+
+Result `1.0.9` retains all result-`1.0.8` semantic, page, form, row, date,
+identity, reconciliation, two-pass, raw-count, deduplication, and full-map
+equality rules. Its only grammar change is the complete observed RS anchor
+starts: `judpop1` has the exact suffix
+`class="searchfont result-caseno"`, while `judpop` has the exact unquoted
+suffix `class=searchfont`. Both attributes follow the exact `href`; attribute
+names, order, values, token order, case, and quote forms are fixed. The two
+literal `</a>` closes and flat start/close ordering remain unchanged. Missing,
+arbitrary, reordered, duplicated, case-changed, quote-changed, token-changed,
+entity-encoded, or extra class/attributes remain contract changes.
+
+This replaces the href-only current RS start grammar because retained Attempts
+J and K contain the same otherwise-valid page-113 RS row with those two exact
+publisher classes. The prior sanitized positive omitted them and therefore did
+not reproduce the authentic row. Form `1.0.10` maps to result `1.0.9` under
+Cases `.11`. Attempt K remains exact replay-only under Cases `.10`, form
+`1.0.9`, and result `1.0.8`; A-J retain their historical bindings. This
+decision authorizes no network attempt, evidence or authority mutation, full
+repository gate, commit, push, or deployment.
+
+## 2026-08-30 — Preserve exact Judiciary JU/RS detail-frame type
+
+Result `1.0.8` retains all result-`1.0.7` page grammar, reconciliation,
+identity deduplication, two-pass accounting, and full-map equality rules. The
+one extension is a closed uppercase `TP` value of `JU` or `RS` in the exact
+source assignment. Both paired `judpop1` and `judpop` links must reference the
+same temp/DIS; RS requires one assignment, one valid decision date, exactly
+three cells, and no optional absolute frame. The canonical detail-frame
+locator preserves the exact source type, so within-pass identity/locator
+equality and cross-pass full-map equality reject a JU/RS change before detail
+capture.
+
+For result `1.0.8`, “exact paired links” includes source spelling and topology:
+canonical decimal temp/DIS tokens, two byte-exact href-only anchor start tags,
+`judpop1` then `judpop`, and one literal `</a>` after each start with no
+nesting, stray close, entity normalization, or malformed close. Result `1.0.9`
+supersedes only that current href-only start shape as recorded above. The
+decoded semantic locator is checked separately. This narrow raw grammar was
+selected because tolerant HTML parsing otherwise normalized materially
+different or malformed link spellings into the same apparent pair.
+
+This is selected because retained Attempt J has one otherwise exact 1998 row
+whose source assignment uses `TP=RS`; its date, identity, totals, pages, raw
+slots, and paired-link structure are not inconsistent. Form `1.0.9` maps to
+result `1.0.8` under Cases `.10`. Attempt J remains exact replay-only under
+Cases `.9`, form `1.0.8`, and result `1.0.7`; A-I retain their historical
+bindings. This decision authorizes no network attempt, evidence mutation, full
+repository gate, commit, push, or deployment.
+
+## 2026-08-30 — Reconcile Judiciary pagination repeats by stable identity, not page topology
+
+Result `1.0.7` retains the exact result-`1.0.6` page grammar. Within each of
+the two same-run passes, exact page-chain, page-count, reported-total, and raw
+slot accounting remain mandatory. Repeated identities are presentation-level
+pagination overlap: deterministic first-seen deduplication admits them at any
+position or multiplicity only when every occurrence has the same nonmissing
+decision date and canonical artifact locator. Identity-to-locator mapping must
+remain globally one-to-one across all year partitions.
+
+Before any detail request, the two passes must have the same per-year reported
+totals, reported pages, and raw slot counts and the exact same full
+identity-sorted unique identity/decision-date/canonical-locator map, including
+cutoff-excluded rows. Each unique in-scope detail is then fetched exactly once
+in pass-1 first-seen order. This supersedes enumerating last/first,
+last/second, or second-last/first page-boundary shapes: Attempts G, H, and I
+showed three harmless shapes while preserving exact identity facts, and the
+two-pass full-map equality is the completeness control. Attempt I remains
+exact replay-only under Cases `.8`, form `1.0.7`, and result `1.0.6`; A–H
+retain their prior historical bindings. This decision authorizes no network
+attempt, evidence mutation, full repository gate, commit, push, or deployment.
+
+## 2026-08-30 — Require two same-run Judiciary listing passes before detail capture
+
+The current Judiciary inventory contract uses result `1.0.6`, form `1.0.7`,
+and Cases register `2026-08-30.8`. Each year is enumerated twice from the same
+retained exact entry form. Each pass follows only its own sequential advertised
+page chain and independently validates page grammar, totals, raw row count,
+duplicate topology, and one-to-one identity/locator mapping. Pass 2 uses exact
+endpoint identities `judiciary-year-{year}-verification-page-{n}`.
+
+Before any detail request, the two passes must have exactly equal full
+identity-sorted unique identity/decision-date/canonical-locator maps, including
+cutoff-excluded identities. If they differ, all valid page captures remain
+truthfully `CAPTURED`, the Judiciary procedure is
+`SOURCE_CONTRACT_CHANGED/0`, and no detail is requested. If equal, unique
+in-scope details are fetched exactly once in pass-1 first-seen order. This
+same-run comparison was selected over predecessor monotonicity because Attempt
+H has no predecessor and historical attempts cross authority, cutoff,
+register, form, and result versions; projecting an older attempt through a new
+parser would weaken exact replay isolation.
+
+Result `1.0.6` retains result-`1.0.5` grammar and admits at most one observed
+shifted overlap only under the exact cutoff-excluded/date/locator/intervening-
+row/global-uniqueness conditions. Attempt H remains exact replay-only under
+old Cases `.7`, form `1.0.6`, and result `1.0.5`; attempts A–G remain under
+their prior exact overrides. This decision authorizes no network run, Attempt
+I, evidence mutation, deployment, or production action.
+
 ## 2026-08-22 — Re-admit the local synthetic image proof on exact current inputs
 
 The authorized local proof now binds the exact named builder used for every
@@ -44,6 +465,11 @@ that state. The operator must separately invoke
 authorized deletion boundary.
 
 ## 2026-08-21 — Retain GLD e-Gazette as the V1 current-publication source
+
+Amended on 2026-08-25 by **Require fully autonomous local-only GLD acquisition
+for live V1** below. The earlier no-bypass/manual-fallback limitation is
+superseded for V1 by the user's later reported government permission and
+autonomous-operation requirement; GLD's originating-source role is unchanged.
 
 The direct `HK-LEG-GLD-EGAZETTE` role remains inside V1 and remains the
 release-blocking source for the earliest official Hong Kong Gazette
@@ -3786,6 +4212,11 @@ HKLII cannot cure an enumeration gap. See
 
 ## 2026-08-12 — Serve Hong Kong Case Propositions in original language by default
 
+Amended for V1 on 2026-08-25 by **Allow faithful distilled Case propositions
+while preserving authoritative passages** below. Original judgment evidence
+and authority remain controlling, but serving prose need not reproduce the
+court's wording when faithful distillation is clearer.
+
 Each Hong Kong Case Proposition uses the language actually authored by the
 court in its supporting opinion or passages. One proposition creates one
 original-language serving record, including exact mixed-language source text;
@@ -3809,6 +4240,10 @@ create duplicate language records. See
 `docs/adr/0047-serve-hong-kong-case-propositions-in-original-language-by-default.md`.
 
 ## 2026-08-12 — Limit ordinary Hong Kong Case coverage to binding courts
+
+Amended for V1 on 2026-08-25 by **Fix the Cases V1 boundary at 1 July 1997**
+below. The broader design may still describe historical families, but they are
+not required by the approved V1 product scope.
 
 Ordinary searchable Hong Kong Case coverage includes publicly released written
 decisions and reasons from the Court of Final Appeal, Court of Appeal, Court of
@@ -6435,3 +6870,736 @@ alternatives were embedding the proof in the package, excluding the proof from
 the package fingerprint through a special projection, attesting a predecessor
 as if it admitted the current package, relying on unit-test totals, or granting
 runtime authority from source-neutral compatibility.
+
+## 2026-08-25 — Define V1 as a continuously operating three-family Hong Kong index
+
+V1 contains all three accepted Hong Kong Legislation scopes, proposition-level
+Cases coverage for the accepted binding-court families from 1 July 1997, and
+current HKEX Main Board and GEM Listing Rules. Hong Kong Principles is deferred;
+the user will directly provide reference-publication text after V1, when it will
+receive its own source, rights, identity, rulebook, and admission design.
+
+Pre-1-July-1997 Cases, full-judgment search records, Ask.Legal query routing,
+the Ask.Legal administration portal, and Azure application hosting are outside
+V1. The V1 deliverable is one complete approved and rollback-protected Hong
+Kong Pinecone index plus a continuously operating local pipeline. The honest
+label is complete Hong Kong legislation, post-1-July-1997 binding-case
+propositions, and HKEX Listing Rules POC rather than the broader four-family
+complete Hong Kong jurisdiction.
+
+V1 must autonomously observe, acquire, process, validate, and prepare changed
+proposals. A genuine no-change cycle creates no model, embedding, proposal, or
+Pinecone work. Rejected alternatives were blocking V1 on unselected Principles,
+replaying pre-handover case history already intended to be represented later by
+reference publications, requiring an Ask.Legal application route, or treating a
+one-time index build as a live autonomous V1.
+
+## 2026-08-25 — Require fully autonomous local-only GLD acquisition for live V1
+
+GLD remains the originating and generally earliest current Gazette source, and
+its acquisition must be fully autonomous. Manual download/import cannot satisfy
+V1. The user reports that the Hong Kong Government granted permission for the
+project's required automated use, including locally overcoming the public
+Cloudflare/Turnstile access gate. The Government provides no API, allowlist,
+service credential, or other non-public technical route.
+
+V1 will use only local acquisition facilities: an isolated acquisition-owned
+Chromium/Patchright session and bounded evidence-preserving connectors. Paid or
+remote CAPTCHA-solving services are excluded for now. The actual permission
+evidence must be preserved and bound to source admission; the register records
+the statement as the user's report until independently evidenced. Failure to
+establish or renew a complete public session blocks the due cycle rather than
+becoming no change or HKeL substitution.
+
+This supersedes only the earlier no-bypass/manual-fallback limitation. It does
+not weaken exact host/path bounds, evidence read-back, complete Gazette-class
+accounting, source-contract drift detection, or the distinction between GLD
+current publication and HKeL recovery/backcapture.
+
+## 2026-08-25 — Fix the Cases V1 boundary at 1 July 1997
+
+V1 Cases coverage begins inclusively on 1 July 1997. Pre-handover Hong Kong
+superior-court and Privy Council material is not required for this POC because
+the product supplies legal analysis rather than a comprehensive historical
+research service and significant earlier doctrine will later be represented by
+the user-provided Principles publications.
+
+From the cutoff onward, the existing ADR 0048 contract remains unchanged: every
+official listing from every in-scope binding-court family receives one exact
+acquisition and processing disposition, while only supported propositions
+become Search Records. A complete zero-proposition judgment remains a valid
+accounted outcome. HKLII remains non-controlling.
+
+## 2026-08-25 — Allow faithful distilled Case propositions while preserving authoritative passages
+
+The authoritative judgment bytes, opinion path, exact supporting passages, and
+locators remain mandatory evidence. A serving proposition may nevertheless be
+faithfully summarized or distilled where that gives clearer legal analysis;
+verbatim court wording is not a hard serving rule unless meaning depends on the
+exact words.
+
+Distillation must preserve attribution, authority role, qualifications,
+exceptions, result, material meaning, and exact support. It may not broaden,
+omit, mistranslate, or manufacture the court's reasoning. This refines the
+original-language-by-default decision without allowing translation-derived
+authority or evidence-free paraphrase.
+
+## 2026-08-25 — Keep local human Approval while automating the complete live update
+
+The user reviews proposals through the locally hosted Review interface. A
+proposal may wait for review while its objective validity predicates remain
+true. One valid local Approval automatically wakes Promotion; no second command
+or approval is required. Promotion revalidates current facts, then performs
+embedding, replacement-index construction, complete read-back, backup, and the
+local Serving State transition autonomously.
+
+Material drift while a proposal waits invalidates it and produces a new
+proposal. Ask.Legal application routing is excluded, so activation means the
+Management Register's current verified Serving State references the new
+complete index. The predecessor remains protected for rollback. Rejected
+alternatives were fully automatic activation without human Approval and a
+manual post-Approval promotion command.
+
+## 2026-08-25 — Use a compact practical V1 model and retrieval evaluation
+
+V1 uses a fixed representative golden set for Legislation, Gazette, Cases, and
+HKEX; English, Traditional Chinese, bilingual, and a small cross-language
+slice; exact schema/evidence/attribution checks; simple expected-record-in-top-
+results retrieval checks; a short local report; and one clean repeat run.
+
+Research-grade benchmarks, complex statistical scoring, extensive blinded
+review, and unnecessary dual-attestation ceremony are outside V1. Strict model
+decoding and zero tolerance remain for invented evidence, unsupported
+citations, malformed output, wrong attribution, materially broadened meaning,
+incomplete bilingual legislation, reference leakage, and unapproved profile
+drift.
+
+## 2026-08-25 — Approve the written live-V1 specification as the implementation baseline
+
+The user approved `docs/design/HK_V1_LIVE_EXECUTION_SPEC.md` as the written
+baseline for implementation. The specification consolidates the settled
+three-family V1 scope, 1 July 1997 Cases boundary, autonomous local-only GLD
+path, compact evaluation, local named-human Approval, automatic post-Approval
+promotion, complete replacement Pinecone index, continuous Ubuntu operation,
+rollback, reboot, and scheduled-cycle acceptance requirements.
+
+Implementation is decomposed into the nine dependency-linked plans indexed at
+`docs/superpowers/plans/2026-08-25-hk-v1-plan-index.md`. Approval of the written
+baseline does not itself authorize external source access, terms acceptance,
+provider calls, Pinecone mutation, live SQL or host mutation, credential
+rotation, commit, or push; those remain exact action-specific gates.
+
+## 2026-08-25 — Reconcile broader historical design with the approved V1
+
+The original four-family architecture and its historical ADR text remain
+preserved. For current V1, the approved
+[Hong Kong Live V1 Execution Specification](../docs/design/HK_V1_LIVE_EXECUTION_SPEC.md)
+supersedes these narrower statements:
+
+- ADRs 0046 and 0049 include pre-1997 superior-court and Privy Council Case
+  coverage and no fixed historical cutoff; V1 instead begins inclusively on
+  1 July 1997 and excludes every earlier Case;
+- ADR 0077 requires complete Ask.Legal query-path evaluation; V1 excludes that
+  integration and uses its compact fixed multilingual golden evaluation;
+- ADR 0100 permits only credential-free ephemeral discovery sessions; the V1
+  GLD compartment may establish and renew minimum local public-route session
+  state while browser content remains non-controlling and legal artifacts
+  retain their inert capture/read-back boundary; and
+- the initial design's four-family corpus and Ask.Legal cutover describe the
+  broader target, while V1 contains Legislation, post-cutoff Case propositions,
+  and HKEX Listing Rules only and activates through the Management Register's
+  verified Serving State transition.
+
+Principles remains deferred until the user provides text after V1. The user
+reports government permission for autonomous local GLD/Turnstile traversal;
+the underlying evidence is not independently verified and remains a source-
+admission requirement. One local named-human Approval automatically wakes
+Promotion. No historical decision is erased, and this documentation amendment
+authorizes no source access, provider call, Pinecone mutation, host mutation,
+commit, push, deployment, or external effect.
+
+## 2026-08-25 — Use the flagship model for substantive V1 implementation
+
+Substantive implementation uses `gpt-5.6-sol` at high reasoning. Legal rules,
+acquisition, promotion safety, Pinecone, and recovery use `gpt-5.6-sol` at
+xhigh reasoning. Independent review remains a fresh `gpt-5.6-sol` agent at
+high reasoning, raised to xhigh for high-risk milestones and plan exit.
+`gpt-5.6-terra` is limited to tightly bounded low-risk tasks and
+`gpt-5.6-luna` to mechanical checks.
+
+This supersedes the same-day routine-implementation assignment to
+`gpt-5.6-terra` at high reasoning. The reason is observed rather than assumed:
+Plan 1 Task 1 began with two Critical findings and required four fix/re-review
+rounds, whereas the subsequent `gpt-5.6-sol` implementations required zero or
+one fix round. Review counts remain the local evaluation signal; the routing
+will be reconsidered if the higher-capability implementation model does not
+reduce total review churn.
+
+## 2026-08-25 — Supersede implementation routing with Luna xhigh
+
+The user subsequently selected `gpt-5.6-luna` at xhigh reasoning for all future
+implementation agents. The already-running Plan 1 exit fix remains on its
+existing `gpt-5.6-sol` xhigh assignment so completed work is not discarded;
+the new route begins with the next implementation dispatch. Independent task
+review remains a fresh `gpt-5.6-sol` at high reasoning and high-risk milestone,
+plan-exit, and final-V1 review remains `gpt-5.6-sol` at xhigh reasoning.
+
+This supersedes the same-day substantive-implementation assignment to
+`gpt-5.6-sol`. Luna is the cost-sensitive/high-volume tier, so first-pass
+Critical/Important findings and total fix rounds will continue to be recorded;
+the user's routing choice remains controlling unless later changed.
+
+## 2026-08-25 — Supersede Luna routing with Terra high
+
+The user immediately replaced the preceding Luna choice. The controlling route
+for future implementation agents is `gpt-5.6-terra` at high reasoning. The
+already-running Plan 1 exit fix remains on its existing `gpt-5.6-sol` xhigh
+assignment so near-complete work is not discarded. Independent task review
+remains a fresh `gpt-5.6-sol` at high reasoning; high-risk milestone,
+plan-exit, and final-V1 review remains `gpt-5.6-sol` at xhigh reasoning.
+
+The preceding Luna-xhigh decision is superseded without having been used for an
+implementation dispatch.
+## 2026-08-26 — Record the user's report of complete project authorization
+
+The user stated, “I have all authorisation.” Record this as the project user's
+report that the required organizational and legal authorization for the
+accepted Hong Kong V1 work is held. It removes a need to pause local V1
+engineering merely to ask whether the user has internal authority.
+
+This report is not itself publisher-issued evidence, a credential, an
+acceptance of a publisher's terms, or proof that a technical admission gate has
+passed. The repository must still preserve the applicable permission evidence,
+read terms before any consent action, validate each source and provider
+boundary, and obtain the exact execution confirmation required by repository
+policy before a commit, push, publication, deployment, destructive action, or
+production mutation. These distinctions prevent a broad authorization report
+from being misrepresented as a technical success or third-party grant.
+
+## 2026-08-26 — Permit one local-only Task 6 cross-hub due-cycle dispatch seam
+
+For the local scripted Hong Kong V1 prototype only, the Control application may
+use the local Durable Task emulator client to schedule exactly
+`ACQUISITION_WORKER/acquire_hk_v1_due_cycle`, using the validated cycle ID as
+the exact Durable instance ID. The payload is only the detached canonical
+six-field Hong Kong V1 due-cycle instruction.
+
+This is a narrow, reversible prototype exception to the production dispatcher
+route. It does not supersede ADR 0093. It grants no access to the promotion hub,
+no source or network authority, no production task-hub role, and no authority
+to infer success from Scheduler state. Acquisition still independently derives
+the source plan, persists immutable evidence manifest-last, and enforces
+predecessor compare-and-set continuity.
+
+The exception must be removed before Plan 8 timer/service activation or any
+production or Azure admission. That later path must use the Management Register
+transactional outbox and an acquisition-owned dispatcher that schedules only
+into the acquisition task hub, as required by ADR 0093. Extending direct
+cross-hub dispatch beyond this local prototype requires a new ADR.
+
+## 2026-08-26 — Parallelize Plans 3–5 when their dependencies permit
+
+The user requested that Plans 3, 4, and 5 run in parallel when possible. After
+Plan 2 freezes the shared source/admission contracts, use separate implementation
+and review streams for authentic Hong Kong Legislation, post-1-July-1997 Cases,
+and authentic HKEX. Keep their source identities, evidence, tests, decisions,
+and review artifacts isolated, and serialize only work that changes a genuinely
+shared contract or requires the same external/runtime resource.
+
+This is an execution-order preference, not permission to skip Plan 2 Task 7,
+merge distinct source-authority conclusions, exceed available concurrency, or
+bypass any provider, rights, cost, host, or destructive-action gate.
+
+## 2026-08-26 — Defer externally and dependency-blocked V1 gates to the end-stage backlog
+
+The user directed: “mark down the blocked stuff from before and we will do them
+later at the end.” Continue every reversible local, pure, source-neutral, and
+provider-disabled implementation/review task that can truthfully advance V1.
+Do not repeatedly stop the active Plans 3–5 streams for inputs that are already
+known to be unavailable.
+
+The end-stage blocked backlog is:
+
+- Task 7 authentic source admission: exact authorized HTTPS hosts, GET/HEAD
+  procedures and path templates; immutable publisher permission evidence;
+  per-host terms state/evidence; exact Hong Kong observation window; complete
+  selected-source membership; and admitted Matrix/register states;
+- Plan 3 positive authentic HKeL/GLD evidence loading and XML/profile mapping,
+  which require admitted bilingual XML, XSD/publication-specification and
+  official-copy/Gazette/editorial bytes;
+- Plan 4 authentic Judiciary inventory/artifact completion and admitted model
+  decisions/evaluation;
+- Plan 5 authentic HKEX source-cycle evidence, complete component/state mapping,
+  and authentic release accounting;
+- exact model, embedding, tokenizer, evaluation, quota/cost, Pinecone, backup,
+  routing, and recovery profiles/effects;
+- local-host image/service/timer/reboot/telemetry proof, credential rotation,
+  and any effect requiring unavailable runtime facts or an exact later action
+  confirmation; and
+- commit, push, publication, deployment, terms acceptance, destructive action,
+  or production mutation, none of which is implied by this scheduling choice.
+
+Deferral changes execution order only. It does not mark a gate complete, turn a
+source-neutral fixture into authentic evidence, authorize a third-party terms
+action, or loosen the standing no-false-success and strict-model-output rules.
+Implementation defects and independent-review findings remain immediate work;
+they are not “blocked stuff” to park merely because they are difficult.
+
+## 2026-08-26 — Split Plan 4 proposition analysis from its later challenge request
+
+Plan 4 Task 2's shorthand request-pair text cannot override ADR 0066. A valid
+`FULL_JUDGMENT_CHALLENGE` requires the exact deterministically validated
+proposal fingerprint, but no proposal exists when the initial judgment-only
+analysis request is built. Therefore Task 2 produces one executable complete
+analysis request plus an immutable challenge preparation bound to the same
+judgment evidence and exact challenge profile. A separate pure binder creates
+the mature `FULL_JUDGMENT_CHALLENGE` only after Task 3 supplies the exact
+validated proposal fingerprint.
+
+The preparation is not a provider request and cannot report semantic preflight
+success. It may be replayed only under exact evidence/profile identity. Rejected
+alternatives were inventing a proposal fingerprint, mislabelling the complete
+challenge as `COVERAGE_PACKET_CHALLENGE`, or weakening the mature prior-stage
+validator merely to satisfy the plan's earlier pair-shaped example.
+
+## 2026-08-26 — Require explicit ADR 0066 authorities for Plan 4 proposition requests
+
+The Plan 4 Task 2 example accepted only a judgment bundle and two semantic
+profiles, but that is insufficient to construct the mature ADR 0066 request.
+The builder must also receive one exact immutable authority value containing
+the processing/source cutoff, all ten required workflow-component
+fingerprints, and the admitted byte output budget. The full Task 1 bundle
+fingerprint/projection, including non-controlling translations, remains the
+Source Snapshot authority even though only original-language judgment text is
+supplied to the semantic task.
+
+`PROMPT` must equal the profile's prompt fingerprint and `MODEL_SETTINGS` must
+bind its exact canonical profile; every other workflow role is explicit rather
+than derived from a label. Evidence bytes are rechecked against the profile's
+evidence-byte budget on every reconstruction. Output bytes are not inferred
+from token count. Request identity includes every result-affecting authority,
+and challenge identity additionally includes the exact validated proposal.
+Rejected alternatives were fabricated role hashes, using decision date as the
+processing cutoff, equating token and byte units, or treating a displayed
+source fingerprint as proof without retaining a recomputable full-bundle
+binding.
+
+## 2026-08-27 — Permit the Plan 7 approved-work lease contract before full Plan 6 admission
+
+Plan 7 Task 2 may implement and test migration `000010` and the narrow
+Promotion-owned approved-work queue against the existing registered proposal
+decision schema before authentic Plans 1–6 inputs exist. This is a prototype
+sequencing exception under the standing instruction to loosen ceremony that
+blocks useful local work.
+
+The exception is truth-preserving: a queue claim is only a finite, fenced
+lease for discovery and scheduling. It cannot consume Approval, authorize or
+begin execution, create an Effect Intent, call a provider, mutate a backup or
+Pinecone, change Serving State, or report promotion success. Acknowledgement
+is valid only after the existing exact durable `APPROVAL_CONSUMED` event binds
+the same approval and proposal to one execution lineage. The implementation
+must remain uncomposed and provider-disabled, and migration `000010` must not
+be applied to live SQL without separate exact authority.
+
+This does not mark Plan 7 Task 1 or Plans 1–6 complete. The cost if the early
+contract shape is wrong is local schema/test rework when the first authentic
+proposal exists; no live or external effect can have occurred.
+
+## 2026-08-27 — Keep both NPC source roles outside Hong Kong V1
+
+The user explicitly reconfirmed that
+`HK-LEG-NPC-NATIONAL-LAWS-DATABASE` and
+`HK-LEG-NPC-NPCSC-OFFICIAL-MATERIALS` remain outside V1. This preserves the
+2026-08-19 scope decision recorded by commit `2b57a49`; neither source requires
+V1 external-access, publisher-permission, terms, scheduled-observation, or
+admission evidence.
+
+Keep their stable identifiers as dormant legal/evidence vocabulary where
+existing rulebook contracts may need to recognize historical or separately
+supplied evidence. Do not schedule or select them in the V1 autonomous due
+universe. Reconcile the Coverage Matrix, due-cycle counts, Task 7 admission
+universe, derived fingerprints, generated package bytes, tests, and continuity
+to exact scheduled counts `9/11/1/12` for daily/weekly/monthly/full-periodic
+cycles. Filtering only the Task 7 preflight is rejected because it would leave
+the autonomous scheduler attempting two retired roles; deleting the identifiers
+from the legal rulebook is rejected as an unnecessary semantic rewrite.
+
+## 2026-08-27 — Present exact action requirements before requesting approval
+
+For every source, provider, Pinecone, host, credential, SQL, terms, commit,
+push, deployment, destructive, or other separately gated action, first present
+the user with the exact proposed scope and why it is needed. The request must
+identify the target, method, purpose, limits, applicable time window, expected
+side effects, and any terms or consent implication. Perform the action only
+after the user approves that presented scope.
+
+A broad prior authorization report is useful context but does not replace this
+approval-first workflow for a concrete gated action. Batch related requirements
+when practical so the user can make one informed decision instead of receiving
+piecemeal interruptions.
+
+## 2026-08-27 — Do not impose arbitrary limits on source inspection
+
+The user directed that the initial read-only source-inspection stage should not
+be constrained by self-imposed request counts, rate numbers, redirect counts,
+or a same-day deadline. Continue as far as needed to establish the authoritative
+source, procedure, and terms facts.
+
+This removes arbitrary discovery ceilings; it does not merge materially
+different actions into inspection. Terms or consent acceptance, credential or
+personal-data entry, challenge bypass, bulk corpus acquisition, external
+mutation, destructive action, and production/provider effects remain separate
+approval points under the user's approval-first workflow.
+
+## 2026-08-27 — Approve Plan 2 Task 7 read-only source inspection
+
+The user explicitly approved the revised read-only source-inspection proposal
+in
+`.superpowers/sdd/2026-08-25-hk-v1-02-autonomous-source-acquisition/task-7-read-only-inspection-approval-request.md`.
+The approval covers GET/HEAD inspection, public web discovery of current
+official Judiciary/HKLII locations, terms/copyright/notices review, endpoint
+and procedure observation, and retention of sanitized inspection evidence. It
+has no arbitrary request/rate/redirect/time ceiling.
+
+The approval does not cover accepting terms or consent, entering credentials
+or personal data, bypassing CAPTCHA/Turnstile, bulk corpus or legal-artifact
+collection, external mutation, provider/Pinecone/host effects, commit, or push.
+Stop and present a new exact request before any of those actions.
+
+## 2026-08-27 — Proceed with V1 source execution on the user's indefinite-permission attestation
+
+The user explicitly approved all source actions previously presented for Plan
+2 Task 7 and reported that Ask.Legal already has every required permission for
+GLD, Judiciary, HKEX, and HKLII for an indefinite term. The user directed the
+team to build now because obtaining copies of the legal-team documents will
+take weeks.
+
+For V1, this is sufficient operational authority to accept the already-read
+source terms/notices where acceptance is technically required, perform the
+approved HKeL technical configuration POST, inspect the Basic Law and GRS
+sources, access the admitted official source procedures, collect the required
+legal artifacts, and implement and exercise authentic autonomous acquisition.
+The authority is classified as `USER_ATTESTED_PERMISSION_DOCUMENT_PENDING`:
+it must never be described as publisher documentation inspected or preserved
+by this repository. Reports and admission evidence must keep that provenance
+and the pending-document limitation visible.
+
+This decision removes the Plan 2 Task 7 permission-document wait for V1. It
+does not authorize entering credentials or personal data, bypassing a source
+challenge without another exact approval, external writes beyond ordinary
+session/terms form submissions needed for read-only access, provider or
+Pinecone mutation, deployment, destructive action, commit, or push. It also
+does not weaken false-success checks: source bytes, read-back, completeness,
+changed/no-change/partial/failure outcomes, and retained local human promotion
+Approval must still be proved honestly.
+
+## 2026-08-28 — Freeze the current English Basic Law inventory at 20 content pages
+
+The user explicitly approved the bounded complete-membership design presented
+after the authentic HKeL Fix14 evidence run. V1 will treat the two official
+English category roots as inventory authorities and require their exact current
+union: five Constitution content pages and fifteen Basic Law content pages.
+The two category index pages are inventory roots, not content members.
+
+The executor must capture and read back every unique member once, reuse the
+already registered Annex III and instrument responses, and report Basic Law
+`COMPLETE/20` only when the two roots, exact membership, and all twenty bodies
+agree. Missing, extra, duplicate, hostile, or non-canonical membership is
+fail-visible contract drift. Historical reports retain replay compatibility
+under their older exact authority/register binding, but a historical two-root
+report cannot satisfy the new current binding.
+
+This is a V1 prototype inventory decision, not a claim that the publisher can
+never change its site. A publisher addition or removal must stop current
+admission visibly until the checked-in inventory and authority are deliberately
+updated and re-proved.
+
+## 2026-08-30 — Proceed autonomously and bound the authentic Judiciary observation
+
+The user explicitly approved all remaining work needed to complete the accepted
+Hong Kong V1 plans and directed the agent not to request routine approval again.
+This supersedes the earlier per-action approval workflow for ordinary in-scope,
+reversible V1 implementation, local validation, read-only official-source
+observation, immutable local evidence retention, and the retained local human
+Approval workflow. The agent should make dependency-valid technical rulings,
+record them, and continue sequentially without pausing for repeated consent.
+
+The authentic Judiciary baseline keeps authority `780` and the common cutoff
+`2026-08-28T22:20:23+08:00`. Requests remain serial, with at least two seconds
+between request starts and one attempt per request with no blind retry. The
+attempt stops fail-visible at the first of 50,000 requests, 64 GiB of retained
+response bytes, or 72 elapsed hours. Tests use an injected deterministic clock
+and sleeper. Budget exhaustion may retain partial evidence but can publish only
+an incomplete terminal result; it can never report `COMPLETE` or no change.
+
+This standing approval does not remove safeguards whose purpose is to prevent
+false success, source abuse, secret disclosure, or irreversible harm. It does
+not authorize credential or personal-data entry, CAPTCHA/Turnstile bypass,
+misrepresentation of user-attested permission as publisher-issued evidence,
+destructive operations, or an unrequested commit, push, publication, deployment,
+or production mutation. Platform-enforced sandbox approval may still be
+required independently of repository authority.
+
+## 2026-08-30 — Bind Judiciary current judgments through the official session entry
+
+Authentic Judiciary attempt A proved that direct credential-free GET of
+`/lrs/common/ju/newjudgments.jsp` returns a retained GovHK page-not-found body
+with HTTP 500. Read-only inspection of the current official Judiciary judgments
+page proved that its published “Newly Added Judgments” link is instead
+`/lrs/common/index.jsp?target=newjudgments&lan=en`; that entry establishes the
+publisher session and performs one same-origin GET redirect to the final JSP.
+
+V1 will register the session entry as the current-listing endpoint, retain the
+final JSP only as the exact procedure redirect target, and admit only that one
+GET-to-GET same-origin transition. Arbitrary redirects, target/query/method
+changes, direct-final bootstrap, and cross-origin follow-up remain rejected.
+Attempt A and its authority/report/objects stay immutable and gain only an
+exact replay-only historical binding after the register revision. A fresh
+authority and separately identified attempt B are required for the corrected
+live procedure.
+
+## 2026-08-30 — Permit subagent-driven implementation within sequential plan order
+
+The user explicitly authorized subagent-driven implementation. Bounded,
+independent implementation, diagnosis, review, and audit work may be delegated
+without another approval when it stays within the already approved V1 scope.
+This does not change the dependency order: finish the active source-family task
+before beginning dependent source families or later plans, and do not create
+parallel mutations in overlapping files or retained evidence.
+
+This preference does not authorize commits, pushes, deployment, destructive
+actions, credential or personal-data entry, challenge bypass, or false success.
+The primary agent remains responsible for reconciling shared worktree changes,
+running the final combined verification, and persisting one truthful handoff.
+
+## 2026-08-31 — Version Attempt O's exact optional typed Judiciary frame
+
+Attempt O established one new retained result-row shape: exact RS and RV rows
+may include one redundant third `ju_frame.jsp` anchor whose `DIS` and `TP`
+match the row assignment. V1 admits that shape only in result contract
+`1.0.11`, with unchanged form grammar `1.0.12` and Cases register
+`2026-08-31.13`. The new contract accepts zero or one such frame and binds its
+exact authentic host, path, query order and values, raw attribute/quote/order/
+spacing form, closing tag, and anchor topology. It does not generalize source
+types or locator grammar.
+
+The canonical artifact locator remains the byte-exact
+`search_result_detail_frame.jsp` URL with the row's RS or RV `TP`; the redundant
+frame is validation evidence only. Result `1.0.10` continues to reject the new
+shape. Frozen Attempt O remains replay-only under old Cases `.12`, form
+`1.0.11`, and result `1.0.10`, with its exact cutoff, no predecessor, Authority
+794, URLs, schema, policy, binding, and raw report hash. This decision grants no
+new live attempt, evidence mutation, external access, commit, push, or deploy.
+
+## 2026-09-02 — Retain exact legacy HTTP HKEX references without fetching them
+
+The authentic frozen Updates sections contain seven external PDF reference
+targets, including three exact legacy `http://www.hkex.com.hk/...pdf` values.
+The role-aware V1 parser must preserve those raw publisher facts rather than
+silently upgrade, discard, or misclassify them. It admits HTTP only for the
+exact lowercase `www.hkex.com.hk` authority and only as
+`UNFETCHED_EXTERNAL_REFERENCE`; such rows receive no capture ID, request,
+object, or transport authority and keep the Updates procedure incomplete.
+
+This is a verified correction to the reviewed design's overly broad
+HTTPS-only wording and a narrow prototype tradeoff. Same-host current captures
+remain strict HTTPS on `en-rules.hkex.com.hk`; arbitrary HTTP, host, port,
+userinfo, query, fragment, percent, backslash, whitespace, and traversal drift
+still fails closed. A future external fetch requires a separate rights,
+register, policy, and authority decision.
+
+## 2026-09-02 — Count promotion inputs through an injected exact tokenizer
+
+Promotion must not infer tokens from UTF-8 byte length and must not import the
+processing package merely to obtain its tokenizer implementation. The
+promotion package owns a structural exact-counter port; application composition
+injects a counter whose exact tokenizer identity must match the frozen
+embedding profile. Counting and per-request ceiling checks occur before
+Approval consumption or provider effects.
+
+Every adapter receipt must echo the request's exact token count. A provider
+response that omits usage, supplies malformed accounting, or reports any
+`prompt_tokens` or `total_tokens` value inconsistent with the local count fails
+closed before target upsert. This local accounting decision neither admits a
+provider/deployment nor authorizes embedding, Pinecone, publication, routing,
+or production effects.
+
+## 2026-09-02 — Limit V1 to Legislation and Cases and use resumable acquisition
+
+The user superseded the former three-family V1 scope. The current V1 contains
+all three accepted Hong Kong Legislation scopes and proposition-level coverage
+for the accepted binding-court Case families from 1 July 1997 onward. HKEX
+Regulatory Materials is deferred until after V1. Existing HKEX code, tests,
+authorities, and retained evidence stay preserved, but HKEX is not scheduled,
+does not block admission, does not enter the proposal, and does not enter the
+Pinecone serving target. Authority 808 and its interrupted partial attempt
+remain dormant.
+
+Azure models, Azure embeddings, Pinecone, local Review, retained named-human
+Approval, automatic promotion after Approval, backup, rollback, and continuous
+local Ubuntu operation remain required. The source-acquisition architecture is
+one append-only hash-chained journal with stable work-item identities, exact
+resume from verified progress, deterministic outputs, and a maximum of four
+active read-only requests per official host. Existing verified HKeL and
+Judiciary evidence is imported by exact report/object binding without copying
+or redownload. An isolated outage creates visible retryable work rather than a
+whole-family restart, but incomplete work can never be reported as complete or
+no-change.
+
+The approved written specification is
+`docs/superpowers/specs/2026-09-02-two-family-resumable-acquisition-design.md`.
+This decision does not authorize accepting new publisher terms, entering
+credentials or personal data, false-success reporting, Pinecone deletion,
+deployment, commit, or push.
+
+## 2026-09-06 — Separate immediate Cases capture from reconciled admission
+
+Task 6 reached the five-round SDD breaker with a real conflict between
+immediate durable artifact work and whole-year reconciliation. The ruling is
+to create the exact occurrence, judgment, and relationship work immediately
+from each verified listing page, preserving shard-local retry independence,
+but treat that work as provisional until the complete publisher year passes
+the existing source-owned partition reconciler. Only reconciled, in-scope work
+may contribute to a complete acquisition manifest, immutable admitted bundle,
+legal processing, or proposal. A partition failure keeps the year and cycle
+non-successful without erasing already retained provisional evidence.
+
+For V1 scope, every listing row must carry a real decision date before the year
+can be admitted. Missing dates fail closed because the pipeline cannot prove
+whether the row is within 1997-07-01 through the observation cutoff. Rows with
+known dates after the cutoff remain captured publisher facts but are excluded
+from the admitted V1 set. Cost if this ruling is wrong: a publisher omission of
+decision dates can delay availability, and provisional acquisition may retain
+evidence that is later excluded; the alternative would permit false
+completeness or violate the accepted immediate-work/retry-isolation contract.
+
+The production-composition proof must construct the complete synthetic retained
+W prefix through 2011/page 363 and prove page 364 is the first new network
+attempt, not merely a later scheduled item. Cost if wrong: the test is larger
+and slower, but a sparse receipt cannot prove the retained-prefix ordering
+boundary. These three breaker findings are mandatory prerequisites at the start
+of Task 7; no model, embedding, proposal, or external effect may occur before
+they pass focused tests and independent review.
+
+## 2026-09-07 — Use one explicit file-backed local Review/Approval package bridge
+
+The V1 local Review API and promotion worker share one retained package and
+Approval boundary. Review rereads exact proposal/readiness artifacts from an
+operator-supplied local pipeline-artifact root, persists commands, events, and
+named Approval state under the explicit local state root, and exposes the same
+Approval-keyed package port that promotion consumes after restart. Production
+code contains no built-in demo proposal or readiness fallback; absent,
+symlinked, malformed, or drifted artifact/state inputs fail closed.
+
+This makes the human-approved members, explicit zero-record scopes, model and
+serving identities, target, namespace, backup profile, and rollback facts the
+same immutable facts used by execution. Test fixtures remain under test-only
+paths. This local prototype decision grants no external provider, Pinecone,
+backup, deployment, publication, deletion, or production authority.
+
+## 2026-09-08 — Use resumable verification during V1 implementation
+
+During active implementation, retain every exact prior green result and rerun
+only the failed node or file plus directly affected focused, architecture,
+static, and boundary gates. Do not restart the complete repository suite after
+each correction. Run one fresh complete repository gate at the final acceptance
+boundary, or earlier only when a cross-repository interaction cannot be bounded
+honestly. This keeps the same false-success standard while avoiding repeated
+work that the resumable pipeline and test evidence already preserve.
+
+## 2026-09-09 — Use standing in-scope operational authorization for Task 10
+
+The user explicitly authorized host plan
+`sha256:125a1b46456e8acfefb6d6a70384d4f52a92e67c1fd92b4561f8e838a726467e`
+and then stated, “I authorise everything. Dont bother me with any other
+authorisations.” For the remaining Hong Kong V1 Task 10 work, this supersedes
+the 2026-08-27 requirement to interrupt the user for a new confirmation before
+each ordinary source, provider, Pinecone, host, credential, SQL, recovery,
+reboot, transition, cleanup, or deployment step within the accepted task scope.
+Continue autonomously while retaining exact fingerprint-bound plans,
+authorities, receipts, readbacks, rollback boundaries, and cost ceilings.
+
+This standing authorization cannot manufacture a missing credential, sudo
+password, human Approval decision, or publisher fact. It does not permit false
+success, bypass strict model-output parsing, broaden deletion targets, paste or
+retain secrets in Git/chat/reports, or accept unseen third-party terms. Any
+terms, consent, or cookie acceptance must still be preceded by reading the
+actual terms and must remain visibly separate from publisher-issued permission.
+The repository instruction against committing, pushing, publishing, opening a
+pull request, or sending external messages without that exact request remains
+in force. Missing inputs may be requested as inputs, but they are not additional
+authorization prompts.
+
+On 2026-09-09 the user supplied that exact repository action: update this
+checkout to the renamed GitHub repository
+`https://github.com/stevw-repo/AutonomousLCP.git`, commit the completed current
+workspace, and push it. This authorizes the commit and push after active edits
+reach a stable verified checkpoint; it does not authorize publishing releases,
+opening a pull request, or sending other external messages.
+
+## 2026-09-09 — Bind local image authority to wheel-producing source bytes
+
+An application-image plan and its retained build results must bind the exact
+current wheel-producing source inventory, including untracked application and
+package source files, not only the static image-input manifest. The build tool
+derives one deterministic workspace-source fingerprint from the root build
+inputs and every project `pyproject.toml`, `README.md`, and regular file under
+`src/`. Host planning includes that value in its application-input fingerprint,
+and host apply recomputes it before the first Docker command and again before
+publishing build results.
+
+This replaces the unsafe behavior in which source edits after a successful
+build could retain and deploy stale image IDs while the static manifest remained
+unchanged. A source change now invalidates the plan before any effect. The local
+UV cache used during offline wheel construction is repository-owned under the
+ignored `var/image-build/uv-cache` tree so execution does not depend on a
+sandboxed or machine-specific home cache.
+
+## 2026-09-09 — Admit exact dated provider versions and retain preflight-only profiles
+
+Azure model profile parsing accepts either a numeric provider version or an
+exact calendar version in `YYYY-MM-DD` form. Mutable aliases such as `latest`
+remain rejected. The retained Pinecone credential spelling `project` is
+accepted as a compatibility alias for `project_id`, but supplying both remains
+invalid because the effective project would be ambiguous.
+
+Provider-profile preparation may read local credentials only to extract public
+coordinates and must never retain or print secrets. Its semantic profile,
+serving evaluation profile, tokenizer copy, backup-policy declaration, and
+manifest prove only local shape and budget readiness. They do not prove model
+capability, evaluation success, provider availability, or permission to promote.
+The current provider plan is therefore explicitly provisional until it is bound
+to the real proposal fingerprint and cutoff.
+
+## 2026-09-09 — Replace all seven legacy vault application credentials before deployment
+
+A local diagnostic accidentally displayed the existing Primary-vault
+acquisition access/secret pair. Treat that pair as compromised and never deploy
+or repeat it. Further value-free validation established that all seven retained
+vault application credential files use legacy access identities inconsistent
+with the exact current bootstrap contract.
+
+Before enabling the V1 stack, prepare one private exact 25-file candidate set:
+replace all seven application vault credentials with the fixed bootstrap access
+identities and new mutually unique secrets that are disjoint from every
+predecessor secret; preserve the other 18 deployment credentials byte-for-byte.
+The rotation must be plan-bound, update and read back Versity IAM, seal and
+switch host credentials, prove predecessor rejection, and restore both IAM and
+sealed bytes if any step fails. A plaintext candidate or a successful
+`systemd-creds` invocation alone is not proof of rotation.
+
+## 2026-09-09 — Retain incomplete recovery as a prototype limitation, not a deployment deadlock
+
+A canonical, fingerprint-bound `RECOVERY_PREFLIGHT_NOT_READY` report does not
+prevent installation and startup of the explicitly non-admitted local V1
+prototype. The host plan and apply result must preserve that exact limitation;
+they must not call recovery ready or imply final admission. Missing, malformed,
+or drifted recovery evidence still fails closed.
+
+Gate F and final `V1_ADMITTED` remain blocked until genuine live SQL, Primary
+and Recovery vault, General Scheduler, and Promotion Scheduler recovery proof
+exists. This narrow prototype exception is necessary because the Scheduler and
+SQL checkpoint inputs are produced by the running stack: requiring the live
+recovery result before phase-two startup creates a circular bootstrap deadlock.
+It follows the 2026-08-19 standing instruction to loosen prototype ceremony
+while preserving every rule against false success.

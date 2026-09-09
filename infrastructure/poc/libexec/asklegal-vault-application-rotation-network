@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ "$#" -ne 14 ]; then
+  printf 'ROTATION_NETWORK_INPUT_INVALID\n' >&2
+  exit 2
+fi
+[ "$1" = "--action" ] && [ "$3" = "--target" ] && \
+  [ "$5" = "--plan" ] && [ "$7" = "--authorized-plan-fingerprint" ] && \
+  [ "$9" = "--predecessor-directory" ] && [ "$11" = "--candidate-directory" ] && \
+  [ "$13" = "--root-credential-directory" ] || exit 2
+action="$2"
+target="$4"
+plan="$6"
+authorized_plan_fingerprint="$8"
+predecessor="${10}"
+candidate="${12}"
+roots="${14}"
+[ "$action" = "reconcile" ] || [ "$action" = "probe" ] || exit 2
+[ "$target" = "candidate" ] || [ "$target" = "predecessor" ] || exit 2
+[ -f "$plan" ] && [ ! -L "$plan" ] || exit 2
+[ "$(stat -c '%a' "$plan")" = "600" ] || exit 2
+
+manifest=/etc/asklegal/deployment-images
+[ -f "$manifest" ] && [ ! -L "$manifest" ] || exit 2
+[ "$(stat -c '%a:%u:%g' "$manifest")" = "400:0:0" ] || exit 2
+[ "$(grep -Ec '^control-plane sha256:[0-9a-f]{64}$' "$manifest")" -eq 1 ] || exit 2
+image_id="$(grep -E '^control-plane sha256:[0-9a-f]{64}$' "$manifest")"
+image_id="${image_id#* }"
+/usr/bin/docker image inspect --format '{{.Id}}' "$image_id" | grep -Fx -- "$image_id" >/dev/null || exit 2
+
+container="asklegal-vault-rotation-once-$$"
+names=(vault-primary-acquisition vault-primary-control vault-primary-processing vault-primary-promotion vault-primary-review vault-recovery-acquisition vault-recovery-promotion)
+root_names=(vault-primary-root-access vault-primary-root-secret vault-recovery-root-access vault-recovery-root-secret)
+mounts=(--mount "type=bind,src=${plan},dst=/run/rotation/plan.json,readonly")
+for name in "${names[@]}"; do
+  [ -f "$predecessor/$name" ] && [ ! -L "$predecessor/$name" ] || exit 2
+  [ -f "$candidate/$name" ] && [ ! -L "$candidate/$name" ] || exit 2
+  mounts+=(--mount "type=bind,src=${predecessor}/${name},dst=/run/rotation/predecessor/${name},readonly")
+  mounts+=(--mount "type=bind,src=${candidate}/${name},dst=/run/rotation/candidate/${name},readonly")
+done
+for name in "${root_names[@]}"; do
+  [ -f "$roots/$name" ] && [ ! -L "$roots/$name" ] || exit 2
+  mounts+=(--mount "type=bind,src=${roots}/${name},dst=/run/rotation/roots/${name},readonly")
+done
+created=0
+cleanup() {
+  if [ "$created" -eq 1 ]; then
+    /usr/bin/docker rm -f "$container" >/dev/null 2>&1 || true
+  fi
+}
+trap cleanup EXIT
+
+/usr/bin/docker create --name "$container" \
+  --network asklegal-vault-primary \
+  --user 0:0 --read-only --cap-drop ALL --security-opt no-new-privileges \
+  --tmpfs /tmp:rw,noexec,nosuid,nodev,size=16m \
+  --tmpfs /run/rotation:rw,noexec,nosuid,nodev,size=4m \
+  "${mounts[@]}" \
+  --mount type=bind,src=/etc/asklegal/trust/vault-primary-ca.pem,dst=/etc/asklegal/trust/vault-primary-ca.pem,readonly \
+  --mount type=bind,src=/etc/asklegal/trust/vault-recovery-ca.pem,dst=/etc/asklegal/trust/vault-recovery-ca.pem,readonly \
+  --entrypoint /opt/asklegal/bin/python "$image_id" \
+  -m asklegal_control_plane.vault_rotation "$action" --target "$target" \
+  --plan /run/rotation/plan.json \
+  --authorized-plan-fingerprint "$authorized_plan_fingerprint" \
+  --expected-control-plane-image-id "$image_id" \
+  --predecessor-directory /run/rotation/predecessor \
+  --candidate-directory /run/rotation/candidate \
+  --root-credential-directory /run/rotation/roots >/dev/null
+created=1
+/usr/bin/docker network connect asklegal-vault-recovery "$container"
+/usr/bin/docker start --attach "$container"

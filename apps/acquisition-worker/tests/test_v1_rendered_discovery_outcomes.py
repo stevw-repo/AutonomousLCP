@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field, replace
+from pathlib import Path
 from types import SimpleNamespace
 
 import asklegal_acquisition_worker.v1_pipeline as pipeline
@@ -149,6 +150,7 @@ def _activities(
         CredentialMaterial(b"http://proxy.invalid:3128"),
     )
     object.__setattr__(infrastructure, "primary_vault", vault)
+    object.__setattr__(infrastructure, "due_cycle_state_root", Path("/dev/null"))
     activities = pipeline.AcquisitionActivities(infrastructure)
     if enable_reviewed_endpoint:
         register = _enabled_register()

@@ -7,6 +7,7 @@ record, publication, provider, or external-effect authority.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from hashlib import sha256
 from pathlib import Path, PurePosixPath
@@ -88,6 +89,70 @@ _REPORT_REASON_CODES = frozenset(
 )
 _MAX_MEMBER_BYTES = 8_000_000
 _FROZEN_FIXTURE_COUNT = 2
+_REPORT_ID = re.compile(r"^rex_[0-9a-f]{48}$")
+_REFERENCE_ID_PATTERNS = {
+    "RECONSTRUCTION_PLAN": re.compile(r"^rpl_[0-9a-f]{48}$"),
+    "ENGINE_BUILD": re.compile(r"^eng_[0-9a-f]{48}$"),
+    "OFFICIAL_VERSION": re.compile(r"^ofv_[0-9a-f]{48}$"),
+    "LEGAL_STATUS_EVENT": re.compile(r"^lse_[0-9a-f]{48}$"),
+    "LEGAL_LOCATION": re.compile(r"^loc_[0-9a-f]{48}$"),
+    "ARTIFACT": re.compile(r"^art_[0-9a-f]{48}$"),
+    "COVERAGE_GAP": re.compile(r"^cvg_[0-9a-f]{48}$"),
+    "FALLBACK_SELECTION": re.compile(r"^fbs_[0-9a-f]{48}$"),
+    "RECONSTRUCTED_CONSOLIDATION_ARTIFACT": re.compile(r"^rca_[0-9a-f]{48}$"),
+}
+_MEMBER_MEDIA_TYPES = {
+    "manifest.json": "application/json",
+    "trees/en.json": "application/json",
+    "trees/zh-Hant.json": "application/json",
+    "reconstructed-location-units.jsonl": "application/x-ndjson",
+    "bilingual-alignment-map.json": "application/json",
+    "dependency-closure-proof.json": "application/json",
+    "source-unit-coverage-proof.json": "application/json",
+}
+_REPORT_CONTRACT_IDENTITIES = {
+    "source_rulebook": "asklegal.hk-legislation.source-rulebook",
+    "operation_registry": "asklegal.hk-legislation.reconstruction-operation-registry",
+    "source_interpretation": "asklegal.hk-legislation.source-interpretation",
+    "source_tree": "asklegal.hk-legislation.canonical-tree",
+    "renderer": "asklegal.hk-legislation.renderer",
+    "alignment": "asklegal.hk-legislation.bilingual-alignment",
+    "identity": "asklegal.hk-legislation.identity",
+    "lineage": "asklegal.hk-legislation.identity-lineage",
+    "traceability": "asklegal.hk-legislation.traceability",
+    "execution": "asklegal.hk-legislation.reconstruction-execution",
+    "artifact": "asklegal.hk-legislation.reconstructed-consolidation-artifact",
+    "report": "asklegal.hk-legislation.reconstruction-execution-report",
+}
+_SUCCESS_RULE_TRACE = (
+    "HKLEG-RECON-PLAN-001",
+    HK_RECONSTRUCTION_EXECUTION_RULE_ID,
+    HK_RECONSTRUCTION_ARTIFACT_RULE_ID,
+    HK_RECONSTRUCTION_REPORT_RULE_ID,
+)
+_FAILURE_RULE_TRACE = (
+    "HKLEG-RECON-PLAN-001",
+    HK_RECONSTRUCTION_EXECUTION_RULE_ID,
+    HK_RECONSTRUCTION_REPORT_RULE_ID,
+)
+_BLOCK_REASON_CODES = frozenset(
+    {
+        "UNSUPPORTED_RECONSTRUCTION_OPERATION",
+        "RECONSTRUCTION_UNDECLARED_INPUT",
+        "RECONSTRUCTION_SOURCE_UNIT_KIND_MISMATCH",
+        "RECONSTRUCTION_DEPENDENCY_CLOSURE_INCOMPLETE",
+        "RECONSTRUCTION_STRUCTURE_UNSUPPORTED",
+        "RECONSTRUCTION_SOURCE_UNIT_OWNERSHIP_MISMATCH",
+        "RECONSTRUCTION_TARGET_NOT_EXACT",
+        "RECONSTRUCTION_BEFORE_STATE_MISMATCH",
+        "RECONSTRUCTION_AFTER_STATE_MISMATCH",
+        "RECONSTRUCTION_RENDERER_UNSUPPORTED",
+        "RECONSTRUCTION_CANONICAL_TREE_INVALID",
+        "RECONSTRUCTION_FINAL_TREE_MISMATCH",
+        "RECONSTRUCTION_SOURCE_UNIT_INVENTORY_MISMATCH",
+        "RECONSTRUCTION_BILINGUAL_ALIGNMENT_MISMATCH",
+    }
+)
 
 type RefSignature = tuple[str, str, str]
 
@@ -208,6 +273,363 @@ def _validate_schema(
         registry.validate(value, schema)
     except ContractViolation as error:
         raise RulebookError(RulebookErrorCode.CONTRACT_MISMATCH, detail) from error
+
+
+def _validate_report_contract_identities(document: dict[str, JsonValue]) -> None:
+    contracts = _object(document.get("contracts"), "replay Report contracts")
+    if frozenset(contracts) != frozenset(_REPORT_CONTRACT_IDENTITIES):
+        _fail("replay Report contracts")
+    for key, contract_id in _REPORT_CONTRACT_IDENTITIES.items():
+        reference = _object(contracts.get(key), "replay Report contract")
+        if reference.get("contract_id") != contract_id or reference.get("version") != "1.0.0":
+            _fail("replay Report contract identity")
+
+
+def _validate_reference_role(value: JsonValue | None, expected_type: str) -> RefSignature:
+    reference = _object(value, f"replay {expected_type} reference")
+    signature = _ref_signature(reference)
+    pattern = _REFERENCE_ID_PATTERNS[expected_type]
+    if signature[0] != expected_type or pattern.fullmatch(signature[1]) is None:
+        _fail(f"replay {expected_type} reference identity")
+    return signature
+
+
+def _validate_report_reference_semantics(document: dict[str, JsonValue]) -> None:
+    _validate_reference_role(document.get("reconstruction_plan_ref"), "RECONSTRUCTION_PLAN")
+    _validate_reference_role(document.get("engine_build_ref"), "ENGINE_BUILD")
+    base = _object(document.get("base_validation"), "replay base validation")
+    _validate_reference_role(base.get("official_version_ref"), "OFFICIAL_VERSION")
+    events = _object(document.get("event_chain_validation"), "replay event validation")
+    for reference in _objects(events.get("event_refs"), "replay event references"):
+        _validate_reference_role(reference, "LEGAL_STATUS_EVENT")
+    dependency = _object(document.get("dependency_validation"), "replay dependency validation")
+    for reference in _objects(
+        dependency.get("affected_location_refs"),
+        "replay affected locations",
+    ):
+        _validate_reference_role(reference, "LEGAL_LOCATION")
+    bilingual = _object(document.get("bilingual_validation"), "replay bilingual validation")
+    _validate_reference_role(bilingual.get("expected_alignment_map_ref"), "ARTIFACT")
+    coverage = _object(document.get("coverage_consequence"), "replay coverage")
+    _validate_reference_role(coverage.get("coverage_gap_ref"), "COVERAGE_GAP")
+    fallback = coverage.get("fallback_selection_ref")
+    if fallback is not None:
+        _validate_reference_role(fallback, "FALLBACK_SELECTION")
+    if document.get("processing_outcome") != "PASS":
+        return
+    output = _object(document.get("artifact_output"), "replay success output")
+    _validate_reference_role(
+        output.get("reconstructed_consolidation_artifact_ref"),
+        "RECONSTRUCTED_CONSOLIDATION_ARTIFACT",
+    )
+    for key in (
+        "manifest_ref",
+        "en_final_tree_ref",
+        "zh_hant_final_tree_ref",
+        "canonical_bilingual_output_ref",
+        "bilingual_alignment_map_ref",
+        "dependency_closure_proof_ref",
+        "source_unit_coverage_proof_ref",
+    ):
+        member = _object(output.get(key), "replay Report member reference")
+        _validate_reference_role(
+            member.get("reconstructed_consolidation_artifact_ref"),
+            "RECONSTRUCTED_CONSOLIDATION_ARTIFACT",
+        )
+
+
+def _validate_report_accounting(document: dict[str, JsonValue]) -> None:
+    events = _object(document.get("event_chain_validation"), "replay event validation")
+    event_refs = _objects(events.get("event_refs"), "replay event references")
+    results = _objects(document.get("language_results"), "replay language results")
+    if (
+        events.get("event_count") != len(event_refs)
+        or tuple(result.get("language") for result in results) != _LANGUAGES
+    ):
+        _fail("replay Report accounting")
+    operations = tuple(
+        operation
+        for result in results
+        for operation in _objects(result.get("operation_results"), "replay operation results")
+    )
+    operation_ids = tuple(
+        _text(operation.get("operation_instance_id"), "replay operation ID")
+        for operation in operations
+    )
+    if events.get("operation_binding_count") != len(operations) or len(set(operation_ids)) != len(
+        operation_ids
+    ):
+        _fail("replay Report operation accounting")
+
+
+def _require_true_fields(
+    value: dict[str, JsonValue],
+    fields: tuple[str, ...],
+    detail: str,
+) -> None:
+    if any(value.get(field) is not True for field in fields):
+        _fail(detail)
+
+
+def _member_binding(
+    output: dict[str, JsonValue],
+    key: str,
+    role: str,
+    path: str,
+    artifact_signature: RefSignature,
+) -> dict[str, JsonValue]:
+    member = _object(output.get(key), "replay Report member")
+    artifact = _object(
+        member.get("reconstructed_consolidation_artifact_ref"),
+        "replay Report member artifact",
+    )
+    if (
+        member.get("role") != role
+        or member.get("path") != path
+        or member.get("media_type") != _MEMBER_MEDIA_TYPES[path]
+        or _ref_signature(artifact) != artifact_signature
+    ):
+        _fail("replay Report member binding")
+    return member
+
+
+def _validate_success_members(document: dict[str, JsonValue]) -> None:
+    output = _object(document.get("artifact_output"), "replay success output")
+    artifact = _object(
+        output.get("reconstructed_consolidation_artifact_ref"),
+        "replay reconstructed artifact",
+    )
+    artifact_signature = _ref_signature(artifact)
+    members = {
+        "manifest_ref": _member_binding(
+            output, "manifest_ref", "MANIFEST", "manifest.json", artifact_signature
+        ),
+        "en_final_tree_ref": _member_binding(
+            output, "en_final_tree_ref", "TREE_EN", "trees/en.json", artifact_signature
+        ),
+        "zh_hant_final_tree_ref": _member_binding(
+            output,
+            "zh_hant_final_tree_ref",
+            "TREE_ZH_HANT",
+            "trees/zh-Hant.json",
+            artifact_signature,
+        ),
+        "bilingual_alignment_map_ref": _member_binding(
+            output,
+            "bilingual_alignment_map_ref",
+            "BILINGUAL_ALIGNMENT_MAP",
+            "bilingual-alignment-map.json",
+            artifact_signature,
+        ),
+        "dependency_closure_proof_ref": _member_binding(
+            output,
+            "dependency_closure_proof_ref",
+            "DEPENDENCY_CLOSURE_PROOF",
+            "dependency-closure-proof.json",
+            artifact_signature,
+        ),
+    }
+    _member_binding(
+        output,
+        "canonical_bilingual_output_ref",
+        "RECONSTRUCTED_LOCATION_UNITS",
+        "reconstructed-location-units.jsonl",
+        artifact_signature,
+    )
+    _member_binding(
+        output,
+        "source_unit_coverage_proof_ref",
+        "SOURCE_UNIT_COVERAGE_PROOF",
+        "source-unit-coverage-proof.json",
+        artifact_signature,
+    )
+    language_results = _objects(document.get("language_results"), "replay languages")
+    for result, key in zip(
+        language_results,
+        ("en_final_tree_ref", "zh_hant_final_tree_ref"),
+        strict=True,
+    ):
+        member = members[key]
+        if result.get("final_tree_ref") != member or result.get(
+            "final_tree_fingerprint"
+        ) != member.get("fingerprint"):
+            _fail("replay final tree binding")
+    bilingual = _object(document.get("bilingual_validation"), "replay bilingual validation")
+    alignment = members["bilingual_alignment_map_ref"]
+    if bilingual.get("final_alignment_map_ref") != alignment or bilingual.get(
+        "final_alignment_fingerprint"
+    ) != alignment.get("fingerprint"):
+        _fail("replay alignment binding")
+    dependency = _object(document.get("dependency_validation"), "replay dependency validation")
+    if dependency.get("artifact_dependency_proof_ref") != members["dependency_closure_proof_ref"]:
+        _fail("replay dependency binding")
+
+
+def _validate_success_traceability(document: dict[str, JsonValue]) -> None:
+    output = _object(document.get("artifact_output"), "replay success output")
+    dependency = _object(document.get("dependency_validation"), "replay dependency validation")
+    affected = _objects(
+        output.get("affected_legal_location_refs"),
+        "replay affected locations",
+    )
+    dependency_affected = _objects(
+        dependency.get("affected_location_refs"),
+        "replay dependency locations",
+    )
+    if affected != dependency_affected or output.get(
+        "affected_location_inventory_fingerprint"
+    ) != _fingerprint(checked_json_value(list(affected))):
+        _fail("replay affected-location binding")
+    coverage = _object(document.get("coverage_consequence"), "replay coverage")
+    binding = _checked_object(
+        {
+            "reconstruction_plan_ref": document["reconstruction_plan_ref"],
+            "reconstructed_consolidation_artifact_ref": output[
+                "reconstructed_consolidation_artifact_ref"
+            ],
+            "manifest_ref": output["manifest_ref"],
+            "affected_legal_location_refs": list(affected),
+            "contracts": document["contracts"],
+            "coverage_gap_ref": coverage["coverage_gap_ref"],
+        }
+    )
+    if output.get("traceability_binding_fingerprint") != _fingerprint(binding):
+        _fail("replay traceability binding")
+
+
+def _validate_success_report(document: dict[str, JsonValue]) -> None:
+    base = _object(document.get("base_validation"), "replay base validation")
+    events = _object(document.get("event_chain_validation"), "replay event validation")
+    dependency = _object(document.get("dependency_validation"), "replay dependency validation")
+    bilingual = _object(document.get("bilingual_validation"), "replay bilingual validation")
+    languages = _objects(document.get("language_results"), "replay language results")
+    coverage = _object(document.get("coverage_consequence"), "replay coverage")
+    _require_true_fields(
+        base,
+        (
+            "identity_match",
+            "fingerprint_match",
+            "version_match",
+            "latest_eligible_base",
+            "complete",
+        ),
+        "replay base validation",
+    )
+    _require_true_fields(
+        events,
+        ("complete", "ordered", "applicability_bound", "operations_bound"),
+        "replay event validation",
+    )
+    _require_true_fields(
+        dependency,
+        ("complete", "ownership_complete", "overlap_absent", "independence_proved"),
+        "replay dependency validation",
+    )
+    _require_true_fields(
+        bilingual,
+        ("complete", "legal_effect_bound"),
+        "replay bilingual validation",
+    )
+    if any(
+        result.get("processing_outcome") != "PASS"
+        or result.get("complete_source_unit_coverage") is not True
+        or result.get("final_tree_ref") is None
+        or result.get("final_tree_fingerprint") is None
+        or result.get("final_source_unit_inventory_fingerprint") is None
+        for result in languages
+    ):
+        _fail("replay language result")
+    operations = tuple(
+        operation
+        for result in languages
+        for operation in _objects(result.get("operation_results"), "replay operations")
+    )
+    if any(
+        operation.get("result") != "APPLIED" or operation.get("atomic_group_result") != "APPLIED"
+        for operation in operations
+    ):
+        _fail("replay successful operation")
+    if (
+        document.get("source_contract_review_required") is not False
+        or _strings(document.get("reason_codes"), "replay reasons") != ("RECONSTRUCTION_COMPLETE",)
+        or _strings(document.get("rule_trace"), "replay rule trace") != _SUCCESS_RULE_TRACE
+        or document.get("selection_consequence") != "RECONSTRUCTION"
+        or coverage.get("disposition") != "ACTIVE_MISSING_CONSOLIDATION"
+        or coverage.get("fallback_selection_ref") is not None
+    ):
+        _fail("replay successful Report consequence")
+    _validate_success_members(document)
+    _validate_success_traceability(document)
+
+
+def _validate_failure_report(document: dict[str, JsonValue]) -> None:
+    languages = _objects(document.get("language_results"), "replay failure languages")
+    bilingual = _object(document.get("bilingual_validation"), "replay bilingual validation")
+    dependency = _object(document.get("dependency_validation"), "replay dependency validation")
+    coverage = _object(document.get("coverage_consequence"), "replay coverage")
+    reasons = _strings(document.get("reason_codes"), "replay failure reasons")
+    fallback = coverage.get("fallback_selection_ref")
+    expected_selection = "FALLBACK" if fallback is not None else "NO_RECORD"
+    if (
+        len(reasons) != 1
+        or document.get("processing_outcome") != "BLOCK"
+        or reasons[0] not in _BLOCK_REASON_CODES
+        or _strings(document.get("rule_trace"), "replay rule trace") != _FAILURE_RULE_TRACE
+        or document.get("selection_consequence") != expected_selection
+        or coverage.get("disposition") != "EXECUTION_FAILED"
+        or dependency.get("artifact_dependency_proof_ref") is not None
+        or bilingual.get("complete") is not False
+        or bilingual.get("final_alignment_map_ref") is not None
+        or bilingual.get("final_alignment_fingerprint") is not None
+        or document.get("source_contract_review_required")
+        is not (reasons[0] in _SOURCE_CONTRACT_REVIEW_REASONS)
+        or any(
+            result.get("processing_outcome") != "BLOCK"
+            or result.get("complete_source_unit_coverage") is not False
+            or result.get("final_tree_ref") is not None
+            or result.get("final_tree_fingerprint") is not None
+            or result.get("final_source_unit_inventory_fingerprint") is not None
+            for result in languages
+        )
+    ):
+        _fail("replay failed Report consequence")
+
+
+def validate_reconstruction_execution_report(
+    package_root: Path,
+    report: object,
+) -> ReconstructionExecutionReport:
+    """Validate one canonical Report for replay without claiming source provenance."""
+    if type(report) is not ReconstructionExecutionReport:
+        _fail("replay Report type")
+    report_id = report.reconstruction_execution_report_id
+    fingerprint = report.fingerprint
+    raw = report.canonical_bytes
+    if (
+        type(report_id) is not str
+        or _REPORT_ID.fullmatch(report_id) is None
+        or type(fingerprint) is not str
+        or type(raw) is not bytes
+        or not raw
+        or len(raw) > _MAX_MEMBER_BYTES
+        or _bytes_fingerprint(raw) != fingerprint
+    ):
+        _fail("replay Report envelope")
+    document = _object(parse_json_bytes(raw, max_bytes=_MAX_MEMBER_BYTES), "replay Report")
+    if canonicalize(checked_json_value(document)) != raw:
+        _fail("replay Report canonical read-back")
+    registry = SchemaRegistry.from_contracts_root(package_root / "contracts")
+    _validate_schema(registry, document, _SCHEMA, "replay Report schema")
+    if document.get("reconstruction_execution_report_id") != report_id:
+        _fail("replay Report identity")
+    _validate_report_contract_identities(document)
+    _validate_report_reference_semantics(document)
+    _validate_report_accounting(document)
+    if document.get("processing_outcome") == "PASS":
+        _validate_success_report(document)
+    else:
+        _validate_failure_report(document)
+    return ReconstructionExecutionReport(report_id, fingerprint, bytes(raw))
 
 
 def _validate_contracts(request: ReconstructionReportBuildRequest) -> None:
@@ -510,7 +932,7 @@ def build_reconstruction_execution_report(
     )
     if canonicalize(checked_json_value(report.document())) != raw:
         _fail("Report canonical read-back")
-    return report
+    return validate_reconstruction_execution_report(request.package_root, report)
 
 
 def _report_request_from_fixture_document(

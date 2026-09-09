@@ -450,6 +450,35 @@ class S3ImmutableVault:
             return False
         return True
 
+    def resolve_current(self, logical_key: str) -> ExactObjectReference | None:
+        """Resolve the provider's current immutable version for one key without mutation."""
+        logical_key = validate_logical_key(logical_key)
+        try:
+            head = self._client.head_object(Bucket=self._settings.bucket, Key=logical_key)
+        except ClientError as error:
+            if _client_error_code(error) in {"404", "NoSuchKey", "NoSuchVersion", "NotFound"}:
+                return None
+            raise S3VaultError(S3VaultErrorCode.PROVIDER) from None
+        version_id = _response_text(head, "VersionId")
+        metadata = _string_mapping(head.get("Metadata"))
+        length = head.get("ContentLength")
+        if (
+            metadata is None
+            or type(length) is not int
+            or length < 0
+            or type(metadata.get("asklegal-sha256")) is not str
+        ):
+            raise S3VaultError(S3VaultErrorCode.PROVIDER)
+        reference = ExactObjectReference(
+            self.vault_name,
+            logical_key,
+            s3_version_reference(version_id),
+            f"sha256:{metadata['asklegal-sha256']}",
+            length,
+        )
+        self.read_exact(reference)
+        return reference
+
     def check_readiness(self) -> None:
         """Verify the bucket's required immutable capabilities without mutation."""
         try:

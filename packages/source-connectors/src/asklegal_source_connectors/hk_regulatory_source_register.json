@@ -1,0 +1,108 @@
+{
+  "schema_id": "https://contracts.asklegal.local/v1/hk-regulatory-source-register.schema.json",
+  "schema_version": "1.0.0",
+  "register_id": "hrr_000000000000000000000000000000000000000000000001",
+  "register_version": "2026-09-01.2",
+  "effective_date": "2026-09-01",
+  "status": "AUTHORIZED_PARTIAL_FAIL_VISIBLE",
+  "fingerprint": "sha256:9af7fb460f3556d82b93620ba171cf7391480ad288268afce24ac03e8b7bbbb6",
+  "access_boundary": {
+    "state": "USER_ATTESTED_PERMISSION_DOCUMENT_PENDING",
+    "forbidden_effects": [
+      "CORPUS_PUBLICATION",
+      "DEPLOYMENT",
+      "MODEL_OR_EMBEDDING_CALL",
+      "PINECONE_MUTATION",
+      "PRODUCTION_ROUTING"
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "HK-REG-HKEX-CONSOLIDATED-RULEBOOKS",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000301",
+      "version": "1.0.0",
+      "source_policy_owner": "HK_REGULATORY_MATERIALS_LEGAL_DESK",
+      "endpoint_ids": ["sep_000000000000000000000000000000000000000000000301", "sep_000000000000000000000000000000000000000000000302", "sep_000000000000000000000000000000000000000000000310", "sep_000000000000000000000000000000000000000000000311", "sep_000000000000000000000000000000000000000000000312"],
+      "rights_state": "USER_ATTESTED_PERMISSION_DOCUMENT_PENDING",
+      "operational_state": "PARTIALLY_CONFIGURED",
+      "outage_consequence": "BOUNDED_BOARD_OR_UNBOUNDED_BOTH_SCOPE_BLOCKING",
+      "fact_authority": "PREVAILING_ENGLISH_WORDING_AND_CONTAINED_OFFICIAL_STRUCTURE",
+      "completeness_authority": "ENUMERATE_EVERY_COMPONENT_NOT_ONLY_TABLE_OF_CONTENTS",
+      "blockers": ["COMPLETE_COMPONENT_ENUMERATOR_REQUIRED", "PERMISSION_DOCUMENT_PENDING"]
+    },
+    {
+      "source_id": "HK-REG-HKEX-FEES-RULES",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000302",
+      "version": "2.0.0",
+      "source_policy_owner": "HK_REGULATORY_MATERIALS_LEGAL_DESK",
+      "endpoint_ids": ["sep_000000000000000000000000000000000000000000000303", "sep_000000000000000000000000000000000000000000000304", "sep_000000000000000000000000000000000000000000000314", "sep_000000000000000000000000000000000000000000000320"],
+      "rights_state": "USER_ATTESTED_PERMISSION_DOCUMENT_PENDING",
+      "operational_state": "PARTIALLY_CONFIGURED",
+      "outage_consequence": "BOUNDED_BOARD_OR_UNBOUNDED_BOTH_SCOPE_BLOCKING",
+      "fact_authority": "SEPARATE_FEES_RULE_MEMBERSHIP_OWNERSHIP_AND_ENGLISH_CONTENT",
+      "completeness_authority": "ENUMERATE_EVERY_REQUIRED_ENGLISH_FEES_RULE_PER_BOARD",
+      "blockers": ["COMPLETE_COMPONENT_ENUMERATOR_REQUIRED", "PERMISSION_DOCUMENT_PENDING"]
+    },
+    {
+      "source_id": "HK-REG-HKEX-REGULATORY-FORMS",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000303",
+      "version": "2.0.0",
+      "source_policy_owner": "HK_REGULATORY_MATERIALS_LEGAL_DESK",
+      "endpoint_ids": ["sep_000000000000000000000000000000000000000000000305", "sep_000000000000000000000000000000000000000000000306", "sep_000000000000000000000000000000000000000000000313", "sep_000000000000000000000000000000000000000000000319"],
+      "rights_state": "USER_ATTESTED_PERMISSION_DOCUMENT_PENDING",
+      "operational_state": "PARTIALLY_CONFIGURED",
+      "outage_consequence": "BOUNDED_BOARD_OR_UNBOUNDED_BOTH_SCOPE_BLOCKING",
+      "fact_authority": "SEPARATE_FORM_MEMBERSHIP_OWNERSHIP_AND_ENGLISH_CONTENT",
+      "completeness_authority": "ENUMERATE_EVERY_REQUIRED_ENGLISH_REGULATORY_FORM_PER_BOARD",
+      "blockers": ["COMPLETE_COMPONENT_ENUMERATOR_REQUIRED", "PERMISSION_DOCUMENT_PENDING"]
+    },
+    {
+      "source_id": "HK-REG-HKEX-RULE-UPDATES",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000304",
+      "version": "2.0.0",
+      "source_policy_owner": "HK_REGULATORY_MATERIALS_LEGAL_DESK",
+      "endpoint_ids": ["sep_000000000000000000000000000000000000000000000307", "sep_000000000000000000000000000000000000000000000308", "sep_000000000000000000000000000000000000000000000315", "sep_000000000000000000000000000000000000000000000316", "sep_000000000000000000000000000000000000000000000317", "sep_000000000000000000000000000000000000000000000318"],
+      "rights_state": "USER_ATTESTED_PERMISSION_DOCUMENT_PENDING",
+      "operational_state": "PARTIALLY_CONFIGURED",
+      "outage_consequence": "AFFECTED_BOARD_FRESH_RELEASE_BLOCKING",
+      "fact_authority": "FINAL_CHANGE_WORDING_TIMING_CONDITION_TRANSITION_AND_MAPPING_FACTS",
+      "completeness_authority": "ENUMERATE_EVERY_DUE_FINAL_UPDATE_AND_LINKED_CLASSIFICATION_ARTIFACT",
+      "blockers": ["COMPLETE_COMPONENT_ENUMERATOR_REQUIRED", "PERMISSION_DOCUMENT_PENDING"]
+    },
+    {
+      "source_id": "HK-REG-HKEX-RULEBOOK-CATALOGUE",
+      "registered_source_id": "src_000000000000000000000000000000000000000000000305",
+      "version": "1.0.0",
+      "source_policy_owner": "HK_REGULATORY_MATERIALS_LEGAL_DESK",
+      "endpoint_ids": ["sep_000000000000000000000000000000000000000000000309"],
+      "rights_state": "USER_ATTESTED_PERMISSION_DOCUMENT_PENDING",
+      "operational_state": "PARTIALLY_CONFIGURED",
+      "outage_consequence": "UNBOUNDED_BOTH_SCOPE_RELEASE_BLOCKING",
+      "fact_authority": "TOP_LEVEL_PRODUCT_FAMILIES_BOARD_ASSOCIATION_AND_CURRENT_LOCATORS",
+      "completeness_authority": "BOUNDS_FAMILIES_BUT_NEVER_PROVES_COMPONENT_WORDING_OR_LIST_ALONE",
+      "blockers": ["COMPLETE_COMPONENT_ENUMERATOR_REQUIRED", "PERMISSION_DOCUMENT_PENDING"]
+    }
+  ],
+  "endpoints": [
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000301","source_id":"HK-REG-HKEX-CONSOLIDATED-RULEBOOKS","version":"1.0.0","name":"HKEX_MAIN_BOARD_RULEBOOK","url":"https://en-rules.hkex.com.hk/rulebook/main-board-listing-rules","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":16777216,"complete_inventory_required":true,"signal_use":"COMPLETE_INVENTORY","proves_no_change":false,"evidence_role":"MAIN_BOARD_RULEBOOK_ROOT","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000302","source_id":"HK-REG-HKEX-CONSOLIDATED-RULEBOOKS","version":"1.0.0","name":"HKEX_GEM_RULEBOOK","url":"https://en-rules.hkex.com.hk/rulebook/gem-listing-rules","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":16777216,"complete_inventory_required":true,"signal_use":"COMPLETE_INVENTORY","proves_no_change":false,"evidence_role":"GEM_RULEBOOK_ROOT","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000303","source_id":"HK-REG-HKEX-FEES-RULES","version":"2.0.0","name":"HKEX_MAIN_BOARD_FEES_RULES","url":"https://en-rules.hkex.com.hk/rulebook/main-board-fees-rules","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":8388608,"complete_inventory_required":true,"signal_use":"COMPLETE_INVENTORY","proves_no_change":false,"evidence_role":"MAIN_BOARD_FEES_RULES_ROOT","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000304","source_id":"HK-REG-HKEX-FEES-RULES","version":"2.0.0","name":"HKEX_GEM_FEES_RULES","url":"https://en-rules.hkex.com.hk/rulebook/gem-fees-rules","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":8388608,"complete_inventory_required":true,"signal_use":"COMPLETE_INVENTORY","proves_no_change":false,"evidence_role":"GEM_FEES_RULES_ROOT","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000305","source_id":"HK-REG-HKEX-REGULATORY-FORMS","version":"2.0.0","name":"HKEX_MAIN_BOARD_REGULATORY_FORMS","url":"https://en-rules.hkex.com.hk/rulebook/main-board-regulatory-forms","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":8388608,"complete_inventory_required":true,"signal_use":"COMPLETE_INVENTORY","proves_no_change":false,"evidence_role":"MAIN_BOARD_REGULATORY_FORMS_ROOT","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000306","source_id":"HK-REG-HKEX-REGULATORY-FORMS","version":"2.0.0","name":"HKEX_GEM_REGULATORY_FORMS","url":"https://en-rules.hkex.com.hk/rulebook/gem-regulatory-forms","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":8388608,"complete_inventory_required":true,"signal_use":"COMPLETE_INVENTORY","proves_no_change":false,"evidence_role":"GEM_REGULATORY_FORMS_ROOT","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000307","source_id":"HK-REG-HKEX-RULE-UPDATES","version":"2.0.0","name":"HKEX_MAIN_BOARD_RULE_UPDATES","url":"https://en-rules.hkex.com.hk/rulebook/amendments-main-board-listing-rules","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":8388608,"complete_inventory_required":true,"signal_use":"COMPLETE_INVENTORY","proves_no_change":false,"evidence_role":"MAIN_BOARD_FINAL_RULE_UPDATES_ROOT","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000308","source_id":"HK-REG-HKEX-RULE-UPDATES","version":"2.0.0","name":"HKEX_GEM_RULE_UPDATES","url":"https://en-rules.hkex.com.hk/rulebook/amendments-gem-listing-rules","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":8388608,"complete_inventory_required":true,"signal_use":"COMPLETE_INVENTORY","proves_no_change":false,"evidence_role":"GEM_FINAL_RULE_UPDATES_ROOT","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000309","source_id":"HK-REG-HKEX-RULEBOOK-CATALOGUE","version":"1.0.0","name":"HKEX_LISTING_RULES_CATALOGUE","url":"https://www.hkex.com.hk/Listing/Rules-and-Resources/Listing-Rules?sc_lang=en","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":8388608,"complete_inventory_required":false,"signal_use":"DISCOVERY_ONLY","proves_no_change":false,"evidence_role":"BOARD_AND_PRODUCT_FAMILY_CATALOGUE","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000310","source_id":"HK-REG-HKEX-CONSOLIDATED-RULEBOOKS","version":"1.0.0","name":"HKEX_MAIN_BOARD_ENTIRE_RULEBOOK","url":"https://en-rules.hkex.com.hk/entiresection/1932","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":33554432,"complete_inventory_required":true,"signal_use":"COMPLETE_INVENTORY","proves_no_change":false,"evidence_role":"MAIN_BOARD_COMPLETE_SECTION","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000311","source_id":"HK-REG-HKEX-CONSOLIDATED-RULEBOOKS","version":"1.0.0","name":"HKEX_MAIN_BOARD_PREVAILING_PDF","url":"https://en-rules.hkex.com.hk/sites/default/files/net_file_store/consol_mb.pdf","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["application/pdf"],"max_bytes":67108864,"complete_inventory_required":false,"signal_use":"NOT_A_SIGNAL","proves_no_change":false,"evidence_role":"MAIN_BOARD_PREVAILING_PDF","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000312","source_id":"HK-REG-HKEX-CONSOLIDATED-RULEBOOKS","version":"1.0.0","name":"HKEX_GEM_PREVAILING_PDF","url":"https://en-rules.hkex.com.hk/sites/default/files/net_file_store/consol_gem.pdf","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["application/pdf"],"max_bytes":67108864,"complete_inventory_required":false,"signal_use":"NOT_A_SIGNAL","proves_no_change":false,"evidence_role":"GEM_PREVAILING_PDF","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000313","source_id":"HK-REG-HKEX-REGULATORY-FORMS","version":"2.0.0","name":"HKEX_MAIN_REGULATORY_FORMS_ENTIRE_SECTION","url":"https://en-rules.hkex.com.hk/entiresection/6190","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":33554432,"complete_inventory_required":true,"signal_use":"COMPLETE_INVENTORY","proves_no_change":false,"evidence_role":"MAIN_REGULATORY_FORMS_COMPLETE_SECTION","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000314","source_id":"HK-REG-HKEX-FEES-RULES","version":"2.0.0","name":"HKEX_MAIN_FEES_RULES_ENTIRE_SECTION","url":"https://en-rules.hkex.com.hk/entiresection/3783","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":33554432,"complete_inventory_required":true,"signal_use":"COMPLETE_INVENTORY","proves_no_change":false,"evidence_role":"MAIN_FEES_RULES_COMPLETE_SECTION","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000315","source_id":"HK-REG-HKEX-RULE-UPDATES","version":"2.0.0","name":"HKEX_MAIN_RULE_UPDATES_ENTIRE_SECTION","url":"https://en-rules.hkex.com.hk/entiresection/2","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":33554432,"complete_inventory_required":true,"signal_use":"COMPLETE_INVENTORY","proves_no_change":false,"evidence_role":"MAIN_RULE_UPDATES_COMPLETE_SECTION","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000316","source_id":"HK-REG-HKEX-RULE-UPDATES","version":"2.0.0","name":"HKEX_GEM_RULE_UPDATES_ENTIRE_SECTION","url":"https://en-rules.hkex.com.hk/entiresection/49","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":33554432,"complete_inventory_required":true,"signal_use":"COMPLETE_INVENTORY","proves_no_change":false,"evidence_role":"GEM_RULE_UPDATES_COMPLETE_SECTION","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000317","source_id":"HK-REG-HKEX-RULE-UPDATES","version":"1.0.1","name":"HKEX_MAIN_RULE_UPDATES_PDF","url":"https://en-rules.hkex.com.hk/sites/default/files/net_file_store/Update_154_Attachment.pdf","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["application/pdf"],"max_bytes":67108864,"complete_inventory_required":false,"signal_use":"NOT_A_SIGNAL","proves_no_change":false,"evidence_role":"MAIN_RULE_UPDATES_PDF","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000318","source_id":"HK-REG-HKEX-RULE-UPDATES","version":"1.0.1","name":"HKEX_GEM_RULE_UPDATES_PDF","url":"https://en-rules.hkex.com.hk/sites/default/files/net_file_store/Update_87_Attachment.pdf","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["application/pdf"],"max_bytes":67108864,"complete_inventory_required":false,"signal_use":"NOT_A_SIGNAL","proves_no_change":false,"evidence_role":"GEM_RULE_UPDATES_PDF","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000319","source_id":"HK-REG-HKEX-REGULATORY-FORMS","version":"1.0.0","name":"HKEX_GEM_REGULATORY_FORMS_ENTIRE_SECTION","url":"https://en-rules.hkex.com.hk/entiresection/6191","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":33554432,"complete_inventory_required":true,"signal_use":"COMPLETE_INVENTORY","proves_no_change":false,"evidence_role":"GEM_REGULATORY_FORMS_COMPLETE_SECTION","enabled":true},
+    {"endpoint_id":"sep_000000000000000000000000000000000000000000000320","source_id":"HK-REG-HKEX-FEES-RULES","version":"1.0.0","name":"HKEX_GEM_FEES_RULES_ENTIRE_SECTION","url":"https://en-rules.hkex.com.hk/entiresection/1836","access_mode":"DIRECT_HTTP","methods":["GET","HEAD"],"media_types":["text/html"],"max_bytes":33554432,"complete_inventory_required":true,"signal_use":"COMPLETE_INVENTORY","proves_no_change":false,"evidence_role":"GEM_FEES_RULES_COMPLETE_SECTION","enabled":true}
+  ]
+}

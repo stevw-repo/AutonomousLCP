@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from hashlib import sha256
 from typing import Literal
 
 
@@ -37,6 +38,17 @@ class SemanticDecision:
     unresolved_facts: tuple[str, ...]
     challenge_code: Literal["NOT_APPLICABLE", "PASS", "FAIL"]
     output_fingerprint: str
+    provider: str = "UNREPORTED"
+    provider_request_id: str = "unreported"
+    effect_receipt_id: str = "unreported"
+
+
+def semantic_effect_receipt_id(
+    request_id: str, provider_request_id: str, output_fingerprint: str
+) -> str:
+    """Derive one safe owner receipt from an actual provider response identity."""
+    material = f"{request_id}\x1f{provider_request_id}\x1f{output_fingerprint}".encode()
+    return "mec_" + sha256(material).hexdigest()[:48]
 
 
 @dataclass(frozen=True, slots=True)

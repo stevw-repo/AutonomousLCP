@@ -23,6 +23,7 @@ _V1_APPLICATION_USERS = frozenset(
 )
 _MAX_PASSWORD_BYTES = 1_024
 _MAX_LOGIN_TIMEOUT_SECONDS = 30
+_V1_ADMIN_DATABASES = frozenset({"master", _V1_DATABASE})
 
 
 class SqlCredentialErrorCode(StrEnum):
@@ -145,6 +146,46 @@ class MssqlConnectionFactory:
         return _MssqlConnection(
             mssql_python.connect(self.connection_string, autocommit=self.autocommit)
         )
+
+
+@dataclass(frozen=True, slots=True)
+class V1MssqlAdminConnectionFactory:
+    """Create one bounded V1 bootstrap connection without storing a secret string."""
+
+    password: SqlServerPassword = field(repr=False)
+    database: str = "master"
+    login_timeout_seconds: int = 10
+    autocommit: bool = False
+
+    def __post_init__(self) -> None:
+        """Reject every endpoint/database/type deviation before connection."""
+        if (
+            type(self.password) is not SqlServerPassword
+            or self.database not in _V1_ADMIN_DATABASES
+            or type(self.login_timeout_seconds) is not int
+            or not 1 <= self.login_timeout_seconds <= _MAX_LOGIN_TIMEOUT_SECONDS
+            or type(self.autocommit) is not bool
+        ):
+            raise SqlCredentialError(SqlCredentialErrorCode.SETTINGS)
+
+    def __call__(self) -> Connection:
+        """Open one certificate-validated encrypted local bootstrap connection."""
+        try:
+            connection = mssql_python.connect(
+                "",
+                autocommit=self.autocommit,
+                timeout=self.login_timeout_seconds,
+                server=f"{_V1_SERVER},{_V1_PORT}",
+                database=self.database,
+                uid="sa",
+                pwd=self.password.reveal(),
+                Encrypt="Strict",
+                TrustServerCertificate="No",
+                HostNameInCertificate=_V1_SERVER,
+            )
+        except mssql_python.Error, ValueError:
+            raise SqlCredentialError(SqlCredentialErrorCode.CONNECTION) from None
+        return _MssqlConnection(connection)
 
 
 @dataclass(frozen=True, slots=True)

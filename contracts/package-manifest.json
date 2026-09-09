@@ -653,6 +653,13 @@
       "fingerprint": "sha256:2c961d02db6d5503f383f23b8832f284fb07fe3d6be2c795b984b49c5d7f0cbe"
     },
     {
+      "path": "hk-v1-provider-golden-suite.json",
+      "role": "SYNTHETIC_INPUT",
+      "media_type": "application/json",
+      "byte_size": 7145,
+      "fingerprint": "sha256:b34949d6d56befb2235f025a803b47ba70bb251c351323b1336980bc7cca9748"
+    },
+    {
       "path": "inventory/cross-cutting-contract-inventory.json",
       "role": "CONTRACT_INVENTORY",
       "media_type": "application/json",
@@ -716,6 +723,20 @@
       "fingerprint": "sha256:2b0fc5ceaef68157ff92860690e7f2eaf395f9d89e57e1958dfda6a80d54c276"
     },
     {
+      "path": "schemas/hk-v1-semantic-profile.schema.json",
+      "role": "JSON_SCHEMA",
+      "media_type": "application/json",
+      "byte_size": 6798,
+      "fingerprint": "sha256:5db7d20d1e942573d290f5442b24b0ff2e4ed2ead0cb802890d70b6fa6da7c70"
+    },
+    {
+      "path": "schemas/hk-v1-serving-capability-profile.schema.json",
+      "role": "JSON_SCHEMA",
+      "media_type": "application/json",
+      "byte_size": 4543,
+      "fingerprint": "sha256:a2f00fc50a11644359eac067db5139eb078382a87c98b029e8ef1a7708219b51"
+    },
+    {
       "path": "schemas/legal-domain.schema.json",
       "role": "JSON_SCHEMA",
       "media_type": "application/json",
@@ -747,8 +768,8 @@
       "path": "schemas/promotion-domain.schema.json",
       "role": "JSON_SCHEMA",
       "media_type": "application/json",
-      "byte_size": 19162,
-      "fingerprint": "sha256:b4bb351e561fc6e776fe4069ecdbf590b895dc6db49a67f71f6487f9316dc3da"
+      "byte_size": 19253,
+      "fingerprint": "sha256:5e1f3f983d1c368bb56ce614993d9d66fd337d92ebfaaab5061489a8ff0aa0c0"
     },
     {
       "path": "schemas/serving-domain.schema.json",

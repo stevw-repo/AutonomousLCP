@@ -126,7 +126,7 @@ def test_pyright_configuration_is_strict_and_repository_wide() -> None:
     assert re.search(r'include\s*=\s*\[\s*"\."\s*,?\s*\]', configuration) is not None
     assert (
         re.search(
-            r'exclude\s*=\s*\[\s*"\.venv"\s*,\s*"node_modules"\s*,\s*"var"\s*,?\s*\]',
+            r'exclude\s*=\s*\[\s*"\.venv"\s*,\s*"node_modules"\s*,\s*"var"\s*,\s*"\.superpowers/sdd"\s*,?\s*\]',
             configuration,
         )
         is not None

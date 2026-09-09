@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from hashlib import sha256
+from pathlib import Path
 from types import SimpleNamespace
 
 import asklegal_acquisition_worker.v1_pipeline as pipeline
@@ -51,7 +53,7 @@ class _Vault:
             assert existing == content
         else:
             self.writes[logical_key] = content
-            self.versions[logical_key] = f"version-{len(self.writes)}"
+            self.versions[logical_key] = f"v{sha256(content).hexdigest()}"
         return SimpleNamespace(
             created=existing is None,
             read_back_verified=True,
@@ -112,6 +114,7 @@ def _activities(
         CredentialMaterial(b"http://proxy.invalid:3128"),
     )
     object.__setattr__(infrastructure, "primary_vault", vault)
+    object.__setattr__(infrastructure, "due_cycle_state_root", Path("/dev/null"))
     activities = pipeline.AcquisitionActivities(infrastructure)
     connector = OfficialHttpConnector(load_hk_legislation_source_register(), transport)
     object.__setattr__(activities, "_connector", connector)
@@ -168,7 +171,7 @@ def test_complete_current_inventory_retains_both_members_and_clear_coverage() ->
 
     assert result["code"] == OfficialInventoryCode.COMPLETE_CAPTURED.value
     assert result["source_id"] == _SOURCE_ID
-    assert result["source_version"] == "1.1.0"
+    assert result["source_version"] == "1.2.0"
     assert result["retained"] == 2
     assert result["failed"] == 0
     assert _text(result["inventory_fingerprint"]).startswith("sha256:")

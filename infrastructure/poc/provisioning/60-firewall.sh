@@ -32,10 +32,11 @@ require_root() {
 #
 # provision.sh does NOT run this. Run it deliberately, at the console.
 #
-# It adds one separate nftables table, `inet asklegal`. It does not touch the
-# filter FORWARD path, because Docker manages that and overriding it would break
-# container networking. Container isolation comes from the internal networks
-# created in step 40 instead.
+# It adds one separate nftables table, `inet asklegal`. Its forward hook keeps
+# unrelated host forwarding intact, permits AskLegal internal traffic and
+# established replies, and permits only the three fixed proxy addresses to
+# originate traffic outside 10.90.0.0/16. Other AskLegal containers therefore
+# cannot bypass their proxy on a routable egress bridge.
 #
 # To undo everything this does:   nft delete table inet asklegal
 #
@@ -65,17 +66,26 @@ table inet asklegal {
     ip protocol icmp accept
     ip6 nexthdr ipv6-icmp accept
   }
+  chain asklegal-container-egress {
+    type filter hook forward priority -10; policy drop;
+    ct state established,related accept
+    ct state invalid drop
+    ip saddr != 10.90.0.0/16 accept
+    ip daddr 10.90.0.0/16 accept
+    ip saddr { 10.90.7.2, 10.90.8.2, 10.90.9.2 } accept
+  }
 }
 NFTEOF
 }
 
 if [ "$DRY_RUN" = "1" ]; then
-  note "would add nftables table inet asklegal with an input default-deny policy"
+  note "would add nftables table inet asklegal with input and AskLegal-egress default deny"
   note "would arm a ${CONFIRM_SECONDS}s dead-man revert"
   exit 0
 fi
 
 if [ "$SKIP_DEADMAN" != "1" ]; then
+  rm -f /run/asklegal-firewall-confirmed
   note "arming a ${CONFIRM_SECONDS}s dead-man revert"
   setsid bash -c "sleep $CONFIRM_SECONDS; \
     if [ ! -f /run/asklegal-firewall-confirmed ]; then \
@@ -84,7 +94,7 @@ if [ "$SKIP_DEADMAN" != "1" ]; then
 fi
 
 apply_rules
-note "input default-deny applied. Public TCP ports: none, as the policy requires."
+note "input and direct-container-egress default-deny applied."
 note ""
 note "Confirm within ${CONFIRM_SECONDS}s to keep it:"
 note "  touch /run/asklegal-firewall-confirmed"

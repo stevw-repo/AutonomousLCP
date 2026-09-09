@@ -3,7 +3,7 @@
   "schema_version": "1.0.0",
   "package_id": "rbp_866fd2858e653370aec45ffa71b551942fbc33e1b8c440ca",
   "package_version": "0.41.0",
-  "package_fingerprint": "sha256:f5bad65a948de6c4a5e27f4e474dcd7607fb36e70d5afaf104dfa4354fe1f9e7",
+  "package_fingerprint": "sha256:d3dcd29a18cf1cf5414191e322d90c7103e86624448134ad785d0155f88c28dc",
   "jurisdiction": "HK",
   "environment": "PRODUCTION",
   "material_family": "LEGISLATION",
@@ -11,7 +11,7 @@
   "effective_cutoff": "2026-08-17T00:00:00Z",
   "predecessor": null,
   "contract_locks": [
-    "sha256:92b5193ca9fa45d2260ee2012cd350818136f4d12b1d93e763a67b827d15c455"
+    "sha256:64c4544b2d9b6039f7b88de61d7605077d460637d5660a2776655400beb89d66"
   ],
   "code_locks": [
     "asklegal-legal-desks==0.1.0",

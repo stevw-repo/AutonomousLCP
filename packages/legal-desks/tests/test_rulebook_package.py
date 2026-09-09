@@ -606,7 +606,7 @@ def test_not_ready_real_package_may_declare_families_without_inventing_scopes(
 def test_hk_cases_package_is_honestly_frozen_without_activation_authority() -> None:
     package = _load_cases()
 
-    assert package.manifest.package_version == "0.11.0"
+    assert package.manifest.package_version == "0.13.0"
     assert package.manifest.jurisdiction == "HK"
     assert package.manifest.material_family == "CASES"
     assert package.manifest.environment == "PRODUCTION"

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
 from dataclasses import dataclass
 from hashlib import sha256
 
@@ -41,6 +42,7 @@ from .model import (
     TargetRecord,
     TraceabilityShardReceipt,
 )
+from .ports import EmbeddingTokenCounter
 
 _INDEX_NAME_LIMIT = 40
 _PROJECT_INDEX_NAME_LIMIT = 52
@@ -444,8 +446,8 @@ def _manifest_body(plan: PromotionPlan) -> dict[str, object]:
     }
 
 
-def freeze_promotion_manifest(plan: PromotionPlan) -> PromotionManifest:
-    """Freeze one complete manifest without authorizing its effects."""
+def freeze_generic_promotion_manifest(plan: PromotionPlan) -> PromotionManifest:
+    """Freeze an explicitly non-V1 compatibility manifest without authorizing effects."""
     if (
         plan.batch_size < 1
         or not plan.validity_predicates
@@ -490,13 +492,39 @@ def freeze_promotion_manifest(plan: PromotionPlan) -> PromotionManifest:
 
 
 def freeze_v1_promotion_manifest(plan: PromotionPlan) -> PromotionManifest:
-    """Freeze a V1 promotion only after exact source-cycle release eligibility."""
+    """Freeze the canonical V1 form, whose activation is Serving State only."""
     verify_v1_coverage_release_gate(plan.coverage_status)
-    return freeze_promotion_manifest(plan)
+    validate_hk_v1_effect_types(tuple(action.effect_type for action in plan.actions))
+    return freeze_generic_promotion_manifest(plan)
+
+
+def freeze_hk_v1_promotion_manifest(plan: PromotionPlan) -> PromotionManifest:
+    """Compatibility alias for the canonical V1 manifest entry point."""
+    return freeze_v1_promotion_manifest(plan)
+
+
+def validate_hk_v1_effect_types(effect_types: tuple[EffectType, ...]) -> None:
+    """Reject excluded Ask.Legal route authority before freezing the V1 manifest."""
+    if EffectType.ROUTING_ACTIVATION in effect_types:
+        raise PromotionError(PromotionErrorCode.MANIFEST_DRIFT, "V1 has no routing action")
+    if EffectType.RELEASE_PUBLICATION not in effect_types:
+        raise PromotionError(PromotionErrorCode.MANIFEST_DRIFT, "V1 requires release publication")
 
 
 def verify_promotion_manifest(manifest: PromotionManifest) -> None:
-    """Reject any object whose fields drifted from its frozen fingerprint."""
+    """Verify one canonical V1 manifest, including its no-routing action guard."""
+    _verify_manifest(manifest, freeze_v1_promotion_manifest)
+
+
+def verify_generic_promotion_manifest(manifest: PromotionManifest) -> None:
+    """Verify an explicit non-V1 compatibility manifest."""
+    _verify_manifest(manifest, freeze_generic_promotion_manifest)
+
+
+def _verify_manifest(
+    manifest: PromotionManifest, freezer: Callable[[PromotionPlan], PromotionManifest]
+) -> None:
+    """Re-freeze one typed manifest through exactly its selected lifecycle path."""
     plan = PromotionPlan(
         manifest.environment,
         manifest.jurisdiction,
@@ -517,14 +545,14 @@ def verify_promotion_manifest(manifest: PromotionManifest) -> None:
         manifest.actions,
         manifest.exact_retirement_target_ids,
     )
-    refrozen = freeze_promotion_manifest(plan)
+    refrozen = freezer(plan)
     if refrozen.manifest_id != manifest.manifest_id or refrozen.fingerprint != manifest.fingerprint:
         raise PromotionError(PromotionErrorCode.MANIFEST_DRIFT)
 
 
 def promotion_manifest_bytes(manifest: PromotionManifest) -> bytes:
     """Render the exact canonical bytes whose fingerprint identifies the manifest."""
-    verify_promotion_manifest(manifest)
+    verify_generic_promotion_manifest(manifest)
     plan = PromotionPlan(
         manifest.environment,
         manifest.jurisdiction,
@@ -673,14 +701,26 @@ def pinecone_index_name(
 def embedding_request(
     inputs: EmbeddingRequestInput,
     profile: EmbeddingProfile,
+    token_counter: EmbeddingTokenCounter,
 ) -> EmbeddingRequest:
-    """Bind only exact metadata.text bytes and the complete profile."""
+    """Bind only exact metadata.text, exact tokens, and the complete profile."""
     if not inputs.text:
         raise PromotionError(PromotionErrorCode.VECTOR_INVALID, "empty text")
     text_bytes = inputs.text.encode()
     text_fingerprint = _fingerprint(text_bytes)
-    token_count = len(text_bytes)
-    if token_count > profile.max_input_tokens:
+    try:
+        tokenizer_id = token_counter.tokenizer_id
+    except Exception as error:
+        message = "tokenizer identity"
+        raise PromotionError(PromotionErrorCode.PROFILE_INVALID, message) from error
+    if type(tokenizer_id) is not str or tokenizer_id != profile.tokenizer:
+        raise PromotionError(PromotionErrorCode.PROFILE_INVALID, "tokenizer identity")
+    try:
+        token_count = token_counter.count(inputs.text)
+    except Exception as error:
+        message = "token count"
+        raise PromotionError(PromotionErrorCode.VECTOR_INVALID, message) from error
+    if type(token_count) is not int or not 1 <= token_count <= profile.max_input_tokens:
         raise PromotionError(PromotionErrorCode.VECTOR_INVALID, "oversized text")
     cache_key = _fingerprint((text_fingerprint + profile.profile_fingerprint).encode())
     request_id = _stable_id(

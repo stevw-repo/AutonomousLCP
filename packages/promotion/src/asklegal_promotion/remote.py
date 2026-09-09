@@ -22,7 +22,7 @@ from dataclasses import dataclass
 from hashlib import sha256
 from http.client import HTTPSConnection
 from typing import TYPE_CHECKING, Protocol
-from urllib.parse import urlsplit
+from urllib.parse import quote, urlsplit
 
 from asklegal_contracts import ContractViolation, parse_json_bytes
 
@@ -30,6 +30,12 @@ from .builder import (
     SERVING_METADATA_KEYS,
     serving_metadata,
     serving_metadata_fingerprint,
+)
+from .live_retrieval import (
+    LiveRetrievalQueryResult,
+    LiveRetrievedRecord,
+    live_query_result_fingerprint,
+    query_readback_receipt_id,
 )
 from .model import (
     EmbeddedVector,
@@ -56,6 +62,7 @@ _DEFAULT_TIMEOUT_SECONDS = 60
 _UPSERT_BATCH_LIMIT = 100
 _LIST_PAGE_LIMIT = 100
 _FETCH_BATCH_LIMIT = 100
+_QUERY_TOP_K_LIMIT = 100
 _MAX_ERROR_BODY_BYTES = 600
 _MAX_PROVIDER_BODY_BYTES = 10_000_000
 _MAX_CREDENTIAL_BYTES = 65_536
@@ -82,6 +89,20 @@ class ProviderResponse:
     payload: JsonValue
     request_id: str
     latency_milliseconds: int
+
+
+@dataclass(frozen=True, slots=True)
+class PineconeProviderCallReceipt:
+    """Sanitized identity and bounded usage facts for one Pinecone HTTP call."""
+
+    operation: str
+    method: str
+    request_fingerprint: str
+    provider_request_id: str
+    latency_milliseconds: int
+    request_units: int = 1
+    provider_reported_cost_microunits: int | None = None
+    cost_basis: str = "PROVIDER_BILLING_OUT_OF_BAND_CALL_CEILING"
 
 
 class ProviderCall(Protocol):
@@ -118,6 +139,11 @@ class ProviderTransport:
         self._proxy_port = proxy_port
         self._timeout = timeout_seconds
         self._context = ssl.create_default_context()
+
+    @property
+    def timeout_seconds(self) -> int:
+        """Expose the exact profile-bound timeout for composition admission."""
+        return self._timeout
 
     def send(
         self,
@@ -258,11 +284,33 @@ class AzureOpenAIConfig:
 class AzureOpenAIEmbeddingAdapter:
     """Real `EmbeddingPort` backed by one Azure OpenAI embedding deployment."""
 
-    def __init__(self, config: AzureOpenAIConfig, transport: ProviderCall) -> None:
+    def __init__(
+        self,
+        config: AzureOpenAIConfig,
+        transport: ProviderCall,
+        *,
+        serving_profile_fingerprint: str | None = None,
+    ) -> None:
         """Bind the adapter to one deployment and one proxied transport."""
         self._config = config
         self._transport = transport
+        self.serving_profile_fingerprint = serving_profile_fingerprint
         self.calls: list[str] = []
+
+    @property
+    def deployment_name(self) -> str:
+        """Return the exact credential-bound deployment."""
+        return self._config.deployment
+
+    @property
+    def api_contract(self) -> str:
+        """Return the exact credential-bound API contract."""
+        return self._config.api_version
+
+    @property
+    def timeout_seconds(self) -> int | None:
+        """Return the exact transport timeout, if the transport declares one."""
+        return getattr(self._transport, "timeout_seconds", None)
 
     def embed(self, profile: EmbeddingProfile, request: EmbeddingRequest) -> EmbeddedVector:
         """Return one real vector and its safe receipt, or fail visibly."""
@@ -319,10 +367,15 @@ class AzureOpenAIEmbeddingAdapter:
     def _input_tokens(payload: JsonValue, declared: int) -> int:
         body = payload if isinstance(payload, dict) else {}
         usage = body.get("usage")
-        if isinstance(usage, dict):
-            reported = usage.get("prompt_tokens", usage.get("total_tokens"))
-            if isinstance(reported, int):
-                return reported
+        if not isinstance(usage, dict):
+            message = "provider token accounting is missing or malformed"
+            raise PromotionError(PromotionErrorCode.PROFILE_INVALID, message)
+        if set(usage) != {"prompt_tokens", "total_tokens"} or any(
+            type(usage[name]) is not int or usage[name] != declared
+            for name in ("prompt_tokens", "total_tokens")
+        ):
+            message = "provider token accounting differs from exact request count"
+            raise PromotionError(PromotionErrorCode.PROFILE_INVALID, message)
         return declared
 
 
@@ -370,6 +423,7 @@ class PineconeConfig:
     api_key: str
     control_plane_host: str
     index: str
+    project_id: str
 
     @classmethod
     def from_credential_json(cls, raw: bytes) -> PineconeConfig:
@@ -378,12 +432,17 @@ class PineconeConfig:
             _parse_json(raw, "pinecone credential must be JSON", max_bytes=_MAX_CREDENTIAL_BYTES),
             "pinecone credential must be a JSON object",
         )
-        if set(parsed) != {"api_key", "control_plane_host", "index"}:
+        fields = set(parsed)
+        current = frozenset({"api_key", "control_plane_host", "index", "project_id"})
+        legacy = frozenset({"api_key", "control_plane_host", "index", "project"})
+        if frozenset(fields) not in {current, legacy}:
             raise PromotionError(PromotionErrorCode.PROFILE_INVALID, "pinecone credential fields")
+        project_field = "project_id" if "project_id" in parsed else "project"
         return cls(
             _text(parsed, "api_key"),
             _text(parsed, "control_plane_host").rstrip("/"),
             _text(parsed, "index"),
+            _text(parsed, project_field),
         )
 
     def headers(self) -> dict[str, str]:
@@ -393,6 +452,18 @@ class PineconeConfig:
             "X-Pinecone-API-Version": PINECONE_API_VERSION,
             "Accept": "application/json",
         }
+
+
+class PineconeOperationGate(Protocol):
+    """Effect-time authority checked immediately before every target mutation."""
+
+    def require_write(self, operation: str) -> None:
+        """Raise unless the exact retained write authority is currently active."""
+        ...
+
+    def require_delete(self, operation: str) -> None:
+        """Raise unless a separate exact destructive authority is active."""
+        ...
 
 
 def target_state_fingerprint(name: str, dimensions: int, metric: str, namespace: str) -> str:
@@ -412,35 +483,106 @@ def target_state_fingerprint(name: str, dimensions: int, metric: str, namespace:
 class PineconeServingTargetStore:
     """Real `ServingTargetPort` backed by one Pinecone project.
 
-    Writes require `write_authorized`. Deleting an index additionally requires
-    `destructive_authorized`, because losing an index is not recoverable here.
+    Every mutation asks an injected effect-time gate. A constructor Boolean
+    cannot enable writes or deletion.
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913 - exact profile, gate, accounting, and transport bindings.
         self,
         config: PineconeConfig,
         transport: ProviderCall,
         *,
-        write_authorized: bool = False,
-        destructive_authorized: bool = False,
+        operation_gate: PineconeOperationGate | None = None,
+        provider_call_sink: Callable[[PineconeProviderCallReceipt], None] | None = None,
+        namespace: str = "",
+        page_size: int = _LIST_PAGE_LIMIT,
     ) -> None:
-        """Bind the store to one project, transport, and authorization level."""
+        """Bind one project and transport to an optional effect-time gate."""
         self._config = config
         self._transport = transport
-        self._write_authorized = write_authorized
-        self._destructive_authorized = destructive_authorized
+        self._operation_gate = operation_gate
+        self._provider_call_sink = provider_call_sink
+        self._namespace = namespace
+        if type(page_size) is not int or not 1 <= page_size <= _LIST_PAGE_LIMIT:
+            raise PromotionError(PromotionErrorCode.PROFILE_INVALID, "readback page size")
+        self._page_size = page_size
         self._hosts: dict[str, str] = {}
+        self._provider_calls: list[PineconeProviderCallReceipt] = []
+
+    @property
+    def target_name(self) -> str:
+        """Return the sole admitted replacement target."""
+        return self._config.index
+
+    @property
+    def project_id(self) -> str:
+        """Return the exact Pinecone project identity."""
+        return self._config.project_id
+
+    @property
+    def namespace(self) -> str:
+        """Return the namespace applied to every vector operation."""
+        return self._namespace
+
+    @property
+    def page_size(self) -> int:
+        """Return the profile-bound list/fetch page size."""
+        return self._page_size
+
+    @property
+    def timeout_seconds(self) -> int | None:
+        """Return the exact transport timeout, if the transport declares one."""
+        return getattr(self._transport, "timeout_seconds", None)
+
+    @property
+    def provider_call_receipts(self) -> tuple[PineconeProviderCallReceipt, ...]:
+        """Return the exact sanitized call accounting retained for this adapter instance."""
+        return tuple(self._provider_calls)
+
+    def _send(
+        self,
+        operation: str,
+        method: str,
+        url: str,
+        body: JsonValue | None = None,
+    ) -> ProviderResponse:
+        request_fingerprint = _fingerprint(
+            json.dumps(
+                {"body": body, "method": method, "operation": operation, "url": url},
+                ensure_ascii=False,
+                separators=(",", ":"),
+                sort_keys=True,
+            ).encode()
+        )
+        response = self._transport.send(method, url, self._config.headers(), body)
+        receipt = PineconeProviderCallReceipt(
+            operation,
+            method,
+            request_fingerprint,
+            response.request_id,
+            response.latency_milliseconds,
+        )
+        self._provider_calls.append(receipt)
+        if self._provider_call_sink is not None:
+            self._provider_call_sink(receipt)
+        return response
+
+    def _require_target(self, name: str) -> None:
+        if name != self._config.index:
+            message = f"index {name} is not the single admitted replacement target"
+            raise PromotionError(PromotionErrorCode.INDEX_NAME_INVALID, message)
 
     def _require_write(self, operation: str) -> None:
-        if not self._write_authorized:
+        if self._operation_gate is None:
             message = f"{operation} requires explicit write authorization"
             raise PromotionError(PromotionErrorCode.PROFILE_INVALID, message)
+        self._operation_gate.require_write(operation)
 
     def _indexes(self) -> tuple[dict[str, JsonValue], ...]:
-        response = self._transport.send(
+        response = self._send(
+            "INDEX_DESCRIBE_OR_LIST",
             "GET",
             f"{self._config.control_plane_host}/indexes",
-            self._config.headers(),
         )
         body = _object(response.payload, "index list must be a JSON object")
         listed = body.get("indexes")
@@ -454,6 +596,7 @@ class PineconeServingTargetStore:
         return None
 
     def _data_plane(self, name: str) -> str:
+        self._require_target(name)
         cached = self._hosts.get(name)
         if cached:
             return cached
@@ -471,6 +614,7 @@ class PineconeServingTargetStore:
 
     def create(self, definition: TargetDefinition) -> None:
         """Create the target, or replay exactly if it already matches."""
+        self._require_target(definition.name)
         entry = self._index_entry(definition.name)
         if entry is not None:
             existing = self._definition_from_entry(entry, definition.namespace)
@@ -479,10 +623,10 @@ class PineconeServingTargetStore:
                 raise PromotionError(PromotionErrorCode.TARGET_COLLISION, message)
             return
         self._require_write(f"creating index {definition.name}")
-        self._transport.send(
+        self._send(
+            "INDEX_CREATE",
             "POST",
             f"{self._config.control_plane_host}/indexes",
-            self._config.headers(),
             {
                 "name": definition.name,
                 "dimension": definition.dimensions,
@@ -493,11 +637,12 @@ class PineconeServingTargetStore:
 
     def describe(self, name: str) -> TargetDefinition:
         """Return the exact immutable configuration of one existing target."""
+        self._require_target(name)
         entry = self._index_entry(name)
         if entry is None:
             message = f"index {name} does not exist"
             raise PromotionError(PromotionErrorCode.INDEX_NAME_INVALID, message)
-        return self._definition_from_entry(entry, "")
+        return self._definition_from_entry(entry, self._namespace)
 
     @staticmethod
     def _definition_from_entry(entry: dict[str, JsonValue], namespace: str) -> TargetDefinition:
@@ -514,6 +659,7 @@ class PineconeServingTargetStore:
 
     def upsert_batch(self, name: str, records: tuple[TargetRecord, ...]) -> None:
         """Write one bounded batch of records into the target."""
+        self._require_target(name)
         if not records:
             return
         self._require_write(f"upserting into {name}")
@@ -535,10 +681,10 @@ class PineconeServingTargetStore:
             vectors.append(vector)
         url = f"{self._data_plane(name)}/vectors/upsert"
         try:
-            response = self._transport.send(
+            response = self._send(
+                "VECTOR_UPSERT",
                 "POST",
                 url,
-                self._config.headers(),
                 {"namespace": namespace, "vectors": vectors},
             )
         except PromotionError as error:
@@ -572,28 +718,99 @@ class PineconeServingTargetStore:
             raise PromotionError(PromotionErrorCode.SERVING_PAYLOAD_INVALID, message)
         return payload
 
-    @staticmethod
-    def _namespace_of(records: tuple[TargetRecord, ...]) -> str:
+    def _namespace_of(self, records: tuple[TargetRecord, ...]) -> str:
         del records
-        return ""
+        return self._namespace
 
     def enumerate(self, name: str) -> tuple[TargetRecord, ...]:
         """Return the complete actual inventory in identity order."""
+        self._require_target(name)
         host = self._data_plane(name)
         identifiers = self._list_identifiers(host)
         records: list[TargetRecord] = []
-        for start in range(0, len(identifiers), _FETCH_BATCH_LIMIT):
-            records.extend(self._fetch(host, identifiers[start : start + _FETCH_BATCH_LIMIT]))
+        for start in range(0, len(identifiers), self._page_size):
+            records.extend(self._fetch(host, identifiers[start : start + self._page_size]))
         return tuple(sorted(records, key=lambda record: record.record_id))
+
+    def query(
+        self, name: str, vector: tuple[float, ...], top_k: int
+    ) -> tuple[LiveRetrievedRecord, ...]:
+        """Run one read-only ranked query for the live retrieval evaluator."""
+        records, _response = self._query_response(name, vector, top_k)
+        return records
+
+    def query_with_receipt(
+        self, name: str, vector: tuple[float, ...], top_k: int, request_id: str
+    ) -> LiveRetrievalQueryResult:
+        """Run one ranked query and preserve its provider/readback identity."""
+        if type(request_id) is not str or not request_id:
+            raise PromotionError(PromotionErrorCode.PROFILE_INVALID, "query request id invalid")
+        records, response = self._query_response(name, vector, top_k)
+        result_fingerprint = live_query_result_fingerprint(records)
+        return LiveRetrievalQueryResult(
+            records,
+            request_id,
+            response.request_id,
+            query_readback_receipt_id(request_id, response.request_id, result_fingerprint),
+            result_fingerprint,
+        )
+
+    def _query_response(
+        self, name: str, vector: tuple[float, ...], top_k: int
+    ) -> tuple[tuple[LiveRetrievedRecord, ...], ProviderResponse]:
+        """Return the parsed ranked records together with transport accounting."""
+        self._require_target(name)
+        if (
+            type(top_k) is not int
+            or not 1 <= top_k <= _QUERY_TOP_K_LIMIT
+            or not vector
+            or any(not math.isfinite(value) for value in vector)
+        ):
+            raise PromotionError(PromotionErrorCode.VECTOR_INVALID, "query input invalid")
+        response = self._send(
+            "VECTOR_QUERY",
+            "POST",
+            f"{self._data_plane(name)}/query",
+            {
+                "includeMetadata": True,
+                "namespace": self._namespace,
+                "topK": top_k,
+                "vector": list(vector),
+            },
+        )
+        body = _object(response.payload, "query response must be an object")
+        raw_matches = body.get("matches")
+        if not isinstance(raw_matches, list):
+            raise PromotionError(PromotionErrorCode.VECTOR_INVALID, "query matches missing")
+        matches: list[LiveRetrievedRecord] = []
+        for raw_match in raw_matches:
+            match = _object(raw_match, "query match must be an object")
+            metadata = _object(match.get("metadata"), "query metadata must be an object")
+            if set(metadata) != set(SERVING_METADATA_KEYS):
+                raise PromotionError(PromotionErrorCode.SERVING_PAYLOAD_INVALID, "query metadata")
+            matches.append(
+                LiveRetrievedRecord(
+                    _text(match, "id"),
+                    _number(match.get("score")),
+                    _text(metadata, "text"),
+                    _text(metadata, "country"),
+                    _text(metadata, "jurisdiction"),
+                    _text(metadata, "type"),
+                    _text(metadata, "source"),
+                    _text(metadata, "authority_note"),
+                )
+            )
+        return tuple(matches), response
 
     def _list_identifiers(self, host: str) -> list[str]:
         identifiers: list[str] = []
         token = ""
+        namespace = quote(self._namespace, safe="")
         while True:
-            url = f"{host}/vectors/list?limit={_LIST_PAGE_LIMIT}"
+            url = f"{host}/vectors/list?namespace={namespace}&limit={self._page_size}"
             if token:
-                url = f"{url}&paginationToken={token}"
-            response = self._transport.send("GET", url, self._config.headers())
+                url = f"{url}&paginationToken={quote(token, safe='')}"
+            response = self._send("VECTOR_LIST", "GET", url)
             body = _object(response.payload, "vector list must be a JSON object")
             listed = body.get("vectors")
             if isinstance(listed, list):
@@ -617,9 +834,14 @@ class PineconeServingTargetStore:
     def _fetch(self, host: str, identifiers: list[str]) -> list[TargetRecord]:
         if not identifiers:
             return []
-        query = "&".join(f"ids={identifier}" for identifier in identifiers)
-        response = self._transport.send(
-            "GET", f"{host}/vectors/fetch?{query}", self._config.headers()
+        namespace = quote(self._namespace, safe="")
+        identifiers_query = "&".join(
+            f"ids={quote(identifier, safe='')}" for identifier in identifiers
+        )
+        response = self._send(
+            "VECTOR_FETCH",
+            "GET",
+            f"{host}/vectors/fetch?namespace={namespace}&{identifiers_query}",
         )
         body = _object(response.payload, "vector fetch must be a JSON object")
         vectors = body.get("vectors")
@@ -629,66 +851,99 @@ class PineconeServingTargetStore:
         for identifier, raw in vectors.items():
             if not isinstance(raw, dict):
                 raise PromotionError(PromotionErrorCode.VECTOR_INVALID, "vector is not an object")
-            metadata = raw.get("metadata")
-            fields = metadata if isinstance(metadata, dict) else {}
-            payload: dict[str, str] = {}
-            for key in SERVING_METADATA_KEYS:
-                value = fields.get(key)
-                payload[key] = value if type(value) is str else ""
-            values = raw.get("values")
-            if not isinstance(values, list):
-                raise PromotionError(PromotionErrorCode.VECTOR_INVALID, "vector values missing")
-            records.append(
-                TargetRecord(
-                    identifier,
-                    serving_metadata_fingerprint(payload) if all(payload.values()) else "",
-                    tuple(_number(value) for value in values),
-                    payload["text"],
-                    payload["country"],
-                    payload["jurisdiction"],
-                    payload["type"],
-                    payload["source"],
-                    payload["authority_note"],
-                )
-            )
+            records.append(self._record_from_vector(identifier, raw))
         return records
+
+    @staticmethod
+    def _record_from_vector(identifier: str, raw: dict[str, JsonValue]) -> TargetRecord:
+        metadata = raw.get("metadata")
+        fields = metadata if isinstance(metadata, dict) else {}
+        payload: dict[str, str] = {}
+        for key in SERVING_METADATA_KEYS:
+            value = fields.get(key)
+            payload[key] = value if type(value) is str else ""
+        values = raw.get("values")
+        if not isinstance(values, list):
+            raise PromotionError(PromotionErrorCode.VECTOR_INVALID, "vector values missing")
+        return TargetRecord(
+            identifier,
+            serving_metadata_fingerprint(payload) if all(payload.values()) else "",
+            tuple(_number(value) for value in values),
+            payload["text"],
+            payload["country"],
+            payload["jurisdiction"],
+            payload["type"],
+            payload["source"],
+            payload["authority_note"],
+        )
 
     def delete_exact(self, name: str, exact_name: str) -> str:
         """Delete only the exact named index, and only when authorized to destroy."""
+        self._require_target(name)
         if name != exact_name:
             raise PromotionError(PromotionErrorCode.BROAD_RETIREMENT_FORBIDDEN)
-        if not self._destructive_authorized:
+        if self._operation_gate is None:
             message = f"deleting index {name} requires explicit destructive authorization"
             raise PromotionError(PromotionErrorCode.BROAD_RETIREMENT_FORBIDDEN, message)
-        self._transport.send(
+        self._operation_gate.require_delete(f"deleting index {name}")
+        self._send(
+            "INDEX_DELETE",
             "DELETE",
             f"{self._config.control_plane_host}/indexes/{name}",
-            self._config.headers(),
         )
         self._hosts.pop(name, None)
         return _stable_id("efr", "retire", name)
 
     def contains(self, name: str) -> bool:
         """Report whether the exact index exists in this project."""
+        self._require_target(name)
         return self._index_entry(name) is not None
 
     def verify_queries(self, name: str, expected_record_ids: tuple[str, ...]) -> None:
-        """Prove every expected record is actually retrievable from the target."""
+        """Prove every expected record is returned by an exact semantic query."""
+        self._require_target(name)
         if not expected_record_ids:
             return
         host = self._data_plane(name)
-        found = {record.record_id for record in self._fetch(host, list(expected_record_ids))}
-        missing = set(expected_record_ids) - found
-        if missing:
-            message = f"{len(missing)} expected record(s) not retrievable: {sorted(missing)[:5]}"
+        expected = {
+            record.record_id: record for record in self._fetch(host, list(expected_record_ids))
+        }
+        if set(expected) != set(expected_record_ids):
+            message = "expected query witnesses are absent from target readback"
             raise PromotionError(PromotionErrorCode.RETRIEVAL_GATE_FAILED, message)
+        for record_id in expected_record_ids:
+            record = expected[record_id]
+            response = self._send(
+                "VECTOR_QUERY",
+                "POST",
+                f"{host}/query",
+                {
+                    "filter": {"text": {"$eq": record.metadata_text}},
+                    "includeMetadata": True,
+                    "includeValues": True,
+                    "namespace": self._namespace,
+                    "topK": 1,
+                    "vector": list(record.vector),
+                },
+            )
+            body = _object(response.payload, "query result must be a JSON object")
+            matches = body.get("matches")
+            if not isinstance(matches, list) or len(matches) != 1:
+                raise PromotionError(PromotionErrorCode.RETRIEVAL_GATE_FAILED, "query cardinality")
+            match = _object(matches[0], "query match must be an object")
+            if match.get("id") != record_id:
+                raise PromotionError(PromotionErrorCode.RETRIEVAL_GATE_FAILED, "query identity")
+            returned = self._record_from_vector(record_id, match)
+            if returned != record:
+                raise PromotionError(PromotionErrorCode.RETRIEVAL_GATE_FAILED, "query readback")
 
     def describe_stats(self, name: str) -> dict[str, object]:
         """Return the target's own statistics, for reconciliation and reporting."""
-        response = self._transport.send(
+        self._require_target(name)
+        response = self._send(
+            "INDEX_STATS",
             "POST",
             f"{self._data_plane(name)}/describe_index_stats",
-            self._config.headers(),
             {},
         )
         body = _object(response.payload, "index stats must be a JSON object")

@@ -16,6 +16,7 @@ from asklegal_source_connectors import (
     HK_CASE_SOURCE_ACCESS_FORBIDDEN_EFFECTS,
     HK_CASE_SOURCE_IDS,
     EndpointAccessMode,
+    EndpointInvocationKind,
     HttpMethod,
     OfficialEndpointContract,
     OfficialSourceState,
@@ -42,25 +43,107 @@ def _json(path: Path) -> dict[str, JsonValue]:
     return document
 
 
-def test_register_freezes_all_roles_without_claiming_endpoint_admission() -> None:
+def test_register_freezes_all_roles_without_claiming_complete_admission() -> None:
     register = load_hk_cases_source_register()
 
+    assert register.register_version == "2026-09-06.1"
     assert register.fingerprint == (
-        "sha256:c1c22ab94bb7ebdc95b6597c74856c430572a3887900deb1d57645fa186c33e4"
+        "sha256:a697a7f7b9b1327169d368ebdef722ee71d6dae447057c8da2a502b5bcdbe13e"
     )
     assert tuple(source.source_id for source in register.sources) == tuple(
         sorted(HK_CASE_SOURCE_IDS)
     )
-    assert register.endpoints == ()
+    assert len(register.endpoints) == 6
     assert not register.operationally_admitted
     assert register.access_boundary.forbidden_effects == (HK_CASE_SOURCE_ACCESS_FORBIDDEN_EFFECTS)
-    assert all(
-        source.operational_state is OfficialSourceState.BLOCKED
-        and source.rights_state is PublisherRightsState.UNVERIFIED
-        and source.endpoint_ids == ()
-        and source.blockers
-        for source in register.sources
+    assert all(source.blockers for source in register.sources)
+
+
+def test_user_attested_authority_binds_exact_judiciary_and_hklii_endpoints() -> None:
+    """Task 7 exposes only exact observed routes and keeps baseline gaps visible."""
+    register = load_hk_cases_source_register()
+    sources = {source.source_id: source for source in register.sources}
+
+    assert sources["HK-CASE-HKLII-DISCOVERY"].rights_state is (
+        PublisherRightsState.USER_ATTESTED_PERMISSION_DOCUMENT_PENDING
     )
+    assert sources["HK-CASE-JUDICIARY-LRS-INVENTORY"].operational_state is (
+        OfficialSourceState.PARTIALLY_CONFIGURED
+    )
+    assert "YEAR_QUERY_BINDING_AND_TRAVERSAL_PROOF_PENDING" not in (
+        sources["HK-CASE-JUDICIARY-LRS-INVENTORY"].blockers
+    )
+
+    endpoints = {endpoint.name: endpoint for endpoint in register.endpoints}
+    assert endpoints["JUDICIARY_CURRENT_JUDGMENTS"].url == (
+        "https://legalref.judiciary.hk/lrs/common/index.jsp?target=newjudgments&lan=en"
+    )
+    assert endpoints["JUDICIARY_ALL_COURTS_RSS"].url == (
+        "https://legalref.judiciary.hk/lrs/common/rss/newjudgments.all.xml"
+    )
+    assert endpoints["JUDICIARY_ADVANCED_YEAR_SEARCH"].url == (
+        "https://legalref.judiciary.hk/lrs/common/search/search_result_form.jsp?"
+        "isadvsearch=1&stem=1&selall2=1&selallct=1"
+    )
+    assert endpoints["JUDICIARY_ADVANCED_YEAR_SEARCH"].version == "1.0.13"
+    assert endpoints["JUDICIARY_DYNAMIC_JUDGMENT_DETAIL"].source_id == (
+        "HK-CASE-JUDICIARY-JUDGMENT"
+    )
+    assert endpoints["JUDICIARY_DYNAMIC_JUDGMENT_DETAIL"].evidence_role == (
+        "DYNAMIC_LISTING_DERIVED_JUDGMENT_LOCATOR_BOUNDARY"
+    )
+    assert endpoints["HKLII_CASES_DISCOVERY"].url == "https://www.hklii.hk/en/cases"
+    for endpoint in endpoints.values():
+        if endpoint.invocation_kind is EndpointInvocationKind.REDIRECT_TARGET_ONLY:
+            continue
+        source, resolved = register.resolve_endpoint(endpoint.endpoint_id, endpoint.version)
+        assert resolved is endpoint
+        assert source.source_id == endpoint.source_id
+
+
+def test_judiciary_current_listing_uses_the_exact_session_entry_and_registered_final_target() -> (
+    None
+):
+    """Direct final-JSP bootstrap must not replace the one published session entry."""
+    register = load_hk_cases_source_register()
+    endpoints = {endpoint.name: endpoint for endpoint in register.endpoints}
+
+    entry = endpoints["JUDICIARY_CURRENT_JUDGMENTS"]
+    assert entry.url == (
+        "https://legalref.judiciary.hk/lrs/common/index.jsp?target=newjudgments&lan=en"
+    )
+    assert entry.methods == (HttpMethod.GET,)
+    final = endpoints["JUDICIARY_CURRENT_JUDGMENTS_SESSION_TARGET"]
+    assert final.endpoint_id == "sep_000000000000000000000000000000000000000000000205"
+    assert final.url == "https://legalref.judiciary.hk/lrs/common/ju/newjudgments.jsp"
+    assert final.methods == (HttpMethod.GET,)
+    assert final.access_mode is EndpointAccessMode.DIRECT_HTTP
+    assert final.enabled is True
+    assert final.invocation_kind is EndpointInvocationKind.REDIRECT_TARGET_ONLY
+
+    with pytest.raises(PermissionError, match="directly invoked"):
+        register.resolve_endpoint(final.endpoint_id, final.version)
+
+    assert (
+        register.resolve_redirect_target(
+            entry_endpoint_id=entry.endpoint_id,
+            method=HttpMethod.GET,
+            target_endpoint_id=final.endpoint_id,
+        )
+        is final
+    )
+
+    for entry_endpoint_id, method, target_endpoint_id in (
+        (entry.endpoint_id, HttpMethod.HEAD, final.endpoint_id),
+        (entry.endpoint_id, HttpMethod.GET, entry.endpoint_id),
+        ("sep_000000000000000000000000000000000000000000000203", HttpMethod.GET, final.endpoint_id),
+    ):
+        with pytest.raises(PermissionError, match="redirect transition"):
+            register.resolve_redirect_target(
+                entry_endpoint_id=entry_endpoint_id,
+                method=method,
+                target_endpoint_id=target_endpoint_id,
+            )
 
 
 def test_package_and_access_register_freeze_the_same_fact_authority() -> None:
@@ -81,6 +164,9 @@ def test_package_and_access_register_freeze_the_same_fact_authority() -> None:
         assert package_source["permitted_use"] == source.fact_authority
         assert package_source["completeness_rule"] == source.completeness_authority
     package_manifest = _json(PACKAGE_ROOT / "package.json")
+    assert package_manifest["package_fingerprint"] == (
+        "sha256:ce81651ac8c7952a8c3a0099ba68f7085a179d9cb75a2b420b25cbe4e1cce329"
+    )
     contract_locks = package_manifest["contract_locks"]
     assert isinstance(contract_locks, list)
     assert register.fingerprint in contract_locks
@@ -102,19 +188,19 @@ def test_outage_authority_keeps_inventory_and_discovery_distinct() -> None:
     )
 
 
-def test_no_endpoint_can_resolve_or_reach_transport() -> None:
+def test_unknown_endpoint_cannot_resolve_or_reach_transport() -> None:
     register = load_hk_cases_source_register()
 
     with pytest.raises(LookupError, match="unavailable"):
         register.resolve_endpoint(
-            "sep_000000000000000000000000000000000000000000000201",
+            "sep_000000000000000000000000000000000000000000000299",
             "1.0.0",
         )
 
 
 def test_shared_endpoint_contract_accepts_cases_only_as_a_disabled_future_contract() -> None:
     endpoint = OfficialEndpointContract(
-        endpoint_id="sep_000000000000000000000000000000000000000000000201",
+        endpoint_id="sep_000000000000000000000000000000000000000000000299",
         source_id="HK-CASE-JUDICIARY-LRS-INVENTORY",
         version="1.0.0",
         name="TEST_ONLY_DISABLED_CASES_ENDPOINT",
@@ -138,10 +224,12 @@ def test_shared_endpoint_contract_accepts_cases_only_as_a_disabled_future_contra
         if source.source_id == "HK-CASE-JUDICIARY-LRS-INVENTORY"
     )
     sources = tuple(
-        replace(source, endpoint_ids=(endpoint.endpoint_id,)) if source is lrs else source
+        replace(source, endpoint_ids=(*source.endpoint_ids, endpoint.endpoint_id))
+        if source is lrs
+        else source
         for source in register.sources
     )
-    with pytest.raises(ValueError, match="no Cases endpoint"):
+    with pytest.raises(ValueError, match="every endpoint"):
         replace(register, sources=sources, endpoints=(replace(endpoint, enabled=True),))
 
 
@@ -153,9 +241,9 @@ def test_source_authority_or_operational_drift_fails_closed() -> None:
         if source.source_id == "HK-CASE-JUDICIARY-LRS-INVENTORY"
     )
 
-    with pytest.raises(ValueError, match="blocked"):
+    with pytest.raises(ValueError, match="authority"):
         replace(lrs, operational_state=OfficialSourceState.CONFIGURED)
-    with pytest.raises(ValueError, match="unverified"):
+    with pytest.raises(ValueError, match="authority"):
         replace(lrs, rights_state=PublisherRightsState.LEGAL_TEAM_CLEARED)
     with pytest.raises(ValueError, match="authority drift"):
         replace(

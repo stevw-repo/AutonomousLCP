@@ -10,6 +10,19 @@ depends_on:
 
 # Limit ordinary Hong Kong case coverage to binding courts
 
+## 2026-08-25 V1 amendment
+
+For the approved live V1 only, the statement below that separately accountable
+historical coverage includes pre-1997 superior-court and Privy Council material
+is superseded. V1 begins inclusively on 1 July 1997 and excludes every earlier
+Hong Kong Case; every official listing in the accepted binding-court families
+from that date onward still requires one exact disposition. The historical
+families remain part of this ADR's broader post-V1 design and have not been
+deleted or reclassified.
+
+The controlling V1 scope and exclusions are in the
+[Hong Kong Live V1 Execution Specification](../design/HK_V1_LIVE_EXECUTION_SPEC.md).
+
 Ordinary searchable Hong Kong Case coverage includes a court when the ratio of
 one of its decisions can bind at least one lower Hong Kong court. “Binding”
 does not mean that every proposition from that court binds every other Hong

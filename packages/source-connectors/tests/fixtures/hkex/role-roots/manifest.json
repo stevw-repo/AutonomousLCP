@@ -1,0 +1,55 @@
+{
+  "projection_version": "HKEX_ROLE_ROOT_PROJECTION_1.0.0",
+  "source_attempt_id": "hkex-live-baseline-20260901c",
+  "source_report_sha256": "74b8cfa325b6bfcc98c652d3ec413761a0792aebdf8d564bbe506719be294f75",
+  "fixtures": [
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000303",
+      "requested_url": "https://en-rules.hkex.com.hk/rulebook/main-board-fees-rules",
+      "retained_body_sha256": "43372da94b8da68e7a8707674c6bc95c7ab48bbf0b9667bce569aa017185f338",
+      "retained_byte_length": 223601,
+      "fixture_filename": "endpoint-303.html",
+      "fixture_sha256": "065c52609e7840727cfbf2616d758595edbaa0cca491766c07b000251969fbc7"
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000304",
+      "requested_url": "https://en-rules.hkex.com.hk/rulebook/gem-fees-rules",
+      "retained_body_sha256": "01549bd317215625c781b86c00a0e87b1f50716711cb1810a721add4a34562e2",
+      "retained_byte_length": 209185,
+      "fixture_filename": "endpoint-304.html",
+      "fixture_sha256": "88ccd08395992395b7dc613a39570b2fbce554ff5451bdab373420115c6b9cbb"
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000305",
+      "requested_url": "https://en-rules.hkex.com.hk/rulebook/main-board-regulatory-forms",
+      "retained_body_sha256": "2e237e06e5a9ff41cc3e11143d3cc6077ae2a98eec57f0ae6abc6a4ea11ac3e6",
+      "retained_byte_length": 174800,
+      "fixture_filename": "endpoint-305.html",
+      "fixture_sha256": "ad73755a54831930b0140c72ca05bd31e3076ab15d6b7dd17e6adf2a81580797"
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000306",
+      "requested_url": "https://en-rules.hkex.com.hk/rulebook/gem-regulatory-forms",
+      "retained_body_sha256": "e23338e5e2f603675393f49f96b2d8e2d6af051e4eaf53cd260647dc6c11a5be",
+      "retained_byte_length": 174380,
+      "fixture_filename": "endpoint-306.html",
+      "fixture_sha256": "36d16aef62e909d621a495dea2219363fc12c51897cd9b53c4fb7dba8683a354"
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000307",
+      "requested_url": "https://en-rules.hkex.com.hk/rulebook/amendments-main-board-listing-rules",
+      "retained_body_sha256": "8c3544ec0ba9ecea0168b7521061743f2c80c206984628ceff332f657a463710",
+      "retained_byte_length": 188747,
+      "fixture_filename": "endpoint-307.html",
+      "fixture_sha256": "9661b34363152639c7338f5332eb980f7aa2dadf55036131c6ad71cbad782cbc"
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000308",
+      "requested_url": "https://en-rules.hkex.com.hk/rulebook/amendments-gem-listing-rules",
+      "retained_body_sha256": "f69b727dfec1400e93061a9e6603ea5dc80f8e7fbaa07ddeaa458be8b0fb93d3",
+      "retained_byte_length": 187847,
+      "fixture_filename": "endpoint-308.html",
+      "fixture_sha256": "a7e76a804655d37c484e4a509553eca0d504a68abe3f58aa4fda5eb7dd368eca"
+    }
+  ]
+}

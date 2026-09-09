@@ -4,6 +4,108 @@ This glossary defines the stable language of the autonomous legal-database
 pipeline. Architecture and policy decisions belong in `DECISIONS.md` and
 `docs/adr/`; current work belongs in `WORKING_STATE.md`.
 
+## Current V1 position
+
+The approved V1 is the two-family local product defined by the
+[two-family resumable acquisition design](../docs/superpowers/specs/2026-09-02-two-family-resumable-acquisition-design.md):
+all three Hong Kong Legislation scopes and binding-court Case propositions from
+1 July 1997 onward. Azure models, embeddings, Pinecone, retained local human
+Approval, promotion, rollback, and continuous local operation remain included.
+HKEX Regulatory Materials and Principles are deferred until after V1.
+Pre-cutoff Cases, full-judgment records, Ask.Legal query/routing administration,
+and Azure application hosting are excluded.
+
+## Repository remote
+
+As of 2026-09-09, the user-renamed canonical GitHub repository is
+`https://github.com/stevw-repo/AutonomousLCP.git`. The local `origin` remote was
+updated and fetched against that location; its `main` branch was verified at
+`d165161d7daf831b93831441afb6362fb2722422` before the current commit/push
+preparation.
+
+## Current Hong Kong Cases acquisition boundary
+
+The checked-in Cases register is `2026-09-06.1`, fingerprint
+`sha256:a697a7f7b9b1327169d368ebdef722ee71d6dae447057c8da2a502b5bcdbe13e`.
+It binds discovery-only current-list and RSS procedures, the controlling full
+year-reconciliation procedure, and the listing-derived judgment locator
+boundary without granting live source access or asserting publisher rights.
+RSS and HKLII never prove completeness or no change.
+
+Cases acquisition uses the shared journal and a closed incremental/full cycle
+mode. A complete/no-change source state covers every year from 1997 through the
+cutoff with the inclusive first date `1997-07-01`; only an exact accepted
+predecessor plus equal complete full reconciliation can produce `NO_CHANGE`.
+Every listing occurrence is retained, physical captures alone deduplicate, and
+all correction/reissue/language/translation/alias/proceeding relationships have
+durable terminal dispositions included in completeness. Verified captures are
+wrapped in immutable canonical judgment bundles with exact read-back before a
+bundle ref can enter the manifest. Legal admission revalidates the full shape
+and its RFC 8785 fingerprint.
+
+## Exact promotion token-accounting boundary
+
+Promotion owns a provider-neutral `EmbeddingTokenCounter` port. Before Approval
+consumption or any embedding effect, the promotion worker requires the injected
+counter's exact tokenizer identity to match the frozen embedding profile and
+uses its exact builtin-integer count for each request. UTF-8 byte length remains
+only part of text identity; it is never a token-count proxy.
+
+Every embedding adapter receipt must echo the exact request count. The Azure
+adapter additionally requires a provider usage object and rejects every
+reported `prompt_tokens` or `total_tokens` value unless it is an exact builtin
+integer equal to the local count. Missing, malformed, contradictory, Boolean,
+zero, and over-profile accounting fails closed. Promotion does not import the
+processing implementation: composition injects the exact counter across the
+application/package boundary.
+
+## Current HKEX role-aware membership boundary
+
+This boundary is preserved historical/post-V1 context and is not a current V1
+completion prerequisite, scheduled source family, proposal member, or promotion
+member.
+
+The current Hong Kong Regulatory Materials register is `2026-09-01.2`,
+effective 2026-09-01, with canonical fingerprint
+`sha256:9af7fb460f3556d82b93620ba171cf7391480ad288268afce24ac03e8b7bbbb6`
+and raw SHA-256
+`404039ce835b9f891aed03f5e9a45f28cbf3620f599fcf434eda271515d59d5a`.
+It contains 20 static endpoints. The current Fees, Forms, and Updates source
+profiles are `2.0.0`, and the execution contract is the policy-bound
+`HKEX_ROLE_AWARE_2.0.0` schema-`2.0.0` surface.
+
+The common inert-DOM layer has separate role contracts. Fees discovers only
+its root PDF block. Forms captures the bounded 17-node tier and each node's
+single admitted PDF block. Updates reconciles the Main and GEM root and
+complete-section hierarchies by exact position, retains every raw occurrence,
+projects canonical same-host associations per parent, and keeps external
+references visible but unfetched. Semantic-only update container/page records
+never create requests. Static endpoints 317 and 318 remain the exact prevailing
+`Update_154_Attachment.pdf` and `Update_87_Attachment.pdf` captures and must
+reconcile with the derived membership.
+
+Every current execution is bounded by the exact static, logical, physical,
+redirect, pacing, and elapsed policy. Redirect evidence retains at most an
+8,193-octet raw Location prefix; one discarded lookahead octet proves overflow
+and byte 8,195 is never read. Reports and replay bind the complete plan,
+membership, association, physical-start, redirect, object, accounting, and
+policy facts. Retained replay must reproduce the report with no transport,
+clock, sleeper, or metadata effect.
+
+Authorities and attempts 803/804/805 (A/B/C) and their historical register,
+endpoint, authority, execution-binding, and raw-report facts remain immutable.
+They are not overlaid with the current register and do not authorize another
+effect. Each exact attempt is separately pinned for zero-effect retained replay;
+this is not a general HKEX historical-family exception.
+
+GLD is the autonomous local-only originating and earliest Gazette source; HKeL
+is complementary backcapture and recovery. The user reports government
+permission including local Turnstile traversal, but the actual evidence is not
+independently verified and remains an admission requirement. One local
+named-human Approval automatically wakes Promotion. V1 activation is the
+Management Register's verified Serving State transition for the approved
+complete Pinecone index, not Ask.Legal routing.
+
 ## Official Hong Kong Legislation source boundary
 
 `packages/source-connectors/src/asklegal_source_connectors/
@@ -47,9 +149,11 @@ discovery-only rendered-session port. ADR 0100 selects Patchright `1.62.1` in
 the acquisition worker as an ephemeral, exact-host discovery adapter. It
 returns a sanitized request map, never rendered executable HTML as evidence;
 all legal bytes still require inert re-fetch. The NPC application's stable
-`/index` route and its `enumData`, `aggregateData`, and `wjConfig` APIs are
-enabled as discovery metadata only and cannot prove a complete inventory or no
-change. The HKeL Gazette grid, date-window pagination, artifact locators,
+`/index` route and its `enumData`, `aggregateData`, and `wjConfig` APIs remain
+known dormant discovery vocabulary only. Both NPC source roles are outside V1,
+their register endpoints are disabled, and no V1 scheduler or admission
+manifest may select them. They cannot prove a complete inventory or no change.
+The HKeL Gazette grid, date-window pagination, artifact locators,
 session-bound inert PDF fetch, and canonical listing manifest have been exercised
 live. The role remains `PARTIALLY_CONFIGURED` because a closed date window is the
 implemented completeness unit; it is not a complete whole-register inventory.
@@ -82,6 +186,14 @@ drift, reports missing/duplicate/gap source identities, and blocks a missing or
 failed `RELEASE_BLOCKING` role. It is not yet assembled across every V1 source
 activity or bound into the final Coverage Status Manifest.
 
+The exact Hong Kong V1 acquisition cycle consumes Coverage Matrix `HK-V1-002`
+(`sha256:551a3cc2dfbaa6d4082076b19b6a74784e93225014654c7af958231c594ac512`)
+and derives `9/11/1/12` daily/weekly/monthly/full-periodic source roles. Monthly
+contains only the Basic Law portal. The two NPC identifiers remain in the
+14-role Legislation register vocabulary but are excluded from every due set.
+One shared exact-policy predicate rejects a loader-issued, resealed cadence swap
+before plan issuance, acquisition-client creation, or control-worker creation.
+
 The current V1 acquisition service schedules exact direct-HTTP endpoint capture,
 sequential multi-endpoint capture, complete-inventory capture, and the special
 date-windowed HKeL Gazette capture. The complete-inventory scheduler accepts only
@@ -108,17 +220,22 @@ and GLD browser products still need inert source-evidence procedures; Patchright
 cannot satisfy those gates. Service registration is executable code, not proof
 that any procedure is scheduled or running on the current host.
 
-The settled 2026-08-21 V1 direction retains direct GLD e-Gazette as the
+The settled V1 direction retains direct GLD e-Gazette as the
 originating/current-publication source and earliest official Gazette feed. GLD
 is the Gazette publisher; its official Important Notices say selected legal
 supplements are *also* available on HKeL “for information”. HKeL Gazette
 therefore remains complementary backcapture, recovery, reconciliation, and
-gap-detection evidence rather than an upstream replacement. GLD's Cloudflare
-Turnstile acceptance path is still a technical admission blocker and must not
-be bypassed. The checked-in register's `PARTIALLY_CONFIGURED` GLD role, counts,
-and fingerprint above remain executable truth; V1 source readiness requires a
-lawful repeatable or explicitly approved bounded manual acquisition procedure
-with exact completeness and no-change evidence.
+gap-detection evidence rather than an upstream replacement. On 2026-08-25 the
+user reported Hong Kong Government permission for the project's required GLD
+automation, including locally overcoming the public Cloudflare/Turnstile gate.
+The Government provides no API, allowlist, credential, or other official
+technical route. The report is not independently verified publisher evidence;
+the underlying authorization evidence must be preserved and admitted before
+enablement. V1 requires a fully autonomous local-only public-route procedure,
+with no manual fallback and no paid or remote challenge-solving service. The
+checked-in register's `PARTIALLY_CONFIGURED` role remains executable truth until
+repeated unattended completeness, no-change, renewal, restart, drift, and
+failure evidence passes admission.
 
 `v1-poc-runtime-proven` and `demo/expo-source-transformation` are disposable
 visual branches. They may supply informational discovery leads only. All code,
@@ -731,6 +848,25 @@ Controlled outbound official-source and admitted hosted model/embedding calls
 remain separately gated. So do credentials, Pinecone plan selection and the
 first real Pinecone mutation. These infrastructure decisions authorize design
 and repository implementation only, not deployment or any external effect.
+
+The user-approved live V1 product boundary was narrowed on 2026-08-25. V1
+contains all three Hong Kong Legislation scopes, proposition-level coverage for
+every accounted official judgment listing in the accepted binding-court
+families from 1 July 1997, and current HKEX Main Board and GEM Listing Rules.
+Principles is deferred until the user supplies reference-publication text after
+V1. Pre-handover Cases, full-judgment search, Ask.Legal query routing, and the
+Ask.Legal admin portal are outside V1. The deliverable is one complete approved
+Pinecone index plus continuous autonomous observation/processing/proposal work.
+The user reviews locally; valid Approval automatically starts promotion.
+
+GLD acquisition is a mandatory fully autonomous local-only V1 path. The user
+reports government permission for the required automated use, including
+locally overcoming the public Turnstile gate; no API, allowlist, service
+credential, or external solver is provided or selected. Permission evidence
+must be preserved before source admission. The approved compact evaluation uses
+a representative golden set, strict evidence/schema/attribution failures,
+simple expected-record retrieval checks, a short local report, and one repeat
+run rather than a research-grade benchmark.
 
 The static POC contracts are under `infrastructure/poc/`. `topology.json`
 declares 16 disabled services, 10 networks, and 25 credential reference names;

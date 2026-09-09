@@ -22,6 +22,20 @@ depends_on:
 
 # Establish the first Hong Kong Cases current-authority baseline
 
+## 2026-08-25 V1 amendment
+
+For the approved live V1, the statements below that the first baseline has no
+age cutoff, includes historical court families, and begins at the earliest
+evidence-supported historical boundary are superseded. The V1 boundary is the
+inclusive date 1 July 1997; pre-1-July-1997 superior-court and Privy Council
+material is excluded. Complete listing accounting, proposition-level serving,
+zero-proposition accounting, and corpus-wide treatment screening continue to
+apply inside the post-cutoff universe. The original text remains the broader
+post-V1 baseline design.
+
+The controlling V1 boundary is in the
+[Hong Kong Live V1 Execution Specification](../design/HK_V1_LIVE_EXECUTION_SPEC.md).
+
 The first Hong Kong Cases baseline answers one question at one fixed cutoff:
 
 > What complete set of Case Propositions from every required Hong Kong

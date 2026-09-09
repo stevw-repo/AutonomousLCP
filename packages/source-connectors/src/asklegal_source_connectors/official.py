@@ -15,12 +15,13 @@ from asklegal_contracts import canonicalize, parse_json_bytes
 from asklegal_contracts.json_types import checked_json_value
 from asklegal_domain import SourceOutageImpact
 
+from .hkel_authentic import HkelSessionMethod
 from .model import HttpMethod, exact_identifier, exact_string_tuple, exact_text
 
 if TYPE_CHECKING:
     from asklegal_contracts.json_types import JsonValue
 
-_POLICY_SOURCE_ID = re.compile(r"^HK-(?:LEG|CASE)-[A-Z0-9-]+$")
+_POLICY_SOURCE_ID = re.compile(r"^HK-(?:LEG|CASE|REG)-[A-Z0-9-]+$")
 _MAX_REGISTER_BYTES = 1_000_000
 HK_LEGISLATION_SOURCE_IDS = frozenset(
     {
@@ -49,6 +50,7 @@ class PublisherRightsState(StrEnum):
     LEGAL_TEAM_CLEARED = "LEGAL_TEAM_CLEARED"
     NAMED_OWNER_ACCEPTANCE_REQUIRED = "NAMED_OWNER_ACCEPTANCE_REQUIRED"
     PRIOR_WRITTEN_AUTHORIZATION_REQUIRED = "PRIOR_WRITTEN_AUTHORIZATION_REQUIRED"
+    USER_ATTESTED_PERMISSION_DOCUMENT_PENDING = "USER_ATTESTED_PERMISSION_DOCUMENT_PENDING"
     UNVERIFIED = "UNVERIFIED"
 
 
@@ -68,6 +70,13 @@ class EndpointAccessMode(StrEnum):
     BROWSER_SESSION = "BROWSER_SESSION"
     CATALOGUE_DISCOVERY = "CATALOGUE_DISCOVERY"
     PHYSICAL_HOLDING = "PHYSICAL_HOLDING"
+
+
+class EndpointInvocationKind(StrEnum):
+    """Whether a registered endpoint may be directly invoked."""
+
+    DIRECT_REQUEST = "DIRECT_REQUEST"
+    REDIRECT_TARGET_ONLY = "REDIRECT_TARGET_ONLY"
 
 
 class SignalUse(StrEnum):
@@ -157,7 +166,7 @@ class OfficialEndpointContract:
     name: str
     url: str
     access_mode: EndpointAccessMode
-    methods: tuple[HttpMethod, ...]
+    methods: tuple[HttpMethod | HkelSessionMethod, ...]
     media_types: tuple[str, ...]
     max_bytes: int
     complete_inventory_required: bool
@@ -165,6 +174,7 @@ class OfficialEndpointContract:
     proves_no_change: bool
     evidence_role: str
     enabled: bool
+    invocation_kind: EndpointInvocationKind = EndpointInvocationKind.DIRECT_REQUEST
 
     def __post_init__(self) -> None:
         exact_identifier(self.endpoint_id, "endpoint_id", "sep")
@@ -177,9 +187,18 @@ class OfficialEndpointContract:
         if (
             type(self.methods) is not tuple
             or not self.methods
-            or any(type(item) is not HttpMethod for item in self.methods)
+            or any(type(item) not in {HttpMethod, HkelSessionMethod} for item in self.methods)
         ):
-            raise TypeError("methods must be a non-empty exact tuple of HttpMethod")
+            raise TypeError("methods must be exact generic or HKeL-session methods")
+        session_methods = tuple(item for item in self.methods if type(item) is HkelSessionMethod)
+        if session_methods and (
+            session_methods != (HkelSessionMethod.POST,)
+            or self.methods != session_methods
+            or self.source_id != "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS"
+            or self.access_mode is not EndpointAccessMode.BROWSER_SESSION
+            or self.url != "https://www.elegislation.gov.hk/checkconfig/submitClientConfig.do"
+        ):
+            raise ValueError("specialized session method is bound to the exact HKeL action")
         exact_string_tuple(self.media_types, "media_types")
         if type(self.max_bytes) is not int or self.max_bytes < 1:
             raise TypeError("max_bytes must be a positive exact integer")
@@ -189,6 +208,8 @@ class OfficialEndpointContract:
             raise TypeError("signal_use must be an exact SignalUse")
         if type(self.proves_no_change) is not bool or type(self.enabled) is not bool:
             raise TypeError("endpoint booleans must be exact")
+        if type(self.invocation_kind) is not EndpointInvocationKind:
+            raise TypeError("invocation_kind must be exact")
         if self.signal_use is SignalUse.DISCOVERY_ONLY and (
             self.complete_inventory_required or self.proves_no_change
         ):
@@ -238,6 +259,7 @@ class OfficialSourceProfile:
             if self.rights_state not in {
                 PublisherRightsState.PUBLISHED_TERMS_PERMIT,
                 PublisherRightsState.LEGAL_TEAM_CLEARED,
+                PublisherRightsState.USER_ATTESTED_PERMISSION_DOCUMENT_PENDING,
             }:
                 raise ValueError("callable sources require admitted rights")
             if self.operational_state is OfficialSourceState.CONFIGURED and self.blockers:
@@ -375,8 +397,27 @@ class HongKongLegislationSourceRegister:
         if endpoint is None or endpoint.version != endpoint_version:
             raise LookupError("official endpoint or exact version is unavailable")
         source = next(item for item in self.sources if item.source_id == endpoint.source_id)
-        if source.operational_state is OfficialSourceState.BLOCKED or not endpoint.enabled:
+        if (
+            source.operational_state is OfficialSourceState.BLOCKED
+            or not endpoint.enabled
+            or endpoint.invocation_kind is not EndpointInvocationKind.DIRECT_REQUEST
+        ):
             raise PermissionError("official source is not operationally configured")
+        return source, endpoint
+
+    def resolve_registered_endpoint(
+        self,
+        endpoint_id: str,
+    ) -> tuple[OfficialSourceProfile, OfficialEndpointContract]:
+        """Resolve checked-in identity without granting endpoint-call authority."""
+        exact_identifier(endpoint_id, "endpoint_id", "sep")
+        endpoint = next(
+            (item for item in self.endpoints if item.endpoint_id == endpoint_id),
+            None,
+        )
+        if endpoint is None:
+            raise LookupError("official endpoint is unavailable")
+        source = next(item for item in self.sources if item.source_id == endpoint.source_id)
         return source, endpoint
 
 
@@ -530,28 +571,27 @@ def _parse_source(document: dict[str, JsonValue]) -> OfficialSourceProfile:
 
 
 def _parse_endpoint(document: dict[str, JsonValue]) -> OfficialEndpointContract:
-    _exact_keys(
-        document,
-        frozenset(
-            {
-                "endpoint_id",
-                "source_id",
-                "version",
-                "name",
-                "url",
-                "access_mode",
-                "methods",
-                "media_types",
-                "max_bytes",
-                "complete_inventory_required",
-                "signal_use",
-                "proves_no_change",
-                "evidence_role",
-                "enabled",
-            }
-        ),
-        "endpoint",
+    expected = frozenset(
+        {
+            "endpoint_id",
+            "source_id",
+            "version",
+            "name",
+            "url",
+            "access_mode",
+            "methods",
+            "media_types",
+            "max_bytes",
+            "complete_inventory_required",
+            "signal_use",
+            "proves_no_change",
+            "evidence_role",
+            "enabled",
+            "invocation_kind",
+        }
     )
+    if frozenset(document) not in {expected, expected - {"invocation_kind"}}:
+        raise ValueError("endpoint has unknown or missing fields")
     return OfficialEndpointContract(
         _string(document["endpoint_id"], "endpoint_id"),
         _string(document["source_id"], "source_id"),
@@ -559,7 +599,10 @@ def _parse_endpoint(document: dict[str, JsonValue]) -> OfficialEndpointContract:
         _string(document["name"], "name"),
         _string(document["url"], "url"),
         EndpointAccessMode(_string(document["access_mode"], "access_mode")),
-        tuple(HttpMethod(item) for item in _strings(document["methods"], "methods")),
+        tuple(
+            HkelSessionMethod(item) if item == "POST" else HttpMethod(item)
+            for item in _strings(document["methods"], "methods")
+        ),
         _strings(document["media_types"], "media_types"),
         _integer(document["max_bytes"], "max_bytes"),
         _boolean(document["complete_inventory_required"], "complete_inventory_required"),
@@ -567,6 +610,9 @@ def _parse_endpoint(document: dict[str, JsonValue]) -> OfficialEndpointContract:
         _boolean(document["proves_no_change"], "proves_no_change"),
         _string(document["evidence_role"], "evidence_role"),
         _boolean(document["enabled"], "enabled"),
+        EndpointInvocationKind(
+            _string(document.get("invocation_kind", "DIRECT_REQUEST"), "invocation_kind")
+        ),
     )
 
 
@@ -579,7 +625,7 @@ def _register_fingerprint(document: dict[str, JsonValue]) -> str:
 def _policy_source_id(value: object) -> str:
     text = exact_text(value, "source_id")
     if _POLICY_SOURCE_ID.fullmatch(text) is None:
-        raise ValueError("source_id must be a stable HK Legislation or Cases source identity")
+        raise ValueError("source_id must be a stable HK official-source identity")
     return text
 
 

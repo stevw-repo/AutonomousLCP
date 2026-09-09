@@ -2,7 +2,13 @@
 
 from __future__ import annotations
 
+import fcntl
 import json
+import os
+import stat
+from collections.abc import Generator
+from contextlib import contextmanager, suppress
+from hashlib import sha256
 from pathlib import Path
 
 from asklegal_contracts import canonicalize, parse_json_bytes
@@ -27,6 +33,7 @@ from .model import (
     bytes_fingerprint,
     content_logical_key,
     manifest_logical_key,
+    validate_logical_key,
 )
 from .ports import ImmutableVault
 
@@ -38,14 +45,68 @@ class LocalImmutableVault:
         """Create or open one explicit local fake root."""
         if type(vault_name) is not VaultName:
             raise TypeError("vault_name must be an exact VaultName")
+        if root.is_symlink():
+            raise ValueError("local vault vault root is invalid")
         self.root = root.resolve()
         self.vault_name = vault_name
         self._objects = self.root / "objects"
         self._metadata = self.root / "metadata"
-        self._objects.mkdir(parents=True, exist_ok=True)
-        self._metadata.mkdir(parents=True, exist_ok=True)
+        self._ensure_real_directory(self.root, "vault root", parents=True)
+        self._ensure_real_directory(self._objects, "objects root")
+        self._ensure_real_directory(self._metadata, "metadata root")
+
+    @staticmethod
+    def _ensure_real_directory(path: Path, label: str, *, parents: bool = False) -> None:
+        """Create one directory only when its existing identity is not an alias."""
+        if path.exists() or path.is_symlink():
+            if path.is_symlink() or not path.is_dir():
+                raise ValueError(f"local vault {label} is invalid")
+            return
+        with suppress(FileExistsError):
+            path.mkdir(parents=parents)
+        if path.is_symlink() or not path.is_dir():
+            raise ValueError(f"local vault {label} is invalid")
+
+    @contextmanager
+    def _key_lock(self, logical_key: str) -> Generator[None]:
+        """Hold one cross-instance/process advisory lock for a contained logical key."""
+        self._contained(self._objects, logical_key, "lock-validation")
+        locks = self.root / ".locks"
+        self._ensure_real_directory(locks, "lock root")
+        directory_fd = os.open(locks, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        lock_name = f"{sha256(logical_key.encode('utf-8')).hexdigest()}.lock"
+        try:
+            lock_fd = os.open(
+                lock_name,
+                os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW | os.O_CLOEXEC,
+                0o600,
+                dir_fd=directory_fd,
+            )
+            try:
+                if not stat.S_ISREG(os.fstat(lock_fd).st_mode):
+                    raise ValueError("local vault key lock is invalid")
+                fcntl.flock(lock_fd, fcntl.LOCK_EX)
+                try:
+                    yield
+                finally:
+                    fcntl.flock(lock_fd, fcntl.LOCK_UN)
+            finally:
+                os.close(lock_fd)
+        finally:
+            os.close(directory_fd)
 
     def conditional_create(
+        self,
+        logical_key: str,
+        content: bytes,
+        retention: RetentionProfile,
+    ) -> VaultWriteReceipt:
+        """Create/adopt under one exact cross-process key lock."""
+        logical_key = validate_logical_key(logical_key)
+        with self._key_lock(logical_key):
+            return self._conditional_create_locked(logical_key, content, retention)
+
+    def _conditional_create_locked(
         self,
         logical_key: str,
         content: bytes,
@@ -60,12 +121,16 @@ class LocalImmutableVault:
         version_id = f"v{fingerprint.removeprefix('sha256:')}"
         object_path = self._contained(self._objects, logical_key, version_id)
         metadata_path = self._contained(self._metadata, logical_key, f"{version_id}.json")
-        existing_versions = (
-            tuple(child.name for child in object_path.parent.iterdir() if child.is_file())
-            if object_path.parent.is_dir()
-            else ()
+        existing_versions = self._regular_child_names(object_path.parent, logical_key)
+        metadata_versions = tuple(
+            name.removesuffix(".json")
+            for name in self._regular_child_names(metadata_path.parent, logical_key)
         )
-        if existing_versions and version_id not in existing_versions:
+        if (
+            existing_versions not in {(), (version_id,)}
+            or metadata_versions not in {(), (version_id,)}
+            or bool(existing_versions) != bool(metadata_versions)
+        ):
             raise VaultCollision(logical_key)
         created = not object_path.exists()
         if created:
@@ -97,7 +162,9 @@ class LocalImmutableVault:
             fingerprint,
             len(content),
         )
-        self.read_exact(reference)
+        self._read_exact_unlocked(reference)
+        if self._retention_unlocked(reference) != retention:
+            raise VaultCollision(logical_key)
         return VaultWriteReceipt(
             reference=reference,
             created=created,
@@ -111,6 +178,11 @@ class LocalImmutableVault:
             raise TypeError("reference must be an exact ExactObjectReference")
         if reference.vault is not self.vault_name:
             raise ValueError("reference names a different vault")
+        with self._key_lock(reference.logical_key):
+            return self._read_exact_unlocked(reference)
+
+    def _read_exact_unlocked(self, reference: ExactObjectReference) -> bytes:
+        """Read verified content while the caller already holds the exact key lock."""
         path = self._contained(self._objects, reference.logical_key, reference.version_id)
         if not path.is_file():
             raise FileNotFoundError(reference.logical_key)
@@ -142,31 +214,82 @@ class LocalImmutableVault:
             return False
         return True
 
+    def resolve_current(self, logical_key: str) -> ExactObjectReference | None:
+        """Resolve only while the matching key transaction is not in progress."""
+        logical_key = validate_logical_key(logical_key)
+        with self._key_lock(logical_key):
+            return self._resolve_current_unlocked(logical_key)
+
+    def _resolve_current_unlocked(self, logical_key: str) -> ExactObjectReference | None:
+        """Return the sole retained local version for one key without mutation."""
+        candidate = self._contained(self._objects, logical_key, "placeholder").parent
+        if not candidate.is_dir():
+            return None
+        versions = self._regular_child_names(candidate, logical_key)
+        if len(versions) != 1:
+            raise CorruptEvidence(logical_key)
+        metadata_parent = self._contained(self._metadata, logical_key, "placeholder.json").parent
+        metadata_versions = self._regular_child_names(metadata_parent, logical_key)
+        if len(metadata_versions) != 1 or metadata_versions[0] != f"{versions[0]}.json":
+            raise CorruptEvidence(logical_key)
+        content = (candidate / versions[0]).read_bytes()
+        reference = ExactObjectReference(
+            self.vault_name,
+            logical_key,
+            versions[0],
+            bytes_fingerprint(content),
+            len(content),
+        )
+        self._read_exact_unlocked(reference)
+        self._retention_unlocked(reference)
+        return reference
+
     def retention(self, reference: ExactObjectReference) -> RetentionProfile:
         """Read the retained local policy facts for one exact version."""
+        if type(reference) is not ExactObjectReference:
+            raise TypeError("reference must be an exact ExactObjectReference")
+        if reference.vault is not self.vault_name:
+            raise ValueError("reference names a different vault")
+        with self._key_lock(reference.logical_key):
+            return self._retention_unlocked(reference)
+
+    def _retention_unlocked(self, reference: ExactObjectReference) -> RetentionProfile:
+        """Read exact retained policy only while the caller holds the matching key lock."""
         path = self._contained(
             self._metadata,
             reference.logical_key,
             f"{reference.version_id}.json",
         )
-        raw = path.read_bytes()
-        value = parse_json_bytes(raw, max_bytes=max(len(raw), 1))
+        try:
+            raw = path.read_bytes()
+            value = parse_json_bytes(raw, max_bytes=max(len(raw), 1))
+        except (OSError, TypeError, ValueError) as error:
+            raise CorruptEvidence(reference.logical_key) from error
         if not isinstance(value, dict):
             raise CorruptEvidence(reference.logical_key)
+        if frozenset(value) != frozenset(
+            {"byte_length", "fingerprint", "legal_hold", "profile_id", "retain_until"}
+        ):
+            raise CorruptEvidence(reference.logical_key)
+        byte_length = value.get("byte_length")
+        fingerprint = value.get("fingerprint")
         profile_id = value.get("profile_id")
         retain_until = value.get("retain_until")
         legal_hold = value.get("legal_hold")
         if (
-            not isinstance(profile_id, str)
+            type(byte_length) is not int
+            or type(fingerprint) is not str
+            or not isinstance(profile_id, str)
             or not isinstance(retain_until, str)
             or type(legal_hold) is not bool
+            or byte_length != reference.byte_length
+            or fingerprint != reference.fingerprint
         ):
             raise CorruptEvidence(reference.logical_key)
-        return RetentionProfile(
-            profile_id,
-            retain_until,
-            legal_hold,
-        )
+        retained = RetentionProfile(profile_id, retain_until, legal_hold)
+        if canonicalize(value) != raw:
+            raise CorruptEvidence(reference.logical_key)
+        return retained
 
     def destroy_exact(
         self,
@@ -178,18 +301,27 @@ class LocalImmutableVault:
         """Test exact-ID destruction; broad or held removal is impossible."""
         if type(authorized) is not bool:
             raise TypeError("authorized must be an exact boolean")
-        retention = self.retention(reference)
-        if not authorized or retention.legal_hold or now < retention.retain_until:
-            raise RetentionBlocked(reference.logical_key)
-        self.read_exact(reference)
-        object_path = self._contained(self._objects, reference.logical_key, reference.version_id)
-        metadata_path = self._contained(
-            self._metadata,
-            reference.logical_key,
-            f"{reference.version_id}.json",
-        )
-        object_path.unlink()
-        metadata_path.unlink()
+        if type(reference) is not ExactObjectReference:
+            raise TypeError("reference must be an exact ExactObjectReference")
+        if reference.vault is not self.vault_name:
+            raise ValueError("reference names a different vault")
+        if type(now) is not str:
+            raise TypeError("now must be an exact string")
+        with self._key_lock(reference.logical_key):
+            retention = self._retention_unlocked(reference)
+            if not authorized or retention.legal_hold or now < retention.retain_until:
+                raise RetentionBlocked(reference.logical_key)
+            self._read_exact_unlocked(reference)
+            object_path = self._contained(
+                self._objects, reference.logical_key, reference.version_id
+            )
+            metadata_path = self._contained(
+                self._metadata,
+                reference.logical_key,
+                f"{reference.version_id}.json",
+            )
+            object_path.unlink()
+            metadata_path.unlink()
 
     def inject_corruption(self, reference: ExactObjectReference, content: bytes) -> None:
         """Test-only fault injection for exact corruption branches."""
@@ -198,10 +330,28 @@ class LocalImmutableVault:
         path = self._contained(self._objects, reference.logical_key, reference.version_id)
         path.write_bytes(content)
 
-    @staticmethod
-    def _contained(root: Path, logical_key: str, filename: str) -> Path:
-        candidate = (root / logical_key / filename).resolve()
-        if not candidate.is_relative_to(root.resolve()):
+    def _regular_child_names(self, directory: Path, logical_key: str) -> tuple[str, ...]:
+        """List one real directory's leaves, rejecting partial or alias state."""
+        if not directory.exists():
+            return ()
+        if directory.is_symlink() or not directory.is_dir():
+            raise CorruptEvidence(logical_key)
+        children = tuple(directory.iterdir())
+        if any(child.is_symlink() or not child.is_file() for child in children):
+            raise CorruptEvidence(logical_key)
+        return tuple(child.name for child in children)
+
+    def _contained(self, root: Path, logical_key: str, filename: str) -> Path:
+        """Build a lexical contained path while refusing every existing symlink component."""
+        validated_key = validate_logical_key(logical_key)
+        if logical_key != validated_key:
+            raise ValueError("logical key is not canonical")
+        candidate = root
+        for component in (*Path(validated_key).parts, filename):
+            candidate = candidate / component
+            if candidate.is_symlink():
+                raise ValueError("local vault path contains a symlink")
+        if not candidate.is_relative_to(root):
             raise ValueError("logical key escaped the vault root")
         return candidate
 

@@ -8,8 +8,14 @@ Read this first, then `.agent/ROADMAP.md` and `.agent/WORKING_STATE.md`.
 - Host: `docpro-MS-7D99`, Ubuntu 24.04.4 LTS, x86-64
 - Branch: `main`; substantive V1 code checkpoint `da90a87` and its later
   continuity checkpoint `d165161` were pushed to `origin/main` on 2026-08-22.
-  `d165161` is the base of the complete validated V1 checkpoint described here;
-  inspect Git directly for its committed checkpoint hash and remote alignment.
+  Local checkpoint `4be0391` contains the complete validated V1 work described
+  here and is one commit ahead of the locally recorded `origin/main`.
+- The attempted push of the 1,486-file private-repository payload to configured
+  `https://github.com/stevw-repo/AskLegal-LegalDBPipeline.git` was rejected by
+  the execution environment's sensitive-egress reviewer. Another attempt needs
+  explicit user confirmation of that exact payload and destination, or a user
+  choice to change the remote to GitHub's reported `AutonomousLCP` destination.
+  Do not work around the rejection.
 - GitHub accepted the push through the configured old remote but reported that
   the repository moved to `https://github.com/stevw-repo/AutonomousLCP.git`.
   The configured remote has not been changed; reconcile it before relying on
@@ -35,13 +41,13 @@ Verified result:
 
 - strict Pyright: 0 errors, warnings, or information messages;
 - Ruff lint: clean;
-- Ruff format: all 454 Python files formatted;
-- Python boundary: 255 files, the same 12 exact reviewed exceptions;
+- Ruff format: all 468 formatter-checked files formatted;
+- Python boundary: 257 files, the same 12 exact reviewed exceptions;
 - architecture: 5 applications, 14 packages, 80 dependency edges, 31
   capability ports;
 - contracts: reproducible package fingerprint
   `sha256:92b5193ca9fa45d2260ee2012cd350818136f4d12b1d93e763a67b827d15c455`;
-- ordinary suite: 1524 passed, 4 skipped in 181.91 seconds.
+- ordinary suite: 1725 passed, 4 skipped in 185.52 seconds.
 
 The four skipped tests are the intended opt-in gates. All four were run
 separately and passed:
@@ -106,13 +112,38 @@ Docker/Buildx-only adapter for a shell that already has Docker permission.
 
 ## Current V1 position
 
+The controlling current scope is the
+[Hong Kong Live V1 Execution Specification](../docs/design/HK_V1_LIVE_EXECUTION_SPEC.md).
+It contains only the three approved families: all three Hong Kong Legislation
+scopes, post-1-July-1997 binding-court Case propositions, and current HKEX Main
+Board and GEM Listing Rules. Principles, pre-cutoff Cases, full-judgment search
+records, Ask.Legal routing/administration, and Azure application hosting are
+outside V1. Compact evaluation and one local named-human Approval followed by
+automatic Promotion apply. Activation is the Management Register's verified
+Serving State transition, not an Ask.Legal route.
+
 HKV1-0 and HKV1-2 remain acquisition/scope work. Direct GLD e-Gazette is the
-earliest originating official Gazette source and remains in V1, but its lawful
-Turnstile-gated acquisition procedure is not admitted. HKeL Gazette remains
-complementary backcapture, recovery, reconciliation, and gap evidence. The
-repository has 79 endpoint contracts, 56 enabled; five source roles are
-configured, five partially configured, one technically blocked, and three out
-of V1 scope.
+earliest originating official Gazette source and remains in V1. The user
+reports Hong Kong Government permission for the required local automation,
+including locally overcoming Turnstile, but no API, allowlist, credential, or
+official technical route exists. V1 requires a fully autonomous local-only
+public-route procedure with preserved authorization evidence, no manual
+fallback, and no external solver; that procedure is not yet admitted. HKeL
+Gazette remains complementary backcapture, recovery, reconciliation, and gap
+evidence. The repository has 79 endpoint contracts, 56 enabled; five source
+roles are configured, five partially configured, one technically blocked, and
+three out of V1 scope.
+
+Plan 1's scope/authority checkpoint is complete. Its independent whole-plan
+exit re-review returned **Ready for Plan 2** with no Critical, Important, or
+Minor finding. Its exact ready input is matrix `HK-V1-002`, fingerprint
+`sha256:551a3cc2dfbaa6d4082076b19b6a74784e93225014654c7af958231c594ac512`.
+The Matrix retains all 53 source-role rows, with eight exclusion codes, three
+excluded rows, 50 active rows, and exact `9/11/1/12` periodic due sets. Both NPC
+roles are dormant vocabulary and cannot enter V1 scheduling or admission.
+This does not change HKV1-0's `IN PROGRESS` state: Gate A remains
+`NOT_ADMITTED` with its source technical and rights admission blockers, and no
+external source access is authorized.
 
 HKV1-3 through HKV1-6 remain the largest product gaps:
 
@@ -314,9 +345,11 @@ HKV1-3 through HKV1-6 remain the largest product gaps:
   selection, release accounting, and activation remain empty. No endpoint,
   authentic HKEX artifact/tree, real component inventory, Search Record, or
   baseline exists;
-- Principles still needs publisher/title/licence selection. If omitted, the
-  release cannot honestly be called the complete Hong Kong jurisdiction defined
-  by the accepted design.
+- Principles is explicitly deferred until after this three-family V1, when the
+  user will provide reference-publication text. It is not a V1 blocker. The V1
+  must be labelled as complete Hong Kong Legislation, post-1-July-1997 binding-
+  case propositions, and HKEX Listing Rules rather than the broader four-family
+  jurisdiction described by the initial design.
 
 HKV1-8's first `BEGIN`/Effect Intent slice is now implemented against Promotion
 action contract `1.0.0`: the approved bytes bind every exact per-action effect/
@@ -470,10 +503,12 @@ passes 353 tests, and the current complete gate passes 1524 tests/4 intentional 
 It grants `BUILD_COMPATIBILITY` only and remains outside the immutable package;
 authentic evidence, real scope admission, and activation remain false.
 
-The current Hong Kong Cases whole-judgment treatment-discovery checkpoint
-passes strict Pyright 0, Ruff clean/454 formatted, Python boundary 255 files with
-the unchanged 12 reviewed exceptions, all architecture/contract/package/
-reproducibility gates, and 1524 passed/4 intentional skips in 181.91 seconds.
+The pre-Plan-1 Hong Kong Cases whole-judgment treatment-discovery checkpoint
+passed strict Pyright 0, Ruff clean/465 formatter-checked, Python boundary 255
+files with the unchanged 12 reviewed exceptions, all architecture/contract/
+package/reproducibility gates, and 1524 passed/4 intentional skips in 181.31
+seconds. The controlling current Plan 1 proof is the 1725/4, 468-file, and
+257-boundary-file result in `Verified engineering state` above.
 Its direct discovery/package suite passes 85 tests. Two consecutive rebuilt
 559-file package trees have identical digest
 `86ff3164e5e60679205d515f4b5d0a6857bfbfa44b7bb204a0cd17898063b559`.
@@ -542,21 +577,38 @@ create another checkpoint commit or push without new exact authorization.
 
 ## Exact next work
 
-1. Keep production V1 composition unavailable unless the exact manifest-bound
-   capability profile resolves to current admitted HKV1-7 evidence; no side
-   override or global enable flag may substitute.
-2. Audit retained HKeL XML/XSD, verified-copy/PDF, and publication-specification
-   evidence before implementing any authentic parser. The 2026-08-24 workspace
-   and disposable-demo-branch audit found zero such bytes; do not claim support
-   from the completed source-neutral ADR 0040 fixtures.
-3. Extend the Hong Kong Cases access register with exact official Judiciary
-   endpoint/enumeration/rights/format contracts only from preserved evidence;
-   freeze no concrete court-year scope until its cutoff and historical boundary
-   are evidenced.
-4. Implement the remaining source-neutral Cases treatment-discovery,
-   treatment-candidate, graph, correction, and evaluation boundaries without
-   enabling a provider call.
-5. Compose exact admitted Entra/current-authority/current-state/capability
-   readers once their real local inputs exist.
-6. Keep the proved `BEGIN` service and every provider handler out of real
-   composition until HKV1-7 target/profile admission is complete.
+Plan 1 exit re-review is complete: **Ready for Plan 2**.
+
+1. Plan 2 source-neutral Tasks 1–6 and the disabled Task 7 preflight are
+   reviewed against exact `HK-V1-002`. Proceed only with Plan 2 Task 7 authentic
+   source admission after receiving exact immutable publisher-permission
+   references, authorized hosts/procedures, the Asia/Hong_Kong observation
+   window, and per-host terms state/evidence. Gate A remains `NOT_ADMITTED`;
+   source technical and rights admission remain open.
+   The 2026-08-27 offline-execution audit found no dependency-valid positive
+   local slice: the current Cases/HKEX models prohibit admitted endpoints,
+   concrete Judiciary/HKEX adapters and authentic HKeL parsing do not exist,
+   and the canonical due cycle is unconditionally unadmitted. Do not invent an
+   execute-mode facade. Resume from
+   `.superpowers/sdd/2026-08-25-hk-v1-02-autonomous-source-acquisition/task-7-offline-execution-audit.md`
+   when the exact authority/source facts arrive.
+   The approved 2026-08-27 GET/HEAD inspection is now complete; read
+   `.superpowers/sdd/2026-08-25-hk-v1-02-autonomous-source-acquisition/task-7-read-only-source-inspection-report.md`
+   before any source action. It verified: GLD has an explicit unaccepted terms
+   gate and prior-written-authorization condition; DATA.GOV.HK permits
+   commercial reuse with attribution/indemnity but treats access as acceptance;
+   direct HKeL requires a technical configuration POST and blocks generic
+   robots; Judiciary requires written commercial-use permission; HKEX requires
+   express written permission for programmatic/database use; and HKLII blocks
+   automated Case-law collection. Basic Law/GRS were outside the approved host
+   list and remain uninspected.
+2. During Plan 2, keep production V1 composition unavailable unless the
+   exact manifest-bound capability profile resolves to current admitted
+   HKV1-7 evidence; no side override or global enable flag may substitute.
+3. Audit retained authentic source evidence before any authentic parser work;
+   source-neutral fixtures do not prove real-source readiness.
+4. Obtain the exact action-specific authority before external source, provider,
+   Pinecone, host, credential, commit, or push actions. Follow the user's
+   approval-first workflow: first present the exact target, method, purpose,
+   limits, time window, side effects, and terms implications, then wait for the
+   user's approval before acting.

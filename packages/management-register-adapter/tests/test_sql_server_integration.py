@@ -10,6 +10,8 @@ import pytest
 from asklegal_contracts import canonicalize
 from asklegal_contracts.json_types import checked_json_value
 from asklegal_management_register import (
+    ApprovedPromotionClaim,
+    ApprovedPromotionQueueStore,
     EffectHandoffStore,
     EffectReceiptRecord,
     RegisteredExecutionBeginCommand,
@@ -49,6 +51,9 @@ _V1_EXECUTION_BEGIN_MIGRATION = (
 )
 _V1_CLAIMED_EFFECT_READBACK_MIGRATION = (
     Path(__file__).parents[1] / "migrations" / "000009_claimed_effect_readback"
+)
+_V1_APPROVED_PROMOTION_WAKEUP_MIGRATION = (
+    Path(__file__).parents[1] / "migrations" / "000010_approved_promotion_wakeup"
 )
 
 _REGISTERED_APPROVAL_ID = "apr_" + "a" * 48
@@ -445,15 +450,34 @@ class _TerminalFixture:
     decision_fingerprint: bytes
 
 
+@dataclass(frozen=True, slots=True)
+class _TerminalFixtureInput:
+    """One deliberately malformed or non-approved SQL projection variant."""
+
+    approval_id: str | None = None
+    base_state_fingerprint: str | None = None
+    base_state_id: str | None = None
+    decision_event_type: str = "PROPOSAL_APPROVED"
+    decision_value: str = "APPROVED"
+    manifest_fingerprint: str | None = None
+    manifest_id: str | None = None
+    valid_from: str = "2026-08-22T00:00:00Z"
+
+
 def _register_terminal_fixture(
     database: MssqlConnectionFactory,
     marker: str,
+    *,
+    fixture_input: _TerminalFixtureInput | None = None,
 ) -> _TerminalFixture:
     """Register one independent schema-shaped approved proposal."""
-    proposal_id = "ppk_" + marker * 48
-    approval_id = "apr_" + marker * 48
-    manifest_id = "pmn_" + marker * 48
-    manifest_fingerprint = "sha256:" + marker * 64
+    fixture_input = fixture_input or _TerminalFixtureInput()
+    identity_suffix = sha256(f"terminal-fixture:{marker}".encode()).hexdigest()[:48]
+    fixture_fingerprint = "sha256:" + sha256(f"terminal-fingerprint:{marker}".encode()).hexdigest()
+    proposal_id = "ppk_" + identity_suffix
+    approval_id = fixture_input.approval_id or "apr_" + identity_suffix
+    manifest_id = fixture_input.manifest_id or "pmn_" + identity_suffix
+    manifest_fingerprint = fixture_input.manifest_fingerprint or fixture_fingerprint
     receipt = canonicalize(checked_json_value({"package_id": proposal_id, "state": "REVIEW_READY"}))
     registered = RegisterEventStore(database).record_event(
         RegisterEventCommand(
@@ -472,7 +496,7 @@ def _register_terminal_fixture(
             expected_absent=True,
             expires_at="9999-12-31T23:59:59",
             winner_key=f"review-ready:{proposal_id}",
-            event_id="evt_" + marker * 48,
+            event_id="evt_" + identity_suffix,
             event_type="PROPOSAL_REVIEW_READY",
             event_bytes=receipt,
         )
@@ -483,15 +507,15 @@ def _register_terminal_fixture(
             {
                 "approval_id": approval_id,
                 "authority_evidence_ref": {
-                    "fingerprint": "sha256:" + marker * 64,
-                    "ref_id": "evi_" + marker * 48,
+                    "fingerprint": fixture_fingerprint,
+                    "ref_id": "evi_" + identity_suffix,
                     "ref_type": "EVIDENCE",
                 },
-                "decision": "APPROVED",
+                "decision": fixture_input.decision_value,
                 "decision_time": "2026-08-22T00:01:00Z",
                 "expected_base_serving_state_ref": {
-                    "fingerprint": "sha256:" + marker * 64,
-                    "ref_id": "srv_" + marker * 48,
+                    "fingerprint": fixture_input.base_state_fingerprint or fixture_fingerprint,
+                    "ref_id": fixture_input.base_state_id or "srv_" + identity_suffix,
                     "ref_type": "SERVING_STATE",
                 },
                 "governance_policy_state": "CONFIGURED",
@@ -503,17 +527,17 @@ def _register_terminal_fixture(
                 },
                 "reason": "Terminal lifecycle SQL proof",
                 "reviewer_identity_ref": {
-                    "fingerprint": "sha256:" + marker * 64,
-                    "ref_id": "act_" + marker * 48,
+                    "fingerprint": fixture_fingerprint,
+                    "ref_id": "act_" + identity_suffix,
                     "ref_type": "ACTOR",
                 },
                 "schema_id": "asklegal.approval-decision",
                 "schema_version": "1.1.0",
-                "valid_from": "2026-08-22T00:00:00Z",
+                "valid_from": fixture_input.valid_from,
                 "validity_condition_refs": [
                     {
                         "contract_id": "configuration",
-                        "fingerprint": "sha256:" + marker * 64,
+                        "fingerprint": fixture_fingerprint,
                         "version": "1.0.0",
                     }
                 ],
@@ -539,7 +563,7 @@ def _register_terminal_fixture(
             expires_at="9999-12-31T23:59:59",
             winner_key=f"proposal-decision:{manifest_id}",
             event_id="evt_" + sha256(f"decision:{marker}".encode()).hexdigest()[:48],
-            event_type="PROPOSAL_APPROVED",
+            event_type=fixture_input.decision_event_type,
             event_bytes=decision,
         )
     )
@@ -551,6 +575,107 @@ def _register_terminal_fixture(
         manifest_fingerprint,
         sha256(decision).digest(),
     )
+
+
+def _raw_queue_claim(
+    database: MssqlConnectionFactory, worker_id: str, claimed_until: str
+) -> tuple[object, ...] | None:
+    """Call the queue procedure directly to prove SQL-owned grammar enforcement."""
+    connection = database()
+    cursor = connection.cursor()
+    try:
+        cursor.execute(
+            "EXEC promotion.claim_next_approved_promotion_v1 @worker_id = ?, @claimed_until = ?",
+            (worker_id, claimed_until),
+        )
+        row = cursor.fetchone()
+        connection.commit()
+    except Exception:
+        connection.rollback()
+        raise
+    else:
+        return row
+    finally:
+        cursor.close()
+        connection.close()
+
+
+def _queue_permission_rows(
+    database: MssqlConnectionFactory, principal: str
+) -> list[tuple[object, ...]]:
+    """Read both procedure and table permissions under one application principal."""
+    return _execute(
+        database,
+        "EXECUTE AS USER='"
+        + principal
+        + "'; SELECT "
+        + "HAS_PERMS_BY_NAME('promotion.claim_next_approved_promotion_v1', 'OBJECT', 'EXECUTE'), "
+        + "HAS_PERMS_BY_NAME('promotion.acknowledge_approved_promotion_started_v1', "
+        + "'OBJECT', 'EXECUTE'), "
+        + "HAS_PERMS_BY_NAME('promotion.approved_promotion_claim_current', 'OBJECT', 'SELECT'), "
+        + "HAS_PERMS_BY_NAME('promotion.approved_promotion_acknowledgement_fact', "
+        + "'OBJECT', 'SELECT'); REVERT;",
+        fetch=True,
+    )
+
+
+def _queue_direct_write_error(
+    database: MssqlConnectionFactory, principal: str, table: str, operation: str
+) -> str:
+    """Attempt one rollback-safe direct queue-table mutation as an application principal."""
+    write_statements = {
+        ("promotion.approved_promotion_claim_current", "INSERT"): (
+            (
+                "INSERT promotion.approved_promotion_claim_current (approval_id) "
+                "SELECT ? WHERE ? = ?;"
+            ),
+            ("apr_" + "0" * 48, 1, 0),
+        ),
+        ("promotion.approved_promotion_claim_current", "UPDATE"): (
+            (
+                "UPDATE promotion.approved_promotion_claim_current "
+                "SET approval_id = approval_id WHERE ? = ?;"
+            ),
+            (1, 0),
+        ),
+        ("promotion.approved_promotion_claim_current", "DELETE"): (
+            "DELETE FROM promotion.approved_promotion_claim_current WHERE ? = ?;",
+            (1, 0),
+        ),
+        ("promotion.approved_promotion_acknowledgement_fact", "INSERT"): (
+            (
+                "INSERT promotion.approved_promotion_acknowledgement_fact (approval_id) "
+                "SELECT ? WHERE ? = ?;"
+            ),
+            ("apr_" + "0" * 48, 1, 0),
+        ),
+        ("promotion.approved_promotion_acknowledgement_fact", "UPDATE"): (
+            (
+                "UPDATE promotion.approved_promotion_acknowledgement_fact "
+                "SET approval_id = approval_id WHERE ? = ?;"
+            ),
+            (1, 0),
+        ),
+        ("promotion.approved_promotion_acknowledgement_fact", "DELETE"): (
+            "DELETE FROM promotion.approved_promotion_acknowledgement_fact WHERE ? = ?;",
+            (1, 0),
+        ),
+    }
+    connection = database()
+    cursor = connection.cursor()
+    try:
+        cursor.execute(f"EXECUTE AS USER='{principal}';")
+        statement, parameters = write_statements[(table, operation)]
+        cursor.execute(statement, parameters)
+    except Exception as error:
+        connection.rollback()
+        return str(error)
+    else:
+        connection.rollback()
+    finally:
+        cursor.close()
+        connection.close()
+    pytest.fail(f"{principal} directly performed {operation} on {table}")
 
 
 def _terminal_command(
@@ -718,10 +843,265 @@ def _prove_terminal_lifecycle(database: MssqlConnectionFactory) -> None:
     with pytest.raises(Exception, match="ASKLEGAL_APPROVAL_NOT_CONSUMABLE"):
         consumption.consume(_consumption_for_terminal_fixture(invalidated, "d"))
 
-    raced = _register_terminal_fixture(database, "6")
+
+def _prove_queue_exclusions_permissions_and_lock(
+    database: MssqlConnectionFactory,
+    queue: ApprovedPromotionQueueStore,
+    lifecycle: RegisteredApprovalLifecycleStore,
+) -> None:
+    """Prove every terminal/malformed exclusion and finite-lock recovery path."""
+    revoked = _register_terminal_fixture(database, "queue-revoked")
+    lifecycle.revoke(_terminal_command(revoked, action="REVOKE", marker="5"))
+    assert queue.claim_next("pwr_" + "6" * 48, "9999-12-31T23:59:59Z") is None
+    invalidated = _register_terminal_fixture(database, "queue-invalidated")
+    lifecycle.invalidate(_terminal_command(invalidated, action="INVALIDATE", marker="6"))
+    assert queue.claim_next("pwr_" + "7" * 48, "9999-12-31T23:59:59Z") is None
+    rejected = _register_terminal_fixture(
+        database,
+        "queue-rejected",
+        fixture_input=_TerminalFixtureInput(
+            decision_event_type="PROPOSAL_REJECTED", decision_value="REJECTED"
+        ),
+    )
+    assert queue.claim_next("pwr_" + "8" * 48, "9999-12-31T23:59:59Z") is None
+    assert rejected.approval_id.startswith("apr_")
+    not_yet_valid = _register_terminal_fixture(
+        database,
+        "queue-not-yet-valid",
+        fixture_input=_TerminalFixtureInput(valid_from="9999-12-31T23:59:59Z"),
+    )
+    assert queue.claim_next("pwr_" + "9" * 48, "9999-12-31T23:59:59Z") is None
+    assert not_yet_valid.approval_id.startswith("apr_")
+    malformed = _register_terminal_fixture(
+        database,
+        "queue-malformed-fingerprint",
+        fixture_input=_TerminalFixtureInput(manifest_fingerprint="sha256:" + "A" * 64),
+    )
+    assert queue.claim_next("pwr_" + "a" * 48, "9999-12-31T23:59:59Z") is None
+    assert malformed.approval_id.startswith("apr_")
+    malformed_approval = _register_terminal_fixture(
+        database,
+        "queue-malformed-approval",
+        fixture_input=_TerminalFixtureInput(approval_id="apr_" + "A" * 48),
+    )
+    assert queue.claim_next("pwr_" + "c" * 48, "9999-12-31T23:59:59Z") is None
+    assert malformed_approval.approval_id == "apr_" + "A" * 48
+    malformed_manifest = _register_terminal_fixture(
+        database,
+        "queue-malformed-manifest",
+        fixture_input=_TerminalFixtureInput(manifest_id="pmn_" + "b" * 47 + "!"),
+    )
+    assert queue.claim_next("pwr_" + "d" * 48, "9999-12-31T23:59:59Z") is None
+    assert malformed_manifest.manifest_id.endswith("!")
+    malformed_base = _register_terminal_fixture(
+        database,
+        "queue-malformed-base",
+        fixture_input=_TerminalFixtureInput(
+            base_state_id="srv_" + "c" * 47,
+            base_state_fingerprint="sha256:" + "c" * 32 + "A" + "c" * 31,
+        ),
+    )
+    assert queue.claim_next("pwr_" + "e" * 48, "9999-12-31T23:59:59Z") is None
+    assert malformed_base.approval_id.startswith("apr_")
+
+    for principal in (
+        "asklegal_control_app",
+        "asklegal_review_app",
+        "asklegal_acquisition_app",
+        "asklegal_legal_processing_app",
+    ):
+        assert _queue_permission_rows(database, principal) == [(0, 0, 0, 0)]
+        for table in (
+            "promotion.approved_promotion_claim_current",
+            "promotion.approved_promotion_acknowledgement_fact",
+        ):
+            for operation in ("INSERT", "UPDATE", "DELETE"):
+                assert (
+                    "permission"
+                    in _queue_direct_write_error(database, principal, table, operation).lower()
+                )
+    assert _queue_permission_rows(database, "asklegal_promotion_app") == [(1, 1, 0, 0)]
+
+    timeout = _register_terminal_fixture(database, "queue-claim-lock-timeout")
+    holder = database()
+    holder_cursor = holder.cursor()
+    try:
+        holder_cursor.execute("BEGIN TRANSACTION;")
+        holder_cursor.execute(
+            "SELECT proposal_package_id FROM review.proposal_package_review_v1 WITH "
+            "(UPDLOCK, HOLDLOCK) WHERE proposal_package_id = ?;",
+            (timeout.proposal_id,),
+        )
+        with pytest.raises(Exception, match="ASKLEGAL_APPROVED_PROMOTION_QUEUE_LOCK_TIMEOUT"):
+            queue.claim_next("pwr_" + "d" * 48, "9999-12-31T23:59:59Z")
+    finally:
+        holder.rollback()
+        holder_cursor.close()
+        holder.close()
+    retry = queue.claim_next("pwr_" + "d" * 48, "9999-12-31T23:59:59Z")
+    assert retry is not None and retry.approval_id == timeout.approval_id
+
+    def terminal_acknowledgement_race(action: str, marker: str, fixture_marker: str) -> None:
+        race_fixture = _register_terminal_fixture(database, fixture_marker)
+        claim = queue.claim_next("pwr_" + marker * 48, "9999-12-31T23:59:59Z")
+        assert claim is not None and claim.approval_id == race_fixture.approval_id
+        terminal = _terminal_command(race_fixture, action=action, marker=marker)
+
+        def terminal_or_acknowledge() -> str:
+            try:
+                if action == "REVOKE":
+                    lifecycle.revoke(terminal)
+                else:
+                    lifecycle.invalidate(terminal)
+            except Exception as error:
+                return str(error)
+            return "terminal"
+
+        def acknowledge_race() -> str:
+            try:
+                queue.acknowledge_started(claim, "exe_" + marker * 48)
+            except Exception as error:
+                return str(error)
+            return "acknowledged"
+
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            terminal_future = pool.submit(terminal_or_acknowledge)
+            acknowledgement_future = pool.submit(acknowledge_race)
+            terminal_outcome = terminal_future.result()
+            acknowledgement_outcome = acknowledgement_future.result()
+        assert terminal_outcome == "terminal"
+        assert acknowledgement_outcome != "acknowledged"
+        assert (
+            "ASKLEGAL_APPROVED_PROMOTION_QUEUE_APPROVAL_TERMINAL" in acknowledgement_outcome
+            or "ASKLEGAL_APPROVED_PROMOTION_QUEUE_NOT_CONSUMED" in acknowledgement_outcome
+        )
+
+    terminal_acknowledgement_race("REVOKE", "0", "queue-revocation-ack-race")
+    terminal_acknowledgement_race("INVALIDATE", "8", "queue-invalidation-ack-race")
+
+    acknowledgement_timeout = _register_terminal_fixture(database, "queue-ack-lock-timeout")
+    acknowledgement_claim = queue.claim_next("pwr_" + "b" * 48, "9999-12-31T23:59:59Z")
+    assert acknowledgement_claim is not None
+    acknowledgement_consumption = RegisteredApprovalStore(database).consume(
+        _consumption_for_terminal_fixture(acknowledgement_timeout, "7")
+    )
+    assert acknowledgement_consumption.result_code == "APPLIED"
+    acknowledgement_holder = database()
+    acknowledgement_cursor = acknowledgement_holder.cursor()
+    try:
+        acknowledgement_cursor.execute("BEGIN TRANSACTION;")
+        acknowledgement_cursor.execute(
+            "SELECT approval_id FROM promotion.approved_promotion_claim_current WITH "
+            "(UPDLOCK, HOLDLOCK) WHERE approval_id = ?;",
+            (acknowledgement_timeout.approval_id,),
+        )
+        with pytest.raises(
+            Exception, match="ASKLEGAL_APPROVED_PROMOTION_ACKNOWLEDGEMENT_LOCK_TIMEOUT"
+        ):
+            queue.acknowledge_started(acknowledgement_claim, "exe_" + "7" * 48)
+    finally:
+        acknowledgement_holder.rollback()
+        acknowledgement_cursor.close()
+        acknowledgement_holder.close()
+    assert _execute(database, "SELECT 1;", fetch=True) == [(1,)]
+    queue.acknowledge_started(acknowledgement_claim, "exe_" + "7" * 48)
+    queue.acknowledge_started(acknowledgement_claim, "exe_" + "7" * 48)
+
+
+def _prove_approved_promotion_wakeup(database: MssqlConnectionFactory) -> None:
+    """Prove queue grammar, fencing, exclusion, finite locking, and no-effect behavior."""
+    lifecycle = RegisteredApprovalLifecycleStore(database)
+    consumption = RegisteredApprovalStore(database)
+    before = _execute(
+        database,
+        "SELECT (SELECT COUNT(*) FROM register.effect_intent_fact), "
+        "(SELECT COUNT(*) FROM register.effect_attempt_fact), "
+        "(SELECT COUNT(*) FROM promotion.serving_state_current), "
+        "(SELECT COUNT(*) FROM register.event_v1_fact WHERE event_type IN "
+        "('PROMOTION_EXECUTION_AUTHORIZED', 'PROMOTION_EXECUTION_BEGUN'));",
+        fetch=True,
+    )
+    fixture = _register_terminal_fixture(database, "queue-first-claim")
+    queue = ApprovedPromotionQueueStore(database)
+    for invalid_worker in (
+        "pwr_" + "E" * 48,
+        "pwr_" + "e" * 47 + "!",
+        "pwr_" + "e" * 47,
+        "pwr_" + "e" * 49,
+        "pwr_" + "e" * 24 + "A" + "e" * 23,
+    ):
+        with pytest.raises(Exception, match="ASKLEGAL_APPROVED_PROMOTION_QUEUE_WORKER_INVALID"):
+            _raw_queue_claim(database, invalid_worker, "9999-12-31T23:59:59Z")
+    first = queue.claim_next("pwr_" + "e" * 48, "9999-12-31T23:59:59Z")
+    assert first is not None
+    assert first.approval_id == fixture.approval_id
+    assert first.proposal_package_id == fixture.proposal_id
+    assert first.decision_fingerprint == "sha256:" + fixture.decision_fingerprint.hex()
+    assert first.manifest_id == fixture.manifest_id
+    assert first.manifest_fingerprint == fixture.manifest_fingerprint
+    assert first.generation == 1
+    assert first.fencing_token == 1
+    replay = queue.claim_next(first.claimant_worker_id, first.claimed_until)
+    assert replay == first
+    assert queue.claim_next("pwr_" + "f" * 48, "9999-12-31T23:59:59Z") is None
+
+    concurrent = _register_terminal_fixture(database, "queue-concurrent-claim")
+
+    def concurrent_claim(worker_id: str) -> ApprovedPromotionClaim | None:
+        return ApprovedPromotionQueueStore(database).claim_next(worker_id, "9999-12-31T23:59:59Z")
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        concurrent_claims = list(pool.map(concurrent_claim, ("pwr_" + "1" * 48, "pwr_" + "2" * 48)))
+    winners = [claim for claim in concurrent_claims if claim is not None]
+    assert len(winners) == 1
+    assert winners[0].approval_id == concurrent.approval_id
+
+    takeover = _register_terminal_fixture(database, "queue-takeover")
+    original = queue.claim_next("pwr_" + "3" * 48, "9999-12-31T23:59:59Z")
+    assert original is not None and original.approval_id == takeover.approval_id
+    _execute(
+        database,
+        "UPDATE promotion.approved_promotion_claim_current "
+        "SET claimed_until = '2000-01-01T00:00:00' WHERE approval_id = '"
+        + takeover.approval_id
+        + "';",
+    )
+    replacement = queue.claim_next("pwr_" + "4" * 48, "9999-12-31T23:59:59Z")
+    assert replacement is not None and replacement.approval_id == takeover.approval_id
+    assert (replacement.generation, replacement.fencing_token) == (2, 2)
+
+    already_consumed = _register_terminal_fixture(database, "queue-already-consumed")
+    consumed_before_acknowledgement = consumption.consume(
+        _consumption_for_terminal_fixture(already_consumed, "9")
+    )
+    assert consumed_before_acknowledgement.result_code == "APPLIED"
+    assert queue.claim_next("pwr_" + "9" * 48, "9999-12-31T23:59:59Z") is None
+
+    with pytest.raises(Exception, match="ASKLEGAL_APPROVED_PROMOTION_QUEUE_NOT_CONSUMED"):
+        queue.acknowledge_started(first, "exe_" + "f" * 48)
+
+    consumed = RegisteredApprovalStore(database).consume(
+        _consumption_for_terminal_fixture(fixture, "f")
+    )
+    assert consumed.result_code == "APPLIED"
+    queue.acknowledge_started(first, "exe_" + "f" * 48)
+    queue.acknowledge_started(first, "exe_" + "f" * 48)
+    with pytest.raises(
+        Exception, match="ASKLEGAL_APPROVED_PROMOTION_ACKNOWLEDGEMENT_REPLAY_MISMATCH"
+    ):
+        queue.acknowledge_started(first, "exe_" + "a" * 48)
+    takeover_consumed = consumption.consume(_consumption_for_terminal_fixture(takeover, "4"))
+    assert takeover_consumed.result_code == "APPLIED"
+    with pytest.raises(Exception, match="ASKLEGAL_APPROVED_PROMOTION_QUEUE_STALE_CLAIM"):
+        queue.acknowledge_started(original, "exe_" + "4" * 48)
+    queue.acknowledge_started(replacement, "exe_" + "4" * 48)
+
+    _prove_queue_exclusions_permissions_and_lock(database, queue, lifecycle)
+
+    raced = _register_terminal_fixture(database, "queue-terminal-lifecycle-race")
     race_commands = (
-        ("REVOKE", _terminal_command(raced, action="REVOKE", marker="e")),
-        ("INVALIDATE", _terminal_command(raced, action="INVALIDATE", marker="f")),
+        ("REVOKE", _terminal_command(raced, action="REVOKE", marker="1")),
+        ("INVALIDATE", _terminal_command(raced, action="INVALIDATE", marker="2")),
     )
 
     def race_terminal(item: tuple[str, RegisteredApprovalTerminalCommand]) -> str:
@@ -747,7 +1127,18 @@ def _prove_terminal_lifecycle(database: MssqlConnectionFactory) -> None:
         == 1
     )
     with pytest.raises(Exception, match="ASKLEGAL_APPROVAL_NOT_CONSUMABLE"):
-        consumption.consume(_consumption_for_terminal_fixture(raced, "5"))
+        consumption.consume(_consumption_for_terminal_fixture(raced, "e"))
+
+    after = _execute(
+        database,
+        "SELECT (SELECT COUNT(*) FROM register.effect_intent_fact), "
+        "(SELECT COUNT(*) FROM register.effect_attempt_fact), "
+        "(SELECT COUNT(*) FROM promotion.serving_state_current), "
+        "(SELECT COUNT(*) FROM register.event_v1_fact WHERE event_type IN "
+        "('PROMOTION_EXECUTION_AUTHORIZED', 'PROMOTION_EXECUTION_BEGUN'));",
+        fetch=True,
+    )
+    assert after == before
 
     review_permissions = _execute(
         database,
@@ -1261,6 +1652,7 @@ def test_management_register_sql_server_proof() -> None:
         _V1_EXECUTION_AUTHORIZATION_MIGRATION,
         _V1_EXECUTION_BEGIN_MIGRATION,
         _V1_CLAIMED_EFFECT_READBACK_MIGRATION,
+        _V1_APPROVED_PROMOTION_WAKEUP_MIGRATION,
     )
     apply_packages(database, migrations, runner_build="management-register-v1-1")
     apply_packages(database, migrations, runner_build="management-register-v1-1")
@@ -1268,6 +1660,7 @@ def test_management_register_sql_server_proof() -> None:
     _prove_execution_authorization(database)
     _prove_execution_begin(database)
     _prove_terminal_lifecycle(database)
+    _prove_approved_promotion_wakeup(database)
 
     manifest = sha256(b"synthetic-manifest").digest()
     connection = database()
@@ -1614,7 +2007,7 @@ def test_management_register_sql_server_proof() -> None:
         "SELECT COUNT(*) FROM migration.applied_fact "
         "WHERE migration_id IN "
         "('000001','000002','000003','000004','000005','000006','000007','000008',"
-        "'000009');",
+        "'000009','000010');",
         fetch=True,
     )
-    assert migration_count == [(9,)]
+    assert migration_count == [(10,)]

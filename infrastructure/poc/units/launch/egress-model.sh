@@ -15,6 +15,7 @@ docker create \
   --name "$container" \
   --network 'asklegal-egress-model' \
   --network-alias 'egress-model' \
+  --ip '10.90.8.2' \
   --user "$runtime_uid":"$runtime_uid" \
   --cap-drop ALL \
   --security-opt no-new-privileges \

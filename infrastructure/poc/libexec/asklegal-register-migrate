@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ "$#" -ne 6 ] && [ "$#" -ne 7 ]; then
+  printf 'REGISTER_BOOTSTRAP_INPUT_INVALID\n' >&2
+  exit 2
+fi
+
+migrations_root="$2"
+credential_directory="$4"
+receipt="$6"
+verify=""
+if [ "$#" -eq 7 ]; then
+  [ "$7" = "--verify-only" ] || exit 2
+  verify="--verify-only"
+fi
+[ "$1" = "--migrations-root" ] && [ "$3" = "--credential-directory" ] && [ "$5" = "--receipt" ] || exit 2
+
+receipt_directory="$(dirname "$receipt")"
+receipt_name="$(basename "$receipt")"
+deployment_manifest=/etc/asklegal/deployment-images
+[ -f "$deployment_manifest" ] && [ ! -L "$deployment_manifest" ] || {
+  printf 'REGISTER_BOOTSTRAP_IMAGE_INVALID\n' >&2
+  exit 2
+}
+matches="$(grep -Ec '^control-plane sha256:[0-9a-f]{64}$' "$deployment_manifest")"
+[ "$matches" -eq 1 ] || {
+  printf 'REGISTER_BOOTSTRAP_IMAGE_INVALID\n' >&2
+  exit 2
+}
+image_line="$(grep -E '^control-plane sha256:[0-9a-f]{64}$' "$deployment_manifest")"
+image_id="${image_line#* }"
+/usr/bin/docker image inspect --format '{{.Id}}' "$image_id" | grep -Fx -- "$image_id" >/dev/null || {
+  printf 'REGISTER_BOOTSTRAP_IMAGE_INVALID\n' >&2
+  exit 2
+}
+exec /usr/bin/docker run --rm --name asklegal-register-migrate-once \
+  --network asklegal-register --user 0:0 \
+  --read-only --cap-drop ALL --security-opt no-new-privileges \
+  --tmpfs /tmp:rw,noexec,nosuid,nodev,size=16m \
+  --mount "type=bind,src=${migrations_root},dst=/migrations,readonly" \
+  --mount "type=bind,src=${credential_directory},dst=/run/credentials,readonly" \
+  --mount "type=bind,src=${receipt_directory},dst=/output" \
+  --mount type=bind,src=/etc/asklegal/trust/ca-certificates.crt,dst=/etc/ssl/certs/ca-certificates.crt,readonly \
+  --entrypoint /opt/asklegal/bin/python "$image_id" \
+  -m asklegal_control_plane.bootstrap register --migrations-root /migrations \
+  --credential-directory /run/credentials --receipt "/output/${receipt_name}" ${verify}

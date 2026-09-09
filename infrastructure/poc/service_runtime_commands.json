@@ -112,6 +112,10 @@
         {
           "name": "VGW_KEY",
           "value": "/etc/asklegal/tls/vault-primary/tls.key"
+        },
+        {
+          "name": "VGW_IAM_DIR",
+          "value": "/vault/iam"
         }
       ],
       "mounts": [
@@ -177,6 +181,10 @@
         {
           "name": "VGW_KEY",
           "value": "/etc/asklegal/tls/vault-recovery/tls.key"
+        },
+        {
+          "name": "VGW_IAM_DIR",
+          "value": "/vault/iam"
         }
       ],
       "mounts": [
@@ -294,7 +302,8 @@
       "networks": [
         {
           "network": "asklegal-egress-source",
-          "alias": "egress-source"
+          "alias": "egress-source",
+          "ipv4_address": "10.90.7.2"
         }
       ],
       "credential_delivery": "NONE",
@@ -340,7 +349,8 @@
       "networks": [
         {
           "network": "asklegal-egress-model",
-          "alias": "egress-model"
+          "alias": "egress-model",
+          "ipv4_address": "10.90.8.2"
         }
       ],
       "credential_delivery": "NONE",
@@ -386,7 +396,8 @@
       "networks": [
         {
           "network": "asklegal-egress-promotion",
-          "alias": "egress-promotion"
+          "alias": "egress-promotion",
+          "ipv4_address": "10.90.9.2"
         }
       ],
       "credential_delivery": "NONE",
@@ -454,8 +465,31 @@
         "vault-primary-review"
       ],
       "credential_environment": [],
-      "environment": [],
+      "environment": [
+        {
+          "name": "ASKLEGAL_LOCAL_REVIEW_ARTIFACT_ROOT",
+          "value": "/var/lib/asklegal/review-artifacts"
+        },
+        {
+          "name": "ASKLEGAL_LOCAL_REVIEW_STATE_ROOT",
+          "value": "/var/lib/asklegal/review"
+        },
+        {
+          "name": "ASKLEGAL_LOCAL_REVIEW_AUTHORITY_PATH",
+          "value": "/var/lib/asklegal/review/review-authority.json"
+        }
+      ],
       "mounts": [
+        {
+          "source": "/var/lib/asklegal/review",
+          "target": "/var/lib/asklegal/review",
+          "mode": "rw"
+        },
+        {
+          "source": "/var/lib/asklegal/review-artifacts",
+          "target": "/var/lib/asklegal/review-artifacts",
+          "mode": "ro"
+        },
         {
           "source": "/etc/asklegal/trust/ca-certificates.crt",
           "target": "/etc/ssl/certs/ca-certificates.crt",
@@ -526,8 +560,27 @@
         "vault-primary-control"
       ],
       "credential_environment": [],
-      "environment": [],
+      "environment": [
+        {
+          "name": "ASKLEGAL_CONTROL_STATE_ROOT",
+          "value": "/var/lib/asklegal/control"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_ACCEPTANCE_CUTOFF_ROOT",
+          "value": "/var/lib/asklegal/acceptance-cutoffs"
+        }
+      ],
       "mounts": [
+        {
+          "source": "/var/lib/asklegal/control",
+          "target": "/var/lib/asklegal/control",
+          "mode": "rw"
+        },
+        {
+          "source": "/var/lib/asklegal/acceptance-cutoffs",
+          "target": "/var/lib/asklegal/acceptance-cutoffs",
+          "mode": "ro"
+        },
         {
           "source": "/etc/asklegal/trust/ca-certificates.crt",
           "target": "/etc/ssl/certs/ca-certificates.crt",
@@ -583,7 +636,8 @@
         },
         {
           "network": "asklegal-egress-source",
-          "alias": "acquisition-worker"
+          "alias": "acquisition-worker",
+          "ipv4_address": "10.90.7.3"
         }
       ],
       "credential_delivery": "DIRECTORY_OWNED_BY_RUNTIME_UID",
@@ -594,8 +648,76 @@
         "source-egress-proxy"
       ],
       "credential_environment": [],
-      "environment": [],
+      "environment": [
+        {
+          "name": "ASKLEGAL_HK_V1_DUE_STATE_ROOT",
+          "value": "/var/lib/asklegal/acquisition/due-cycle"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_GLD_WINDOW_SNAPSHOT",
+          "value": "/etc/asklegal/config/hk-v1-acquisition/gld-window-snapshot.json"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_GLD_OPERATOR_MODE",
+          "value": "DISABLED"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_GLD_CHALLENGE_AUTHORITY_RECEIPT",
+          "value": "/etc/asklegal/config/hk-v1-acquisition/gld-challenge-authority.json"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_GLD_CHALLENGE_CONTRACT",
+          "value": "/etc/asklegal/config/hk-v1-acquisition/gld-challenge-contract.json"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_GLD_SESSION_ROOT",
+          "value": "/var/lib/asklegal/acquisition/gld-sessions"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_GLD_START_DATE",
+          "value": "1997-07-01"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_HKEL_ADMISSION_RECEIPT",
+          "value": "/etc/asklegal/config/hk-v1-acquisition/hkel-admission-receipt.json"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_HKEL_ARCHIVE_OBSERVATION",
+          "value": "/etc/asklegal/config/hk-v1-acquisition/hkel-archive-observation.json"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_JUDICIARY_ADVANCED_SEARCH_FORM",
+          "value": "/etc/asklegal/config/hk-v1-acquisition/judiciary-advanced-search-form.html"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_JUDICIARY_ADVANCED_SEARCH_FORM_FINGERPRINT",
+          "value": "/etc/asklegal/config/hk-v1-acquisition/judiciary-advanced-search-form.sha256"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_LEGISLATION_STATE_ROOT",
+          "value": "/var/lib/asklegal/acquisition/legislation"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_SOURCE_ADMISSION_ROOT",
+          "value": "/var/lib/asklegal/source-admission"
+        }
+      ],
       "mounts": [
+        {
+          "source": "/var/lib/asklegal/acquisition",
+          "target": "/var/lib/asklegal/acquisition",
+          "mode": "rw"
+        },
+        {
+          "source": "/var/lib/asklegal/source-admission",
+          "target": "/var/lib/asklegal/source-admission",
+          "mode": "ro"
+        },
+        {
+          "source": "/etc/asklegal/config/hk-v1-acquisition",
+          "target": "/etc/asklegal/config/hk-v1-acquisition",
+          "mode": "ro"
+        },
         {
           "source": "/etc/asklegal/trust/ca-certificates.crt",
           "target": "/etc/ssl/certs/ca-certificates.crt",
@@ -647,7 +769,8 @@
         },
         {
           "network": "asklegal-egress-model",
-          "alias": "legal-processing-worker"
+          "alias": "legal-processing-worker",
+          "ipv4_address": "10.90.8.3"
         }
       ],
       "credential_delivery": "DIRECTORY_OWNED_BY_RUNTIME_UID",
@@ -658,8 +781,61 @@
         "model-provider"
       ],
       "credential_environment": [],
-      "environment": [],
+      "environment": [
+        {
+          "name": "ASKLEGAL_HK_V1_ACQUISITION_JOURNAL_ROOT",
+          "value": "/var/lib/asklegal/acquisition/due-cycle"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_ACCEPTANCE_INPUT_ROOT",
+          "value": "/var/lib/asklegal/processing/acceptance-inputs"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_CASE_PROCESSING_POLICY_PATH",
+          "value": "/etc/asklegal/config/hk-v1-legal-processing/case-processing-policy.json"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_PACKAGE_FACTS_ROOT",
+          "value": "/etc/asklegal/config/hk-v1-legal-processing/package-facts"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_PROCESSING_STATE_ROOT",
+          "value": "/var/lib/asklegal/processing"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_REVIEW_ARTIFACT_ROOT",
+          "value": "/var/lib/asklegal/review-artifacts"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_SEMANTIC_CAPABILITY_EVIDENCE_PATH",
+          "value": "/etc/asklegal/config/hk-v1-legal-processing/semantic-capability-evidence.json"
+        },
+        {
+          "name": "ASKLEGAL_HK_V1_SEMANTIC_PROFILE_PATH",
+          "value": "/etc/asklegal/config/hk-v1-legal-processing/semantic-profile.json"
+        }
+      ],
       "mounts": [
+        {
+          "source": "/var/lib/asklegal/acquisition/due-cycle",
+          "target": "/var/lib/asklegal/acquisition/due-cycle",
+          "mode": "ro"
+        },
+        {
+          "source": "/var/lib/asklegal/processing",
+          "target": "/var/lib/asklegal/processing",
+          "mode": "rw"
+        },
+        {
+          "source": "/etc/asklegal/config/hk-v1-legal-processing",
+          "target": "/etc/asklegal/config/hk-v1-legal-processing",
+          "mode": "ro"
+        },
+        {
+          "source": "/var/lib/asklegal/review-artifacts",
+          "target": "/var/lib/asklegal/review-artifacts",
+          "mode": "rw"
+        },
         {
           "source": "/etc/asklegal/trust/ca-certificates.crt",
           "target": "/etc/ssl/certs/ca-certificates.crt",
@@ -715,7 +891,8 @@
         },
         {
           "network": "asklegal-egress-promotion",
-          "alias": "promotion-worker"
+          "alias": "promotion-worker",
+          "ipv4_address": "10.90.9.3"
         }
       ],
       "credential_delivery": "DIRECTORY_OWNED_BY_RUNTIME_UID",
@@ -730,11 +907,73 @@
       "credential_environment": [],
       "environment": [
         {
-          "name": "PROMOTION_WRITE_AUTHORIZED",
-          "value": "true"
+          "name": "ASKLEGAL_PROMOTION_APPROVAL_LEDGER",
+          "value": "/var/lib/asklegal/review/approval-register.json"
+        },
+        {
+          "name": "ASKLEGAL_PROMOTION_CURRENT_SERVING_STATE",
+          "value": "/var/lib/asklegal/promotion/current-serving-state"
+        },
+        {
+          "name": "ASKLEGAL_PROMOTION_EFFECT_INTENT_LEDGER",
+          "value": "/var/lib/asklegal/promotion/effect-intents"
+        },
+        {
+          "name": "ASKLEGAL_PROMOTION_PACKAGE_ROOT",
+          "value": "/var/lib/asklegal/review-artifacts"
+        },
+        {
+          "name": "ASKLEGAL_PROMOTION_NATIVE_BACKUP_ROOT",
+          "value": "/var/lib/asklegal/promotion-backup-native"
+        },
+        {
+          "name": "ASKLEGAL_PROMOTION_RECOVERY_BACKUP_ROOT",
+          "value": "/var/lib/asklegal/promotion-backup-recovery"
+        },
+        {
+          "name": "ASKLEGAL_PROMOTION_SERVING_PROFILE",
+          "value": "/etc/asklegal/config/hk-v1-promotion/serving-profile.json"
+        },
+        {
+          "name": "ASKLEGAL_PROMOTION_STATE_ROOT",
+          "value": "/var/lib/asklegal/promotion"
+        },
+        {
+          "name": "ASKLEGAL_PROMOTION_TOKENIZER_RESOURCE",
+          "value": "/etc/asklegal/config/hk-v1-promotion/o200k_base.tiktoken"
         }
       ],
       "mounts": [
+        {
+          "source": "/var/lib/asklegal/review",
+          "target": "/var/lib/asklegal/review",
+          "mode": "rw"
+        },
+        {
+          "source": "/var/lib/asklegal/review-artifacts",
+          "target": "/var/lib/asklegal/review-artifacts",
+          "mode": "ro"
+        },
+        {
+          "source": "/etc/asklegal/config/hk-v1-promotion",
+          "target": "/etc/asklegal/config/hk-v1-promotion",
+          "mode": "ro"
+        },
+        {
+          "source": "/var/lib/asklegal/promotion",
+          "target": "/var/lib/asklegal/promotion",
+          "mode": "rw"
+        },
+        {
+          "source": "/var/lib/asklegal/promotion-backup-native",
+          "target": "/var/lib/asklegal/promotion-backup-native",
+          "mode": "rw"
+        },
+        {
+          "source": "/var/lib/asklegal/promotion-backup-recovery",
+          "target": "/var/lib/asklegal/promotion-backup-recovery",
+          "mode": "rw"
+        },
         {
           "source": "/etc/asklegal/trust/ca-certificates.crt",
           "target": "/etc/ssl/certs/ca-certificates.crt",

@@ -1,0 +1,108 @@
+{
+  "schema_id": "asklegal.basic-law-content-structure",
+  "schema_version": "1.0.0",
+  "projection_version": "1.0.0",
+  "fingerprint": "sha256:63f3ca6c97b2f1b0c3f81639288c96b8f3a0be6c2f932bf5fc04bdec4b9a8de6",
+  "members": [
+    {
+      "url": "https://www.basiclaw.gov.hk/en/constitution/preamble.html",
+      "title": "Basic Law - Constitution - Preamble (EN)",
+      "projection_fingerprint": "sha256:4f6d2c0a0042a69be317a6dba0cdbc3661433def7b3690e885f92ca74974017c"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/constitution/chapter1.html",
+      "title": "Basic Law - Constitution - Chapter I (EN)",
+      "projection_fingerprint": "sha256:e7eb4e3688841bd28af1b4ff2295903a1cf5236c73be2d492f21c76966ac1446"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/constitution/chapter2.html",
+      "title": "Basic Law - Constitution - Chapter II (EN)",
+      "projection_fingerprint": "sha256:7c01c3e538688e691e8ec52c637c1ae46d863fca3d045795c869e04776d5366d"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/constitution/chapter3.html",
+      "title": "Basic Law - Constitution - Chapter III (EN)",
+      "projection_fingerprint": "sha256:fa566be06083b530e8e112c810782ace25db3bee1a61266871899d80c21dad40"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/constitution/chapter4.html",
+      "title": "Basic Law - Constitution - Chapter IV (EN)",
+      "projection_fingerprint": "sha256:d70c8e3f80e05522960e37a385b570bda585cd628b673166f07617b3606240cc"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/decree.html",
+      "title": "Basic Law - Basic Law - Decree of the President of the People's Republic of China (EN)",
+      "projection_fingerprint": "sha256:2235db38138246bd0bf6e8c0911b8d9c39fd1b6a7331ef182e5c4dc42d9e737e"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/preamble.html",
+      "title": "Basic Law - Basic Law - Preamble (EN)",
+      "projection_fingerprint": "sha256:4b967ffc8ebfb3f12559cf31b1194106ae25a4082bd74f49a045fce68f02a267"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter1.html",
+      "title": "Basic Law - Basic Law - Chapter I (EN)",
+      "projection_fingerprint": "sha256:cb203cd08bd2dead617e1442da7e9397add0caf528bec8ed60dd75ff26a71864"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter2.html",
+      "title": "Basic Law - Basic Law - Chapter II (EN)",
+      "projection_fingerprint": "sha256:b9c7cd44be8dbf9a3ffb42348da49deb7fc8afd556bf738b273bed89d3d881af"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter3.html",
+      "title": "Basic Law - Basic Law - Chapter III (EN)",
+      "projection_fingerprint": "sha256:1331b6eafedfedff4fa49ec17793db29a04c9ca4dd785962de373407c993ca0d"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter4.html",
+      "title": "Basic Law - Basic Law - Chapter IV (EN)",
+      "projection_fingerprint": "sha256:cc6202f14652a94ac8da2f574493053ac1302fa2a443c6f4f72975edecadd7ab"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter5.html",
+      "title": "Basic Law - Basic Law - Chapter V (EN)",
+      "projection_fingerprint": "sha256:dc8572680514ecbe47ba398fcb6da1fb70e56a51f843590fdb6a10c2c0d6cf57"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter6.html",
+      "title": "Basic Law - Basic Law - Chapter VI (EN)",
+      "projection_fingerprint": "sha256:fed55e44b76ad75ec9e19b3255eee83db9da7de8db9f1b75bf0611cffeb83bfb"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter7.html",
+      "title": "Basic Law - Basic Law - Chapter VII (EN)",
+      "projection_fingerprint": "sha256:6276fe03499fceae86907d4973cea8580a8bf8f0021887e46f28a6e5b6263ff6"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter8.html",
+      "title": "Basic Law - Basic Law - Chapter VIII (EN)",
+      "projection_fingerprint": "sha256:5e74607b051b5cfb06680848cc89be1c43e9d4b6d0405c2a868d22bd40ccb5b8"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter9.html",
+      "title": "Basic Law - Basic Law - Chapter IX (EN)",
+      "projection_fingerprint": "sha256:c6503de1cc6563c0dbc0ccc0da3239a7b6691e7f077c4aac36361157215e1842"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/annex1.html",
+      "title": "Basic Law - Basic Law - Annex & Instrument - Annex I (EN)",
+      "projection_fingerprint": "sha256:f72a2808749abb8bf26a60b02b3306689f671f54585575d57da2756029572c2e"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/annex2.html",
+      "title": "Basic Law - Basic Law - Annex & Instrument - Annex II (EN)",
+      "projection_fingerprint": "sha256:433efc0781ae58bfd3d40b4cfc74434d78f4fecff7e2458f8a9f1e9a219811ca"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/annex3.html",
+      "title": "Basic Law - Basic Law - Annex & Instrument - Annex III (EN)",
+      "projection_fingerprint": "sha256:6b8df405e6902ece730fc180fbe7f5b9b0a0d10775fd254c04a7d9cfb9991a07"
+    },
+    {
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/annex-instrument.html",
+      "title": "Basic Law - Basic Law - Annex & Instrument (EN)",
+      "projection_fingerprint": "sha256:4bb0ac2ad531fa1a6209a0032810896336570138c52e19e141bdbfbf8a476a78"
+    }
+  ]
+}

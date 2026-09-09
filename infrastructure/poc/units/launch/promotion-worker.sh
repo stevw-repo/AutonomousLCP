@@ -7,6 +7,15 @@ set -euo pipefail
 container='asklegal-promotion-worker'
 runtime_uid=3006
 
+# Phase two atomically installs this authority-bound exact image set.
+deployment_manifest=/etc/asklegal/deployment-images
+[ -f "$deployment_manifest" ] && [ ! -L "$deployment_manifest" ]
+matches="$(grep -Ec '^promotion-worker sha256:[0-9a-f]{64}$' "$deployment_manifest")"
+[ "$matches" -eq 1 ]
+image_line="$(grep -E '^promotion-worker sha256:[0-9a-f]{64}$' "$deployment_manifest")"
+image_id="${image_line#* }"
+docker image inspect --format '{{.Id}}' "$image_id" | grep -Fx -- "$image_id" >/dev/null
+
 # A stale container from a previous boot would keep the name and the old
 # configuration, so the unit always starts from a clean one.
 docker rm -f "$container" >/dev/null 2>&1 || true
@@ -33,14 +42,28 @@ docker create \
   --user "$runtime_uid":"$runtime_uid" \
   --cap-drop ALL \
   --security-opt no-new-privileges \
-  -e 'PROMOTION_WRITE_AUTHORIZED=true' \
+  -e 'ASKLEGAL_PROMOTION_APPROVAL_LEDGER=/var/lib/asklegal/review/approval-register.json' \
+  -e 'ASKLEGAL_PROMOTION_CURRENT_SERVING_STATE=/var/lib/asklegal/promotion/current-serving-state' \
+  -e 'ASKLEGAL_PROMOTION_EFFECT_INTENT_LEDGER=/var/lib/asklegal/promotion/effect-intents' \
+  -e 'ASKLEGAL_PROMOTION_PACKAGE_ROOT=/var/lib/asklegal/review-artifacts' \
+  -e 'ASKLEGAL_PROMOTION_NATIVE_BACKUP_ROOT=/var/lib/asklegal/promotion-backup-native' \
+  -e 'ASKLEGAL_PROMOTION_RECOVERY_BACKUP_ROOT=/var/lib/asklegal/promotion-backup-recovery' \
+  -e 'ASKLEGAL_PROMOTION_SERVING_PROFILE=/etc/asklegal/config/hk-v1-promotion/serving-profile.json' \
+  -e 'ASKLEGAL_PROMOTION_STATE_ROOT=/var/lib/asklegal/promotion' \
+  -e 'ASKLEGAL_PROMOTION_TOKENIZER_RESOURCE=/etc/asklegal/config/hk-v1-promotion/o200k_base.tiktoken' \
   -e 'CREDENTIALS_DIRECTORY=/run/credentials/asklegal-promotion-worker.service' \
   -v "$credential_dir":'/run/credentials/asklegal-promotion-worker.service':ro \
+  -v '/var/lib/asklegal/review:/var/lib/asklegal/review:rw' \
+  -v '/var/lib/asklegal/review-artifacts:/var/lib/asklegal/review-artifacts:ro' \
+  -v '/etc/asklegal/config/hk-v1-promotion:/etc/asklegal/config/hk-v1-promotion:ro' \
+  -v '/var/lib/asklegal/promotion:/var/lib/asklegal/promotion:rw' \
+  -v '/var/lib/asklegal/promotion-backup-native:/var/lib/asklegal/promotion-backup-native:rw' \
+  -v '/var/lib/asklegal/promotion-backup-recovery:/var/lib/asklegal/promotion-backup-recovery:rw' \
   -v '/etc/asklegal/trust/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro' \
   -v '/etc/asklegal/trust/vault-primary-ca.pem:/etc/asklegal/trust/vault-primary-ca.pem:ro' \
   -v '/etc/asklegal/trust/vault-recovery-ca.pem:/etc/asklegal/trust/vault-recovery-ca.pem:ro' \
   -v '/etc/asklegal/tls/internal-ca.crt:/etc/asklegal/tls/internal-ca.crt:ro' \
-  'asklegal/promotion-worker:v1' >/dev/null
+  "$image_id" >/dev/null
 
 # Every network is attached before the process starts. Attaching after start
 # is a race: the readiness gate can run before a dependency is reachable.
@@ -48,7 +71,7 @@ docker network connect --alias 'promotion-worker' 'asklegal-scheduler-promotion'
 docker network connect --alias 'promotion-worker' 'asklegal-vault-primary' "$container"
 docker network connect --alias 'promotion-worker' 'asklegal-vault-recovery' "$container"
 docker network connect --alias 'promotion-worker' 'asklegal-telemetry' "$container"
-docker network connect --alias 'promotion-worker' 'asklegal-egress-promotion' "$container"
+docker network connect --ip '10.90.9.3' --alias 'promotion-worker' 'asklegal-egress-promotion' "$container"
 
 # `docker start --attach` keeps this script in the foreground so systemd can
 # supervise it; ExecStop stops the container itself.

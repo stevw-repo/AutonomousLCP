@@ -19,6 +19,7 @@ from asklegal_application_runtime.entra_identity import (
     EntraAccessTokenVerifier,
     EntraSigningKey,
 )
+from asklegal_application_runtime.file_lock import exclusive_local_state_lock
 from asklegal_application_runtime.identity import (
     AuthorizationError,
     AuthorizationErrorCode,
@@ -32,6 +33,8 @@ from asklegal_application_runtime.identity import (
 from asklegal_application_runtime.local import (
     CommandOutcome,
     DisabledEffectPort,
+    HKV1ReviewReadinessProjection,
+    HKV1ScopeDispositionProjection,
     LocalAdapterError,
     LocalAdapterErrorCode,
     LocalCommandRegister,
@@ -98,6 +101,8 @@ __all__ = [
     "EntraAccessTokenProfile",
     "EntraAccessTokenVerifier",
     "EntraSigningKey",
+    "HKV1ReviewReadinessProjection",
+    "HKV1ScopeDispositionProjection",
     "IdentityVerifier",
     "LocalAdapterError",
     "LocalAdapterErrorCode",
@@ -135,6 +140,7 @@ __all__ = [
     "build_local_configuration",
     "default_local_identity",
     "destination_for",
+    "exclusive_local_state_lock",
     "format_readiness",
     "required_v1_dependencies",
     "run_v1_service",

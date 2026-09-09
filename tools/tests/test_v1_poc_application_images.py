@@ -1,5 +1,6 @@
 """Fail-closed tests for V1 POC application-image input contracts."""
 
+import hashlib
 import json
 from copy import deepcopy
 from pathlib import Path
@@ -7,6 +8,7 @@ from typing import cast
 
 import pytest
 
+import tools.v1_poc_application_image_oci_proof as local_oci
 from tools.v1_poc_application_images import (
     APPLICATION_IMAGE_POLICY_PATH,
     ARTIFACT_POLICY_PATH,
@@ -72,14 +74,75 @@ def _codes(
     }
 
 
-def test_repository_application_image_inputs_are_complete_but_disabled() -> None:
+def test_repository_application_image_inputs_are_complete_but_disabled(tmp_path: Path) -> None:
     """Bind all five apps without claiming a runnable or admitted image."""
-    assert check_application_image_policy(REPOSITORY_ROOT) == ApplicationImageReport(
+    assert check_application_image_policy(
+        REPOSITORY_ROOT, oci_proof_path=tmp_path / "missing-local-proof.json"
+    ) == ApplicationImageReport(
         images=5,
         workspace_distributions=19,
         blockers=("UBUNTU_24_04_X86_64_OCI_PROOF",),
         admitted=0,
     )
+
+
+def test_valid_local_oci_proof_discharges_only_the_oci_blocker(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A current retained proof removes the build/runtime blocker, not admission."""
+    proof_path = tmp_path / "local-oci-proof.json"
+    proof_path.write_bytes(b"measured-proof-placeholder")
+    checked: list[tuple[Path, Path]] = []
+
+    def valid_proof(root: Path, path: Path) -> None:
+        checked.append((root, path))
+
+    monkeypatch.setattr(local_oci, "check_local_oci_proof", valid_proof)
+
+    assert check_application_image_policy(
+        REPOSITORY_ROOT, oci_proof_path=proof_path
+    ) == ApplicationImageReport(
+        images=5,
+        workspace_distributions=19,
+        blockers=(),
+        admitted=0,
+    )
+    assert checked == [(REPOSITORY_ROOT, proof_path)]
+
+
+def test_acquisition_image_binds_verified_browser_and_debian_runtime_inputs() -> None:
+    """Pin the real browser bytes and exact Debian/Xvfb closure without admitting OCI."""
+    policy = _policy()
+    blockers = _object_list(policy["required_blockers"])
+    dockerfile = (REPOSITORY_ROOT / "infrastructure/poc/images/Dockerfile").read_text()
+    acquisition = _image(policy, "acquisition-worker")
+
+    assert "ACQUISITION_PATCHRIGHT_DEBIAN_SYSTEM_PACKAGE_CLOSURE_REQUIRED" not in blockers
+    assert acquisition["third_party_wheelhouse_state"] == "LOCKED"
+    locks = _object_map(policy["input_locks"])
+    assert "infrastructure/poc/patchright_runtime_inputs.json" in locks
+    assert "infrastructure/poc/patchright_runtime_system_packages.json" in locks
+    assert "PLAYWRIGHT_BROWSERS_PATH" in dockerfile
+    assert "browser-runtime" in dockerfile
+
+
+def test_root_pyproject_lock_tracks_current_wheel_build_metadata() -> None:
+    """The image policy binds lint and Pyright metadata consumed by workspace builds."""
+    locks = _object_map(_policy()["input_locks"])
+    expected = (
+        f"sha256:{hashlib.sha256((REPOSITORY_ROOT / 'pyproject.toml').read_bytes()).hexdigest()}"
+    )
+
+    assert locks["pyproject.toml"] == expected
+
+
+def test_rotation_network_helper_is_an_exact_application_image_input() -> None:
+    """Helper drift fails the image contract before an OCI proof can be reused."""
+    relative = "infrastructure/poc/libexec/asklegal-vault-application-rotation-network"
+    locks = _object_map(_policy()["input_locks"])
+    expected = f"sha256:{hashlib.sha256((REPOSITORY_ROOT / relative).read_bytes()).hexdigest()}"
+
+    assert locks[relative] == expected
 
 
 @pytest.mark.parametrize(

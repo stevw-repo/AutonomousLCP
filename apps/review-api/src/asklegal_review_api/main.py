@@ -1,8 +1,10 @@
 """Review API process entry point."""
 
 import argparse
+import os
 
 import uvicorn
+from asklegal_application_runtime import SystemdCredentialDirectory
 
 from asklegal_review_api.api import create_app, local_dependencies
 from asklegal_review_api.v1_service import run as run_v1_service
@@ -16,7 +18,8 @@ def main() -> None:
     args = parser.parse_args()
     if args.serve:
         raise SystemExit(run_v1_service())
-    dependencies = local_dependencies()
+    credentials = SystemdCredentialDirectory.from_environment(os.environ)
+    dependencies = local_dependencies(review_api_credential=credentials.read("review-api"))
     if args.check:
         if not dependencies.register.check() or not dependencies.projections.check():
             raise SystemExit(1)

@@ -68,7 +68,7 @@ def test_host_identity_inputs_are_allocated_but_still_uncreated() -> None:
     """Bind every accepted account to an exact number without mutating the host."""
     assert check_host_identity_policy(REPOSITORY_ROOT) == HostIdentityReport(
         identities=10,
-        owned_paths=14,
+        owned_paths=16,
         container_identities=16,
         blockers=(
             "PATH_OWNERSHIP_PROOF",

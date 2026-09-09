@@ -7,6 +7,15 @@ set -euo pipefail
 container='asklegal-control-plane'
 runtime_uid=3001
 
+# Phase two atomically installs this authority-bound exact image set.
+deployment_manifest=/etc/asklegal/deployment-images
+[ -f "$deployment_manifest" ] && [ ! -L "$deployment_manifest" ]
+matches="$(grep -Ec '^control-plane sha256:[0-9a-f]{64}$' "$deployment_manifest")"
+[ "$matches" -eq 1 ]
+image_line="$(grep -E '^control-plane sha256:[0-9a-f]{64}$' "$deployment_manifest")"
+image_id="${image_line#* }"
+docker image inspect --format '{{.Id}}' "$image_id" | grep -Fx -- "$image_id" >/dev/null
+
 # A stale container from a previous boot would keep the name and the old
 # configuration, so the unit always starts from a clean one.
 docker rm -f "$container" >/dev/null 2>&1 || true
@@ -30,13 +39,17 @@ docker create \
   --user "$runtime_uid":"$runtime_uid" \
   --cap-drop ALL \
   --security-opt no-new-privileges \
+  -e 'ASKLEGAL_CONTROL_STATE_ROOT=/var/lib/asklegal/control' \
+  -e 'ASKLEGAL_HK_V1_ACCEPTANCE_CUTOFF_ROOT=/var/lib/asklegal/acceptance-cutoffs' \
   -e 'CREDENTIALS_DIRECTORY=/run/credentials/asklegal-control-plane.service' \
   -v "$credential_dir":'/run/credentials/asklegal-control-plane.service':ro \
+  -v '/var/lib/asklegal/control:/var/lib/asklegal/control:rw' \
+  -v '/var/lib/asklegal/acceptance-cutoffs:/var/lib/asklegal/acceptance-cutoffs:ro' \
   -v '/etc/asklegal/trust/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro' \
   -v '/etc/asklegal/trust/vault-primary-ca.pem:/etc/asklegal/trust/vault-primary-ca.pem:ro' \
   -v '/etc/asklegal/trust/vault-recovery-ca.pem:/etc/asklegal/trust/vault-recovery-ca.pem:ro' \
   -v '/etc/asklegal/tls/internal-ca.crt:/etc/asklegal/tls/internal-ca.crt:ro' \
-  'asklegal/control-plane:v1' >/dev/null
+  "$image_id" >/dev/null
 
 # Every network is attached before the process starts. Attaching after start
 # is a race: the readiness gate can run before a dependency is reachable.

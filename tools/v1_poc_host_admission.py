@@ -11,6 +11,12 @@ from ipaddress import IPv4Network
 from pathlib import Path
 from typing import cast
 
+from tools.v1_poc_collect_host_facts import (
+    HKV1HostFacts,
+    HostFactClass,
+    load_host_facts_output,
+)
+
 POLICY_PATH = Path("infrastructure/poc/host_admission_policy.json")
 _MAX_DOCUMENT_BYTES = 1_000_000
 _MIN_MEMORY_BYTES = 64_424_509_440
@@ -70,22 +76,46 @@ _POLICY_KEYS = frozenset(
         "storage",
     }
 )
-_FACT_KEYS = frozenset(
+_COMPLETE_FACT_KEYS = frozenset(
     {
         "architecture",
+        "applications",
+        "backup_freshness",
         "container_runtime",
+        "containers",
         "credentials",
         "firewall",
         "host_packages",
         "journal",
+        "kernel",
+        "listeners",
         "memory_bytes",
+        "mount_capacity",
         "os",
         "paths",
         "physical_disks",
         "private_subnets",
+        "resources",
+        "schedulers",
         "schema_version",
         "source",
         "time",
+        "systemd",
+        "telemetry",
+    }
+)
+_LEGACY_FACT_KEYS = _COMPLETE_FACT_KEYS - frozenset(
+    {
+        "applications",
+        "backup_freshness",
+        "containers",
+        "kernel",
+        "listeners",
+        "mount_capacity",
+        "resources",
+        "schedulers",
+        "systemd",
+        "telemetry",
     }
 )
 _DISK_KEYS = frozenset({"size_bytes", "stable_id"})
@@ -144,6 +174,17 @@ class HostAdmissionEvaluation:
     admitted: bool
     findings: tuple[HostFinding, ...]
     blockers: tuple[str, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class HostEnvelopeAdmissionEvaluation:
+    """Admission result that retains both fact drift and collection gaps."""
+
+    facts_conform: bool
+    admitted: bool
+    findings: tuple[HostFinding, ...]
+    blockers: tuple[str, ...]
+    missing_fact_classes: tuple[HostFactClass, ...]
 
 
 def _mapping(value: object) -> dict[str, object] | None:
@@ -499,7 +540,7 @@ def evaluate_host_facts(
     if _has_secret(facts):
         findings.append(HostFinding(HostCode.SECRET, "facts"))
     if (
-        frozenset(facts) != _FACT_KEYS
+        frozenset(facts) not in {_LEGACY_FACT_KEYS, _COMPLETE_FACT_KEYS}
         or facts.get("schema_version") != 1
         or facts.get("source") != "READ_ONLY_HOST_FACTS"
     ):
@@ -533,6 +574,30 @@ def evaluate_host_facts(
     )
 
 
+def evaluate_host_facts_envelope(
+    policy: dict[str, object],
+    envelope: HKV1HostFacts,
+) -> HostEnvelopeAdmissionEvaluation:
+    """Evaluate detached facts and make any missing class an exact blocker."""
+    incomplete = not envelope.complete
+    if incomplete:
+        return HostEnvelopeAdmissionEvaluation(
+            facts_conform=False,
+            admitted=False,
+            findings=(),
+            blockers=(*_EXPECTED_BLOCKERS, "HOST_FACTS_INCOMPLETE"),
+            missing_fact_classes=envelope.missing_fact_classes,
+        )
+    legacy = evaluate_host_facts(policy, envelope.legacy_facts)
+    return HostEnvelopeAdmissionEvaluation(
+        facts_conform=legacy.facts_conform,
+        admitted=False,
+        findings=legacy.findings,
+        blockers=legacy.blockers,
+        missing_fact_classes=envelope.missing_fact_classes,
+    )
+
+
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--facts", type=Path, help="optional read-only host-facts JSON")
@@ -546,11 +611,13 @@ def main() -> None:
     report = check_policy(root)
     if arguments.facts is not None:
         policy = _read_object(root / POLICY_PATH)
-        evaluation = evaluate_host_facts(policy, _read_object(arguments.facts))
-        if evaluation.findings:
-            detail = ", ".join(
-                f"{finding.code.value}:{finding.detail}" for finding in evaluation.findings
-            )
+        evaluation = evaluate_host_facts_envelope(policy, load_host_facts_output(arguments.facts))
+        if not evaluation.facts_conform:
+            details = [
+                *(f"{finding.code.value}:{finding.detail}" for finding in evaluation.findings),
+                *evaluation.blockers,
+            ]
+            detail = ", ".join(details)
             message = f"host facts failed: {detail}"
             raise ValueError(message)
     print(

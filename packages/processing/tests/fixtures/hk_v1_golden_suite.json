@@ -1,0 +1,58 @@
+{
+  "schema_id": "asklegal.hk-v1-source-neutral-evaluation-request",
+  "schema_version": "1.0.0",
+  "revision": "1.0.0",
+  "semantic_profile_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "serving_profile_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "cases": [
+    {
+      "case_id": "case_001",
+      "material": "GAZETTE",
+      "language_slice": "EN",
+      "evidence_refs": [{"ref_id": "evidence_001", "fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333"}],
+      "decision_task_ref": {"ref_id": "task_decision_001", "fingerprint": "sha256:4444444444444444444444444444444444444444444444444444444444444444"},
+      "challenge_task_ref": {"ref_id": "task_challenge_001", "fingerprint": "sha256:5555555555555555555555555555555555555555555555555555555555555555"},
+      "validator_ref": {"ref_id": "validator_001", "fingerprint": "sha256:6666666666666666666666666666666666666666666666666666666666666666"},
+      "decision_output_ref": {"ref_id": "output_decision_001", "fingerprint": "sha256:7777777777777777777777777777777777777777777777777777777777777777"},
+      "challenge_output_ref": {"ref_id": "output_challenge_001", "fingerprint": "sha256:8888888888888888888888888888888888888888888888888888888888888888"},
+      "reference_truth": {"adjudicated_truth_ref": null, "task_specific_facts_ref": null}
+    },
+    {
+      "case_id": "case_002",
+      "material": "LEGISLATION",
+      "language_slice": "ZH_HANT",
+      "evidence_refs": [{"ref_id": "evidence_002", "fingerprint": "sha256:9999999999999999999999999999999999999999999999999999999999999999"}],
+      "decision_task_ref": {"ref_id": "task_decision_002", "fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+      "challenge_task_ref": {"ref_id": "task_challenge_002", "fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"},
+      "validator_ref": {"ref_id": "validator_002", "fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"},
+      "decision_output_ref": {"ref_id": "output_decision_002", "fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"},
+      "challenge_output_ref": {"ref_id": "output_challenge_002", "fingerprint": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"},
+      "reference_truth": {"adjudicated_truth_ref": null, "task_specific_facts_ref": null}
+    },
+    {
+      "case_id": "case_003",
+      "material": "CASES",
+      "language_slice": "BILINGUAL",
+      "evidence_refs": [{"ref_id": "evidence_003", "fingerprint": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"}],
+      "decision_task_ref": {"ref_id": "task_decision_003", "fingerprint": "sha256:1010101010101010101010101010101010101010101010101010101010101010"},
+      "challenge_task_ref": {"ref_id": "task_challenge_003", "fingerprint": "sha256:1212121212121212121212121212121212121212121212121212121212121212"},
+      "validator_ref": {"ref_id": "validator_003", "fingerprint": "sha256:1313131313131313131313131313131313131313131313131313131313131313"},
+      "decision_output_ref": {"ref_id": "output_decision_003", "fingerprint": "sha256:1414141414141414141414141414141414141414141414141414141414141414"},
+      "challenge_output_ref": {"ref_id": "output_challenge_003", "fingerprint": "sha256:1515151515151515151515151515151515151515151515151515151515151515"},
+      "reference_truth": {"adjudicated_truth_ref": null, "task_specific_facts_ref": null}
+    },
+    {
+      "case_id": "case_004",
+      "material": "HKEX",
+      "language_slice": "CROSS_LANGUAGE",
+      "evidence_refs": [{"ref_id": "evidence_004", "fingerprint": "sha256:1616161616161616161616161616161616161616161616161616161616161616"}],
+      "decision_task_ref": {"ref_id": "task_decision_004", "fingerprint": "sha256:1717171717171717171717171717171717171717171717171717171717171717"},
+      "challenge_task_ref": {"ref_id": "task_challenge_004", "fingerprint": "sha256:1818181818181818181818181818181818181818181818181818181818181818"},
+      "validator_ref": {"ref_id": "validator_004", "fingerprint": "sha256:1919191919191919191919191919191919191919191919191919191919191919"},
+      "decision_output_ref": {"ref_id": "output_decision_004", "fingerprint": "sha256:2020202020202020202020202020202020202020202020202020202020202020"},
+      "challenge_output_ref": {"ref_id": "output_challenge_004", "fingerprint": "sha256:2121212121212121212121212121212121212121212121212121212121212121"},
+      "reference_truth": {"adjudicated_truth_ref": null, "task_specific_facts_ref": null}
+    }
+  ],
+  "fingerprint": "sha256:28746721595f5e121ff7b507bf60be4aa2dda3348bbb08605846768ba94b60f1"
+}

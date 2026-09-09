@@ -15,6 +15,7 @@ from asklegal_domain import SourceOutageImpact
 from .model import HttpMethod, exact_identifier, exact_text
 from .official import (
     EndpointAccessMode,
+    EndpointInvocationKind,
     OfficialEndpointContract,
     OfficialSourceState,
     PublisherRightsState,
@@ -42,7 +43,6 @@ HK_CASE_SOURCE_ACCESS_FORBIDDEN_EFFECTS = (
     "MODEL_OR_EMBEDDING_CALL",
     "PINECONE_MUTATION",
     "PRODUCTION_ROUTING",
-    "REAL_SOURCE_ACCESS",
 )
 
 _EXPECTED_SOURCE_FACTS = {
@@ -93,8 +93,8 @@ class HongKongCasesAccessBoundary:
 
     def __post_init__(self) -> None:
         exact_text(self.state, "state")
-        if self.state != "LOCAL_CONTRACT_ONLY_NO_SOURCE_ACCESS":
-            raise ValueError("Hong Kong Cases access must remain local-contract-only")
+        if self.state != "USER_ATTESTED_PERMISSION_DOCUMENT_PENDING":
+            raise ValueError("Hong Kong Cases access authority provenance drift")
         if self.forbidden_effects != HK_CASE_SOURCE_ACCESS_FORBIDDEN_EFFECTS:
             raise ValueError("Hong Kong Cases forbidden effects must remain exact")
 
@@ -143,10 +143,18 @@ class HongKongCasesSourceProfile:
             raise TypeError("blockers must be a non-empty exact string tuple")
         if self.blockers != tuple(sorted(set(self.blockers))):
             raise ValueError("blockers must be sorted and unique")
-        if self.rights_state is not PublisherRightsState.UNVERIFIED:
-            raise ValueError("publisher rights remain unverified for Cases sources")
-        if self.operational_state is not OfficialSourceState.BLOCKED:
-            raise ValueError("Cases sources remain blocked until exact admission")
+        admitted = bool(self.endpoint_ids)
+        if admitted != (
+            self.rights_state is PublisherRightsState.USER_ATTESTED_PERMISSION_DOCUMENT_PENDING
+            and self.operational_state is OfficialSourceState.PARTIALLY_CONFIGURED
+        ):
+            if admitted:
+                raise ValueError("Cases endpoint authority must remain exact")
+            if (
+                self.rights_state is not PublisherRightsState.UNVERIFIED
+                or self.operational_state is not OfficialSourceState.BLOCKED
+            ):
+                raise ValueError("unconfigured Cases sources must remain blocked and unverified")
 
 
 @dataclass(frozen=True, slots=True)
@@ -175,8 +183,8 @@ class HongKongCasesSourceRegister:
         ):
             exact_text(getattr(self, field), field)
         exact_identifier(self.register_id, "register_id", "hcr")
-        if self.status != "NOT_ADMITTED_FAIL_CLOSED":
-            raise ValueError("Hong Kong Cases register must remain fail-closed")
+        if self.status != "AUTHORIZED_PARTIAL_FAIL_VISIBLE":
+            raise ValueError("Hong Kong Cases register authority status drift")
         if type(self.access_boundary) is not HongKongCasesAccessBoundary:
             raise TypeError("access_boundary must be exact")
         if type(self.sources) is not tuple or type(self.endpoints) is not tuple:
@@ -203,8 +211,22 @@ class HongKongCasesSourceRegister:
                 endpoint = endpoint_map[endpoint_id]
                 if endpoint.source_id != source.source_id:
                     raise ValueError("endpoint must resolve to its owning source")
-                if endpoint.enabled:
-                    raise ValueError("no Cases endpoint is currently admitted")
+                if not endpoint.enabled:
+                    raise ValueError("referenced Cases endpoints must be enabled")
+        redirect_target = endpoint_map.get("sep_000000000000000000000000000000000000000000000205")
+        if (
+            redirect_target is None
+            or redirect_target.source_id != "HK-CASE-JUDICIARY-LRS-INVENTORY"
+            or redirect_target.invocation_kind is not EndpointInvocationKind.REDIRECT_TARGET_ONLY
+            or not redirect_target.enabled
+        ):
+            raise ValueError("Cases session redirect target contract drift is forbidden")
+        if any(
+            endpoint is not redirect_target
+            and endpoint.invocation_kind is not EndpointInvocationKind.DIRECT_REQUEST
+            for endpoint in self.endpoints
+        ):
+            raise ValueError("Cases endpoint invocation contract drift is forbidden")
 
     @property
     def operationally_admitted(self) -> bool:
@@ -230,9 +252,42 @@ class HongKongCasesSourceRegister:
         if endpoint is None:
             raise LookupError("Cases endpoint or exact version is unavailable")
         source = next(item for item in self.sources if item.source_id == endpoint.source_id)
-        if source.operational_state is OfficialSourceState.BLOCKED or not endpoint.enabled:
-            raise PermissionError("Cases source is not operationally configured")
+        if (
+            source.operational_state is OfficialSourceState.BLOCKED
+            or not endpoint.enabled
+            or endpoint.invocation_kind is not EndpointInvocationKind.DIRECT_REQUEST
+        ):
+            raise PermissionError("Cases redirect targets cannot be directly invoked")
         return source, endpoint
+
+    def resolve_registered_endpoint(self, endpoint_id: str) -> OfficialEndpointContract:
+        """Resolve one checked-in Cases endpoint without granting direct-call authority."""
+        exact_identifier(endpoint_id, "endpoint_id", "sep")
+        endpoint = next((item for item in self.endpoints if item.endpoint_id == endpoint_id), None)
+        if endpoint is None:
+            raise LookupError("Cases registered endpoint is unavailable")
+        return endpoint
+
+    def resolve_redirect_target(
+        self,
+        *,
+        entry_endpoint_id: str,
+        method: HttpMethod,
+        target_endpoint_id: str,
+    ) -> OfficialEndpointContract:
+        """Authorize only the registered Judiciary session-entry GET transition."""
+        entry_source, entry = self.resolve_endpoint(entry_endpoint_id, "1.0.0")
+        target = self.resolve_registered_endpoint(target_endpoint_id)
+        if (
+            entry_source.source_id != "HK-CASE-JUDICIARY-LRS-INVENTORY"
+            or entry.endpoint_id != "sep_000000000000000000000000000000000000000000000202"
+            or method is not HttpMethod.GET
+            or target.endpoint_id != "sep_000000000000000000000000000000000000000000000205"
+            or target.invocation_kind is not EndpointInvocationKind.REDIRECT_TARGET_ONLY
+            or not target.enabled
+        ):
+            raise PermissionError("Cases redirect transition is unavailable")
+        return target
 
 
 def load_hk_cases_source_register(path: Path | None = None) -> HongKongCasesSourceRegister:
@@ -327,28 +382,27 @@ def _parse_source(document: dict[str, JsonValue]) -> HongKongCasesSourceProfile:
 
 
 def _parse_endpoint(document: dict[str, JsonValue]) -> OfficialEndpointContract:
-    _exact_keys(
-        document,
-        frozenset(
-            {
-                "endpoint_id",
-                "source_id",
-                "version",
-                "name",
-                "url",
-                "access_mode",
-                "methods",
-                "media_types",
-                "max_bytes",
-                "complete_inventory_required",
-                "signal_use",
-                "proves_no_change",
-                "evidence_role",
-                "enabled",
-            }
-        ),
-        "endpoint",
+    expected = frozenset(
+        {
+            "endpoint_id",
+            "source_id",
+            "version",
+            "name",
+            "url",
+            "access_mode",
+            "methods",
+            "media_types",
+            "max_bytes",
+            "complete_inventory_required",
+            "signal_use",
+            "proves_no_change",
+            "evidence_role",
+            "enabled",
+            "invocation_kind",
+        }
     )
+    if frozenset(document) != expected:
+        raise ValueError("endpoint has unknown or missing fields")
     return OfficialEndpointContract(
         _string(document["endpoint_id"], "endpoint_id"),
         _string(document["source_id"], "source_id"),
@@ -366,6 +420,7 @@ def _parse_endpoint(document: dict[str, JsonValue]) -> OfficialEndpointContract:
         _boolean(document["proves_no_change"], "proves_no_change"),
         _string(document["evidence_role"], "evidence_role"),
         _boolean(document["enabled"], "enabled"),
+        EndpointInvocationKind(_string(document["invocation_kind"], "invocation_kind")),
     )
 
 

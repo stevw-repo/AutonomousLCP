@@ -11,6 +11,7 @@ from __future__ import annotations
 from dataclasses import replace
 
 import pytest
+from asklegal_contracts import canonicalize
 from asklegal_contracts.json_types import JsonValue, checked_json_value
 from asklegal_promotion.builder import serving_metadata, serving_metadata_fingerprint
 from asklegal_promotion.model import (
@@ -61,6 +62,27 @@ class StubTransport:
         return ProviderResponse(200, payload, "stub-request-id", 7)
 
 
+class StubOperationGate:
+    """Explicit test-only target authority with separate deletion control."""
+
+    def __init__(self, *, deletion: bool = False) -> None:
+        """Select whether this test authority also grants exact deletion."""
+        self._deletion = deletion
+
+    def require_write(self, operation: str) -> None:
+        """Permit an exact test write."""
+        del operation
+
+    def require_delete(self, operation: str) -> None:
+        """Permit deletion only in the separate deletion-authority fixture."""
+        if not self._deletion:
+            raise PromotionError(PromotionErrorCode.BROAD_RETIREMENT_FORBIDDEN, operation)
+
+
+_WRITE_GATE = StubOperationGate()
+_DELETE_GATE = StubOperationGate(deletion=True)
+
+
 def _azure() -> AzureOpenAIConfig:
     return AzureOpenAIConfig("https://example.openai.azure.com", "embed-1", "2024-10-21", "k")
 
@@ -107,16 +129,64 @@ def _request() -> EmbeddingRequest:
 
 def test_embedding_adapter_returns_the_provider_vector_and_its_accounting() -> None:
     """A well-formed reply becomes an exact vector plus a redacted receipt."""
-    reply = {"data": [{"embedding": [0.1, 0.2, 0.3, 0.4]}], "usage": {"prompt_tokens": 11}}
+    reply = {
+        "data": [{"embedding": [0.1, 0.2, 0.3, 0.4]}],
+        "usage": {"prompt_tokens": 3, "total_tokens": 3},
+    }
     adapter = AzureOpenAIEmbeddingAdapter(_azure(), StubTransport([reply]))
 
     result = adapter.embed(_profile(), _request())
 
     assert len(result.values) == _DIMENSIONS
-    assert result.receipt.input_tokens == 11
+    assert result.receipt.input_tokens == 3
     assert result.receipt.provider_request_id == "stub-request-id"
     assert result.receipt.result == "SUCCEEDED"
     assert result.receipt.vector_fingerprint.startswith("sha256:")
+
+
+def test_embedding_adapter_rejects_provider_token_accounting_drift() -> None:
+    """A provider count that differs from the exact local count signals contract drift."""
+    reply = {"data": [{"embedding": [0.1, 0.2, 0.3, 0.4]}], "usage": {"prompt_tokens": 11}}
+    adapter = AzureOpenAIEmbeddingAdapter(_azure(), StubTransport([reply]))
+
+    with pytest.raises(PromotionError) as failure:
+        adapter.embed(_profile(), _request())
+
+    assert failure.value.code is PromotionErrorCode.PROFILE_INVALID
+    assert adapter.calls == []
+
+
+@pytest.mark.parametrize(
+    "reply",
+    [
+        {"data": [{"embedding": [0.1, 0.2, 0.3, 0.4]}]},
+        {"data": [{"embedding": [0.1, 0.2, 0.3, 0.4]}], "usage": []},
+        {"data": [{"embedding": [0.1, 0.2, 0.3, 0.4]}], "usage": {}},
+        {
+            "data": [{"embedding": [0.1, 0.2, 0.3, 0.4]}],
+            "usage": {"prompt_tokens": 3},
+        },
+        {
+            "data": [{"embedding": [0.1, 0.2, 0.3, 0.4]}],
+            "usage": {"prompt_tokens": 3, "total_tokens": 11},
+        },
+        {
+            "data": [{"embedding": [0.1, 0.2, 0.3, 0.4]}],
+            "usage": {"prompt_tokens": None, "total_tokens": 3},
+        },
+    ],
+)
+def test_embedding_adapter_requires_complete_consistent_provider_usage(
+    reply: dict[str, object],
+) -> None:
+    """Missing, malformed, or internally contradictory accounting fails closed."""
+    adapter = AzureOpenAIEmbeddingAdapter(_azure(), StubTransport([reply]))
+
+    with pytest.raises(PromotionError) as failure:
+        adapter.embed(_profile(), _request())
+
+    assert failure.value.code is PromotionErrorCode.PROFILE_INVALID
+    assert adapter.calls == []
 
 
 def test_embedding_adapter_refuses_a_provider_the_profile_does_not_admit() -> None:
@@ -151,7 +221,35 @@ def test_embedding_adapter_refuses_a_vector_of_the_wrong_width() -> None:
 
 
 def _pinecone() -> PineconeConfig:
-    return PineconeConfig("key", "https://api.pinecone.io", _INDEX)
+    return PineconeConfig("key", "https://api.pinecone.io", _INDEX, "project-1")
+
+
+@pytest.mark.parametrize("project_field", ["project_id", "project"])
+def test_pinecone_credential_accepts_current_and_retained_project_field(
+    project_field: str,
+) -> None:
+    """The retained prototype credential alias decodes to the same exact identity."""
+    credential = {
+        "api_key": "key",
+        "control_plane_host": "https://api.pinecone.io",
+        "index": _INDEX,
+        project_field: "project-1",
+    }
+    loaded = PineconeConfig.from_credential_json(canonicalize(checked_json_value(credential)))
+    assert loaded.project_id == "project-1"
+
+
+def test_pinecone_credential_rejects_ambiguous_project_fields() -> None:
+    """Supplying both spellings cannot silently choose one project identity."""
+    credential = {
+        "api_key": "key",
+        "control_plane_host": "https://api.pinecone.io",
+        "index": _INDEX,
+        "project": "project-1",
+        "project_id": "project-2",
+    }
+    with pytest.raises(PromotionError):
+        PineconeConfig.from_credential_json(canonicalize(checked_json_value(credential)))
 
 
 def _index_listing() -> dict[str, object]:
@@ -186,7 +284,7 @@ def _record(**overrides: str) -> TargetRecord:
 
 def test_serving_target_refuses_to_write_without_authorization() -> None:
     """An unauthorized upsert must not reach a real index."""
-    store = PineconeServingTargetStore(_pinecone(), StubTransport([]), write_authorized=False)
+    store = PineconeServingTargetStore(_pinecone(), StubTransport([]))
 
     with pytest.raises(PromotionError) as error:
         store.upsert_batch(_INDEX, (_record(),))
@@ -194,14 +292,52 @@ def test_serving_target_refuses_to_write_without_authorization() -> None:
     assert error.value.code is PromotionErrorCode.PROFILE_INVALID
 
 
+def test_serving_target_refuses_any_index_other_than_the_single_admitted_replacement() -> None:
+    """A project credential cannot be used to mutate a caller-chosen second index."""
+    transport = StubTransport([])
+    store = PineconeServingTargetStore(_pinecone(), transport, operation_gate=_WRITE_GATE)
+
+    with pytest.raises(PromotionError) as error:
+        store.upsert_batch("another-index", (_record(),))
+
+    assert error.value.code is PromotionErrorCode.INDEX_NAME_INVALID
+    assert transport.calls == []
+
+
+def test_serving_target_readback_retains_the_admitted_namespace() -> None:
+    """Describe must compare the same namespace that governs every vector operation."""
+    transport = StubTransport([_index_listing()])
+    store = PineconeServingTargetStore(_pinecone(), transport, namespace="hk-v1")
+
+    definition = store.describe(_INDEX)
+
+    assert definition.namespace == "hk-v1"
+    assert definition.state_fingerprint == target_state_fingerprint(
+        _INDEX, _DIMENSIONS, "cosine", "hk-v1"
+    )
+
+
 def test_serving_target_writes_when_authorized() -> None:
     """An authorized upsert resolves the data plane and posts once."""
     transport = StubTransport([_index_listing(), {"upsertedCount": 1}])
-    store = PineconeServingTargetStore(_pinecone(), transport, write_authorized=True)
+    store = PineconeServingTargetStore(_pinecone(), transport, operation_gate=_WRITE_GATE)
 
     store.upsert_batch(_INDEX, (_record(),))
 
     assert ("POST", f"{_DATA_PLANE}/vectors/upsert") in transport.calls
+    assert tuple(receipt.operation for receipt in store.provider_call_receipts) == (
+        "INDEX_DESCRIBE_OR_LIST",
+        "VECTOR_UPSERT",
+    )
+    assert all(
+        receipt.provider_request_id == "stub-request-id" for receipt in store.provider_call_receipts
+    )
+    assert all(receipt.request_units == 1 for receipt in store.provider_call_receipts)
+    assert all(
+        receipt.provider_reported_cost_microunits is None
+        and receipt.cost_basis == "PROVIDER_BILLING_OUT_OF_BAND_CALL_CEILING"
+        for receipt in store.provider_call_receipts
+    )
 
 
 @pytest.mark.parametrize("acknowledgement", [{}, {"upsertedCount": 0}, []])
@@ -210,7 +346,7 @@ def test_serving_target_reports_an_unknown_outcome_without_an_exact_acknowledgem
 ) -> None:
     """A missing, malformed, or wrong-count ack must enter exact reconciliation."""
     transport = StubTransport([_index_listing(), acknowledgement])
-    store = PineconeServingTargetStore(_pinecone(), transport, write_authorized=True)
+    store = PineconeServingTargetStore(_pinecone(), transport, operation_gate=_WRITE_GATE)
 
     with pytest.raises(OutcomeUnknown):
         store.upsert_batch(_INDEX, (_record(),))
@@ -221,8 +357,7 @@ def test_serving_target_refuses_to_delete_without_destructive_authorization() ->
     store = PineconeServingTargetStore(
         _pinecone(),
         StubTransport([]),
-        write_authorized=True,
-        destructive_authorized=False,
+        operation_gate=_WRITE_GATE,
     )
 
     with pytest.raises(PromotionError) as error:
@@ -236,8 +371,7 @@ def test_serving_target_refuses_a_broad_selector() -> None:
     store = PineconeServingTargetStore(
         _pinecone(),
         StubTransport([]),
-        write_authorized=True,
-        destructive_authorized=True,
+        operation_gate=_DELETE_GATE,
     )
 
     with pytest.raises(PromotionError) as error:
@@ -249,7 +383,7 @@ def test_serving_target_refuses_a_broad_selector() -> None:
 def test_serving_target_replays_an_identical_definition_without_creating() -> None:
     """Re-creating the same target must be a replay, not a collision or a write."""
     transport = StubTransport([_index_listing()])
-    store = PineconeServingTargetStore(_pinecone(), transport, write_authorized=True)
+    store = PineconeServingTargetStore(_pinecone(), transport, operation_gate=_WRITE_GATE)
     definition = TargetDefinition(
         _INDEX,
         target_state_fingerprint(_INDEX, _DIMENSIONS, "cosine", ""),
@@ -266,7 +400,7 @@ def test_serving_target_replays_an_identical_definition_without_creating() -> No
 def test_serving_target_reports_a_configuration_collision() -> None:
     """An existing index with different geometry must not be silently reused."""
     transport = StubTransport([_index_listing()])
-    store = PineconeServingTargetStore(_pinecone(), transport, write_authorized=True)
+    store = PineconeServingTargetStore(_pinecone(), transport, operation_gate=_WRITE_GATE)
     definition = TargetDefinition(
         _INDEX,
         target_state_fingerprint(_INDEX, 8, "dotproduct", ""),
@@ -292,6 +426,88 @@ def test_retrieval_gate_fails_when_an_expected_record_is_missing() -> None:
     assert error.value.code is PromotionErrorCode.RETRIEVAL_GATE_FAILED
 
 
+def test_ranked_query_retains_provider_and_readback_receipt_identities() -> None:
+    """The read-only query owner preserves the real response identity."""
+    transport = StubTransport(
+        [
+            _index_listing(),
+            {
+                "matches": [
+                    {
+                        "id": "rec_1",
+                        "metadata": serving_metadata(_record()),
+                        "score": 0.99,
+                    }
+                ]
+            },
+        ]
+    )
+    store = PineconeServingTargetStore(_pinecone(), transport)
+
+    result = store.query_with_receipt(_INDEX, (0.1, 0.2, 0.3, 0.4), 1, "query-run-1")
+
+    assert result.request_id == "query-run-1"
+    assert result.provider_request_id == "stub-request-id"
+    assert result.receipt_id.startswith("qrr_")
+    assert result.records[0].record_id == "rec_1"
+
+
+def test_list_fetch_and_retrieval_use_the_exact_url_encoded_namespace() -> None:
+    """Read-back must inspect the same namespace that received the vectors."""
+    namespace = "hk v1/+?"
+    transport = StubTransport(
+        [
+            _index_listing(),
+            {"vectors": [{"id": "rec_1"}], "pagination": {}},
+            {"vectors": {"rec_1": {"metadata": {}, "values": [0.1, 0.2, 0.3, 0.4]}}},
+            {
+                "vectors": {
+                    "rec_1": {
+                        "metadata": serving_metadata(_record()),
+                        "values": [0.1, 0.2, 0.3, 0.4],
+                    }
+                }
+            },
+            {
+                "matches": [
+                    {
+                        "id": "rec_1",
+                        "score": 1.0,
+                        "metadata": serving_metadata(_record()),
+                        "values": [0.1, 0.2, 0.3, 0.4],
+                    }
+                ]
+            },
+        ]
+    )
+    store = PineconeServingTargetStore(_pinecone(), transport, namespace=namespace)
+
+    store.enumerate(_INDEX)
+    store.verify_queries(_INDEX, ("rec_1",))
+
+    encoded = "hk%20v1%2F%2B%3F"
+    assert (
+        "GET",
+        f"{_DATA_PLANE}/vectors/list?namespace={encoded}&limit=100",
+    ) in transport.calls
+    fetches = [url for method, url in transport.calls if method == "GET" and "/fetch?" in url]
+    assert fetches == [
+        f"{_DATA_PLANE}/vectors/fetch?namespace={encoded}&ids=rec_1",
+        f"{_DATA_PLANE}/vectors/fetch?namespace={encoded}&ids=rec_1",
+    ]
+    assert transport.calls[-1] == ("POST", f"{_DATA_PLANE}/query")
+    assert transport.bodies[-1] == (
+        {
+            "filter": {"text": {"$eq": "text"}},
+            "includeMetadata": True,
+            "includeValues": True,
+            "namespace": namespace,
+            "topK": 1,
+            "vector": [0.1, 0.2, 0.3, 0.4],
+        }
+    )
+
+
 def test_the_whole_six_field_payload_reaches_the_target() -> None:
     """Every contract field must be written, and nothing outside the closed set.
 
@@ -300,7 +516,7 @@ def test_the_whole_six_field_payload_reaches_the_target() -> None:
     reconstructed provision came back looking like the published text.
     """
     transport = StubTransport([_index_listing(), {"upsertedCount": 1}])
-    store = PineconeServingTargetStore(_pinecone(), transport, write_authorized=True)
+    store = PineconeServingTargetStore(_pinecone(), transport, operation_gate=_WRITE_GATE)
 
     store.upsert_batch(_INDEX, (_record(),))
 
@@ -325,7 +541,7 @@ def test_the_whole_six_field_payload_reaches_the_target() -> None:
 def test_a_record_missing_its_authority_note_is_refused() -> None:
     """A warning that is absent must stop the write, not travel as an empty string."""
     transport = StubTransport([_index_listing(), {"upsertedCount": 1}])
-    store = PineconeServingTargetStore(_pinecone(), transport, write_authorized=True)
+    store = PineconeServingTargetStore(_pinecone(), transport, operation_gate=_WRITE_GATE)
 
     with pytest.raises(PromotionError) as error:
         store.upsert_batch(_INDEX, (_record(authority_note=""),))
@@ -337,7 +553,7 @@ def test_a_record_missing_its_authority_note_is_refused() -> None:
 def test_a_payload_that_does_not_match_its_fingerprint_is_refused() -> None:
     """The bytes written must be the bytes that were approved."""
     transport = StubTransport([_index_listing(), {"upsertedCount": 1}])
-    store = PineconeServingTargetStore(_pinecone(), transport, write_authorized=True)
+    store = PineconeServingTargetStore(_pinecone(), transport, operation_gate=_WRITE_GATE)
     tampered = replace(_record(), metadata_text="something else entirely")
 
     with pytest.raises(PromotionError) as error:
@@ -384,7 +600,7 @@ def test_a_legacy_record_without_the_payload_reports_no_fingerprint() -> None:
 def test_a_record_carrying_no_fingerprint_at_all_is_refused() -> None:
     """An unfingerprinted record cannot be shown to be the one that was approved."""
     transport = StubTransport([_index_listing(), {"upsertedCount": 1}])
-    store = PineconeServingTargetStore(_pinecone(), transport, write_authorized=True)
+    store = PineconeServingTargetStore(_pinecone(), transport, operation_gate=_WRITE_GATE)
     unfingerprinted = replace(_record(), content_fingerprint="")
 
     with pytest.raises(PromotionError) as error:

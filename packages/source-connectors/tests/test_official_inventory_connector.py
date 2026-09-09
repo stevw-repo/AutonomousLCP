@@ -128,7 +128,7 @@ def test_wrong_member_set_and_non_inventory_source_fail_before_transport() -> No
     assert transport.calls == []
 
 
-def test_blocked_source_fails_before_transport_even_if_it_declares_members() -> None:
+def test_browser_session_source_fails_before_plain_http_inventory_transport() -> None:
     register = load_hk_legislation_source_register()
     transport = InventoryTransport({}, [])
     connector = OfficialInventoryConnector(OfficialHttpConnector(register, transport))
@@ -136,7 +136,7 @@ def test_blocked_source_fails_before_transport_even_if_it_declares_members() -> 
         item for item in register.endpoints if item.source_id == "HK-LEG-HKEL-EDITORIAL-RECORDS"
     )
 
-    with pytest.raises(PermissionError, match="not operationally configured"):
+    with pytest.raises(PermissionError, match="non-HTTP acquisition procedure"):
         connector.capture(
             OfficialInventoryRequest(
                 "HK-LEG-HKEL-EDITORIAL-RECORDS",

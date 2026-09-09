@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 import json
+import os
 import re
+import subprocess
+import sys
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
@@ -23,6 +26,8 @@ _MAX_DOCUMENT_BYTES = 1_000_000
 _DOCUMENT_TOO_LARGE = "V1 admission document too large"
 _DOCUMENT_ROOT = "V1 admission document root"
 _OBJECT_LIST = "V1 admission component list"
+_WORKSPACE_REEXEC_MARKER = "ASKLEGAL_V1_ADMISSION_WORKSPACE_REEXEC"
+_WORKSPACE_REEXEC_FAILURE = "WORKSPACE_PYTHON_REEXEC_FAILED"
 _SECRET_VALUE = re.compile(r"(?:^sk-[A-Za-z0-9]|BEGIN [A-Z ]*PRIVATE KEY|://[^/\s:]+:[^/@\s]+@)")
 _DOCUMENT_KEYS = frozenset(
     {
@@ -294,17 +299,76 @@ def check_v1_admission(root: Path) -> V1AdmissionReport:
     )
 
 
-def main() -> None:
+def _scope_authority_section() -> dict[str, object]:
+    from asklegal_reporting import (  # noqa: PLC0415
+        evaluate_hk_v1_scope_gate,
+        load_hk_v1_coverage_matrix,
+    )
+
+    matrix = load_hk_v1_coverage_matrix()
+    gate = evaluate_hk_v1_scope_gate(matrix)
+    return {
+        "blocker_codes": list(gate.blocker_codes),
+        "matrix_fingerprint": matrix.fingerprint,
+        "matrix_revision": matrix.revision,
+        "result": gate.result,
+    }
+
+
+def build_v1_admission_report() -> dict[str, object]:
+    """Build one deterministic real-V1 report with fail-visible Gate A state."""
+    root = Path(__file__).resolve().parents[1]
+    composite = check_v1_admission(root)
+    scope_authority = _scope_authority_section()
+    admitted = composite.admitted and scope_authority["result"] == "ADMITTED"
+    return {
+        "admitted": admitted,
+        "blockers": composite.blockers,
+        "components": composite.components,
+        "result": "ADMITTED" if admitted else "NOT_ADMITTED",
+        "scope_authority": scope_authority,
+        "static_contracts_validated": composite.static_contracts_validated,
+    }
+
+
+def _workspace_reexec(root: Path) -> int | None:
+    workspace_prefix = (root / ".venv").resolve()
+    if Path(sys.prefix).resolve() == workspace_prefix:
+        return None
+    if os.environ.get(_WORKSPACE_REEXEC_MARKER) == "1":
+        sys.stderr.write(f"FAIL {_WORKSPACE_REEXEC_FAILURE}\n")
+        return 1
+    workspace_python = root / ".venv/bin/python"
+    if not workspace_python.is_file() or not os.access(workspace_python, os.X_OK):
+        sys.stderr.write(f"FAIL {_WORKSPACE_REEXEC_FAILURE}\n")
+        return 1
+    environment = os.environ.copy()
+    for variable in ("PYTHONHOME", "PYTHONPATH", "PYTHONUSERBASE"):
+        environment.pop(variable, None)
+    environment["PYTHONNOUSERSITE"] = "1"
+    environment[_WORKSPACE_REEXEC_MARKER] = "1"
+    try:
+        result = subprocess.run(  # noqa: S603
+            [str(workspace_python), "-m", "tools.v1_poc_admission"],
+            cwd=root,
+            env=environment,
+            check=False,
+        )
+    except OSError:
+        sys.stderr.write(f"FAIL {_WORKSPACE_REEXEC_FAILURE}\n")
+        return 1
+    return result.returncode
+
+
+def main() -> int:
     """Run the complete local V1 admission verdict."""
     root = Path(__file__).resolve().parents[1]
-    report = check_v1_admission(root)
-    print(  # noqa: T201
-        "PASS V1 POC composite admission gate; NOT_ADMITTED: "
-        f"{report.components} components, "
-        f"{report.static_contracts_validated} static contracts validated, "
-        f"{report.blockers} blockers, admitted={str(report.admitted).lower()}"
-    )
+    reexec_result = _workspace_reexec(root)
+    if reexec_result is not None:
+        return reexec_result
+    print(json.dumps(build_v1_admission_report(), sort_keys=True, separators=(",", ":")))  # noqa: T201
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

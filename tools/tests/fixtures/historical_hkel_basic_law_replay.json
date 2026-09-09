@@ -1,0 +1,376 @@
+{
+  "attempt_id": "tracked-historical-hkel-replay",
+  "endpoints": [
+    {
+      "body_utf8": "<html><body>sanitized category root</body></html>",
+      "endpoint_id": "basic-law-member-20982b58a6a148fe5ae1373f",
+      "endpoint_version": "1.0.0",
+      "media_type": "text/html",
+      "method": "GET",
+      "requested_url": "https://www.basiclaw.gov.hk/en/basiclaw/index.html",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>sanitized category root</body></html>",
+      "endpoint_id": "basic-law-member-ce1d5e4e453a1ee8e2512352",
+      "endpoint_version": "1.0.0",
+      "media_type": "text/html",
+      "method": "GET",
+      "requested_url": "https://www.basiclaw.gov.hk/en/constitution/index.html",
+      "status": 200
+    },
+    {
+      "body_utf8": "{\"result\":{\"name\":\"hk-doj-hkel-list-of-legislation-current\",\"resources\":[{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_en.xml\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_zh-Hant.xml\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_zh-Hans.xml\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_en.json\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_zh-Hant.json\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_zh-Hans.json\"}]},\"success\":true}",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000001",
+      "endpoint_version": "1.1.0",
+      "media_type": "application/json",
+      "method": "GET",
+      "requested_url": "https://data.gov.hk/en-data/api/3/action/package_show?id=hk-doj-hkel-list-of-legislation-current",
+      "status": 200
+    },
+    {
+      "body_utf8": "<Listing lang=\"en\" pointOfTime=\"c\" legislationType=\"ALL\"><Chapter><CapNo>1</CapNo></Chapter></Listing>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000002",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/xml",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_en.xml",
+      "status": 200
+    },
+    {
+      "body_utf8": "<Listing lang=\"zh-Hant\" pointOfTime=\"c\" legislationType=\"ALL\"><Chapter><CapNo>1</CapNo></Chapter></Listing>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000003",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/xml",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_zh-Hant.xml",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>sanitized fixture</body></html>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000004",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/xml",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_zh-Hans.xml",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>sanitized fixture</body></html>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000005",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/json",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_en.json",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>sanitized fixture</body></html>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000006",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/json",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_zh-Hant.json",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>sanitized fixture</body></html>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000007",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/json",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_list_c_all_zh-Hans.json",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>sanitized fixture</body></html>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000008",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/rss+xml",
+      "method": "GET",
+      "requested_url": "https://data.gov.hk/filestore/feeds/data_rss_en.xml",
+      "status": 200
+    },
+    {
+      "body_utf8": "{\"result\":{\"name\":\"hk-doj-hkel-legislation-current\",\"resources\":[{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_1_cap_300_en.zip\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_301_cap_600_en.zip\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_601_cap_end_en.zip\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_c_instruments_en.zip\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_1_cap_300_zh-Hant.zip\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_301_cap_600_zh-Hant.zip\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_601_cap_end_zh-Hant.zip\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_c_instruments_zh-Hant.zip\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_1_cap_300_zh-Hans.zip\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_301_cap_600_zh-Hans.zip\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_601_cap_end_zh-Hans.zip\"},{\"url\":\"https://resource.data.one.gov.hk/doj/data/hkel_c_instruments_zh-Hans.zip\"}]},\"success\":true}",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000009",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/json",
+      "method": "GET",
+      "requested_url": "https://data.gov.hk/en-data/api/3/action/package_show?id=hk-doj-hkel-legislation-current",
+      "status": 200
+    },
+    {
+      "body_utf8": "PK\\x03\\x04sanitized",
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000000a",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/zip",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_1_cap_300_en.zip",
+      "status": 200
+    },
+    {
+      "body_utf8": "PK\\x03\\x04sanitized",
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000000b",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/zip",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_301_cap_600_en.zip",
+      "status": 200
+    },
+    {
+      "body_utf8": "PK\\x03\\x04sanitized",
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000000c",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/zip",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_601_cap_end_en.zip",
+      "status": 200
+    },
+    {
+      "body_utf8": "PK\\x03\\x04sanitized",
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000000d",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/zip",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_c_instruments_en.zip",
+      "status": 200
+    },
+    {
+      "body_utf8": "PK\\x03\\x04sanitized",
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000000e",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/zip",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_1_cap_300_zh-Hant.zip",
+      "status": 200
+    },
+    {
+      "body_utf8": "PK\\x03\\x04sanitized",
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000000f",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/zip",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_301_cap_600_zh-Hant.zip",
+      "status": 200
+    },
+    {
+      "body_utf8": "PK\\x03\\x04sanitized",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000010",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/zip",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_601_cap_end_zh-Hant.zip",
+      "status": 200
+    },
+    {
+      "body_utf8": "PK\\x03\\x04sanitized",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000011",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/zip",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_c_instruments_zh-Hant.zip",
+      "status": 200
+    },
+    {
+      "body_utf8": "PK\\x03\\x04sanitized",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000012",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/zip",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_1_cap_300_zh-Hans.zip",
+      "status": 200
+    },
+    {
+      "body_utf8": "PK\\x03\\x04sanitized",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000013",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/zip",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_301_cap_600_zh-Hans.zip",
+      "status": 200
+    },
+    {
+      "body_utf8": "PK\\x03\\x04sanitized",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000014",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/zip",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_c_leg_cap_601_cap_end_zh-Hans.zip",
+      "status": 200
+    },
+    {
+      "body_utf8": "PK\\x03\\x04sanitized",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000015",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/zip",
+      "method": "GET",
+      "requested_url": "https://resource.data.one.gov.hk/doj/data/hkel_c_instruments_zh-Hans.zip",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>sanitized fixture</body></html>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000033",
+      "endpoint_version": "1.0.0",
+      "media_type": "text/html",
+      "method": "GET",
+      "requested_url": "https://www.elegislation.gov.hk/editorialrecord",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>sanitized fixture</body></html>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000034",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/rss+xml",
+      "method": "GET",
+      "requested_url": "https://www.elegislation.gov.hk/editorialrecord!en.rss.xml",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>sanitized fixture</body></html>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000035",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/xml",
+      "method": "GET",
+      "requested_url": "https://www.elegislation.gov.hk/schemas/hklm.xsd",
+      "status": 200
+    },
+    {
+      "body_utf8": "%PDF-1.7 sanitized",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000036",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/pdf",
+      "method": "GET",
+      "requested_url": "https://www.elegislation.gov.hk/datagovhk/hkel_data-dictionary_en.pdf",
+      "status": 200
+    },
+    {
+      "body_utf8": "%PDF-1.7 sanitized",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000037",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/pdf",
+      "method": "GET",
+      "requested_url": "https://www.elegislation.gov.hk/datagovhk/hkel_list_xml-dictionary_en.pdf",
+      "status": 200
+    },
+    {
+      "body_utf8": "%PDF-1.7 sanitized",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000038",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/pdf",
+      "method": "GET",
+      "requested_url": "https://www.elegislation.gov.hk/datagovhk/hkel_list_json-dictionary_en.pdf",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>sanitized fixture</body></html>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000039",
+      "endpoint_version": "1.0.0",
+      "media_type": "text/html",
+      "method": "GET",
+      "requested_url": "https://www.elegislation.gov.hk/importantnotices",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>april 2026 automatic extraction mass replication product/database attribution version non-endorsement indemnity third-party rights</body></html>",
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000003a",
+      "endpoint_version": "1.0.0",
+      "media_type": "text/html",
+      "method": "GET",
+      "requested_url": "https://www.elegislation.gov.hk/copyright",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>sanitized fixture</body></html>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000042",
+      "endpoint_version": "1.1.0",
+      "media_type": "text/html",
+      "method": "GET",
+      "requested_url": "https://www.basiclaw.gov.hk/en/basiclawtext/index.html",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>sanitized fixture</body></html>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000043",
+      "endpoint_version": "1.0.0",
+      "media_type": "text/html",
+      "method": "GET",
+      "requested_url": "https://www.basiclaw.gov.hk/en/basiclaw/annex3.html",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>sanitized fixture</body></html>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000044",
+      "endpoint_version": "1.0.0",
+      "media_type": "text/html",
+      "method": "GET",
+      "requested_url": "https://www.basiclaw.gov.hk/en/basiclaw/annex-instrument.html",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>sanitized fixture</body></html>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000045",
+      "endpoint_version": "1.0.0",
+      "media_type": "text/html",
+      "method": "GET",
+      "requested_url": "https://www.basiclaw.gov.hk/en/notices/index.html",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body><a href=\"../constitution/index.html\">Constitution</a><a href=\"../basiclaw/index.html\">Basic Law</a></body></html>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000050",
+      "endpoint_version": "1.1.0",
+      "media_type": "text/html",
+      "method": "GET",
+      "requested_url": "https://www.basiclaw.gov.hk/en/index/index.html",
+      "status": 200
+    },
+    {
+      "body_utf8": "<html><body>sanitized terms fixture</body></html>",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000051",
+      "endpoint_version": "1.0.0",
+      "media_type": "text/html",
+      "method": "GET",
+      "requested_url": "https://www.elegislation.gov.hk/terms",
+      "status": 200
+    },
+    {
+      "body_utf8": "{\"observed_byte_length\":1,\"stable\":{\"anti_forgery_control_present\":null,\"attempted\":true,\"configuration_action\":null,\"configuration_field_count\":null,\"derived_terminal_code\":\"CAPTURED\",\"endpoint_contract_fingerprint\":\"sha256:9bcf0feac64f82d521bd927793c6a320216e6fa3124331f06abec53fad2ce71f\",\"final_url\":\"https://www.elegislation.gov.hk/client-check\",\"media_type\":\"text/html\",\"redirect_rejected\":false,\"stage_id\":\"CAPABILITY_GET\",\"status\":200,\"terminal_assertion_consistent\":true,\"terminal_code\":\"CAPTURED\"}}",
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000056",
+      "endpoint_version": "1.0.0",
+      "media_type": "application/json",
+      "method": "GET",
+      "requested_url": "https://www.elegislation.gov.hk/client-check",
+      "status": 200
+    }
+  ],
+  "observation_cutoff": "2026-08-27T22:52:09+08:00",
+  "schema_version": "historical-hkel-writer-2026-08-28.2",
+  "source_procedures": [
+    {
+      "declared_member_count": 2,
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "terminal_code": "INCOMPLETE"
+    },
+    {
+      "declared_member_count": 12,
+      "source_id": "HK-LEG-HKEL-CURRENT-DATA",
+      "terminal_code": "COMPLETE"
+    },
+    {
+      "declared_member_count": 1,
+      "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
+      "terminal_code": "COMPLETE"
+    },
+    {
+      "declared_member_count": 2,
+      "source_id": "HK-LEG-HKEL-EDITORIAL-RECORDS",
+      "terminal_code": "COMPLETE"
+    },
+    {
+      "declared_member_count": 7,
+      "source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+      "terminal_code": "COMPLETE"
+    }
+  ]
+}

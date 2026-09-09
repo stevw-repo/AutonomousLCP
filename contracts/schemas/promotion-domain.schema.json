@@ -201,6 +201,7 @@
         "valid_from": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
         "expected_base_serving_state_ref": {"$ref": "common.schema.json#/$defs/reference"},
         "validity_condition_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/contract_reference"}},
+        "review_readiness_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
         "governance_policy_state": {"type": "string", "enum": ["CONFIGURED", "UNDECIDED"]},
         "immutable": {"const": true}
       }

@@ -18,6 +18,8 @@ repository="$(cd "$here/../../.." && pwd)"
 
 install -d -o root -g root -m 0755 '/etc/asklegal/launch' '/etc/asklegal/config'
 install -d -o root -g root -m 0755 /etc/asklegal/trust
+install -d -o root -g root -m 0755 /usr/local/libexec
+install -d -o root -g root -m 0755 /opt/asklegal/management-register
 
 # The internal authority has to be in the container trust store as well as on
 # its own, because the SQL driver validates against the system bundle.
@@ -32,10 +34,22 @@ done
 install -o root -g root -m 0644 \
   "$repository"/infrastructure/poc/config/* '/etc/asklegal/config'/
 install -o root -g root -m 0755 "$here"/launch/*.sh '/etc/asklegal/launch'/
-install -o root -g root -m 0644 "$here"/*.service "$here"/*.target /etc/systemd/system/
+install -o root -g root -m 0755 "$repository"/infrastructure/poc/libexec/asklegal-register-migrate /usr/local/libexec/asklegal-register-migrate
+install -o root -g root -m 0755 "$repository"/infrastructure/poc/libexec/asklegal-vault-bootstrap /usr/local/libexec/asklegal-vault-bootstrap
+install -o root -g root -m 0755 "$repository"/infrastructure/poc/libexec/asklegal-vault-application-rotation-network /usr/local/libexec/asklegal-vault-application-rotation-network
+migration_stage="$(mktemp -d /opt/asklegal/management-register/.migrations.XXXXXXXX)"
+trap 'rm -rf -- "$migration_stage"' EXIT
+cp -a "$repository"/packages/management-register-adapter/migrations/. "$migration_stage"/
+find "$migration_stage" -type d -exec chmod 0755 {} +
+find "$migration_stage" -type f -exec chmod 0644 {} +
+chown -R root:root "$migration_stage"
+rm -rf -- /opt/asklegal/management-register/migrations
+mv -- "$migration_stage" /opt/asklegal/management-register/migrations
+trap - EXIT
+install -o root -g root -m 0644 "$here"/*.service "$here"/*.target "$here"/*.timer /etc/systemd/system/
 
 systemctl daemon-reload
-printf "\ninstalled %s units, not enabled\n" 14
+printf "\ninstalled %s units, not enabled\n" 28
 
 printf "\nWhen you are ready, and only after 70-credentials.sh:\n"
 printf "  sudo systemctl enable --now asklegal.target\n"

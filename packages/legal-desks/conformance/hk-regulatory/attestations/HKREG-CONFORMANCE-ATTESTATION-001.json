@@ -1,7 +1,7 @@
 {
   "schema_id": "asklegal.hk-regulatory.conformance-attestation",
   "schema_version": "1.0.0",
-  "attestation_id": "rba_3934c1b573cb9a346ce131715d23db85981986644d96e389",
+  "attestation_id": "rba_37b8b8f19c6641c5ec3faf8616743237467826d18325a40b",
   "attestation_kind": "REGULATORY_RULEBOOK_CONFORMANCE",
   "jurisdiction": "HK",
   "material_family": "REGULATORY_MATERIALS",
@@ -10,7 +10,7 @@
     "rulebook_package": {
       "package_id": "rbp_5d8c04afcd2b48269373b2363ea82b1230d1a7be8ad43841",
       "package_version": "0.14.0",
-      "package_fingerprint": "sha256:9fffbb23d5db0902c0b6f2deb5d1f8152bd459fbf7bae9c641bcf081499e92fb"
+      "package_fingerprint": "sha256:687d34b32608eb3e4d01918cbf29362641dc54d049b8af523fc87826cfdad69d"
     },
     "suite": {
       "universe": {
@@ -46,9 +46,19 @@
           "fingerprint": "sha256:09ece95761ec5816dc40781988fd673aede134fd241adeca9e48ea85abd6eb40"
         },
         {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_authority_graph.py",
+          "byte_size": 35216,
+          "fingerprint": "sha256:fe3b4e70c5252d05260ce72a3dfe4c5f592fc6bb5dc7b5fc30825e622c7cc676"
+        },
+        {
           "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_coverage_ledger.py",
           "byte_size": 28092,
           "fingerprint": "sha256:9630618ab4b50a4df3ecec1b85eb66d86b640d5e7097ced23aa15e22296aa60e"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_judgment.py",
+          "byte_size": 42877,
+          "fingerprint": "sha256:7d160535f3bbbb36ddaac2b69aa2fdfad9026ea17dc5603ac750e52cde4fe72e"
         },
         {
           "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_listing.py",
@@ -59,6 +69,16 @@
           "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_output.py",
           "byte_size": 41006,
           "fingerprint": "sha256:65b71920f2c84bc8b4967a3d98ba11434e5229fa0e01d2c4892fc0f522866dfb"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_proposition.py",
+          "byte_size": 104296,
+          "fingerprint": "sha256:bdb094d950e9bf4031a60c48f084b5e7a85d01a3e791823b115320299ba15821"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_records.py",
+          "byte_size": 72328,
+          "fingerprint": "sha256:baa3d2b6d83b94e6b70c9927c4bb62a4e1cbdf8ccc43542f0e46bf993ec2175f"
         },
         {
           "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_semantic_boundary.py",
@@ -86,6 +106,11 @@
           "fingerprint": "sha256:88a12d07e914e3efb7bcf494f4a188f2438afc89a79da6daf623b030edd7aff7"
         },
         {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_treatment.py",
+          "byte_size": 20083,
+          "fingerprint": "sha256:c983ad1b46aedf0664461ffc010253b3396e716c6ade7af14dd8b77d20ed3d4b"
+        },
+        {
           "path": "packages/legal-desks/src/asklegal_legal_desks/hk_case_treatment_discovery.py",
           "byte_size": 38771,
           "fingerprint": "sha256:ca110def9c9998dc901d6272f5f6599f99b9be90fdab7e1a48c8c3729cdde335"
@@ -101,6 +126,16 @@
           "fingerprint": "sha256:fef51033222bac172e295a349bac969a61812007e9afb4e687c675d4f16d5ace"
         },
         {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_legislation_authentic.py",
+          "byte_size": 29722,
+          "fingerprint": "sha256:5becbc5e0b4de6c7ebe9027d1301def168e698a266e6c2a015786b1dcb999c94"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_legislation_events.py",
+          "byte_size": 49607,
+          "fingerprint": "sha256:dc1eb99b2ca443fef4ff9b1bec66b89ef860c6b45a0255b23db735ee90a2e33c"
+        },
+        {
           "path": "packages/legal-desks/src/asklegal_legal_desks/hk_legislation_partition.py",
           "byte_size": 54799,
           "fingerprint": "sha256:42fb6de6f5f4842c5fa4faa972229e0e786e3e4f38c3def57a5f65af33a494e3"
@@ -109,6 +144,21 @@
           "path": "packages/legal-desks/src/asklegal_legal_desks/hk_legislation_partition_package.py",
           "byte_size": 11624,
           "fingerprint": "sha256:108a620ac3232126c12f9723661c97a116bd4097f1ba028f473e487f78528d81"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_legislation_records.py",
+          "byte_size": 50404,
+          "fingerprint": "sha256:6af3a1d900be411604c06d9a96f2d486cca3bca6825dd0216a81b04c42c5046f"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_legislation_retained.py",
+          "byte_size": 33886,
+          "fingerprint": "sha256:77c9a852f787ce63630e61cdcde7fde6ad4f4e913ec4eb5620c6d18f3692f51b"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_legislation_retained_structure.py",
+          "byte_size": 45048,
+          "fingerprint": "sha256:d158ee4562d643976600b194e2b0b42aea9d9ab4eab06b983362d9bb01d039dc"
         },
         {
           "path": "packages/legal-desks/src/asklegal_legal_desks/hk_partition_release_consequence.py",
@@ -132,8 +182,13 @@
         },
         {
           "path": "packages/legal-desks/src/asklegal_legal_desks/hk_reconstruction_report.py",
-          "byte_size": 28746,
-          "fingerprint": "sha256:587ce9c502ba48c80ae97930c1f604f00db55b7d0e0d0565b215a88b36c6826e"
+          "byte_size": 47072,
+          "fingerprint": "sha256:0dc82fd3b696fff3767ce209987f0530aa0654c391bf61f160b9b3be5d75e85e"
+        },
+        {
+          "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_authentic.py",
+          "byte_size": 13576,
+          "fingerprint": "sha256:a52f2961603f0da84e4cc52d4e5ddfbde85215414f17123f2eeed5d9077eebd4"
         },
         {
           "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_conformance.py",
@@ -192,8 +247,8 @@
         },
         {
           "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_effective_state.py",
-          "byte_size": 27911,
-          "fingerprint": "sha256:fdd79d18de87526a14df42879bd6cb5dcd478b556314a04b5133e4366cf28ca5"
+          "byte_size": 53265,
+          "fingerprint": "sha256:5adc74768670613d96936caadde28c4d29d9d8ad99b22ed5a85cbf25f5a3d49c"
         },
         {
           "path": "packages/legal-desks/src/asklegal_legal_desks/hk_regulatory_english.py",
@@ -221,12 +276,12 @@
           "fingerprint": "sha256:21df6498d60029099f2dcf5f0f7ed946ef4f77ced693e530285d01561672ecb8"
         }
       ],
-      "inventory_fingerprint": "sha256:c9f9a1ee834ca85baca2a88380e5693f97b1579360da501fc39aeba1fae6d219"
+      "inventory_fingerprint": "sha256:06956750330be778cd7e0b0a0d533fa0ca76c73a849753354502cf484295bd4d"
     },
     "dependency_lock": {
       "path": "uv.lock",
-      "byte_size": 159136,
-      "fingerprint": "sha256:836a8b726f2154cf04b0c3e52daa32589923193d4a7c75d6e9cbc0aa04ffc13f"
+      "byte_size": 174930,
+      "fingerprint": "sha256:a250ca02b396aeaccb58ad7452899810d2286debac1b8c44f1b7b910db1ca82e"
     },
     "conformance_runner": {
       "path": "tools/run_hk_regulatory_conformance.py",
@@ -235,10 +290,10 @@
     },
     "contract_set": {
       "path": "contracts/package-manifest.json",
-      "byte_size": 31882,
-      "fingerprint": "sha256:c2070ed6fc0403156790670b767cbcbd204b6cf749d56753b04f49f7ef10b938"
+      "byte_size": 32672,
+      "fingerprint": "sha256:ab5b705c03ff048770a722cdfa4ba4fbb47ad6a5a898263edf32eee141196963"
     },
-    "contract_set_fingerprint": "sha256:92b5193ca9fa45d2260ee2012cd350818136f4d12b1d93e763a67b827d15c455",
+    "contract_set_fingerprint": "sha256:64c4544b2d9b6039f7b88de61d7605077d460637d5660a2776655400beb89d66",
     "case_results": {
       "case_count": 284,
       "members": [
@@ -2543,15 +2598,15 @@
       },
       "policy": {
         "path": "tools/architecture_spike_manifest.json",
-        "byte_size": 10902,
-        "fingerprint": "sha256:967cb51799bb3f61e8c6ddd3909c5ef586c997dd58f7d4a6c54d67b475d8178b"
+        "byte_size": 10959,
+        "fingerprint": "sha256:f0c92186b66cb478ea94e59f03c2930087ce4e77e177e63670df3b8087a85bc7"
       },
       "applications": 5,
       "packages": 14,
-      "dependency_edges": 80,
+      "dependency_edges": 81,
       "capability_ports": 31,
-      "policy_fingerprint": "sha256:2dbd84feea7e568d2b89291f900e5ef8330a850a8978900c12e37d9b127baf86",
-      "report_fingerprint": "sha256:a1e7eb300235c79c0dc40c86a7834bc43f7b8364d5052dc0fa9759a428e3cae2",
+      "policy_fingerprint": "sha256:5e7f21973c44651f8f572b09697fc522a8d1fad2512bf8dda290c0be9fc7c84d",
+      "report_fingerprint": "sha256:a518aaf6437c274db849a6a7f16bd2e3380e3326d077791ffeefe34243f5adc3",
       "result": "PASS"
     }
   },

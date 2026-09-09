@@ -8314,7 +8314,7 @@ def build_manifest() -> dict[str, JsonValue]:
         "schema_id": "asklegal.executable-source-rulebook-package",
         "schema_version": "1.0.0",
         "package_id": "rbp_4d1edecf99644933bf4f603c31b9b22f2d1f6b1e9fb47b92",
-        "package_version": "0.11.0",
+        "package_version": "0.13.0",
         "package_fingerprint": "PENDING",
         "jurisdiction": "HK",
         "environment": "PRODUCTION",

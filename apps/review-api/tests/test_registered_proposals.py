@@ -5,6 +5,7 @@ from hashlib import sha256
 from pathlib import Path
 
 import pytest
+from asklegal_application_runtime import HKV1ScopeDispositionProjection
 from asklegal_contracts import canonicalize, parse_json_bytes
 from asklegal_contracts.json_types import JsonValue, checked_json_value
 from asklegal_evidence_vault import (
@@ -18,6 +19,8 @@ from asklegal_review_api.registered_proposals import (
     ProposalProjectionError,
     ProposalProjectionErrorCode,
     RegisteredReviewProjectionStore,
+    freeze_hk_v1_review_readiness,
+    hk_v1_review_readiness_bytes,
     promotion_facts_from_bytes,
 )
 
@@ -49,6 +52,19 @@ class Rows:
     def review_ready_proposals(self) -> tuple[ReviewReadyProposalRow, ...]:
         """Return the configured immutable rows."""
         return self.rows
+
+
+class ReadinessRefs:
+    """Register-projected exact retained Task 8 readiness references."""
+
+    def __init__(self, references: dict[str, ExactObjectReference]) -> None:
+        self.references = references
+
+    def readiness_reference(
+        self, proposal_package_id: str, proposal_fingerprint: str
+    ) -> ExactObjectReference | None:
+        del proposal_fingerprint
+        return self.references.get(proposal_package_id)
 
 
 @pytest.mark.parametrize("drift", ["CAPABILITY", "INPUT", "COMPENSATION", "SEQUENCE"])
@@ -101,6 +117,7 @@ def _store_proposal(
     *,
     invalid_inventory: bool = False,
     semantic_placeholder: bool = False,
+    two_family: bool = False,
 ) -> tuple[ReviewReadyProposalRow, tuple[ExactObjectReference, ...]]:
     package_id = "ppk_" + digit * 48
     fixture = semantic_proposal_fixture(
@@ -112,7 +129,14 @@ def _store_proposal(
         candidate_serving_state_id="srv_" + "b" * 48,
         candidate_serving_state_fingerprint="sha256:" + "b" * 64,
         embedding_profile_fingerprint="sha256:" + "e" * 64,
-        validity_predicates=(("configuration", "1.0.0", "sha256:" + "f" * 64),),
+        validity_predicates=(
+            (
+                ("HK_V1_TWO_FAMILY_PROPOSAL", "1.0.0", "sha256:" + "d" * 64),
+                ("configuration", "1.0.0", "sha256:" + "f" * 64),
+            )
+            if two_family
+            else (("configuration", "1.0.0", "sha256:" + "f" * 64),)
+        ),
     )
     promotion_manifest_id = fixture.bindings.promotion_manifest_id
     member_rows: list[dict[str, JsonValue]] = []
@@ -314,6 +338,71 @@ def test_registered_projection_rereads_complete_package_and_has_stable_generatio
     assert all(item.byte_length > 0 for item in detail.artifacts)
     assert store.load() == (snapshot, proposals)
     assert store.check() is True
+
+
+def test_two_family_registered_projection_requires_retained_readiness_readback(
+    tmp_path: Path,
+) -> None:
+    """A registered two-family proposal is invisible without its exact Task 8 artifact."""
+    vault = LocalImmutableVault(tmp_path / "primary", VaultName.PRIMARY)
+    row, _references = _store_proposal(vault, "a", two_family=True)
+    with pytest.raises(ProposalProjectionError):
+        RegisteredReviewProjectionStore(Rows((row,)), vault).load()
+    readiness = freeze_hk_v1_review_readiness(
+        tuple(
+            HKV1ScopeDispositionProjection(
+                scope,
+                "NO_CHANGE"
+                if scope
+                in {
+                    "HK-LEG-CONSTITUTIONAL-AND-OTHER-INSTRUMENTS",
+                    "HK-LEG-SUBSIDIARY",
+                }
+                else "COMPLETE",
+                0,
+            )
+            for scope in (
+                "HK-CASE-BINDING-POST-1997",
+                "HK-LEG-CONSTITUTIONAL-AND-OTHER-INSTRUMENTS",
+                "HK-LEG-ORDINANCES",
+                "HK-LEG-SUBSIDIARY",
+            )
+        ),
+        ("Cases begin on 1997-07-01.", "HKEX is outside V1."),
+        "task-8/evaluation/model.json",
+        "task-8/evaluation/retrieval.json",
+        "sha256:" + "6" * 64,
+        "sha256:" + "7" * 64,
+        "sha256:" + "8" * 64,
+        "synthetic-v1",
+        "sha256:" + "3" * 64,
+        (
+            ("rec_" + "1" * 48, "HK-CASE-BINDING-POST-1997", "CASES"),
+            ("rec_" + "2" * 48, "HK-LEG-ORDINANCES", "LEGISLATION"),
+        ),
+        (
+            "HK-LEG-CONSTITUTIONAL-AND-OTHER-INSTRUMENTS",
+            "HK-LEG-SUBSIDIARY",
+        ),
+        "asklegal-dev-hkg-20260906-candidate001",
+        "task-8/backup/native.json",
+        "task-8/backup/recovery.json",
+        "srv_" + "8" * 48,
+        "sha256:" + "d" * 64,
+    )
+    reference = vault.conditional_create(
+        f"proposal-packages/{row.proposal_package_id}/task-8/review-readiness.json",
+        hk_v1_review_readiness_bytes(readiness),
+        _RETENTION,
+    ).reference
+    store = RegisteredReviewProjectionStore(
+        Rows((row,)), vault, ReadinessRefs({row.proposal_package_id: reference})
+    )
+
+    detail = store.detail(row.proposal_package_id)
+
+    assert detail is not None
+    assert detail.hk_v1_readiness == readiness
 
 
 def test_registered_projection_fails_closed_on_receipt_or_register_drift(

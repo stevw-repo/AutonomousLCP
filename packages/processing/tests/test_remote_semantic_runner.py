@@ -37,7 +37,20 @@ class StubTransport:
         self.calls += 1
         content = self._content
         rendered = content if isinstance(content, str) else json.dumps(content)
-        return {"choices": [{"message": {"content": rendered}}]}
+        return {
+            "id": f"stub-provider-request-{self.calls}",
+            "choices": [{"message": {"content": rendered}}],
+        }
+
+
+class MissingProviderIdTransport(StubTransport):
+    """Return a valid decision envelope without an effect identity."""
+
+    def post_json(self, url: str, headers: dict[str, str], body: JsonValue) -> dict[str, JsonValue]:
+        """Drop the provider ID from an otherwise valid response."""
+        response = super().post_json(url, headers, body)
+        response.pop("id")
+        return response
 
 
 def _deployment() -> AzureDeployment:
@@ -143,6 +156,17 @@ def test_runner_returns_one_strict_decision() -> None:
     assert decision.challenge_code == "PASS"
     assert decision.output_fingerprint.startswith("sha256:")
     assert decision.request_id == "req_1"
+    assert decision.provider == "AZURE_OPENAI"
+    assert decision.provider_request_id == "stub-provider-request-1"
+    assert decision.effect_receipt_id.startswith("mec_")
+
+
+def test_runner_rejects_a_response_without_provider_identity() -> None:
+    """A semantic result without its real provider response ID is not evidence."""
+    runner = AzureSemanticTaskRunner(_deployment(), MissingProviderIdTransport(_wellformed()))
+
+    with pytest.raises(ProcessingError, match="MODEL_PROVIDER_REQUEST_ID_MISSING"):
+        runner.invoke(_profile(), _request())
 
 
 def test_runner_is_deterministic_for_the_same_reply() -> None:
@@ -214,3 +238,31 @@ def test_runner_refuses_a_citation_that_was_never_supplied() -> None:
 
     with pytest.raises(ProcessingError):
         runner.invoke(_profile(), _request())
+
+
+def test_task_specific_json_requires_exact_profile_schema_before_call() -> None:
+    """A typed legal reply is returned canonically only under its issued schema."""
+    payload: dict[str, JsonValue] = {
+        "schema_id": "asklegal.hk-case-proposition-decision-output/v1",
+        "items": [],
+    }
+    transport = StubTransport(payload)
+    runner = AzureSemanticTaskRunner(_deployment(), transport)
+    profile = replace(_profile(), output_schema="asklegal.hk-case-proposition-decision-output/v1")
+
+    raw = runner.invoke_exact_json(
+        profile,
+        _request(),
+        output_schema="asklegal.hk-case-proposition-decision-output/v1",
+    )
+
+    assert raw == canonicalize(payload)
+    assert transport.calls == 1
+    blocked = StubTransport(payload)
+    with pytest.raises(ProcessingError, match="SEMANTIC_TASK_SCHEMA_AUTHORITY_INVALID"):
+        AzureSemanticTaskRunner(_deployment(), blocked).invoke_exact_json(
+            profile,
+            _request(),
+            output_schema="asklegal.hk-case-proposition-challenge-output/v1",
+        )
+    assert blocked.calls == 0

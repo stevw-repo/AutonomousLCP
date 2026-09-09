@@ -107,7 +107,9 @@
       "service_id": "sql-server",
       "unit_name": "asklegal-sql-server.service",
       "runtime_identity": "mssql",
-      "requires": [],
+      "requires": [
+        "asklegal-filesystems.target"
+      ],
       "after_targets": [
         "asklegal-filesystems.target"
       ],
@@ -150,7 +152,9 @@
       "service_id": "vault-primary",
       "unit_name": "asklegal-vault-primary.service",
       "runtime_identity": "asklegal-vault-primary",
-      "requires": [],
+      "requires": [
+        "asklegal-filesystems.target"
+      ],
       "after_targets": [
         "asklegal-filesystems.target"
       ],
@@ -159,6 +163,7 @@
         "vault-primary-root-secret"
       ],
       "read_write_paths": [
+        "/srv/asklegal/vault-primary/iam",
         "/srv/asklegal/vault-primary/objects",
         "/srv/asklegal/vault-primary/versions",
         "/srv/asklegal/vault-primary/sidecar"
@@ -170,7 +175,9 @@
       "service_id": "vault-recovery",
       "unit_name": "asklegal-vault-recovery.service",
       "runtime_identity": "asklegal-vault-recovery",
-      "requires": [],
+      "requires": [
+        "asklegal-filesystems.target"
+      ],
       "after_targets": [
         "asklegal-filesystems.target"
       ],
@@ -179,6 +186,7 @@
         "vault-recovery-root-secret"
       ],
       "read_write_paths": [
+        "/srv/asklegal/vault-recovery/iam",
         "/srv/asklegal/vault-recovery/objects",
         "/srv/asklegal/vault-recovery/versions",
         "/srv/asklegal/vault-recovery/sidecar"
@@ -318,38 +326,6 @@
       "enabled": false
     },
     {
-      "service_id": "prometheus",
-      "unit_name": "asklegal-prometheus.service",
-      "runtime_identity": "asklegal-prometheus",
-      "requires": [
-        "asklegal-otel-collector.service"
-      ],
-      "after_targets": [],
-      "credential_names": [],
-      "read_write_paths": [
-        "/var/lib/prometheus"
-      ],
-      "runtime_command_state": "REQUIRED",
-      "enabled": false
-    },
-    {
-      "service_id": "grafana",
-      "unit_name": "asklegal-grafana.service",
-      "runtime_identity": "asklegal-grafana",
-      "requires": [
-        "asklegal-prometheus.service"
-      ],
-      "after_targets": [],
-      "credential_names": [
-        "grafana-admin"
-      ],
-      "read_write_paths": [
-        "/var/lib/grafana"
-      ],
-      "runtime_command_state": "REQUIRED",
-      "enabled": false
-    },
-    {
       "service_id": "egress-source",
       "unit_name": "asklegal-egress-source.service",
       "runtime_identity": "asklegal-egress-source",
@@ -385,6 +361,15 @@
   ],
   "bootstrap_units": [
     {
+      "unit_name": "asklegal-filesystems.target",
+      "kind": "TARGET",
+      "requires": [],
+      "credential_names": [],
+      "disable_after_verified_success": false,
+      "runtime_command_state": "REQUIRED",
+      "enabled": false
+    },
+    {
       "unit_name": "asklegal-networks.service",
       "kind": "ONESHOT",
       "requires": [],
@@ -400,7 +385,12 @@
         "asklegal-sql-server.service"
       ],
       "credential_names": [
-        "sql-bootstrap-password"
+        "sql-acquisition",
+        "sql-bootstrap-password",
+        "sql-control",
+        "sql-processing",
+        "sql-promotion",
+        "sql-review"
       ],
       "disable_after_verified_success": true,
       "runtime_command_state": "REQUIRED",
@@ -414,8 +404,15 @@
         "asklegal-vault-recovery.service"
       ],
       "credential_names": [
+        "vault-primary-acquisition",
+        "vault-primary-control",
+        "vault-primary-processing",
+        "vault-primary-promotion",
+        "vault-primary-review",
         "vault-primary-root-access",
         "vault-primary-root-secret",
+        "vault-recovery-acquisition",
+        "vault-recovery-promotion",
         "vault-recovery-root-access",
         "vault-recovery-root-secret"
       ],
@@ -426,33 +423,58 @@
   ],
   "timer_units": [
     {
-      "timer_id": "audit-archive",
-      "unit_name": "asklegal-audit-archive.timer",
-      "cadence_state": "ADMISSION_VALUE_REQUIRED",
+      "timer_id": "ordinary-observation",
+      "unit_name": "asklegal-ordinary-observation.timer",
+      "trigger_unit_name": "asklegal-ordinary-observation.service",
+      "schedule_kind": "OBSERVATION",
+      "on_calendar": "*-*-* 02:15:00 Asia/Hong_Kong",
+      "persistent": true,
+      "accuracy_sec": "1min",
+      "randomized_delay_sec": "0",
       "enabled": false
     },
     {
       "timer_id": "full-reconciliation",
       "unit_name": "asklegal-full-reconciliation.timer",
-      "cadence_state": "ADMISSION_VALUE_REQUIRED",
+      "trigger_unit_name": "asklegal-full-reconciliation.service",
+      "schedule_kind": "RECONCILIATION",
+      "on_calendar": "Sun *-*-* 03:15:00 Asia/Hong_Kong",
+      "persistent": true,
+      "accuracy_sec": "1min",
+      "randomized_delay_sec": "0",
       "enabled": false
     },
     {
-      "timer_id": "ordinary-observation",
-      "unit_name": "asklegal-ordinary-observation.timer",
-      "cadence_state": "PACKAGE_VALUE_REQUIRED",
+      "timer_id": "audit-archive",
+      "unit_name": "asklegal-audit-archive.timer",
+      "trigger_unit_name": "asklegal-audit-archive.service",
+      "schedule_kind": "AUDIT_ARCHIVE",
+      "on_calendar": "*-*-* 04:30:00 Asia/Hong_Kong",
+      "persistent": true,
+      "accuracy_sec": "1min",
+      "randomized_delay_sec": "0",
       "enabled": false
     },
     {
       "timer_id": "recovery-verification",
       "unit_name": "asklegal-recovery-verification.timer",
-      "cadence_state": "ADMISSION_VALUE_REQUIRED",
+      "trigger_unit_name": "asklegal-recovery-verification.service",
+      "schedule_kind": "RECOVERY_VERIFY",
+      "on_calendar": "Mon *-*-* 05:15:00 Asia/Hong_Kong",
+      "persistent": true,
+      "accuracy_sec": "1min",
+      "randomized_delay_sec": "0",
       "enabled": false
     },
     {
       "timer_id": "telemetry-retention",
       "unit_name": "asklegal-telemetry-retention.timer",
-      "cadence_state": "ADMISSION_VALUE_REQUIRED",
+      "trigger_unit_name": "asklegal-telemetry-retention.service",
+      "schedule_kind": "TELEMETRY_RETENTION",
+      "on_calendar": "*-*-* 06:00:00 Asia/Hong_Kong",
+      "persistent": true,
+      "accuracy_sec": "1min",
+      "randomized_delay_sec": "0",
       "enabled": false
     }
   ]

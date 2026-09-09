@@ -3,6 +3,23 @@
 - Status: Accepted
 - Date: 2026-08-18
 
+## 2026-08-25 V1 amendment
+
+The approved live V1 adds one narrower GLD-specific use of the isolated local
+browser compartment. It may autonomously establish and renew the minimum
+session state needed to traverse the exact registered public GLD path. This
+supersedes any implication below that every Patchright session must remain
+credential-free, purely ephemeral discovery or that the public Turnstile path
+cannot be traversed locally. It does not make executable browser content legal
+evidence: addressed Gazette artifacts must still be captured inertly wherever
+the interface permits, read back, and completely accounted for.
+
+The user reports Hong Kong Government permission for the required automation,
+including local Turnstile traversal. That report is not independently verified
+publisher evidence and must be preserved and admitted before enablement. The
+V1 path has no manual fallback and no paid or remote challenge solver. See the
+[Hong Kong Live V1 Execution Specification](../design/HK_V1_LIVE_EXECUTION_SPEC.md).
+
 ## Context
 
 Several official Hong Kong source products expose stable legal documents or

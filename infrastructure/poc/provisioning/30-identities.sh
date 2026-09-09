@@ -67,6 +67,40 @@ create_directory() {
   run install -d -o "${owner%%:*}" -g "${owner##*:}" -m 0750 "$path"
 }
 
+create_group() {
+  local name="$1" gid="$2"
+  if getent group "$name" >/dev/null; then
+    local existing_gid
+    existing_gid="$(getent group "$name" | cut -d: -f3)"
+    if [ "$existing_gid" != "$gid" ]; then
+      note "group $name exists with gid $existing_gid, expected $gid; refusing"
+      exit 1
+    fi
+  else
+    run groupadd --system --gid "$gid" "$name"
+  fi
+}
+
+add_group_member() {
+  local user="$1" group="$2"
+  run usermod --append --groups "$group" "$user"
+}
+
+create_shared_directory() {
+  local path="$1" owner_uid="$2" group_gid="$3" mode="$4"
+  run install -d -o "$owner_uid" -g "$group_gid" -m "$mode" "$path"
+}
+
+set_default_acl() {
+  local path="$1" uid="$2" permissions="$3"
+  command -v setfacl >/dev/null || {
+    printf "setfacl is required for cross-service runtime handoffs
+" >&2
+    exit 1
+  }
+  run setfacl -m "u:${uid}:${permissions},d:u:${uid}:${permissions}" "$path"
+}
+
 note "service accounts"
 create_identity "asklegal-acquisition" 3000
 create_identity "asklegal-control" 3001
@@ -79,23 +113,45 @@ create_identity "asklegal-review" 3007
 create_identity "asklegal-vault-primary" 3008
 create_identity "asklegal-vault-recovery" 3009
 
+note "least-privilege handoff groups"
+create_group "asklegal-acquisition-readers" 3100
+create_group "asklegal-review-artifacts" 3101
+create_group "asklegal-review-promotion" 3102
+add_group_member "asklegal-acquisition" "asklegal-acquisition-readers"
+add_group_member "asklegal-processing" "asklegal-acquisition-readers"
+add_group_member "asklegal-processing" "asklegal-review-artifacts"
+add_group_member "asklegal-review" "asklegal-review-artifacts"
+add_group_member "asklegal-promotion" "asklegal-review-artifacts"
+add_group_member "asklegal-review" "asklegal-review-promotion"
+add_group_member "asklegal-promotion" "asklegal-review-promotion"
+
 note "owned directories"
 run install -d -o root -g root -m 0755 /var/lib/asklegal
 create_directory "/srv/asklegal/sql" "10001:10001"
+create_directory "/srv/asklegal/vault-primary/iam" "asklegal-vault-primary:asklegal-vault-primary"
 create_directory "/srv/asklegal/vault-primary/objects" "asklegal-vault-primary:asklegal-vault-primary"
 create_directory "/srv/asklegal/vault-primary/sidecar" "asklegal-vault-primary:asklegal-vault-primary"
 create_directory "/srv/asklegal/vault-primary/versions" "asklegal-vault-primary:asklegal-vault-primary"
+create_directory "/srv/asklegal/vault-recovery/iam" "asklegal-vault-recovery:asklegal-vault-recovery"
 create_directory "/srv/asklegal/vault-recovery/objects" "asklegal-vault-recovery:asklegal-vault-recovery"
 create_directory "/srv/asklegal/vault-recovery/sidecar" "asklegal-vault-recovery:asklegal-vault-recovery"
 create_directory "/srv/asklegal/vault-recovery/versions" "asklegal-vault-recovery:asklegal-vault-recovery"
-create_directory "/var/lib/asklegal/acquisition" "asklegal-acquisition:asklegal-acquisition"
 create_directory "/var/lib/asklegal/control" "asklegal-control:asklegal-control"
 create_directory "/var/lib/asklegal/processing" "asklegal-processing:asklegal-processing"
 create_directory "/var/lib/asklegal/promotion" "asklegal-promotion:asklegal-promotion"
-create_directory "/var/lib/asklegal/review" "asklegal-review:asklegal-review"
 create_directory "/var/lib/grafana" "asklegal-grafana:asklegal-grafana"
 create_directory "/var/lib/otelcol" "asklegal-otelcol:asklegal-otelcol"
 create_directory "/var/lib/prometheus" "asklegal-prometheus:asklegal-prometheus"
+create_shared_directory "/var/lib/asklegal/acquisition" 3000 3100 2750
+create_shared_directory "/var/lib/asklegal/review-artifacts" 3003 3101 2770
+create_shared_directory "/var/lib/asklegal/review" 3007 3102 2770
+create_shared_directory "/var/lib/asklegal/acceptance-cutoffs" 3001 3001 2750
+create_shared_directory "/var/lib/asklegal/promotion-backup-native" 3006 3006 2750
+create_shared_directory "/var/lib/asklegal/promotion-backup-recovery" 3006 3006 2750
+set_default_acl "/var/lib/asklegal/acquisition" 3003 "r-X"
+set_default_acl "/var/lib/asklegal/review-artifacts" 3007 "r-X"
+set_default_acl "/var/lib/asklegal/review-artifacts" 3006 "r-X"
+set_default_acl "/var/lib/asklegal/review" 3006 "rwx"
 
 note "trust and configuration directories"
 run install -d -o root -g root -m 0755 /etc/asklegal

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "status": "PINNED_OFFLINE_BROWSER_BYTES_SYSTEM_PACKAGES_REQUIRED",
+  "target_platform": "linux/amd64",
+  "target_distribution": "Debian GNU/Linux 13 (trixie)",
+  "patchright_version": "1.62.1",
+  "patchright_wheel_sha256": "sha256:ae908d0a69885f344bc36404a02bbfd772fc64c281f9bb77957dbc51be395592",
+  "browser_registry_sha256": "sha256:f306eed529599b1eaf2f8a85db9de2b23e1a3fe36c2b66434b7c9434fb627a99",
+  "browser_version": "151.0.7922.34",
+  "staging_path": "var/application-inputs/ms-playwright",
+  "image_path": "/opt/asklegal/ms-playwright",
+  "directories": [
+    {
+      "name": "chromium-1234",
+      "revision": "1234",
+      "executable": "chrome-linux64/chrome"
+    },
+    {
+      "name": "chromium_headless_shell-1234",
+      "revision": "1234",
+      "executable": "chrome-headless-shell-linux64/chrome-headless-shell"
+    },
+    {
+      "name": "ffmpeg-1011",
+      "revision": "1011",
+      "executable": "ffmpeg-linux"
+    }
+  ],
+  "file_count": 598,
+  "size_bytes": 685353456,
+  "tree_sha256": "sha256:fa4d31234885e3dd42df99d947c27d5c0a3d62e24d5818fa17aa16ac7f99aabf",
+  "deb_dependencies_sha256": "sha256:58b1812937bc63f4112f3ab59cbec7bf3d4c2930869f3b0ccba91b7aa62367a7",
+  "system_package_manifest": "infrastructure/poc/patchright_runtime_system_packages.json",
+  "network_during_build_forbidden": true,
+  "tracked_in_git": false
+}

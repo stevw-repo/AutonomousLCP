@@ -82,7 +82,7 @@ class AuthenticationClass(StrEnum):
 
 
 class HttpMethod(StrEnum):
-    """Closed acquisition methods."""
+    """Closed generic Watcher and Scraper acquisition methods."""
 
     GET = "GET"
     HEAD = "HEAD"

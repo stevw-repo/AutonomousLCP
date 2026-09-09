@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/hk-v1-serving-capability-profile.schema.json",
+  "title": "Hong Kong V1 immutable embedding and Pinecone capability profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "environment", "embedding", "pinecone_project_id", "index_prefix", "dimensions", "metric", "namespace", "batch_size", "readback_page_size", "provider_timeout_seconds", "target_timeout_seconds", "outage_behavior", "serving_metadata_keys", "backup_profile_ref", "expires_at", "fingerprint", "immutable"],
+  "properties": {
+    "schema_id": {"const": "asklegal.hk-v1-serving-capability-profile"},
+    "schema_version": {"const": "1.0.0"},
+    "environment": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+    "embedding": {"$ref": "#/$defs/embedding_profile"},
+    "pinecone_project_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+    "index_prefix": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+    "dimensions": {"type": "integer", "minimum": 1, "maximum": 20000},
+    "metric": {"type": "string", "enum": ["cosine", "dotproduct", "euclidean"]},
+    "namespace": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+    "batch_size": {"type": "integer", "minimum": 1, "maximum": 100},
+    "readback_page_size": {"type": "integer", "minimum": 1, "maximum": 100},
+    "provider_timeout_seconds": {"type": "integer", "minimum": 1},
+    "target_timeout_seconds": {"type": "integer", "minimum": 1},
+    "outage_behavior": {"const": "FAIL_CLOSED"},
+    "serving_metadata_keys": {"type": "array", "const": ["authority_note", "country", "jurisdiction", "source", "text", "type"]},
+    "backup_profile_ref": {"$ref": "#/$defs/capability_profile_reference"},
+    "expires_at": {"$ref": "#/$defs/exact_timestamp"},
+    "fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+    "immutable": {"const": true}
+  },
+  "$defs": {
+    "capability_profile_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref_type", "ref_id", "fingerprint"],
+      "properties": {
+        "ref_type": {"const": "CAPABILITY_PROFILE"},
+        "ref_id": {"type": "string", "pattern": "^cap_[0-9a-f]{48}$"},
+        "fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"}
+      }
+    },
+    "embedding_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "profile_fingerprint", "provider", "resource_class", "geography_class", "deployment_name", "model_id", "model_version", "api_contract", "tokenizer", "dimensions", "encoding", "normalization", "metric", "max_input_tokens", "cost_limit_microunits", "expires_at", "allowed_environments", "stateful_features"],
+      "properties": {
+        "profile_id": {"type": "string", "pattern": "^emp_[0-9a-f]{48}$"},
+        "profile_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "provider": {"const": "AZURE_OPENAI"},
+        "resource_class": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "geography_class": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "deployment_name": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "model_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "model_version": {"anyOf": [{"$ref": "common.schema.json#/$defs/schema_version"}, {"type": "string", "pattern": "^(0|[1-9][0-9]*)$"}]},
+        "api_contract": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "tokenizer": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "dimensions": {"type": "integer", "minimum": 1, "maximum": 20000},
+        "encoding": {"const": "FLOAT32"},
+        "normalization": {"type": "string", "enum": ["NONE", "UNIT_LENGTH"]},
+        "metric": {"type": "string", "enum": ["cosine", "dotproduct", "euclidean"]},
+        "max_input_tokens": {"type": "integer", "minimum": 1},
+        "cost_limit_microunits": {"type": "integer", "minimum": 0},
+        "expires_at": {"$ref": "#/$defs/exact_timestamp"},
+        "allowed_environments": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}},
+        "stateful_features": {"const": false}
+      }
+    },
+    "exact_timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]Z$",
+      "format": "date-time"
+    }
+  }
+}

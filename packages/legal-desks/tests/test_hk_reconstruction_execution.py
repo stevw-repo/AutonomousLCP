@@ -8,6 +8,7 @@ from hashlib import sha256
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+import asklegal_legal_desks.hk_reconstruction_report as reconstruction_report_module
 import pytest
 from asklegal_contracts import canonicalize, parse_json_bytes
 from asklegal_contracts.json_types import checked_json_value
@@ -79,6 +80,19 @@ def _objects(value: JsonValue | None) -> list[dict[str, JsonValue]]:
 def _array(value: JsonValue) -> list[JsonValue]:
     assert isinstance(value, list)
     return value
+
+
+def _path_object(
+    document: dict[str, JsonValue],
+    path: tuple[str | int, ...],
+) -> dict[str, JsonValue]:
+    current: JsonValue = document
+    for segment in path:
+        if isinstance(segment, str):
+            current = _object(current)[segment]
+        else:
+            current = _array(current)[segment]
+    return _object(current)
 
 
 def _text(value: JsonValue) -> str:
@@ -1346,6 +1360,252 @@ def test_successful_execution_report_is_complete_reproducible_and_effect_free() 
     assert _object(document["artifact_output"])["record_output"] == "NONE"
     assert len(_objects(document["language_results"])) == 2
     assert first.report_ref()["fingerprint"] == _bytes_sha(first.canonical_bytes)
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "artifact_record_output",
+        "source_contract_review",
+        "base_validation",
+        "bilingual_validation",
+        "coverage_disposition",
+        "report_contract",
+        "dependency_validation",
+        "language_coverage",
+        "event_count",
+        "affected_inventory",
+    ],
+)
+def test_report_replay_validation_rejects_forged_success_coherence(mutation: str) -> None:
+    report = build_reconstruction_execution_report(_successful_report_request())
+    document = report.document()
+    if mutation == "artifact_record_output":
+        _object(document["artifact_output"])["record_output"] = "FORGED"
+    elif mutation == "source_contract_review":
+        document["source_contract_review_required"] = True
+    elif mutation == "base_validation":
+        _object(document["base_validation"])["complete"] = False
+    elif mutation == "bilingual_validation":
+        _object(document["bilingual_validation"])["legal_effect_bound"] = False
+    elif mutation == "coverage_disposition":
+        _object(document["coverage_consequence"])["disposition"] = "EXECUTION_FAILED"
+    elif mutation == "report_contract":
+        contracts = _object(document["contracts"])
+        _object(contracts["report"])["contract_id"] = "asklegal.forged-report"
+    elif mutation == "dependency_validation":
+        _object(document["dependency_validation"])["ownership_complete"] = False
+    elif mutation == "language_coverage":
+        _objects(document["language_results"])[0]["complete_source_unit_coverage"] = False
+    elif mutation == "event_count":
+        _object(document["event_chain_validation"])["event_count"] = 99
+    else:
+        _object(document["artifact_output"])["affected_location_inventory_fingerprint"] = SHA_ZERO
+    raw = canonicalize(checked_json_value(document))
+    forged = reconstruction_report_module.ReconstructionExecutionReport(
+        report.reconstruction_execution_report_id,
+        _bytes_sha(raw),
+        raw,
+    )
+
+    with pytest.raises(RulebookError):
+        reconstruction_report_module.validate_reconstruction_execution_report(
+            PACKAGE_ROOT,
+            forged,
+        )
+
+
+def test_report_replay_validation_rejects_official_version_role_relabel() -> None:
+    report = build_reconstruction_execution_report(_successful_report_request())
+    document = report.document()
+    base = _object(document["base_validation"])
+    official_version = _object(base["official_version_ref"])
+    official_version["ref_type"] = "ENGINE_BUILD"
+    raw = canonicalize(checked_json_value(document))
+    forged = reconstruction_report_module.ReconstructionExecutionReport(
+        report.reconstruction_execution_report_id,
+        _bytes_sha(raw),
+        raw,
+    )
+
+    with pytest.raises(RulebookError):
+        reconstruction_report_module.validate_reconstruction_execution_report(
+            PACKAGE_ROOT,
+            forged,
+        )
+
+
+@pytest.mark.parametrize(
+    ("request_kind", "path", "field", "value"),
+    [
+        ("success", ("base_validation", "official_version_ref"), "ref_id", "eng_" + "1" * 48),
+        ("success", ("engine_build_ref",), "ref_type", "OFFICIAL_VERSION"),
+        ("success", ("engine_build_ref",), "ref_id", "ofv_" + "1" * 48),
+        ("success", ("event_chain_validation", "event_refs", 0), "ref_type", "ARTIFACT"),
+        ("success", ("event_chain_validation", "event_refs", 0), "ref_id", "art_" + "1" * 48),
+        (
+            "blocked",
+            ("dependency_validation", "affected_location_refs", 0),
+            "ref_type",
+            "OFFICIAL_VERSION",
+        ),
+        (
+            "blocked",
+            ("dependency_validation", "affected_location_refs", 0),
+            "ref_id",
+            "ofv_" + "1" * 48,
+        ),
+        (
+            "success",
+            ("bilingual_validation", "expected_alignment_map_ref"),
+            "ref_type",
+            "LEGAL_ITEM",
+        ),
+        (
+            "success",
+            ("bilingual_validation", "expected_alignment_map_ref"),
+            "ref_id",
+            "lit_" + "1" * 48,
+        ),
+        (
+            "blocked",
+            ("coverage_consequence", "coverage_gap_ref"),
+            "ref_type",
+            "LEGAL_LOCATION",
+        ),
+        (
+            "blocked",
+            ("coverage_consequence", "coverage_gap_ref"),
+            "ref_id",
+            "loc_" + "1" * 48,
+        ),
+        (
+            "fallback",
+            ("coverage_consequence", "fallback_selection_ref"),
+            "ref_type",
+            "COVERAGE_GAP",
+        ),
+        (
+            "fallback",
+            ("coverage_consequence", "fallback_selection_ref"),
+            "ref_id",
+            "cvg_" + "1" * 48,
+        ),
+        (
+            "success",
+            ("artifact_output", "manifest_ref"),
+            "media_type",
+            "application/x-ndjson",
+        ),
+        (
+            "success",
+            ("artifact_output", "reconstructed_consolidation_artifact_ref"),
+            "ref_type",
+            "ARTIFACT",
+        ),
+        (
+            "success",
+            ("artifact_output", "en_final_tree_ref"),
+            "role",
+            "SOURCE_UNITS_EN",
+        ),
+        (
+            "success",
+            ("artifact_output", "dependency_closure_proof_ref"),
+            "role",
+            "DERIVATION_MAP",
+        ),
+        (
+            "success",
+            ("artifact_output", "source_unit_coverage_proof_ref"),
+            "role",
+            "IDENTITY_LINEAGE_RESULT",
+        ),
+        (
+            "success",
+            ("contracts", "lineage"),
+            "contract_id",
+            "asklegal.hk-legislation.bilingual-alignment",
+        ),
+    ],
+)
+def test_report_replay_validation_rejects_reference_role_and_identity_aliases(
+    request_kind: str,
+    path: tuple[str | int, ...],
+    field: str,
+    value: str,
+) -> None:
+    request = _successful_report_request()
+    if request_kind == "blocked":
+        request = _blocked_report_request()
+    elif request_kind == "fallback":
+        request = replace(
+            _blocked_report_request(),
+            fallback_selection_ref=_ref("FALLBACK_SELECTION", "fbs", 1),
+        )
+    report = build_reconstruction_execution_report(request)
+    document = report.document()
+    _path_object(document, path)[field] = value
+    raw = canonicalize(checked_json_value(document))
+    forged = reconstruction_report_module.ReconstructionExecutionReport(
+        report.reconstruction_execution_report_id,
+        _bytes_sha(raw),
+        raw,
+    )
+
+    with pytest.raises(RulebookError):
+        reconstruction_report_module.validate_reconstruction_execution_report(
+            PACKAGE_ROOT,
+            forged,
+        )
+
+
+@pytest.mark.parametrize(
+    ("outcome", "reason"),
+    [
+        ("QUARANTINE", "RECONSTRUCTION_FINAL_TREE_MISMATCH"),
+        ("BLOCK", "RECONSTRUCTION_COMPLETE"),
+        ("BLOCK", "RECONSTRUCTION_OPERATION_APPLIED"),
+    ],
+)
+def test_report_replay_validation_rejects_unsupported_outcome_reason_mapping(
+    outcome: str,
+    reason: str,
+) -> None:
+    report = build_reconstruction_execution_report(_blocked_report_request())
+    document = report.document()
+    document["processing_outcome"] = outcome
+    document["reason_codes"] = [reason]
+    raw = canonicalize(checked_json_value(document))
+    forged = reconstruction_report_module.ReconstructionExecutionReport(
+        report.reconstruction_execution_report_id,
+        _bytes_sha(raw),
+        raw,
+    )
+
+    with pytest.raises(RulebookError):
+        reconstruction_report_module.validate_reconstruction_execution_report(
+            PACKAGE_ROOT,
+            forged,
+        )
+
+
+def test_report_replay_validation_preserves_process_control_base_exception(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    report = build_reconstruction_execution_report(_successful_report_request())
+
+    def interrupt(*args: object, **kwargs: object) -> None:
+        del args, kwargs
+        raise KeyboardInterrupt
+
+    monkeypatch.setattr(reconstruction_report_module, "_validate_schema", interrupt)
+
+    with pytest.raises(KeyboardInterrupt):
+        reconstruction_report_module.validate_reconstruction_execution_report(
+            PACKAGE_ROOT,
+            report,
+        )
 
 
 def test_blocked_execution_report_accounts_for_every_operation_and_emits_no_artifact() -> None:

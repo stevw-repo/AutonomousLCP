@@ -25,6 +25,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
+import tempfile
 from pathlib import Path
 from typing import cast
 
@@ -92,28 +94,34 @@ def _quote(value: str) -> str:
     return "'" + value.replace("'", "'\\''") + "'"
 
 
-def _dependency_units(systemd_policy: dict[str, object]) -> dict[str, list[str]]:
-    """Map each unit name to the units the accepted contract says it requires."""
-    ordering: dict[str, list[str]] = {}
+def _dependency_units(
+    systemd_policy: dict[str, object],
+) -> dict[str, tuple[list[str], list[str]]]:
+    """Map each unit to its required and ordering-only dependencies."""
+    ordering: dict[str, tuple[list[str], list[str]]] = {}
     for group in ("service_units", "bootstrap_units"):
         for unit in _objects(systemd_policy.get(group)):
             name = str(unit.get("unit_name", ""))
             if not name:
                 continue
-            ordering[name] = _strings(unit.get("requires"))
+            ordering[name] = (
+                _strings(unit.get("requires")),
+                _strings(unit.get("after_targets")),
+            )
     return ordering
 
 
-def _unit_file(service: dict[str, object], requires: list[str]) -> str:
+def _unit_file(service: dict[str, object], requires: list[str], after_targets: list[str]) -> str:
     """Render one hardened service unit for an already-proven container."""
     service_id = str(service["service_id"])
     unit_name = str(service["unit_name"])
-    ordering = ["docker.service", "asklegal-networks.service", *requires]
+    required = ["docker.service", "asklegal-networks.service", *requires]
+    ordering = list(dict.fromkeys((*required, *after_targets)))
     lines = [
         _GENERATED,
         "[Unit]",
         f"Description=AskLegal V1 POC {service_id}",
-        f"Requires={' '.join(ordering)}",
+        f"Requires={' '.join(required)}",
         f"After={' '.join(ordering)}",
         "PartOf=asklegal.target",
         "",
@@ -210,6 +218,8 @@ def _create_arguments(service: dict[str, object]) -> list[str]:
         "  --cap-drop ALL",
         "  --security-opt no-new-privileges",
     ]
+    if (ipv4_address := first.get("ipv4_address")) is not None:
+        create.insert(4, f"  --ip {_quote(str(ipv4_address))}")
     if service.get("read_only_root") is True:
         create.append("  --read-only")
     create.extend(
@@ -237,7 +247,8 @@ def _create_arguments(service: dict[str, object]) -> list[str]:
         f"  -v {_quote(f'{entry["source"]}:{entry["target"]}:{entry.get("mode", "ro")}')}"
         for entry in _objects(service.get("mounts"))
     )
-    create.append(f"  {_quote(str(service['image']))}")
+    image = str(service["image"])
+    create.append('  "$image_id"' if image.startswith("asklegal/") else f"  {_quote(image)}")
     create.extend(f"  {_quote(argument)}" for argument in _strings(service.get("command")))
     return create
 
@@ -264,6 +275,24 @@ def _launcher(service: dict[str, object]) -> str:
         f"container={_quote(f'asklegal-{service_id}')}",
         f"runtime_uid={uid}",
         "",
+    ]
+    if str(service["image"]).startswith("asklegal/"):
+        pattern = f"^{service_id} sha256:[0-9a-f]{{64}}$"
+        body += [
+            "# Phase two atomically installs this authority-bound exact image set.",
+            "deployment_manifest=/etc/asklegal/deployment-images",
+            '[ -f "$deployment_manifest" ] && [ ! -L "$deployment_manifest" ]',
+            f'matches="$(grep -Ec \'{pattern}\' "$deployment_manifest")"',
+            '[ "$matches" -eq 1 ]',
+            f'image_line="$(grep -E \'{pattern}\' "$deployment_manifest")"',
+            'image_id="${image_line#* }"',
+            (
+                "docker image inspect --format '{{.Id}}' \"$image_id\" | "
+                'grep -Fx -- "$image_id" >/dev/null'
+            ),
+            "",
+        ]
+    body += [
         "# A stale container from a previous boot would keep the name and the old",
         "# configuration, so the unit always starts from a clean one.",
         'docker rm -f "$container" >/dev/null 2>&1 || true',
@@ -278,8 +307,14 @@ def _launcher(service: dict[str, object]) -> str:
             "# is a race: the readiness gate can run before a dependency is reachable.",
         ]
         body.extend(
-            f"docker network connect --alias {_quote(str(entry['alias']))} "
-            f'{_quote(str(entry["network"]))} "$container"'
+            "docker network connect "
+            + (
+                f"--ip {_quote(str(entry['ipv4_address']))} "
+                if entry.get("ipv4_address") is not None
+                else ""
+            )
+            + f"--alias {_quote(str(entry['alias']))} "
+            + f'{_quote(str(entry["network"]))} "$container"'
             for entry in networks[1:]
         )
         body.append("")
@@ -317,6 +352,69 @@ def _networks_unit() -> str:
     )
 
 
+def _filesystems_target() -> str:
+    """Require all persistent local stores before SQL or either vault can start."""
+    return (
+        f"{_GENERATED}\n[Unit]\nDescription=AskLegal V1 POC persistent filesystems\n"
+        "RequiresMountsFor=/srv/asklegal/sql /srv/asklegal/vault-primary "
+        "/srv/asklegal/vault-recovery\n"
+    )
+
+
+def _bootstrap_unit(unit: dict[str, object]) -> str:
+    """Render a fail-visible privileged one-shot with fixed helper argv and readback."""
+    name = str(unit["unit_name"])
+    requires = _strings(unit.get("requires"))
+    if name == "asklegal-register-migrate.service":
+        helper = "/usr/local/libexec/asklegal-register-migrate"
+        execute = (
+            f"{helper} --migrations-root /opt/asklegal/management-register/migrations "
+            "--credential-directory ${CREDENTIALS_DIRECTORY} "
+            "--receipt /var/lib/asklegal/control/register-migration-readback.json"
+        )
+    elif name == "asklegal-vault-bootstrap.service":
+        helper = "/usr/local/libexec/asklegal-vault-bootstrap"
+        execute = (
+            f"{helper} --credential-directory ${{CREDENTIALS_DIRECTORY}} "
+            "--receipt /var/lib/asklegal/control/vault-bootstrap-readback.json"
+        )
+    else:
+        message = f"unsupported bootstrap unit: {name}"
+        raise UnitRenderError(message)
+    lines = [
+        _GENERATED,
+        "[Unit]",
+        f"Description=AskLegal V1 POC {name}",
+        f"Requires={' '.join(requires)}",
+        f"After={' '.join(requires)}",
+        "Before=asklegal.target",
+        "",
+        "[Service]",
+        "Type=oneshot",
+        "RemainAfterExit=yes",
+        "User=root",
+        "Group=root",
+        "UMask=0077",
+        "NoNewPrivileges=true",
+        "ProtectHome=true",
+        "ProtectSystem=strict",
+        "ReadWritePaths=/var/lib/asklegal/control",
+    ]
+    lines.extend(
+        f"LoadCredentialEncrypted={credential}:{_SEALED_ROOT}/{credential}.cred"
+        for credential in _strings(unit.get("credential_names"))
+    )
+    lines.extend(
+        [
+            f"ExecStart=/usr/bin/test -x {helper}",
+            f"ExecStart={execute}",
+            f"ExecStart={execute} --verify-only",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
 def _networks_launcher(systemd_policy: dict[str, object]) -> str:
     """Render the idempotent network creation the bootstrap unit runs."""
     body = [
@@ -343,9 +441,80 @@ def _networks_launcher(systemd_policy: dict[str, object]) -> str:
     return "\n".join(body)
 
 
-def _target_unit(services: list[dict[str, object]]) -> str:
+def _timer_unit(timer: dict[str, object]) -> str:
+    """Render one persistent, non-jittered Asia/Hong_Kong timer."""
+    timer_id = str(timer["timer_id"])
+    unit_name = str(timer["unit_name"])
+    trigger_unit_name = str(timer["trigger_unit_name"])
+    if not unit_name.endswith(".timer") or not trigger_unit_name.endswith(".service"):
+        message = f"timer unit names for {timer_id}"
+        raise UnitRenderError(message)
+    return "\n".join(
+        [
+            _GENERATED,
+            "[Unit]",
+            f"Description=AskLegal V1 POC {timer_id} schedule",
+            "PartOf=asklegal.target",
+            "Conflicts=shutdown.target",
+            "Before=shutdown.target",
+            "",
+            "[Timer]",
+            f"OnCalendar={timer['on_calendar']}",
+            f"Unit={trigger_unit_name}",
+            f"Persistent={str(timer['persistent']).lower()}",
+            f"AccuracySec={timer['accuracy_sec']}",
+            f"RandomizedDelaySec={timer['randomized_delay_sec']}",
+            "",
+            "[Install]",
+            "WantedBy=asklegal.target",
+            "",
+        ]
+    )
+
+
+def _timer_trigger_unit(timer: dict[str, object]) -> str:
+    """Render one bounded, shutdown-aware control-plane enqueue operation."""
+    timer_id = str(timer["timer_id"])
+    schedule_kind = str(timer["schedule_kind"])
+    return "\n".join(
+        [
+            _GENERATED,
+            "[Unit]",
+            f"Description=AskLegal V1 POC {timer_id} enqueue",
+            "Requires=asklegal-control-plane.service",
+            "After=asklegal-control-plane.service",
+            "PartOf=asklegal.target",
+            "Conflicts=shutdown.target",
+            "Before=shutdown.target",
+            "",
+            "[Service]",
+            "Type=oneshot",
+            "KillMode=control-group",
+            "TimeoutStartSec=60",
+            "TimeoutStopSec=30",
+            (
+                "# The invocation ID is delivery evidence only; Control derives the latest "
+                "applicable Asia/Hong_Kong slot for catch-up."
+            ),
+            (
+                "ExecStart=/usr/bin/docker exec asklegal-control-plane "
+                f"asklegal-control-plane --enqueue-schedule {schedule_kind} "
+                "--invocation-id ${INVOCATION_ID}"
+            ),
+            "",
+        ]
+    )
+
+
+def _target_unit(services: list[dict[str, object]], timers: list[dict[str, object]]) -> str:
     """Render one target so the whole POC can be started or stopped together."""
-    wants = " ".join(sorted(str(service["unit_name"]) for service in services))
+    wants = " ".join(
+        sorted(
+            ["asklegal-filesystems.target"]
+            + [str(service["unit_name"]) for service in services]
+            + [str(timer["unit_name"]) for timer in timers]
+        )
+    )
     return "\n".join(
         [
             _GENERATED,
@@ -417,9 +586,18 @@ def _credential_script(services: list[dict[str, object]]) -> str:
     return "\n".join(body)
 
 
-def _install_script(services: list[dict[str, object]]) -> str:
+def _install_script(
+    services: list[dict[str, object]],
+    timers: list[dict[str, object]],
+    bootstrap: list[dict[str, object]],
+) -> str:
     """Render the root step that installs the units without enabling them."""
-    unit_names = sorted(str(service["unit_name"]) for service in services)
+    unit_names = sorted(
+        [str(service["unit_name"]) for service in services]
+        + [str(timer["unit_name"]) for timer in timers]
+        + [str(timer["trigger_unit_name"]) for timer in timers]
+        + [str(unit["unit_name"]) for unit in bootstrap]
+    )
     body = [
         "#!/usr/bin/env bash",
         _GENERATED,
@@ -441,6 +619,8 @@ def _install_script(services: list[dict[str, object]]) -> str:
         "",
         f"install -d -o root -g root -m 0755 {_quote(_LAUNCH_ROOT)} {_quote(_CONFIG_ROOT)}",
         "install -d -o root -g root -m 0755 /etc/asklegal/trust",
+        "install -d -o root -g root -m 0755 /usr/local/libexec",
+        "install -d -o root -g root -m 0755 /opt/asklegal/management-register",
         "",
         "# The internal authority has to be in the container trust store as well as on",
         "# its own, because the SQL driver validates against the system bundle.",
@@ -455,7 +635,35 @@ def _install_script(services: list[dict[str, object]]) -> str:
         "install -o root -g root -m 0644 \\",
         f'  "$repository"/infrastructure/poc/config/* {_quote(_CONFIG_ROOT)}/',
         f'install -o root -g root -m 0755 "$here"/launch/*.sh {_quote(_LAUNCH_ROOT)}/',
-        'install -o root -g root -m 0644 "$here"/*.service "$here"/*.target /etc/systemd/system/',
+        (
+            'install -o root -g root -m 0755 "$repository"/infrastructure/poc/libexec/'
+            "asklegal-register-migrate /usr/local/libexec/asklegal-register-migrate"
+        ),
+        (
+            'install -o root -g root -m 0755 "$repository"/infrastructure/poc/libexec/'
+            "asklegal-vault-bootstrap /usr/local/libexec/asklegal-vault-bootstrap"
+        ),
+        (
+            'install -o root -g root -m 0755 "$repository"/infrastructure/poc/libexec/'
+            "asklegal-vault-application-rotation-network "
+            "/usr/local/libexec/asklegal-vault-application-rotation-network"
+        ),
+        'migration_stage="$(mktemp -d /opt/asklegal/management-register/.migrations.XXXXXXXX)"',
+        "trap 'rm -rf -- \"$migration_stage\"' EXIT",
+        (
+            'cp -a "$repository"/packages/management-register-adapter/migrations/. '
+            '"$migration_stage"/'
+        ),
+        'find "$migration_stage" -type d -exec chmod 0755 {} +',
+        'find "$migration_stage" -type f -exec chmod 0644 {} +',
+        'chown -R root:root "$migration_stage"',
+        "rm -rf -- /opt/asklegal/management-register/migrations",
+        'mv -- "$migration_stage" /opt/asklegal/management-register/migrations',
+        "trap - EXIT",
+        (
+            'install -o root -g root -m 0644 "$here"/*.service "$here"/*.target '
+            '"$here"/*.timer /etc/systemd/system/'
+        ),
         "",
         "systemctl daemon-reload",
         'printf "\\ninstalled %s units, not enabled\\n" ' + str(len(unit_names)),
@@ -472,37 +680,76 @@ def render(root: Path) -> dict[str, str]:
     commands = _read(root, RUNTIME_COMMANDS_PATH)
     systemd_policy = _read(root, SYSTEMD_PATH)
     services = _objects(commands.get("services"))
+    timers = _objects(systemd_policy.get("timer_units"))
+    bootstrap = _objects(systemd_policy.get("bootstrap_units"))
     if not services:
         message = "no proven service runtime commands"
         raise UnitRenderError(message)
     ordering = _dependency_units(systemd_policy)
     rendered: dict[str, str] = {
         "asklegal-networks.service": _networks_unit(),
-        "asklegal.target": _target_unit(services),
+        "asklegal-filesystems.target": _filesystems_target(),
+        "asklegal.target": _target_unit(services, timers),
         "launch/networks.sh": _networks_launcher(systemd_policy),
         "70-credentials.sh": _credential_script(services),
-        "80-install.sh": _install_script(services),
+        "80-install.sh": _install_script(services, timers, bootstrap),
     }
-    known = {str(service["unit_name"]) for service in services}
+    for unit in bootstrap:
+        name = str(unit["unit_name"])
+        if name in {"asklegal-networks.service", "asklegal-filesystems.target"}:
+            continue
+        rendered[name] = _bootstrap_unit(unit)
+    known = set(rendered) | {str(service["unit_name"]) for service in services}
     for service in services:
         unit_name = str(service["unit_name"])
         service_id = str(service["service_id"])
-        # A dependency on a unit this file does not render would never be satisfied.
-        requires = [name for name in ordering.get(unit_name, []) if name in known]
-        rendered[unit_name] = _unit_file(service, requires)
+        requires, after_targets = ordering.get(unit_name, ([], []))
+        missing = [name for name in (*requires, *after_targets) if name not in known]
+        if missing:
+            message = f"unrendered dependency for {unit_name}: {missing[0]}"
+            raise UnitRenderError(message)
+        rendered[unit_name] = _unit_file(service, requires, after_targets)
         rendered[f"launch/{service_id}.sh"] = _launcher(service)
+    for timer in timers:
+        rendered[str(timer["unit_name"])] = _timer_unit(timer)
+        rendered[str(timer["trigger_unit_name"])] = _timer_trigger_unit(timer)
     return rendered
+
+
+def _write_tree(root: Path, output: Path) -> tuple[str, ...]:
+    """Write one complete rendered tree at an already selected local path."""
+    (output / "launch").mkdir(parents=True, exist_ok=True)
+    rendered = render(root)
+    for name, content in sorted(rendered.items()):
+        path = output / name
+        path.write_text(content, encoding="utf-8")
+        path.chmod(0o755 if name.endswith(".sh") else 0o644)
+    return tuple(sorted(rendered))
 
 
 def write(root: Path) -> tuple[str, ...]:
     """Write every rendered file with the mode its kind requires."""
-    output = root / OUTPUT_ROOT
-    (output / "launch").mkdir(parents=True, exist_ok=True)
-    for name, content in sorted(render(root).items()):
-        path = output / name
-        path.write_text(content, encoding="utf-8")
-        path.chmod(0o755 if name.endswith(".sh") else 0o644)
-    return tuple(sorted(render(root)))
+    return _write_tree(root, root / OUTPUT_ROOT)
+
+
+def write_preview(root: Path, output: Path) -> tuple[str, ...]:
+    """Atomically create one explicit review tree without touching checked-in units."""
+    destination = output if output.is_absolute() else root / output
+    if destination.exists() or destination.is_symlink():
+        message = "preview output already exists"
+        raise ValueError(message)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    if destination.parent.resolve(strict=True) != destination.parent.absolute():
+        message = "preview output parent contains a symlink"
+        raise ValueError(message)
+    temporary = Path(tempfile.mkdtemp(prefix=f".{destination.name}.", dir=destination.parent))
+    try:
+        names = _write_tree(root, temporary)
+        temporary.replace(destination)
+    finally:
+        if temporary.exists():
+            shutil.rmtree(temporary)
+    return names
 
 
 def check(root: Path) -> tuple[str, ...]:
@@ -519,7 +766,9 @@ def check(root: Path) -> tuple[str, ...]:
 def main() -> None:
     """Render the units, or verify that they match the contracts."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", action="store_true", help="verify instead of writing")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--check", action="store_true", help="verify instead of writing")
+    mode.add_argument("--output", type=Path, help="create a separate deterministic preview tree")
     arguments = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     if arguments.check:
@@ -528,6 +777,10 @@ def main() -> None:
             message = f"units differ from the contracts: {', '.join(drifted)}"
             raise UnitRenderError(message)
         print("PASS V1 POC units match the contracts")  # noqa: T201
+        return
+    if arguments.output is not None:
+        names = write_preview(root, arguments.output)
+        print(f"rendered {len(names)} preview files under {arguments.output}")  # noqa: T201
         return
     names = write(root)
     print(f"rendered {len(names)} files under {OUTPUT_ROOT}")  # noqa: T201

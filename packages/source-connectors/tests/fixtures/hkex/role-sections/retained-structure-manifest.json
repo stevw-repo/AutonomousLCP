@@ -1,0 +1,41 @@
+{
+  "projection_version": "HKEX_UPDATES_RETAINED_STRUCTURE_1.0.0",
+  "source_attempt_id": "hkex-live-baseline-20260901c",
+  "source_report_sha256": "74b8cfa325b6bfcc98c652d3ec413761a0792aebdf8d564bbe506719be294f75",
+  "fixture_policy": "COMPACT_METADATA_PLUS_FROZEN_READ_ONLY_REPLAY",
+  "boards": [
+    {
+      "board": "MAIN",
+      "root_endpoint_id": "sep_000000000000000000000000000000000000000000000307",
+      "section_endpoint_id": "sep_000000000000000000000000000000000000000000000315",
+      "section_object_sha256": "938d77780596c736ed8ba04d1507df77512f344df67a7d21c70f74a512528072",
+      "section_byte_length": 603263,
+      "container_count": 22,
+      "page_count": 80,
+      "child_count_vector": [3,3,4,5,3,5,3,5,5,1,3,1,4,3,4,6,5,4,4,4,2,3],
+      "raw_pdf_occurrences": 335,
+      "same_host_parent_associations": 161,
+      "external_parent_associations": 7
+    },
+    {
+      "board": "GEM",
+      "root_endpoint_id": "sep_000000000000000000000000000000000000000000000308",
+      "section_endpoint_id": "sep_000000000000000000000000000000000000000000000316",
+      "section_object_sha256": "4dfc5c5964ec4d8ec5b1c05c710858e7ab60199dd05bebb2f605e6c551c1ea91",
+      "section_byte_length": 525129,
+      "container_count": 22,
+      "page_count": 74,
+      "child_count_vector": [2,3,4,4,3,4,3,6,4,1,3,1,3,3,3,6,4,4,4,4,2,3],
+      "raw_pdf_occurrences": 201,
+      "same_host_parent_associations": 101,
+      "external_parent_associations": 7
+    }
+  ],
+  "combined": {
+    "raw_pdf_occurrences": 536,
+    "same_host_parent_associations": 262,
+    "external_parent_associations": 14,
+    "unique_same_host_targets": 247,
+    "shared_external_targets": 7
+  }
+}

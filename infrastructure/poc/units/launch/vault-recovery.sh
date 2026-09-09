@@ -28,6 +28,7 @@ docker create \
   -e 'VGW_PORT=:7070' \
   -e 'VGW_CERT=/etc/asklegal/tls/vault-recovery/tls.crt' \
   -e 'VGW_KEY=/etc/asklegal/tls/vault-recovery/tls.key' \
+  -e 'VGW_IAM_DIR=/vault/iam' \
   -e 'ROOT_ACCESS_KEY_ID' \
   -e 'ROOT_SECRET_ACCESS_KEY' \
   -v '/srv/asklegal/vault-recovery:/vault:rw' \

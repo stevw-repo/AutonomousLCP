@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.asklegal.local/v1/hk-v1-semantic-profile.schema.json",
+  "title": "Hong Kong V1 immutable semantic provider profile set",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "revision", "environment", "profiles", "tokenizer_specifications", "budget_profiles", "retry_profile", "request_quota", "quota_limit_tokens", "cost_limit_microunits", "billing_denominator_tokens", "billing_rounding_rule", "expires_at", "fingerprint", "immutable"],
+  "properties": {
+    "schema_id": {"const": "asklegal.hk-v1-semantic-profile-set"},
+    "schema_version": {"const": "1.1.0"},
+    "revision": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "environment": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+    "profiles": {"type": "array", "minItems": 12, "maxItems": 12, "uniqueItems": true, "items": {"$ref": "#/$defs/semantic_task_profile"}},
+    "tokenizer_specifications": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/tokenizer_specification"}},
+    "budget_profiles": {"type": "array", "minItems": 12, "maxItems": 12, "uniqueItems": true, "items": {"$ref": "#/$defs/budget_profile"}},
+    "retry_profile": {"$ref": "#/$defs/retry_profile"},
+    "request_quota": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+    "quota_limit_tokens": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+    "cost_limit_microunits": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+    "billing_denominator_tokens": {"const": 1000000},
+    "billing_rounding_rule": {"const": "PER_REQUEST_PER_DIRECTION_CEILING"},
+    "expires_at": {"$ref": "#/$defs/exact_timestamp"},
+    "fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+    "immutable": {"const": true}
+  },
+  "$defs": {
+    "tokenizer_specification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tokenizer_id", "distribution_name", "distribution_version", "distribution_fingerprint", "encoding_resource_fingerprint"],
+      "properties": {
+        "tokenizer_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "distribution_name": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "distribution_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+        "distribution_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "encoding_resource_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"}
+      }
+    },
+    "budget_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "max_input_tokens", "input_cost_microunits_per_million", "output_cost_microunits_per_million"],
+      "properties": {
+        "profile_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "max_input_tokens": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+        "input_cost_microunits_per_million": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+        "output_cost_microunits_per_million": {"type": "integer", "minimum": 0, "maximum": 9007199254740991}
+      }
+    },
+    "retry_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attempt_ceiling", "timeout_seconds", "backoff_seconds"],
+      "properties": {
+        "attempt_ceiling": {"type": "integer", "minimum": 1, "maximum": 3},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+        "backoff_seconds": {"type": "array", "items": {"type": "integer", "minimum": 0, "maximum": 9007199254740991}}
+      }
+    },
+    "semantic_task_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "task", "provider", "resource_class", "geography_class", "deployment_name", "model_id", "model_version", "api_contract", "tokenizer", "prompt_fingerprint", "input_schema", "output_schema", "evidence_budget_bytes", "max_output_tokens", "content_filter_policy", "retry_policy", "data_handling_profile", "evaluator_id", "threshold_basis_points", "expires_at", "stateful_features", "allowed_environments"],
+      "properties": {
+        "profile_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "task": {"type": "string", "enum": ["GAZETTE_EVENT_ANALYSIS", "GAZETTE_EVENT_CHALLENGE", "HK_CASE_PROPOSITION_ANALYSIS", "HK_CASE_PROPOSITION_CHALLENGE", "HK_LATER_TREATMENT_CANDIDATE_ANALYSIS", "HK_LATER_TREATMENT_DISCOVERY", "HK_REGULATORY_RECORD_ANALYSIS", "HK_REGULATORY_RECORD_CHALLENGE", "HK_REGULATORY_UPDATE_ANALYSIS", "HK_REGULATORY_UPDATE_CHALLENGE", "RECONSTRUCTION_PLAN_CHALLENGE", "RECONSTRUCTION_PLAN_DECISION"]},
+        "provider": {"const": "AZURE_OPENAI"},
+        "resource_class": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "geography_class": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "deployment_name": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "model_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "model_version": {"anyOf": [{"$ref": "common.schema.json#/$defs/schema_version"}, {"type": "string", "pattern": "^(0|[1-9][0-9]*)$"}]},
+        "api_contract": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "tokenizer": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "prompt_fingerprint": {"$ref": "common.schema.json#/$defs/fingerprint"},
+        "input_schema": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "output_schema": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "evidence_budget_bytes": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+        "max_output_tokens": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+        "content_filter_policy": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "retry_policy": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "data_handling_profile": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "evaluator_id": {"$ref": "common.schema.json#/$defs/non_empty_string"},
+        "threshold_basis_points": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+        "expires_at": {"$ref": "#/$defs/exact_timestamp"},
+        "stateful_features": {"const": false},
+        "allowed_environments": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/non_empty_string"}}
+      }
+    },
+    "exact_timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]Z$",
+      "format": "date-time"
+    }
+  }
+}

@@ -89,6 +89,534 @@ _MAX_PORT = 65_535
 _MAX_TOPOLOGY_BYTES = 1_000_000
 _TOPOLOGY_TOO_LARGE = "topology too large"
 _TOPOLOGY_ROOT_TYPE = "topology root"
+_APPLICATION_IDS = (
+    "acquisition-worker",
+    "control-plane",
+    "legal-processing-worker",
+    "promotion-worker",
+    "review-api",
+)
+_REPOSITORY_SEGMENT = r"[a-z0-9]+(?:[._-][a-z0-9]+)*"
+_CANDIDATE_IMAGE_REF = re.compile(
+    rf"^(?P<repository>{_REPOSITORY_SEGMENT}(?::(?P<port>[1-9][0-9]{{0,4}}))?"
+    rf"(?:/{_REPOSITORY_SEGMENT})+)@sha256:[0-9a-f]{{64}}$"
+)
+_CONTAINER_NAME = re.compile(r"^[a-z0-9](?:[a-z0-9_.-]{0,126}[a-z0-9])?$")
+_SYSTEMD_UNIT = re.compile(r"^[a-z0-9](?:[a-z0-9@_.-]{0,124}[a-z0-9])?\.service$")
+_MAX_IMAGE_REFERENCE_LENGTH = 512
+
+
+class _ContractErrorCode(StrEnum):
+    CANDIDATE_IMAGE_REFERENCE_INVALID = "CANDIDATE_IMAGE_REFERENCE_INVALID"
+    CANDIDATE_IMAGE_REPOSITORY_MISMATCH = "CANDIDATE_IMAGE_REPOSITORY_MISMATCH"
+    CANDIDATE_PIN_INPUT_INVALID = "CANDIDATE_PIN_INPUT_INVALID"
+    CANDIDATE_PIN_INVENTORY_INVALID = "CANDIDATE_PIN_INVENTORY_INVALID"
+    DESIRED_APPLICATION_TOPOLOGY_INVALID = "DESIRED_APPLICATION_TOPOLOGY_INVALID"
+    INVENTORY_COMPLETENESS_INVALID = "INVENTORY_COMPLETENESS_INVALID"
+    OBSERVED_CONTAINER_INPUT_INVALID = "OBSERVED_CONTAINER_INPUT_INVALID"
+
+
+class ApplicationContainerContractError(ValueError):
+    """One closed, input-free candidate-topology contract failure."""
+
+    code: str
+
+    def __init__(self, code: _ContractErrorCode) -> None:
+        """Create one error from a closed internal code only."""
+        self.code = code.value
+        super().__init__(self.code)
+
+
+class ContainerOwnership(StrEnum):
+    """Closed ownership observation for one known pipeline container."""
+
+    SYSTEMD = "SYSTEMD"
+    UNKNOWN = "UNKNOWN"
+    UNSUPERVISED = "UNSUPERVISED"
+
+
+class ContainerAccountingState(StrEnum):
+    """Exactly one reconciliation class for each observed pipeline container."""
+
+    DUPLICATE = "DUPLICATE"
+    DRIFTED = "DRIFTED"
+    MATCHED = "MATCHED"
+    ORPHAN = "ORPHAN"
+    OWNERSHIP_UNKNOWN = "OWNERSHIP_UNKNOWN"
+    UNSUPERVISED = "UNSUPERVISED"
+
+
+class ContainerDriftCode(StrEnum):
+    """Closed material drift within one otherwise canonical application name."""
+
+    IMAGE = "IMAGE"
+    SYSTEMD_UNIT = "SYSTEMD_UNIT"
+
+
+class ApplicationContainerBlocker(StrEnum):
+    """Closed blockers for only the application-container reconciliation dimension."""
+
+    CONTAINER_INVENTORY_INCOMPLETE = "CONTAINER_INVENTORY_INCOMPLETE"
+    MISSING_APPLICATION_CONTAINERS = "MISSING_APPLICATION_CONTAINERS"
+    DUPLICATE_PIPELINE_CONTAINERS = "DUPLICATE_PIPELINE_CONTAINERS"
+    CONTAINER_OWNERSHIP_UNKNOWN = "CONTAINER_OWNERSHIP_UNKNOWN"
+    UNSUPERVISED_APPLICATION_CONTAINERS = "UNSUPERVISED_APPLICATION_CONTAINERS"
+    APPLICATION_IMAGE_DRIFT = "APPLICATION_IMAGE_DRIFT"
+    APPLICATION_SYSTEMD_UNIT_DRIFT = "APPLICATION_SYSTEMD_UNIT_DRIFT"
+    ORPHAN_PIPELINE_CONTAINERS = "ORPHAN_PIPELINE_CONTAINERS"
+
+
+@dataclass(frozen=True, slots=True)
+class CandidateApplicationImagePin:
+    """Caller-owned structural image candidate; never image-admission evidence."""
+
+    application_id: str
+    candidate_image_reference: str
+
+
+@dataclass(frozen=True, slots=True)
+class DesiredApplicationContainer:
+    """One derived immutable candidate application-container declaration."""
+
+    application_id: str
+    image_repository: str
+    candidate_image_reference: str
+    container_name: str
+    systemd_unit: str
+
+
+@dataclass(frozen=True, slots=True)
+class V1ApplicationContainerTopology:
+    """Detached exact five-application candidate topology, without admission."""
+
+    applications: tuple[DesiredApplicationContainer, ...]
+
+    def to_json_bytes(self) -> bytes:
+        """Return canonical detached bytes for comparison and later evidence binding."""
+        payload = {
+            "applications": [
+                {
+                    "application_id": item.application_id,
+                    "candidate_image_reference": item.candidate_image_reference,
+                    "container_name": item.container_name,
+                    "image_repository": item.image_repository,
+                    "systemd_unit": item.systemd_unit,
+                }
+                for item in self.applications
+            ],
+            "schema_version": 1,
+            "state": "CANDIDATE_STRUCTURAL_ONLY",
+        }
+        return json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+
+
+@dataclass(frozen=True, slots=True)
+class ObservedPipelineContainer:
+    """Narrow caller-owned projection of one container already classified as pipeline."""
+
+    container_name: str
+    image_reference: str
+    systemd_unit: str | None
+    ownership: ContainerOwnership
+
+
+@dataclass(frozen=True, slots=True)
+class PipelineContainerAccounting:
+    """Exactly one closed classification for one observed inventory row."""
+
+    container_name: str
+    state: ContainerAccountingState
+    drift_codes: tuple[ContainerDriftCode, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class ApplicationContainerReconciliation:
+    """Pure dimensional comparison; not host admission or mutation authority."""
+
+    inventory_complete: bool
+    observed_accounting: tuple[PipelineContainerAccounting, ...]
+    matched_application_containers: tuple[str, ...]
+    missing_application_containers: tuple[str, ...]
+    drifted_application_containers: tuple[str, ...]
+    duplicate_pipeline_containers: tuple[str, ...]
+    ownership_unknown_containers: tuple[str, ...]
+    unsupervised_application_containers: tuple[str, ...]
+    orphan_pipeline_containers: tuple[str, ...]
+    blocker_codes: tuple[ApplicationContainerBlocker, ...]
+    clean: bool
+    mutation_authorized: bool
+
+    def to_json_bytes(self) -> bytes:
+        """Return deterministic names-and-closed-codes reconciliation bytes."""
+        payload = {
+            "blocker_codes": [code.value for code in self.blocker_codes],
+            "clean": self.clean,
+            "drifted_application_containers": list(self.drifted_application_containers),
+            "duplicate_pipeline_containers": list(self.duplicate_pipeline_containers),
+            "inventory_complete": self.inventory_complete,
+            "matched_application_containers": list(self.matched_application_containers),
+            "missing_application_containers": list(self.missing_application_containers),
+            "mutation_authorized": self.mutation_authorized,
+            "observed_accounting": [
+                {
+                    "container_name": item.container_name,
+                    "drift_codes": [code.value for code in item.drift_codes],
+                    "state": item.state.value,
+                }
+                for item in self.observed_accounting
+            ],
+            "orphan_pipeline_containers": list(self.orphan_pipeline_containers),
+            "ownership_unknown_containers": list(self.ownership_unknown_containers),
+            "schema_version": 1,
+            "unsupervised_application_containers": list(self.unsupervised_application_containers),
+        }
+        return json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+
+
+@dataclass(frozen=True, slots=True)
+class _CandidatePinSnapshot:
+    application_id: str
+    candidate_image_reference: str
+
+
+@dataclass(frozen=True, slots=True)
+class _DesiredContainerSnapshot:
+    application_id: str
+    image_repository: str
+    candidate_image_reference: str
+    container_name: str
+    systemd_unit: str
+
+
+@dataclass(frozen=True, slots=True)
+class _ObservedContainerSnapshot:
+    container_name: str
+    image_reference: str
+    systemd_unit: str | None
+    ownership: ContainerOwnership
+
+
+def _candidate_repository(reference: str) -> str | None:
+    if len(reference) > _MAX_IMAGE_REFERENCE_LENGTH:
+        return None
+    match = _CANDIDATE_IMAGE_REF.fullmatch(reference)
+    if match is None:
+        return None
+    port = match.group("port")
+    if port is not None and int(port) > _MAX_PORT:
+        return None
+    return match.group("repository")
+
+
+def _snapshot_candidate_pins(
+    pins: Iterable[CandidateApplicationImagePin],
+) -> tuple[_CandidatePinSnapshot, ...]:
+    try:
+        return _raw_candidate_pin_snapshots(pins)
+    except Exception:  # noqa: BLE001, S110 - discard every ordinary hostile failure
+        pass
+    raise ApplicationContainerContractError(_ContractErrorCode.CANDIDATE_PIN_INPUT_INVALID)
+
+
+def _raw_candidate_pin_snapshots(
+    pins: Iterable[CandidateApplicationImagePin],
+) -> tuple[_CandidatePinSnapshot, ...]:
+    snapshots: list[_CandidatePinSnapshot] = []
+    for pin in pins:
+        if type(pin) is not CandidateApplicationImagePin:
+            raise TypeError
+        application_id = object.__getattribute__(pin, "application_id")
+        reference = object.__getattribute__(pin, "candidate_image_reference")
+        if type(application_id) is not str or type(reference) is not str:
+            raise TypeError
+        snapshots.append(_CandidatePinSnapshot(application_id, reference))
+    return tuple(snapshots)
+
+
+def build_v1_application_container_topology(
+    pins: Iterable[CandidateApplicationImagePin],
+) -> V1ApplicationContainerTopology:
+    """Freeze exact candidate pins into derived five-application desired state."""
+    snapshots = _snapshot_candidate_pins(pins)
+    application_ids = tuple(item.application_id for item in snapshots)
+    if (
+        len(application_ids) != len(_APPLICATION_IDS)
+        or len(application_ids) != len(set(application_ids))
+        or frozenset(application_ids) != frozenset(_APPLICATION_IDS)
+    ):
+        raise ApplicationContainerContractError(_ContractErrorCode.CANDIDATE_PIN_INVENTORY_INVALID)
+    applications: list[DesiredApplicationContainer] = []
+    for pin in snapshots:
+        repository = _candidate_repository(pin.candidate_image_reference)
+        if repository is None:
+            raise ApplicationContainerContractError(
+                _ContractErrorCode.CANDIDATE_IMAGE_REFERENCE_INVALID
+            )
+        if repository.rsplit("/", 1)[-1] != pin.application_id:
+            raise ApplicationContainerContractError(
+                _ContractErrorCode.CANDIDATE_IMAGE_REPOSITORY_MISMATCH
+            )
+        container_name = f"asklegal-{pin.application_id}"
+        applications.append(
+            DesiredApplicationContainer(
+                application_id=pin.application_id,
+                image_repository=repository,
+                candidate_image_reference=pin.candidate_image_reference,
+                container_name=container_name,
+                systemd_unit=f"{container_name}.service",
+            )
+        )
+    return V1ApplicationContainerTopology(
+        applications=tuple(sorted(applications, key=lambda item: item.application_id))
+    )
+
+
+def _snapshot_desired_topology(
+    topology: V1ApplicationContainerTopology,
+) -> tuple[_DesiredContainerSnapshot, ...]:
+    try:
+        result = _raw_desired_container_snapshots(topology)
+    except Exception:  # noqa: BLE001 - normalize every ordinary forged-object failure
+        result = ()
+    if not result:
+        raise ApplicationContainerContractError(
+            _ContractErrorCode.DESIRED_APPLICATION_TOPOLOGY_INVALID
+        )
+    if tuple(item.application_id for item in result) != _APPLICATION_IDS:
+        raise ApplicationContainerContractError(
+            _ContractErrorCode.DESIRED_APPLICATION_TOPOLOGY_INVALID
+        )
+    for item in result:
+        repository = _candidate_repository(item.candidate_image_reference)
+        container_name = f"asklegal-{item.application_id}"
+        if (
+            repository is None
+            or repository != item.image_repository
+            or repository.rsplit("/", 1)[-1] != item.application_id
+            or item.container_name != container_name
+            or item.systemd_unit != f"{container_name}.service"
+        ):
+            raise ApplicationContainerContractError(
+                _ContractErrorCode.DESIRED_APPLICATION_TOPOLOGY_INVALID
+            )
+    return result
+
+
+def _raw_desired_container_snapshots(
+    topology: V1ApplicationContainerTopology,
+) -> tuple[_DesiredContainerSnapshot, ...]:
+    snapshots: list[_DesiredContainerSnapshot] = []
+    if type(topology) is not V1ApplicationContainerTopology:
+        raise TypeError
+    raw_applications = object.__getattribute__(topology, "applications")
+    if type(raw_applications) is not tuple:
+        raise TypeError
+    applications = cast("tuple[object, ...]", raw_applications)
+    for item in applications:
+        if type(item) is not DesiredApplicationContainer:
+            raise TypeError
+        values = (
+            object.__getattribute__(item, "application_id"),
+            object.__getattribute__(item, "image_repository"),
+            object.__getattribute__(item, "candidate_image_reference"),
+            object.__getattribute__(item, "container_name"),
+            object.__getattribute__(item, "systemd_unit"),
+        )
+        if not all(type(value) is str for value in values):
+            raise TypeError
+        snapshots.append(_DesiredContainerSnapshot(*values))
+    return tuple(snapshots)
+
+
+def _snapshot_observed_containers(
+    observed: Iterable[ObservedPipelineContainer],
+) -> tuple[_ObservedContainerSnapshot, ...]:
+    try:
+        return _raw_observed_container_snapshots(observed)
+    except Exception:  # noqa: BLE001, S110 - discard every ordinary hostile failure
+        pass
+    raise ApplicationContainerContractError(_ContractErrorCode.OBSERVED_CONTAINER_INPUT_INVALID)
+
+
+def _raw_observed_container_snapshots(
+    observed: Iterable[ObservedPipelineContainer],
+) -> tuple[_ObservedContainerSnapshot, ...]:
+    snapshots: list[_ObservedContainerSnapshot] = []
+    for item in observed:
+        if type(item) is not ObservedPipelineContainer:
+            raise TypeError
+        container_name = object.__getattribute__(item, "container_name")
+        image_reference = object.__getattribute__(item, "image_reference")
+        systemd_unit = object.__getattribute__(item, "systemd_unit")
+        ownership = object.__getattribute__(item, "ownership")
+        if (
+            type(container_name) is not str
+            or type(image_reference) is not str
+            or (systemd_unit is not None and type(systemd_unit) is not str)
+            or type(ownership) is not ContainerOwnership
+        ):
+            raise TypeError
+        snapshots.append(
+            _ObservedContainerSnapshot(
+                container_name,
+                image_reference,
+                systemd_unit,
+                ownership,
+            )
+        )
+    return tuple(snapshots)
+
+
+def _validate_observed_containers(
+    observed: tuple[_ObservedContainerSnapshot, ...],
+) -> None:
+    for item in observed:
+        unit_is_valid = item.systemd_unit is None or _SYSTEMD_UNIT.fullmatch(item.systemd_unit)
+        ownership_is_coherent = (item.ownership is ContainerOwnership.SYSTEMD) == (
+            item.systemd_unit is not None
+        )
+        if (
+            _CONTAINER_NAME.fullmatch(item.container_name) is None
+            or _candidate_repository(item.image_reference) is None
+            or not unit_is_valid
+            or not ownership_is_coherent
+        ):
+            raise ApplicationContainerContractError(
+                _ContractErrorCode.OBSERVED_CONTAINER_INPUT_INVALID
+            )
+
+
+def _account_observed_containers(
+    desired: tuple[_DesiredContainerSnapshot, ...],
+    observed: tuple[_ObservedContainerSnapshot, ...],
+) -> tuple[PipelineContainerAccounting, ...]:
+    desired_by_name = {item.container_name: item for item in desired}
+    name_counts: dict[str, int] = {}
+    for item in observed:
+        name_counts[item.container_name] = name_counts.get(item.container_name, 0) + 1
+    accounting: list[PipelineContainerAccounting] = []
+    for item in sorted(
+        observed,
+        key=lambda value: (
+            value.container_name,
+            value.image_reference,
+            value.systemd_unit or "",
+            value.ownership.value,
+        ),
+    ):
+        state: ContainerAccountingState
+        drift_codes: tuple[ContainerDriftCode, ...] = ()
+        expected = desired_by_name.get(item.container_name)
+        if name_counts[item.container_name] > 1:
+            state = ContainerAccountingState.DUPLICATE
+        elif item.ownership is ContainerOwnership.UNKNOWN:
+            state = ContainerAccountingState.OWNERSHIP_UNKNOWN
+        elif expected is None:
+            state = ContainerAccountingState.ORPHAN
+        elif item.ownership is ContainerOwnership.UNSUPERVISED:
+            state = ContainerAccountingState.UNSUPERVISED
+        else:
+            drift: list[ContainerDriftCode] = []
+            if item.image_reference != expected.candidate_image_reference:
+                drift.append(ContainerDriftCode.IMAGE)
+            if item.systemd_unit != expected.systemd_unit:
+                drift.append(ContainerDriftCode.SYSTEMD_UNIT)
+            drift_codes = tuple(drift)
+            state = (
+                ContainerAccountingState.DRIFTED
+                if drift_codes
+                else ContainerAccountingState.MATCHED
+            )
+        accounting.append(
+            PipelineContainerAccounting(
+                container_name=item.container_name,
+                state=state,
+                drift_codes=drift_codes,
+            )
+        )
+    return tuple(accounting)
+
+
+def _names_for_state(
+    accounting: tuple[PipelineContainerAccounting, ...],
+    state: ContainerAccountingState,
+) -> tuple[str, ...]:
+    return tuple(sorted({item.container_name for item in accounting if item.state is state}))
+
+
+def evaluate_v1_application_containers(
+    desired: V1ApplicationContainerTopology,
+    observed: Iterable[ObservedPipelineContainer],
+    *,
+    inventory_complete: bool,
+) -> ApplicationContainerReconciliation:
+    """Compare a detached narrow inventory without inspecting or changing a host."""
+    if type(inventory_complete) is not bool:
+        raise ApplicationContainerContractError(_ContractErrorCode.INVENTORY_COMPLETENESS_INVALID)
+    desired_snapshot = _snapshot_desired_topology(desired)
+    observed_snapshot = _snapshot_observed_containers(observed)
+    _validate_observed_containers(observed_snapshot)
+    accounting = _account_observed_containers(desired_snapshot, observed_snapshot)
+    matched = _names_for_state(accounting, ContainerAccountingState.MATCHED)
+    drifted = _names_for_state(accounting, ContainerAccountingState.DRIFTED)
+    duplicates = _names_for_state(accounting, ContainerAccountingState.DUPLICATE)
+    ownership_unknown = tuple(
+        sorted(
+            {
+                item.container_name
+                for item in observed_snapshot
+                if item.ownership is ContainerOwnership.UNKNOWN
+            }
+        )
+    )
+    unsupervised = _names_for_state(accounting, ContainerAccountingState.UNSUPERVISED)
+    orphans = _names_for_state(accounting, ContainerAccountingState.ORPHAN)
+    observed_names = {item.container_name for item in observed_snapshot}
+    missing = tuple(
+        sorted(
+            item.container_name
+            for item in desired_snapshot
+            if item.container_name not in observed_names
+        )
+    )
+    drift_codes = {code for item in accounting for code in item.drift_codes}
+    blockers: list[ApplicationContainerBlocker] = []
+    effective_complete = inventory_complete and not ownership_unknown
+    if not effective_complete:
+        blockers.append(ApplicationContainerBlocker.CONTAINER_INVENTORY_INCOMPLETE)
+    if missing:
+        blockers.append(ApplicationContainerBlocker.MISSING_APPLICATION_CONTAINERS)
+    if duplicates:
+        blockers.append(ApplicationContainerBlocker.DUPLICATE_PIPELINE_CONTAINERS)
+    if ownership_unknown:
+        blockers.append(ApplicationContainerBlocker.CONTAINER_OWNERSHIP_UNKNOWN)
+    if unsupervised:
+        blockers.append(ApplicationContainerBlocker.UNSUPERVISED_APPLICATION_CONTAINERS)
+    if ContainerDriftCode.IMAGE in drift_codes:
+        blockers.append(ApplicationContainerBlocker.APPLICATION_IMAGE_DRIFT)
+    if ContainerDriftCode.SYSTEMD_UNIT in drift_codes:
+        blockers.append(ApplicationContainerBlocker.APPLICATION_SYSTEMD_UNIT_DRIFT)
+    if orphans:
+        blockers.append(ApplicationContainerBlocker.ORPHAN_PIPELINE_CONTAINERS)
+    blocker_codes = tuple(blockers)
+    return ApplicationContainerReconciliation(
+        inventory_complete=effective_complete,
+        observed_accounting=accounting,
+        matched_application_containers=matched,
+        missing_application_containers=missing,
+        drifted_application_containers=drifted,
+        duplicate_pipeline_containers=duplicates,
+        ownership_unknown_containers=ownership_unknown,
+        unsupervised_application_containers=unsupervised,
+        orphan_pipeline_containers=orphans,
+        blocker_codes=blocker_codes,
+        clean=(
+            not blocker_codes
+            and len(matched) == len(_APPLICATION_IDS)
+            and len(accounting) == len(_APPLICATION_IDS)
+        ),
+        mutation_authorized=False,
+    )
 
 
 class TopologyCode(StrEnum):

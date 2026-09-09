@@ -21,6 +21,7 @@ from asklegal_source_connectors import (
     SyntheticPage,
     SyntheticResponse,
     WatcherResultCode,
+    hkel_authentic,
 )
 
 SOURCE_1 = f"src_{'1' * 48}"
@@ -94,6 +95,21 @@ def _request(*, prior_signal: str = "signal-old") -> ConnectorRequest:
         prior_signal,
         RetryProfile(3, 30, (0, 1, 2), 17, True),
     )
+
+
+def test_generic_http_method_cannot_represent_post() -> None:
+    """POST belongs only to the HKeL session procedure, not generic requests."""
+    with pytest.raises(ValueError, match=r"POST.*not a valid HttpMethod"):
+        HttpMethod("POST")
+
+
+def test_connector_request_rejects_the_specialized_hkel_session_post() -> None:
+    """The HKeL form method cannot cross into the generic connector adapter."""
+    session_method_type = getattr(hkel_authentic, "HkelSessionMethod", HttpMethod)
+    session_post = session_method_type("POST")
+
+    with pytest.raises(TypeError, match="method must be an exact HttpMethod"):
+        replace(_request(), method=session_post)
 
 
 def _response(

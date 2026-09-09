@@ -235,6 +235,39 @@ class ProposalDecisionProjection:
 
 
 @dataclass(frozen=True, slots=True)
+class HKV1ScopeDispositionProjection:
+    """One exact source/release scope shown before V1 Approval."""
+
+    scope_id: str
+    result: str
+    retryable_count: int
+
+
+@dataclass(frozen=True, slots=True)
+class HKV1ReviewReadinessProjection:
+    """Complete immutable Task 8 facts displayed to the named reviewer."""
+
+    scope_dispositions: tuple[HKV1ScopeDispositionProjection, ...]
+    limitations: tuple[str, ...]
+    retryable_count: int
+    model_evaluation_ref: str
+    retrieval_evaluation_ref: str
+    model_profile_fingerprint: str
+    embedding_profile_fingerprint: str
+    serving_profile_fingerprint: str
+    target_namespace: str
+    backup_profile_fingerprint: str
+    target_members: tuple[tuple[str, str, str], ...]
+    zero_record_scope_ids: tuple[str, ...]
+    target_name: str
+    native_backup_ref: str
+    recovery_backup_ref: str
+    rollback_state_id: str
+    proposal_fingerprint: str
+    fingerprint: str
+
+
+@dataclass(frozen=True, slots=True)
 class ProposalDetailProjection:
     """One fully re-read proposal package projection."""
 
@@ -251,6 +284,7 @@ class ProposalDetailProjection:
     candidate_serving_state_fingerprint: str
     artifacts: tuple[ProposalArtifactProjection, ...]
     decision: ProposalDecisionProjection | None = None
+    hk_v1_readiness: HKV1ReviewReadinessProjection | None = None
 
 
 class LocalReviewProjectionStore:
@@ -316,6 +350,11 @@ class LocalReviewProjectionStore:
     def record_evidence_read(self, *, subject: str, evidence_id: str) -> None:
         """Record a sanitized local audit fact without vault coordinates or body content."""
         self.evidence_reads.append((subject, evidence_id))
+
+    def read_evidence(self, evidence_id: str) -> bytes:
+        """Refuse evidence reads because this synthetic projection retains no evidence body."""
+        del evidence_id
+        raise LocalAdapterError(LocalAdapterErrorCode.DISABLED)
 
 
 class DisabledEffectPort:

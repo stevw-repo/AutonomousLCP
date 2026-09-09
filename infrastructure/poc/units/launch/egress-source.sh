@@ -15,6 +15,7 @@ docker create \
   --name "$container" \
   --network 'asklegal-egress-source' \
   --network-alias 'egress-source' \
+  --ip '10.90.7.2' \
   --user "$runtime_uid":"$runtime_uid" \
   --cap-drop ALL \
   --security-opt no-new-privileges \

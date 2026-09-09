@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ "$#" -ne 4 ] && [ "$#" -ne 5 ]; then
+  printf 'VAULT_BOOTSTRAP_INPUT_INVALID\n' >&2
+  exit 2
+fi
+
+credential_directory="$2"
+receipt="$4"
+verify=""
+if [ "$#" -eq 5 ]; then
+  [ "$5" = "--verify-only" ] || exit 2
+  verify="--verify-only"
+fi
+[ "$1" = "--credential-directory" ] && [ "$3" = "--receipt" ] || exit 2
+
+receipt_directory="$(dirname "$receipt")"
+receipt_name="$(basename "$receipt")"
+deployment_manifest=/etc/asklegal/deployment-images
+[ -f "$deployment_manifest" ] && [ ! -L "$deployment_manifest" ] || {
+  printf 'VAULT_BOOTSTRAP_IMAGE_INVALID\n' >&2
+  exit 2
+}
+matches="$(grep -Ec '^control-plane sha256:[0-9a-f]{64}$' "$deployment_manifest")"
+[ "$matches" -eq 1 ] || {
+  printf 'VAULT_BOOTSTRAP_IMAGE_INVALID\n' >&2
+  exit 2
+}
+image_line="$(grep -E '^control-plane sha256:[0-9a-f]{64}$' "$deployment_manifest")"
+image_id="${image_line#* }"
+/usr/bin/docker image inspect --format '{{.Id}}' "$image_id" | grep -Fx -- "$image_id" >/dev/null || {
+  printf 'VAULT_BOOTSTRAP_IMAGE_INVALID\n' >&2
+  exit 2
+}
+container="asklegal-vault-bootstrap-once-$$"
+created=0
+cleanup() {
+  if [ "$created" -eq 1 ]; then
+    /usr/bin/docker rm -f "$container" >/dev/null 2>&1 || true
+  fi
+}
+trap cleanup EXIT
+
+/usr/bin/docker create --name "$container" \
+  --network asklegal-vault-primary \
+  --user 0:0 --read-only --cap-drop ALL --security-opt no-new-privileges \
+  --tmpfs /tmp:rw,noexec,nosuid,nodev,size=16m \
+  --mount "type=bind,src=${credential_directory},dst=/run/credentials,readonly" \
+  --mount "type=bind,src=${receipt_directory},dst=/output" \
+  --mount type=bind,src=/etc/asklegal/trust/vault-primary-ca.pem,dst=/etc/asklegal/trust/vault-primary-ca.pem,readonly \
+  --mount type=bind,src=/etc/asklegal/trust/vault-recovery-ca.pem,dst=/etc/asklegal/trust/vault-recovery-ca.pem,readonly \
+  --entrypoint /opt/asklegal/bin/python "$image_id" \
+  -m asklegal_control_plane.bootstrap vault --credential-directory /run/credentials \
+  --receipt "/output/${receipt_name}" ${verify} >/dev/null
+created=1
+/usr/bin/docker network connect asklegal-vault-recovery "$container"
+/usr/bin/docker start --attach "$container"

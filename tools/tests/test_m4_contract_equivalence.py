@@ -3,7 +3,8 @@
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from asklegal_contracts import parse_json_bytes
+import pytest
+from asklegal_contracts import ContractViolation, SchemaRegistry, parse_json_bytes
 from asklegal_evidence_vault import ArtifactClass, VaultName
 from asklegal_source_connectors import (
     AcquisitionConsequence,
@@ -83,3 +84,14 @@ def test_all_m4_python_codes_equal_the_normative_json_enums() -> None:
         definitions["acquisition_outcome"],
         "downstream_authorization",
     )
+
+
+def test_generic_connector_request_schema_rejects_post() -> None:
+    """The specialized HKeL session POST is absent from the generic JSON contract."""
+    registry = SchemaRegistry.from_contracts_root(_CONTRACTS_ROOT)
+
+    with pytest.raises(ContractViolation):
+        registry.validate(
+            "POST",
+            "schemas/source-domain.schema.json#/$defs/connector_request/properties/method",
+        )

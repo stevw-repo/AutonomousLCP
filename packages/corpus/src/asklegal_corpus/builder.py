@@ -160,7 +160,10 @@ _SEARCH_RECORD_PATTERN = re.compile(r"rec_[0-9a-f]{48}")
 _LEGAL_ITEM_PATTERN = re.compile(r"lit_[0-9a-f]{48}")
 _OFFICIAL_VERSION_PATTERN = re.compile(r"ofv_[0-9a-f]{48}")
 _LEGAL_LOCATION_PATTERN = re.compile(r"loc_[0-9a-f]{48}")
-_RELEASE_SCOPE_PATTERN = re.compile(r"rsc_[0-9a-f]{48}")
+_RELEASE_SCOPE_PATTERN = re.compile(
+    r"(?:rsc_[0-9a-f]{48}|HK-CASE-BINDING-POST-1997|"
+    r"HK-LEG-(?:CONSTITUTIONAL-AND-OTHER-INSTRUMENTS|ORDINANCES|SUBSIDIARY))"
+)
 _CORPUS_RELEASE_PATTERN = re.compile(r"rel_[0-9a-f]{48}")
 _LOOKUP_REVISION_PATTERN = re.compile(r"rtl_[0-9a-f]{48}")
 _LOOKUP_SHARD_PATTERN = re.compile(r"rts_[0-9a-f]{48}")
@@ -191,8 +194,10 @@ def _reference_body(reference: TraceabilityReference) -> dict[str, str]:
     }
 
 
-def _reference_sort_key(reference: TraceabilityReference) -> bytes:
-    return _canonical(_reference_body(reference))
+def _reference_sort_key(reference: TraceabilityReference) -> tuple[str, str, str]:
+    # The externally validated NDJSON contract orders the reference tuple, not
+    # the lexical bytes of its JSON field ordering.
+    return reference.ref_type, reference.ref_id, reference.fingerprint
 
 
 def _require_sorted_unique_strings(

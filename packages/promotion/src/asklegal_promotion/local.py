@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+import re
 import struct
 from dataclasses import dataclass
 from hashlib import sha256
@@ -10,6 +11,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from asklegal_corpus import CoverageStatusManifest
+    from asklegal_domain import ImmutableReference
 
 from .model import (
     BackupVerification,
@@ -20,6 +22,8 @@ from .model import (
     OutcomeUnknown,
     PromotionError,
     PromotionErrorCode,
+    ServingStateCandidate,
+    ServingStateReceipt,
     TargetDefinition,
     TargetRecord,
 )
@@ -31,6 +35,58 @@ def _fingerprint(raw: bytes) -> str:
 
 def _stable_id(prefix: str, *values: str) -> str:
     return f"{prefix}_{sha256(chr(31).join(values).encode()).hexdigest()[:48]}"
+
+
+_SERVING_TARGET_NAME = re.compile(r"^[a-z0-9][a-z0-9-]{2,79}$")
+_SERVING_FINGERPRINT = re.compile(r"^sha256:[0-9a-f]{64}$")
+
+
+def _serving_activation_receipt(expected_base: str, candidate: ServingStateCandidate) -> str:
+    """Match the SQL activation procedure's all-material SHA-256 receipt."""
+    raw = (
+        f"{expected_base}|{candidate.state_id}|{candidate.state_fingerprint}|"
+        f"{candidate.target_name}|{candidate.desired_inventory_fingerprint}|"
+        f"{candidate.coverage_fingerprint}|{candidate.embedding_profile_id}|"
+        f"{candidate.embedding_profile_fingerprint}|{candidate.approval_id}|"
+        f"{candidate.execution_lineage_id}"
+    )
+    return f"ssr_{sha256(raw.encode()).hexdigest()}"
+
+
+def _serving_rollback_receipt(activation_receipt_id: str, candidate: ServingStateCandidate) -> str:
+    """Match the SQL rollback procedure's activation-bound receipt."""
+    raw = f"rollback|{activation_receipt_id}|{candidate.state_id}|{candidate.predecessor_state_id}"
+    return f"ssr_{sha256(raw.encode()).hexdigest()}"
+
+
+def _valid_serving_candidate(expected_base: str, candidate: ServingStateCandidate) -> bool:
+    """Keep local contracts aligned with the closed adapter candidate grammar."""
+    identifiers = (
+        (expected_base, "srv"),
+        (candidate.state_id, "srv"),
+        (candidate.predecessor_state_id, "srv"),
+        (candidate.embedding_profile_id, "emp"),
+        (candidate.approval_id, "apr"),
+        (candidate.execution_lineage_id, "exe"),
+    )
+    return (
+        candidate.predecessor_state_id == expected_base
+        and all(
+            type(value) is str and re.fullmatch(rf"{prefix}_[0-9a-f]{{48}}", value)
+            for value, prefix in identifiers
+        )
+        and all(
+            type(value) is str and _SERVING_FINGERPRINT.fullmatch(value) is not None
+            for value in (
+                candidate.state_fingerprint,
+                candidate.desired_inventory_fingerprint,
+                candidate.coverage_fingerprint,
+                candidate.embedding_profile_fingerprint,
+            )
+        )
+        and type(candidate.target_name) is str
+        and _SERVING_TARGET_NAME.fullmatch(candidate.target_name) is not None
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -160,8 +216,14 @@ class LocalBackupStore:
         self._plan = plan or LocalFailurePlan()
         self.receipts: list[BackupVerification] = []
 
-    def create_and_verify(self, target_name: str, inventory_fingerprint: str) -> BackupVerification:
+    def create_and_verify(
+        self,
+        target_name: str,
+        inventory_fingerprint: str,
+        backup_profile_ref: ImmutableReference | None = None,
+    ) -> BackupVerification:
         """Create one exact synthetic backup receipt or fail closed."""
+        del backup_profile_ref
         if self._plan.backup_failure:
             raise PromotionError(PromotionErrorCode.BACKUP_FAILED)
         if self._plan.recovery_failure:
@@ -206,6 +268,106 @@ class LocalRoutingStore:
             raise PromotionError(PromotionErrorCode.POST_CUTOVER_FAILED, "rollback failed")
         self.active_state_id = predecessor
         return _stable_id("efr", "rollback", candidate, predecessor)
+
+
+class LocalServingStateStore:
+    """Thread-local deterministic Management Register Serving State fake."""
+
+    def __init__(self, active_state_id: str, plan: LocalFailurePlan | None = None) -> None:
+        """Start with one exact verified predecessor state."""
+        self.active_state_id = active_state_id
+        self._plan = plan or LocalFailurePlan()
+        self._activations: dict[tuple[str, ServingStateCandidate], ServingStateReceipt] = {}
+        self._active_activation: tuple[str, ServingStateCandidate, ServingStateReceipt] | None = (
+            None
+        )
+        self._rollbacks: dict[tuple[str, ServingStateCandidate], ServingStateReceipt] = {}
+
+    def activate(self, expected_base: str, candidate: ServingStateCandidate) -> ServingStateReceipt:
+        """Compare-and-set one candidate whose declared predecessor is exact."""
+        if not _valid_serving_candidate(expected_base, candidate):
+            raise PromotionError(PromotionErrorCode.BASE_STATE_DRIFT)
+        key = (expected_base, candidate)
+        replay = self._activations.get(key)
+        if replay is not None:
+            if self.active_state_id != candidate.state_id or self._active_activation != (
+                expected_base,
+                candidate,
+                replay,
+            ):
+                raise PromotionError(PromotionErrorCode.BASE_STATE_DRIFT)
+            return ServingStateReceipt(
+                replay.receipt_id,
+                replay.operation,
+                replay.predecessor_state_id,
+                replay.state_id,
+                replay.candidate_fingerprint,
+                replayed=True,
+            )
+        if (
+            self._plan.routing_cas_loss
+            or self.active_state_id != expected_base
+            or candidate.predecessor_state_id != expected_base
+        ):
+            raise PromotionError(PromotionErrorCode.BASE_STATE_DRIFT)
+        receipt = ServingStateReceipt(
+            _serving_activation_receipt(expected_base, candidate),
+            "ACTIVATED",
+            expected_base,
+            candidate.state_id,
+            candidate.state_fingerprint,
+        )
+        self.active_state_id = candidate.state_id
+        self._activations[key] = receipt
+        self._active_activation = (expected_base, candidate, receipt)
+        return receipt
+
+    def verify(self, candidate_state_id: str) -> None:
+        """Fail visibly when the exact active state has changed after the CAS."""
+        if self._plan.post_cutover_failure or self.active_state_id != candidate_state_id:
+            raise PromotionError(PromotionErrorCode.POST_CUTOVER_FAILED)
+
+    def rollback(
+        self, candidate: ServingStateCandidate, activation_receipt_id: str
+    ) -> ServingStateReceipt:
+        """Reverse or replay only one exact active activation fact."""
+        active = self._active_activation
+        key = (candidate.predecessor_state_id, candidate)
+        replay = self._rollbacks.get(key)
+        if replay is not None:
+            if (
+                self.active_state_id == candidate.predecessor_state_id
+                and active == (candidate.predecessor_state_id, candidate, self._activations[key])
+                and activation_receipt_id == self._activations[key].receipt_id
+            ):
+                return ServingStateReceipt(
+                    replay.receipt_id,
+                    replay.operation,
+                    replay.predecessor_state_id,
+                    replay.state_id,
+                    replay.candidate_fingerprint,
+                    replayed=True,
+                )
+            raise PromotionError(PromotionErrorCode.POST_CUTOVER_FAILED, "rollback failed")
+        if (
+            active is None
+            or self._plan.rollback_failure
+            or self.active_state_id != candidate.state_id
+            or active[1] != candidate
+            or active[0] != candidate.predecessor_state_id
+            or active[2].receipt_id != activation_receipt_id
+        ):
+            raise PromotionError(PromotionErrorCode.POST_CUTOVER_FAILED, "rollback failed")
+        receipt = ServingStateReceipt(
+            _serving_rollback_receipt(activation_receipt_id, candidate),
+            "ROLLED_BACK",
+            candidate.state_id,
+            candidate.predecessor_state_id,
+            candidate.state_fingerprint,
+        )
+        self.active_state_id = candidate.predecessor_state_id
+        self._rollbacks[key] = receipt
+        return receipt
 
 
 class LocalCoverageStore:

@@ -7,6 +7,15 @@ set -euo pipefail
 container='asklegal-acquisition-worker'
 runtime_uid=3000
 
+# Phase two atomically installs this authority-bound exact image set.
+deployment_manifest=/etc/asklegal/deployment-images
+[ -f "$deployment_manifest" ] && [ ! -L "$deployment_manifest" ]
+matches="$(grep -Ec '^acquisition-worker sha256:[0-9a-f]{64}$' "$deployment_manifest")"
+[ "$matches" -eq 1 ]
+image_line="$(grep -E '^acquisition-worker sha256:[0-9a-f]{64}$' "$deployment_manifest")"
+image_id="${image_line#* }"
+docker image inspect --format '{{.Id}}' "$image_id" | grep -Fx -- "$image_id" >/dev/null
+
 # A stale container from a previous boot would keep the name and the old
 # configuration, so the unit always starts from a clean one.
 docker rm -f "$container" >/dev/null 2>&1 || true
@@ -31,13 +40,29 @@ docker create \
   --user "$runtime_uid":"$runtime_uid" \
   --cap-drop ALL \
   --security-opt no-new-privileges \
+  -e 'ASKLEGAL_HK_V1_DUE_STATE_ROOT=/var/lib/asklegal/acquisition/due-cycle' \
+  -e 'ASKLEGAL_HK_V1_GLD_WINDOW_SNAPSHOT=/etc/asklegal/config/hk-v1-acquisition/gld-window-snapshot.json' \
+  -e 'ASKLEGAL_HK_V1_GLD_OPERATOR_MODE=DISABLED' \
+  -e 'ASKLEGAL_HK_V1_GLD_CHALLENGE_AUTHORITY_RECEIPT=/etc/asklegal/config/hk-v1-acquisition/gld-challenge-authority.json' \
+  -e 'ASKLEGAL_HK_V1_GLD_CHALLENGE_CONTRACT=/etc/asklegal/config/hk-v1-acquisition/gld-challenge-contract.json' \
+  -e 'ASKLEGAL_HK_V1_GLD_SESSION_ROOT=/var/lib/asklegal/acquisition/gld-sessions' \
+  -e 'ASKLEGAL_HK_V1_GLD_START_DATE=1997-07-01' \
+  -e 'ASKLEGAL_HK_V1_HKEL_ADMISSION_RECEIPT=/etc/asklegal/config/hk-v1-acquisition/hkel-admission-receipt.json' \
+  -e 'ASKLEGAL_HK_V1_HKEL_ARCHIVE_OBSERVATION=/etc/asklegal/config/hk-v1-acquisition/hkel-archive-observation.json' \
+  -e 'ASKLEGAL_HK_V1_JUDICIARY_ADVANCED_SEARCH_FORM=/etc/asklegal/config/hk-v1-acquisition/judiciary-advanced-search-form.html' \
+  -e 'ASKLEGAL_HK_V1_JUDICIARY_ADVANCED_SEARCH_FORM_FINGERPRINT=/etc/asklegal/config/hk-v1-acquisition/judiciary-advanced-search-form.sha256' \
+  -e 'ASKLEGAL_HK_V1_LEGISLATION_STATE_ROOT=/var/lib/asklegal/acquisition/legislation' \
+  -e 'ASKLEGAL_HK_V1_SOURCE_ADMISSION_ROOT=/var/lib/asklegal/source-admission' \
   -e 'CREDENTIALS_DIRECTORY=/run/credentials/asklegal-acquisition-worker.service' \
   -v "$credential_dir":'/run/credentials/asklegal-acquisition-worker.service':ro \
+  -v '/var/lib/asklegal/acquisition:/var/lib/asklegal/acquisition:rw' \
+  -v '/var/lib/asklegal/source-admission:/var/lib/asklegal/source-admission:ro' \
+  -v '/etc/asklegal/config/hk-v1-acquisition:/etc/asklegal/config/hk-v1-acquisition:ro' \
   -v '/etc/asklegal/trust/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro' \
   -v '/etc/asklegal/trust/vault-primary-ca.pem:/etc/asklegal/trust/vault-primary-ca.pem:ro' \
   -v '/etc/asklegal/trust/vault-recovery-ca.pem:/etc/asklegal/trust/vault-recovery-ca.pem:ro' \
   -v '/etc/asklegal/tls/internal-ca.crt:/etc/asklegal/tls/internal-ca.crt:ro' \
-  'asklegal/acquisition-worker:v1' >/dev/null
+  "$image_id" >/dev/null
 
 # Every network is attached before the process starts. Attaching after start
 # is a race: the readiness gate can run before a dependency is reachable.
@@ -45,7 +70,7 @@ docker network connect --alias 'acquisition-worker' 'asklegal-scheduler-general'
 docker network connect --alias 'acquisition-worker' 'asklegal-vault-primary' "$container"
 docker network connect --alias 'acquisition-worker' 'asklegal-vault-recovery' "$container"
 docker network connect --alias 'acquisition-worker' 'asklegal-telemetry' "$container"
-docker network connect --alias 'acquisition-worker' 'asklegal-egress-source' "$container"
+docker network connect --ip '10.90.7.3' --alias 'acquisition-worker' 'asklegal-egress-source' "$container"
 
 # `docker start --attach` keeps this script in the foreground so systemd can
 # supervise it; ExecStop stops the container itself.

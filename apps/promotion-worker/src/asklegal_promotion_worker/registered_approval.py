@@ -19,6 +19,7 @@ from asklegal_contracts.json_types import JsonValue, checked_json_value
 from asklegal_corpus import CorpusError
 from asklegal_evidence_vault import EvidenceError, ImmutableVault, S3VaultError, VaultName
 from asklegal_management_register import (
+    ApprovedPromotionClaim,
     RegisteredApprovalConsumptionCommand,
     RegisteredApprovalTerminalCommand,
     RegisterProjectionError,
@@ -85,6 +86,18 @@ class RegisteredApprovalCandidateSource(Protocol):
 
     def approved(self, proposal_package_id: str) -> RegisteredApprovalCandidate | None:
         """Return one exact approved candidate or no consumable candidate."""
+        ...
+
+
+class ApprovedPromotionQueue(Protocol):
+    """Provider-disabled discovery lease before independent Approval revalidation."""
+
+    def claim_next(self, worker_id: str, claimed_until: str) -> ApprovedPromotionClaim | None:
+        """Claim only one exact approved-decision wake-up lease."""
+        ...
+
+    def acknowledge_started(self, claim: ApprovedPromotionClaim, execution_lineage_id: str) -> None:
+        """Observe an already durable matching Approval-consumption lineage."""
         ...
 
 

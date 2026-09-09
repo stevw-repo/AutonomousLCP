@@ -4,10 +4,14 @@ from asklegal_management_register.driver import (
     SqlCredentialError,
     SqlCredentialErrorCode,
     SqlServerPassword,
+    V1MssqlAdminConnectionFactory,
     V1MssqlConnectionFactory,
 )
+from asklegal_management_register.local_legal_identity import LocalLegalIdentityRegister
 from asklegal_management_register.store import (
     AmbiguousCommit,
+    ApprovedPromotionClaim,
+    ApprovedPromotionQueueStore,
     ClaimedEffect,
     CommandFingerprintMismatch,
     CommandResult,
@@ -27,6 +31,10 @@ from asklegal_management_register.store import (
     RegisterEventStore,
     RegisterProjectionError,
     ReviewReadyProposalRow,
+    ServingStateCandidate,
+    ServingStateReceipt,
+    ServingStateStore,
+    ServingStateVerificationError,
     V1CommandResult,
 )
 
@@ -35,11 +43,14 @@ PACKAGE_ROLE: str = "management-register-adapter"
 __all__ = [
     "PACKAGE_ROLE",
     "AmbiguousCommit",
+    "ApprovedPromotionClaim",
+    "ApprovedPromotionQueueStore",
     "ClaimedEffect",
     "CommandFingerprintMismatch",
     "CommandResult",
     "EffectHandoffStore",
     "EffectReceiptRecord",
+    "LocalLegalIdentityRegister",
     "ManagementRegisterStore",
     "RecordedEffectReceipt",
     "RegisterEventCommand",
@@ -54,9 +65,14 @@ __all__ = [
     "RegisteredExecutionBeginCommand",
     "RegisteredExecutionBeginStore",
     "ReviewReadyProposalRow",
+    "ServingStateCandidate",
+    "ServingStateReceipt",
+    "ServingStateStore",
+    "ServingStateVerificationError",
     "SqlCredentialError",
     "SqlCredentialErrorCode",
     "SqlServerPassword",
     "V1CommandResult",
+    "V1MssqlAdminConnectionFactory",
     "V1MssqlConnectionFactory",
 ]

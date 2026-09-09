@@ -20,6 +20,7 @@ from asklegal_application_runtime import CredentialError, ServiceExitCode, run_v
 
 from asklegal_review_api.api import ReviewDependencies, create_app
 from asklegal_review_api.v1_infrastructure import (
+    ReviewCompositionError,
     load_v1_infrastructure,
     readiness_gate,
     v1_dependencies,
@@ -88,10 +89,14 @@ async def _run(environment: Mapping[str, str]) -> ServiceExitCode:
     except CredentialError as error:
         _LOGGER.critical("credentials unavailable: %s", error.code.value)
         return ServiceExitCode.NOT_READY
+    try:
+        dependencies = v1_dependencies(infrastructure, environment)
+    except ReviewCompositionError:
+        _LOGGER.critical("local Review unavailable: LOCAL_REVIEW_CONFIGURATION_NOT_READY")
+        return ServiceExitCode.NOT_READY
     if not _server_material_present():
         _LOGGER.critical("server material unavailable: TLS_MATERIAL_UNREADABLE")
         return ServiceExitCode.NOT_READY
-    dependencies = v1_dependencies(infrastructure)
 
     async def serve(shutdown: asyncio.Event) -> None:
         await _serve(shutdown, dependencies)

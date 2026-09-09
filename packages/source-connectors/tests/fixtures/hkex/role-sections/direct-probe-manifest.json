@@ -1,0 +1,39 @@
+{
+  "projection_version": "HKEX_ROLE_SECTION_PROJECTION_1.0.0",
+  "observation_date": "2026-09-01",
+  "evidence_class": "READ_ONLY_DIRECT_STRUCTURAL_PROBE_NO_BODY_RETAINED",
+  "fixtures": [
+    {
+      "requested_url": "https://en-rules.hkex.com.hk/entiresection/3783",
+      "observed_byte_length": 256419,
+      "observed_node_link_occurrences": 7,
+      "observed_unique_node_links": 7,
+      "fixture_filename": "fees-main-3783.html",
+      "fixture_sha256": "6e5a5c3acaaab74ca367afcb924a7072c5e5704b9252271585d69a1581def194"
+    },
+    {
+      "requested_url": "https://en-rules.hkex.com.hk/entiresection/1836",
+      "observed_byte_length": 256412,
+      "observed_node_link_occurrences": 7,
+      "observed_unique_node_links": 7,
+      "fixture_filename": "fees-gem-1836.html",
+      "fixture_sha256": "6367e8b575c87ba8b3098e5c434d17147d5fa9ceb95eebc2c60c73c0aa7b9ecd"
+    },
+    {
+      "requested_url": "https://en-rules.hkex.com.hk/entiresection/6190",
+      "observed_byte_length": 311990,
+      "observed_node_link_occurrences": 48,
+      "observed_unique_node_links": 24,
+      "fixture_filename": "forms-main-6190.html",
+      "fixture_sha256": "f8c1e9711845e74a78afb09077ca89936e0907a4c3db988514caeeffd553d782"
+    },
+    {
+      "requested_url": "https://en-rules.hkex.com.hk/entiresection/6191",
+      "observed_byte_length": 300958,
+      "observed_node_link_occurrences": 41,
+      "observed_unique_node_links": 26,
+      "fixture_filename": "forms-gem-6191.html",
+      "fixture_sha256": "0cf84d3d743a572e6076c35de4726ecde3464ee3bd3b4846a7f19761882a2d81"
+    }
+  ]
+}

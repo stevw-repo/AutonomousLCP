@@ -6,9 +6,12 @@
   "source_date_epoch": 315532800,
   "input_locks": {
     ".python-version": "sha256:922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
-    "pyproject.toml": "sha256:7740ecbae1bde629559355e1c953c64e82ed1a5c9c3ed2ce6a8fe2b7e36a36eb",
-    "tools/package_spike_manifest.json": "sha256:55f3db8e9dc49dc82c6ff65599cdc570e7d6c512bade6340f24c8d68c565f758",
-    "uv.lock": "sha256:836a8b726f2154cf04b0c3e52daa32589923193d4a7c75d6e9cbc0aa04ffc13f"
+    "infrastructure/poc/libexec/asklegal-vault-application-rotation-network": "sha256:d08bb2202c77700914c09bae05e1e52f1573522c752a5196bc6bd03330877f97",
+    "infrastructure/poc/patchright_runtime_inputs.json": "sha256:ba8315625c9635896990a4e4b151ac3f29c36d378947bbbc8ec860ae23eea7d1",
+    "infrastructure/poc/patchright_runtime_system_packages.json": "sha256:62f351d79c13eac12a99665580a5fb223ae3baa013507c3b18fa2ee0138ce671",
+    "pyproject.toml": "sha256:9440d2c50ea88c127df0172587fa1f927833b339265b14c1bdd99b1cdf4fb33e",
+    "tools/package_spike_manifest.json": "sha256:99002338213f12f01983a39d5068294bfb35b8a821c010e0967ffcd954f53563",
+    "uv.lock": "sha256:a250ca02b396aeaccb58ad7452899810d2286debac1b8c44f1b7b910db1ca82e"
   },
   "base_image": {
     "selection_state": "DIGEST_PINNED",
@@ -74,7 +77,7 @@
       "artifact_ref": null,
       "admitted": false,
       "runtime_uid": 3001,
-      "installed_tree_sha256": "bd74d267cdef264aafb1456e0e836dd3f198d26865e57e0fe4bf4009b8859b54a2c006484bcb5fa2e28535a5c5ae30c6c538502083c78f936848e5e507d18158"
+      "installed_tree_sha256": "9faf71e5abde8589301939906433ad567aa72f4c6cacfdd1d15f6805cd059b390c808cc4e577d3ccab4bb593c6ed97cd09e27fae9a2ca2f757edec0f2eb0571c"
     },
     {
       "artifact_id": "review-api",
@@ -111,7 +114,7 @@
       "artifact_ref": null,
       "admitted": false,
       "runtime_uid": 3007,
-      "installed_tree_sha256": "a76d7b1c49ef0e31c0230103f6579de7d552b9adf6337f6e6d1c267d7bb0218ddca32ee788bd9d7f491875f58b825c633d4d61db70132e5494c6f0efbe805576"
+      "installed_tree_sha256": "6ad8472b3ac628eff27f88762bff9adc2c269961484bdb3a84c034edeb57f1bbb28b697d9d32908e0941f34d3183f3493ce02281ea4f63b068692d53dad45933"
     },
     {
       "artifact_id": "acquisition-worker",
@@ -148,7 +151,7 @@
       "artifact_ref": null,
       "admitted": false,
       "runtime_uid": 3000,
-      "installed_tree_sha256": "b96fcf51e934834bf5ef91a5bf14cdc0e7e9901d9de49ce7e87ad35cd0922f8861ce4e9aa26e61e22014eb4586b08dd6cef2af569635309596a4305e473cb42d"
+      "installed_tree_sha256": "850e1befec45bb65189ad8ccf8cab34f40e8523382312d5f3d874ac85471e0551751d5e71cada8db16506e26bc69d7d57d0208db53773cca5be289be35527882"
     },
     {
       "artifact_id": "legal-processing-worker",
@@ -187,7 +190,7 @@
       "artifact_ref": null,
       "admitted": false,
       "runtime_uid": 3003,
-      "installed_tree_sha256": "caa2037c96703f8f02e6c43fbe7c62cac8414f4d0c5d424685897db72c2d77e62f3fea98bffacf4c132b01b88d84bbf2117548986239a74dbc766aa33d67093d"
+      "installed_tree_sha256": "d7d7bebcd1ea00b9f43d5fe3e97b51ce144897d325c77efa6e8e98ccd1c8b3bf8dad6a243de1ba83daf3fb3cdc7a1ba5efd9903e9c1f16a028a75e415cb35627"
     },
     {
       "artifact_id": "promotion-worker",
@@ -216,6 +219,7 @@
         "asklegal-management-register",
         "asklegal-management-register-adapter",
         "asklegal-observability",
+        "asklegal-processing",
         "asklegal-promotion",
         "asklegal-promotion-worker",
         "asklegal-reporting"
@@ -225,7 +229,7 @@
       "artifact_ref": null,
       "admitted": false,
       "runtime_uid": 3006,
-      "installed_tree_sha256": "7ad5892c3c21aa61e0046c6b729eea7704a86a69a08e303f855f32a3841e312673e0e0b218f16ea4cf07d56beefa078549371fc1323d5322d72b77b192b721cc"
+      "installed_tree_sha256": "9c6ae020c8439a2a7827a5a6e7d7b91ee65001d0b991072ef93bb472f93d9d72b8c406eaab2043b47e486eea4463453d87d0a8e91ea2f1502ec5c222495bea5b"
     }
   ],
   "build_definition": {

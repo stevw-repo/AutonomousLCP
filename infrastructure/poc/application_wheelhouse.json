@@ -11,7 +11,7 @@
   "excluded_platform_only_distributions": [
     "colorama"
   ],
-  "wheel_count": 59,
+  "wheel_count": 61,
   "applications": {
     "asklegal-acquisition-worker": {
       "requirements_sha256": "7d1ee1c2ee0523a51a954813ebc0179fdef1d2fcf8b54a3d68eeb1287a900513",
@@ -22,8 +22,8 @@
       "pinned_distributions": 57
     },
     "asklegal-legal-processing-worker": {
-      "requirements_sha256": "db49d21cd78a459264062bae3debaf5ef945114e358e8b65150c4edbfb8fa97c",
-      "pinned_distributions": 49
+      "requirements_sha256": "c8b5a9a677dae8e2678839671ebf72c1f0f1493e6f331ffbe21cb79f17e828ee",
+      "pinned_distributions": 51
     },
     "asklegal-promotion-worker": {
       "requirements_sha256": "db49d21cd78a459264062bae3debaf5ef945114e358e8b65150c4edbfb8fa97c",
@@ -251,6 +251,11 @@
       "sha256": "381329a9f99628c9069361716891d34ad94af76e461dcb0335825aecc7692231"
     },
     {
+      "filename": "regex-2026.9.3-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "size_bytes": 801375,
+      "sha256": "6f64c66b3b13758b4f8f56f17972cd0ce5d0033d19d7332ed32e2dbdbce94dec"
+    },
+    {
       "filename": "requests-2.34.2-py3-none-any.whl",
       "size_bytes": 73075,
       "sha256": "2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0"
@@ -294,6 +299,11 @@
       "filename": "starlette-1.6.0-py3-none-any.whl",
       "size_bytes": 75969,
       "sha256": "a86dd39d14bb45f85a3d18525215a9ef0cfd1f192ac793220e72598c90335f0c"
+    },
+    {
+      "filename": "tiktoken-0.12.0-cp314-cp314-manylinux_2_28_x86_64.whl",
+      "size_bytes": 1151216,
+      "sha256": "d186a5c60c6a0213f04a7a802264083dea1bbde92a2d4c7069e1a56630aef830"
     },
     {
       "filename": "typing_extensions-4.16.0-py3-none-any.whl",

@@ -8,6 +8,7 @@ from asklegal_management_register import (
     SqlCredentialError,
     SqlCredentialErrorCode,
     SqlServerPassword,
+    V1MssqlAdminConnectionFactory,
     V1MssqlConnectionFactory,
 )
 from mssql_python.connection_string_parser import sanitize_connection_string
@@ -100,6 +101,31 @@ def test_v1_factory_passes_password_only_at_encrypted_connection_creation(
     assert secret not in repr(password)
     assert secret not in repr(factory)
     assert "connection_string" not in repr(factory)
+
+
+def test_v1_admin_factory_passes_sa_password_only_at_bootstrap_connection(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Keep the local SA credential out of a stored connection string and representation."""
+    calls: list[tuple[tuple[object, ...], dict[str, object]]] = []
+
+    def fake_connect(*args: object, **kwargs: object) -> _FakeDriverConnection:
+        calls.append((args, kwargs))
+        return _FakeDriverConnection()
+
+    monkeypatch.setattr(mssql_python, "connect", fake_connect)
+    secret = "synthetic;sa}=word"
+    factory = V1MssqlAdminConnectionFactory(
+        SqlServerPassword.from_bytes(secret.encode()), database="AskLegalPocOperational"
+    )
+
+    factory()
+
+    assert calls[0][0] == ("",)
+    assert calls[0][1]["uid"] == "sa"
+    assert calls[0][1]["pwd"] == secret
+    assert calls[0][1]["Encrypt"] == "Strict"
+    assert secret not in repr(factory)
 
 
 def test_pinned_driver_sanitizes_braced_passwords_without_tail_leakage() -> None:

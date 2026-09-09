@@ -27,6 +27,12 @@ _V1_EXECUTION_BEGIN_PACKAGE = (
 _V1_CLAIMED_EFFECT_READBACK_PACKAGE = (
     Path(__file__).parents[1] / "migrations" / "000009_claimed_effect_readback"
 )
+_V1_APPROVED_PROMOTION_WAKEUP_PACKAGE = (
+    Path(__file__).parents[1] / "migrations" / "000010_approved_promotion_wakeup"
+)
+_V1_SERVING_STATE_PACKAGE = (
+    Path(__file__).parents[1] / "migrations" / "000011_serving_state_transition"
+)
 
 
 def test_repository_migration_package_is_exact() -> None:
@@ -62,6 +68,44 @@ def test_repository_migration_package_is_exact() -> None:
     permission_batch = (readback.directory / readback.batches[1].path).read_bytes()
     assert b"GRANT EXECUTE" not in create_batch
     assert b"GRANT EXECUTE" in permission_batch
+    serving_state = load_package(_V1_SERVING_STATE_PACKAGE)
+    assert serving_state.migration_id == "000011"
+    assert tuple(batch.path for batch in serving_state.batches) == (
+        "001_serving_state_tables.sql",
+        "002_read_serving_state.sql",
+        "003_activate_serving_state.sql",
+        "004_rollback_serving_state.sql",
+        "005_serving_state_permissions.sql",
+    )
+    wakeup = load_package(_V1_APPROVED_PROMOTION_WAKEUP_PACKAGE)
+    assert wakeup.migration_id == "000010"
+    assert tuple(batch.path for batch in wakeup.batches) == (
+        "001_approved_promotion_wakeup_tables.sql",
+        "002_claim_next_approved_promotion.sql",
+        "003_acknowledge_approved_promotion_started.sql",
+        "004_approved_promotion_wakeup_permissions.sql",
+    )
+    table_batch, claim_batch, acknowledgement_batch, permission_batch = (
+        (wakeup.directory / batch.path).read_bytes() for batch in wakeup.batches
+    )
+    assert b"CREATE PROCEDURE" not in table_batch
+    assert claim_batch.startswith(b"CREATE PROCEDURE")
+    assert acknowledgement_batch.startswith(b"CREATE PROCEDURE")
+    assert b"CREATE PROCEDURE" not in permission_batch
+    assert b"GRANT EXECUTE" not in table_batch + claim_batch + acknowledgement_batch
+    assert b"GRANT EXECUTE" in permission_batch
+
+
+def test_approved_promotion_worker_guard_rejects_non_lower_hex_suffixes() -> None:
+    """The package guard uses LIKE to reject malformed worker input before SQL selection."""
+    wakeup = load_package(_V1_APPROVED_PROMOTION_WAKEUP_PACKAGE)
+    claim_batch = (wakeup.directory / wakeup.batches[1].path).read_text(encoding="utf-8")
+    guard = claim_batch.split("IF @worker_id IS NULL", maxsplit=1)[1].split(
+        "THROW 52001", maxsplit=1
+    )[0]
+
+    assert "RIGHT(@worker_id, 48) COLLATE Latin1_General_100_BIN2 LIKE '%[^0-9a-f]%'" in guard
+    assert "NOT LIKE '%[^0-9a-f]%'" not in guard
 
 
 def test_changed_batch_is_rejected(tmp_path: Path) -> None:

@@ -205,6 +205,7 @@
         "asklegal-management-register",
         "asklegal-management-register-adapter",
         "asklegal-observability",
+        "asklegal-processing",
         "asklegal-promotion",
         "asklegal-promotion-worker",
         "asklegal-reporting"

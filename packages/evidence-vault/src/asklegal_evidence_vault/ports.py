@@ -44,3 +44,11 @@ class ImmutableVault(Protocol):
     def exists_exact(self, reference: ExactObjectReference) -> bool:
         """Return whether one exact version exists and verifies."""
         ...
+
+    def resolve_current(self, logical_key: str) -> ExactObjectReference | None:
+        """Resolve one retained key to its exact current immutable reference, or none."""
+        ...
+
+    def retention(self, reference: ExactObjectReference) -> RetentionProfile:
+        """Return the exact retained policy for one verified immutable reference."""
+        ...

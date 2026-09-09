@@ -13,6 +13,7 @@ dependencies = [
   "asklegal-management-register",
   "asklegal-management-register-adapter",
   "asklegal-observability",
+  "asklegal-processing",
   "asklegal-promotion",
   "asklegal-reporting",
 ]
@@ -37,5 +38,6 @@ asklegal-evidence-vault = { workspace = true }
 asklegal-management-register = { workspace = true }
 asklegal-management-register-adapter = { workspace = true }
 asklegal-observability = { workspace = true }
+asklegal-processing = { workspace = true }
 asklegal-promotion = { workspace = true }
 asklegal-reporting = { workspace = true }

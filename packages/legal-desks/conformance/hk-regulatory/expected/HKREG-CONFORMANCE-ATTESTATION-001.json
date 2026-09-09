@@ -2,7 +2,7 @@
   "schema_id": "asklegal.hk-regulatory.conformance-attestation-result",
   "schema_version": "1.0.0",
   "rule_id": "HKREG-CONFORMANCE-ATTESTATION-001",
-  "attestation_id": "rba_3934c1b573cb9a346ce131715d23db85981986644d96e389",
+  "attestation_id": "rba_37b8b8f19c6641c5ec3faf8616743237467826d18325a40b",
   "outcome": "VALID",
   "reason": "COMPLETE_SOURCE_NEUTRAL_BUILD_COMPATIBILITY",
   "build_compatibility_valid": true,

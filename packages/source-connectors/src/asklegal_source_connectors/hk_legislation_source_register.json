@@ -2,10 +2,10 @@
   "schema_id": "https://contracts.asklegal.local/v1/hk-legislation-source-register.schema.json",
   "schema_version": "1.1.0",
   "register_id": "hsr_000000000000000000000000000000000000000000000001",
-  "register_version": "2026-08-21.1",
+  "register_version": "2026-08-28.3",
   "effective_date": "2026-08-21",
   "status": "PARTIALLY_CONFIGURED_FAIL_CLOSED",
-  "fingerprint": "sha256:93944064e78d314670476758ec4cde7cd042caca2f285858dc906bfb108794b4",
+  "fingerprint": "sha256:be2dc02b4ef087ac2357ad96dc05be5a36127e2a7f395bffe5b7a98f6408de67",
   "authorization": {
     "authorized_on": "2026-08-17",
     "scope": "READ_ONLY_OFFICIAL_SOURCE_ACCESS_AND_EVIDENCE_CAPTURE_FOR_ALL_14_HK_LEGISLATION_SOURCE_ROLES",
@@ -145,7 +145,7 @@
     {
       "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
       "registered_source_id": "src_000000000000000000000000000000000000000000000001",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "endpoint_ids": [
         "sep_000000000000000000000000000000000000000000000001",
         "sep_000000000000000000000000000000000000000000000002",
@@ -290,36 +290,36 @@
         "sep_000000000000000000000000000000000000000000000034"
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
-      "operational_state": "PARTIALLY_CONFIGURED",
+      "operational_state": "CONFIGURED",
       "outage_impact": "AFFECTED_WORK_BLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000002"
       ],
-      "blockers": [
-        "RENDERED_SESSION_TRANSPORT_REQUIRED"
-      ]
+      "blockers": []
     },
     {
       "source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
       "registered_source_id": "src_000000000000000000000000000000000000000000000008",
-      "version": "1.1.0",
+      "version": "1.3.0",
       "endpoint_ids": [
         "sep_000000000000000000000000000000000000000000000035",
         "sep_000000000000000000000000000000000000000000000036",
         "sep_000000000000000000000000000000000000000000000037",
         "sep_000000000000000000000000000000000000000000000038",
         "sep_000000000000000000000000000000000000000000000039",
-        "sep_00000000000000000000000000000000000000000000003a"
+        "sep_00000000000000000000000000000000000000000000003a",
+        "sep_000000000000000000000000000000000000000000000051",
+        "sep_000000000000000000000000000000000000000000000052",
+        "sep_000000000000000000000000000000000000000000000053",
+        "sep_000000000000000000000000000000000000000000000056"
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
-      "operational_state": "PARTIALLY_CONFIGURED",
+      "operational_state": "CONFIGURED",
       "outage_impact": "AFFECTED_WORK_BLOCKING",
       "rights_evidence_ids": [
         "rte_000000000000000000000000000000000000000000000007"
       ],
-      "blockers": [
-        "RENDERED_SESSION_TRANSPORT_REQUIRED"
-      ]
+      "blockers": []
     },
     {
       "source_id": "HK-LEG-GLD-EGAZETTE",
@@ -380,12 +380,33 @@
     {
       "source_id": "HK-LEG-BASIC-LAW-PORTAL",
       "registered_source_id": "src_00000000000000000000000000000000000000000000000c",
-      "version": "1.1.0",
+      "version": "1.3.0",
       "endpoint_ids": [
         "sep_000000000000000000000000000000000000000000000042",
         "sep_000000000000000000000000000000000000000000000043",
         "sep_000000000000000000000000000000000000000000000044",
-        "sep_000000000000000000000000000000000000000000000045"
+        "sep_000000000000000000000000000000000000000000000045",
+        "sep_000000000000000000000000000000000000000000000050",
+        "sep_000000000000000000000000000000000000000000000054",
+        "sep_000000000000000000000000000000000000000000000055",
+        "sep_000000000000000000000000000000000000000000000057",
+        "sep_000000000000000000000000000000000000000000000058",
+        "sep_000000000000000000000000000000000000000000000059",
+        "sep_00000000000000000000000000000000000000000000005a",
+        "sep_00000000000000000000000000000000000000000000005b",
+        "sep_00000000000000000000000000000000000000000000005c",
+        "sep_00000000000000000000000000000000000000000000005d",
+        "sep_00000000000000000000000000000000000000000000005e",
+        "sep_00000000000000000000000000000000000000000000005f",
+        "sep_000000000000000000000000000000000000000000000060",
+        "sep_000000000000000000000000000000000000000000000061",
+        "sep_000000000000000000000000000000000000000000000062",
+        "sep_000000000000000000000000000000000000000000000063",
+        "sep_000000000000000000000000000000000000000000000064",
+        "sep_000000000000000000000000000000000000000000000065",
+        "sep_000000000000000000000000000000000000000000000066",
+        "sep_000000000000000000000000000000000000000000000067",
+        "sep_000000000000000000000000000000000000000000000068"
       ],
       "rights_state": "LEGAL_TEAM_CLEARED",
       "operational_state": "CONFIGURED",
@@ -440,7 +461,7 @@
     {
       "endpoint_id": "sep_000000000000000000000000000000000000000000000001",
       "source_id": "HK-LEG-HKEL-CURRENT-INVENTORY",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "DATA.GOV.HK current-list CKAN catalogue",
       "url": "https://data.gov.hk/en-data/api/3/action/package_show?id=hk-doj-hkel-list-of-legislation-current",
       "access_mode": "DIRECT_HTTP",
@@ -914,7 +935,7 @@
       "signal_use": "NOT_A_SIGNAL",
       "proves_no_change": false,
       "evidence_role": "COPY_STATUS_AND_VERSION_METADATA",
-      "enabled": false
+      "enabled": true
     },
     {
       "endpoint_id": "sep_000000000000000000000000000000000000000000000017",
@@ -1562,7 +1583,7 @@
       "signal_use": "COMPLETE_INVENTORY",
       "proves_no_change": false,
       "evidence_role": "NUMBERED_EDITORIAL_RECORD_INVENTORY",
-      "enabled": false
+      "enabled": true
     },
     {
       "endpoint_id": "sep_000000000000000000000000000000000000000000000034",
@@ -1691,7 +1712,7 @@
       "signal_use": "NOT_A_SIGNAL",
       "proves_no_change": false,
       "evidence_role": "PUBLISHER_INTERPRETATION",
-      "enabled": false
+      "enabled": true
     },
     {
       "endpoint_id": "sep_00000000000000000000000000000000000000000000003a",
@@ -1712,7 +1733,7 @@
       "signal_use": "NOT_A_SIGNAL",
       "proves_no_change": false,
       "evidence_role": "RIGHTS_STATEMENT",
-      "enabled": false
+      "enabled": true
     },
     {
       "endpoint_id": "sep_00000000000000000000000000000000000000000000003b",
@@ -1865,7 +1886,7 @@
     {
       "endpoint_id": "sep_000000000000000000000000000000000000000000000042",
       "source_id": "HK-LEG-BASIC-LAW-PORTAL",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "name": "Basic Law text inventory",
       "url": "https://www.basiclaw.gov.hk/en/basiclawtext/index.html",
       "access_mode": "DIRECT_HTTP",
@@ -1877,10 +1898,10 @@
         "text/html"
       ],
       "max_bytes": 20000000,
-      "complete_inventory_required": true,
-      "signal_use": "COMPLETE_INVENTORY",
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
       "proves_no_change": false,
-      "evidence_role": "CONSTITUTIONAL_DISCREPANCY_SIGNAL",
+      "evidence_role": "LEGACY_REDIRECT_DISCOVERY_ONLY",
       "enabled": true
     },
     {
@@ -2133,6 +2154,438 @@
       "signal_use": "NOT_A_SIGNAL",
       "proves_no_change": false,
       "evidence_role": "DISCOVERY_ONLY",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000050",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.1.0",
+      "name": "Basic Law current English portal root",
+      "url": "https://www.basiclaw.gov.hk/en/index/index.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_PORTAL_MEMBERSHIP_ROOT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000051",
+      "source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+      "version": "1.0.0",
+      "name": "HKeL Terms of Use",
+      "url": "https://www.elegislation.gov.hk/terms",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "TERMS_OF_USE",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000052",
+      "source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+      "version": "1.0.0",
+      "name": "HKeL client configuration GET target",
+      "url": "https://www.elegislation.gov.hk/checkconfig/checkClientConfig.jsp?applicationId=RA001",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "SESSION_CONFIGURATION_FORM",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000053",
+      "source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+      "version": "1.0.0",
+      "name": "HKeL client configuration POST action",
+      "url": "https://www.elegislation.gov.hk/checkconfig/submitClientConfig.do",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "POST"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "SESSION_CONFIGURATION_SUBMISSION",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000054",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law English Constitution category root",
+      "url": "https://www.basiclaw.gov.hk/en/constitution/index.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_CONSTITUTION_CATEGORY_ROOT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000055",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law English text category root",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/index.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "DISCOVERY_ONLY",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_BASIC_LAW_CATEGORY_ROOT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000056",
+      "source_id": "HK-LEG-HKEL-PUBLICATION-SPECIFICATIONS",
+      "version": "1.0.0",
+      "name": "HKeL direct client capability check",
+      "url": "https://www.elegislation.gov.hk/client-check?OS=Linux&OS_S=false&BR=Chrome&BR_S=true&BRV=151.0&BRV_S=true&JS_S=true&C_S=true",
+      "access_mode": "BROWSER_SESSION",
+      "methods": [
+        "GET"
+      ],
+      "media_types": [
+        "text/html"
+      ],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "SESSION_CAPABILITY_CHECK",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000057",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Constitution preamble",
+      "url": "https://www.basiclaw.gov.hk/en/constitution/preamble.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_CONSTITUTION_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000058",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Constitution Chapter I",
+      "url": "https://www.basiclaw.gov.hk/en/constitution/chapter1.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_CONSTITUTION_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000059",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Constitution Chapter II",
+      "url": "https://www.basiclaw.gov.hk/en/constitution/chapter2.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_CONSTITUTION_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000005a",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Constitution Chapter III",
+      "url": "https://www.basiclaw.gov.hk/en/constitution/chapter3.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_CONSTITUTION_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000005b",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Constitution Chapter IV",
+      "url": "https://www.basiclaw.gov.hk/en/constitution/chapter4.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_CONSTITUTION_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000005c",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law promulgation decree",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/decree.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_BASIC_LAW_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000005d",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law preamble",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/preamble.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_BASIC_LAW_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000005e",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law Chapter I",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter1.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_BASIC_LAW_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_00000000000000000000000000000000000000000000005f",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law Chapter II",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter2.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_BASIC_LAW_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000060",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law Chapter III",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter3.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_BASIC_LAW_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000061",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law Chapter IV",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter4.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_BASIC_LAW_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000062",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law Chapter V",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter5.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_BASIC_LAW_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000063",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law Chapter VI",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter6.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_BASIC_LAW_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000064",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law Chapter VII",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter7.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_BASIC_LAW_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000065",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law Chapter VIII",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter8.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_BASIC_LAW_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000066",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law Chapter IX",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/chapter9.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_BASIC_LAW_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000067",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law Annex I",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/annex1.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_BASIC_LAW_CONTENT",
+      "enabled": true
+    },
+    {
+      "endpoint_id": "sep_000000000000000000000000000000000000000000000068",
+      "source_id": "HK-LEG-BASIC-LAW-PORTAL",
+      "version": "1.0.0",
+      "name": "Basic Law Annex II",
+      "url": "https://www.basiclaw.gov.hk/en/basiclaw/annex2.html",
+      "access_mode": "DIRECT_HTTP",
+      "methods": ["GET", "HEAD"],
+      "media_types": ["text/html"],
+      "max_bytes": 20000000,
+      "complete_inventory_required": false,
+      "signal_use": "NOT_A_SIGNAL",
+      "proves_no_change": false,
+      "evidence_role": "CURRENT_ENGLISH_BASIC_LAW_CONTENT",
       "enabled": true
     }
   ]

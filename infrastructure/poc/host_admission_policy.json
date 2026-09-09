@@ -54,7 +54,7 @@
       "nftables": "1.0.9-1ubuntu0.1",
       "systemd": "255.4-1ubuntu8.17",
       "systemd-timesyncd": "255.4-1ubuntu8.17",
-      "util-linux": "2.39.3-9ubuntu6.5"
+      "util-linux": "2.39.3-9ubuntu6.6"
     },
     "collision_free_private_subnets_required": true,
     "selected_private_subnets": {

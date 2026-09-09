@@ -26,7 +26,7 @@ from urllib.parse import urlsplit
 from asklegal_contracts import ContractViolation, canonicalize, parse_json_bytes
 from asklegal_contracts.json_types import JsonValue, checked_json_value
 
-from .model import ProcessingError, SemanticDecision
+from .model import ProcessingError, SemanticDecision, semantic_effect_receipt_id
 
 if TYPE_CHECKING:
     from asklegal_legal_desks import SemanticTaskProfile
@@ -40,11 +40,48 @@ _DEFAULT_TIMEOUT_SECONDS = 90
 _HTTP_BAD_REQUEST = 400
 _MAX_REPLY_BYTES = 1_000_000
 _MAX_CREDENTIAL_BYTES = 65_536
-_MAX_EVIDENCE_CHARACTERS = 24_000
+SEMANTIC_INPUT_SCHEMA = "asklegal.semantic-task-request/1.0.0"
+SEMANTIC_OUTPUT_SCHEMA = "asklegal.semantic-decision/1.0.0"
 _DECISION_KEYS = frozenset(
     {"decision_code", "supporting_evidence_refs", "unresolved_facts", "challenge_code"}
 )
 _CHALLENGE_CODES = frozenset({"NOT_APPLICABLE", "PASS", "FAIL"})
+_TASK_DECISION_CODES: dict[str, frozenset[str]] = {
+    "HK_CASE_PROPOSITION_ANALYSIS": frozenset(
+        {"SUPPORTED", "UNSUPPORTED", "INSUFFICIENT_EVIDENCE"}
+    ),
+    "HK_CASE_PROPOSITION_CHALLENGE": frozenset(
+        {"SUPPORTED", "UNSUPPORTED", "INSUFFICIENT_EVIDENCE"}
+    ),
+    "HK_LATER_TREATMENT_DISCOVERY": frozenset({"FOUND", "NOT_FOUND", "INSUFFICIENT_EVIDENCE"}),
+    "HK_LATER_TREATMENT_CANDIDATE_ANALYSIS": frozenset(
+        {"MAINTAINED", "DISTINGUISHED", "OVERRULED", "INSUFFICIENT_EVIDENCE"}
+    ),
+    "HK_REGULATORY_UPDATE_ANALYSIS": frozenset(
+        {"CHANGE_REQUIRED", "NO_CHANGE", "INSUFFICIENT_EVIDENCE"}
+    ),
+    "HK_REGULATORY_UPDATE_CHALLENGE": frozenset(
+        {"CHANGE_REQUIRED", "NO_CHANGE", "INSUFFICIENT_EVIDENCE"}
+    ),
+    "HK_REGULATORY_RECORD_ANALYSIS": frozenset(
+        {"SUPPORTED", "UNSUPPORTED", "INSUFFICIENT_EVIDENCE"}
+    ),
+    "HK_REGULATORY_RECORD_CHALLENGE": frozenset(
+        {"SUPPORTED", "UNSUPPORTED", "INSUFFICIENT_EVIDENCE"}
+    ),
+    "GAZETTE_EVENT_ANALYSIS": frozenset(
+        {"AMENDMENT", "COMMENCEMENT", "CORRECTION", "INSUFFICIENT_EVIDENCE"}
+    ),
+    "GAZETTE_EVENT_CHALLENGE": frozenset(
+        {"AMENDMENT", "COMMENCEMENT", "CORRECTION", "INSUFFICIENT_EVIDENCE"}
+    ),
+    "RECONSTRUCTION_PLAN_DECISION": frozenset(
+        {"SUPPORTED", "UNSUPPORTED", "INSUFFICIENT_EVIDENCE"}
+    ),
+    "RECONSTRUCTION_PLAN_CHALLENGE": frozenset(
+        {"SUPPORTED", "UNSUPPORTED", "INSUFFICIENT_EVIDENCE"}
+    ),
+}
 
 _INSTRUCTION = (
     "You are a bounded legal-analysis component. Answer only from the supplied "
@@ -56,6 +93,11 @@ _INSTRUCTION = (
     "support a decision, return decision_code INSUFFICIENT_EVIDENCE and list what "
     "is missing in unresolved_facts."
 )
+
+
+def semantic_prompt_fingerprint() -> str:
+    """Return the exact repository-owned system-prompt identity."""
+    return f"sha256:{sha256(_INSTRUCTION.encode()).hexdigest()}"
 
 
 @dataclass(frozen=True, slots=True)
@@ -190,6 +232,7 @@ class AzureSemanticTaskRunner:
         if profile.deployment_name != self._deployment.deployment:
             message = "SEMANTIC_DEPLOYMENT_MISMATCH"
             raise ProcessingError(message)
+        validate_semantic_task_contract(profile, request)
         reply = self._transport.post_json(
             self._deployment.completions_url(),
             {"api-key": self._deployment.api_key},
@@ -202,7 +245,8 @@ class AzureSemanticTaskRunner:
                 "response_format": {"type": "json_object"},
             },
         )
-        fields = _strict_fields(_content(reply), request)
+        fields = _strict_fields(_content(reply), profile, request)
+        provider_request_id = _provider_request_id(reply)
         value = {
             "challenge_code": fields[3],
             "decision_code": fields[0],
@@ -223,11 +267,68 @@ class AzureSemanticTaskRunner:
             fields[2],
             _challenge_literal(fields[3]),
             output_fingerprint,
+            AZURE_OPENAI_PROVIDER,
+            provider_request_id,
+            semantic_effect_receipt_id(request.request_id, provider_request_id, output_fingerprint),
         )
+
+    def invoke_exact_json(
+        self,
+        profile: SemanticTaskProfile,
+        request: SemanticTaskRequest,
+        *,
+        output_schema: str,
+    ) -> bytes:
+        """Return canonical task-specific JSON after exact profile and request admission."""
+        if profile.provider != AZURE_OPENAI_PROVIDER:
+            message = "SEMANTIC_PROVIDER_NOT_ADMITTED"
+            raise ProcessingError(message)
+        if profile.deployment_name != self._deployment.deployment:
+            message = "SEMANTIC_DEPLOYMENT_MISMATCH"
+            raise ProcessingError(message)
+        if profile.output_schema != output_schema:
+            message = "SEMANTIC_TASK_SCHEMA_AUTHORITY_INVALID"
+            raise ProcessingError(message)
+        _validate_request_envelope(profile, request)
+        reply = self._transport.post_json(
+            self._deployment.completions_url(),
+            {"api-key": self._deployment.api_key},
+            {
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": (
+                            _INSTRUCTION
+                            + " Return only the exact JSON object required by output schema "
+                            + output_schema
+                            + "."
+                        ),
+                    },
+                    {"role": "user", "content": _prompt(request)},
+                ],
+                "max_completion_tokens": self._max_output_tokens,
+                "response_format": {"type": "json_object"},
+            },
+        )
+        parsed = _object(
+            _parse_json(_content(reply).encode(), "MODEL_OUTPUT_NOT_JSON"),
+            "MODEL_OUTPUT_NOT_OBJECT",
+        )
+        self.invocations.append(request.request_id)
+        return canonicalize(checked_json_value(parsed))
+
+
+def semantic_provider_input_text(request: SemanticTaskRequest) -> str:
+    """Return the exact two-message text counted by V1 before provider use."""
+    return f"{_INSTRUCTION}\n{_prompt(request)}"
 
 
 def _prompt(request: SemanticTaskRequest) -> str:
-    evidence = request.evidence_bytes.decode("utf-8", "replace")[:_MAX_EVIDENCE_CHARACTERS]
+    try:
+        evidence = request.evidence_bytes.decode("utf-8", "strict")
+    except UnicodeDecodeError:
+        message = "SEMANTIC_EVIDENCE_NOT_UTF8"
+        raise ProcessingError(message) from None
     references = "\n".join(f"- {reference}" for reference in request.evidence_refs)
     return (
         f"Task: {request.task}\n"
@@ -252,8 +353,17 @@ def _content(reply: dict[str, JsonValue]) -> str:
     return content
 
 
+def _provider_request_id(reply: dict[str, JsonValue]) -> str:
+    value = reply.get("id")
+    if type(value) is not str or not value or value == "unreported":
+        message = "MODEL_PROVIDER_REQUEST_ID_MISSING"
+        raise ProcessingError(message)
+    return value
+
+
 def _strict_fields(
     content: str,
+    profile: SemanticTaskProfile,
     request: SemanticTaskRequest,
 ) -> tuple[str, tuple[str, ...], tuple[str, ...], str]:
     parsed = _object(
@@ -268,6 +378,10 @@ def _strict_fields(
     unresolved = parsed["unresolved_facts"]
     challenge = parsed["challenge_code"]
     decision = _exact_text(decision_code, "MODEL_DECISION_CODE_INVALID")
+    allowed = _TASK_DECISION_CODES.get(profile.task)
+    if allowed is not None and decision not in allowed:
+        message = "MODEL_DECISION_CODE_INVALID"
+        raise ProcessingError(message)
     evidence_refs = _text_tuple(refs, "MODEL_EVIDENCE_REFS_INVALID")
     unresolved_facts = _text_tuple(unresolved, "MODEL_UNRESOLVED_FACTS_INVALID")
     if type(challenge) is not str or challenge not in _CHALLENGE_CODES:
@@ -279,6 +393,64 @@ def _strict_fields(
         message = "MODEL_CITED_UNSUPPLIED_EVIDENCE"
         raise ProcessingError(message)
     return (decision, evidence_refs, unresolved_facts, challenge)
+
+
+def validate_semantic_task_contract(
+    profile: SemanticTaskProfile,
+    request: SemanticTaskRequest,
+) -> None:
+    """Validate the repository-owned task contract before any provider effect."""
+    if profile.task not in _TASK_DECISION_CODES:
+        return
+    expected_phase = "CHALLENGE" if profile.task.endswith("_CHALLENGE") else "DECISION"
+    if request.task != profile.task or request.profile_id != profile.profile_id:
+        message = "SEMANTIC_TASK_PROFILE_MISMATCH"
+        raise ProcessingError(message)
+    if request.phase != expected_phase:
+        message = "SEMANTIC_TASK_PHASE_INVALID"
+        raise ProcessingError(message)
+    if (
+        profile.input_schema != SEMANTIC_INPUT_SCHEMA
+        or profile.output_schema != SEMANTIC_OUTPUT_SCHEMA
+        or profile.prompt_fingerprint != semantic_prompt_fingerprint()
+    ):
+        message = "SEMANTIC_TASK_SCHEMA_AUTHORITY_INVALID"
+        raise ProcessingError(message)
+    if (
+        type(request.evidence_bytes) is not bytes
+        or not request.evidence_bytes
+        or len(request.evidence_bytes) > profile.evidence_budget_bytes
+        or type(request.evidence_refs) is not tuple
+        or not request.evidence_refs
+        or any(type(item) is not str or not item for item in request.evidence_refs)
+        or len(set(request.evidence_refs)) != len(request.evidence_refs)
+    ):
+        message = "SEMANTIC_EVIDENCE_LIMIT_INVALID"
+        raise ProcessingError(message)
+    _prompt(request)
+
+
+def _validate_request_envelope(profile: SemanticTaskProfile, request: SemanticTaskRequest) -> None:
+    """Validate the common evidence-bound request without assuming one output shape."""
+    expected_phase = "CHALLENGE" if profile.task.endswith("_CHALLENGE") else "DECISION"
+    if request.task != profile.task or request.profile_id != profile.profile_id:
+        message = "SEMANTIC_TASK_PROFILE_MISMATCH"
+        raise ProcessingError(message)
+    if request.phase != expected_phase:
+        message = "SEMANTIC_TASK_PHASE_INVALID"
+        raise ProcessingError(message)
+    if (
+        type(request.evidence_bytes) is not bytes
+        or not request.evidence_bytes
+        or len(request.evidence_bytes) > profile.evidence_budget_bytes
+        or type(request.evidence_refs) is not tuple
+        or not request.evidence_refs
+        or any(type(item) is not str or not item for item in request.evidence_refs)
+        or len(set(request.evidence_refs)) != len(request.evidence_refs)
+    ):
+        message = "SEMANTIC_EVIDENCE_LIMIT_INVALID"
+        raise ProcessingError(message)
+    _prompt(request)
 
 
 def _parse_json(

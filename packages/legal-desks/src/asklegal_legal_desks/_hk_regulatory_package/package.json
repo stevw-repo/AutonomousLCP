@@ -3,7 +3,7 @@
   "schema_version": "1.0.0",
   "package_id": "rbp_5d8c04afcd2b48269373b2363ea82b1230d1a7be8ad43841",
   "package_version": "0.14.0",
-  "package_fingerprint": "sha256:9fffbb23d5db0902c0b6f2deb5d1f8152bd459fbf7bae9c641bcf081499e92fb",
+  "package_fingerprint": "sha256:687d34b32608eb3e4d01918cbf29362641dc54d049b8af523fc87826cfdad69d",
   "jurisdiction": "HK",
   "environment": "PRODUCTION",
   "material_family": "REGULATORY_MATERIALS",
@@ -11,7 +11,7 @@
   "effective_cutoff": "2026-08-24T00:00:00Z",
   "predecessor": null,
   "contract_locks": [
-    "sha256:92b5193ca9fa45d2260ee2012cd350818136f4d12b1d93e763a67b827d15c455"
+    "sha256:64c4544b2d9b6039f7b88de61d7605077d460637d5660a2776655400beb89d66"
   ],
   "code_locks": [
     "asklegal-legal-desks==0.1.0",

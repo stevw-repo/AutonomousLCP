@@ -1,6 +1,7 @@
 """Fail-closed tests for the locked offline V1 POC application wheelhouse."""
 
 import json
+import shutil
 from copy import deepcopy
 from pathlib import Path
 from typing import cast
@@ -54,7 +55,7 @@ def _codes(policy: dict[str, object], base_image_ref: object = None) -> set[Whee
 def test_repository_wheelhouse_contract_is_complete() -> None:
     """One locked inventory covers all five applications and every wheel."""
     report = check_wheelhouse(REPOSITORY_ROOT)
-    assert report.wheels == 59
+    assert report.wheels == 61
     assert report.applications == 5
     assert validate_wheelhouse(_policy(), _base_image_ref()) == ()
 
@@ -181,4 +182,20 @@ def test_wheel_byte_drift_is_rejected(tmp_path: Path) -> None:
     first = _object_map(wheels[0])
     (directory / str(first["filename"])).write_bytes(b"tampered")
     with pytest.raises(ValueError, match="wheelhouse"):
+        verify_wheelhouse_contents(tmp_path, policy)
+
+
+def test_application_requirements_byte_drift_is_rejected(tmp_path: Path) -> None:
+    """The exact requirements text copied into an image context must be hashed too."""
+    policy = deepcopy(_policy())
+    applications = _object_map(policy["applications"])
+    directory = tmp_path / "var/wheelhouse"
+    directory.mkdir(parents=True)
+    for application in applications:
+        source = REPOSITORY_ROOT / "var/wheelhouse" / f"{application}.txt"
+        shutil.copy2(source, directory / source.name)
+    target = directory / "asklegal-legal-processing-worker.txt"
+    target.write_bytes(target.read_bytes() + b"# tampered\n")
+
+    with pytest.raises(ValueError, match="requirements"):
         verify_wheelhouse_contents(tmp_path, policy)

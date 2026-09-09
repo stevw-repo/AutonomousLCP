@@ -7,11 +7,21 @@ from typing import cast
 
 import pytest
 
+from tools.v1_poc_collect_host_facts import (
+    HostFactClass,
+    HostFactClassOutcome,
+    HostFactFailureCode,
+    build_hk_v1_host_facts,
+    write_host_facts_output,
+)
 from tools.v1_poc_host_admission import (
     HostCode,
+    HostEnvelopeAdmissionEvaluation,
     HostPolicyReport,
     check_policy,
     evaluate_host_facts,
+    evaluate_host_facts_envelope,
+    main,
     validate_policy,
 )
 
@@ -93,7 +103,7 @@ def _facts() -> dict[str, object]:
             "nftables": "1.0.9-1ubuntu0.1",
             "systemd": "255.4-1ubuntu8.17",
             "systemd-timesyncd": "255.4-1ubuntu8.17",
-            "util-linux": "2.39.3-9ubuntu6.5",
+            "util-linux": "2.39.3-9ubuntu6.6",
         },
         "private_subnets": {
             "declared": {
@@ -300,3 +310,80 @@ def test_observed_networks_fail_closed(mutation: str) -> None:
     else:
         del networks["foreign"]
     assert HostCode.NETWORK in _codes(facts)
+
+
+def _outcomes(*, missing: HostFactClass | None = None) -> tuple[HostFactClassOutcome, ...]:
+    return tuple(
+        HostFactClassOutcome(
+            fact_class=fact_class,
+            collected=fact_class is not missing,
+            failure_code=(HostFactFailureCode.NOT_IMPLEMENTED if fact_class is missing else None),
+        )
+        for fact_class in HostFactClass
+    )
+
+
+def test_valid_legacy_facts_in_incomplete_envelope_cannot_admit() -> None:
+    """Completeness is independently mandatory even when every legacy value conforms."""
+    envelope = build_hk_v1_host_facts(
+        legacy_facts=_facts(),
+        outcomes=_outcomes(missing=HostFactClass.TELEMETRY_FRESHNESS),
+    )
+
+    result = evaluate_host_facts_envelope(_policy(), envelope)
+
+    assert result == HostEnvelopeAdmissionEvaluation(
+        facts_conform=False,
+        admitted=False,
+        findings=(),
+        blockers=("CREDENTIAL_INTERFACE_PROOF", "HOST_FACTS_INCOMPLETE"),
+        missing_fact_classes=(HostFactClass.TELEMETRY_FRESHNESS,),
+    )
+
+
+def test_complete_envelope_with_legacy_drift_keeps_drift_and_cannot_admit() -> None:
+    """A complete class inventory cannot erase an unsafe observed host value."""
+    facts = _facts()
+    facts["memory_bytes"] = 1
+    envelope = build_hk_v1_host_facts(
+        legacy_facts=facts,
+        outcomes=_outcomes(),
+    )
+
+    result = evaluate_host_facts_envelope(_policy(), envelope)
+
+    assert result.facts_conform is False
+    assert result.admitted is False
+    assert HostCode.MEMORY in {finding.code for finding in result.findings}
+    assert "HOST_FACTS_INCOMPLETE" not in result.blockers
+
+
+def test_saved_incomplete_envelope_cli_reports_the_collection_blocker(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Route retained collector output through the envelope evaluator, not legacy JSON."""
+    facts_path = tmp_path / "observed.json"
+    envelope = build_hk_v1_host_facts(
+        legacy_facts=_facts(),
+        outcomes=_outcomes(missing=HostFactClass.SYSTEMD_UNITS_TIMERS),
+    )
+    write_host_facts_output(envelope, facts_path)
+    monkeypatch.setattr("sys.argv", ["v1_poc_host_admission", "--facts", str(facts_path)])
+
+    with pytest.raises(ValueError, match="HOST_FACTS_INCOMPLETE") as failure:
+        main()
+
+    assert "INVENTORY:facts header" not in str(failure.value)
+
+
+def test_partial_legacy_snapshot_is_not_misreported_as_host_drift() -> None:
+    """An incomplete collection has unknown facts, not proved legacy mismatches."""
+    envelope = build_hk_v1_host_facts(
+        legacy_facts={"schema_version": 1, "source": "READ_ONLY_HOST_FACTS"},
+        outcomes=_outcomes(missing=HostFactClass.SYSTEMD_UNITS_TIMERS),
+    )
+
+    result = evaluate_host_facts_envelope(_policy(), envelope)
+
+    assert result.findings == ()
+    assert result.blockers == ("CREDENTIAL_INTERFACE_PROOF", "HOST_FACTS_INCOMPLETE")

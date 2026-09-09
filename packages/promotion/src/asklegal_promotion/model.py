@@ -2,9 +2,32 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+import re
+from collections.abc import Mapping, Sequence
+from dataclasses import dataclass, replace
 from enum import StrEnum
+from hashlib import sha256
 from typing import TYPE_CHECKING
+
+from asklegal_contracts import ContractViolation, canonicalize, parse_json_bytes
+from asklegal_contracts.json_types import checked_json_value
+
+_FINGERPRINT = re.compile(r"^sha256:[0-9a-f]{64}$")
+
+
+def _required_text(value: Mapping[str, object], field: str) -> str:
+    item = value.get(field)
+    if type(item) is not str or not item or item.strip() != item:
+        raise ValueError(field)
+    return item
+
+
+def _required_list_text(value: Sequence[object]) -> tuple[str, ...]:
+    if any(type(item) is not str or not item or item.strip() != item for item in value):
+        message = "list text"
+        raise ValueError(message)
+    return tuple(item for item in value if type(item) is str)
+
 
 if TYPE_CHECKING:
     from asklegal_corpus import CoverageStatusManifest, DesiredStateInventory
@@ -41,6 +64,7 @@ class PromotionErrorCode(StrEnum):
     PROFILE_INVALID = "PROFILE_INVALID"
     RETRIEVAL_GATE_FAILED = "RETRIEVAL_GATE_FAILED"
     ROUTING_COMPARE_AND_SET_LOST = "ROUTING_COMPARE_AND_SET_LOST"
+    SERVING_STATE_COMPARE_AND_SET_LOST = "SERVING_STATE_COMPARE_AND_SET_LOST"
     SERVING_PAYLOAD_INVALID = "SERVING_PAYLOAD_INVALID"
     SWAP_PREFLIGHT_FAILED = "SWAP_PREFLIGHT_FAILED"
     TARGET_COLLISION = "TARGET_COLLISION"
@@ -262,6 +286,34 @@ class BackupVerification:
 
 
 @dataclass(frozen=True, slots=True)
+class ServingStateCandidate:
+    """One exact V1 state activation candidate, bound before the CAS."""
+
+    state_id: str
+    state_fingerprint: str
+    predecessor_state_id: str
+    target_name: str
+    desired_inventory_fingerprint: str
+    coverage_fingerprint: str
+    embedding_profile_id: str
+    embedding_profile_fingerprint: str
+    approval_id: str
+    execution_lineage_id: str
+
+
+@dataclass(frozen=True, slots=True)
+class ServingStateReceipt:
+    """Immutable local receipt for one activation or exact reversal."""
+
+    receipt_id: str
+    operation: str
+    predecessor_state_id: str
+    state_id: str
+    candidate_fingerprint: str
+    replayed: bool = False
+
+
+@dataclass(frozen=True, slots=True)
 class PromotionExecutionResult:
     """Terminal local execution result and exact receipts."""
 
@@ -275,6 +327,225 @@ class PromotionExecutionResult:
     routing_receipt_ref: str
     rollback_receipt_ref: str
     total_cost_microunits: int
+
+
+@dataclass(frozen=True, slots=True)
+class HKV1TargetMember:
+    """One approved Search Record assigned to one exact V1 scope."""
+
+    record_id: str
+    scope_id: str
+    material_family: str
+
+
+@dataclass(frozen=True, slots=True)
+class HKV1TargetComposition:
+    """Verified four-scope membership bound to one frozen Task 7 proposal."""
+
+    proposal_fingerprint: str
+    scope_ids: tuple[str, ...]
+    material_families: tuple[str, ...]
+    explicit_exclusions: tuple[str, ...]
+    model_profile_fingerprint: str
+    embedding_profile_fingerprint: str
+    members: tuple[HKV1TargetMember, ...]
+    zero_record_scope_ids: tuple[str, ...]
+    review_readiness_fingerprint: str = ""
+    serving_profile_fingerprint: str = ""
+    target_namespace: str = ""
+    backup_profile_fingerprint: str = ""
+    target_name: str = ""
+
+
+_HK_V1_SCOPES = (
+    "HK-CASE-BINDING-POST-1997",
+    "HK-LEG-CONSTITUTIONAL-AND-OTHER-INSTRUMENTS",
+    "HK-LEG-ORDINANCES",
+    "HK-LEG-SUBSIDIARY",
+)
+_HK_V1_FAMILIES = ("CASES", "LEGISLATION")
+
+
+def verify_hk_v1_target_membership(
+    proposal_content: bytes,
+    members: tuple[HKV1TargetMember, ...],
+    expected_record_ids: tuple[str, ...],
+    *,
+    zero_record_scope_ids: tuple[str, ...] = (),
+) -> HKV1TargetComposition:
+    """Fail before effects unless the target is the exact approved two-family set."""
+    try:
+        parsed = parse_json_bytes(proposal_content, max_bytes=2_000_000)
+    except ContractViolation as error:
+        raise PromotionError(PromotionErrorCode.INVENTORY_MISMATCH, "proposal bytes") from error
+    if not isinstance(parsed, dict) or canonicalize(parsed) != proposal_content:
+        raise PromotionError(PromotionErrorCode.INVENTORY_MISMATCH, "proposal canonical bytes")
+    supplied = parsed.get("fingerprint")
+    body = dict(parsed)
+    body.pop("fingerprint", None)
+    actual = f"sha256:{sha256(canonicalize(checked_json_value(body))).hexdigest()}"
+    scopes = parsed.get("scope_ids")
+    families = parsed.get("included_material_families")
+    exclusions = parsed.get("explicit_exclusions")
+    model_profile = parsed.get("model_profile_fingerprint")
+    embedding_profile = parsed.get("embedding_profile_fingerprint")
+    if (
+        parsed.get("schema_id") != "asklegal.hk-v1-two-family-proposal-manifest/v1"
+        or parsed.get("status") != "FROZEN_PROPOSAL_READY_FOR_REVIEW"
+        or parsed.get("release_state") != "WITHHELD_PENDING_NAMED_HUMAN_REVIEW"
+        or supplied != actual
+        or scopes != list(_HK_V1_SCOPES)
+        or families != list(_HK_V1_FAMILIES)
+        or not isinstance(exclusions, list)
+        or "HKEX_REGULATORY_POST_V1" not in exclusions
+        or type(model_profile) is not str
+        or type(embedding_profile) is not str
+    ):
+        raise PromotionError(PromotionErrorCode.INVENTORY_MISMATCH, "two-family proposal")
+    if (
+        type(members) is not tuple
+        or type(expected_record_ids) is not tuple
+        or type(zero_record_scope_ids) is not tuple
+        or not expected_record_ids
+        or len(set(expected_record_ids)) != len(expected_record_ids)
+        or any(type(item) is not HKV1TargetMember for item in members)
+        or tuple(item.record_id for item in members) != expected_record_ids
+        or len({item.record_id for item in members}) != len(members)
+        or not {item.scope_id for item in members}.issubset(set(_HK_V1_SCOPES))
+        or any(type(scope_id) is not str for scope_id in zero_record_scope_ids)
+        or len(set(zero_record_scope_ids)) != len(zero_record_scope_ids)
+        or tuple(sorted(zero_record_scope_ids)) != zero_record_scope_ids
+        or set(zero_record_scope_ids) & {item.scope_id for item in members}
+        or {item.scope_id for item in members} | set(zero_record_scope_ids) != set(_HK_V1_SCOPES)
+        or {item.material_family for item in members} != set(_HK_V1_FAMILIES)
+        or any(
+            item.material_family
+            != ("CASES" if item.scope_id == _HK_V1_SCOPES[0] else "LEGISLATION")
+            for item in members
+        )
+    ):
+        raise PromotionError(PromotionErrorCode.INVENTORY_MISMATCH, "target membership")
+    return HKV1TargetComposition(
+        actual,
+        _HK_V1_SCOPES,
+        _HK_V1_FAMILIES,
+        tuple(item for item in exclusions if type(item) is str),
+        model_profile,
+        embedding_profile,
+        members,
+        zero_record_scope_ids,
+    )
+
+
+def verify_hk_v1_approved_package(
+    proposal_content: bytes,
+    readiness_content: bytes,
+    expected_record_ids: tuple[str, ...],
+) -> HKV1TargetComposition:
+    """Recover target membership only from the exact approved readiness artifact."""
+    try:
+        value = parse_json_bytes(readiness_content, max_bytes=2_000_000)
+    except ContractViolation as error:
+        raise PromotionError(PromotionErrorCode.INVENTORY_MISMATCH, "readiness bytes") from error
+    expected = {
+        "backup_profile_fingerprint",
+        "embedding_profile_fingerprint",
+        "fingerprint",
+        "limitations",
+        "model_evaluation_ref",
+        "model_profile_fingerprint",
+        "native_backup_ref",
+        "proposal_fingerprint",
+        "recovery_backup_ref",
+        "retrieval_evaluation_ref",
+        "retryable_count",
+        "rollback_state_id",
+        "schema_id",
+        "scope_dispositions",
+        "serving_profile_fingerprint",
+        "target_members",
+        "target_name",
+        "target_namespace",
+        "zero_record_scope_ids",
+    }
+    if (
+        not isinstance(value, dict)
+        or set(value) != expected
+        or canonicalize(value) != readiness_content
+    ):
+        raise PromotionError(PromotionErrorCode.INVENTORY_MISMATCH, "readiness contract")
+    unsigned = dict(value)
+    observed = unsigned.pop("fingerprint", None)
+    unsigned.pop("schema_id", None)
+    computed = f"sha256:{sha256(canonicalize(checked_json_value(unsigned))).hexdigest()}"
+    raw_members = value.get("target_members")
+    raw_zero = value.get("zero_record_scope_ids")
+    raw_scopes = value.get("scope_dispositions")
+    if (
+        value.get("schema_id") != "asklegal.hk-v1-review-readiness/v1"
+        or observed != computed
+        or not isinstance(raw_members, list)
+        or not isinstance(raw_zero, list)
+        or not isinstance(raw_scopes, list)
+        or value.get("retryable_count") != 0
+    ):
+        raise PromotionError(PromotionErrorCode.INVENTORY_MISMATCH, "readiness identity")
+    try:
+        members = tuple(
+            HKV1TargetMember(
+                _required_text(item, "record_id"),
+                _required_text(item, "scope_id"),
+                _required_text(item, "material_family"),
+            )
+            for item in raw_members
+            if isinstance(item, dict) and set(item) == {"material_family", "record_id", "scope_id"}
+        )
+        zero_scopes = tuple(_required_list_text(raw_zero))
+        scope_results = tuple(
+            (
+                _required_text(item, "scope_id"),
+                _required_text(item, "result"),
+                item.get("retryable_count"),
+            )
+            for item in raw_scopes
+            if isinstance(item, dict) and set(item) == {"result", "retryable_count", "scope_id"}
+        )
+        composition = verify_hk_v1_target_membership(
+            proposal_content,
+            members,
+            expected_record_ids,
+            zero_record_scope_ids=zero_scopes,
+        )
+        profile = _required_text(value, "serving_profile_fingerprint")
+        namespace = _required_text(value, "target_namespace")
+        backup = _required_text(value, "backup_profile_fingerprint")
+        target_name = _required_text(value, "target_name")
+    except (TypeError, ValueError) as error:
+        raise PromotionError(PromotionErrorCode.INVENTORY_MISMATCH, "readiness values") from error
+    if (
+        len(members) != len(raw_members)
+        or len(scope_results) != len(raw_scopes)
+        or tuple(item[0] for item in scope_results) != _HK_V1_SCOPES
+        or any(
+            result != ("NO_CHANGE" if scope_id in zero_scopes else "COMPLETE")
+            or type(retryable) is not int
+            or retryable != 0
+            for scope_id, result, retryable in scope_results
+        )
+        or value.get("proposal_fingerprint") != composition.proposal_fingerprint
+        or value.get("model_profile_fingerprint") != composition.model_profile_fingerprint
+        or value.get("embedding_profile_fingerprint") != composition.embedding_profile_fingerprint
+        or any(_FINGERPRINT.fullmatch(item) is None for item in (profile, backup))
+    ):
+        raise PromotionError(PromotionErrorCode.INVENTORY_MISMATCH, "approved package drift")
+    return replace(
+        composition,
+        review_readiness_fingerprint=computed,
+        serving_profile_fingerprint=profile,
+        target_namespace=namespace,
+        backup_profile_fingerprint=backup,
+        target_name=target_name,
+    )
 
 
 @dataclass(frozen=True, slots=True)

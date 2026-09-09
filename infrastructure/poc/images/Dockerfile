@@ -13,6 +13,7 @@
 # NoNewPrivileges, empty capability set) is applied by the systemd unit, not here.
 
 ARG BASE_IMAGE
+ARG RUNTIME_VARIANT=plain
 FROM ${BASE_IMAGE} AS build
 
 ARG APPLICATION
@@ -35,7 +36,7 @@ RUN python -m venv /opt/asklegal \
  && find /opt/asklegal -newermt "@${SOURCE_DATE_EPOCH}" -exec touch --no-dereference \
       --date="@${SOURCE_DATE_EPOCH}" {} +
 
-FROM ${BASE_IMAGE}
+FROM ${BASE_IMAGE} AS runtime-base
 
 ARG APPLICATION
 ARG RUNTIME_UID
@@ -54,6 +55,23 @@ COPY --from=build /opt/asklegal /opt/asklegal
 ENV PATH="/opt/asklegal/bin:${PATH}" \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
+
+FROM runtime-base AS runtime-browser
+
+# Only the acquisition image selects this stage. Both directories are verified
+# byte-for-byte before Docker is invoked; dpkg has no network route here.
+COPY browser-runtime /opt/asklegal/ms-playwright
+COPY browser-debs /tmp/browser-debs
+RUN dpkg --install /tmp/browser-debs/*.deb \
+ && rm -rf /tmp/browser-debs /var/lib/apt/lists/*
+
+ENV PLAYWRIGHT_BROWSERS_PATH=/opt/asklegal/ms-playwright
+
+FROM runtime-base AS runtime-plain
+
+FROM runtime-${RUNTIME_VARIANT} AS runtime-selected
+
+ARG RUNTIME_UID
 
 USER ${RUNTIME_UID}:${RUNTIME_UID}
 ENTRYPOINT ["/opt/asklegal/bin/asklegal-service", "--serve"]
