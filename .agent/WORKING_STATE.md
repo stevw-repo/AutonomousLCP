@@ -163,6 +163,14 @@ repository. Any unavailable recovery or external input must remain visibly
 
 ## Current blocker and exact next steps
 
+The implementation, image proof, private nine-credential staging, and Git
+handoff are complete at the current boundary. Progress is now blocked on the
+local OS password needed to read `/etc/asklegal/credentials`: the documented
+manual preflight has not produced its plan, a desktop `pkexec` attempt waited
+90 seconds and was cancelled with no output/effect, and a final
+`sudo -n true` check returned `a password is required`. This is an input
+boundary, not an additional project-authorization request.
+
 1. Run the root-only credential preflight using the fresh source-bound images
    and private 25-file candidate with nine rotated vault credentials (Primary
    root pair plus seven application credentials). This requires the operator
