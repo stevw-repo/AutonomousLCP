@@ -15,10 +15,11 @@ const reasonInput = document.querySelector("#decision-reason");
 const approveButton = document.querySelector("#approve");
 const rejectButton = document.querySelector("#reject");
 const decisionResult = document.querySelector("#decision-result");
-const proofReport = document.querySelector("#proof-report");
+const changeReport = document.querySelector("#change-report");
 const reportDescription = document.querySelector("#report-description");
 const reportMetrics = document.querySelector("#report-metrics");
 const reportDetail = document.querySelector("#report-detail");
+const changeList = document.querySelector("#change-list");
 
 const scopeLabels = {
   "HK-CASE-BINDING-POST-1997": "Binding-court case propositions",
@@ -110,26 +111,35 @@ function metric(label, value) {
   return item;
 }
 
-async function loadProofReport() {
+function changeItem(change) {
+  const item = node("li", "change-item");
+  item.append(
+    node("strong", "", `${readable(change.action)} ${change.material_type}`),
+    node("p", "", change.text),
+    node("p", "", `Source: ${change.source} · Scope: ${scopeLabels[change.scope_id] || change.scope_id}`),
+    node("p", "", `Why included: ${change.authority_note}`),
+    node("p", "", `Evidence: ${change.evidence_refs.join(", ")}`),
+  );
+  return item;
+}
+
+async function loadChangeReport() {
   try {
-    const response = await fetch("/demo/report.json", {credentials: "omit"});
+    const response = await fetch("/demo/change-report.json", {credentials: "omit"});
     if (!response.ok) return;
     const report = await response.json();
-    reportDescription.textContent = report.proof.summary;
+    reportDescription.textContent = report.statement;
     reportMetrics.replaceChildren(
-      metric("Result", readable(report.proof.result_code)),
-      metric("Verified facts", String(report.proof.fact_count)),
-      metric("Effects exercised", String(report.proof.effect_count)),
-      metric("Scenario", report.proof.scenario_id),
+      metric("Added", String(report.change_counts.additions)),
+      metric("Replaced", String(report.change_counts.replacements)),
+      metric("Retired", String(report.change_counts.retirements)),
+      metric("Withheld", String(report.change_counts.withholdings)),
     );
-    reportDetail.textContent = JSON.stringify({
-      fingerprint: report.proof.fingerprint,
-      authoritative_refs: report.proof.authoritative_refs,
-      limitations: report.limitations,
-    }, null, 2);
-    proofReport.dataset.ready = "true";
+    changeList.replaceChildren(...report.changes.map(changeItem));
+    reportDetail.textContent = JSON.stringify(report, null, 2);
+    changeReport.dataset.ready = "true";
   } catch (_error) {
-    // The production Review application has no synthetic demo report route.
+    // The production Review application has no synthetic change-report route.
   }
 }
 
@@ -324,4 +334,4 @@ disconnectButton.addEventListener("click", disconnect);
 refreshButton.addEventListener("click", () => void loadProposals(selectedProposal?.id || null));
 approveButton.addEventListener("click", () => void submitDecision("APPROVE"));
 rejectButton.addEventListener("click", () => void submitDecision("REJECT"));
-void loadProofReport();
+void loadChangeReport();

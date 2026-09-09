@@ -131,7 +131,11 @@
     .report-heading p { margin-bottom: 0; color: var(--muted); }
     .report-link { flex: none; border-radius: .65rem; padding: .62rem .85rem; color: #fff; background: var(--teal); font-size: .8rem; font-weight: 800; text-decoration: none; }
     .report-link:hover { background: var(--teal-dark); }
-    .report-summary { margin: 1rem 0 0; }
+    .report-summary { margin: 1rem 0; }
+    .change-list { display: grid; gap: .7rem; margin: 0; padding: 0; list-style: none; }
+    .change-item { padding: .9rem; border: 1px solid var(--line); border-radius: .75rem; background: #fafbf8; }
+    .change-item strong { display: block; margin-bottom: .2rem; }
+    .change-item p { margin: .25rem 0; color: var(--muted); font-size: .82rem; }
 
     #pipeline-stages {
       display: grid;
@@ -308,18 +312,19 @@
       </ol>
     </section>
 
-    <section id="proof-report" class="card report-card" aria-labelledby="report-heading">
+    <section id="change-report" class="card report-card" aria-labelledby="report-heading">
       <div class="report-heading">
         <div>
-          <h2 id="report-heading">Pipeline proof report</h2>
-          <p id="report-description">Loading the retained offline proof…</p>
+          <h2 id="report-heading">What changed</h2>
+          <p id="report-description">Loading the proposed legal-data changes…</p>
         </div>
-        <a class="report-link" href="/demo/report.json" target="_blank" rel="noopener">Open report JSON</a>
+        <a class="report-link" href="/demo/change-report.json" target="_blank" rel="noopener">Open change report JSON</a>
       </div>
       <div id="report-metrics" class="metric-grid report-summary"></div>
+      <ol id="change-list" class="change-list"></ol>
       <details>
-        <summary>Evidence references and limitations</summary>
-        <pre id="report-detail">Loading report…</pre>
+        <summary>Complete technical change report</summary>
+        <pre id="report-detail">Loading changes…</pre>
       </details>
     </section>
 

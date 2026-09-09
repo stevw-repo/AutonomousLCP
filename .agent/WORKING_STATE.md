@@ -22,10 +22,11 @@ and are not blockers for this demonstration.
 - The Review browser is styled for the interview, prominently says
   `LOCAL SYNTHETIC OFFLINE POC`, presents the proposal in readable form, and
   retains a human APPROVE or REJECT decision in the local register.
-- The same screen exposes a demo-only Pipeline Proof Report with the exact
-  `E2E-001` narrative, result, fact/effect counts, fingerprint, evidence
-  references, limitations, and raw canonical JSON. The report route is absent
-  from the normal non-demo Review application.
+- The same screen exposes a demo-only **What changed** report. It derives from
+  the frozen change inventory and desired state, showing added/replaced/retired/
+  withheld counts and each proposed record's text, material type, source,
+  scope, inclusion reason, evidence references, and raw canonical JSON. The
+  report route is absent from the normal non-demo Review application.
 - The retained Review decision and the completed E2E proof are deliberately
   adjacent but separate. The UI does not claim that its click drove the already
   completed proof. `var/interview-demo/demo-summary.json` records that boundary.
@@ -55,9 +56,11 @@ non-serving check, use `./tools/run_interview_demo.sh --prepare-only`.
 - A real localhost browser run proved the proposal could be approved and that
   its APPROVED status, reason, disabled actions, and local-promotion queue label
   remained visible after a full page reload and reconnect.
-- A subsequent real browser run displayed the Pipeline Proof Report with
-  `GOLDEN_FLOW_RECOVERED`, 13 facts, 8 effects, and its raw JSON link. The final
-  report-focused gate passed 33 tests; scoped static and boundary checks passed.
+- After correcting an initial misunderstanding of “report,” the report-focused
+  gate passed 33 tests and scoped static/boundary checks. The restarted
+  localhost service returned the new What changed card and exact JSON with two
+  enriched additions, two no-change scopes, and zero replacements, retirements,
+  or withholdings.
 - No live source, Azure/model/embedding provider, Pinecone, Vault, SQL,
   Scheduler, deployment, credential, or third-party-terms effect is part of
   this POC.

@@ -26,7 +26,7 @@ from typing import TYPE_CHECKING
 import uvicorn
 from asklegal_application_runtime import CredentialMaterial
 from asklegal_contracts import canonicalize, parse_json_bytes
-from asklegal_contracts.json_types import checked_json_value
+from asklegal_contracts.json_types import JsonValue, checked_json_value
 from asklegal_review_api.api import ReviewDependencies, create_app, local_dependencies
 from fastapi.responses import Response
 from httpx import ASGITransport, AsyncClient
@@ -56,7 +56,7 @@ _REVIEW_INVALID = "INTERVIEW_DEMO_REVIEW_VALIDATION_FAILED"
 _PROPOSAL_NOT_VISIBLE = "INTERVIEW_DEMO_PROPOSAL_NOT_VISIBLE"
 _PORT_NOT_INTEGER = "port must be an integer"
 _PORT_OUT_OF_RANGE = "port must be between 1024 and 65535"
-_REPORT_NAME = "demo-report.json"
+_REPORT_NAME = "change-report.json"
 
 
 class InterviewDemoError(RuntimeError):
@@ -181,44 +181,77 @@ def _write_summary(root: Path, proof: ScenarioResult, fixture: LocalReviewFixtur
     (root / "demo-summary.json").write_bytes(canonicalize(summary) + b"\n")
 
 
-def _write_report(root: Path, proof: ScenarioResult, fixture: LocalReviewFixture) -> Path:
+def _write_report(root: Path, artifact_root: Path) -> Path:
+    inventory = parse_json_bytes(
+        (artifact_root / "change-inventory/change-inventory.json").read_bytes(),
+        max_bytes=100_000,
+    )
+    desired = parse_json_bytes(
+        (artifact_root / "desired-state-inventories/inventories.json").read_bytes(),
+        max_bytes=1_000_000,
+    )
+    readiness = parse_json_bytes(
+        (artifact_root / "hk-v1-review-readiness.json").read_bytes(),
+        max_bytes=1_000_000,
+    )
+    if not isinstance(inventory, dict) or not isinstance(desired, dict):
+        raise InterviewDemoError(_REVIEW_INVALID)
+    if not isinstance(readiness, dict):
+        raise InterviewDemoError(_REVIEW_INVALID)
+    additions = inventory.get("additions")
+    records = desired.get("records")
+    scope_dispositions = readiness.get("scope_dispositions")
+    if not isinstance(additions, list) or not isinstance(records, list):
+        raise InterviewDemoError(_REVIEW_INVALID)
+    if not isinstance(scope_dispositions, list):
+        raise InterviewDemoError(_REVIEW_INVALID)
+    no_change_scopes: list[str] = []
+    for disposition in scope_dispositions:
+        if not isinstance(disposition, dict) or disposition.get("result") != "NO_CHANGE":
+            continue
+        scope_id = disposition.get("scope_id")
+        if not isinstance(scope_id, str):
+            raise InterviewDemoError(_REVIEW_INVALID)
+        no_change_scopes.append(scope_id)
+    added_records: list[dict[str, JsonValue]] = []
+    addition_ids = {item for item in additions if isinstance(item, str)}
+    for record in records:
+        if not isinstance(record, dict) or record.get("record_id") not in addition_ids:
+            continue
+        added_records.append(
+            {
+                "action": "ADDED",
+                "authority_note": record.get("authority_note"),
+                "evidence_refs": record.get("evidence_refs"),
+                "material_type": record.get("material_type"),
+                "record_id": record.get("record_id"),
+                "scope_id": record.get("scope_id"),
+                "source": record.get("source"),
+                "text": record.get("text"),
+            }
+        )
+    counts = {
+        name: len(value) if isinstance(value, list) else 0
+        for name, value in (
+            ("additions", additions),
+            ("replacements", inventory.get("replacements")),
+            ("retirements", inventory.get("retirements")),
+            ("unchanged", inventory.get("unchanged")),
+            ("withholdings", inventory.get("withholdings")),
+        )
+    }
     report = checked_json_value(
         {
+            "change_counts": counts,
+            "changes": added_records,
             "demonstration": "LOCAL_SYNTHETIC_OFFLINE_POC",
-            "limitations": [
-                "No live Hong Kong publisher was contacted.",
-                "No cloud model or embedding provider was called.",
-                "No Pinecone or production serving target was changed.",
-                "The browser decision is retained locally but does not alter the completed proof.",
-            ],
-            "proof": {
-                "authoritative_refs": list(proof.authoritative_refs),
-                "effect_count": proof.effect_count,
-                "fact_count": proof.fact_count,
-                "fingerprint": proof.fingerprint,
-                "result_code": proof.result_code,
-                "scenario_id": proof.scenario_id,
-                "summary": proof.summary,
-            },
-            "review": {
-                "approval_persists_locally": True,
-                "proposal_id": fixture.proposal_id,
-                "promotion_manifest_fingerprint": fixture.promotion_manifest_fingerprint,
-                "ui_approval_drives_e2e_proof": False,
-            },
-            "schema_id": "asklegal.offline-interview-demo-report/v1",
-            "stages": [
-                "Scheduled synthetic update",
-                "Captured changed synthetic source",
-                "Preserved primary and recovery evidence",
-                "Applied legal rules and constructed candidate records",
-                "Froze release, coverage, and proposal package",
-                "Exercised the local human Review boundary",
-                "Built and verified a fake replacement target",
-                "Activated the verified candidate",
-                "Rolled back and recovered exact state",
-            ],
-            "statement": "offline synthetic pipeline proof completed",
+            "no_change_scope_ids": no_change_scopes,
+            "observation_cutoff": inventory.get("observation_cutoff"),
+            "schema_id": "asklegal.offline-interview-change-report/v1",
+            "statement": (
+                f"{counts['additions']} records added; {counts['replacements']} replaced; "
+                f"{counts['retirements']} retired; {counts['withholdings']} withheld."
+            ),
         }
     )
     path = root / _REPORT_NAME
@@ -251,7 +284,7 @@ def prepare_interview_demo(
             allowed_origin=f"http://127.0.0.1:{port}",
         )
     app = create_app(dependencies)
-    report_path = _write_report(root, proof, fixture)
+    report_path = _write_report(root, artifact_root)
 
     async def _demo_report() -> Response:
         return Response(
@@ -265,7 +298,7 @@ def prepare_interview_demo(
         )
 
     app.add_api_route(
-        "/demo/report.json",
+        "/demo/change-report.json",
         _demo_report,
         methods=["GET"],
         include_in_schema=False,
@@ -307,7 +340,7 @@ def _print_demo(prepared: PreparedInterviewDemo, *, port: int) -> None:
                 f"{proof.effect_count} effects"
             ),
             f"E2E PROOF   {proof.fingerprint}",
-            f"REPORT      {prepared.root / _REPORT_NAME}",
+            f"CHANGE REPORT  {prepared.root / _REPORT_NAME}",
             "",
             "RETAINED REVIEW DEMO (separate from the completed E2E proof)",
             (
